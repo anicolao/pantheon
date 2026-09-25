@@ -115,6 +115,7 @@ test('three-player gathering provides a selectable invitation when copying is un
   const steps = new TestStepHelper(page, info, 'Three-player gathering and long names');
   await steps.step('three-player', 'Keep a long player name inside its nameplate', [
     { spec: 'The complete name fits the plate without clipping or truncation.', check: async () => {
+      await page.evaluate(() => document.fonts.ready);
       const fits = await page.locator('.plate h2').evaluate(element => {
         const text = document.createRange(); text.selectNodeContents(element);
         const outer = element.parentElement!.getBoundingClientRect();
