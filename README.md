@@ -18,7 +18,7 @@ On your turn, play Actions, collect Coins from Treasures, buy cards or invoke a 
 
 ## Current scope
 
-The first web milestone is an illustrated card gallery built with SvelteKit. Browse all 26 card faces, filter by type or god, inspect rules, switch to larger tabletop cards, or print the current selection. Gameplay and synchronized multiplayer tables are future milestones.
+The first web milestone is a layered card gallery built with SvelteKit. Browse all 26 faces with illustrated frames and resource icons, filter by type or god, inspect rules and copy numbers, switch to tabletop sizing, or print the current selection. Deck cards, landscape events, and larger landscape leaders each have their own back. Gameplay and synchronized multiplayer tables are future milestones.
 
 Version 0.1 uses four leaders, four possible god events, and twelve shared Action piles. It focuses on deck building, divine affiliations, and the race for territory. It has no map, combat system, or direct attacks on other players.
 

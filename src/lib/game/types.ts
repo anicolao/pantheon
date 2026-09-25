@@ -5,6 +5,10 @@ export type CardType = typeof cardTypes[number];
 
 export interface CardDefinition {
   id: string;
+  /** Stable catalog number; never derived from sorting or filtering. */
+  number: number;
+  supply: { 2: number; 3: number; 4: number };
+  startingCopiesPerPlayer: number;
   name: string;
   type: CardType;
   god: God;

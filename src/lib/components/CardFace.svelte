@@ -1,69 +1,96 @@
 <script lang="ts">
   import { base } from '$app/paths';
   import { godSymbols, type CardDefinition } from '$lib/game/types';
+  import { cardFormat, cardSerial, copyCount, type PlayerCount } from '$lib/game/presentation';
+  import ResourceIcon from './ResourceIcon.svelte';
+  import RuleText from './RuleText.svelte';
 
-  let { card }: { card: CardDefinition } = $props();
+  let { card, players = 2, copy = 1 }: { card: CardDefinition; players?: PlayerCount; copy?: number } = $props();
+  const format = $derived(cardFormat(card));
+  const total = $derived(copyCount(card, players));
+  const serial = $derived(cardSerial(card, copy));
 </script>
 
-<article class="card" data-card-id={card.id} data-god={card.god} data-type={card.type} aria-label={`${card.name}, ${card.god} ${card.type}`}>
-  <header class="card-title" data-fit>
-    <h3>{card.name}</h3>
-    {#if card.cost !== null}
-      <span class="cost" aria-label={`${card.cost} Coins${card.type === 'Event' ? ' and 1 Buy to invoke' : ' to buy'}`}>{card.cost}<small>COIN{card.cost === 1 ? '' : 'S'}</small></span>
-    {:else}
-      <span class="bloodline-mark" aria-label="Unique leader">♜</span>
-    {/if}
-  </header>
-  <div class="art-window">
-    <img src={`${base}/assets/cards/${card.art}.webp`} alt={card.artDescription} width="960" height="640" draggable="false" />
-  </div>
-  <div class="affiliation"><span><b aria-hidden="true">{godSymbols[card.god]}</b> {card.god}</span><span>{card.type}</span></div>
-  <div class="rules" class:simple={card.type === 'Treasure' || card.type === 'Territory'} data-fit>
+<article class="card" data-card-id={card.id} data-format={format} data-god={card.god} data-type={card.type} data-serial={serial} aria-label={`${card.name}, ${card.god} ${card.type}, copy ${copy} of ${total}`}>
+  <!-- Layer 0: illustration. Layer 1: separate colored substrates behind tag windows. -->
+  <img class="illustration" data-layer="illustration" src={`${base}/assets/cards/${card.art}.webp`} alt={card.artDescription} draggable="false" />
+  <div class="tag-substrate god-substrate" aria-hidden="true"></div>
+  <div class="tag-substrate type-substrate" aria-hidden="true"></div>
+  <!-- Layer 2: opaque sculpted chassis, with genuine alpha windows. -->
+  <img class="frame" data-layer="frame" src={`${base}/assets/frames/frame-${format}.webp`} alt="" aria-hidden="true" draggable="false" />
+  <!-- Layers 3–4: component art, then live values and metadata. -->
+  <header class="card-title" data-fit><h3>{card.name}</h3></header>
+  {#if card.cost !== null}
+    <div class="cost"><ResourceIcon resource="coins" value={card.cost} label={`${card.cost} Coins${card.type === 'Event' ? ' and 1 Buy to invoke' : ' to buy'}`} /></div>
+  {/if}
+  <div class="tag-label god-label"><span aria-hidden="true">{godSymbols[card.god]}</span> {card.god}</div>
+  <div class="tag-label type-label">{card.type}</div>
+  <div class="rules" class:long={card.effect.length > 150} data-fit>
     {#if card.type === 'Event'}
-      <div><h4>Standard</h4><p>{card.effect}</p></div>
-      <div class="favored"><h4>Favored · 2+ Devotion</h4><p>{card.favored}</p></div>
+      <div><h4>Standard</h4><RuleText text={card.effect} /></div>
+      <div class="favored"><h4>Favored · 2+ Devotion</h4><RuleText text={card.favored!} /></div>
     {:else if card.type === 'Leader'}
-      <div><h4>Bloodline ability · once per turn</h4><p>{card.effect}</p></div>
+      <div><h4>Bloodline · once per turn</h4><RuleText text={card.effect} /></div>
       <p class="leader-devotion">+1 Devotion when invoking {card.god}.</p>
     {:else if card.type === 'Territory'}
-      <p class="value">{card.vp}<span>victory point{card.vp === 1 ? '' : 's'}</span></p>
-      <p class="reminder">Scores at the end of the game.</p>
-    {:else if card.type === 'Treasure'}
-      <p class="treasure-value">{card.effect}</p>
-      <p class="reminder">Play during your Treasure phase.</p>
+      <div class="victory-value"><ResourceIcon resource="victory" value={card.vp} /></div>
     {:else}
-      <p>{card.effect}</p>
+      <RuleText text={card.effect} />
     {/if}
   </div>
-  <footer><span>Pantheon: Bloodlines</span><span>{card.type === 'Event' ? '1 BUY · ONCE / TURN' : card.type === 'Leader' ? 'UNIQUE · v0.1' : 'v0.1'}</span></footer>
+  <footer data-fit>
+    <span class="serial">{serial}</span>
+    {#if card.type === 'Event'}<span class="invocation-cost"><ResourceIcon resource="buys" value="1" /> <span>once / turn</span></span>{/if}
+    <span class="copy-count" aria-label={`Copy ${copy} of ${total}; includes starting decks`}>{copy}/{total}</span>
+  </footer>
 </article>
 
 <style>
-  .card { --god: #7d5833; --tint: #e9dcc3; container-type: inline-size; aspect-ratio: 5 / 7; width: 100%; display: grid; grid-template-rows: 12% 34% 7% 41% 6%; border: 5px solid #b59962; border-radius: 10px; background: #ece3cd; color: #28271f; box-shadow: 0 10px 24px #0006, inset 0 0 0 1px #413928; text-align: left; overflow: hidden; }
-  [data-god='Athena'] { --god: #414967; --tint: #e0e1e9; }
-  [data-god='Poseidon'] { --god: #235658; --tint: #d4e2dd; }
-  [data-god='Demeter'] { --god: #4a592f; --tint: #e1e5cf; }
-  [data-god='Ares'] { --god: #773b31; --tint: #eddcd4; }
-  .card-title { display: flex; align-items: center; gap: 3cqi; padding: 1cqi 4cqi; background: linear-gradient(110deg, #f0e6cc, #d7c5a2); min-height: 0; }
-  h3 { flex: 1; margin: 0; font: 700 6.15cqi/0.98 'Cormorant Garamond', serif; text-wrap: balance; }
-  .cost { display: grid; flex: 0 0 11cqi; width: 11cqi; height: 11cqi; align-content: center; justify-items: center; border: 1px solid #96743e; border-radius: 50%; background: #d6b678; color: #32291a; font: 700 6cqi/0.9 'Cormorant Garamond', serif; box-shadow: inset 0 0 0 2px #f2dda666; }
-  .cost small { margin-top: 0.5cqi; font: 700 1.8cqi/1 'Atkinson Hyperlegible', sans-serif; letter-spacing: 0.05em; }
-  .bloodline-mark { font-size: 9cqi; color: var(--god); }
-  .art-window { overflow: hidden; border-block: 1px solid #85714d; }
-  img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: center 15%; }
-  .affiliation { display: flex; align-items: center; justify-content: space-between; padding: 0 4cqi; background: var(--god); color: #fff5e2; font-size: 3.1cqi; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; }
-  .affiliation b { display: inline-block; min-width: 4cqi; font-size: 4.2cqi; line-height: 1; vertical-align: middle; }
-  .rules { display: flex; flex-direction: column; justify-content: center; gap: 3cqi; min-height: 0; padding: 4cqi 5cqi; background: radial-gradient(ellipse at top, #fff9eb99, transparent), linear-gradient(140deg, #f0e7d2, var(--tint)); font-size: 4.25cqi; line-height: 1.25; }
+  .card { --god: #73552d; --type: #704c33; position: relative; container-type: inline-size; isolation: isolate; width: 100%; aspect-ratio: 5 / 7; color: #302a20; text-align: left; filter: drop-shadow(0 6px 10px #0006); }
+  [data-god='Athena'] { --god: #424c72; } [data-god='Poseidon'] { --god: #225a65; } [data-god='Demeter'] { --god: #52672e; } [data-god='Ares'] { --god: #893e35; }
+  [data-type='Treasure'] { --type: #725819; } [data-type='Territory'] { --type: #2e5c48; } [data-type='Event'] { --type: #574169; } [data-type='Leader'] { --type: #6d3048; }
+  .illustration { position: absolute; z-index: 0; left: 8%; top: 15%; width: 84%; height: 39%; object-fit: cover; object-position: center 15%; }
+  .tag-substrate { position: absolute; z-index: 1; top: 54%; height: 8%; }
+  .god-substrate { left: 9%; width: 40%; background: var(--god); }
+  .type-substrate { left: 51%; width: 41%; background: var(--type); }
+  .frame { position: absolute; z-index: 2; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+  .card-title { position: absolute; z-index: 4; top: 7%; left: 12%; width: 64%; height: 6.6%; display: flex; align-items: center; }
+  h3 { margin: 0; width: 100%; font: 700 5.4cqi/0.96 'Cormorant Garamond', serif; text-wrap: balance; }
+  .cost { position: absolute; z-index: 3; top: 6.2%; right: 11%; --icon-size: 10.8cqi; }
+  .tag-label { position: absolute; z-index: 4; top: 55.2%; height: 5.1%; display: flex; align-items: center; justify-content: center; gap: 1cqi; font-size: 3.25cqi; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; color: #fff2d5; }
+  .god-label { left: 11%; width: 36%; } .type-label { left: 54%; width: 34%; }
+  .rules { position: absolute; z-index: 4; left: 12%; top: 64%; width: 76%; height: 25%; display: flex; flex-direction: column; justify-content: center; gap: 2cqi; font-size: 3.8cqi; line-height: 1.23; }
+  .rules.long { font-size: 3.35cqi; }
+  h4 { margin: 0 0 0.8cqi; color: var(--god); font: 700 2.3cqi/1.15 'Atkinson Hyperlegible', sans-serif; text-transform: uppercase; letter-spacing: 0.04em; }
   p { margin: 0; }
-  h4 { margin: 0 0 1cqi; font: 700 2.7cqi/1.2 'Atkinson Hyperlegible', sans-serif; color: var(--god); letter-spacing: 0.07em; text-transform: uppercase; }
-  [data-type='Event'] .rules { font-size: 4cqi; gap: 2cqi; padding-block: 3cqi; }
-  .favored { border-top: 1px solid #9a8a6c88; padding-top: 2cqi; }
-  .leader-devotion { padding-top: 3cqi; border-top: 1px solid #9a8a6c88; font-size: 3.6cqi; color: var(--god); }
-  .simple { align-items: center; text-align: center; }
-  .value { font: 600 21cqi/0.85 'Cormorant Garamond', serif; color: var(--god); }
-  .value span { display: block; margin-top: 2cqi; font: 700 3.3cqi/1.2 'Atkinson Hyperlegible', sans-serif; text-transform: uppercase; letter-spacing: 0.1em; }
-  .treasure-value { font: 700 10cqi/1 'Cormorant Garamond', serif; }
-  .reminder { font-size: 3.35cqi; color: #65573e; }
-  footer { display: flex; align-items: center; justify-content: space-between; padding: 0 4cqi; color: #66593f; font-size: 2.1cqi; letter-spacing: 0.04em; text-transform: uppercase; border-top: 1px solid #b9a883; background: #ddd0b4; }
-  @media print { .card { box-shadow: none; border-width: 1mm; print-color-adjust: exact; } }
+  .victory-value { text-align: center; --icon-size: 24cqi; }
+  .favored, .leader-devotion { border-top: 1px solid #a68d5d88; padding-top: 1.5cqi; }
+  .leader-devotion { color: var(--god); }
+  footer { position: absolute; z-index: 4; left: 15%; top: 91%; width: 70%; height: 3.6%; display: flex; align-items: center; justify-content: space-between; gap: 1cqi; font-size: 2.5cqi; color: #f5e6c3; letter-spacing: 0.03em; }
+  .copy-count { font-weight: 700; }
+  .invocation-cost { display: inline-flex; align-items: center; gap: 0.5cqi; --icon-size: 3.2cqi; }
+  [data-format='event'] { aspect-ratio: 7 / 5; }
+  [data-format='leader'] { aspect-ratio: 8 / 5; }
+  [data-format='event'] .illustration, [data-format='leader'] .illustration { left: 8%; top: 23%; width: 40%; height: 56%; object-position: 23% center; }
+  [data-format='leader'] .illustration { top: 18%; height: 60%; }
+  [data-format='event'] .card-title { top: 13%; left: 11%; width: 71%; height: 7%; }
+  [data-format='leader'] .card-title { top: 8%; left: 19%; width: 62%; height: 7%; }
+  [data-format='event'] h3 { font-size: 3.8cqi; }
+  [data-format='leader'] h3 { font-size: 3.5cqi; }
+  [data-format='event'] .cost { top: 9.3%; right: 3.9%; --icon-size: 9.2cqi; }
+  [data-format='event'] .tag-substrate { top: 82%; height: 9%; }
+  [data-format='leader'] .tag-substrate { top: 81%; height: 9%; }
+  [data-format='event'] .god-substrate { left: 8.5%; width: 18%; }
+  [data-format='leader'] .god-substrate { left: 10.5%; width: 17%; }
+  [data-format='event'] .type-substrate, [data-format='leader'] .type-substrate { left: 29%; width: 17%; }
+  [data-format='event'] .tag-label, [data-format='leader'] .tag-label { top: 84%; height: 5%; font-size: 2.3cqi; }
+  [data-format='event'] .god-label { left: 10%; width: 15%; }
+  [data-format='leader'] .god-label { left: 12%; width: 14%; top: 83%; }
+  [data-format='event'] .type-label, [data-format='leader'] .type-label { left: 31%; width: 14%; }
+  [data-format='leader'] .type-label { top: 83%; }
+  [data-format='event'] .rules { left: 51%; top: 26%; width: 39%; height: 55%; font-size: 2.4cqi; gap: 1.2cqi; }
+  [data-format='leader'] .rules { left: 51%; top: 23%; width: 39%; height: 54%; font-size: 2.65cqi; gap: 2cqi; }
+  [data-format='event'] h4, [data-format='leader'] h4 { font-size: 1.85cqi; }
+  [data-format='event'] footer, [data-format='leader'] footer { left: 51%; top: 85%; width: 39%; height: 5%; font-size: 1.8cqi; }
+  @media print { .card { filter: none; print-color-adjust: exact; } }
 </style>
