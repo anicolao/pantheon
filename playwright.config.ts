@@ -14,7 +14,7 @@ export default defineConfig({
     trace: 'retain-on-failure',
     deviceScaleFactor: 1,
     // Full rasterization avoids reload-dependent rounded-edge pixels on macOS.
-    launchOptions: { args: ['--font-render-hinting=none', '--disable-font-subpixel-positioning', '--disable-lcd-text', '--force-device-scale-factor=1', '--disable-gpu', '--disable-skia-runtime-opts', '--disable-partial-raster', '--deterministic-mode', '--run-all-compositor-stages-before-draw', '--use-gl=swiftshader'] },
+    launchOptions: { args: ['--font-render-hinting=none', '--disable-font-subpixel-positioning', '--disable-lcd-text', '--force-device-scale-factor=1', '--disable-gpu', '--disable-skia-runtime-opts', '--disable-partial-raster', '--use-gl=swiftshader'] },
     timezoneId: 'America/Toronto',
     serviceWorkers: 'block',
     screenshot: 'only-on-failure',
