@@ -1,9 +1,27 @@
 {
-  "firestore": { "rules": "firestore.rules" },
+  "firestore": {
+    "rules": "firestore.rules",
+    "database": "(default)",
+    "location": "northamerica-northeast2"
+  },
   "emulators": {
-    "auth": { "host": "127.0.0.1", "port": 9293 },
-    "firestore": { "host": "127.0.0.1", "port": 8193, "websocketPort": 9294 },
-    "ui": { "enabled": false },
+    "auth": {
+      "host": "127.0.0.1",
+      "port": 9293
+    },
+    "firestore": {
+      "host": "127.0.0.1",
+      "port": 8193,
+      "websocketPort": 9294
+    },
+    "ui": {
+      "enabled": false
+    },
     "singleProjectMode": true
+  },
+  "auth": {
+    "providers": {
+      "anonymous": true
+    }
   }
 }
