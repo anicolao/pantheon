@@ -1,0 +1,282 @@
+[
+  {
+    "id": "01-entry",
+    "title": "Take a seat",
+    "section": "Before play",
+    "story": "002",
+    "body": "<section class=\"panel\"><h2>Play with friends</h2><div class=\"faces\"><figure class=\"face landscape \"><img src=\"/docs/ux/cards/thaleia.webp\" alt=\"Thaleia, Keeper of the Owl\"></figure><figure class=\"face landscape \"><img src=\"/docs/ux/cards/nereon.webp\" alt=\"Nereon, Heir of the Tide\"></figure></div><p class=\"note\">Your seat is remembered in this browser. No account form is needed.</p><label>Your name<input value=\"Ariadne\" maxlength=\"24\"></label><label>Players</label><div class=\"row\"><button  class=\"primary\">2 players</button><button  class=\"\">3</button><button  class=\"\">4</button></div><div class=\"row\"><button  class=\"primary\">Create table</button><button  class=\"\">Open invitation</button></div><p class=\"note\">Already playing here? Resume your table from the saved-table list.</p></section>",
+    "action": "Enter a name, select 2–4 seats and create; follow an invitation to join; resume an existing seat. Anonymous sign-in happens before mutation.",
+    "signifier": "Selected player count has a gold outline and text. Create is disabled while signing in; inline validation names the field.",
+    "transition": "Create → 03; invitation → 02; resume → latest legal state. Sign-in failure → 23."
+  },
+  {
+    "id": "02-invitation",
+    "title": "Join Ariadne’s table",
+    "section": "Before play",
+    "story": "002",
+    "body": "<section class=\"panel\"><h2>A seat is waiting</h2><div class=\"backs\"><img src=\"/static/assets/backs/back-deck.webp\" alt=\"Hidden card\"><img src=\"/static/assets/backs/back-deck.webp\" alt=\"Hidden card\"><img src=\"/static/assets/backs/back-deck.webp\" alt=\"Hidden card\"><img src=\"/static/assets/backs/back-deck.webp\" alt=\"Hidden card\"><img src=\"/static/assets/backs/back-deck.webp\" alt=\"Hidden card\"></div><p class=\"note\">Host: Ariadne · 1 of 2 seats occupied</p><label>Your name<input value=\"Theseus\"></label><div class=\"row\"><button  class=\"primary\">Join table</button><button  class=\"\">Back</button></div><p class=\"note\">Joining keeps your seat in this browser. You can reload and return.</p></section>",
+    "action": "Review host and capacity, enter your name, then Join table once. An existing member resumes instead of taking a second seat.",
+    "signifier": "Capacity is explicit; joining shows one pending state and disables resubmission.",
+    "transition": "Acknowledged join → 03. Full, missing or started table → 23. The last-seat race has one winner."
+  },
+  {
+    "id": "03-lobby",
+    "title": "Your table",
+    "section": "Before play",
+    "story": "002",
+    "body": "<div class=\"columns\"><section class=\"panel\"><h2>Seats · 2 of 2</h2><div class=\"row\"><span class=\"badge\">Ariadne · host · here</span><span class=\"badge\">Theseus · here</span></div><p class=\"note\">Turn order is drawn when the host starts. Leaders are chosen in reverse turn order.</p><div class=\"row\"><button  class=\"\">Copy invitation</button><button  class=\"primary\">Begin leader draft</button></div><p class=\"note\">Theseus joined the table.</p> <div class=\"backs\"><img src=\"/static/assets/backs/back-deck.webp\" alt=\"Hidden card\"><img src=\"/static/assets/backs/back-deck.webp\" alt=\"Hidden card\"><img src=\"/static/assets/backs/back-deck.webp\" alt=\"Hidden card\"><img src=\"/static/assets/backs/back-deck.webp\" alt=\"Hidden card\"><img src=\"/static/assets/backs/back-deck.webp\" alt=\"Hidden card\"></div></section><section class=\"panel\"><h2>What you will start with</h2><div class=\"faces\"><figure class=\"face  \"><img src=\"/docs/ux/cards/obol.webp\" alt=\"Obol\"></figure><figure class=\"face  \"><img src=\"/docs/ux/cards/hamlet.webp\" alt=\"Hamlet\"></figure><figure class=\"face  \"><img src=\"/docs/ux/cards/temple-of-athena.webp\" alt=\"Temple of Athena\"></figure></div><p class=\"note\">6 Obols + 3 Hamlets + your god’s Temple. The Temple shown is an example until you choose a leader.</p></section></div>",
+    "action": "Copy the invitation. Host starts once every seat is occupied; guests see “Waiting for Ariadne to start.”",
+    "signifier": "Each occupied seat names its player and connection state. Start has a visible reason when disabled.",
+    "transition": "Join animates seat entrance once. Start commits first player and draft order → 04; no cards are dealt yet."
+  },
+  {
+    "id": "04-draft",
+    "title": "Choose your bloodline",
+    "section": "Leader draft",
+    "story": "003",
+    "body": "<p class=\"note\">Turn order: Ariadne → Theseus. Theseus chooses first; Ariadne chooses last.</p><div class=\"row\"><span class=\"badge\">Theseus is choosing</span><span class=\"badge\">Your choice is next</span></div><div class=\"draft\"><figure class=\"face landscape \"><img src=\"/docs/ux/cards/thaleia.webp\" alt=\"Thaleia, Keeper of the Owl\"></figure><figure class=\"face landscape \"><img src=\"/docs/ux/cards/nereon.webp\" alt=\"Nereon, Heir of the Tide\"></figure><figure class=\"face landscape \"><img src=\"/docs/ux/cards/melia.webp\" alt=\"Melia, Warden of the Fields\"></figure><figure class=\"face landscape \"><img src=\"/docs/ux/cards/doreios.webp\" alt=\"Doreios, Bearer of the Red Spear\"></figure></div><div class=\"row\"><button  class=\"\">Inspect Thaleia</button><button disabled class=\"\">Choose Thaleia</button></div>",
+    "action": "Active drafter inspects an unused leader and confirms Choose [name]. Other players browse but cannot claim.",
+    "signifier": "Current drafter is named; chosen leaders show owner and are unavailable. Landscape leaders retain their larger form factor.",
+    "transition": "Claim travels to its seat; matching event and Temple preview appear. Advance backward in turn order. Last claim → 05."
+  },
+  {
+    "id": "05-ready",
+    "title": "Your empire begins",
+    "section": "Deal",
+    "story": "004",
+    "body": "<div class=\"columns\"><section class=\"panel\"><h2>Ariadne · Athena</h2><figure class=\"face landscape \"><img src=\"/docs/ux/cards/thaleia.webp\" alt=\"Thaleia, Keeper of the Owl\"></figure><p class=\"note\">You take the first turn. Thaleia’s first matching Action grants +1 Action.</p></section><section class=\"panel\"><h2>Your starting deck</h2><div class=\"faces\"><figure class=\"face  \"><img src=\"/docs/ux/cards/obol.webp\" alt=\"Obol\"></figure><figure class=\"face  \"><img src=\"/docs/ux/cards/hamlet.webp\" alt=\"Hamlet\"></figure><figure class=\"face  \"><img src=\"/docs/ux/cards/temple-of-athena.webp\" alt=\"Temple of Athena\"></figure></div><p class=\"note\">6 Obols · 3 Hamlets · 1 Temple of Athena. Shuffle all ten and draw five.</p><div class=\"row\"><button  class=\"primary\">See my hand</button></div></section></div><p class=\"note\">Shared gods: Athena and Poseidon. All twelve Action piles are available. Territories: 6 each · Actions: 8 each.</p>",
+    "action": "See my hand dismisses the setup explanation locally; no readiness vote or extra game rule is introduced.",
+    "signifier": "Your actual leader, god and Temple are shown together. The first player and supply scale are explicit.",
+    "transition": "Authoritative setup commits once after the last draft. Deal five backs into each seat; only the owner sees faces → 06."
+  },
+  {
+    "id": "06-actions",
+    "title": "Your turn · Actions",
+    "section": "At the table",
+    "story": "005",
+    "body": "<div class=\"counters\"><div><span class=\"icon actions\"><img src=\"/static/assets/icons/actions.webp\" alt=\"actions\"><b>1</b></span><span>actions</span></div><div><span class=\"icon coins\"><img src=\"/static/assets/icons/coins.webp\" alt=\"coins\"><b>0</b></span><span>coins</span></div><div><span class=\"icon buys\"><img src=\"/static/assets/icons/buys.webp\" alt=\"buys\"><b>1</b></span><span>buys</span></div><div><span class=\"icon worship\"><img src=\"/static/assets/icons/worship.webp\" alt=\"worship\"><b>1</b></span><span>worship</span></div></div><div class=\"columns\"><section class=\"panel\"><h2>Your hand · 5 cards</h2><div class=\"faces hand\"><figure class=\"face  selected\"><img src=\"/docs/ux/cards/temple-of-athena.webp\" alt=\"Temple of Athena\"><figcaption>✓ Temple · ready to play</figcaption></figure><figure class=\"face  \"><img src=\"/docs/ux/cards/obol.webp\" alt=\"Obol\"><figcaption>Treasure phase</figcaption></figure><figure class=\"face  \"><img src=\"/docs/ux/cards/hamlet.webp\" alt=\"Hamlet\"><figcaption>Scores at game end</figcaption></figure></div><p class=\"note\">Cards 1–3 of 5 · 2 more Obols</p><div class=\"row\"><button disabled class=\"\">Previous</button><button  class=\"\">Next cards</button></div><div class=\"row\"><button  class=\"primary\">Play Temple</button><button  class=\"\">Go to Treasures</button></div></section><section class=\"panel\"><h2>Your bloodline</h2><figure class=\"face landscape \"><img src=\"/docs/ux/cards/thaleia.webp\" alt=\"Thaleia, Keeper of the Owl\"></figure><p class=\"note\">Bloodline ready · first Athena Action → +1 Action. Leaders grant no Devotion.</p></section></div><p class=\"note\">Deck 5 · discard 0 · in play 0. Select a card to inspect before playing. Worship is available between effects.</p>",
+    "action": "Select a hand card; Play spends an Action and resolves all effects plus its leader trigger. Inspect is always separate from committing. Advance to Treasures voluntarily.",
+    "signifier": "Legal cards have a gold outline and “Ready to play”; selected cards have a checkmark. Territories explain that they score at game end.",
+    "transition": "Hand → play motion and counter changes, then leader pulse. Choices → 12/13/14. Phase advance → 07. Worship → 10."
+  },
+  {
+    "id": "07-treasures",
+    "title": "Your turn · Treasures",
+    "section": "At the table",
+    "story": "006",
+    "body": "<div class=\"counters\"><div><span class=\"icon actions\"><img src=\"/static/assets/icons/actions.webp\" alt=\"actions\"><b>2</b></span><span>actions</span></div><div><span class=\"icon coins\"><img src=\"/static/assets/icons/coins.webp\" alt=\"coins\"><b>0</b></span><span>coins</span></div><div><span class=\"icon buys\"><img src=\"/static/assets/icons/buys.webp\" alt=\"buys\"><b>1</b></span><span>buys</span></div><div><span class=\"icon worship\"><img src=\"/static/assets/icons/worship.webp\" alt=\"worship\"><b>2</b></span><span>worship</span></div></div><section class=\"panel\"><h2>Choose Treasures to play</h2><div class=\"faces\"><figure class=\"face  \"><img src=\"/docs/ux/cards/obol.webp\" alt=\"Obol\"></figure><figure class=\"face  \"><img src=\"/docs/ux/cards/obol.webp\" alt=\"Obol\"></figure><figure class=\"face  \"><img src=\"/docs/ux/cards/obol.webp\" alt=\"Obol\"></figure><figure class=\"face  \"><img src=\"/docs/ux/cards/hamlet.webp\" alt=\"Hamlet\"></figure></div><div class=\"row\"><button  class=\"primary\">Play selected Obol</button><button  class=\"\">Play all Treasures</button><button  class=\"\">Go to Buys</button></div><p class=\"note\">Play one at a time to keep a Treasure in hand for a later effect. You cannot return to Actions.</p></section><p class=\"note\">In play: Temple of Athena · Athena Devotion 1 · Bloodline used</p>",
+    "action": "Play individual Treasures or use explicit Play all Treasures. Continue to Buys; confirmation is required only if playable Treasures would be left behind.",
+    "signifier": "Coins update as each committed Treasure enters play. Hand cards remain targetable for later trash effects if left unplayed.",
+    "transition": "Each played card moves to the play area; batch playback remains ordered. Between individual plays Worship remains available → 10. Advance → 08."
+  },
+  {
+    "id": "08-supply",
+    "title": "Your turn · Buys",
+    "section": "At the table",
+    "story": "007",
+    "body": "<div class=\"counters\"><div><span class=\"icon actions\"><img src=\"/static/assets/icons/actions.webp\" alt=\"actions\"><b>0</b></span><span>actions</span></div><div><span class=\"icon coins\"><img src=\"/static/assets/icons/coins.webp\" alt=\"coins\"><b>5</b></span><span>coins</span></div><div><span class=\"icon buys\"><img src=\"/static/assets/icons/buys.webp\" alt=\"buys\"><b>1</b></span><span>buys</span></div><div><span class=\"icon worship\"><img src=\"/static/assets/icons/worship.webp\" alt=\"worship\"><b>1</b></span><span>worship</span></div></div><div class=\"row\"><span class=\"badge\">Basics · 6 piles</span><button  class=\"\">Actions · 12 piles</button><button  class=\"\">Filter by god</button></div><div class=\"market\"><div><figure class=\"face  \"><img src=\"/docs/ux/cards/obol.webp\" alt=\"Obol\"></figure><div class=\"row\"><span class=\"badge\">40 left</span><button  class=\"\">Inspect</button></div></div><div><figure class=\"face  \"><img src=\"/docs/ux/cards/drachma.webp\" alt=\"Drachma\"></figure><div class=\"row\"><span class=\"badge\">30 left</span><button  class=\"\">Inspect</button></div></div><div><figure class=\"face  \"><img src=\"/docs/ux/cards/talent.webp\" alt=\"Talent\"></figure><div class=\"row\"><span class=\"badge\">20 left</span><button  class=\"\">Inspect</button></div></div><div><figure class=\"face  \"><img src=\"/docs/ux/cards/hamlet.webp\" alt=\"Hamlet\"></figure><div class=\"row\"><span class=\"badge\">6 left</span><button  class=\"\">Inspect</button></div></div><div><figure class=\"face  \"><img src=\"/docs/ux/cards/polis.webp\" alt=\"Polis\"></figure><div class=\"row\"><span class=\"badge\">6 left</span><button  class=\"\">Inspect</button></div></div><div><figure class=\"face  \"><img src=\"/docs/ux/cards/acropolis.webp\" alt=\"Acropolis\"></figure><div class=\"row\"><span class=\"badge\">6 left</span><button  class=\"\">Inspect</button></div></div></div><p class=\"note\">All 18 supply piles remain accessible. Empty piles: 0 of 3 · Acropolis: 6 left.</p>",
+    "action": "Switch Basics/Actions, filter only the view, inspect a pile, and confirm Buy in its detail panel. Buy a cost-0 card still spends one Buy.",
+    "signifier": "Each pile has a separate remaining count, independent of the face’s physical N/M. Affordable piles gain a Buy affordance; others state “Need 3 more Coins”, “No Buys” or “Empty”.",
+    "transition": "Pile selection → 09. Purchase moves one face to discard; count and counters settle atomically. Additional buys stay here. End turn → 17."
+  },
+  {
+    "id": "09-inspect",
+    "title": "Polis",
+    "section": "Card details",
+    "story": "007",
+    "body": "<div class=\"columns inspector\"><section class=\"panel\"><h2>Supply · 6 left</h2><figure class=\"face  \"><img src=\"/docs/ux/cards/polis.webp\" alt=\"Polis\"></figure></section><section class=\"panel\"><h2>Territory · Hestia</h2><span class=\"icon victory\"><img src=\"/static/assets/icons/victory.webp\" alt=\"victory\"><b>3</b></span><p class=\"note\">Costs 5 Coins and 1 Buy. Gain this card to your discard pile. It scores 3 VP at game end.</p><div class=\"row\"><button  class=\"primary\">Buy Polis</button><button  class=\"\">Close</button></div><p class=\"note\">After buying: 0 Coins · 0 Buys. This is a purchase, not Worship.</p></section></div>",
+    "action": "Read the full rules and inspect the unchanged card; confirm one context-specific action or close without a mutation. In-hand details offer Play only when legal.",
+    "signifier": "Destination, payment and resulting counters appear beside the committing button. Copy serial stays separate from supply stock.",
+    "transition": "Desktop modal, mobile full-height sheet; focus is trapped and restored on Close/Escape. Buy → 08, keeping the selected pile in view."
+  },
+  {
+    "id": "10-worship",
+    "title": "Worship",
+    "section": "Shared gods",
+    "story": "008",
+    "body": "<div class=\"counters\"><div><span class=\"icon actions\"><img src=\"/static/assets/icons/actions.webp\" alt=\"actions\"><b>0</b></span><span>actions</span></div><div><span class=\"icon coins\"><img src=\"/static/assets/icons/coins.webp\" alt=\"coins\"><b>5</b></span><span>coins</span></div><div><span class=\"icon buys\"><img src=\"/static/assets/icons/buys.webp\" alt=\"buys\"><b>1</b></span><span>buys</span></div><div><span class=\"icon worship\"><img src=\"/static/assets/icons/worship.webp\" alt=\"worship\"><b>2</b></span><span>worship</span></div></div><div class=\"columns\"><section class=\"panel\"><h2>Athena · Favored</h2><figure class=\"face landscape \"><img src=\"/docs/ux/cards/counsel-of-olympus.webp\" alt=\"Counsel of Olympus\"></figure><p class=\"note\">Shared with everyone · Athena Devotion 2 · Temple of Athena + Oracle’s Acolyte in play. Favored replaces Standard</p><p class=\"note\">Pay 1 Worship + 3 Coins; no Buy.</p><button  class=\"primary\">Worship Athena</button></section><section class=\"panel\"><h2>Poseidon · Standard</h2><figure class=\"face landscape \"><img src=\"/docs/ux/cards/tribute-of-the-tides.webp\" alt=\"Tribute of the Tides\"></figure><p class=\"note\">Poseidon Devotion 0 · You may Worship another bloodline’s god.</p></section></div><div class=\"row\"><button  class=\"\">Back to turn</button></div><p class=\"note\">Pay 1 Worship + 3 Coins. No Buy is spent. Available between fully resolved effects, before cleanup.</p>",
+    "action": "Inspect any god selected at setup. Review automatically selected Standard/Favored effect and confirm Worship; no toggle can override Devotion.",
+    "signifier": "Matching in-play Actions are named as the Devotion source. Favored is labeled, not color alone; both printed effects remain visible.",
+    "transition": "Payment commits before resolution. Event stays in the shared area and never depletes. Resolve choices → 12/14; return to the original phase. Repeated Worship is legal if affordable."
+  },
+  {
+    "id": "11-resolving",
+    "title": "Resolving Temple of Athena",
+    "section": "Effect resolution",
+    "story": "005",
+    "body": "<div class=\"counters\"><div><span class=\"icon actions\"><img src=\"/static/assets/icons/actions.webp\" alt=\"actions\"><b>1</b></span><span>actions</span></div><div><span class=\"icon coins\"><img src=\"/static/assets/icons/coins.webp\" alt=\"coins\"><b>0</b></span><span>coins</span></div><div><span class=\"icon buys\"><img src=\"/static/assets/icons/buys.webp\" alt=\"buys\"><b>1</b></span><span>buys</span></div><div><span class=\"icon worship\"><img src=\"/static/assets/icons/worship.webp\" alt=\"worship\"><b>2</b></span><span>worship</span></div></div><div class=\"columns\"><section class=\"panel\"><h2>Played by Ariadne</h2><figure class=\"face  \"><img src=\"/docs/ux/cards/temple-of-athena.webp\" alt=\"Temple of Athena\"></figure><div class=\"row\"><span class=\"icon worship\"><img src=\"/static/assets/icons/worship.webp\" alt=\"worship\"><b>+1</b></span><span class=\"icon actions\"><img src=\"/static/assets/icons/actions.webp\" alt=\"actions\"><b>+1</b></span></div></section><section class=\"panel\"><h2>Next · Thaleia’s bloodline</h2><figure class=\"face landscape \"><img src=\"/docs/ux/cards/thaleia.webp\" alt=\"Thaleia, Keeper of the Owl\"></figure><p class=\"note\">First Athena Action this turn → +1 Action. Resolves after the Temple.</p><button disabled class=\"\">Worship · finish effect first</button></section></div>",
+    "action": "Wait for automatic instructions; make a choice only when the effect requests it. Do not allow another command to interrupt a card or leader.",
+    "signifier": "Source card, instruction and upcoming leader are visible. Disabled actions name the reason; progress is finite, not an indefinite spinner.",
+    "transition": "Resolve printed instructions in order, then leader. This is a transient state; assert it using a controlled animation clock, not a timing race. Settle → prior phase."
+  },
+  {
+    "id": "12-trash",
+    "title": "Seed Keeper · choose cards",
+    "section": "Effect choice",
+    "story": "009",
+    "body": "<div class=\"row\"><span class=\"icon trash\"><img src=\"/static/assets/icons/trash.webp\" alt=\"trash\"><b>2</b></span><span class=\"badge\">1 selected · up to 2</span></div><section class=\"panel\"><h2>From your hand</h2><div class=\"faces\"><figure class=\"face  selected\"><img src=\"/docs/ux/cards/hamlet.webp\" alt=\"Hamlet\"><figcaption>✓ Selected · cost 2</figcaption></figure><figure class=\"face  \"><img src=\"/docs/ux/cards/obol.webp\" alt=\"Obol\"><figcaption>Cost 0</figcaption></figure><figure class=\"face  \"><img src=\"/docs/ux/cards/drachma.webp\" alt=\"Drachma\"><figcaption>Cost 3</figcaption></figure></div><p class=\"note\">Trashed cards leave your deck and score for nobody. Cards already in play cannot be selected.</p></section><div class=\"row\"><button  class=\"primary\">Trash 1 card</button><button  class=\"\">Trash none</button></div>",
+    "action": "Toggle zero to the permitted maximum from your hand; confirm exact selected count. Trash none is always available for optional trash, including Doreios.",
+    "signifier": "Selected cards have a checkmark and a running count. The red-tinted destination uses the approved broken-card icon and text.",
+    "transition": "Confirmed cards reveal publicly and move to shared trash. Continue the effect; for Forge/Trial zero means no gain. Doreios consumes the trigger even when skipped."
+  },
+  {
+    "id": "13-discard",
+    "title": "Harvest Feast · discard 1",
+    "section": "Effect choice",
+    "story": "009",
+    "body": "<div class=\"row\"><span class=\"icon discard\"><img src=\"/static/assets/icons/discard-v2.webp\" alt=\"discard\"><b>1</b></span><span class=\"badge\">1 selected · required</span></div><section class=\"panel\"><h2>Choose from your hand after drawing</h2><div class=\"faces\"><figure class=\"face  selected\"><img src=\"/docs/ux/cards/hamlet.webp\" alt=\"Hamlet\"><figcaption>✓ Selected</figcaption></figure><figure class=\"face  \"><img src=\"/docs/ux/cards/obol.webp\" alt=\"Obol\"><figcaption>In hand</figcaption></figure><figure class=\"face  \"><img src=\"/docs/ux/cards/council-of-sages.webp\" alt=\"Council of Sages\"><figcaption>Just drawn</figcaption></figure></div><p class=\"note\">Draw two first. You may discard a card you just drew. Discarded cards stay yours.</p></section><div class=\"row\"><button  class=\"primary\">Discard Hamlet</button><button disabled class=\"\">Continue</button></div>",
+    "action": "Choose the required number from the post-draw hand. No skip while an eligible card exists; do as much as possible if the hand is smaller.",
+    "signifier": "Required count and destination distinguish this from optional trash and topdeck. Newly drawn cards are labeled without excluding them.",
+    "transition": "Hand → own discard, then the leader trigger and prior phase. An empty hand auto-completes with a named “No cards to discard” message."
+  },
+  {
+    "id": "14-gain",
+    "title": "Counsel of Olympus · gain",
+    "section": "Effect choice",
+    "story": "010",
+    "body": "<div class=\"row\"><span class=\"icon gain\"><img src=\"/static/assets/icons/gain.webp\" alt=\"gain\"><b>5</b></span><span class=\"icon topdeck\"><img src=\"/static/assets/icons/topdeck.webp\" alt=\"topdeck\"><b></b></span><span class=\"badge\">Action · Favored</span></div><p class=\"note\">Choose one Action costing up to 5. Place it on top of your deck; it is not drawn or played.</p><section class=\"panel\"><h2>Eligible supply · page 1 of 4</h2><div class=\"faces\"><figure class=\"face  \"><img src=\"/docs/ux/cards/oracles-acolyte.webp\" alt=\"Oracle’s Acolyte\"></figure><figure class=\"face  \"><img src=\"/docs/ux/cards/council-of-sages.webp\" alt=\"Council of Sages\"></figure><figure class=\"face  selected\"><img src=\"/docs/ux/cards/sacred-academy.webp\" alt=\"Sacred Academy\"><figcaption>✓ Selected</figcaption></figure></div><div class=\"row\"><button disabled class=\"\">Previous</button><button  class=\"\">Next choices</button></div></section><div class=\"row\"><button  class=\"primary\">Gain Sacred Academy</button><button  class=\"\">Inspect card</button></div>",
+    "action": "Select one eligible nonempty supply pile, inspect if needed, and confirm Gain. No Coins or Buys are charged by the choice itself. Optional Demeter gain offers Gain nothing.",
+    "signifier": "One gain icon contains the cost limit; topdeck appears only when required. Source effect, type restriction and destination are explicit; no ≤ or redundant Coin icon.",
+    "transition": "Reveal the gained face publicly, decrement stock and move to discard or topdeck. No eligible pile auto-skips gain, explains why, and still resolves later instructions."
+  },
+  {
+    "id": "15-reveal",
+    "title": "Victorious Procession",
+    "section": "Effect resolution",
+    "story": "011",
+    "body": "<div class=\"columns\"><section class=\"panel\"><h2>Revealed from your deck</h2><figure class=\"face  \"><img src=\"/docs/ux/cards/hamlet.webp\" alt=\"Hamlet\"></figure><div class=\"row\"><span class=\"icon discard\"><img src=\"/static/assets/icons/discard-v2.webp\" alt=\"discard\"><b></b></span><span class=\"icon coins\"><img src=\"/static/assets/icons/coins.webp\" alt=\"coins\"><b>+2</b></span></div></section><section class=\"panel\"><h2>A Territory was revealed</h2><p class=\"note\">Hamlet moves to your discard pile. Gain 2 more Coins. The initial +2 Coins and +1 Buy have already resolved.</p><p class=\"note\">Everyone sees the revealed face. It is held outside the deck and discard until this instruction finishes.</p><button disabled class=\"\">Resolving…</button></section></div>",
+    "action": "No choice is invented for a conditional reveal. Resolve automatically; open the activity record afterward to inspect what happened.",
+    "signifier": "Show the revealed face and the exact branch/destination. A non-Territory shows Topdeck instead, without the bonus Coins.",
+    "transition": "Deck back → public face → discard or deck. If deck empty, shuffle discard first; if both empty, report no reveal but keep initial rewards."
+  },
+  {
+    "id": "16-order",
+    "title": "Choose the next card drawn",
+    "section": "Effect choice",
+    "story": "011",
+    "body": "<div class=\"row\"><span class=\"icon topdeck\"><img src=\"/static/assets/icons/topdeck.webp\" alt=\"topdeck\"><b></b></span><span class=\"badge\">First drawn → last drawn</span></div><section class=\"panel\"><h2>Cards going onto your deck</h2><div class=\"faces\"><figure class=\"face  selected\"><img src=\"/docs/ux/cards/oracles-acolyte.webp\" alt=\"Oracle’s Acolyte\"><figcaption>1 · Draw first</figcaption></figure><figure class=\"face  \"><img src=\"/docs/ux/cards/harbor-pilot.webp\" alt=\"Harbor Pilot\"><figcaption>2 · Draw second</figcaption></figure></div><div class=\"row\"><button  class=\"\">Move selected later</button><button  class=\"primary\">Confirm order</button></div><p class=\"note\">Use Move earlier / later or the keyboard. Dragging is optional.</p></section>",
+    "action": "When a future effect puts multiple cards on top together, set first-to-last draw order and confirm. This generic rules state is not reachable with the current card set.",
+    "signifier": "Numbered order and a “Draw first” label avoid ambiguous stack direction; move buttons are equivalent to drag.",
+    "transition": "Commit one order and return to the effect. Keep this screen dormant in v0.1; do not invent a card effect to expose it."
+  },
+  {
+    "id": "17-end-turn",
+    "title": "Finish your turn?",
+    "section": "Cleanup",
+    "story": "012",
+    "body": "<div class=\"counters\"><div><span class=\"icon actions\"><img src=\"/static/assets/icons/actions.webp\" alt=\"actions\"><b>0</b></span><span>actions</span></div><div><span class=\"icon coins\"><img src=\"/static/assets/icons/coins.webp\" alt=\"coins\"><b>2</b></span><span>coins</span></div><div><span class=\"icon buys\"><img src=\"/static/assets/icons/buys.webp\" alt=\"buys\"><b>1</b></span><span>buys</span></div><div><span class=\"icon worship\"><img src=\"/static/assets/icons/worship.webp\" alt=\"worship\"><b>1</b></span><span>worship</span></div></div><section class=\"panel\"><h2>Before cleanup</h2><div class=\"faces\"><figure class=\"face  \"><img src=\"/docs/ux/cards/hamlet.webp\" alt=\"Hamlet\"></figure><figure class=\"face  \"><img src=\"/docs/ux/cards/obol.webp\" alt=\"Obol\"></figure></div><p class=\"note\">You still have 2 Coins, 1 Buy and 1 Worship. You can buy a Hamlet or an Obol; you cannot afford Worship.</p><p class=\"note\">Ending discards your hand and played cards, clears resources, and draws five. You cannot Worship once cleanup begins.</p><div class=\"row\"><button  class=\"\">Keep playing</button><button  class=\"primary\">End turn</button></div></section>",
+    "action": "Confirm cleanup when useful resources or legal actions remain; otherwise the explicit End turn command can proceed directly. Decline returns unchanged.",
+    "signifier": "Name actual remaining legal options, not just nonzero counters. No automatic end when Buys run out: Worship may still be possible.",
+    "transition": "Hand/play → discard, counters → zero, shuffle only as needed, draw five; check end condition after cleanup → 18 or 21."
+  },
+  {
+    "id": "18-opponent",
+    "title": "Theseus’s turn · Buys",
+    "section": "At the table",
+    "story": "013",
+    "body": "<div class=\"counters\"><div><span class=\"icon actions\"><img src=\"/static/assets/icons/actions.webp\" alt=\"actions\"><b>0</b></span><span>actions</span></div><div><span class=\"icon coins\"><img src=\"/static/assets/icons/coins.webp\" alt=\"coins\"><b>0</b></span><span>coins</span></div><div><span class=\"icon buys\"><img src=\"/static/assets/icons/buys.webp\" alt=\"buys\"><b>1</b></span><span>buys</span></div><div><span class=\"icon worship\"><img src=\"/static/assets/icons/worship.webp\" alt=\"worship\"><b>1</b></span><span>worship</span></div></div><div class=\"columns\"><section class=\"panel\"><h2>Theseus bought Polis</h2><figure class=\"face  \"><img src=\"/docs/ux/cards/polis.webp\" alt=\"Polis\"></figure><p class=\"note\">Supply → Theseus’s discard. Spent 5 Coins and 1 Buy. Their remaining counters are shown above.</p><div class=\"backs\"><img src=\"/static/assets/backs/back-deck.webp\" alt=\"Hidden card\"><img src=\"/static/assets/backs/back-deck.webp\" alt=\"Hidden card\"><img src=\"/static/assets/backs/back-deck.webp\" alt=\"Hidden card\"><img src=\"/static/assets/backs/back-deck.webp\" alt=\"Hidden card\"><img src=\"/static/assets/backs/back-deck.webp\" alt=\"Hidden card\"></div></section><section class=\"panel\"><h2>Your hand is private</h2><div class=\"faces hand\"><figure class=\"face  selected\"><img src=\"/docs/ux/cards/temple-of-athena.webp\" alt=\"Temple of Athena\"><figcaption>✓ Temple · ready to play</figcaption></figure><figure class=\"face  \"><img src=\"/docs/ux/cards/obol.webp\" alt=\"Obol\"><figcaption>Treasure phase</figcaption></figure><figure class=\"face  \"><img src=\"/docs/ux/cards/hamlet.webp\" alt=\"Hamlet\"><figcaption>Scores at game end</figcaption></figure></div><p class=\"note\">Cards 1–3 of 5 · 2 more Obols</p><div class=\"row\"><button disabled class=\"\">Previous</button><button  class=\"\">Next cards</button></div><button  class=\"\">Inspect your deck count · 5</button></section></div><p class=\"note\">You may inspect public zones and your own hand. Only Theseus can act on this turn.</p>",
+    "action": "Follow the active player’s public moves; inspect your own hand and public piles while waiting. Do not queue out-of-turn game commands.",
+    "signifier": "Active player’s name stays next to resource counters. A persistent actor/card/destination sentence remains after animation.",
+    "transition": "Committed public actions animate once in event order. Private draws use backs. If another tab is open, show an activity badge without forcing navigation."
+  },
+  {
+    "id": "19-zones",
+    "title": "Public piles",
+    "section": "Table reference",
+    "story": "014",
+    "body": "<div class=\"row\"><button  class=\"primary\">Theseus’s discard</button><button  class=\"\">Shared trash</button><button  class=\"\">In play</button></div><section class=\"panel\"><h2>Theseus’s discard · 3 cards</h2><div class=\"faces\"><figure class=\"face  \"><img src=\"/docs/ux/cards/polis.webp\" alt=\"Polis\"></figure><figure class=\"face  \"><img src=\"/docs/ux/cards/drachma.webp\" alt=\"Drachma\"></figure><figure class=\"face  \"><img src=\"/docs/ux/cards/sea-trade.webp\" alt=\"Sea Trade\"></figure></div><p class=\"note\">All discarded cards are public. Inspect without changing order or contents.</p></section><div class=\"row\"><span class=\"icon cards\"><img src=\"/static/assets/backs/back-deck.webp\" alt=\"cards\"><b>7</b></span><span class=\"badge\">Theseus’s deck · count only</span></div><p class=\"note\">No face, serial number or ordered list from another player’s deck or hand is available.</p>",
+    "action": "Switch public owner/zone, page through all cards and inspect faces. Deck inspection returns only the count; your own hand remains privately accessible.",
+    "signifier": "Zone heading includes owner and count; shared trash has a distinct broken-card icon. No reorder handles on read-only piles.",
+    "transition": "Open as desktop side panel or mobile full-height sheet. Close restores prior phase/tab/scroll/focus; state continues updating behind it."
+  },
+  {
+    "id": "20-activity",
+    "title": "What happened",
+    "section": "Table reference",
+    "story": "013",
+    "body": "<section class=\"panel\"><h2>Latest public actions</h2><ol class=\"activity\"><li><b>Theseus bought Polis</b><span>Supply → Theseus’s discard · spent 5 Coins, 1 Buy</span></li><li><b>Theseus played Drachma</b><span>Hand → play · +2 Coins</span></li><li><b>Theseus played Sea Trade</b><span>Hand → play · +2 Coins, +1 Buy</span></li></ol></section><section class=\"panel\"><h2>Earlier this turn</h2><figure class=\"face landscape \"><img src=\"/docs/ux/cards/nereon.webp\" alt=\"Nereon, Heir of the Tide\"></figure><p class=\"note\">Nereon’s bloodline: +1 Coin after Theseus’s first Poseidon Action. One matching Action is in play; Poseidon Devotion is 1.</p></section><div class=\"row\"><button  class=\"\">Earlier actions</button><button  class=\"primary\">Return to table</button></div>",
+    "action": "Read public events in order, inspect referenced cards and load earlier history. No rewind, undo or replay-as-command action.",
+    "signifier": "Names, source → destination and resource deltas explain each event. Turn grouping replaces unstable wall-clock timestamps.",
+    "transition": "Append new activity with a small entrance; preserve the reader’s position and offer “New actions”. Reconnect catches up without replaying the entire animation queue."
+  },
+  {
+    "id": "21-results",
+    "title": "Ariadne’s victory",
+    "section": "Game over",
+    "story": "015",
+    "body": "<p class=\"note\">The Acropolis pile emptied. The current turn finished; there is no final round.</p><div class=\"columns\"><section class=\"panel\"><h2>Ariadne · 24 VP</h2><div class=\"row\"><span class=\"icon victory\"><img src=\"/static/assets/icons/victory.webp\" alt=\"victory\"><b>24</b></span><span class=\"badge\">12 turns</span></div><div class=\"faces\"><figure class=\"face  \"><img src=\"/docs/ux/cards/hamlet.webp\" alt=\"Hamlet\"></figure><figure class=\"face  \"><img src=\"/docs/ux/cards/polis.webp\" alt=\"Polis\"></figure><figure class=\"face  \"><img src=\"/docs/ux/cards/acropolis.webp\" alt=\"Acropolis\"></figure></div><p class=\"note\">3 Hamlets × 1 + 3 Poleis × 3 + 2 Acropoleis × 6 = 24</p></section><section class=\"panel\"><h2>Theseus · 21 VP</h2><div class=\"row\"><span class=\"icon victory\"><img src=\"/static/assets/icons/victory.webp\" alt=\"victory\"><b>21</b></span><span class=\"badge\">11 turns</span></div><p class=\"note\">3 Hamlets × 1 + 2 Poleis × 3 + 2 Acropoleis × 6 = 21</p><button  class=\"\">View scoring breakdown</button></section></div><div class=\"row\"><button  class=\"primary\">Create another table</button><button  class=\"\">Review activity</button></div>",
+    "action": "Review final territory totals across all owned zones and turns taken. Create another table returns to setup with the name remembered; it never resets this game.",
+    "signifier": "State the end reason, exact VP arithmetic and tie resolution. For equal points use fewer turns, then “Shared victory”.",
+    "transition": "After cleanup/check, final counters settle and results appear with a modest laurel fade. The completed table stays read-only and reloadable."
+  },
+  {
+    "id": "22-connection",
+    "title": "Reconnecting to your table",
+    "section": "Recovery",
+    "story": "016",
+    "body": "<section class=\"panel\"><h2>Your seat is saved in this browser</h2><div class=\"backs\"><img src=\"/static/assets/backs/back-deck.webp\" alt=\"Hidden card\"><img src=\"/static/assets/backs/back-deck.webp\" alt=\"Hidden card\"><img src=\"/static/assets/backs/back-deck.webp\" alt=\"Hidden card\"><img src=\"/static/assets/backs/back-deck.webp\" alt=\"Hidden card\"><img src=\"/static/assets/backs/back-deck.webp\" alt=\"Hidden card\"></div><p class=\"note\">You are offline. The table below is the last confirmed state. Game actions are unavailable until we reconnect.</p><div class=\"row\"><button  class=\"primary\">Retry connection</button><button disabled class=\"\">Play card</button></div></section><section class=\"panel\"><h2>Last confirmed · Ariadne’s Actions</h2><div class=\"counters\"><div><span class=\"icon actions\"><img src=\"/static/assets/icons/actions.webp\" alt=\"actions\"><b>1</b></span><span>actions</span></div><div><span class=\"icon coins\"><img src=\"/static/assets/icons/coins.webp\" alt=\"coins\"><b>0</b></span><span>coins</span></div><div><span class=\"icon buys\"><img src=\"/static/assets/icons/buys.webp\" alt=\"buys\"><b>1</b></span><span>buys</span></div><div><span class=\"icon worship\"><img src=\"/static/assets/icons/worship.webp\" alt=\"worship\"><b>1</b></span><span>worship</span></div></div><p class=\"note\">If a move was already sent, we will check whether it succeeded before you can try again.</p></section>",
+    "action": "Retry connection; continue reading confirmed public information. Never optimistically queue purchases or privately reshuffle offline.",
+    "signifier": "Text + connection indicator distinguishes connecting, sending, synced, offline and failed; “Sending…” is not success.",
+    "transition": "On recovery restore canonical state/private view and reconcile command ID. No duplicate effect, no animation backlog. Restore pending choice or show whose turn it now is."
+  },
+  {
+    "id": "23-unavailable",
+    "title": "This table is full",
+    "section": "Recovery",
+    "story": "016",
+    "body": "<section class=\"panel\"><h2>All seats have been taken</h2><figure class=\"face landscape \"><img src=\"/docs/ux/cards/thaleia.webp\" alt=\"Thaleia, Keeper of the Owl\"></figure><p class=\"note\">Another player joined the final seat first. You have not joined this game.</p><div class=\"row\"><button  class=\"primary\">Create your own table</button><button  class=\"\">Try another invitation</button></div><p class=\"note\">If this was your seat, return using the original browser. An anonymous seat cannot be recovered after its browser storage is cleared.</p></section>",
+    "action": "Recover using the original browser or return to setup. Missing/invalid invitation, already-started nonmember, sign-in failure and unsupported history use this same shell with specific copy and safe actions.",
+    "signifier": "Plain-language reason; no raw Firebase error, game document ID, stack trace or disabled spinner trap.",
+    "transition": "Retry only recoverable failures. Lost identity never silently replaces another seat. Existing members may resume a full or started game."
+  },
+  {
+    "id": "24-table-display",
+    "title": "Shared table",
+    "section": "Tabletop",
+    "story": "017",
+    "body": "<p class=\"note\">PUBLIC DISPLAY · Private hands stay on each player’s own device.</p><div class=\"columns\"><section class=\"panel\"><h2>Ariadne · Athena · Actions</h2><figure class=\"face landscape \"><img src=\"/docs/ux/cards/thaleia.webp\" alt=\"Thaleia, Keeper of the Owl\"></figure><div class=\"counters\"><div><span class=\"icon actions\"><img src=\"/static/assets/icons/actions.webp\" alt=\"actions\"><b>1</b></span><span>actions</span></div><div><span class=\"icon coins\"><img src=\"/static/assets/icons/coins.webp\" alt=\"coins\"><b>0</b></span><span>coins</span></div><div><span class=\"icon buys\"><img src=\"/static/assets/icons/buys.webp\" alt=\"buys\"><b>1</b></span><span>buys</span></div><div><span class=\"icon worship\"><img src=\"/static/assets/icons/worship.webp\" alt=\"worship\"><b>1</b></span><span>worship</span></div></div><div class=\"backs\"><img src=\"/static/assets/backs/back-deck.webp\" alt=\"Hidden card\"><img src=\"/static/assets/backs/back-deck.webp\" alt=\"Hidden card\"><img src=\"/static/assets/backs/back-deck.webp\" alt=\"Hidden card\"><img src=\"/static/assets/backs/back-deck.webp\" alt=\"Hidden card\"><img src=\"/static/assets/backs/back-deck.webp\" alt=\"Hidden card\"></div><p class=\"note\">Hand 5 · deck 5 · discard 0</p></section><section class=\"panel\"><h2>Theseus · Poseidon</h2><figure class=\"face landscape \"><img src=\"/docs/ux/cards/nereon.webp\" alt=\"Nereon, Heir of the Tide\"></figure><div class=\"backs\"><img src=\"/static/assets/backs/back-deck.webp\" alt=\"Hidden card\"><img src=\"/static/assets/backs/back-deck.webp\" alt=\"Hidden card\"><img src=\"/static/assets/backs/back-deck.webp\" alt=\"Hidden card\"><img src=\"/static/assets/backs/back-deck.webp\" alt=\"Hidden card\"><img src=\"/static/assets/backs/back-deck.webp\" alt=\"Hidden card\"></div><p class=\"note\">Hand 5 · deck 5 · discard 0</p></section></div><div class=\"row\"><button  class=\"\">Supply</button><button  class=\"\">Shared gods</button><button  class=\"\">Activity</button><button  class=\"\">Connect a hand</button></div><p class=\"note\">Display controls inspect only. Turns are played from the private controllers.</p>",
+    "action": "Open a read-only public-display session using a short-lived host-authorized display link; inspect supply, gods and activity. Each seated player uses their existing browser/controller.",
+    "signifier": "PUBLIC DISPLAY label is persistent. Only deck backs/counts appear for hands; no “show hand” button exists on this surface.",
+    "transition": "Same committed event stream, public projection only. Rotation/4K layout changes presentation, never turn order. A display capability cannot read private documents or submit player commands."
+  },
+  {
+    "id": "25-controller",
+    "title": "Your private controller",
+    "section": "Tabletop",
+    "story": "017",
+    "body": "<p class=\"note\">Ariadne · Athena · Connected to shared table</p><div class=\"counters\"><div><span class=\"icon actions\"><img src=\"/static/assets/icons/actions.webp\" alt=\"actions\"><b>1</b></span><span>actions</span></div><div><span class=\"icon coins\"><img src=\"/static/assets/icons/coins.webp\" alt=\"coins\"><b>0</b></span><span>coins</span></div><div><span class=\"icon buys\"><img src=\"/static/assets/icons/buys.webp\" alt=\"buys\"><b>1</b></span><span>buys</span></div><div><span class=\"icon worship\"><img src=\"/static/assets/icons/worship.webp\" alt=\"worship\"><b>1</b></span><span>worship</span></div></div><section class=\"panel\"><h2>Your hand · only on this device</h2><div class=\"faces hand\"><figure class=\"face  selected\"><img src=\"/docs/ux/cards/temple-of-athena.webp\" alt=\"Temple of Athena\"><figcaption>✓ Temple · ready to play</figcaption></figure><figure class=\"face  \"><img src=\"/docs/ux/cards/obol.webp\" alt=\"Obol\"><figcaption>Treasure phase</figcaption></figure><figure class=\"face  \"><img src=\"/docs/ux/cards/hamlet.webp\" alt=\"Hamlet\"><figcaption>Scores at game end</figcaption></figure></div><p class=\"note\">Cards 1–3 of 5 · 2 more Obols</p><div class=\"row\"><button disabled class=\"\">Previous</button><button  class=\"\">Next cards</button></div><div class=\"row\"><button  class=\"primary\">Play Temple</button><button  class=\"\">Go to Treasures</button></div></section><div class=\"row\"><button  class=\"\">Supply</button><button  class=\"\">Worship</button><button  class=\"\">Public activity</button></div>",
+    "action": "Use all normal turn/choice controls from a private seat session. Open display link separately; do not move the anonymous identity to another device through a room link.",
+    "signifier": "Seat name and whose turn it is remain visible. Controller is the normal private gameplay view, not a second participant.",
+    "transition": "Controller command acknowledges → public display receives public movement. Private new cards only reach the owner. Disconnect follows 22."
+  },
+  {
+    "id": "26-table-options",
+    "title": "Table options",
+    "section": "Tabletop",
+    "story": "017",
+    "body": "<section class=\"panel\"><h2>Display and access</h2><p class=\"note\">Ariadne · host. Your seat lives in this browser; an invitation does not transfer it.</p><div class=\"row\"><button  class=\"\">Copy invitation</button><button  class=\"primary\">Create public display link</button></div><p class=\"note\">Open the display link on the shared screen. It grants public viewing only; it cannot join a seat or play cards.</p><div class=\"row\"><button  class=\"\">Revoke display link</button><button  class=\"\">Return to game</button></div></section><section class=\"panel\"><h2>Motion and help</h2><div class=\"row\"><button  class=\"primary\">Follow device motion setting</button><button  class=\"\">Reduce motion</button></div><p class=\"note\">Reduced motion retains the same activity messages and final state.</p><div class=\"row\"><button  class=\"\">Public piles</button><button  class=\"\">Activity</button><button  class=\"\">Rules</button><button  class=\"\">Catalog</button></div></section>",
+    "action": "Copy lobby invite, issue/revoke a public-display capability as host, or set reduced motion locally. No restart, kick, surrender, transfer-seat or speed setting is implied for v0.1.",
+    "signifier": "Player invite and public display link are explicitly different controls. Copy provides textual success/failure; a selectable URL is the fallback.",
+    "transition": "Options overlay returns to prior view. Leaving the page keeps the seat; untrusted display links expire/revoke and return to 23. Capability support is future backend work."
+  },
+  {
+    "id": "27-rules",
+    "title": "How to play",
+    "section": "Reference",
+    "story": "018",
+    "body": "<div class=\"row\"><button  class=\"\">Setup</button><button  class=\"\">Cards</button><button  class=\"\">Leaders</button><button  class=\"primary\">Your turn</button><button  class=\"\">Gods</button><button  class=\"\">Winning</button><button  class=\"\">Reminders</button></div><section class=\"panel\"><h2>Your turn</h2><p class=\"note\">Start with 1 Action, 1 Buy, 1 Worship and 0 Coins. Play Actions, then Treasures, then buy cards. You may Worship between resolved effects in any phase before cleanup.</p><figure class=\"face  \"><img src=\"/docs/ux/cards/temple-of-athena.webp\" alt=\"Temple of Athena\"></figure><p class=\"note\">Your Temple adds 1 Worship and 1 Action. Finish its effect and your leader trigger before Worship. Cleanup discards hand and play, clears resources and draws five.</p></section><button  class=\"primary\">Return to game</button>",
+    "action": "Open contextual rules, use the shared sticky section navigation, read actual card examples and return without losing the pending game choice.",
+    "signifier": "Concise document prose and familiar card imagery; current section has an underline and aria-current. A game badge indicates ongoing activity.",
+    "transition": "Rules scroll as a document; they do not pause the game. Return restores the prior view, unless acknowledged state has advanced. Existing /rules remains the canonical summary."
+  },
+  {
+    "id": "28-catalog",
+    "title": "Card reference",
+    "section": "Reference",
+    "story": "018",
+    "body": "<div class=\"row\"><button  class=\"\">Leaders</button><button  class=\"\">Events</button><button  class=\"\">Treasures</button><button  class=\"\">Territories</button><button  class=\"primary\">Actions</button><button  class=\"\">All cards</button></div><label>Search cards<input placeholder=\"Name or effect\"></label><section class=\"panel\"><h2>Actions · Athena</h2><div class=\"faces\"><figure class=\"face  \"><img src=\"/docs/ux/cards/oracles-acolyte.webp\" alt=\"Oracle’s Acolyte\"></figure><figure class=\"face  \"><img src=\"/docs/ux/cards/council-of-sages.webp\" alt=\"Council of Sages\"></figure><figure class=\"face  \"><img src=\"/docs/ux/cards/sacred-academy.webp\" alt=\"Sacred Academy\"></figure></div><p class=\"note\">Inspect any card to read its full text. The catalog shows inventory copy numbers, not your game’s remaining piles.</p><div class=\"row\"><button  class=\"\">All gods</button><button  class=\"\">Show backs</button><button  class=\"\">Print cards</button></div></section><button  class=\"primary\">Return to game</button>",
+    "action": "Search/filter all thirty definitions, inspect any physical copy/front/back and print using the established gallery. No catalog button purchases a card.",
+    "signifier": "Same StickyNav as the rules; clear “Card reference” scope. Deck/event/leader backs remain distinct.",
+    "transition": "Reference opens without replacing the seat. The full existing gallery remains a scrolling document; return restores the game context."
+  }
+]
