@@ -1,0 +1,12 @@
+:root { font-family: 'Atkinson Hyperlegible', sans-serif; color: #ede9de; background: #151b1b; font-synthesis: none; color-scheme: dark; }
+* { box-sizing: border-box; }
+body { margin: 0; }
+button, input, select { font: inherit; }
+button, a, input, select { -webkit-tap-highlight-color: transparent; }
+button, select { cursor: pointer; }
+a { color: inherit; }
+button { color: inherit; }
+:focus-visible { outline: 3px solid #e6c983; outline-offset: 5px; }
+::selection { background: #d4b779; color: #151b1b; }
+button { touch-action: manipulation; }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; transition: none !important; } }

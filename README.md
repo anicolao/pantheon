@@ -14,9 +14,25 @@ On your turn, play Actions, collect Coins from Treasures, buy cards or invoke a 
 
 - [VISION.md](VISION.md) describes the high-level direction and intended player experience.
 - [MVP_CARDSET.md](MVP_CARDSET.md) contains the complete v0.1 prototype rules, setup, leaders, god events, and card definitions.
+- [docs/DEVELOPMENT.md](docs/DEVELOPMENT.md) covers the web scaffold, local setup, browser tests, and PR previews.
 
 ## Current scope
 
-This is a documents-only tabletop prototype. Version 0.1 uses four leaders, four possible god events, and twelve shared Action piles. It focuses on deck building, divine affiliations, and the race for territory. It has no map, combat system, or direct attacks on other players.
+The first web milestone is an illustrated card gallery built with SvelteKit. Browse all 26 card faces, filter by type or god, inspect rules, switch to larger tabletop cards, or print the current selection. Gameplay and synchronized multiplayer tables are future milestones.
+
+Version 0.1 uses four leaders, four possible god events, and twelve shared Action piles. It focuses on deck building, divine affiliations, and the race for territory. It has no map, combat system, or direct attacks on other players.
 
 The card costs and powers are initial playtest values, not a claim of tested balance. Use the v0.1 rules as the authority when running the prototype.
+
+## Run the gallery
+
+With Node 24 and Bun 1.3.10 installed:
+
+```sh
+bun install --frozen-lockfile
+bun run dev
+```
+
+Open `http://127.0.0.1:5193/`. To validate the card renders, run `bunx playwright install chromium`, then `bun run verify`.
+
+The project is licensed under [GPLv3](LICENSE). Original card art was created with image generation; the [asset notes](docs/ASSETS.md) include the full prompt set and provenance.

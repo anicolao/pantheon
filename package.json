@@ -1,0 +1,32 @@
+{
+  "name": "pantheon-bloodlines",
+  "version": "0.1.0",
+  "private": true,
+  "license": "GPL-3.0-only",
+  "type": "module",
+  "scripts": {
+    "prepare": "svelte-kit sync",
+    "dev": "vite dev --host 127.0.0.1 --port 5193 --strictPort",
+    "build": "vite build",
+    "preview": "vite preview --host 127.0.0.1 --port 4193 --strictPort",
+    "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
+    "test:e2e": "playwright test",
+    "verify": "bun run check && bun run test:e2e"
+  },
+  "dependencies": {
+    "@fontsource/atkinson-hyperlegible": "5.2.8",
+    "@fontsource/cormorant-garamond": "5.2.11"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.61.1",
+    "@sveltejs/adapter-static": "3.0.10",
+    "@sveltejs/kit": "2.69.3",
+    "@sveltejs/vite-plugin-svelte": "7.2.0",
+    "@types/node": "26.1.1",
+    "sharp": "0.34.5",
+    "svelte": "5.56.5",
+    "svelte-check": "4.7.2",
+    "typescript": "5.9.3",
+    "vite": "8.1.4"
+  }
+}
