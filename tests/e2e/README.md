@@ -10,3 +10,5 @@ Keep the gallery/rules regression tests, and put new gameplay user stories in nu
 - Generate new baselines explicitly, inspect the images, commit the platform-specific files, and run comparison mode afterward. Linux generation uses the workflow's `update_snapshots` input and never publishes the app.
 
 `001-game-setup` documents anonymous sign-in, two-player creation/join/restoration, and also tests four-player supply and motion preferences. Its two scenarios run at phone, desktop, and 4K sizes. Backend tests separately enforce immutable events, replay, authorization, and the race for the final seat.
+
+`002-sanctuary` covers fresh entry, keyboard navigation, real table return, foreign/stale targets, arrival motion and offline retry. Its four scenarios run on all three sizes. See its `FIDELITY.md` for concept-to-implementation review. The helper accepts a settled status (`ready` for the sanctuary, `synced` by default) and excludes deliberately screen-reader-only nodes from physical geometry checks. Screenshot thresholds remain unchanged.

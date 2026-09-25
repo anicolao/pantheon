@@ -3,6 +3,7 @@
   import { fly } from 'svelte/transition';
   import { base } from '$app/paths';
   import { connectFirebase } from '$lib/backend/firebase';
+  import { rememberTable } from '$lib/navigation/return-table';
   import { enterRoom, watchSetup } from '$lib/backend/setup-repository';
   import { setupSupply, type SetupState } from '$lib/game/setup';
   let services = $state<Awaited<ReturnType<typeof connectFirebase>>>();
@@ -25,7 +26,7 @@
   function fail(cause: unknown) { error = cause instanceof Error ? cause.message : 'Could not connect. Please reload and try again.'; status = 'error'; }
   function subscribe() {
     stop?.();
-    stop = watchSetup(services!.db, roomId, (next, synced) => { setup = next; status = synced ? 'synced' : 'syncing'; }, fail);
+    stop = watchSetup(services!.db, roomId, (next, synced) => { setup = next; status = synced ? 'synced' : 'syncing'; if (synced && next.players.some(player => player.uid === services!.uid)) rememberTable(roomId, services!.uid); }, fail);
   }
   async function enter(create: boolean) {
     busy = true; error = ''; status = 'syncing';

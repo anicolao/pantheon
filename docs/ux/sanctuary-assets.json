@@ -1,0 +1,30 @@
+{
+  "tool": "Built-in image generation",
+  "reference": "concepts/01-sanctuary.png",
+  "delivery": "static/assets/ui/*.webp; scene quality 92, transparent skins and wordmark lossless",
+  "prompts": [
+    {
+      "id": "sanctuary-desktop",
+      "prompt": "Use case: precise-object-edit / background-extraction. Using the LEFT desktop half of the reference as the exact art direction, create a SINGLE clean shipping videogame BACKGROUND PLATE, landscape 16:9, preferably 2560x1440 or higher. Preserve the beautiful moonlit sanctuary: huge Athena statue and owl at far LEFT edge, braziers, olive foliage framing, distant Acropolis above right horizon, navy sky, sea town lights, near obsidian marble table filling bottom 30%. REMOVE ALL title lettering, buttons, labels, cards, deck stacks, UI and logos completely. Paint the empty environment naturally where they were. No text anywhere. Preserve center negative space across upper/middle for live title and buttons later. Full bleed no divider, no mobile half, no border. Exact premium painterly material style from reference, not a redesign. This will be a real game's production backdrop with live UI over it."
+    },
+    {
+      "id": "sanctuary-mobile",
+      "prompt": "Use case: precise-object-edit / background-extraction. Using the RIGHT portrait mobile half of reference, create a SINGLE clean shipping videogame BACKGROUND PLATE, portrait 9:19.5, high resolution. Preserve moonlit Greek sanctuary, moon/Acropolis in upper middle, dark navy sky and mountains, torch at left mid edge, olive foliage framing, dark obsidian table at lower30%. Remove ALL title lettering, buttons, labels, cards, deck stacks, UI and logos. Fill their places with natural environment. Keep center open/dark enough for live title upper15% and controls middle42–62%. No text anywhere, no cards, no divider, no desktop half, no handset. Atmospheric exact style reference. The table must be present for live cards placed at the bottom later."
+    },
+    {
+      "id": "sanctuary-button",
+      "prompt": "Use case: background-extraction / product-mockup. Produce ONE blank horizontal sculpted primary button skin from the reference's blue Play button, isolated on a genuinely TRANSPARENT alpha background. Long elegant plaque aspect5:1, deep lapis enamel interior, double antique-gold beveled rim, restrained laurel tips at both ends, exquisite tactile finish. Absolutely NO text, NO symbols, NO shadow outside silhouette except very subtle alpha shadow. Straight front view, centered, entire outline within canvas, no clipping. This is a production reusable game UI asset with live label laid over it. Preserve reference button material and restraint, not a generic rounded rectangle. Canvas approximately1200x256 with transparent padding10px."
+    },
+    {
+      "id": "sanctuary-wordmark",
+      "prompt": "Use case: background-extraction / logo-brand. Extract/recreate ONLY the beautiful title wordmark from the reference, isolated on genuinely TRANSPARENT background. Exact words 'PANTHEON' with 'BLOODLINES' smaller below, sculpted antique gold classical serif letters, elegant laurel branches on both ends, the O in PANTHEON includes a small Greek temple emblem as reference. Wide horizontal lockup, centered entire shape unclipped, generous transparent margin. No other text, no backdrop, no cards, no buttons. Crisp production game logo, high resolution about1800x450. Preserve reference title's material and composition exactly."
+    },
+    {
+      "id": "sanctuary-button-secondary",
+      "prompt": "Use case: precise-object-edit. Change ONLY the blue enamel interior of this blank videogame button to rich charcoal-black stone with a subtle warm bronze reflection, as a secondary menu button. Preserve exact golden border and laurel colors, shape, canvas dimensions, centered placement and genuine transparent alpha outside. NO text. The gold remains gold; do not desaturate the whole asset. High-fidelity production UI skin.",
+      "refs": [
+        "/Users/anicolao/projects/games/pantheon/static/assets/ui/sanctuary-button.webp"
+      ]
+    }
+  ]
+}
