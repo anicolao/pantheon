@@ -7,21 +7,28 @@ service cloud.firestore {
     function validRoom(data) {
       return data.keys().hasOnly(['owner', 'members', 'playerCount', 'revision'])
         && data.playerCount in [2, 3, 4] && data.revision is int
-        && data.members is list && data.revision == data.members.size()
-        && data.revision >= 1 && data.revision <= data.playerCount;
+        && data.members is list && data.revision >= data.members.size()
+        && data.revision >= 1 && data.members.size() <= data.playerCount;
     }
     match /games/{gameId} {
       // Setup metadata contains only public seats. Collection discovery is denied.
       allow get: if signedIn();
       allow create: if signedIn() && validRoom(request.resource.data)
+        && request.resource.data.revision == 1
         && request.resource.data.owner == request.auth.uid
         && request.resource.data.members == [request.auth.uid]
         && getAfter(event(gameId, 1)).data.actorUid == request.auth.uid;
       allow update: if signedIn() && validRoom(request.resource.data)
         && request.resource.data.owner == resource.data.owner
-        && request.resource.data.playerCount == resource.data.playerCount
-        && !(request.auth.uid in resource.data.members)
-        && request.resource.data.members == resource.data.members.concat([request.auth.uid])
+        && request.resource.data.revision == resource.data.revision + 1
+        && ((request.resource.data.playerCount == resource.data.playerCount
+          && !(request.auth.uid in resource.data.members)
+          && request.resource.data.members == resource.data.members.concat([request.auth.uid])
+          && getAfter(event(gameId, request.resource.data.revision)).data.type == 'player/joined')
+        || (request.auth.uid == resource.data.owner
+          && request.resource.data.members == resource.data.members
+          && request.resource.data.playerCount != resource.data.playerCount
+          && getAfter(event(gameId, request.resource.data.revision)).data.type == 'table/resized'))
         && getAfter(event(gameId, request.resource.data.revision)).data.actorUid == request.auth.uid;
       match /events/{eventId} {
         allow read: if signedIn() && request.auth.uid in get(room(gameId)).data.members;
@@ -38,7 +45,13 @@ service cloud.firestore {
           && ((request.resource.data.type == 'game/created' && !exists(room(gameId)) && request.resource.data.sequence == 1)
             || (request.resource.data.type == 'player/joined' && exists(room(gameId))
               && !(request.auth.uid in get(room(gameId)).data.members)
-              && getAfter(room(gameId)).data.members == get(room(gameId)).data.members.concat([request.auth.uid])))
+              && getAfter(room(gameId)).data.members == get(room(gameId)).data.members.concat([request.auth.uid]))
+            || (request.resource.data.type == 'table/resized' && exists(room(gameId))
+              && request.auth.uid == get(room(gameId)).data.owner
+              && request.resource.data.name == get(event(gameId, 1)).data.name
+              && request.resource.data.sequence == get(room(gameId)).data.revision + 1
+              && getAfter(room(gameId)).data.members == get(room(gameId)).data.members
+              && request.resource.data.playerCount != get(room(gameId)).data.playerCount))
           && request.auth.uid in getAfter(room(gameId)).data.members;
         allow update, delete: if false;
       }

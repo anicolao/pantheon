@@ -2,10 +2,10 @@
   import { onMount, tick } from 'svelte';
   import { fly } from 'svelte/transition';
   import { base } from '$app/paths';
-  import { afterNavigate } from '$app/navigation';
+  import { afterNavigate, goto } from '$app/navigation';
   import { connectFirebase } from '$lib/backend/firebase';
   import { rememberTable } from '$lib/navigation/return-table';
-  import { enterRoom, inspectRoom, SetupError, watchSetup } from '$lib/backend/setup-repository';
+  import { createRoom, resizeRoom, enterRoom, inspectRoom, SetupError, watchSetup } from '$lib/backend/setup-repository';
   import { setupSupply, type SetupState } from '$lib/game/setup';
   import GatheringSeat from '$lib/components/GatheringSeat.svelte';
   import GameButton from '$lib/components/GameButton.svelte';
@@ -21,14 +21,17 @@
   let playerCount = $state<2 | 3 | 4>(2);
   let roomId = $state('');
   let reservedSeats = $state(0);
-  let creationId = '';
+  let joinCode = $state('');
+  let codeError = $state('');
+  let capacityError = $state('');
+  let capacityChoice = $state<2 | 3 | 4>(2);
   let setup = $state<SetupState | null>(null);
   let busy = $state(false);
   let copied = $state(false);
   let manualInvitation = $state(false);
   let invitation = $state('');
   let reducedMotion = $state(false);
-  let modal = $state<'invite' | 'details' | ''>('');
+  let modal = $state<'invite' | 'details' | 'join' | ''>('');
   let dialog: HTMLDialogElement;
   let invitationInput = $state<HTMLInputElement>();
   let opener: HTMLElement | null = null;
@@ -36,6 +39,7 @@
   let alive = true;
   const latest = $derived(setup?.activity.at(-1));
   const count = $derived(setup?.playerCount ?? playerCount);
+  $effect(() => { if (!busy) capacityChoice = count; });
   const openSeats = $derived(count - (setup?.players.length ?? 0));
   const title = $derived(unavailable === 'full' ? 'This table is full.' : unavailable ? 'This invitation was not found.' : 'Gather at the Table');
   const starting = ['obol', 'hamlet'].map(id => cards.find(card => card.id === id)!);
@@ -80,9 +84,9 @@
     if (busy || status !== 'synced' || !services) return;
     busy = true; status = 'joining';
     const creating = !roomId;
-    const id = creating ? (creationId ||= crypto.randomUUID()) : roomId;
     try {
-      await enterRoom(services.db, id, services.uid, name, creating ? playerCount : undefined);
+      const id = creating ? await createRoom(services.db, services.uid, name, playerCount) : roomId;
+      if (!creating) await enterRoom(services.db, id, services.uid, name);
       if (!alive) return;
       roomId = id;
       localStorage.setItem('pantheon:name', name.trim());
@@ -91,9 +95,9 @@
     } catch (cause) { fail(cause); }
     finally { if (alive) busy = false; }
   }
-  async function showModal(kind: 'invite' | 'details') {
+  async function showModal(kind: 'invite' | 'details' | 'join') {
     opener = document.activeElement as HTMLElement;
-    copied = false; manualInvitation = false;
+    copied = false; manualInvitation = false; codeError = ''; capacityError = '';
     invitation = new URL(`${base}/play/?room=${encodeURIComponent(roomId)}`, location.origin).href;
     modal = kind;
     await tick(); dialog.showModal();
@@ -103,9 +107,22 @@
     try { await navigator.clipboard.writeText(invitation); copied = true; }
     catch { manualInvitation = true; await tick(); invitationInput?.focus(); invitationInput?.select(); }
   }
+  async function findTable() {
+    const code = joinCode.trim().toUpperCase();
+    if (!/^[A-Z]{4,5}$/.test(code)) { codeError = 'Enter a four- or five-letter game code.'; await tick(); document.getElementById('game-code')?.focus(); return; }
+    closeModal();
+    await goto(`${base}/play/?room=${code}`);
+  }
+  async function changeCapacity(value: 2 | 3 | 4) {
+    if (busy || !services || !setup) return;
+    busy = true; capacityError = '';
+    try { await resizeRoom(services.db, roomId, services.uid, value); }
+    catch (cause) { capacityError = cause instanceof SetupError ? cause.message : 'We couldn’t change the seats. Try again.'; }
+    finally { busy = false; }
+  }
   afterNavigate(({ from, to }) => {
     if (from && to && from.url.pathname === to.url.pathname && from.url.search !== to.url.search) {
-      stop?.(); setup = null; unavailable = ''; nameError = ''; creationId = ''; playerCount = 2; reservedSeats = 0;
+      stop?.(); setup = null; unavailable = ''; nameError = ''; joinCode = ''; codeError = ''; capacityError = ''; playerCount = 2; reservedSeats = 0;
       roomId = to.url.searchParams.get('room') ?? '';
       void connect();
     }
@@ -162,6 +179,7 @@
         <div class="heading">
           <h1>{title}</h1>
           <p>{count} players · {setup ? openSeats ? `${openSeats} ${openSeats === 1 ? 'seat' : 'seats'} open` : 'Everyone is here' : roomId ? 'Your seat awaits' : 'Choose your gathering'}</p>
+          {#if /^[A-Z]{4,5}$/.test(roomId)}<p class="room-code">Game code <strong data-testid="room-code">{roomId}</strong></p>{/if}
           {#if nameError}<p id="name-error" role="alert">{nameError}</p>{/if}
         </div>
         {#if !setup && !roomId}
@@ -169,7 +187,8 @@
             {#each [2,3,4] as number}<label class:selected={playerCount === number}><input type="radio" name="players" value={number} bind:group={playerCount} aria-label={`${number} players`} disabled={busy} /><span aria-hidden="true">{number}</span></label>{/each}
           </fieldset>
         {/if}
-        {#if !setup}<div class="enter"><GameButton type="submit" primary disabled={busy || status !== 'synced'}>{busy ? 'Taking your seat…' : roomId ? 'Join table' : 'Create table'}</GameButton></div>{/if}
+        {#if !setup && !roomId}<div class="join-choice"><GameButton onclick={() => showModal('join')} disabled={busy || status !== 'synced'}>Join a game</GameButton></div>{/if}
+        {#if !setup}<div class="enter" class:invited={!!roomId}><GameButton type="submit" primary disabled={busy || status !== 'synced'}>{busy ? 'Taking your seat…' : roomId ? 'Join table' : 'Create table'}</GameButton></div>{/if}
       </form>
       {#if setup}
         <button class="invitation-seal" onclick={() => showModal('invite')}><img src={`${base}/assets/ui/gather-invite.webp`} alt="" aria-hidden="true" /><span>Invite friends</span></button>
@@ -186,14 +205,31 @@
 </main>
 <dialog bind:this={dialog} oncancel={event => { event.preventDefault(); closeModal(); }} data-e2e-layout={modal ? true : undefined} aria-labelledby="dialog-title">
   <button class="close" aria-label="Close" onclick={closeModal}>×</button>
-  {#if modal === 'invite'}
+  {#if modal === 'join'}
+    <h2 id="dialog-title">Join a game</h2>
+    <p>Enter the code shared by your host.</p>
+    <form class="join-form" onsubmit={event => { event.preventDefault(); void findTable(); }} novalidate>
+      <label for="game-code">Game code</label>
+      <input id="game-code" bind:value={joinCode} maxlength="5" autocomplete="off" autocapitalize="characters" spellcheck="false" aria-invalid={!!codeError} aria-describedby={codeError ? 'code-error' : undefined} />
+      {#if codeError}<p id="code-error" role="alert">{codeError}</p>{/if}
+      <GameButton type="submit" primary>Find table</GameButton>
+    </form>
+  {:else if modal === 'invite'}
     <h2 id="dialog-title">Invite friends</h2><img class="dialog-seal" src={`${base}/assets/ui/gather-invite.webp`} alt="" />
+    {#if /^[A-Z]{4,5}$/.test(roomId)}<p class="room-code">Game code <strong>{roomId}</strong></p>{/if}
     <p>Share your invitation. A seat awaits.</p>
     <GameButton primary onclick={copyInvitation}>{copied ? 'Invitation copied' : 'Copy invitation'}</GameButton>
     <p role="status">{copied ? 'Send it to the players you want at your table.' : manualInvitation ? 'Select and copy your invitation below.' : ''}</p>
     {#if manualInvitation}<label class="manual">Your invitation<input bind:this={invitationInput} readonly value={invitation} onclick={() => invitationInput?.select()} /></label>{/if}
   {:else if modal === 'details'}
     <h2 id="dialog-title">Supply for {count} players</h2>
+    {#if setup && setup.players[0]?.uid === services?.uid}
+      <fieldset class="capacity"><legend>Players at your table</legend>
+        {#each [2,3,4] as number}<label><input type="radio" name="capacity" aria-label={`${number} players`} value={number} bind:group={capacityChoice} disabled={busy || status !== 'synced' || number < setup.players.length} onchange={() => changeCapacity(number as 2 | 3 | 4)} /><span>{number}</span></label>{/each}
+      </fieldset>
+      <p class="capacity-hint">Occupied seats stay at the table.</p>
+      {#if capacityError}<p role="alert">{capacityError}</p>{/if}
+    {/if}
     <dl class="supply"><div><dt>Each Territory</dt><dd>{count * 3}</dd></div><div><dt>Each regular Action</dt><dd>{count * 4}</dd></div><div><dt>Obol / Drachma / Talent</dt><dd>40 / 30 / 20</dd></div></dl>
     <p>{setupSupply(count).length} piles · Starting cards are extra.</p>
     <h3>Each starting deck</h3><div class="starting-cards">{#each starting as card}<figure><CardFace {card} players={count} /><figcaption>{card.id === 'obol' ? '6 Obols' : '3 Hamlets'}</figcaption></figure>{/each}</div>
@@ -203,6 +239,9 @@
 </dialog>
 
 <style>
+  .room-code strong{display:inline-block;margin-left:.4em;letter-spacing:.15em;color:#ffe5a6;font-weight:700;user-select:all;} .heading .room-code{margin-top:.3em;font-size:clamp(16px,2svh,38px);}
+  .join-form{display:grid;gap:16px;} .join-form input{width:100%;height:64px;border:1px solid #bd995e;border-radius:8px;background:#061321;color:#ffe5a6;text-align:center;font:600 34px 'Cormorant Garamond',serif;letter-spacing:.18em;text-transform:uppercase;}
+  .capacity{display:flex;justify-content:center;gap:16px;border:0;padding:0;margin:0;}.capacity label{position:relative;width:54px;height:44px;display:grid;place-items:center;}.capacity input{appearance:none;position:absolute;inset:0;margin:0;border:1px solid #b8995c;border-radius:8px;background:#07111c;}.capacity input:checked{background:#594326;border-color:#ffe5a6;}.capacity input:disabled{opacity:.35;cursor:not-allowed;}.capacity span{z-index:1;pointer-events:none;font-size:22px;}.capacity-hint{margin:8px 0;}
   .gathering { position:relative; height:100svh; min-height:360px; overflow:clip; isolation:isolate; background:#061321; }
   .environment{position:absolute;inset:0;z-index:-1;} .environment img{width:100%;height:100%;object-fit:cover;}
   .composition {height:100%;position:relative;--control-height:clamp(54px,7svh,140px);--control-font:clamp(24px,3.4svh,64px);}
@@ -221,6 +260,7 @@
   .seat-count input{position:absolute;inset:0;margin:0;width:100%;height:100%;appearance:none;border:0;border-radius:50%;cursor:pointer;}
   .seat-count span{pointer-events:none;font:600 clamp(24px,3.8svh,74px)/1 'Cormorant Garamond',serif;color:#edd7a8;}
   .seat-count .selected{filter:drop-shadow(0 0 8px #ffd27f);}.seat-count input:focus-visible{outline:3px solid #fff0b8;outline-offset:2px;}
+  .join-choice{position:absolute;left:5%;bottom:5%;width:27%;}
   .enter{position:absolute;right:5%;bottom:5%;width:27%;}
   .invitation-seal{position:absolute;left:5%;bottom:3%;width:clamp(120px,15vw,420px);aspect-ratio:1.1;border:0;padding:0;background:none;isolation:isolate;}
   .invitation-seal img{position:absolute;inset:0;width:100%;height:100%;z-index:-1;}
@@ -236,7 +276,9 @@
     .heading{top:9%;left:4%;width:92%;}h1{font-size:clamp(27px,7.6vw,52px);}.heading p{font-size:clamp(17px,4.7vw,30px);}
     .seats,.seats.four{left:5%;width:90%;top:29%;height:42%;column-gap:8%;}.seat-position,.four .seat-position{width:min(40vw,22svh);}
     .seat-count{top:75%;left:23%;width:54%;gap:4%;}.seat-count label{width:30%;height:52px;}.seat-count span{font-size:26px;}legend{font-size:16px;}
-    .enter{right:8%;width:84%;bottom:4%;--control-height:58px;--control-font:28px;}
+    .join-choice{left:5%;width:42%;bottom:4%;--control-height:54px;--control-font:24px;}
+    .enter{right:5%;width:44%;bottom:4%;--control-height:54px;--control-font:24px;}
+    .enter.invited{right:8%;width:84%;--control-font:28px;}
     .invitation-seal{left:5%;bottom:3%;width:34%;}.invitation-seal span{font-size:21px;}.activity{left:42%;bottom:9%;width:52%;font-size:20px;}
     .connection{top:61%;left:12%;width:76%;font-size:14px;}
     .unavailable-message{left:5%;width:90%;top:43%;}.unavailable-message h1{font-size:34px;}.unavailable-message p{font-size:23px;}.recovery-links{width:88%;--menu-button-height:56px;--menu-label-size:26px;}

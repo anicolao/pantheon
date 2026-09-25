@@ -1,5 +1,8 @@
 import { expect, test } from '@playwright/test';
+import { roomCodeFixture } from '../helpers/room-code-fixture';
 import { TestStepHelper } from '../helpers/test-step-helper';
+
+test.beforeEach(async ({ page }, info) => { await roomCodeFixture(page, info); });
 
 const ready = async (page: import('@playwright/test').Page) => expect(page.locator('[data-status]')).toHaveAttribute('data-status', 'synced');
 
@@ -202,4 +205,63 @@ test('a failed initial sign-in can be retried without losing the gathering', asy
   await page.getByLabel('Your name', { exact: true }).fill('Ariadne');
   await page.getByRole('button', { name: 'Create table', exact: true }).click();
   await expect(page.getByTestId('player-seat')).toHaveCount(1);
+});
+
+
+test('join by a displayed game code and let only the owner adjust occupied capacity', async ({ page, browser }, info) => {
+  await page.goto('./');
+  await page.getByRole('link', { name: 'Play', exact: true }).click();
+  await page.getByLabel('Your name', { exact: true }).fill('Ariadne');
+  await page.getByRole('button', { name: 'Create table', exact: true }).click();
+  await expect(page.getByTestId('player-seat')).toHaveCount(1);
+  const code = await page.getByTestId('room-code').innerText();
+  expect(code).toMatch(/^[A-Z]{5}$/);
+  expect(new URL(page.url()).searchParams.get('room')).toBe(code);
+  const guest = await browser.newContext({ viewport: info.project.use.viewport, reducedMotion: 'reduce' });
+  try {
+    const other = await guest.newPage();
+    await other.goto(new URL('./', info.project.use.baseURL).href);
+    await other.getByRole('link', { name: 'Play', exact: true }).click();
+    await other.getByRole('button', { name: 'Join a game', exact: true }).click();
+    const joinSteps = new TestStepHelper(other, info, 'Join with a game code');
+    await joinSteps.step('enter-code', 'Find your friends from Play', [
+      { spec: 'Joining is offered without creating a table first.', check: async () => expect(other.getByRole('dialog', { name: 'Join a game' })).toBeVisible() }
+    ]);
+    await other.getByRole('button', { name: 'Find table', exact: true }).click();
+    await expect(other.getByRole('alert')).toHaveText('Enter a four- or five-letter game code.');
+    await other.getByLabel('Game code', { exact: true }).fill(code.toLowerCase());
+    await other.getByRole('button', { name: 'Find table', exact: true }).click();
+    await expect(other.getByTestId('room-code')).toHaveText(code);
+    await other.getByLabel('Your name', { exact: true }).fill('Theseus');
+    await other.getByRole('button', { name: 'Join table', exact: true }).click();
+    await expect(other.getByTestId('player-seat')).toHaveCount(2);
+    await other.getByRole('button', { name: 'Table details' }).click();
+    await expect(other.getByRole('radio')).toHaveCount(0);
+    await other.keyboard.press('Escape');
+    await page.getByRole('button', { name: 'Table details' }).click();
+    await page.getByRole('radio', { name: '4 players', exact: true }).check();
+    await expect(page.locator('.supply dd')).toHaveText(['12', '16', '40 / 30 / 20']);
+    await expect(other.getByText('Waiting for a player')).toHaveCount(2);
+    const steps = new TestStepHelper(page, info, 'Host adjusts the gathering');
+    await steps.step('host-capacity', 'Open more seats at the table', [
+      { spec: 'The owner changes the supply and seats for everyone.', check: async () => expect(page.getByRole('radio', { name: '4 players', exact: true })).toBeChecked() }
+    ]);
+    await page.getByRole('radio', { name: '2 players', exact: true }).check();
+    await expect(other.getByText('2 players · Everyone is here')).toBeVisible();
+    await page.getByRole('radio', { name: '3 players', exact: true }).check();
+    await expect(other.getByText('Waiting for a player')).toHaveCount(1);
+    const third = await browser.newContext();
+    try {
+      const visitor = await third.newPage(); await visitor.goto(page.url());
+      await visitor.getByLabel('Your name', { exact: true }).fill('Iris');
+      await visitor.getByRole('button', { name: 'Join table', exact: true }).click();
+      await expect(visitor.getByTestId('player-seat')).toHaveCount(3);
+      await expect(page.getByRole('radio', { name: '2 players', exact: true })).toBeDisabled();
+      await page.keyboard.press('Escape');
+      await page.reload(); await ready(page);
+      await expect(page.getByTestId('player-seat')).toHaveCount(3);
+      await expect(page.getByText('3 players · Everyone is here')).toBeVisible();
+      await expect(page.getByTestId('room-code')).toHaveText(code);
+    } finally { await third.close(); }
+  } finally { await guest.close(); }
 });
