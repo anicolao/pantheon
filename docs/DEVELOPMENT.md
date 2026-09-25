@@ -6,7 +6,7 @@ The initial scaffold follows the neighboring `jaipur`, `roborally`, and `wfme` p
 
 `wfme` separates typed card presentation data, generated illustrations, and live HTML rules typography. Its Chronicle card uses a fixed portrait ratio with a bounded art window, cost badge, and rules sections. `roborally` also checks that card titles and rules fit at different display sizes, including large tabletop displays. Pantheon follows those patterns with a reusable `CardFace`, container-relative typography, labeled affiliation colors, and browser layout checks. No neighboring game artwork or game logic is reused.
 
-The neighboring apps use Firebase for synchronized rooms and private hands. That is a candidate for a later gameplay milestone; this first PR is a static card gallery and needs no Firebase account, secrets, authentication, or emulators. Tabletop view currently means larger shared-display card faces, not a playable multiplayer table. A future engine should keep serializable rules and state separate from the renderer and distinguish public table state from private hands.
+The neighboring apps use Firebase for synchronized rooms and private hands. Pantheon now uses anonymous Firebase Auth and Firestore for public setup rooms, with isolated emulators in its automated tests. The gallery and rules routes still work without Firebase configuration. Tabletop view currently means larger shared-display card faces, not a playable multiplayer table. A future engine should keep serializable rules and state separate from the renderer and distinguish public table state from private hands.
 
 ## Run locally
 
@@ -30,7 +30,7 @@ bunx playwright install chromium
 bun run verify
 ```
 
-On a Linux machine without browser system libraries, use `bunx playwright install --with-deps chromium` first. Tests build the production app and serve it under `/pantheon/pr-test/`, exercising the same nested paths as a PR preview. The 36 browser cases run across phone, desktop, and 4K viewports and cover all 30 cards, including unique Temples and Worship. They also exercise shared sticky navigation, section anchors and reloads, leader explanations, and every player-count inventory. They check layered faces, image decoding, resource icons and values, rules, text fit, actual transparent frame windows and layer order, copy counts, three distinct back families, filters, keyboard inspection, format-specific print dimensions, and phone/desktop/4K tabletop layouts. Screenshots and traces are saved in Playwright's output directories; CI uploads the HTML report and screenshots.
+On a Linux machine without browser system libraries, use `bunx playwright install --with-deps chromium` first. Tests build the production app and serve it under `/pantheon/pr-test/`, exercising the same nested paths as a PR preview. The 36 gallery/rules browser cases run across phone, desktop, and 4K viewports and cover all 30 cards, including unique Temples and Worship. They also exercise shared sticky navigation, section anchors and reloads, leader explanations, and every player-count inventory. They check layered faces, image decoding, resource icons and values, rules, text fit, actual transparent frame windows and layer order, copy counts, three distinct back families, filters, keyboard inspection, format-specific print dimensions, and phone/desktop/4K tabletop layouts. Screenshots and traces are saved in Playwright's output directories; CI uploads the HTML report and screenshots.
 
 ```sh
 PUBLIC_BASE_PATH=/pantheon/pr1 bun run build
@@ -60,7 +60,7 @@ The second command serves the build at `http://127.0.0.1:4193/pantheon/pr1/`. Th
 
 The public repository is `anicolao/pantheon`. Enable GitHub Pages with `gh-pages` and `/` as its branch source. The workflow verifies every PR; same-repository PRs publish to `https://anicolao.github.io/pantheon/prN/`. Fork PRs run verification without a deployment write token. Successful main builds publish to `https://anicolao.github.io/pantheon/`. PR previews are retained after closing so review links remain usable.
 
-The production gallery appears after the gallery PR is merged. This scaffold intentionally leaves the first PR open for review.
+The merged gallery is published at the production URL. New milestones are reviewed on retained PR previews before merging.
 
 ## License and assets
 
