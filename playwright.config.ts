@@ -13,7 +13,8 @@ export default defineConfig({
     baseURL: `http://127.0.0.1:4193${base}/`,
     trace: 'retain-on-failure',
     deviceScaleFactor: 1,
-    launchOptions: { args: ['--font-render-hinting=none', '--disable-font-subpixel-positioning', '--disable-lcd-text', '--force-device-scale-factor=1', '--disable-gpu', '--disable-skia-runtime-opts', '--use-gl=swiftshader'] },
+    // Full rasterization avoids reload-dependent rounded-edge pixels on macOS.
+    launchOptions: { args: ['--font-render-hinting=none', '--disable-font-subpixel-positioning', '--disable-lcd-text', '--force-device-scale-factor=1', '--disable-gpu', '--disable-skia-runtime-opts', '--disable-partial-raster', '--deterministic-mode', '--run-all-compositor-stages-before-draw', '--use-gl=swiftshader'] },
     timezoneId: 'America/Toronto',
     serviceWorkers: 'block',
     screenshot: 'only-on-failure',
@@ -26,7 +27,7 @@ export default defineConfig({
     { name: 'tabletop-4k', use: { browserName: 'chromium', viewport: { width: 3840, height: 2160 } } }
   ],
   snapshotPathTemplate: '{testDir}/{testFileDir}/screenshots/{arg}{ext}',
-  expect: { toHaveScreenshot: { maxDiffPixels: 0, threshold: 0, animations: 'disabled', caret: 'hide', scale: 'css' } },
+  expect: { toHaveScreenshot: { maxDiffPixels: 0, threshold: 0, animations: 'disabled', caret: 'hide', scale: 'css', fullPage: true } },
   webServer: {
     command: 'bun run build && bun run preview',
     url: `http://127.0.0.1:4193${base}/`,
