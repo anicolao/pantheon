@@ -140,7 +140,7 @@ test('copy totals follow setup and three back families keep deck identity hidden
 });
 
 test('filters combine, empty results recover, and inspector supports keyboard dismissal', async ({ page }) => {
-  await page.goto('./');
+  await page.goto('./gallery/');
   await page.getByRole('button', { name: 'Actions 16', exact: true }).click();
   await page.getByLabel('God affiliation').selectOption('Athena');
   await expect(page.locator('[data-testid="card-grid"] .card')).toHaveCount(4);

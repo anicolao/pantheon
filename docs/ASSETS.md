@@ -39,3 +39,9 @@ Trash (broken card), Discard (card stack and downward arrow), and Gain (hand rec
 ## Discard and topdeck distinction
 
 `static/assets/icons/discard-v2.webp` is a new built-in-generated face-up discard fan with a sideways arrow (transparent, lossless 256px WebP). `static/assets/icons/topdeck.webp` reuses the earlier face-down stack and downward arrow formerly used for Discard. Exact generation prompt and reuse provenance are in `docs/discard-topdeck-prompts.json`. The original Discard file is retained as generation history; the renderer selects `discard-v2.webp`.
+
+## Sanctuary production layers
+
+The accepted sanctuary painting supplied the reference for five built-in image-generation outputs: separate landscape and portrait environments, a transparent gold wordmark, and transparent lapis/charcoal control skins. Exact prompts are in [sanctuary-assets.json](ux/sanctuary-assets.json). Final runtime files are in `static/assets/ui/`; environments use WebP quality 92 and alpha assets use lossless WebP. Only delivery conversion was applied. These assets are covered by the repository's GPL-3.0-only license.
+
+The environments contain no controls or cards. Svelte renders live link labels and the existing `CardFace`/`CardBack` components above the scene. The wordmark has a semantic heading. No concept screenshot is shipped as an interactive screen.

@@ -4,11 +4,11 @@ import { dirname, join } from 'node:path';
 
 export class TestStepHelper {
   private steps: string[] = [];
-  constructor(private page: Page, private info: TestInfo, private title: string) {}
+  constructor(private page: Page, private info: TestInfo, private title: string, private settledStatus = 'synced') {}
   async step(id: string, description: string, verifications: { spec: string; check: () => Promise<unknown> }[]) {
     await test.step(description, async () => {
       for (const verification of verifications) await test.step(verification.spec, verification.check);
-      await expect(this.page.locator('[data-status]')).toHaveAttribute('data-status', 'synced');
+      await expect(this.page.locator('[data-status]')).toHaveAttribute('data-status', this.settledStatus);
       await this.page.evaluate(async () => {
         await document.fonts.ready;
         await Promise.all([...document.images].map(image => image.decode()));
@@ -17,8 +17,8 @@ export class TestStepHelper {
       await this.page.mouse.move(0, 0);
       await this.page.evaluate(() => {
         const root = document.documentElement;
-        if (root.scrollWidth > innerWidth || root.scrollHeight > innerHeight || scrollX || scrollY) throw new Error('Setup must fit the viewport without scrolling.');
-        const visible = [...document.querySelectorAll<HTMLElement>('[data-e2e-layout] *')].filter(element => element.checkVisibility() && element.getBoundingClientRect().width && element.getBoundingClientRect().height);
+        if (root.scrollWidth > innerWidth || root.scrollHeight > innerHeight || scrollX || scrollY) throw new Error('Screen must fit the viewport without scrolling.');
+        const visible = [...document.querySelectorAll<HTMLElement>('[data-e2e-layout] *')].filter(element => !element.closest('.sr-only') && element.checkVisibility() && element.getBoundingClientRect().width && element.getBoundingClientRect().height);
         for (const element of visible) {
           const rect = element.getBoundingClientRect();
           if (rect.left < 0 || rect.top < 0 || rect.right > innerWidth || rect.bottom > innerHeight) throw new Error(`${element.tagName} outside viewport`);

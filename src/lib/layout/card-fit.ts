@@ -5,6 +5,28 @@ export interface CardFitIssue {
 
 /** Inspect painted content, including nested icons and individual wrapped text lines. */
 export function measureCardFit(card: HTMLElement): CardFitIssue[] {
+  // Axis-aligned bounds of rotated text can intersect without glyph overlap.
+  // Measure an unrotated, invisible copy without disturbing live rasterization.
+  let transformed = false;
+  for (let element = card.parentElement; element; element = element.parentElement) {
+    if (getComputedStyle(element).transform !== 'none') { transformed = true; break; }
+  }
+  if (!transformed) return measureUnrotatedCardFit(card);
+  const copy = card.cloneNode(true) as HTMLElement;
+  const holder = document.createElement('div');
+  const style = getComputedStyle(card);
+  holder.style.cssText = 'position:fixed;left:0;top:0;opacity:0;pointer-events:none;z-index:-1;';
+  holder.setAttribute('aria-hidden', 'true');
+  holder.inert = true;
+  holder.style.font = style.font;
+  copy.style.width = style.width;
+  holder.append(copy);
+  document.body.append(holder);
+  try { return measureUnrotatedCardFit(copy); }
+  finally { holder.remove(); }
+}
+
+function measureUnrotatedCardFit(card: HTMLElement): CardFitIssue[] {
   const issues: CardFitIssue[] = [];
   const tolerance = 1;
   const outside = (inner: DOMRect, outer: DOMRect) => inner.left < outer.left - tolerance ||
