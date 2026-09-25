@@ -14,18 +14,19 @@ On your turn, play Actions, collect Coins from Treasures, buy cards, and Worship
 
 - [VISION.md](VISION.md) describes the high-level direction and intended player experience.
 - [MVP_CARDSET.md](MVP_CARDSET.md) contains the complete v0.1 prototype rules, setup, leaders, god events, and card definitions.
-- [UX_DESIGN.md](UX_DESIGN.md) specifies the proposed mobile, desktop and tabletop gameplay, with generated game concept art and E2E user stories.
+- [UX_DESIGN.md](UX_DESIGN.md) specifies the accepted mobile, desktop and tabletop gameplay, with generated game concept art and E2E user stories.
+- [IMPLEMENTATION_PLAN.md](IMPLEMENTATION_PLAN.md) breaks the accepted design into complete, visually reviewed implementation milestones.
 - [docs/DEVELOPMENT.md](docs/DEVELOPMENT.md) covers the web scaffold, local setup, browser tests, and PR previews.
 
 ## Current scope
 
-The first web milestone is a layered card gallery built with SvelteKit. Browse all 30 faces with illustrated frames and resource icons, filter by type or god, inspect rules and copy numbers, switch to tabletop sizing, or print the current selection. Deck cards, landscape events, and larger landscape leaders each have their own back. The `/play/` route adds anonymous sign-in and shared setup rooms backed by Firestore events. Leader drafting and playable turns are future milestones.
+The root opens the illustrated sanctuary with working Play, Learn and verified Continue navigation. The layered card gallery at `/gallery/` is built with SvelteKit. Browse all 30 faces with illustrated frames and resource icons, filter by type or god, inspect rules and copy numbers, switch to tabletop sizing, or print the current selection. Deck cards, landscape events, and larger landscape leaders each have their own back. The `/play/` route adds anonymous sign-in and shared setup rooms backed by Firestore events. Leader drafting and playable turns are future milestones.
 
 Version 0.1 uses four leaders, four possible god events, and twelve shared Action piles. It focuses on deck building, divine affiliations, and the race for territory. It has no map, combat system, or direct attacks on other players.
 
 The card costs and powers are initial playtest values, not a claim of tested balance. Use the v0.1 rules as the authority when running the prototype.
 
-## Run the gallery
+## Run locally
 
 With Node 24 and Bun 1.3.10 installed:
 
@@ -34,7 +35,7 @@ bun install --frozen-lockfile
 bun run dev
 ```
 
-Open `http://127.0.0.1:5193/`. To validate the card renders, run `bunx playwright install chromium`, then `bun run verify` with Java 21+ available for the Firebase emulators (`nix develop` supplies it).
+Open `http://127.0.0.1:5193/` for the sanctuary or `/gallery/` for the card catalog. To validate the card renders, run `bunx playwright install chromium`, then `bun run verify` with Java 21+ available for the Firebase emulators (`nix develop` supplies it).
 
 The project is licensed under [GPLv3](LICENSE). Original card art was created with image generation; the [asset notes](docs/ASSETS.md) include the full prompt set and provenance.
 

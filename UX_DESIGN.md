@@ -1,8 +1,10 @@
 # Pantheon: Bloodlines — game experience and art direction
 
-**Proposed visual direction.** A moonlit sanctuary, a dark stone table, and a hand of luminous painted cards. The player should feel seated inside a Greek myth, with an empire taking shape beneath their hands.
+**Accepted visual direction.** A moonlit sanctuary, a dark stone table, and a hand of luminous painted cards. The player should feel seated inside a Greek myth, with an empire taking shape beneath their hands.
 
 These are **generated game concept paintings**, guided by our approved card faces, illustrations and backs. They replace the earlier web-layout mockups entirely. Their purpose is to establish the look, spatial composition and emotional quality of a finished game. They are not screenshots of a working implementation. Desktop and portrait mobile are designed as distinct compositions of the same game.
+
+Implementation follows [IMPLEMENTATION_PLAN.md](IMPLEMENTATION_PLAN.md), with a visual and E2E review at each milestone.
 
 The [rules](MVP_CARDSET.md) and [approved catalog](docs/ASSETS.md) remain authoritative. Generated lettering, thumbnail symbols and incidental pile numbers are illustrative; implementation must place the unchanged catalog faces and exact game values into the approved composition. Do not reproduce a generated typo, altered cost, invented label or simplified card face as a new rule or asset.
 
