@@ -33,4 +33,9 @@
   [data-resource='coins'] b { top: 50%; }
   [data-resource='coins'][data-value^='+'] b { left: 47%; }
   [data-resource='actions'] b { left: 52%; top: 48%; }
+  @media print {
+    /* Blurred text shadows become PDF masks that macOS can render as black boxes.
+       A vector outline keeps the numbers legible without those transparency masks. */
+    b { text-shadow: none; -webkit-text-stroke: 0.035em #000; paint-order: stroke fill; }
+  }
 </style>
