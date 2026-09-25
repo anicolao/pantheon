@@ -14,7 +14,7 @@ On your turn, play Actions, collect Coins from Treasures, buy cards, and Worship
 
 - [VISION.md](VISION.md) describes the high-level direction and intended player experience.
 - [MVP_CARDSET.md](MVP_CARDSET.md) contains the complete v0.1 prototype rules, setup, leaders, god events, and card definitions.
-- [UX_DESIGN.md](UX_DESIGN.md) specifies the proposed mobile, desktop and tabletop gameplay, with screen mockups and E2E user stories.
+- [UX_DESIGN.md](UX_DESIGN.md) specifies the proposed mobile, desktop and tabletop gameplay, with generated game concept art and E2E user stories.
 - [docs/DEVELOPMENT.md](docs/DEVELOPMENT.md) covers the web scaffold, local setup, browser tests, and PR previews.
 
 ## Current scope

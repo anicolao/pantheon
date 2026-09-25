@@ -1,29 +1,15 @@
-# Gameplay design artifacts
+# Generated game concept art
 
-Read [UX_DESIGN.md](../../UX_DESIGN.md) for the complete screen pairs, interactions and future E2E acceptance stories.
+[UX_DESIGN.md](../../UX_DESIGN.md) defines the proposed full-screen game experience, interactions, animation and future exact-pixel E2E stories.
 
-- `screens.ts`: 28 design fixtures and shared HTML/CSS presentation. No Firebase calls and no application routes.
-- `manifest.json`: generated screen inventory, content and behavior notes.
-- `cards/*.webp`: documentation-only captures of all 30 approved production `CardFace` definitions at the two-player inventory setting. Original art/frames/icons remain in `static/assets`; no new card art is introduced.
-- `mockups/*-{desktop,mobile}.png`: 56 viewport captures, 1440×1000 and 393×852. These are design illustrations, **not** Playwright regression baselines.
-- `render.ts`: repeatable capture tool. Checks image decoding, HTTP failures, root containment and control text overflow. It is not a gameplay test or a substitute for visual review.
+The previous HTML/CSS mockup renderer and its screenshot set have been removed. These replacements are raster concept paintings produced with the **built-in image generation tool**, guided by approved project assets. They are visual-direction proposals, not a working app or executable screenshot baselines.
 
-From the repository root, with dependencies and Playwright Chromium installed:
+- `concepts/`: 21 paired desktop/mobile concept plates plus separate desktop and mobile main-table paintings: 22 screen families, 44 views.
+- `references/`: approved catalog face captures supplied to generation. These are reference inputs, not replacements for the live layered card renderer.
+- `prompts.json`: generation prompts, reference roles/paths and selected output filenames. The first table exploration established the material direction; later prompts and targeted edits corrected card identity drift.
 
-```sh
-bun run dev
-# In another terminal:
-bun docs/ux/render.ts
-```
+Keep the actual catalog art, card proportions, rules, copy identifiers and iconography when implementing. Generated miniature lettering, numbers and occasional simplifications are not canonical. The exact rules remain in `MVP_CARDSET.md`; production card components remain the source of truth. Do not extract a generated card face from a scene and ship it as a replacement asset.
 
-The generator reads the local approved gallery on port 5193, isolates each card in a single-column capture layout, and renders documentation through a temporary localhost-only server on port 5197. It does not change the app or game state. Set `CATALOG_URL` to another running catalog root if necessary. The temporary server closes when generation finishes.
+All player-facing copy must speak to the game, with no descriptions of storage, authentication or implementation. Technical requirements belong in the engineering/test sections of the design document.
 
-For layout-only iterations using the committed card captures:
-
-```sh
-bun docs/ux/render.ts --screens-only
-```
-
-Fonts come from the repository’s pinned Fontsource packages. Captures are made at DPR 1 with reduced motion. Regeneration is intentional and may change pixels with browser/platform/font updates; unlike future gameplay E2E snapshots, these images are not a cross-platform acceptance baseline.
-
-The screen manifest’s actions/signifiers/transitions are mirrored in the main document. If editing those fields, update the corresponding document section as well. App components should be reused when implementing this design; this standalone presentation is a review tool, not an alternative card renderer or production component library.
+To iterate, use the recorded prompt and actual reference images with the built-in image generation tool, inspect the result, then copy the selected file into `concepts/`. There is no HTML screenshot regeneration command. Exact image regeneration is not guaranteed. The original selected outputs remain in the generation workspace; every image linked by this repository is committed here.

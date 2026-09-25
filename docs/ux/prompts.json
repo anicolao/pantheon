@@ -1,0 +1,724 @@
+{
+  "tool": "built-in image_gen",
+  "screenFamilies": 22,
+  "views": 44,
+  "note": "Inputs naming the table or a correction target refer to its previous generation at the time of the call. Only selected final outputs are shipped; prompts record generation and edit order. Generated card lettering/numbers are illustrative; production uses the approved catalog.",
+  "initialMaterialExploration": {
+    "prompt": "Use case: ui-mockup. Create a premium videogame art director's FULL-SCREEN GAMEPLAY concept for Pantheon: Bloodlines, landscape desktop 16:9, high detail. This is an immersive Greek mythic deckbuilding game, not a website. Reference images: 1 approved Temple card, 2 approved Thaleia leader, 3 approved Athena event, 4 common deck back. Preserve their bronze/laurel frames, cream rules fields, painted art, distinct portrait deck and landscape god/leader shapes. Treat them as card components to integrate, not as layout references.\nArt direction: an exquisite tactile obsidian-and-patina strategy table in a moonlit Greek sanctuary, warm gold sunlight at edges, indigo and turquoise enamel, sculptural bronze UI, restrained magical particle light. Actual premium shipped strategy-card videogame screenshot, painterly 3D depth, disciplined visual hierarchy, luxurious and legible, not cluttered ornate fantasy kitsch. Fill the canvas edge to edge. No device mockup, browser chrome, header website, sidebar dashboard, HTML rounded panels, marketing hero, text paragraphs, scrollbars.\nDesign the active player's complete tactical table: opponent leader medallions and tiny facedown hands along far edge; six compact basic supply piles and twelve compact Action piles occupy the upper playing field, each with cost and separate stock badge; shared landscape god events at the flanks; middle is clear play space with Temple of Athena just played and a subtle golden trajectory, source and destination clear. Along lower edge a beautifully fanned five-card hand with clear titles and tactile cards, common deck-back stack left, public discard right, personal Thaleia landscape leader inset lower left. An ergonomic sculpted resource rail above hand: lightning 2, coin 3, basket 1, altar 2. Phase medallion says \"Your turn\" and \"Actions\". Primary sculpted button \"To Treasures\". Tiny spectator action ribbon \"Theseus gained Polis\". Card text uses small icons, not prose; resource icons large and crisp. This is deckbuilding only, no map, soldiers or combat. A discreet supply selector may say \"All cards\". Only player-facing language, never implementation, browser, saved data, prototype, preview, mockup, syncing, Firestore. Make it breathtaking but plausible to play. Exact long card rules need not be recreated at thumbnail scale; retain actual supplied card identities and approved art.",
+    "shipped": false
+  },
+  "records": [
+    {
+      "id": "04-table-desktop",
+      "operation": "concept-generation",
+      "prompt": "Use case: ui-mockup. A premium art-directed FULL-SCREEN Greek mythology deckbuilding videogame concept, not a website. Painterly 3D obsidian strategy table, midnight indigo marble, restrained antique gold, turquoise enamel, warm sanctuary light, distant marble columns. Elegant sculpted controls, deep immersive atmosphere, clear legible hierarchy, deliberate empty play space. No browser/device frame, web panels, dashboard, text paragraphs, marketing, implementation language. Player-facing copy only.\nReferences: first image establishes MATERIAL/ART DIRECTION ONLY; discard its invented card labels, portraits and layout mistakes. Subsequent images are actual approved game cards and common deck back; preserve their painted imagery, shapes, bronze laurel frame and cream rules windows as closely as possible. Deck cards are portrait 5:7, god events landscape 7:5, leaders larger landscape 8:5. Never turn an event into a portrait card. No new gods, no invented cards. Players are mortal Ariadne (Thaleia/Athena) and Theseus (Nereon/Poseidon), NOT Zeus or Hera. No combat, board map or miniatures. Small card rules may be impressionistic, but titles are from the supplied catalog only. No meaningless UI glyph strings.\nGame supply names only: Obol, Drachma, Talent, Hamlet, Polis, Acropolis, Oracle’s Acolyte, Council of Sages, Sacred Academy, Harbor Pilot, Sea Trade, Merchant Fleet, Seed Keeper, Harvest Feast, Sacred Grove, Bronze Recruit, Forge of Heroes, Victorious Procession. Temple of Athena is unique in the player's deck, NEVER a supply pile. Resource icons: lightning Action, coin Coins, basket Buys, burning altar Worship. Use imagery rather than explanatory panels.\nLandscape 16:9 complete game table. Two-player game. Top edge Theseus portrait badge and five common deck backs; title \"Theseus\". Public supply upper third compact actual card piles, six basics plus action tabs so card fronts remain legible. Two LANDSCAPE event cards at middle left/right, Athena and Poseidon. Center empty marble with played Temple of Athena and Oracle’s Acolyte, tasteful golden paths into play. Bottom hand is EXACTLY five portrait cards: three Obols, one Hamlet, one Council of Sages (no second Temple). Personal Thaleia landscape leader at bottom left, common-backed draw pile and faceup discard. Coin/action/buy/worship rail 2 / 3 / 1 / 2. \"Your turn\" \"Actions\" \"To Treasures\". Supply count badges. Smaller pile summary tabs acceptable for readability. Refined composition, no extra slogans.",
+      "inputs": [
+        {
+          "path": "docs/ux/concepts/04-table-desktop.png",
+          "role": "material and composition reference, previous table iteration"
+        },
+        {
+          "path": "docs/ux/references/temple-of-athena.webp",
+          "role": "approved card reference"
+        },
+        {
+          "path": "docs/ux/references/obol.webp",
+          "role": "approved card reference"
+        },
+        {
+          "path": "docs/ux/references/oracles-acolyte.webp",
+          "role": "approved card reference"
+        },
+        {
+          "path": "docs/ux/references/counsel-of-olympus.webp",
+          "role": "approved card reference"
+        }
+      ],
+      "output": "docs/ux/concepts/04-table-desktop.png"
+    },
+    {
+      "id": "04-table-mobile",
+      "operation": "concept-generation",
+      "prompt": "Use case: ui-mockup. A premium art-directed FULL-SCREEN Greek mythology deckbuilding videogame concept, not a website. Painterly 3D obsidian strategy table, midnight indigo marble, restrained antique gold, turquoise enamel, warm sanctuary light, distant marble columns. Elegant sculpted controls, deep immersive atmosphere, clear legible hierarchy, deliberate empty play space. No browser/device frame, web panels, dashboard, text paragraphs, marketing, implementation language. Player-facing copy only.\nReferences: first image establishes MATERIAL/ART DIRECTION ONLY; discard its invented card labels, portraits and layout mistakes. Subsequent images are actual approved game cards and common deck back; preserve their painted imagery, shapes, bronze laurel frame and cream rules windows as closely as possible. Deck cards are portrait 5:7, god events landscape 7:5, leaders larger landscape 8:5. Never turn an event into a portrait card. No new gods, no invented cards. Players are mortal Ariadne (Thaleia/Athena) and Theseus (Nereon/Poseidon), NOT Zeus or Hera. No combat, board map or miniatures. Small card rules may be impressionistic, but titles are from the supplied catalog only. No meaningless UI glyph strings.\nGame supply names only: Obol, Drachma, Talent, Hamlet, Polis, Acropolis, Oracle’s Acolyte, Council of Sages, Sacred Academy, Harbor Pilot, Sea Trade, Merchant Fleet, Seed Keeper, Harvest Feast, Sacred Grove, Bronze Recruit, Forge of Heroes, Victorious Procession. Temple of Athena is unique in the player's deck, NEVER a supply pile. Resource icons: lightning Action, coin Coins, basket Buys, burning altar Worship. Use imagery rather than explanatory panels.\nPortrait 9:19.5 mobile game, full bleed no handset frame. Recompose thoughtfully for touch; NOT a squeezed desktop screenshot. Opponent Theseus small portrait medallion and five backs at top; two LANDSCAPE god event miniatures beneath with short names. Central marble arena with played Temple of Athena. Bottom 40% is dominant overlapping hand of three Obols, Hamlet, Oracle’s Acolyte, titles exposed and center card raised. Compact sculpted rail lightning 2, coin 3, basket 1, altar 2. \"Your turn\" \"Actions\" and thumb-reachable \"To Treasures\". \"Supply\" and \"Worship\" on small embossed edge tokens; personal Thaleia is a portrait medallion opening her full landscape card, not a tiny text panel. Strong hierarchy, atmospheric depth, zero prose. Common deck back lower left, discard lower right.",
+      "inputs": [
+        {
+          "path": "docs/ux/concepts/04-table-desktop.png",
+          "role": "material and composition reference, previous table iteration"
+        },
+        {
+          "path": "docs/ux/references/temple-of-athena.webp",
+          "role": "approved card reference"
+        },
+        {
+          "path": "docs/ux/references/obol.webp",
+          "role": "approved card reference"
+        },
+        {
+          "path": "docs/ux/references/oracles-acolyte.webp",
+          "role": "approved card reference"
+        },
+        {
+          "path": "docs/ux/references/counsel-of-olympus.webp",
+          "role": "approved card reference"
+        }
+      ],
+      "output": "docs/ux/concepts/04-table-mobile.png"
+    },
+    {
+      "id": "01-sanctuary",
+      "operation": "concept-generation",
+      "prompt": "Use case: ui-mockup. A premium art-directed FULL-SCREEN Greek mythology deckbuilding videogame concept, not a website. Painterly 3D obsidian strategy table, midnight indigo marble, restrained antique gold, turquoise enamel, warm sanctuary light, distant marble columns. Elegant sculpted controls, deep immersive atmosphere, clear legible hierarchy, deliberate empty play space. No browser/device frame, web panels, dashboard, text paragraphs, marketing, implementation language. Player-facing copy only.\nReferences: first image establishes MATERIAL/ART DIRECTION ONLY; discard its invented card labels, portraits and layout mistakes. Subsequent images are actual approved game cards and common deck back; preserve their painted imagery, shapes, bronze laurel frame and cream rules windows as closely as possible. Deck cards are portrait 5:7, god events landscape 7:5, leaders larger landscape 8:5. Never turn an event into a portrait card. No new gods, no invented cards. Players are mortal Ariadne (Thaleia/Athena) and Theseus (Nereon/Poseidon), NOT Zeus or Hera. No combat, board map or miniatures. Small card rules may be impressionistic, but titles are from the supplied catalog only. No meaningless UI glyph strings.\nGame supply names only: Obol, Drachma, Talent, Hamlet, Polis, Acropolis, Oracle’s Acolyte, Council of Sages, Sacred Academy, Harbor Pilot, Sea Trade, Merchant Fleet, Seed Keeper, Harvest Feast, Sacred Grove, Bronze Recruit, Forge of Heroes, Victorious Procession. Temple of Athena is unique in the player's deck, NEVER a supply pile. Resource icons: lightning Action, coin Coins, basket Buys, burning altar Worship. Use imagery rather than explanatory panels.\nOUTPUT: a single professional game concept presentation board containing TWO complete game screens, separated by a very thin neutral gutter: on the LEFT a large 16:9 desktop landscape frame, on the RIGHT a narrower 9:19 portrait mobile frame, both SAME HEIGHT. Total canvas very wide about 2.25:1, high resolution. Each frame is full-bleed game imagery, no physical monitor/phone or browser. The mobile design is a thoughtfully recomposed touch layout, not a crop. No annotations outside frames. Both frames show the same gameplay state described below. Avoid panel grids and webpage patterns. Aim for a premium game's real fullscreen experience. Do not include the word mockup or desktop/mobile in the art. All relevant supplied card faces are exact identity/art references, don't redesign their icons or names.\nSCREEN: Title screen: monumental but quiet moonlit sanctuary overlooking the Aegean, a beautifully painted Acropolis and a few approved cards resting at near edge. Elegant title PANTHEON: BLOODLINES. Only three sculpted options: Play, Continue, Learn. No marketing copy, navigation bars, or account information. The title and controls emerge from the world rather than sitting in content boxes.",
+      "inputs": [
+        {
+          "path": "docs/ux/concepts/04-table-desktop.png",
+          "role": "material and composition reference, previous table iteration"
+        },
+        {
+          "path": "docs/ux/references/acropolis.webp",
+          "role": "approved card reference"
+        },
+        {
+          "path": "docs/ux/references/thaleia.webp",
+          "role": "approved card reference"
+        },
+        {
+          "path": "docs/ux/references/counsel-of-olympus.webp",
+          "role": "approved card reference"
+        },
+        {
+          "path": "docs/ux/references/temple-of-athena.webp",
+          "role": "approved card reference"
+        }
+      ],
+      "output": "docs/ux/concepts/01-sanctuary.png"
+    },
+    {
+      "id": "02-gather",
+      "operation": "concept-generation",
+      "prompt": "Use case: ui-mockup. A premium art-directed FULL-SCREEN Greek mythology deckbuilding videogame concept, not a website. Painterly 3D obsidian strategy table, midnight indigo marble, restrained antique gold, turquoise enamel, warm sanctuary light, distant marble columns. Elegant sculpted controls, deep immersive atmosphere, clear legible hierarchy, deliberate empty play space. No browser/device frame, web panels, dashboard, text paragraphs, marketing, implementation language. Player-facing copy only.\nReferences: first image establishes MATERIAL/ART DIRECTION ONLY; discard its invented card labels, portraits and layout mistakes. Subsequent images are actual approved game cards and common deck back; preserve their painted imagery, shapes, bronze laurel frame and cream rules windows as closely as possible. Deck cards are portrait 5:7, god events landscape 7:5, leaders larger landscape 8:5. Never turn an event into a portrait card. No new gods, no invented cards. Players are mortal Ariadne (Thaleia/Athena) and Theseus (Nereon/Poseidon), NOT Zeus or Hera. No combat, board map or miniatures. Small card rules may be impressionistic, but titles are from the supplied catalog only. No meaningless UI glyph strings.\nGame supply names only: Obol, Drachma, Talent, Hamlet, Polis, Acropolis, Oracle’s Acolyte, Council of Sages, Sacred Academy, Harbor Pilot, Sea Trade, Merchant Fleet, Seed Keeper, Harvest Feast, Sacred Grove, Bronze Recruit, Forge of Heroes, Victorious Procession. Temple of Athena is unique in the player's deck, NEVER a supply pile. Resource icons: lightning Action, coin Coins, basket Buys, burning altar Worship. Use imagery rather than explanatory panels.\nOUTPUT: a single professional game concept presentation board containing TWO complete game screens, separated by a very thin neutral gutter: on the LEFT a large 16:9 desktop landscape frame, on the RIGHT a narrower 9:19 portrait mobile frame, both SAME HEIGHT. Total canvas very wide about 2.25:1, high resolution. Each frame is full-bleed game imagery, no physical monitor/phone or browser. The mobile design is a thoughtfully recomposed touch layout, not a crop. No annotations outside frames. Both frames show the same gameplay state described below. Avoid panel grids and webpage patterns. Aim for a premium game's real fullscreen experience. Do not include the word mockup or desktop/mobile in the art. All relevant supplied card faces are exact identity/art references, don't redesign their icons or names.\nSCREEN: Pregame gathering around a circular obsidian table, four carved seat medallions with Ariadne and Theseus occupied and two optional empty seats. Diegetic small nameplate Your name / Ariadne, seat-count tokens 2 / 3 / 4, Invite friends, Begin. Two-player selection lit; Theseus portrait shows Ready. A small invitation seal offers Join table. Warm lanterns, painted sea, exquisite spare invitation composition; no cards dealt yet, no web form blocks. Desktop whole table, mobile vertical closeup with controls within thumb reach.",
+      "inputs": [
+        {
+          "path": "docs/ux/concepts/04-table-desktop.png",
+          "role": "material and composition reference, previous table iteration"
+        },
+        {
+          "path": "docs/ux/references/thaleia.webp",
+          "role": "approved card reference"
+        },
+        {
+          "path": "docs/ux/references/nereon.webp",
+          "role": "approved card reference"
+        },
+        {
+          "path": "docs/ux/references/melia.webp",
+          "role": "approved card reference"
+        },
+        {
+          "path": "docs/ux/references/doreios.webp",
+          "role": "approved card reference"
+        }
+      ],
+      "output": "docs/ux/concepts/02-gather.png"
+    },
+    {
+      "id": "03-bloodline",
+      "operation": "concept-generation",
+      "prompt": "Use case: ui-mockup. A premium art-directed FULL-SCREEN Greek mythology deckbuilding videogame concept, not a website. Painterly 3D obsidian strategy table, midnight indigo marble, restrained antique gold, turquoise enamel, warm sanctuary light, distant marble columns. Elegant sculpted controls, deep immersive atmosphere, clear legible hierarchy, deliberate empty play space. No browser/device frame, web panels, dashboard, text paragraphs, marketing, implementation language. Player-facing copy only.\nReferences: first image establishes MATERIAL/ART DIRECTION ONLY; discard its invented card labels, portraits and layout mistakes. Subsequent images are actual approved game cards and common deck back; preserve their painted imagery, shapes, bronze laurel frame and cream rules windows as closely as possible. Deck cards are portrait 5:7, god events landscape 7:5, leaders larger landscape 8:5. Never turn an event into a portrait card. No new gods, no invented cards. Players are mortal Ariadne (Thaleia/Athena) and Theseus (Nereon/Poseidon), NOT Zeus or Hera. No combat, board map or miniatures. Small card rules may be impressionistic, but titles are from the supplied catalog only. No meaningless UI glyph strings.\nGame supply names only: Obol, Drachma, Talent, Hamlet, Polis, Acropolis, Oracle’s Acolyte, Council of Sages, Sacred Academy, Harbor Pilot, Sea Trade, Merchant Fleet, Seed Keeper, Harvest Feast, Sacred Grove, Bronze Recruit, Forge of Heroes, Victorious Procession. Temple of Athena is unique in the player's deck, NEVER a supply pile. Resource icons: lightning Action, coin Coins, basket Buys, burning altar Worship. Use imagery rather than explanatory panels.\nOUTPUT: a single professional game concept presentation board containing TWO complete game screens, separated by a very thin neutral gutter: on the LEFT a large 16:9 desktop landscape frame, on the RIGHT a narrower 9:19 portrait mobile frame, both SAME HEIGHT. Total canvas very wide about 2.25:1, high resolution. Each frame is full-bleed game imagery, no physical monitor/phone or browser. The mobile design is a thoughtfully recomposed touch layout, not a crop. No annotations outside frames. Both frames show the same gameplay state described below. Avoid panel grids and webpage patterns. Aim for a premium game's real fullscreen experience. Do not include the word mockup or desktop/mobile in the art. All relevant supplied card faces are exact identity/art references, don't redesign their icons or names.\nSCREEN: Leader selection, heroic character art and tactile leader cards dominate. Selected Thaleia appears as large painted character emerging subtly behind her ACTUAL LANDSCAPE leader card, owl and indigo drapery, luminous Athena god crest; other unused leaders Nereon, Melia, Doreios as tasteful portrait medallions. Her matching Temple of Athena and LANDSCAPE Counsel of Olympus displayed as linked small cards. Copy: Choose your bloodline; Ariadne chooses; Choose Thaleia. A compact turn order Theseus → Ariadne. This is a character select screen for a premium videogame, not a grid of web cards. Preserve actual supplied leader art.",
+      "inputs": [
+        {
+          "path": "docs/ux/concepts/04-table-desktop.png",
+          "role": "material and composition reference, previous table iteration"
+        },
+        {
+          "path": "docs/ux/references/thaleia.webp",
+          "role": "approved card reference"
+        },
+        {
+          "path": "docs/ux/references/nereon.webp",
+          "role": "approved card reference"
+        },
+        {
+          "path": "docs/ux/references/temple-of-athena.webp",
+          "role": "approved card reference"
+        },
+        {
+          "path": "docs/ux/references/counsel-of-olympus.webp",
+          "role": "approved card reference"
+        }
+      ],
+      "output": "docs/ux/concepts/03-bloodline.png"
+    },
+    {
+      "id": "05-treasures",
+      "operation": "concept-generation",
+      "prompt": "Use case: ui-mockup. A premium art-directed FULL-SCREEN Greek mythology deckbuilding videogame concept, not a website. Painterly 3D obsidian strategy table, midnight indigo marble, restrained antique gold, turquoise enamel, warm sanctuary light, distant marble columns. Elegant sculpted controls, deep immersive atmosphere, clear legible hierarchy, deliberate empty play space. No browser/device frame, web panels, dashboard, text paragraphs, marketing, implementation language. Player-facing copy only.\nReferences: first image establishes MATERIAL/ART DIRECTION ONLY; discard its invented card labels, portraits and layout mistakes. Subsequent images are actual approved game cards and common deck back; preserve their painted imagery, shapes, bronze laurel frame and cream rules windows as closely as possible. Deck cards are portrait 5:7, god events landscape 7:5, leaders larger landscape 8:5. Never turn an event into a portrait card. No new gods, no invented cards. Players are mortal Ariadne (Thaleia/Athena) and Theseus (Nereon/Poseidon), NOT Zeus or Hera. No combat, board map or miniatures. Small card rules may be impressionistic, but titles are from the supplied catalog only. No meaningless UI glyph strings.\nGame supply names only: Obol, Drachma, Talent, Hamlet, Polis, Acropolis, Oracle’s Acolyte, Council of Sages, Sacred Academy, Harbor Pilot, Sea Trade, Merchant Fleet, Seed Keeper, Harvest Feast, Sacred Grove, Bronze Recruit, Forge of Heroes, Victorious Procession. Temple of Athena is unique in the player's deck, NEVER a supply pile. Resource icons: lightning Action, coin Coins, basket Buys, burning altar Worship. Use imagery rather than explanatory panels.\nOUTPUT: a single professional game concept presentation board containing TWO complete game screens, separated by a very thin neutral gutter: on the LEFT a large 16:9 desktop landscape frame, on the RIGHT a narrower 9:19 portrait mobile frame, both SAME HEIGHT. Total canvas very wide about 2.25:1, high resolution. Each frame is full-bleed game imagery, no physical monitor/phone or browser. The mobile design is a thoughtfully recomposed touch layout, not a crop. No annotations outside frames. Both frames show the same gameplay state described below. Avoid panel grids and webpage patterns. Aim for a premium game's real fullscreen experience. Do not include the word mockup or desktop/mobile in the art. All relevant supplied card faces are exact identity/art references, don't redesign their icons or names.\nSCREEN: Treasure phase in the same table: three approved Obol cards lifting from the hand into central play row, subtle gold coin particles travelling toward resource counter. Two unplayed cards remain selectable in near hand, one Hamlet and one Obol. Primary controls Play Obol, Play all Treasures, To Buys. Phase label Treasures. Resources lightning 1, coin 3, basket 1, altar 2. Keep selected Obol clear and secondary command smaller, no paragraphs. The scene communicates source-to-destination movement and ability to keep a Treasure in hand.",
+      "inputs": [
+        {
+          "path": "docs/ux/concepts/04-table-desktop.png",
+          "role": "material and composition reference, previous table iteration"
+        },
+        {
+          "path": "docs/ux/references/obol.webp",
+          "role": "approved card reference"
+        },
+        {
+          "path": "docs/ux/references/hamlet.webp",
+          "role": "approved card reference"
+        },
+        {
+          "path": "docs/ux/references/temple-of-athena.webp",
+          "role": "approved card reference"
+        },
+        {
+          "path": "docs/ux/references/thaleia.webp",
+          "role": "approved card reference"
+        }
+      ],
+      "output": "docs/ux/concepts/05-treasures.png"
+    },
+    {
+      "id": "06-supply",
+      "operation": "concept-generation",
+      "prompt": "Use case: ui-mockup. A premium art-directed FULL-SCREEN Greek mythology deckbuilding videogame concept, not a website. Painterly 3D obsidian strategy table, midnight indigo marble, restrained antique gold, turquoise enamel, warm sanctuary light, distant marble columns. Elegant sculpted controls, deep immersive atmosphere, clear legible hierarchy, deliberate empty play space. No browser/device frame, web panels, dashboard, text paragraphs, marketing, implementation language. Player-facing copy only.\nReferences: first image establishes MATERIAL/ART DIRECTION ONLY; discard its invented card labels, portraits and layout mistakes. Subsequent images are actual approved game cards and common deck back; preserve their painted imagery, shapes, bronze laurel frame and cream rules windows as closely as possible. Deck cards are portrait 5:7, god events landscape 7:5, leaders larger landscape 8:5. Never turn an event into a portrait card. No new gods, no invented cards. Players are mortal Ariadne (Thaleia/Athena) and Theseus (Nereon/Poseidon), NOT Zeus or Hera. No combat, board map or miniatures. Small card rules may be impressionistic, but titles are from the supplied catalog only. No meaningless UI glyph strings.\nGame supply names only: Obol, Drachma, Talent, Hamlet, Polis, Acropolis, Oracle’s Acolyte, Council of Sages, Sacred Academy, Harbor Pilot, Sea Trade, Merchant Fleet, Seed Keeper, Harvest Feast, Sacred Grove, Bronze Recruit, Forge of Heroes, Victorious Procession. Temple of Athena is unique in the player's deck, NEVER a supply pile. Resource icons: lightning Action, coin Coins, basket Buys, burning altar Worship. Use imagery rather than explanatory panels.\nOUTPUT: a single professional game concept presentation board containing TWO complete game screens, separated by a very thin neutral gutter: on the LEFT a large 16:9 desktop landscape frame, on the RIGHT a narrower 9:19 portrait mobile frame, both SAME HEIGHT. Total canvas very wide about 2.25:1, high resolution. Each frame is full-bleed game imagery, no physical monitor/phone or browser. The mobile design is a thoughtfully recomposed touch layout, not a crop. No annotations outside frames. Both frames show the same gameplay state described below. Avoid panel grids and webpage patterns. Aim for a premium game's real fullscreen experience. Do not include the word mockup or desktop/mobile in the art. All relevant supplied card faces are exact identity/art references, don't redesign their icons or names.\nSCREEN: Supply buying view, not a shop website. The camera opens onto six beautifully staged card stacks on inset marble shelves: Obol, Drachma, Talent, Hamlet, Polis, Acropolis. Each preserves actual portrait card look, cost well and separate remaining-count bronze bead. A slim engraved selector Basics / Actions. Polis selected rises slightly, emerald territory glow, coin cost 5, 6 left, a small target cue toward discard. Coin5 basket1 visible, primary Buy Polis. Hand still peeks at bottom so one feels at the same game table. All18piles reachable through Actions tab. No invented card names or new currencies.",
+      "inputs": [
+        {
+          "path": "docs/ux/concepts/04-table-desktop.png",
+          "role": "material and composition reference, previous table iteration"
+        },
+        {
+          "path": "docs/ux/references/drachma.webp",
+          "role": "approved card reference"
+        },
+        {
+          "path": "docs/ux/references/polis.webp",
+          "role": "approved card reference"
+        },
+        {
+          "path": "docs/ux/references/acropolis.webp",
+          "role": "approved card reference"
+        },
+        {
+          "path": "docs/ux/references/hamlet.webp",
+          "role": "approved card reference"
+        }
+      ],
+      "output": "docs/ux/concepts/06-supply.png"
+    },
+    {
+      "id": "07-card-detail",
+      "operation": "concept-generation",
+      "prompt": "Use case: ui-mockup. A premium art-directed FULL-SCREEN Greek mythology deckbuilding videogame concept, not a website. Painterly 3D obsidian strategy table, midnight indigo marble, restrained antique gold, turquoise enamel, warm sanctuary light, distant marble columns. Elegant sculpted controls, deep immersive atmosphere, clear legible hierarchy, deliberate empty play space. No browser/device frame, web panels, dashboard, text paragraphs, marketing, implementation language. Player-facing copy only.\nReferences: first image establishes MATERIAL/ART DIRECTION ONLY; discard its invented card labels, portraits and layout mistakes. Subsequent images are actual approved game cards and common deck back; preserve their painted imagery, shapes, bronze laurel frame and cream rules windows as closely as possible. Deck cards are portrait 5:7, god events landscape 7:5, leaders larger landscape 8:5. Never turn an event into a portrait card. No new gods, no invented cards. Players are mortal Ariadne (Thaleia/Athena) and Theseus (Nereon/Poseidon), NOT Zeus or Hera. No combat, board map or miniatures. Small card rules may be impressionistic, but titles are from the supplied catalog only. No meaningless UI glyph strings.\nGame supply names only: Obol, Drachma, Talent, Hamlet, Polis, Acropolis, Oracle’s Acolyte, Council of Sages, Sacred Academy, Harbor Pilot, Sea Trade, Merchant Fleet, Seed Keeper, Harvest Feast, Sacred Grove, Bronze Recruit, Forge of Heroes, Victorious Procession. Temple of Athena is unique in the player's deck, NEVER a supply pile. Resource icons: lightning Action, coin Coins, basket Buys, burning altar Worship. Use imagery rather than explanatory panels.\nOUTPUT: a single professional game concept presentation board containing TWO complete game screens, separated by a very thin neutral gutter: on the LEFT a large 16:9 desktop landscape frame, on the RIGHT a narrower 9:19 portrait mobile frame, both SAME HEIGHT. Total canvas very wide about 2.25:1, high resolution. Each frame is full-bleed game imagery, no physical monitor/phone or browser. The mobile design is a thoughtfully recomposed touch layout, not a crop. No annotations outside frames. Both frames show the same gameplay state described below. Avoid panel grids and webpage patterns. Aim for a premium game's real fullscreen experience. Do not include the word mockup or desktop/mobile in the art. All relevant supplied card faces are exact identity/art references, don't redesign their icons or names.\nSCREEN: Focused card-inspection overlay: approved Polis card almost life-size floats straight upright over softly dimmed game table, no web modal rectangle. Card title Polis, cost5, VP3, actual art preserved. Discard pile lower right softly lit with a short gold destination path. Minimal readable copy: Gain to discard. Sculpted action Buy Polis, coin5 and basket1 payment icons, a small bronze X and Back. Desktop card left with decision rail right; mobile card occupies most upper area with large thumb-accessible Buy at bottom. Show the entire frame and inventory footer.",
+      "inputs": [
+        {
+          "path": "docs/ux/concepts/04-table-desktop.png",
+          "role": "material and composition reference, previous table iteration"
+        },
+        {
+          "path": "docs/ux/references/polis.webp",
+          "role": "approved card reference"
+        },
+        {
+          "path": "docs/ux/references/thaleia.webp",
+          "role": "approved card reference"
+        },
+        {
+          "path": "docs/ux/references/obol.webp",
+          "role": "approved card reference"
+        },
+        {
+          "path": "docs/ux/references/hamlet.webp",
+          "role": "approved card reference"
+        }
+      ],
+      "output": "docs/ux/concepts/07-card-detail.png"
+    },
+    {
+      "id": "08-worship",
+      "operation": "concept-generation",
+      "prompt": "Use case: ui-mockup. A premium art-directed FULL-SCREEN Greek mythology deckbuilding videogame concept, not a website. Painterly 3D obsidian strategy table, midnight indigo marble, restrained antique gold, turquoise enamel, warm sanctuary light, distant marble columns. Elegant sculpted controls, deep immersive atmosphere, clear legible hierarchy, deliberate empty play space. No browser/device frame, web panels, dashboard, text paragraphs, marketing, implementation language. Player-facing copy only.\nReferences: first image establishes MATERIAL/ART DIRECTION ONLY; discard its invented card labels, portraits and layout mistakes. Subsequent images are actual approved game cards and common deck back; preserve their painted imagery, shapes, bronze laurel frame and cream rules windows as closely as possible. Deck cards are portrait 5:7, god events landscape 7:5, leaders larger landscape 8:5. Never turn an event into a portrait card. No new gods, no invented cards. Players are mortal Ariadne (Thaleia/Athena) and Theseus (Nereon/Poseidon), NOT Zeus or Hera. No combat, board map or miniatures. Small card rules may be impressionistic, but titles are from the supplied catalog only. No meaningless UI glyph strings.\nGame supply names only: Obol, Drachma, Talent, Hamlet, Polis, Acropolis, Oracle’s Acolyte, Council of Sages, Sacred Academy, Harbor Pilot, Sea Trade, Merchant Fleet, Seed Keeper, Harvest Feast, Sacred Grove, Bronze Recruit, Forge of Heroes, Victorious Procession. Temple of Athena is unique in the player's deck, NEVER a supply pile. Resource icons: lightning Action, coin Coins, basket Buys, burning altar Worship. Use imagery rather than explanatory panels.\nOUTPUT FORMAT: a single wide concept board, TWO FULLSCREEN game screen designs side by side. Left 16:9 DESKTOP gameplay screenshot, right 9:19 MOBILE gameplay screenshot, BOTH SAME HEIGHT, thin dark divider only. About 2.25:1 total composition. No physical devices, no external labels, no website UI. Mobile recomposed for touch. This is polished videogame art, cinematic yet playable; short gameplay copy only. Preserve supplied actual cards as closely as possible, and use landscape format for gods/leaders. Do not invent card names.\nSCREEN: Divine Worship focus at the SAME game table: actual LANDSCAPE Counsel of Olympus card floats above an elegant Athena altar, Temple of Athena and Oracle’s Acolyte in play connected by two delicate indigo threads to Athena crest. Header Worship, subtitle Favored, two visible Devotion pips with 2, not a leader contribution. Other shared Poseidon LANDSCAPE event quieter beside/below. Cost coin3 and burning altar1, no Buy payment. Sculpted primary Worship Athena, secondary Return. Current resources coin5 basket1 altar2. God art remains actual supplied Athena face; cinematic light and restrained magical glow, clear card and action first.",
+      "inputs": [
+        {
+          "path": "docs/ux/concepts/04-table-desktop.png",
+          "role": "material and composition reference, previous table iteration"
+        },
+        {
+          "path": "docs/ux/references/counsel-of-olympus.webp",
+          "role": "approved card reference"
+        },
+        {
+          "path": "docs/ux/references/tribute-of-the-tides.webp",
+          "role": "approved card reference"
+        },
+        {
+          "path": "docs/ux/references/temple-of-athena.webp",
+          "role": "approved card reference"
+        },
+        {
+          "path": "docs/ux/references/oracles-acolyte.webp",
+          "role": "approved card reference"
+        }
+      ],
+      "output": "docs/ux/concepts/08-worship.png"
+    },
+    {
+      "id": "09-card-choice",
+      "operation": "concept-generation",
+      "prompt": "Use case: ui-mockup. A premium art-directed FULL-SCREEN Greek mythology deckbuilding videogame concept, not a website. Painterly 3D obsidian strategy table, midnight indigo marble, restrained antique gold, turquoise enamel, warm sanctuary light, distant marble columns. Elegant sculpted controls, deep immersive atmosphere, clear legible hierarchy, deliberate empty play space. No browser/device frame, web panels, dashboard, text paragraphs, marketing, implementation language. Player-facing copy only.\nReferences: first image establishes MATERIAL/ART DIRECTION ONLY; discard its invented card labels, portraits and layout mistakes. Subsequent images are actual approved game cards and common deck back; preserve their painted imagery, shapes, bronze laurel frame and cream rules windows as closely as possible. Deck cards are portrait 5:7, god events landscape 7:5, leaders larger landscape 8:5. Never turn an event into a portrait card. No new gods, no invented cards. Players are mortal Ariadne (Thaleia/Athena) and Theseus (Nereon/Poseidon), NOT Zeus or Hera. No combat, board map or miniatures. Small card rules may be impressionistic, but titles are from the supplied catalog only. No meaningless UI glyph strings.\nGame supply names only: Obol, Drachma, Talent, Hamlet, Polis, Acropolis, Oracle’s Acolyte, Council of Sages, Sacred Academy, Harbor Pilot, Sea Trade, Merchant Fleet, Seed Keeper, Harvest Feast, Sacred Grove, Bronze Recruit, Forge of Heroes, Victorious Procession. Temple of Athena is unique in the player's deck, NEVER a supply pile. Resource icons: lightning Action, coin Coins, basket Buys, burning altar Worship. Use imagery rather than explanatory panels.\nOUTPUT FORMAT: a single wide concept board, TWO FULLSCREEN game screen designs side by side. Left 16:9 DESKTOP gameplay screenshot, right 9:19 MOBILE gameplay screenshot, BOTH SAME HEIGHT, thin dark divider only. About 2.25:1 total composition. No physical devices, no external labels, no website UI. Mobile recomposed for touch. This is polished videogame art, cinematic yet playable; short gameplay copy only. Preserve supplied actual cards as closely as possible, and use landscape format for gods/leaders. Do not invent card names.\nSCREEN: Optional trash selection for Seed Keeper: central sacrificial stone inset, approved broken-card trash icon with 2, three actual hand cards Obol, Hamlet and Drachma displayed large, Hamlet lifted and edged in restrained crimson-gold, other cards untouched. A ghost trail indicates selected Hamlet will move to shared trash, never fire destroying illegible art. Header Seed Keeper, instruction Choose up to 2, footer 1 selected. Buttons Trash 1 and Trash none. Tiny source Seed Keeper card in play. Keep gameplay legible and solemn, no web checkbox list. Mobile whole choices within reach.",
+      "inputs": [
+        {
+          "path": "docs/ux/concepts/04-table-desktop.png",
+          "role": "material and composition reference, previous table iteration"
+        },
+        {
+          "path": "docs/ux/references/seed-keeper.webp",
+          "role": "approved card reference"
+        },
+        {
+          "path": "docs/ux/references/obol.webp",
+          "role": "approved card reference"
+        },
+        {
+          "path": "docs/ux/references/hamlet.webp",
+          "role": "approved card reference"
+        },
+        {
+          "path": "docs/ux/references/drachma.webp",
+          "role": "approved card reference"
+        }
+      ],
+      "output": "docs/ux/concepts/09-card-choice.png"
+    },
+    {
+      "id": "10-gain",
+      "operation": "concept-generation",
+      "prompt": "Use case: ui-mockup. A premium art-directed FULL-SCREEN Greek mythology deckbuilding videogame concept, not a website. Painterly 3D obsidian strategy table, midnight indigo marble, restrained antique gold, turquoise enamel, warm sanctuary light, distant marble columns. Elegant sculpted controls, deep immersive atmosphere, clear legible hierarchy, deliberate empty play space. No browser/device frame, web panels, dashboard, text paragraphs, marketing, implementation language. Player-facing copy only.\nReferences: first image establishes MATERIAL/ART DIRECTION ONLY; discard its invented card labels, portraits and layout mistakes. Subsequent images are actual approved game cards and common deck back; preserve their painted imagery, shapes, bronze laurel frame and cream rules windows as closely as possible. Deck cards are portrait 5:7, god events landscape 7:5, leaders larger landscape 8:5. Never turn an event into a portrait card. No new gods, no invented cards. Players are mortal Ariadne (Thaleia/Athena) and Theseus (Nereon/Poseidon), NOT Zeus or Hera. No combat, board map or miniatures. Small card rules may be impressionistic, but titles are from the supplied catalog only. No meaningless UI glyph strings.\nGame supply names only: Obol, Drachma, Talent, Hamlet, Polis, Acropolis, Oracle’s Acolyte, Council of Sages, Sacred Academy, Harbor Pilot, Sea Trade, Merchant Fleet, Seed Keeper, Harvest Feast, Sacred Grove, Bronze Recruit, Forge of Heroes, Victorious Procession. Temple of Athena is unique in the player's deck, NEVER a supply pile. Resource icons: lightning Action, coin Coins, basket Buys, burning altar Worship. Use imagery rather than explanatory panels.\nOUTPUT FORMAT: a single wide concept board, TWO FULLSCREEN game screen designs side by side. Left 16:9 DESKTOP gameplay screenshot, right 9:19 MOBILE gameplay screenshot, BOTH SAME HEIGHT, thin dark divider only. About 2.25:1 total composition. No physical devices, no external labels, no website UI. Mobile recomposed for touch. This is polished videogame art, cinematic yet playable; short gameplay copy only. Preserve supplied actual cards as closely as possible, and use landscape format for gods/leaders. Do not invent card names.\nSCREEN: Athena's gain-choice scene: actual LANDSCAPE Counsel of Olympus remains small at top as source, Favored badge, approved gain-hand icon with embedded5 followed by distinct topdeck icon. Selectable actual Action cards Oracle’s Acolyte, Council of Sages, Sacred Academy in a small beautifully staged arc; selected Sacred Academy elevated. Common deck-back stack glows at near edge, destination trail. Copy Choose an Action, Gain Sacred Academy, On top of your deck. No additional coin cost icon, no Buy payment, no <= notation, no marketing paragraphs. Both desktop and mobile emphasize choice and destination.",
+      "inputs": [
+        {
+          "path": "docs/ux/concepts/04-table-desktop.png",
+          "role": "material and composition reference, previous table iteration"
+        },
+        {
+          "path": "docs/ux/references/counsel-of-olympus.webp",
+          "role": "approved card reference"
+        },
+        {
+          "path": "docs/ux/references/oracles-acolyte.webp",
+          "role": "approved card reference"
+        },
+        {
+          "path": "docs/ux/references/council-of-sages.webp",
+          "role": "approved card reference"
+        },
+        {
+          "path": "docs/ux/references/sacred-academy.webp",
+          "role": "approved card reference"
+        }
+      ],
+      "output": "docs/ux/concepts/10-gain.png"
+    },
+    {
+      "id": "11-reveal",
+      "operation": "concept-generation",
+      "prompt": "Use case: ui-mockup. A premium art-directed FULL-SCREEN Greek mythology deckbuilding videogame concept, not a website. Painterly 3D obsidian strategy table, midnight indigo marble, restrained antique gold, turquoise enamel, warm sanctuary light, distant marble columns. Elegant sculpted controls, deep immersive atmosphere, clear legible hierarchy, deliberate empty play space. No browser/device frame, web panels, dashboard, text paragraphs, marketing, implementation language. Player-facing copy only.\nReferences: first image establishes MATERIAL/ART DIRECTION ONLY; discard its invented card labels, portraits and layout mistakes. Subsequent images are actual approved game cards and common deck back; preserve their painted imagery, shapes, bronze laurel frame and cream rules windows as closely as possible. Deck cards are portrait 5:7, god events landscape 7:5, leaders larger landscape 8:5. Never turn an event into a portrait card. No new gods, no invented cards. Players are mortal Ariadne (Thaleia/Athena) and Theseus (Nereon/Poseidon), NOT Zeus or Hera. No combat, board map or miniatures. Small card rules may be impressionistic, but titles are from the supplied catalog only. No meaningless UI glyph strings.\nGame supply names only: Obol, Drachma, Talent, Hamlet, Polis, Acropolis, Oracle’s Acolyte, Council of Sages, Sacred Academy, Harbor Pilot, Sea Trade, Merchant Fleet, Seed Keeper, Harvest Feast, Sacred Grove, Bronze Recruit, Forge of Heroes, Victorious Procession. Temple of Athena is unique in the player's deck, NEVER a supply pile. Resource icons: lightning Action, coin Coins, basket Buys, burning altar Worship. Use imagery rather than explanatory panels.\nOUTPUT FORMAT: a single wide concept board, TWO FULLSCREEN game screen designs side by side. Left 16:9 DESKTOP gameplay screenshot, right 9:19 MOBILE gameplay screenshot, BOTH SAME HEIGHT, thin dark divider only. About 2.25:1 total composition. No physical devices, no external labels, no website UI. Mobile recomposed for touch. This is polished videogame art, cinematic yet playable; short gameplay copy only. Preserve supplied actual cards as closely as possible, and use landscape format for gods/leaders. Do not invent card names.\nSCREEN: Victorious Procession reveal cinematic gameplay state: actual Hamlet portrait card rotates upright from common deck-back pile, face entirely readable, gold reward particles +2 over a coin, distinct discard icon indicating destination. Source Victorious Procession card sits in play. Short status Hamlet revealed and +2 Coins. No confirm button: this resolves automatically. Keep hand and resource rail in view, no dramatic victory screen or combat. This illustrates a moment of animation, table behind dim enough for clarity.",
+      "inputs": [
+        {
+          "path": "docs/ux/concepts/04-table-desktop.png",
+          "role": "material and composition reference, previous table iteration"
+        },
+        {
+          "path": "docs/ux/references/victorious-procession.webp",
+          "role": "approved card reference"
+        },
+        {
+          "path": "docs/ux/references/hamlet.webp",
+          "role": "approved card reference"
+        },
+        {
+          "path": "docs/ux/references/obol.webp",
+          "role": "approved card reference"
+        },
+        {
+          "path": "docs/ux/references/thaleia.webp",
+          "role": "approved card reference"
+        }
+      ],
+      "output": "docs/ux/concepts/11-reveal.png"
+    },
+    {
+      "id": "12-opponent",
+      "operation": "concept-generation",
+      "prompt": "Use case: ui-mockup. A premium art-directed FULL-SCREEN Greek mythology deckbuilding videogame concept, not a website. Painterly 3D obsidian strategy table, midnight indigo marble, restrained antique gold, turquoise enamel, warm sanctuary light, distant marble columns. Elegant sculpted controls, deep immersive atmosphere, clear legible hierarchy, deliberate empty play space. No browser/device frame, web panels, dashboard, text paragraphs, marketing, implementation language. Player-facing copy only.\nReferences: first image establishes MATERIAL/ART DIRECTION ONLY; discard its invented card labels, portraits and layout mistakes. Subsequent images are actual approved game cards and common deck back; preserve their painted imagery, shapes, bronze laurel frame and cream rules windows as closely as possible. Deck cards are portrait 5:7, god events landscape 7:5, leaders larger landscape 8:5. Never turn an event into a portrait card. No new gods, no invented cards. Players are mortal Ariadne (Thaleia/Athena) and Theseus (Nereon/Poseidon), NOT Zeus or Hera. No combat, board map or miniatures. Small card rules may be impressionistic, but titles are from the supplied catalog only. No meaningless UI glyph strings.\nGame supply names only: Obol, Drachma, Talent, Hamlet, Polis, Acropolis, Oracle’s Acolyte, Council of Sages, Sacred Academy, Harbor Pilot, Sea Trade, Merchant Fleet, Seed Keeper, Harvest Feast, Sacred Grove, Bronze Recruit, Forge of Heroes, Victorious Procession. Temple of Athena is unique in the player's deck, NEVER a supply pile. Resource icons: lightning Action, coin Coins, basket Buys, burning altar Worship. Use imagery rather than explanatory panels.\nOUTPUT FORMAT: a single wide concept board, TWO FULLSCREEN game screen designs side by side. Left 16:9 DESKTOP gameplay screenshot, right 9:19 MOBILE gameplay screenshot, BOTH SAME HEIGHT, thin dark divider only. About 2.25:1 total composition. No physical devices, no external labels, no website UI. Mobile recomposed for touch. This is polished videogame art, cinematic yet playable; short gameplay copy only. Preserve supplied actual cards as closely as possible, and use landscape format for gods/leaders. Do not invent card names.\nSCREEN: Opponent Theseus turn, his actual Nereon leader portrait medallion at far edge glows turquoise. An actual Polis card travels visibly from supply to Theseus's public discard; a restrained luminous arc shows movement. His five hidden hand cards use the common blue-gold deck back. My hand remains clearly at near edge and receives no legal-play highlight. Header Theseus's turn; activity ribbon Theseus bought Polis. Far counter coin0 basket1. Small History token, no out-of-turn primary action. Communicate an opponent action instantly without prose panels.",
+      "inputs": [
+        {
+          "path": "docs/ux/concepts/04-table-desktop.png",
+          "role": "material and composition reference, previous table iteration"
+        },
+        {
+          "path": "docs/ux/references/nereon.webp",
+          "role": "approved card reference"
+        },
+        {
+          "path": "docs/ux/references/polis.webp",
+          "role": "approved card reference"
+        },
+        {
+          "path": "docs/ux/references/sea-trade.webp",
+          "role": "approved card reference"
+        },
+        {
+          "path": "docs/ux/references/thaleia.webp",
+          "role": "approved card reference"
+        }
+      ],
+      "output": "docs/ux/concepts/12-opponent.png"
+    },
+    {
+      "id": "13-chronicle",
+      "operation": "concept-generation",
+      "prompt": "Use case: ui-mockup. A premium art-directed FULL-SCREEN Greek mythology deckbuilding videogame concept, not a website. Painterly 3D obsidian strategy table, midnight indigo marble, restrained antique gold, turquoise enamel, warm sanctuary light, distant marble columns. Elegant sculpted controls, deep immersive atmosphere, clear legible hierarchy, deliberate empty play space. No browser/device frame, web panels, dashboard, text paragraphs, marketing, implementation language. Player-facing copy only.\nReferences: first image establishes MATERIAL/ART DIRECTION ONLY; discard its invented card labels, portraits and layout mistakes. Subsequent images are actual approved game cards and common deck back; preserve their painted imagery, shapes, bronze laurel frame and cream rules windows as closely as possible. Deck cards are portrait 5:7, god events landscape 7:5, leaders larger landscape 8:5. Never turn an event into a portrait card. No new gods, no invented cards. Players are mortal Ariadne (Thaleia/Athena) and Theseus (Nereon/Poseidon), NOT Zeus or Hera. No combat, board map or miniatures. Small card rules may be impressionistic, but titles are from the supplied catalog only. No meaningless UI glyph strings.\nGame supply names only: Obol, Drachma, Talent, Hamlet, Polis, Acropolis, Oracle’s Acolyte, Council of Sages, Sacred Academy, Harbor Pilot, Sea Trade, Merchant Fleet, Seed Keeper, Harvest Feast, Sacred Grove, Bronze Recruit, Forge of Heroes, Victorious Procession. Temple of Athena is unique in the player's deck, NEVER a supply pile. Resource icons: lightning Action, coin Coins, basket Buys, burning altar Worship. Use imagery rather than explanatory panels.\nOUTPUT FORMAT: a single wide concept board, TWO FULLSCREEN game screen designs side by side. Left 16:9 DESKTOP gameplay screenshot, right 9:19 MOBILE gameplay screenshot, BOTH SAME HEIGHT, thin dark divider only. About 2.25:1 total composition. No physical devices, no external labels, no website UI. Mobile recomposed for touch. This is polished videogame art, cinematic yet playable; short gameplay copy only. Preserve supplied actual cards as closely as possible, and use landscape format for gods/leaders. Do not invent card names.\nSCREEN: An elegant in-world bronze-edged chronicle overlay placed over dimmed table, a short vertical visual sequence of actual card miniatures and arrows: Theseus played Sea Trade; Theseus bought Polis; Ariadne gained Oracle’s Acolyte. Engraved tabs Chronicle / Discard / Trash, selected Discard with three public faceup cards arranged as an inspectable fan. Owner Theseus. Small deck-back icon 7 only, no deck faces. No dashboard table or long scroll of timestamps, no technical event IDs. Back seal closes. Desktop broad side overlay; mobile full-screen tabletop tray with legible three-card selection.",
+      "inputs": [
+        {
+          "path": "docs/ux/concepts/04-table-desktop.png",
+          "role": "material and composition reference, previous table iteration"
+        },
+        {
+          "path": "docs/ux/references/sea-trade.webp",
+          "role": "approved card reference"
+        },
+        {
+          "path": "docs/ux/references/polis.webp",
+          "role": "approved card reference"
+        },
+        {
+          "path": "docs/ux/references/oracles-acolyte.webp",
+          "role": "approved card reference"
+        },
+        {
+          "path": "docs/ux/references/nereon.webp",
+          "role": "approved card reference"
+        }
+      ],
+      "output": "docs/ux/concepts/13-chronicle.png"
+    },
+    {
+      "id": "14-victory",
+      "operation": "concept-generation",
+      "prompt": "Use case: ui-mockup. A premium art-directed FULL-SCREEN Greek mythology deckbuilding videogame concept, not a website. Painterly 3D obsidian strategy table, midnight indigo marble, restrained antique gold, turquoise enamel, warm sanctuary light, distant marble columns. Elegant sculpted controls, deep immersive atmosphere, clear legible hierarchy, deliberate empty play space. No browser/device frame, web panels, dashboard, text paragraphs, marketing, implementation language. Player-facing copy only.\nReferences: first image establishes MATERIAL/ART DIRECTION ONLY; discard its invented card labels, portraits and layout mistakes. Subsequent images are actual approved game cards and common deck back; preserve their painted imagery, shapes, bronze laurel frame and cream rules windows as closely as possible. Deck cards are portrait 5:7, god events landscape 7:5, leaders larger landscape 8:5. Never turn an event into a portrait card. No new gods, no invented cards. Players are mortal Ariadne (Thaleia/Athena) and Theseus (Nereon/Poseidon), NOT Zeus or Hera. No combat, board map or miniatures. Small card rules may be impressionistic, but titles are from the supplied catalog only. No meaningless UI glyph strings.\nGame supply names only: Obol, Drachma, Talent, Hamlet, Polis, Acropolis, Oracle’s Acolyte, Council of Sages, Sacred Academy, Harbor Pilot, Sea Trade, Merchant Fleet, Seed Keeper, Harvest Feast, Sacred Grove, Bronze Recruit, Forge of Heroes, Victorious Procession. Temple of Athena is unique in the player's deck, NEVER a supply pile. Resource icons: lightning Action, coin Coins, basket Buys, burning altar Worship. Use imagery rather than explanatory panels.\nOUTPUT FORMAT: a single wide concept painting containing TWO FULLSCREEN game screen designs side by side: LEFT a large16:9 desktop screen; RIGHT a narrow9:19 mobile screen; SAME HEIGHT, very thin neutral divider. Total canvas about2.25:1. No devices, no labels outside the screens, no website frames. Mobile must be thoughtfully recomposed, not a crop. Use exact gameplay copy requested, no additional implementation language. Preserve actual card references and landscape gods/leaders.\nSCREEN: Restrained beautiful endgame victory ceremony in same moonlit sanctuary, actual Acropolis art expands softly in distant view, radiant gold laurel around Ariadne leader Thaleia portrait and total24. Header Ariadne wins. Second player's Nereon portrait Theseus21. Scoring actual Hamlet, Polis, Acropolis miniatures with 3×1, 3×3, 2×6; these sum24. Compact turns Ariadne12, Theseus11. Short reason Acropolis depleted. Buttons Play again and View chronicle. No combat trophies, confetti, marketing, progression currencies or made-up rewards. Portrait mobile prioritizes winner then second seat and score details.",
+      "inputs": [
+        {
+          "path": "docs/ux/concepts/04-table-desktop.png",
+          "role": "material and composition reference, previous table iteration"
+        },
+        {
+          "path": "docs/ux/references/thaleia.webp",
+          "role": "approved card reference"
+        },
+        {
+          "path": "docs/ux/references/nereon.webp",
+          "role": "approved card reference"
+        },
+        {
+          "path": "docs/ux/references/acropolis.webp",
+          "role": "approved card reference"
+        },
+        {
+          "path": "docs/ux/references/polis.webp",
+          "role": "approved card reference"
+        }
+      ],
+      "output": "docs/ux/concepts/14-victory.png"
+    },
+    {
+      "id": "15-interruption",
+      "operation": "concept-generation",
+      "prompt": "Use case: ui-mockup. A premium art-directed FULL-SCREEN Greek mythology deckbuilding videogame concept, not a website. Painterly 3D obsidian strategy table, midnight indigo marble, restrained antique gold, turquoise enamel, warm sanctuary light, distant marble columns. Elegant sculpted controls, deep immersive atmosphere, clear legible hierarchy, deliberate empty play space. No browser/device frame, web panels, dashboard, text paragraphs, marketing, implementation language. Player-facing copy only.\nReferences: first image establishes MATERIAL/ART DIRECTION ONLY; discard its invented card labels, portraits and layout mistakes. Subsequent images are actual approved game cards and common deck back; preserve their painted imagery, shapes, bronze laurel frame and cream rules windows as closely as possible. Deck cards are portrait 5:7, god events landscape 7:5, leaders larger landscape 8:5. Never turn an event into a portrait card. No new gods, no invented cards. Players are mortal Ariadne (Thaleia/Athena) and Theseus (Nereon/Poseidon), NOT Zeus or Hera. No combat, board map or miniatures. Small card rules may be impressionistic, but titles are from the supplied catalog only. No meaningless UI glyph strings.\nGame supply names only: Obol, Drachma, Talent, Hamlet, Polis, Acropolis, Oracle’s Acolyte, Council of Sages, Sacred Academy, Harbor Pilot, Sea Trade, Merchant Fleet, Seed Keeper, Harvest Feast, Sacred Grove, Bronze Recruit, Forge of Heroes, Victorious Procession. Temple of Athena is unique in the player's deck, NEVER a supply pile. Resource icons: lightning Action, coin Coins, basket Buys, burning altar Worship. Use imagery rather than explanatory panels.\nOUTPUT FORMAT: a single wide concept painting containing TWO FULLSCREEN game screen designs side by side: LEFT a large16:9 desktop screen; RIGHT a narrow9:19 mobile screen; SAME HEIGHT, very thin neutral divider. Total canvas about2.25:1. No devices, no labels outside the screens, no website frames. Mobile must be thoughtfully recomposed, not a crop. Use exact gameplay copy requested, no additional implementation language. Preserve actual card references and landscape gods/leaders.\nSCREEN: Connection interruption presented solely as player-facing game state: same table remains visible but desaturated and quiet, a finely carved pause seal floating at center, warm tiny ember. Exact copy Rejoining the table… and Your turn will be here. One Retry control and a small Leave table control. No browser, reload, saved, cloud, Firestore, offline technical details, account language, sync status or numeric error codes. Hand stays where it was, table context visible; quiet reassuring native-game interruption overlay, not an error webpage.",
+      "inputs": [
+        {
+          "path": "docs/ux/concepts/04-table-desktop.png",
+          "role": "material and composition reference, previous table iteration"
+        },
+        {
+          "path": "docs/ux/references/thaleia.webp",
+          "role": "approved card reference"
+        },
+        {
+          "path": "docs/ux/references/temple-of-athena.webp",
+          "role": "approved card reference"
+        },
+        {
+          "path": "docs/ux/references/obol.webp",
+          "role": "approved card reference"
+        },
+        {
+          "path": "docs/ux/references/hamlet.webp",
+          "role": "approved card reference"
+        }
+      ],
+      "output": "docs/ux/concepts/15-interruption.png"
+    },
+    {
+      "id": "16-tabletop",
+      "operation": "concept-generation",
+      "prompt": "Use case: ui-mockup. A premium art-directed FULL-SCREEN Greek mythology deckbuilding videogame concept, not a website. Painterly 3D obsidian strategy table, midnight indigo marble, restrained antique gold, turquoise enamel, warm sanctuary light, distant marble columns. Elegant sculpted controls, deep immersive atmosphere, clear legible hierarchy, deliberate empty play space. No browser/device frame, web panels, dashboard, text paragraphs, marketing, implementation language. Player-facing copy only.\nReferences: first image establishes MATERIAL/ART DIRECTION ONLY; discard its invented card labels, portraits and layout mistakes. Subsequent images are actual approved game cards and common deck back; preserve their painted imagery, shapes, bronze laurel frame and cream rules windows as closely as possible. Deck cards are portrait 5:7, god events landscape 7:5, leaders larger landscape 8:5. Never turn an event into a portrait card. No new gods, no invented cards. Players are mortal Ariadne (Thaleia/Athena) and Theseus (Nereon/Poseidon), NOT Zeus or Hera. No combat, board map or miniatures. Small card rules may be impressionistic, but titles are from the supplied catalog only. No meaningless UI glyph strings.\nGame supply names only: Obol, Drachma, Talent, Hamlet, Polis, Acropolis, Oracle’s Acolyte, Council of Sages, Sacred Academy, Harbor Pilot, Sea Trade, Merchant Fleet, Seed Keeper, Harvest Feast, Sacred Grove, Bronze Recruit, Forge of Heroes, Victorious Procession. Temple of Athena is unique in the player's deck, NEVER a supply pile. Resource icons: lightning Action, coin Coins, basket Buys, burning altar Worship. Use imagery rather than explanatory panels.\nOUTPUT FORMAT: a single wide concept painting containing TWO FULLSCREEN game screen designs side by side: LEFT a large16:9 desktop screen; RIGHT a narrow9:19 mobile screen; SAME HEIGHT, very thin neutral divider. Total canvas about2.25:1. No devices, no labels outside the screens, no website frames. Mobile must be thoughtfully recomposed, not a crop. Use exact gameplay copy requested, no additional implementation language. Preserve actual card references and landscape gods/leaders.\nSCREEN: Shared-table public display. Large central marble table with four player seats Ariadne/Thaleia, Theseus/Nereon, Helena/Melia, Leon/Doreios around edges. EVERY hand is common deck backs, no private faces anywhere. Shared supply and LANDSCAPE gods central; played cards faceup. Clear current turn Ariadne, public resources, subtle card movement to own discard. Small inscription Shared table, no private-hand toggle. The paired portrait version is also a PUBLIC display with all hands hidden, compact seats and central play; private controller uses normal hand screen elsewhere. No device frame, QR barcode, physical humans, browser header.",
+      "inputs": [
+        {
+          "path": "docs/ux/concepts/04-table-desktop.png",
+          "role": "material and composition reference, previous table iteration"
+        },
+        {
+          "path": "docs/ux/references/thaleia.webp",
+          "role": "approved card reference"
+        },
+        {
+          "path": "docs/ux/references/nereon.webp",
+          "role": "approved card reference"
+        },
+        {
+          "path": "docs/ux/references/melia.webp",
+          "role": "approved card reference"
+        },
+        {
+          "path": "docs/ux/references/doreios.webp",
+          "role": "approved card reference"
+        }
+      ],
+      "output": "docs/ux/concepts/16-tabletop.png"
+    },
+    {
+      "id": "17-rules",
+      "operation": "concept-generation",
+      "prompt": "Use case: ui-mockup. A premium art-directed FULL-SCREEN Greek mythology deckbuilding videogame concept, not a website. Painterly 3D obsidian strategy table, midnight indigo marble, restrained antique gold, turquoise enamel, warm sanctuary light, distant marble columns. Elegant sculpted controls, deep immersive atmosphere, clear legible hierarchy, deliberate empty play space. No browser/device frame, web panels, dashboard, text paragraphs, marketing, implementation language. Player-facing copy only.\nReferences: first image establishes MATERIAL/ART DIRECTION ONLY; discard its invented card labels, portraits and layout mistakes. Subsequent images are actual approved game cards and common deck back; preserve their painted imagery, shapes, bronze laurel frame and cream rules windows as closely as possible. Deck cards are portrait 5:7, god events landscape 7:5, leaders larger landscape 8:5. Never turn an event into a portrait card. No new gods, no invented cards. Players are mortal Ariadne (Thaleia/Athena) and Theseus (Nereon/Poseidon), NOT Zeus or Hera. No combat, board map or miniatures. Small card rules may be impressionistic, but titles are from the supplied catalog only. No meaningless UI glyph strings.\nGame supply names only: Obol, Drachma, Talent, Hamlet, Polis, Acropolis, Oracle’s Acolyte, Council of Sages, Sacred Academy, Harbor Pilot, Sea Trade, Merchant Fleet, Seed Keeper, Harvest Feast, Sacred Grove, Bronze Recruit, Forge of Heroes, Victorious Procession. Temple of Athena is unique in the player's deck, NEVER a supply pile. Resource icons: lightning Action, coin Coins, basket Buys, burning altar Worship. Use imagery rather than explanatory panels.\nOUTPUT FORMAT: a single wide concept painting containing TWO FULLSCREEN game screen designs side by side: LEFT a large16:9 desktop screen; RIGHT a narrow9:19 mobile screen; SAME HEIGHT, very thin neutral divider. Total canvas about2.25:1. No devices, no labels outside the screens, no website frames. Mobile must be thoughtfully recomposed, not a crop. Use exact gameplay copy requested, no additional implementation language. Preserve actual card references and landscape gods/leaders.\nSCREEN: Beautiful game-native illustrated rules codex lying flat in the sanctuary, cream parchment, restrained bronze tabs Setup / Leaders / Your turn / Worship / Scoring. Selected Your turn shows FOUR large illustrated symbols and short steps Actions → Treasures → Buys → Cleanup. Approved Temple of Athena card set into page, tiny burning altar with 'Worship between effects'. Small line Start: 1 Action · 1 Buy · 1 Worship. Bottom Back to table. Concise readable player language, no marketing slogans, website navbar or documentation sidebar. Desktop two-page spread, mobile single-page composition with compact chapter tabs, no tiny paragraph wall.",
+      "inputs": [
+        {
+          "path": "docs/ux/concepts/04-table-desktop.png",
+          "role": "material and composition reference, previous table iteration"
+        },
+        {
+          "path": "docs/ux/references/temple-of-athena.webp",
+          "role": "approved card reference"
+        },
+        {
+          "path": "docs/ux/references/thaleia.webp",
+          "role": "approved card reference"
+        },
+        {
+          "path": "docs/ux/references/counsel-of-olympus.webp",
+          "role": "approved card reference"
+        },
+        {
+          "path": "docs/ux/references/hamlet.webp",
+          "role": "approved card reference"
+        }
+      ],
+      "output": "docs/ux/concepts/17-rules.png"
+    },
+    {
+      "id": "18-catalog",
+      "operation": "concept-generation",
+      "prompt": "Use case: ui-mockup. A premium art-directed FULL-SCREEN Greek mythology deckbuilding videogame concept, not a website. Painterly 3D obsidian strategy table, midnight indigo marble, restrained antique gold, turquoise enamel, warm sanctuary light, distant marble columns. Elegant sculpted controls, deep immersive atmosphere, clear legible hierarchy, deliberate empty play space. No browser/device frame, web panels, dashboard, text paragraphs, marketing, implementation language. Player-facing copy only.\nReferences: first image establishes MATERIAL/ART DIRECTION ONLY; discard its invented card labels, portraits and layout mistakes. Subsequent images are actual approved game cards and common deck back; preserve their painted imagery, shapes, bronze laurel frame and cream rules windows as closely as possible. Deck cards are portrait 5:7, god events landscape 7:5, leaders larger landscape 8:5. Never turn an event into a portrait card. No new gods, no invented cards. Players are mortal Ariadne (Thaleia/Athena) and Theseus (Nereon/Poseidon), NOT Zeus or Hera. No combat, board map or miniatures. Small card rules may be impressionistic, but titles are from the supplied catalog only. No meaningless UI glyph strings.\nGame supply names only: Obol, Drachma, Talent, Hamlet, Polis, Acropolis, Oracle’s Acolyte, Council of Sages, Sacred Academy, Harbor Pilot, Sea Trade, Merchant Fleet, Seed Keeper, Harvest Feast, Sacred Grove, Bronze Recruit, Forge of Heroes, Victorious Procession. Temple of Athena is unique in the player's deck, NEVER a supply pile. Resource icons: lightning Action, coin Coins, basket Buys, burning altar Worship. Use imagery rather than explanatory panels.\nOUTPUT FORMAT: a single wide concept painting containing TWO FULLSCREEN game screen designs side by side: LEFT a large16:9 desktop screen; RIGHT a narrow9:19 mobile screen; SAME HEIGHT, very thin neutral divider. Total canvas about2.25:1. No devices, no labels outside the screens, no website frames. Mobile must be thoughtfully recomposed, not a crop. Use exact gameplay copy requested, no additional implementation language. Preserve actual card references and landscape gods/leaders.\nSCREEN: Game-native card collection in a grand but dark Greek archive: three approved fully framed portrait cards Oracle’s Acolyte, Council of Sages, Sacred Academy displayed on shallow sculpted bronze shelves, not web tiles. Engraved chapter tabs Leaders / Gods / Treasures / Territories / Actions, selected Actions. Small search magnifier, god-filter seal Athena. Selected card expands to read in front of shelf. Show one common deck back and smaller distinct turquoise event back and oxblood leader back on side as Flip reference examples. Copy Collection and Back to table. Desktop landscape generous art, mobile 3-card shelf then detail card, no webpage chrome.",
+      "inputs": [
+        {
+          "path": "docs/ux/concepts/04-table-desktop.png",
+          "role": "material and composition reference, previous table iteration"
+        },
+        {
+          "path": "docs/ux/references/oracles-acolyte.webp",
+          "role": "approved card reference"
+        },
+        {
+          "path": "docs/ux/references/council-of-sages.webp",
+          "role": "approved card reference"
+        },
+        {
+          "path": "docs/ux/references/sacred-academy.webp",
+          "role": "approved card reference"
+        },
+        {
+          "path": "docs/ux/references/thaleia.webp",
+          "role": "approved card reference"
+        }
+      ],
+      "output": "docs/ux/concepts/18-catalog.png"
+    },
+    {
+      "id": "19-pause",
+      "operation": "concept-generation",
+      "prompt": "Use case: ui-mockup. A premium art-directed FULL-SCREEN Greek mythology deckbuilding videogame concept, not a website. Painterly 3D obsidian strategy table, midnight indigo marble, restrained antique gold, turquoise enamel, warm sanctuary light, distant marble columns. Elegant sculpted controls, deep immersive atmosphere, clear legible hierarchy, deliberate empty play space. No browser/device frame, web panels, dashboard, text paragraphs, marketing, implementation language. Player-facing copy only.\nReferences: first image establishes MATERIAL/ART DIRECTION ONLY; discard its invented card labels, portraits and layout mistakes. Subsequent images are actual approved game cards and common deck back; preserve their painted imagery, shapes, bronze laurel frame and cream rules windows as closely as possible. Deck cards are portrait 5:7, god events landscape 7:5, leaders larger landscape 8:5. Never turn an event into a portrait card. No new gods, no invented cards. Players are mortal Ariadne (Thaleia/Athena) and Theseus (Nereon/Poseidon), NOT Zeus or Hera. No combat, board map or miniatures. Small card rules may be impressionistic, but titles are from the supplied catalog only. No meaningless UI glyph strings.\nGame supply names only: Obol, Drachma, Talent, Hamlet, Polis, Acropolis, Oracle’s Acolyte, Council of Sages, Sacred Academy, Harbor Pilot, Sea Trade, Merchant Fleet, Seed Keeper, Harvest Feast, Sacred Grove, Bronze Recruit, Forge of Heroes, Victorious Procession. Temple of Athena is unique in the player's deck, NEVER a supply pile. Resource icons: lightning Action, coin Coins, basket Buys, burning altar Worship. Use imagery rather than explanatory panels.\nOUTPUT FORMAT: a single wide concept painting containing TWO FULLSCREEN game screen designs side by side: LEFT a large16:9 desktop screen; RIGHT a narrow9:19 mobile screen; SAME HEIGHT, very thin neutral divider. Total canvas about2.25:1. No devices, no labels outside the screens, no website frames. Mobile must be thoughtfully recomposed, not a crop. Use exact gameplay copy requested, no additional implementation language. Preserve actual card references and landscape gods/leaders.\nSCREEN: Game-native menu overlay suspended over softly darkened marble table, elegant simple carved arch, exact options Return to table, Invite friends, Shared table, Rules, Collection, Settings, Leave table. Small line The game continues. Settings row Motion with Full / Reduced and selected Full. No invented volume slider since audio is not scoped, no hardware/browser/storage/technical language. Sculpted selection hover treatment and clear return action; refined restraint not web panels. Desktop centered sparse menu; mobile tall thumb-friendly choice list without a scrollable webpage.",
+      "inputs": [
+        {
+          "path": "docs/ux/concepts/04-table-desktop.png",
+          "role": "material and composition reference, previous table iteration"
+        },
+        {
+          "path": "docs/ux/references/thaleia.webp",
+          "role": "approved card reference"
+        },
+        {
+          "path": "docs/ux/references/temple-of-athena.webp",
+          "role": "approved card reference"
+        },
+        {
+          "path": "docs/ux/references/obol.webp",
+          "role": "approved card reference"
+        },
+        {
+          "path": "docs/ux/references/hamlet.webp",
+          "role": "approved card reference"
+        }
+      ],
+      "output": "docs/ux/concepts/19-pause.png"
+    },
+    {
+      "id": "20-discard",
+      "operation": "concept-generation",
+      "prompt": "Use case: ui-mockup. A premium art-directed FULL-SCREEN Greek mythology deckbuilding videogame concept, not a website. Painterly 3D obsidian strategy table, midnight indigo marble, restrained antique gold, turquoise enamel, warm sanctuary light, distant marble columns. Elegant sculpted controls, deep immersive atmosphere, clear legible hierarchy, deliberate empty play space. No browser/device frame, web panels, dashboard, text paragraphs, marketing, implementation language. Player-facing copy only.\nReferences: first image establishes MATERIAL/ART DIRECTION ONLY; discard its invented card labels, portraits and layout mistakes. Subsequent images are actual approved game cards and common deck back; preserve their painted imagery, shapes, bronze laurel frame and cream rules windows as closely as possible. Deck cards are portrait 5:7, god events landscape 7:5, leaders larger landscape 8:5. Never turn an event into a portrait card. No new gods, no invented cards. Players are mortal Ariadne (Thaleia/Athena) and Theseus (Nereon/Poseidon), NOT Zeus or Hera. No combat, board map or miniatures. Small card rules may be impressionistic, but titles are from the supplied catalog only. No meaningless UI glyph strings.\nGame supply names only: Obol, Drachma, Talent, Hamlet, Polis, Acropolis, Oracle’s Acolyte, Council of Sages, Sacred Academy, Harbor Pilot, Sea Trade, Merchant Fleet, Seed Keeper, Harvest Feast, Sacred Grove, Bronze Recruit, Forge of Heroes, Victorious Procession. Temple of Athena is unique in the player's deck, NEVER a supply pile. Resource icons: lightning Action, coin Coins, basket Buys, burning altar Worship. Use imagery rather than explanatory panels.\nOUTPUT: paired concept painting with two full-screen app game views, desktop16:9 on LEFT, mobile9:19 on RIGHT, both same height, tiny neutral divider. No device mockups or annotation; portrait layout recomposed thoughtfully. Total wide aspect about2.25:1. Harvest Feast mandatory discard choice. Same refined table as main image. Source actual Harvest Feast card shown small, three hand cards Hamlet, Obol, Council of Sages; Hamlet selected raised with cool turquoise edge and checkmark. Header Harvest Feast, instruction Discard 1 card. Use distinct face-up discard fan with sideways arrow, NOT broken trash card and NOT downward topdeck arrow. Destination own public face-up discard clearly lit. Single committing button Discard Hamlet; no skip, no trash-none control. A small source cue +2 Cards then +1 Action precedes current choice. Both desktop and portrait mobile carefully composed as focused game screen, no prose panels.",
+      "inputs": [
+        {
+          "path": "docs/ux/concepts/04-table-desktop.png",
+          "role": "material and composition reference, previous table iteration"
+        },
+        {
+          "path": "docs/ux/references/harvest-feast.webp",
+          "role": "approved card reference"
+        },
+        {
+          "path": "docs/ux/references/hamlet.webp",
+          "role": "approved card reference"
+        },
+        {
+          "path": "docs/ux/references/obol.webp",
+          "role": "approved card reference"
+        },
+        {
+          "path": "docs/ux/references/council-of-sages.webp",
+          "role": "approved card reference"
+        }
+      ],
+      "output": "docs/ux/concepts/20-discard.png"
+    },
+    {
+      "id": "21-end-turn",
+      "operation": "concept-generation",
+      "prompt": "Use case: ui-mockup. A premium art-directed FULL-SCREEN Greek mythology deckbuilding videogame concept, not a website. Painterly 3D obsidian strategy table, midnight indigo marble, restrained antique gold, turquoise enamel, warm sanctuary light, distant marble columns. Elegant sculpted controls, deep immersive atmosphere, clear legible hierarchy, deliberate empty play space. No browser/device frame, web panels, dashboard, text paragraphs, marketing, implementation language. Player-facing copy only.\nReferences: first image establishes MATERIAL/ART DIRECTION ONLY; discard its invented card labels, portraits and layout mistakes. Subsequent images are actual approved game cards and common deck back; preserve their painted imagery, shapes, bronze laurel frame and cream rules windows as closely as possible. Deck cards are portrait 5:7, god events landscape 7:5, leaders larger landscape 8:5. Never turn an event into a portrait card. No new gods, no invented cards. Players are mortal Ariadne (Thaleia/Athena) and Theseus (Nereon/Poseidon), NOT Zeus or Hera. No combat, board map or miniatures. Small card rules may be impressionistic, but titles are from the supplied catalog only. No meaningless UI glyph strings.\nGame supply names only: Obol, Drachma, Talent, Hamlet, Polis, Acropolis, Oracle’s Acolyte, Council of Sages, Sacred Academy, Harbor Pilot, Sea Trade, Merchant Fleet, Seed Keeper, Harvest Feast, Sacred Grove, Bronze Recruit, Forge of Heroes, Victorious Procession. Temple of Athena is unique in the player's deck, NEVER a supply pile. Resource icons: lightning Action, coin Coins, basket Buys, burning altar Worship. Use imagery rather than explanatory panels.\nOUTPUT: paired concept painting with two full-screen app game views, desktop16:9 on LEFT, mobile9:19 on RIGHT, both same height, tiny neutral divider. No device mockups or annotation; portrait layout recomposed thoughtfully. Total wide aspect about2.25:1. Small premium game-native confirmation seal suspended over dimmed complete table and hand. Exact heading End your turn? Resource rail coin2, basket1, burning altar1. Exact short message You can still buy a Hamlet. Two clear sculpted actions Keep playing and End turn. The Leave table control must NOT appear. Approved Hamlet card glows softly beside remaining resources as a possible buy, not an automatic action. This is the final deliberate decision before cleanup; no victory visuals, no marketing copy. Desktop seal in center with context, mobile thumb-accessible two actions and clear dim hand behind.",
+      "inputs": [
+        {
+          "path": "docs/ux/concepts/04-table-desktop.png",
+          "role": "material and composition reference, previous table iteration"
+        },
+        {
+          "path": "docs/ux/references/hamlet.webp",
+          "role": "approved card reference"
+        },
+        {
+          "path": "docs/ux/references/obol.webp",
+          "role": "approved card reference"
+        },
+        {
+          "path": "docs/ux/references/temple-of-athena.webp",
+          "role": "approved card reference"
+        },
+        {
+          "path": "docs/ux/references/thaleia.webp",
+          "role": "approved card reference"
+        }
+      ],
+      "output": "docs/ux/concepts/21-end-turn.png"
+    },
+    {
+      "id": "22-unavailable",
+      "operation": "concept-generation",
+      "prompt": "Use case: ui-mockup. A premium art-directed FULL-SCREEN Greek mythology deckbuilding videogame concept, not a website. Painterly 3D obsidian strategy table, midnight indigo marble, restrained antique gold, turquoise enamel, warm sanctuary light, distant marble columns. Elegant sculpted controls, deep immersive atmosphere, clear legible hierarchy, deliberate empty play space. No browser/device frame, web panels, dashboard, text paragraphs, marketing, implementation language. Player-facing copy only.\nReferences: first image establishes MATERIAL/ART DIRECTION ONLY; discard its invented card labels, portraits and layout mistakes. Subsequent images are actual approved game cards and common deck back; preserve their painted imagery, shapes, bronze laurel frame and cream rules windows as closely as possible. Deck cards are portrait 5:7, god events landscape 7:5, leaders larger landscape 8:5. Never turn an event into a portrait card. No new gods, no invented cards. Players are mortal Ariadne (Thaleia/Athena) and Theseus (Nereon/Poseidon), NOT Zeus or Hera. No combat, board map or miniatures. Small card rules may be impressionistic, but titles are from the supplied catalog only. No meaningless UI glyph strings.\nGame supply names only: Obol, Drachma, Talent, Hamlet, Polis, Acropolis, Oracle’s Acolyte, Council of Sages, Sacred Academy, Harbor Pilot, Sea Trade, Merchant Fleet, Seed Keeper, Harvest Feast, Sacred Grove, Bronze Recruit, Forge of Heroes, Victorious Procession. Temple of Athena is unique in the player's deck, NEVER a supply pile. Resource icons: lightning Action, coin Coins, basket Buys, burning altar Worship. Use imagery rather than explanatory panels.\nOUTPUT: paired concept painting with two full-screen app game views, desktop16:9 on LEFT, mobile9:19 on RIGHT, both same height, tiny neutral divider. No device mockups or annotation; portrait layout recomposed thoughtfully. Total wide aspect about2.25:1. Unavailable invitation: full-screen moonlit Greek sanctuary with an empty near seat and distant occupied table, elegant brass invitation seal. Clear heading This table is full. Short sentence Every seat has been taken. Two gameplay controls Find another table and Back. Player-facing only; no sign-in, browser, reload, storage, Firestore, technical error codes, diagnostics, sync, IDs. No private card faces. Reassuring quiet native game state with exquisite art, not a webpage warning banner. Same desktop and mobile art direction.",
+      "inputs": [
+        {
+          "path": "docs/ux/concepts/04-table-desktop.png",
+          "role": "material and composition reference, previous table iteration"
+        },
+        {
+          "path": "docs/ux/references/thaleia.webp",
+          "role": "approved card reference"
+        },
+        {
+          "path": "docs/ux/references/nereon.webp",
+          "role": "approved card reference"
+        },
+        {
+          "path": "docs/ux/references/melia.webp",
+          "role": "approved card reference"
+        },
+        {
+          "path": "docs/ux/references/doreios.webp",
+          "role": "approved card reference"
+        }
+      ],
+      "output": "docs/ux/concepts/22-unavailable.png"
+    },
+    {
+      "id": "04-table-mobile-corrected",
+      "operation": "targeted-edit",
+      "prompt": "Use case: precise-object-edit. Edit the first image ONLY with these card corrections, preserving the entire beautiful fullscreen game layout, colors, proportions, atmosphere and all other UI. The upper-right LANDSCAPE shared god card currently incorrectly says Festival: replace it with the approved Tribute of the Tides card in reference 2, landscape and cost3, keep its Poseidon imagery. The Hamlet in the bottom hand must use reference3's art, cost2 and green laurel 1 VP, NOT a coin reward; preserve hand fan position. Do not change anything else. No invented card labels or icons. This is an artist's game screen concept, no web UI.",
+      "inputs": [
+        {
+          "path": "docs/ux/concepts/04-table-mobile.png",
+          "role": "previous version of edit target"
+        },
+        {
+          "path": "docs/ux/references/tribute-of-the-tides.webp",
+          "role": "approved card reference"
+        },
+        {
+          "path": "docs/ux/references/hamlet.webp",
+          "role": "approved card reference"
+        }
+      ],
+      "output": "docs/ux/concepts/04-table-mobile.png"
+    },
+    {
+      "id": "02-gather-corrected",
+      "operation": "targeted-edit",
+      "prompt": "Use case: precise-object-edit. Change ONLY the copy in this game concept plate, both left desktop and right mobile. Replace \"Build a Greater Tomorrow\" with \"2 players · Ready to begin\". Change lower-left \"Join table\" button to \"Invite friends\". Preserve all art, composition, two views, colors, UI and other lettering. No promotional slogan, no additional labels.",
+      "inputs": [
+        {
+          "path": "docs/ux/concepts/02-gather.png",
+          "role": "previous version of edit target"
+        }
+      ],
+      "output": "docs/ux/concepts/02-gather.png"
+    },
+    {
+      "id": "15-interruption-corrected",
+      "operation": "targeted-edit",
+      "prompt": "Use case: precise-object-edit. Preserve this paired desktop-left/mobile-right game concept image, but fix the missing interruption overlay in the LEFT desktop screen. Darken its table and add the same elegant central owl seal, 'Rejoining the table…', 'Retry', 'Leave table' as the right screen. BOTH screens must visibly be interrupted and game commands behind unavailable. Replace 'Your turn will be here.' on right with 'Returning to your game.' and use same sentence on left. All scenery and cards stay as they are, no new UI or implementation language. No other changes.",
+      "inputs": [
+        {
+          "path": "docs/ux/concepts/15-interruption.png",
+          "role": "previous version of edit target"
+        }
+      ],
+      "output": "docs/ux/concepts/15-interruption.png"
+    },
+    {
+      "id": "17-rules-corrected",
+      "operation": "targeted-edit",
+      "prompt": "Use case: precise-object-edit. Keep this paired desktop/mobile illustrated rules codex and all artwork/layout exactly. Correct the readable rules copy in BOTH screen halves: under Cleanup replace 'Discard to limit, then draw a new hand.' with exactly 'Discard hand and play. Draw 5.' Replace start line with 'Start: 1 Action · 1 Buy · 1 Worship · 0 Coins'. Remove the invented quote 'Knowledge kindles a brighter world.' entirely; leave that area blank. All other art and text unchanged. This is a rules reference, no inspirational quotations. Ensure exact requested rules text on both halves.",
+      "inputs": [
+        {
+          "path": "docs/ux/concepts/17-rules.png",
+          "role": "previous version of edit target"
+        }
+      ],
+      "output": "docs/ux/concepts/17-rules.png"
+    },
+    {
+      "id": "16-tabletop-corrected",
+      "operation": "targeted-edit",
+      "prompt": "Use case: precise-object-edit. Preserve this paired desktop/mobile shared-table game image exactly except replace every \"End Turn\" control with \"Chronicle\". This is a read-only PUBLIC display; it must not have any play/turn command. Keep all four hands face down, the Shared table label, every other artwork/card/counter and both layouts unchanged. Only the stated label change.",
+      "inputs": [
+        {
+          "path": "docs/ux/concepts/16-tabletop.png",
+          "role": "previous version of edit target"
+        }
+      ],
+      "output": "docs/ux/concepts/16-tabletop.png"
+    }
+  ]
+}
