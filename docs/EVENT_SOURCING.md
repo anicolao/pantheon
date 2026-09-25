@@ -27,6 +27,16 @@ Committed joins add a seat with a short entrance transition and a named activity
 
 Use Node 24, Bun 1.3.10, and Java 21+. `nix develop` supplies Bun and Java. Copy `.env.example` to `.env.local`, then run `bun run emulators` and `bun run dev` in separate terminals. The isolated demo project uses Auth port 9293 and Firestore port 8193; it cannot reach a production database. `bun run verify` starts and stops its own emulators; stop manually running emulators first.
 
-The static PR preview has no online backend until a dedicated Firebase project is configured. It shows an explicit unavailable message, without replacing Firestore with in-memory mock data. To enable it, create a Firebase web app, enable anonymous Authentication and Firestore, deploy `firestore.rules`, and set the repository variables `VITE_FIREBASE_API_KEY`, `VITE_FIREBASE_AUTH_DOMAIN`, `VITE_FIREBASE_PROJECT_ID`, and `VITE_FIREBASE_APP_ID`. Then rebuild the preview. These are public web configuration values, not service-account credentials. No production Firebase resources or rules are deployed by this milestone's CI.
+The hosted preview uses the dedicated Firebase project [`pantheon-preview-anicolao`](https://console.firebase.google.com/project/pantheon-preview-anicolao/overview), available through the `preview` alias in `.firebaserc`. Its default Firestore database is in Toronto (`northamerica-northeast2`), and its web app is named **Pantheon PR previews**. Anonymous authentication is declared in `firebase.json`; the deployed database uses this repository’s `firestore.rules`.
+
+The project, web app, database, authentication provider, and rules were provisioned using the Firebase CLI. To redeploy authentication and rules after an authorized change:
+
+```sh
+bunx firebase deploy --only auth,firestore:rules --project preview
+```
+
+The GitHub repository variables `VITE_FIREBASE_API_KEY`, `VITE_FIREBASE_AUTH_DOMAIN`, `VITE_FIREBASE_PROJECT_ID`, and `VITE_FIREBASE_APP_ID` contain the web-app configuration returned by `firebase apps:sdkconfig`. CI embeds them when publishing the static app. They are public configuration values, not service-account credentials. Configured builds share this preview backend; individual tables have separate event streams. Local development and automated tests continue to use the isolated `demo-pantheon` emulators.
+
+CI publishes the web client but does not deploy cloud rules or authentication configuration. A build without Firebase variables displays an explicit unavailable message. After changing repository variables, rebuild the PR preview to embed the new configuration.
 
 Implementation references: [Firebase anonymous authentication](https://firebase.google.com/docs/auth/web/anonymous-auth), [transaction validation with getAfter](https://firebase.google.com/docs/firestore/security/rules-conditions), and [Firestore rules emulator testing](https://firebase.google.com/docs/firestore/security/test-rules-emulator). Jaipur informed the event repository and user-story test structure; Pantheon adds transaction-enforced setup transitions and strictly zero-pixel screenshot comparison.
