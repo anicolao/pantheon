@@ -9,6 +9,8 @@ export interface CardDefinition {
   number: number;
   supply: { 2: number; 3: number; 4: number };
   startingCopiesPerPlayer: number;
+  /** One copy assigned to the leader of this god; never part of the supply. */
+  uniqueStartingCard?: boolean;
   name: string;
   type: CardType;
   god: God;

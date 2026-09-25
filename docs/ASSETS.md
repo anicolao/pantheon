@@ -27,3 +27,15 @@ Frames and icons use lossless WebP to preserve alpha. Frames are delivered at 12
 The browser tests sample actual frame alpha at all three windows, verify the layer order, check the resource values and text fit, and load all three back families. Frame registration lives in `CardFace.svelte`; changing a frame requires checking its window coordinates against the overlays at every supported size.
 
 To prepare replacement artwork, generate a new illustration using the relevant prompt, inspect it, and optimize it to the same dimensions and filename. Keep rules text out of the image and verify the gallery after replacing it. All shipped original illustrations use the repository's GPL-3.0-only license.
+
+## Worship and Temples
+
+Five additional assets were generated with the built-in image generation tool. Exact prompts are in `docs/worship-prompts.json`. The transparent burning-altar resource icon is saved as `static/assets/icons/worship.webp` (256px lossless WebP). Four Temple illustrations are saved as `static/assets/cards/temple-of-{athena,poseidon,demeter,ares}.webp` (960px WebP). Originals remain in the generating workstation’s image output directory. The Cards resource now reuses `static/assets/backs/back-deck.webp`.
+
+## Card operation icons
+
+Trash (broken card), Discard (card stack and downward arrow), and Gain (hand receiving a card) were generated with the built-in image generation tool. Exact prompts are in `docs/operation-prompts.json`. Final transparent, lossless 256px assets are saved as `static/assets/icons/trash.webp`, `discard.webp`, and `gain.webp`. Conditional arrows use a live text glyph. The visual renderer retains the original effect as accessible text and the inspector’s full transcript.
+
+## Discard and topdeck distinction
+
+`static/assets/icons/discard-v2.webp` is a new built-in-generated face-up discard fan with a sideways arrow (transparent, lossless 256px WebP). `static/assets/icons/topdeck.webp` reuses the earlier face-down stack and downward arrow formerly used for Discard. Exact generation prompt and reuse provenance are in `docs/discard-topdeck-prompts.json`. The original Discard file is retained as generation history; the renderer selects `discard-v2.webp`.

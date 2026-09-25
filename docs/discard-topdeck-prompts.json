@@ -1,0 +1,10 @@
+[
+  {
+    "id": "discard-v2",
+    "prompt": "Use case: stylized-concept. Asset type: truly transparent alpha game operation icon for Pantheon Bloodlines, DISCARD PILE. A loose messy fan of three FACE-UP ancient Greek game cards lying askew, clearly separate and spread out rather than a neat face-down deck. Front card has ivory parchment face with a large simple bronze laurel wreath around a smooth dark red circular center for live numeral overlay. Two other face-up ivory cards peek out at large angles. A bold bronze sideways arrow points away to the left from the fan to convey setting cards aside. No downward arrow, no stack of blue card backs, no flame, no plus sign. Painterly antique bronze and gold, mineral pigments, warm ivory, crimson accent. Bold icon silhouette readable at 48px, fills 90 percent of square canvas. Blank numeral area near x50 y58. No text or numerals, no background, no checkerboard; genuine transparent alpha outside silhouette."
+  },
+  {
+    "id": "topdeck",
+    "source": "Original discard artwork from docs/operation-prompts.json, reused as the topdeck icon."
+  }
+]

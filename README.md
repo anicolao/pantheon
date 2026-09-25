@@ -6,9 +6,9 @@ Pantheon: Bloodlines is a competitive deck-building game for 2–4 players set i
 
 Your deck is both your engine and your empire. Wealth purchases new cards; Actions create combinations and improve future turns; Territories score victory points but occupy space in your deck. The central decision is when to keep strengthening your engine and when to turn its power into land.
 
-Every deck card has a god affiliation. The leaders chosen for a game determine which gods appear as public event cards. Anyone can pay to invoke these gods, while matching cards and a leader’s bloodline unlock stronger blessings. A leader gives you a starting direction without restricting which cards you can acquire.
+Every deck card has a god affiliation. The leaders chosen for a game determine which gods appear as public event cards. Anyone can Worship these gods. Matching Actions in play unlock stronger blessings, and each leader starts with a unique Temple of their god. A leader gives you a starting direction without restricting which cards you can acquire.
 
-On your turn, play Actions, collect Coins from Treasures, buy cards or invoke a god, then discard and draw a new hand. Purchased cards join your personal deck through your discard pile. The game ends when the greatest Territories run out or enough shared supply piles are empty; the player with the most territory victory points wins.
+On your turn, play Actions, collect Coins from Treasures, buy cards, and Worship gods between effects, then discard and draw a new hand. Purchased cards join your personal deck through your discard pile. The game ends when the greatest Territories run out or enough shared supply piles are empty; the player with the most territory victory points wins.
 
 ## Documents
 
@@ -18,7 +18,7 @@ On your turn, play Actions, collect Coins from Treasures, buy cards or invoke a 
 
 ## Current scope
 
-The first web milestone is a layered card gallery built with SvelteKit. Browse all 26 faces with illustrated frames and resource icons, filter by type or god, inspect rules and copy numbers, switch to tabletop sizing, or print the current selection. Deck cards, landscape events, and larger landscape leaders each have their own back. Gameplay and synchronized multiplayer tables are future milestones.
+The first web milestone is a layered card gallery built with SvelteKit. Browse all 30 faces with illustrated frames and resource icons, filter by type or god, inspect rules and copy numbers, switch to tabletop sizing, or print the current selection. Deck cards, landscape events, and larger landscape leaders each have their own back. Gameplay and synchronized multiplayer tables are future milestones.
 
 Version 0.1 uses four leaders, four possible god events, and twelve shared Action piles. It focuses on deck building, divine affiliations, and the race for territory. It has no map, combat system, or direct attacks on other players.
 

@@ -1,0 +1,27 @@
+[
+  {
+    "id": "worship",
+    "kind": "icons",
+    "prompt": "Use case: stylized-concept. Asset type: truly transparent alpha game resource icon. A small ancient Greek altar with a softly glowing golden sacred flame on top, sculpted antique gold and bronze surround and a broad smooth dark indigo front panel left blank to receive a number overlay. Front-facing symmetrical silhouette, readable at 64 pixels, square canvas. Rich hand painted oil and tempera rendering, same visual family as gilded Greek laurel, bronze coin, market basket game icons. Altar fills 85 percent of canvas; blank indigo panel centered around x50% y62%. Transparent background, no ground, no shadow outside silhouette, no text, no letters, no numerals, no frame around canvas. Real alpha, not checkerboard."
+  },
+  {
+    "id": "temple-of-athena",
+    "kind": "cards",
+    "prompt": "Use case: stylized-concept. Asset type: original card illustration for Pantheon: Bloodlines, a mythic Greek deck-building game. Painterly oil and tempera illustration, weathered mineral pigments, antique gold highlights, deep midnight shadows, warm ivory marble, subtle canvas grain. Strong readable central silhouette. Landscape 3:2 composition, usable in a card art window. Entire canvas is illustration, no border, no frame, no lettering, no numerals, no watermark. Mythic classical Greece, no modern objects. Subject: An intimate marble temple of Athena on an olive-covered hill, owl relief above its doorway, indigo votive banners and a small burning altar, morning light."
+  },
+  {
+    "id": "temple-of-poseidon",
+    "kind": "cards",
+    "prompt": "Use case: stylized-concept. Asset type: original card illustration for Pantheon: Bloodlines, a mythic Greek deck-building game. Painterly oil and tempera illustration, weathered mineral pigments, antique gold highlights, deep midnight shadows, warm ivory marble, subtle canvas grain. Strong readable central silhouette. Landscape 3:2 composition, usable in a card art window. Entire canvas is illustration, no border, no frame, no lettering, no numerals, no watermark. Mythic classical Greece, no modern objects. Subject: A marble temple of Poseidon on a rocky promontory above turquoise waves, bronze trident relief on its pediment, sea-green votive cloth, small burning altar near steps, storm clearing."
+  },
+  {
+    "id": "temple-of-demeter",
+    "kind": "cards",
+    "prompt": "Use case: stylized-concept. Asset type: original card illustration for Pantheon: Bloodlines, a mythic Greek deck-building game. Painterly oil and tempera illustration, weathered mineral pigments, antique gold highlights, deep midnight shadows, warm ivory marble, subtle canvas grain. Strong readable central silhouette. Landscape 3:2 composition, usable in a card art window. Entire canvas is illustration, no border, no frame, no lettering, no numerals, no watermark. Mythic classical Greece, no modern objects. Subject: A small marble temple of Demeter surrounded by golden wheat and olive groves, wheat-sheaf relief above its doorway, green votive cloth and baskets of grain beside an altar, warm afternoon."
+  },
+  {
+    "id": "temple-of-ares",
+    "kind": "cards",
+    "prompt": "Use case: stylized-concept. Asset type: original card illustration for Pantheon: Bloodlines, a mythic Greek deck-building game. Painterly oil and tempera illustration, weathered mineral pigments, antique gold highlights, deep midnight shadows, warm ivory marble, subtle canvas grain. Strong readable central silhouette. Landscape 3:2 composition, usable in a card art window. Entire canvas is illustration, no border, no frame, no lettering, no numerals, no watermark. Mythic classical Greece, no modern objects. Subject: A sturdy marble temple of Ares beneath rugged hills, bronze shield and spear relief above the doorway, crimson votive banners, brazier burning beside its steps, dramatic ember sunlight."
+  }
+]

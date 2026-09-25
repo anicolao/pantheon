@@ -12,7 +12,7 @@ export const cards: CardDefinition[] = [
     "art": "obol",
     "artDescription": "A single worn bronze Greek coin bearing a simple hearth motif on a dark stone offering table, warm firelight, intimate still life.",
     "number": 1,
-    "startingCopiesPerPlayer": 7,
+    "startingCopiesPerPlayer": 6,
     "supply": {
       "2": 40,
       "3": 40,
@@ -66,8 +66,8 @@ export const cards: CardDefinition[] = [
     "number": 4,
     "startingCopiesPerPlayer": 3,
     "supply": {
-      "2": 8,
-      "3": 12,
+      "2": 6,
+      "3": 9,
       "4": 12
     }
   },
@@ -84,8 +84,8 @@ export const cards: CardDefinition[] = [
     "number": 5,
     "startingCopiesPerPlayer": 0,
     "supply": {
-      "2": 8,
-      "3": 12,
+      "2": 6,
+      "3": 9,
       "4": 12
     }
   },
@@ -102,8 +102,8 @@ export const cards: CardDefinition[] = [
     "number": 6,
     "startingCopiesPerPlayer": 0,
     "supply": {
-      "2": 8,
-      "3": 12,
+      "2": 6,
+      "3": 9,
       "4": 12
     }
   },
@@ -119,9 +119,9 @@ export const cards: CardDefinition[] = [
     "number": 7,
     "startingCopiesPerPlayer": 0,
     "supply": {
-      "2": 10,
-      "3": 10,
-      "4": 10
+      "2": 8,
+      "3": 12,
+      "4": 16
     }
   },
   {
@@ -136,9 +136,9 @@ export const cards: CardDefinition[] = [
     "number": 8,
     "startingCopiesPerPlayer": 0,
     "supply": {
-      "2": 10,
-      "3": 10,
-      "4": 10
+      "2": 8,
+      "3": 12,
+      "4": 16
     }
   },
   {
@@ -153,9 +153,9 @@ export const cards: CardDefinition[] = [
     "number": 9,
     "startingCopiesPerPlayer": 0,
     "supply": {
-      "2": 10,
-      "3": 10,
-      "4": 10
+      "2": 8,
+      "3": 12,
+      "4": 16
     }
   },
   {
@@ -170,9 +170,9 @@ export const cards: CardDefinition[] = [
     "number": 10,
     "startingCopiesPerPlayer": 0,
     "supply": {
-      "2": 10,
-      "3": 10,
-      "4": 10
+      "2": 8,
+      "3": 12,
+      "4": 16
     }
   },
   {
@@ -187,9 +187,9 @@ export const cards: CardDefinition[] = [
     "number": 11,
     "startingCopiesPerPlayer": 0,
     "supply": {
-      "2": 10,
-      "3": 10,
-      "4": 10
+      "2": 8,
+      "3": 12,
+      "4": 16
     }
   },
   {
@@ -204,9 +204,9 @@ export const cards: CardDefinition[] = [
     "number": 12,
     "startingCopiesPerPlayer": 0,
     "supply": {
-      "2": 10,
-      "3": 10,
-      "4": 10
+      "2": 8,
+      "3": 12,
+      "4": 16
     }
   },
   {
@@ -221,9 +221,9 @@ export const cards: CardDefinition[] = [
     "number": 13,
     "startingCopiesPerPlayer": 0,
     "supply": {
-      "2": 10,
-      "3": 10,
-      "4": 10
+      "2": 8,
+      "3": 12,
+      "4": 16
     }
   },
   {
@@ -238,9 +238,9 @@ export const cards: CardDefinition[] = [
     "number": 14,
     "startingCopiesPerPlayer": 0,
     "supply": {
-      "2": 10,
-      "3": 10,
-      "4": 10
+      "2": 8,
+      "3": 12,
+      "4": 16
     }
   },
   {
@@ -255,9 +255,9 @@ export const cards: CardDefinition[] = [
     "number": 15,
     "startingCopiesPerPlayer": 0,
     "supply": {
-      "2": 10,
-      "3": 10,
-      "4": 10
+      "2": 8,
+      "3": 12,
+      "4": 16
     }
   },
   {
@@ -272,9 +272,9 @@ export const cards: CardDefinition[] = [
     "number": 16,
     "startingCopiesPerPlayer": 0,
     "supply": {
-      "2": 10,
-      "3": 10,
-      "4": 10
+      "2": 8,
+      "3": 12,
+      "4": 16
     }
   },
   {
@@ -289,9 +289,9 @@ export const cards: CardDefinition[] = [
     "number": 17,
     "startingCopiesPerPlayer": 0,
     "supply": {
-      "2": 10,
-      "3": 10,
-      "4": 10
+      "2": 8,
+      "3": 12,
+      "4": 16
     }
   },
   {
@@ -306,9 +306,9 @@ export const cards: CardDefinition[] = [
     "number": 18,
     "startingCopiesPerPlayer": 0,
     "supply": {
-      "2": 10,
-      "3": 10,
-      "4": 10
+      "2": 8,
+      "3": 12,
+      "4": 16
     }
   },
   {
@@ -385,7 +385,7 @@ export const cards: CardDefinition[] = [
     "type": "Event",
     "god": "Athena",
     "cost": 3,
-    "effect": "Gain an Action costing up to 4 Coins onto your deck.",
+    "effect": "Gain an Action costing up to 3 Coins onto your deck.",
     "favored": "Gain an Action costing up to 5 Coins onto your deck.",
     "art": "athena",
     "artDescription": "Athena, serene armored Greek goddess of wisdom with an owl perched beside her, luminous marble academy above an olive grove behind her. Painterly museum-quality oil and tempera illustration, weathered mineral pigments, antique gold highlights, deep midnight indigo shadows, warm ivory marble, subtle canvas grain. Strong readable central silhouette. Landscape 3:2 composition, bust and environment, usable in a card art window. Entire canvas is illustration, no border, no frame, no lettering, no numerals, no watermark. Mythic classical Greece, no modern objects. This establishes the cohesive art direction for a family of card illustrations.",
@@ -422,7 +422,7 @@ export const cards: CardDefinition[] = [
     "god": "Demeter",
     "cost": 3,
     "effect": "You may trash up to 2 cards from your hand.",
-    "favored": "You may trash up to 2 cards from your hand; gain a Hamlet to your discard pile; +1 Buy.",
+    "favored": "You may trash up to 2 cards from your hand; you may gain a card costing up to their combined cost to your discard pile; +1 Buy.",
     "art": "demeter",
     "artDescription": "Demeter, dignified Greek goddess of harvest carrying a sheaf of ripe wheat in a sunlit terraced orchard, golden fields and distant marble sanctuary, olive green and amber palette.",
     "number": 25,
@@ -439,7 +439,7 @@ export const cards: CardDefinition[] = [
     "type": "Event",
     "god": "Ares",
     "cost": 4,
-    "effect": "You may trash 1 card from your hand. If you do, gain a card costing up to 2 Coins more than the trashed card to your discard pile.",
+    "effect": "You may trash 1 card from your hand. If you do, gain a card costing up to 1 Coin more than the trashed card to your discard pile.",
     "favored": "You may trash 1 card from your hand. If you do, gain a card costing up to 3 Coins more than the trashed card to your discard pile.",
     "art": "ares",
     "artDescription": "Ares, solemn Greek god of war in dark bronze armor and a crimson cloak, crested helmet, standing before an ancient forge and distant city walls, ember red and bronze palette.",
@@ -449,6 +449,78 @@ export const cards: CardDefinition[] = [
       "2": 1,
       "3": 1,
       "4": 1
+    }
+  },
+  {
+    "id": "temple-of-athena",
+    "name": "Temple of Athena",
+    "type": "Action",
+    "god": "Athena",
+    "cost": 0,
+    "effect": "+1 Worship; +1 Action.",
+    "art": "temple-of-athena",
+    "artDescription": "A sacred Greek temple dedicated to Athena.",
+    "number": 27,
+    "startingCopiesPerPlayer": 0,
+    "uniqueStartingCard": true,
+    "supply": {
+      "2": 0,
+      "3": 0,
+      "4": 0
+    }
+  },
+  {
+    "id": "temple-of-poseidon",
+    "name": "Temple of Poseidon",
+    "type": "Action",
+    "god": "Poseidon",
+    "cost": 0,
+    "effect": "+1 Worship; +1 Action.",
+    "art": "temple-of-poseidon",
+    "artDescription": "A sacred Greek temple dedicated to Poseidon.",
+    "number": 28,
+    "startingCopiesPerPlayer": 0,
+    "uniqueStartingCard": true,
+    "supply": {
+      "2": 0,
+      "3": 0,
+      "4": 0
+    }
+  },
+  {
+    "id": "temple-of-demeter",
+    "name": "Temple of Demeter",
+    "type": "Action",
+    "god": "Demeter",
+    "cost": 0,
+    "effect": "+1 Worship; +1 Action.",
+    "art": "temple-of-demeter",
+    "artDescription": "A sacred Greek temple dedicated to Demeter.",
+    "number": 29,
+    "startingCopiesPerPlayer": 0,
+    "uniqueStartingCard": true,
+    "supply": {
+      "2": 0,
+      "3": 0,
+      "4": 0
+    }
+  },
+  {
+    "id": "temple-of-ares",
+    "name": "Temple of Ares",
+    "type": "Action",
+    "god": "Ares",
+    "cost": 0,
+    "effect": "+1 Worship; +1 Action.",
+    "art": "temple-of-ares",
+    "artDescription": "A sacred Greek temple dedicated to Ares.",
+    "number": 30,
+    "startingCopiesPerPlayer": 0,
+    "uniqueStartingCard": true,
+    "supply": {
+      "2": 0,
+      "3": 0,
+      "4": 0
     }
   }
 ];
