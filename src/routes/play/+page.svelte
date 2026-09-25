@@ -1,106 +1,250 @@
 <script lang="ts">
-  import { onMount } from 'svelte';
+  import { onMount, tick } from 'svelte';
   import { fly } from 'svelte/transition';
   import { base } from '$app/paths';
+  import { afterNavigate } from '$app/navigation';
   import { connectFirebase } from '$lib/backend/firebase';
   import { rememberTable } from '$lib/navigation/return-table';
-  import { enterRoom, watchSetup } from '$lib/backend/setup-repository';
+  import { enterRoom, inspectRoom, SetupError, watchSetup } from '$lib/backend/setup-repository';
   import { setupSupply, type SetupState } from '$lib/game/setup';
+  import GatheringSeat from '$lib/components/GatheringSeat.svelte';
+  import GameButton from '$lib/components/GameButton.svelte';
+  import SanctuaryLink from '$lib/components/SanctuaryLink.svelte';
+  import CardFace from '$lib/components/CardFace.svelte';
+  import { cards } from '$lib/game/cards';
+
   let services = $state<Awaited<ReturnType<typeof connectFirebase>>>();
   let status = $state('connecting');
-  let error = $state('');
+  let unavailable = $state<'full' | 'missing' | ''>('');
   let name = $state('');
+  let nameError = $state('');
   let playerCount = $state<2 | 3 | 4>(2);
   let roomId = $state('');
+  let reservedSeats = $state(0);
+  let creationId = '';
   let setup = $state<SetupState | null>(null);
   let busy = $state(false);
   let copied = $state(false);
+  let manualInvitation = $state(false);
+  let invitation = $state('');
   let reducedMotion = $state(false);
-  function arrival(node: Element, options: { x?: number; y?: number }) {
-    return reducedMotion ? { duration: 0 } : fly(node, { ...options, duration: 450 });
-  }
+  let modal = $state<'invite' | 'details' | ''>('');
+  let dialog: HTMLDialogElement;
+  let invitationInput = $state<HTMLInputElement>();
+  let opener: HTMLElement | null = null;
   let stop: (() => void) | undefined;
   let alive = true;
   const latest = $derived(setup?.activity.at(-1));
-  const supply = $derived(setupSupply(setup?.playerCount ?? playerCount));
-  function fail(cause: unknown) { error = cause instanceof Error ? cause.message : 'Could not connect. Please reload and try again.'; status = 'error'; }
+  const count = $derived(setup?.playerCount ?? playerCount);
+  const openSeats = $derived(count - (setup?.players.length ?? 0));
+  const title = $derived(unavailable === 'full' ? 'This table is full.' : unavailable ? 'This invitation was not found.' : 'Gather at the Table');
+  const starting = ['obol', 'hamlet'].map(id => cards.find(card => card.id === id)!);
+  function arrival(node: Element) { return reducedMotion ? { duration: 0 } : fly(node, { y: 20, duration: 450 }); }
+  function fail(cause: unknown) {
+    if (!alive) return;
+    if (cause instanceof SetupError && (cause.code === 'full' || cause.code === 'missing')) {
+      unavailable = cause.code; status = 'synced';
+    } else if (cause instanceof SetupError && cause.code === 'name') {
+      nameError = cause.message; status = 'synced';
+    } else status = 'disconnected';
+  }
   function subscribe() {
     stop?.();
-    stop = watchSetup(services!.db, roomId, (next, synced) => { setup = next; status = synced ? 'synced' : 'syncing'; if (synced && next.players.some(player => player.uid === services!.uid)) rememberTable(roomId, services!.uid); }, fail);
+    stop = watchSetup(services!.db, roomId, (next, synced) => {
+      if (!alive || !next.players.length) return;
+      setup = next;
+      status = synced && navigator.onLine ? 'synced' : 'disconnected';
+      if (synced && next.players.some(player => player.uid === services!.uid)) rememberTable(roomId, services!.uid);
+    }, fail);
   }
-  async function enter(create: boolean) {
-    busy = true; error = ''; status = 'syncing';
-    const id = create ? crypto.randomUUID() : roomId;
+  async function connect() {
+    status = 'connecting';
     try {
-      await enterRoom(services!.db, id, services!.uid, name, create ? playerCount : undefined);
+      const connected = await connectFirebase();
+      if (!alive) return;
+      services = connected;
+      if (roomId) {
+        const room = await inspectRoom(connected.db, roomId);
+        if (!alive) return;
+        playerCount = room.playerCount;
+        reservedSeats = room.members.length;
+        if (room.members.includes(connected.uid)) { subscribe(); return; }
+        if (room.members.length >= room.playerCount) throw new SetupError('full', 'This table is full.');
+      }
+      status = 'synced';
+    } catch (cause) { fail(cause); }
+  }
+  async function enter() {
+    nameError = '';
+    if (!name.trim()) { nameError = 'Choose a name.'; await tick(); document.getElementById('player-name')?.focus(); return; }
+    if (busy || status !== 'synced' || !services) return;
+    busy = true; status = 'joining';
+    const creating = !roomId;
+    const id = creating ? (creationId ||= crypto.randomUUID()) : roomId;
+    try {
+      await enterRoom(services.db, id, services.uid, name, creating ? playerCount : undefined);
       if (!alive) return;
       roomId = id;
       localStorage.setItem('pantheon:name', name.trim());
       history.replaceState(null, '', `${base}/play/?room=${encodeURIComponent(roomId)}`);
       subscribe();
     } catch (cause) { fail(cause); }
-    finally { busy = false; }
+    finally { if (alive) busy = false; }
   }
-  async function invite() {
-    try { await navigator.clipboard.writeText(location.href); copied = true; }
-    catch { error = 'Copy the address from your browser to invite another player.'; }
+  async function showModal(kind: 'invite' | 'details') {
+    opener = document.activeElement as HTMLElement;
+    copied = false; manualInvitation = false;
+    invitation = new URL(`${base}/play/?room=${encodeURIComponent(roomId)}`, location.origin).href;
+    modal = kind;
+    await tick(); dialog.showModal();
   }
+  function closeModal() { dialog.close(); modal = ''; opener?.focus(); }
+  async function copyInvitation() {
+    try { await navigator.clipboard.writeText(invitation); copied = true; }
+    catch { manualInvitation = true; await tick(); invitationInput?.focus(); invitationInput?.select(); }
+  }
+  afterNavigate(({ from, to }) => {
+    if (from && to && from.url.pathname === to.url.pathname && from.url.search !== to.url.search) {
+      stop?.(); setup = null; unavailable = ''; nameError = ''; creationId = ''; playerCount = 2; reservedSeats = 0;
+      roomId = to.url.searchParams.get('room') ?? '';
+      void connect();
+    }
+  });
   onMount(() => {
     const motion = matchMedia('(prefers-reduced-motion: reduce)');
     const updateMotion = () => { reducedMotion = motion.matches; };
+    const offline = () => { if (!unavailable) status = 'disconnected'; };
+    const online = () => { if (!unavailable && !busy) void connect(); };
     updateMotion(); motion.addEventListener('change', updateMotion);
+    window.addEventListener('offline', offline); window.addEventListener('online', online);
     roomId = new URL(location.href).searchParams.get('room') ?? '';
-    const savedName = localStorage.getItem('pantheon:name') ?? '';
-    name = savedName;
-    void connectFirebase().then(async connected => {
-      if (!alive) return;
-      services = connected; status = 'synced';
-      if (roomId && savedName) await enter(false);
-    }).catch(fail);
-    return () => { alive = false; stop?.(); motion.removeEventListener('change', updateMotion); };
+    name = localStorage.getItem('pantheon:name') ?? '';
+    void connect();
+    return () => { alive = false; stop?.(); motion.removeEventListener('change', updateMotion); window.removeEventListener('offline', offline); window.removeEventListener('online', online); };
   });
 </script>
 
-<svelte:head><title>Game setup — Pantheon: Bloodlines</title></svelte:head>
-<main class="play-shell" data-e2e-layout data-status={status}>
-  <header><a href={`${base}/`}>PANTHEON <span>Bloodlines</span></a><nav aria-label="Main navigation"><a href={`${base}/gallery/`}>Cards</a><a href={`${base}/rules/`}>Rules</a></nav></header>
-  <div class="connection" role="status">{status === 'connecting' ? 'Signing in…' : status === 'synced' ? 'Signed in anonymously · Connected' : status === 'syncing' ? 'Connecting to the table…' : 'Connection needs attention'}</div>
-  {#if error}<p role="alert">{error}</p>{/if}
-  {#if !setup}
-    <section class="welcome">
-      <p class="eyebrow">YOUR FIRST EMPIRE</p><h1>{roomId ? 'Join the table' : 'Gather your bloodlines'}</h1>
-      <p>No account needed. Invite friends and prepare your shared table.</p>
-      <form onsubmit={event => { event.preventDefault(); void enter(!roomId); }}>
-        <label>Your name<input disabled={status !== 'synced'} bind:value={name} maxlength="24" autocomplete="nickname" required /></label>
-        {#if !roomId}<label>Players<select aria-label="Players" bind:value={playerCount}><option value={2}>2 players</option><option value={3}>3 players</option><option value={4}>4 players</option></select></label>{/if}
-        <button disabled={busy || status !== 'synced' || !name.trim()}>{roomId ? 'Join table' : 'Create table'}</button>
+<svelte:head><title>Gather at the Table — Pantheon: Bloodlines</title><link rel="preload" as="image" href={`${base}/assets/ui/sanctuary-button-secondary.webp`} /></svelte:head>
+<main class="gathering" class:unavailable data-status={status}>
+  <picture class="environment" aria-hidden="true">
+    <source media="(max-aspect-ratio:3/4)" srcset={`${base}/assets/ui/${unavailable ? 'unavailable' : 'gather'}-mobile.webp`} />
+    <img src={`${base}/assets/ui/${unavailable ? 'unavailable' : 'gather'}-desktop.webp`} alt="" fetchpriority="high" draggable="false" />
+  </picture>
+  <div class="composition" data-e2e-layout={modal ? undefined : true}>
+    <header>
+      <a class="back" href={`${base}/`} aria-label="Back to sanctuary">‹ <span>Sanctuary</span></a>
+      {#if !unavailable}<button class="details" onclick={() => showModal('details')}>Table details</button>{/if}
+    </header>
+    {#if unavailable}
+      <section class="unavailable-message">
+        <h1>{title}</h1><div class="flourish" aria-hidden="true">❧</div>
+        <p>{unavailable === 'full' ? 'Every seat has been taken.' : 'Ask your friend for a new invitation.'}</p>
+        <div class="recovery-links"><SanctuaryLink href={`${base}/play/`} label="Find another table" primary /><SanctuaryLink href={`${base}/`} label="Back" /></div>
+      </section>
+    {:else}
+      <form onsubmit={event => { event.preventDefault(); void enter(); }} novalidate>
+        <section class="seats" aria-label="Players at the table" class:four={count > 2}>
+          {#if setup}
+            {#each setup.players as player, index (player.uid)}
+              <div class="seat-position" data-testid="seat-arrival" in:arrival><GatheringSeat name={player.name} {index} own={player.uid === services?.uid} host={index === 0} /></div>
+            {/each}
+            {#each Array(openSeats) as _, index}<div class="seat-position"><GatheringSeat index={setup.players.length + index} /></div>{/each}
+          {:else}
+            {#each Array(count) as _, index}
+              <div class="seat-position">
+                {#if index === reservedSeats}<GatheringSeat {index} entering bind:value={name} disabled={status !== 'synced'} invalid={!!nameError} />
+                {:else if index < reservedSeats}<GatheringSeat {index} name="Seat taken" host={index === 0} />
+                {:else}<GatheringSeat {index} />{/if}
+              </div>
+            {/each}
+          {/if}
+        </section>
+        <div class="heading">
+          <h1>{title}</h1>
+          <p>{count} players · {setup ? openSeats ? `${openSeats} ${openSeats === 1 ? 'seat' : 'seats'} open` : 'Everyone is here' : roomId ? 'Your seat awaits' : 'Choose your gathering'}</p>
+          {#if nameError}<p id="name-error" role="alert">{nameError}</p>{/if}
+        </div>
+        {#if !setup && !roomId}
+          <fieldset class="seat-count" style:--seat-skin={`url("${base}/assets/ui/gather-seat.webp")`}><legend>Players</legend>
+            {#each [2,3,4] as number}<label class:selected={playerCount === number}><input type="radio" name="players" value={number} bind:group={playerCount} aria-label={`${number} players`} disabled={busy} /><span aria-hidden="true">{number}</span></label>{/each}
+          </fieldset>
+        {/if}
+        {#if !setup}<div class="enter"><GameButton type="submit" primary disabled={busy || status !== 'synced'}>{busy ? 'Taking your seat…' : roomId ? 'Join table' : 'Create table'}</GameButton></div>{/if}
       </form>
-      <p class="scope">First milestone: shared setup. Leader selection and turns are coming next.</p>
-    </section>
-  {:else}
-    <div class="table-heading"><div><p class="eyebrow">SHARED TABLE</p><h1>Prepare your empire</h1></div><button onclick={invite}>{copied ? 'Invitation copied' : 'Copy invitation'}</button></div>
-    <section class="seats" aria-label="Players at the table">
-      {#each setup.players as player (player.uid)}
-        <article class="seat occupied" data-testid="player-seat" transition:arrival={{ y: 18 }}><span class="seat-mark">{setup.players.indexOf(player) + 1}</span><div><h2>{player.name}</h2><p>{player.uid === services!.uid ? 'You' : 'At the table'} · Leader not chosen</p></div></article>
-      {/each}
-      {#each Array(setup.playerCount - setup.players.length) as _, index}<article class="seat waiting"><span class="seat-mark">{setup.players.length + index + 1}</span><p>Waiting for a player</p></article>{/each}
-    </section>
-    <div class="activity" aria-live="polite" aria-atomic="true">{#key latest?.sequence}<p data-testid="latest-activity" in:arrival={{ x: 12 }}>{latest?.message}</p>{/key}</div>
-    <section class="preparation"><div><h2>Each starting deck</h2><div class="starting-deck">{#each [{ id: 'obol', name: '6 Obols' }, { id: 'hamlet', name: '3 Hamlets' }, { id: 'temple-of-athena', name: '1 matching Temple' }] as card}<figure><img src={`${base}/assets/cards/${card.id}.webp`} alt="" /><figcaption>{card.name}</figcaption></figure>{/each}</div><p class="note">Ten cards each. Your Temple follows your leader’s god.</p></div>
-    <div class="supply"><h2>Supply for {setup.playerCount} players</h2><dl><div><dt>Each Territory</dt><dd>{3 * setup.playerCount}</dd></div><div><dt>Each regular Action</dt><dd>{4 * setup.playerCount}</dd></div><div><dt>Obol / Drachma / Talent</dt><dd>40 / 30 / 20</dd></div></dl><p class="note">{supply.length} piles · Starting cards are extra.</p></div></section>
-    <p class="scope">{setup.players.length === setup.playerCount ? 'Everyone is here.' : 'Share the invitation to fill the table.'} Leader selection and turns are coming next.</p>
-  {/if}
+      {#if setup}
+        <button class="invitation-seal" onclick={() => showModal('invite')}><img src={`${base}/assets/ui/gather-invite.webp`} alt="" aria-hidden="true" /><span>Invite friends</span></button>
+        <div class="activity" aria-live="polite" aria-atomic="true">{#key latest?.sequence}<p data-testid="latest-activity" in:arrival>{latest?.message}</p>{/key}</div>
+      {/if}
+      {#if status !== 'synced'}
+        <div class="connection" role="status">
+          <p>{status === 'disconnected' ? setup ? 'Connection lost. Your place is kept.' : 'We couldn’t reach the table.' : status === 'joining' ? 'Taking your seat…' : 'Opening the table…'}</p>
+          {#if status === 'disconnected'}<GameButton onclick={connect}>Try again</GameButton>{/if}
+        </div>
+      {/if}
+    {/if}
+  </div>
 </main>
+<dialog bind:this={dialog} oncancel={event => { event.preventDefault(); closeModal(); }} data-e2e-layout={modal ? true : undefined} aria-labelledby="dialog-title">
+  <button class="close" aria-label="Close" onclick={closeModal}>×</button>
+  {#if modal === 'invite'}
+    <h2 id="dialog-title">Invite friends</h2><img class="dialog-seal" src={`${base}/assets/ui/gather-invite.webp`} alt="" />
+    <p>Share your invitation. A seat awaits.</p>
+    <GameButton primary onclick={copyInvitation}>{copied ? 'Invitation copied' : 'Copy invitation'}</GameButton>
+    <p role="status">{copied ? 'Send it to the players you want at your table.' : manualInvitation ? 'Select and copy your invitation below.' : ''}</p>
+    {#if manualInvitation}<label class="manual">Your invitation<input bind:this={invitationInput} readonly value={invitation} onclick={() => invitationInput?.select()} /></label>{/if}
+  {:else if modal === 'details'}
+    <h2 id="dialog-title">Supply for {count} players</h2>
+    <dl class="supply"><div><dt>Each Territory</dt><dd>{count * 3}</dd></div><div><dt>Each regular Action</dt><dd>{count * 4}</dd></div><div><dt>Obol / Drachma / Talent</dt><dd>40 / 30 / 20</dd></div></dl>
+    <p>{setupSupply(count).length} piles · Starting cards are extra.</p>
+    <h3>Each starting deck</h3><div class="starting-cards">{#each starting as card}<figure><CardFace {card} players={count} /><figcaption>{card.id === 'obol' ? '6 Obols' : '3 Hamlets'}</figcaption></figure>{/each}</div>
+    <p>1 matching Temple · Ten cards each.<br />Your Temple follows your leader’s god.</p>
+    <a href={`${base}/rules/`}>Read the rules</a>
+  {/if}
+</dialog>
 
 <style>
-  .play-shell { max-width: 1100px; padding: 24px 32px; margin: auto; min-height: 100svh; }
-  header { display:flex; justify-content:space-between; align-items:center; gap:20px; padding-bottom:20px; border-bottom:1px solid #887044; }
-  header > a { text-decoration:none; letter-spacing:.12em; color:#e6ce9b; } header span { display:block; font-size:12px; letter-spacing:.2em; } nav { display:flex; gap:20px; }
-  .connection { font-size:13px; color:#b4c6b1; margin:16px 0 24px; }
-  .welcome { max-width:560px; margin:50px auto; } h1,h2 { font-family:'Cormorant Garamond',serif; color:#f0dfbb; } h1 { font-size:42px; line-height:1.05; margin:6px 0 16px; } h2 { font-size:25px; margin:0 0 12px; } p { line-height:1.5; } .eyebrow { font-size:11px; letter-spacing:.15em; color:#c9af7b; margin:0; }
-  form { display:grid; gap:18px; margin:30px 0; } label { display:grid; gap:8px; } input,select,button { min-height:44px; padding:10px 14px; border:1px solid #87734e; border-radius:5px; background:#202a28; color:#eee3ce; } button { background:#dbbf83; color:#20231d; } button:disabled { opacity:.45; cursor:default; } .scope,.note { font-size:13px; color:#b7bbae; } .table-heading { display:flex; justify-content:space-between; align-items:center; gap:16px; }
-  .seats { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; margin:12px 0; } .seat { display:flex; align-items:center; gap:14px; padding:16px; border:1px solid #706342; border-radius:8px; background:#202c28; min-width:0; } .seat h2 { font-family:inherit; font-size:18px; overflow-wrap:anywhere; margin:0 0 4px; } .seat p { font-size:12px; margin:0; color:#b9c3b7; } .seat-mark { color:#e0c184; font-size:24px; flex-shrink:0; } .waiting { border-style:dashed; background:transparent; }
-  .activity { border-left:3px solid #cbb078; padding:4px 16px; margin:20px 0; } .activity p { margin:0; overflow-wrap:anywhere; }
-  .preparation { display:grid; grid-template-columns:1fr 1fr; gap:32px; margin-top:28px; } .starting-deck { display:flex; gap:12px; } figure { margin:0; flex:1; min-width:0; } figure img { width:100%; height:100px; object-fit:cover; border-radius:6px; } figcaption { font-size:12px; margin-top:5px; } dl { margin:0; } dl div { display:flex; justify-content:space-between; gap:12px; border-bottom:1px solid #536044; padding:10px 0; font-size:14px; } dd { margin:0; white-space:nowrap; color:#e5ca92; } [role='alert'] { color:#ffbcad; }
-  @media(max-width:600px) { .play-shell { padding:16px 20px; } .connection { margin:12px 0 18px; font-size:12px; } .welcome { margin:36px auto; } h1 { font-size:32px; } .table-heading { align-items:start; } .table-heading button { max-width:110px; font-size:12px; } .seats { gap:8px; } .seat { padding:10px; gap:8px; } .seat h2 { font-size:14px; } .seat p { font-size:10px; } .preparation { grid-template-columns:1fr; gap:12px; margin-top:16px; } h2 { font-size:22px; margin-bottom:8px; } figure img { height:62px; } .activity { margin:12px 0; font-size:14px; } .note { margin:6px 0; font-size:11px; } .scope { font-size:11px; margin:10px 0; } dl div { padding:7px 0; font-size:12px; } }
+  .gathering { position:relative; height:100svh; min-height:360px; overflow:clip; isolation:isolate; background:#061321; }
+  .environment{position:absolute;inset:0;z-index:-1;} .environment img{width:100%;height:100%;object-fit:cover;}
+  .composition {height:100%;position:relative;--control-height:clamp(54px,7svh,140px);--control-font:clamp(24px,3.4svh,64px);}
+  header{position:absolute;top:2%;left:3%;right:3%;display:flex;justify-content:space-between;align-items:center;z-index:3;}
+  .back,.details{min-height:44px;display:flex;align-items:center;padding:8px 14px;border:1px solid #b8995c80;border-radius:24px;background:#091724c9;color:#efd8a8;font-size:clamp(14px,1.6svh,30px);text-decoration:none;gap:10px;}
+  .seats{position:absolute;left:20%;top:17%;width:60%;height:43%;display:grid;grid-template-columns:repeat(2,1fr);grid-auto-rows:min-content;justify-items:center;align-content:space-between;column-gap:12%;}
+  .seat-position{width:min(22vw,27svh);will-change:transform;}
+  .seats.four{top:10%;height:51%;}.four .seat-position{width:min(19vw,24svh);}
+  .heading{position:absolute;top:63%;left:23%;width:54%;text-align:center;text-shadow:0 2px 5px #000;}
+  h1{font:600 clamp(32px,4.4svh,88px)/1.05 'Cormorant Garamond',serif;color:#f5e1ac;margin:0 0 .2em;}
+  .heading p{margin:0;font:500 clamp(18px,2.4svh,48px)/1.2 'Cormorant Garamond',serif;}
+  .heading [role='alert']{font-family:inherit;font-size:clamp(14px,1.8svh,32px);color:#ffd0af;margin-top:8px;}
+  .seat-count{position:absolute;left:35%;width:30%;top:76%;display:flex;justify-content:center;gap:6%;padding:0;border:0;margin:0;}
+  legend{text-align:center;font:500 clamp(16px,1.8svh,34px)/1.1 'Cormorant Garamond',serif;margin-bottom:6px;}
+  .seat-count label{position:relative;isolation:isolate;width:28%;height:clamp(48px,7svh,140px);display:grid;place-items:center;background:var(--seat-skin) center/100% 100% no-repeat;}
+  .seat-count input{position:absolute;inset:0;margin:0;width:100%;height:100%;appearance:none;border:0;border-radius:50%;cursor:pointer;}
+  .seat-count span{pointer-events:none;font:600 clamp(24px,3.8svh,74px)/1 'Cormorant Garamond',serif;color:#edd7a8;}
+  .seat-count .selected{filter:drop-shadow(0 0 8px #ffd27f);}.seat-count input:focus-visible{outline:3px solid #fff0b8;outline-offset:2px;}
+  .enter{position:absolute;right:5%;bottom:5%;width:27%;}
+  .invitation-seal{position:absolute;left:5%;bottom:3%;width:clamp(120px,15vw,420px);aspect-ratio:1.1;border:0;padding:0;background:none;isolation:isolate;}
+  .invitation-seal img{position:absolute;inset:0;width:100%;height:100%;z-index:-1;}
+  .invitation-seal span{position:absolute;top:67%;left:8%;width:84%;font:700 clamp(20px,2.6svh,52px)/1 'Cormorant Garamond',serif;color:#342615;transform:rotate(-7deg);}
+  .activity{position:absolute;left:29%;bottom:9%;width:48%;text-align:center;font:500 clamp(18px,2.4svh,44px)/1.3 'Cormorant Garamond',serif;text-shadow:0 2px 4px #000;}.activity p{margin:0;overflow-wrap:anywhere;}
+  .connection{position:absolute;left:34%;width:32%;top:48%;text-align:center;background:#0a1524f0;border:1px solid #b99a61;border-radius:20px;padding:16px;z-index:4;font-size:clamp(14px,1.7svh,32px);--control-height:44px;--control-font:24px;}.connection p{margin:0 0 8px;}
+  .unavailable-message{position:absolute;top:43%;left:53%;width:42%;text-align:center;}.unavailable-message p{font:500 clamp(20px,3svh,56px)/1.3 'Cormorant Garamond',serif;}.flourish{color:#e4bd70;font-size:clamp(24px,4svh,70px);line-height:1;}.recovery-links{display:grid;gap:16px;width:85%;margin:auto;--menu-button-height:clamp(54px,7svh,140px);--menu-label-size:clamp(24px,3.3svh,62px);}
+  dialog{width:min(520px,92vw);max-height:94svh;padding:32px;border:2px solid #b58b48;border-radius:20px;background:linear-gradient(#132431f5,#07111cfb);color:#f2dfb9;text-align:center;box-shadow:0 20px 80px #000b;--control-height:56px;--control-font:26px;}
+  dialog::backdrop{background:#020811bb;backdrop-filter:blur(6px);}dialog h2{font:600 32px/1 'Cormorant Garamond',serif;margin:12px 20px 24px;}dialog h3{font:600 24px/1 'Cormorant Garamond',serif;margin:18px 0 10px;}dialog p{font-size:15px;line-height:1.4;}dialog .close{position:absolute;right:8px;top:8px;width:44px;height:44px;border:0;background:none;font-size:28px;}
+  .dialog-seal{width:140px;}.manual{display:grid;gap:8px;text-align:left;font-size:14px;}.manual input{width:100%;min-height:44px;padding:8px;border:1px solid #b58b48;background:#f5e3be;color:#292419;}.supply{margin:0;}.supply div{display:flex;justify-content:space-between;gap:10px;border-bottom:1px solid #b58b4866;padding:8px 0;}.supply dd{margin:0;white-space:nowrap;color:#efcc85;}.starting-cards{display:flex;justify-content:center;gap:20px;}.starting-cards figure{width:100px;margin:0;}figcaption{font-size:14px;margin-top:6px;}dialog a{display:inline-flex;align-items:center;min-height:44px;}
+  @media(max-aspect-ratio:3/4){
+    header{top:1%;left:3%;right:3%;}.back,.details{padding:6px 12px;font-size:13px;}
+    .heading{top:9%;left:4%;width:92%;}h1{font-size:clamp(27px,7.6vw,52px);}.heading p{font-size:clamp(17px,4.7vw,30px);}
+    .seats,.seats.four{left:5%;width:90%;top:29%;height:42%;column-gap:8%;}.seat-position,.four .seat-position{width:min(40vw,22svh);}
+    .seat-count{top:75%;left:23%;width:54%;gap:4%;}.seat-count label{width:30%;height:52px;}.seat-count span{font-size:26px;}legend{font-size:16px;}
+    .enter{right:8%;width:84%;bottom:4%;--control-height:58px;--control-font:28px;}
+    .invitation-seal{left:5%;bottom:3%;width:34%;}.invitation-seal span{font-size:21px;}.activity{left:42%;bottom:9%;width:52%;font-size:20px;}
+    .connection{top:61%;left:12%;width:76%;font-size:14px;}
+    .unavailable-message{left:5%;width:90%;top:43%;}.unavailable-message h1{font-size:34px;}.unavailable-message p{font-size:23px;}.recovery-links{width:88%;--menu-button-height:56px;--menu-label-size:26px;}
+    dialog{padding:22px 18px;}dialog h2{font-size:28px;}dialog p{font-size:14px;}.supply{font-size:14px;}.starting-cards figure{width:85px;}
+  }
+  @media(max-height:500px) and (min-aspect-ratio:3/4){
+    .seats,.seats.four{left:16%;top:18%;width:68%;height:38%;grid-template-columns:repeat(4,1fr);gap:2%;}.seat-position,.four .seat-position{width:min(15vw,35svh);}
+    .heading{top:60%;}h1{font-size:26px;}.heading p{font-size:17px;}.seat-count{top:auto;bottom:3%;left:36%;width:28%;}legend{display:none;}.seat-count label{height:44px;}.enter{width:25%;right:3%;bottom:4%;--control-height:44px;--control-font:22px;}
+    .activity{bottom:4%;font-size:16px;}.invitation-seal{width:110px;bottom:1%;}.invitation-seal span{font-size:18px;}.connection{top:56%;}.unavailable-message{top:22%;}.unavailable-message h1{font-size:28px;}.unavailable-message p{font-size:18px;margin:8px;}.flourish{font-size:24px;}.recovery-links{--menu-button-height:44px;--menu-label-size:22px;gap:8px;}
+  }
 </style>

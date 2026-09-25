@@ -45,3 +45,9 @@ Trash (broken card), Discard (card stack and downward arrow), and Gain (hand rec
 The accepted sanctuary painting supplied the reference for five built-in image-generation outputs: separate landscape and portrait environments, a transparent gold wordmark, and transparent lapis/charcoal control skins. Exact prompts are in [sanctuary-assets.json](ux/sanctuary-assets.json). Final runtime files are in `static/assets/ui/`; environments use WebP quality 92 and alpha assets use lossless WebP. Only delivery conversion was applied. These assets are covered by the repository's GPL-3.0-only license.
 
 The environments contain no controls or cards. Svelte renders live link labels and the existing `CardFace`/`CardBack` components above the scene. The wordmark has a semantic heading. No concept screenshot is shipped as an interactive screen.
+
+## Gathering production layers
+
+Step 2 uses seven built-in image-generation outputs from the accepted gathering and unavailable-table paintings: landscape/portrait backgrounds for both scenes, a transparent laurel medallion with a genuine portrait window, an empty seat token and an invitation seal. The exact prompts are in [gathering-assets.json](ux/gathering-assets.json); final assets are `static/assets/ui/gather-*.webp` and `unavailable-*.webp`, under GPL-3.0-only. Backgrounds use WebP quality 92; transparent components are lossless. Delivery conversion preserves the generated imagery and alpha.
+
+All names, statuses, choices and controls remain live Svelte content. Seat portraits reuse the approved Thaleia, Nereon, Melia and Doreios illustrations as decorative seating imagery; no leader or god is assigned during gathering. The background contains no portraits, seat tokens, text or controls. Supply details use the actual layered card renderer.

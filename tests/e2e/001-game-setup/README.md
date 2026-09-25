@@ -1,28 +1,32 @@
-# Anonymous sign-in and shared game setup
+# Gather at the Table
 
-## Sign in without an account
+## Choose your gathering
 
-![Sign in without an account](./screenshots/000-signed-in-desktop-darwin.png)
+![Choose your gathering](./screenshots/000-choose-gathering-desktop-darwin.png)
 
-- [x] Anonymous authentication is ready before creating a table.
-- [x] A name is required.
+- [x] Two seats are selected, and the name plate is ready.
+- [x] The screen speaks to the player and shows no undealt cards.
 
-## Create a two-player table
+## Take your seat at a two-player table
 
-![Create a two-player table](./screenshots/001-created-desktop-darwin.png)
+![Take your seat at a two-player table](./screenshots/001-created-desktop-darwin.png)
 
-- [x] The creator occupies one seat with another available.
-- [x] The initial supply and ten-card starting deck are explained.
+- [x] The creator occupies the host seat and one seat remains.
 
-## See another player arrive
+## Inspect the gathering’s supply
 
-![See another player arrive](./screenshots/002-joined-desktop-darwin.png)
+![Inspect the gathering’s supply](./screenshots/002-details-desktop-darwin.png)
 
-- [x] The remote join appears without reloading.
-- [x] Activity names the player and action.
+- [x] Two-player supply and the ten-card starting inventory match the rules.
 
-## Restore the same table after reload
+## Invite friends with the wax seal
 
-![Restore the same table after reload](./screenshots/003-restored-desktop-darwin.png)
+![Invite friends with the wax seal](./screenshots/003-invitation-desktop-darwin.png)
 
-- [x] The anonymous identity retains its seat without appending another join.
+- [x] The invitation opens a focused, dismissible sharing control.
+
+## Welcome another player to the table
+
+![Welcome another player to the table](./screenshots/004-joined-desktop-darwin.png)
+
+- [x] The remote arrival fills the second seat and names the action once.

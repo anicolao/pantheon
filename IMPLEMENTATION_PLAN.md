@@ -128,4 +128,4 @@ The sequence is a development/review sequence, not a succession of altered game 
 
 Each milestone adds a `FIDELITY.md` beside its E2E story: links to concept(s), actual phone/desktop/4K screenshots, a short visual comparison, and the named behavioral checks. A side-by-side human review answers “does this look like the accepted game?”; exact app snapshots answer “did it change after review?” Both are required.
 
-Do not mark a step accepted because snapshots were generated or CI passed. Implementation-complete means checks pass and the PR contains concrete fidelity evidence; visual acceptance remains the reviewer's decision. Step 1 is the implementation delivered with this plan. The remaining steps are planned, not implemented claims.
+Do not mark a step accepted because snapshots were generated or CI passed. Implementation-complete means checks pass and the PR contains concrete fidelity evidence; visual acceptance remains the reviewer's decision. Steps 1 and 2 are implemented. Step 1’s sanctuary fidelity was accepted; step 2’s gathering is submitted for review with evidence in `tests/e2e/001-game-setup/FIDELITY.md`. Steps 3–11 remain planned.
