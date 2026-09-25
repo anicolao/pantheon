@@ -17,7 +17,11 @@ bun install --frozen-lockfile
 bun run dev
 ```
 
-Open `http://127.0.0.1:5193/` or `/gallery/`. The gallery offers combined type, god, and text filters; keyboard-accessible inspection; larger tabletop cards; and an A4 print layout with 63 × 88.2 mm faces. Printing includes one copy of each currently filtered card, not a complete supply. Enable background graphics and use 100% scale when printing. Supply counts remain in [MVP_CARDSET.md](../MVP_CARDSET.md).
+Open `http://127.0.0.1:5193/` or `/gallery/`. The gallery offers combined type, god, and text filters; keyboard-accessible inspection; larger tabletop cards; separate front/back viewing; and an A4 print layout. Deck cards are 63 × 88.2 mm, landscape events 88.2 × 63 mm, and larger landscape leaders 120 × 75 mm. These are prototype face dimensions, without bleed or cut marks.
+
+Printing includes one representative copy of each currently filtered card, on the displayed side, not a complete supply or an automatically aligned duplex sheet. Enable background graphics and use 100% scale when printing. Supply counts remain in [MVP_CARDSET.md](../MVP_CARDSET.md).
+
+Each face has a permanent catalog number and copy suffix, such as `PB-007-01`, alongside `1/10`. Choose 2, 3, or 4 players to update inventory totals; these include starting decks. For example, Obol totals are 54/61/68 and Hamlet totals are 14/21/24. Actions have ten copies each; each leader and event has one physical copy even when unused in setup. The inspector can select any copy of that card. Numbering describes physical inventory, not remaining supply or ownership. New catalog numbers must be assigned explicitly and never renumbered by sorting or filtering.
 
 ## Verify
 
@@ -26,7 +30,7 @@ bunx playwright install chromium
 bun run verify
 ```
 
-On a Linux machine without browser system libraries, use `bunx playwright install --with-deps chromium` first. Tests build the production app and serve it under `/pantheon/pr-test/`, exercising the same nested paths as a PR preview. They check all 26 faces, image decoding, costs and rules, text fit, filters, keyboard inspection, print dimensions, and phone/desktop/4K tabletop layouts. Screenshots and traces are saved in Playwright's output directories; CI uploads the HTML report and screenshots.
+On a Linux machine without browser system libraries, use `bunx playwright install --with-deps chromium` first. Tests build the production app and serve it under `/pantheon/pr-test/`, exercising the same nested paths as a PR preview. They check all 26 layered faces, image decoding, resource icons and values, rules, text fit, actual transparent frame windows and layer order, copy counts, three distinct back families, filters, keyboard inspection, format-specific print dimensions, and phone/desktop/4K tabletop layouts. Screenshots and traces are saved in Playwright's output directories; CI uploads the HTML report and screenshots.
 
 ```sh
 PUBLIC_BASE_PATH=/pantheon/pr1 bun run build
@@ -39,9 +43,14 @@ The second command serves the build at `http://127.0.0.1:4193/pantheon/pr1/`. Th
 
 - `src/lib/game/cards.ts`: typed v0.1 definitions matching the rules document.
 - `src/lib/components/CardFace.svelte`: reusable card face; no game state or turn logic.
+- `src/lib/components/CardBack.svelte`: shared back per form factor, without identifying metadata.
+- `src/lib/components/ResourceIcon.svelte` and `RuleText.svelte`: image symbols with live values and accessible wording.
+- `src/lib/game/presentation.ts`: formats, physical inventory counts, serial numbers, and ordered resource tokenization.
 - `src/lib/components/Gallery.svelte`: gallery, filters, inspector, tabletop sizing, and printing.
 - `static/assets/cards/`: generated card illustrations, optimized as WebP.
+- `static/assets/frames/`, `icons/`, and `backs/`: generated overlay frames, resource components, and three back families.
 - `docs/art-prompts.json`: the exact built-in image generation prompts.
+- `docs/layer-prompts.json`: the exact prompts for the additional layer assets.
 - `tests/e2e/`: production-browser render and interaction checks.
 
 ## Publishing

@@ -1,14 +1,23 @@
 <script lang="ts">
   import { base } from '$app/paths';
-  import { tick } from 'svelte';
+  import { onMount, tick } from 'svelte';
   import CardFace from './CardFace.svelte';
+  import CardBack from './CardBack.svelte';
+  import ResourceIcon from './ResourceIcon.svelte';
+  import { cardFormat, copyCount, resourceNames, type PlayerCount, type Resource } from '$lib/game/presentation';
   import { cards } from '$lib/game/cards';
   import { cardTypes, gods, godSymbols, type CardDefinition, type CardType, type God } from '$lib/game/types';
 
+  let ready = $state(false);
+  onMount(() => { ready = true; });
   let kind = $state<CardType | 'All'>('All');
   let god = $state<God | 'All'>('All');
   let query = $state('');
   let tabletop = $state(false);
+  let showBacks = $state(false);
+  let players = $state<PlayerCount>(2);
+  let selectedCopy = $state(1);
+  let inspectBack = $state(false);
   let selected = $state<CardDefinition | null>(null);
   let inspector: HTMLDialogElement;
   const order: CardType[] = ['Leader', 'Action', 'Treasure', 'Territory', 'Event'];
@@ -20,6 +29,8 @@
 
   async function inspect(card: CardDefinition) {
     selected = card;
+    selectedCopy = 1;
+    inspectBack = showBacks;
     await tick();
     inspector.showModal();
   }
@@ -51,21 +62,25 @@
       <div class="collection-heading"><div><p class="eyebrow">THE FOUNDING COLLECTION</p><h2 id="collection-title">Card gallery <span>26</span></h2></div><p>Four bloodlines. Five affiliations.<br />Every path to power starts here.</p></div>
       <div class="type-tabs" role="group" aria-label="Filter by card type">
         {#each ['All', ...cardTypes] as type}
-          <button class:chosen={kind === type} aria-pressed={kind === type} onclick={() => kind = type as CardType | 'All'}>{type === 'All' ? 'All cards' : type === 'Territory' ? 'Territories' : `${type}s`} <span>{type === 'All' ? cards.length : cards.filter(c => c.type === type).length}</span></button>
+          <button disabled={!ready} class:chosen={kind === type} aria-pressed={kind === type} onclick={() => kind = type as CardType | 'All'}>{type === 'All' ? 'All cards' : type === 'Territory' ? 'Territories' : `${type}s`} <span>{type === 'All' ? cards.length : cards.filter(c => c.type === type).length}</span></button>
         {/each}
       </div>
       <div class="toolbar">
-        <label class="search"><span>Search cards</span><input type="search" bind:value={query} placeholder="Search the collection…" /></label>
-        <label class="god-filter"><span>God affiliation</span><select bind:value={god}><option value="All">All gods</option>{#each gods as deity}<option value={deity}>{deity}</option>{/each}</select></label>
-        <label class="view-toggle"><input type="checkbox" bind:checked={tabletop} /><span>Tabletop view</span></label>
-        <button class="print" onclick={() => window.print()}>Print cards ↗</button>
+        <label class="search"><span>Search cards</span><input disabled={!ready} type="search" bind:value={query} placeholder="Search the collection…" /></label>
+        <label class="god-filter"><span>God affiliation</span><select disabled={!ready} bind:value={god}><option value="All">All gods</option>{#each gods as deity}<option value={deity}>{deity}</option>{/each}</select></label>
+        <label class="player-filter"><span>Players</span><select aria-label="Players" disabled={!ready} bind:value={players}><option value={2}>2 players</option><option value={3}>3 players</option><option value={4}>4 players</option></select></label>
+        <label class="view-toggle"><input disabled={!ready} type="checkbox" bind:checked={tabletop} /><span>Tabletop view</span></label>
+        <label class="view-toggle"><input disabled={!ready} type="checkbox" bind:checked={showBacks} /><span>Show backs</span></label>
+        <button disabled={!ready} class="print" onclick={() => window.print()}>Print cards ↗</button>
       </div>
       <div class="collection-meta"><p aria-live="polite" role="status">{visible.length} of {cards.length} cards <span>· {tabletop ? 'Large faces for a shared display' : 'Select a card to inspect'}</span></p><span class="prototype">GALLERY PROTOTYPE · NO ACTIVE GAME</span></div>
 
+      <div class="resource-legend" aria-label="Resource icon legend">{#each Object.entries(resourceNames) as [resource, label]}<span><ResourceIcon resource={resource as Resource} /><span>{label}</span></span>{/each}</div>
+      <p class="copy-note">Faces show copy 1 of each card. Totals include starting decks for {players} players. Inspect a card to select another copy. Deck · 63 × 88 mm / Event · 88 × 63 mm / Leader · 120 × 75 mm.</p>
       <div class="card-grid" data-testid="card-grid">
         {#each visible as card (card.id)}
-          <div class="card-item">
-            <div class="card-wrap"><CardFace {card} /><button class="inspect-card" onclick={() => inspect(card)} aria-label={`Inspect ${card.name}`}></button></div>
+          <div class="card-item" data-format={cardFormat(card)}>
+            <div class="card-wrap">{#if showBacks}<CardBack format={cardFormat(card)} />{:else}<CardFace {card} {players} />{/if}<button disabled={!ready} class="inspect-card" onclick={() => inspect(card)} aria-label={`Inspect ${card.name}`}></button></div>
             <div class="card-caption"><span><b aria-hidden="true">{godSymbols[card.god]}</b> {card.god} <span class="separator">/</span> {card.type}</span><span aria-hidden="true">↗</span></div>
           </div>
         {:else}
@@ -78,9 +93,13 @@
   <footer class="site-footer"><span>PANTHEON: BLOODLINES</span><p>A race for land. A legacy among gods.</p><a href="https://github.com/anicolao/pantheon">Open source · GPLv3 ↗</a></footer>
 </div>
 
-<dialog bind:this={inspector} aria-label={selected ? `${selected.name} details` : 'Card details'}>
+<dialog bind:this={inspector} data-format={selected ? cardFormat(selected) : 'deck'} aria-label={selected ? `${selected.name} details` : 'Card details'}>
   <button class="close" onclick={() => inspector.close()}>Close <span aria-hidden="true">×</span></button>
-  {#if selected}<CardFace card={selected} />{/if}
+  {#if selected}
+    <div class="inspector-controls"><label>Copy<select aria-label="Copy" bind:value={selectedCopy}>{#each Array.from({ length: copyCount(selected, players) }, (_, i) => i + 1) as n}<option value={n}>{n}/{copyCount(selected, players)}</option>{/each}</select></label><button onclick={() => inspectBack = !inspectBack}>{inspectBack ? 'Show front' : 'Show back'}</button></div>
+    {#if inspectBack}<CardBack format={cardFormat(selected)} />{:else}<CardFace card={selected} {players} copy={selectedCopy} />{/if}
+    <div class="accessible-rules"><h3>{selected.name}</h3><p>{selected.effect}</p>{#if selected.favored}<p><strong>Favored:</strong> {selected.favored}</p>{/if}</div>
+  {/if}
   <p class="dialog-hint">Press Escape or Close to return to the collection.</p>
 </dialog>
 
@@ -118,21 +137,26 @@
   .type-tabs button { border: 0; border-bottom: 2px solid transparent; background: none; color: #b2b8ad; padding: 0.9rem 0; font-size: 0.88rem; }
   .type-tabs button.chosen { color: #e8d3a2; border-bottom-color: #d6ba7f; }
   .type-tabs button span { margin-left: 0.4rem; opacity: 0.65; font-size: 0.7rem; }
-  .toolbar { display: flex; align-items: end; gap: 1rem; margin-top: 1.5rem; }
+  .toolbar { display: flex; flex-wrap: wrap; align-items: end; gap: 1rem; margin-top: 1.5rem; }
   .toolbar label > span:first-child { display: block; margin-bottom: 0.4rem; font-size: 0.68rem; color: #b3b9ad; letter-spacing: 0.04em; }
   .search { flex: 1; max-width: 24rem; }
   input[type='search'], select { width: 100%; min-height: 44px; color: #e8e7dd; border: 1px solid #ffffff29; background: #1b2322; border-radius: 3px; padding: 0.7rem 0.9rem; font-size: 0.85rem; }
   input::placeholder { color: #a4aea2; }
   .god-filter { width: 10rem; }
-  .view-toggle { display: flex; align-items: center; min-height: 44px; gap: 0.5rem; margin-left: auto; white-space: nowrap; font-size: 0.8rem; }
+  .view-toggle { display: flex; align-items: center; min-height: 44px; gap: 0.5rem; white-space: nowrap; font-size: 0.8rem; }
   .view-toggle input { width: 1.1rem; height: 1.1rem; accent-color: #d6ba7f; }
   .print { min-height: 44px; background: none; border: 1px solid #ffffff29; padding: 0.7rem 0.9rem; border-radius: 3px; font-size: 0.8rem; }
   .collection-meta { display: flex; justify-content: space-between; gap: 1rem; align-items: center; margin: 1.1rem 0 1.6rem; color: #b1b9ac; font-size: 0.73rem; }
   .collection-meta p { margin: 0; }
   .collection-meta p span { color: #909d91; }
   .prototype { font-size: 0.57rem; letter-spacing: 0.1em; color: #c0ad86; }
-  .card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); gap: 2.1rem 1.8rem; align-items: start; }
-  .card-item { width: 100%; max-width: 380px; justify-self: center; min-width: 0; }
+  .card-grid { display: flex; flex-wrap: wrap; gap: 2.1rem 1.8rem; align-items: start; justify-content: center; }
+  .card-item { width: min(100%, 300px); min-width: 0; }
+  .card-item[data-format='event'] { width: min(100%, 420px); }
+  .card-item[data-format='leader'] { width: min(100%, 572px); }
+  .resource-legend { display: flex; flex-wrap: wrap; gap: 0.8rem 1.5rem; padding: 0.7rem 0; border-top: 1px solid #ffffff18; }
+  .resource-legend > span { display: flex; align-items: center; gap: 0.4rem; font-size: 0.75rem; color: #d6c79e; --icon-size: 32px; }
+  .copy-note { color: #a6b1a3; font-size: 0.72rem; line-height: 1.5; margin-bottom: 2rem; }
   .card-wrap { position: relative; transition: transform 160ms ease; }
   .card-wrap:hover { transform: translateY(-4px); }
   .inspect-card { position: absolute; inset: 0; width: 100%; border: 0; border-radius: 10px; background: transparent; }
@@ -153,10 +177,20 @@
   .site-footer p { margin: 0; }
   .site-footer a { text-decoration: none; }
   .tabletop .hero { display: none; }
-  .tabletop .card-grid { grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr)); }
-  .tabletop .card-item { max-width: 540px; }
+  .tabletop .card-item { width: min(100%, 420px); }
+  .tabletop .card-item[data-format='event'] { width: min(100%, 588px); }
+  .tabletop .card-item[data-format='leader'] { width: min(100%, 800px); }
   dialog { width: min(94vw, 510px); max-height: 95dvh; border: 1px solid #b49964; border-radius: 8px; background: #151b1b; padding: 1rem; color: #ece4d3; }
   dialog::backdrop { background: #050908dc; backdrop-filter: blur(5px); }
+  dialog[data-format='event'] { width: min(96vw, 760px); }
+  dialog[data-format='leader'] { width: min(96vw, 960px); }
+  .inspector-controls { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-bottom: 1rem; font-size: 0.8rem; }
+  .inspector-controls label { display: flex; align-items: center; gap: 0.5rem; }
+  .inspector-controls select { width: auto; }
+  .inspector-controls button { padding: 0.7rem; background: #29342c; border: 1px solid #8f805d; border-radius: 3px; }
+  .accessible-rules { margin-top: 1rem; border-top: 1px solid #8f805d; padding-top: 1rem; font-size: 1rem; line-height: 1.5; }
+  .accessible-rules h3 { font: 600 1.6rem 'Cormorant Garamond', serif; margin: 0; }
+  .accessible-rules p { margin-bottom: 0; }
   .close { display: flex; align-items: center; justify-content: space-between; width: 100%; margin-bottom: 0.8rem; border: 0; background: none; padding: 0.35rem 0; font-size: 0.8rem; }
   .close span { font-size: 1.5rem; }
   .dialog-hint { font-size: 0.65rem; text-align: center; margin: 1rem 0 0; color: #b8c0b3; }
@@ -173,10 +207,12 @@
     .site-footer { flex-wrap: wrap; gap: 0.75rem; } .site-footer p { display: none; }
   }
   @media print {
-    .site-header, .hero, .type-tabs, .toolbar, .collection-meta, .collection-heading, .devotion-note, .site-footer, .card-caption, .skip-link, dialog { display: none !important; }
+    .site-header, .hero, .type-tabs, .toolbar, .collection-meta, .collection-heading, .devotion-note, .site-footer, .card-caption, .skip-link, dialog, .resource-legend, .copy-note { display: none !important; }
     .shell, main, .collection { margin: 0; padding: 0; background: white; }
-    .card-grid, .tabletop .card-grid { display: grid; grid-template-columns: repeat(3, 63mm); gap: 3mm; }
-    .card-item, .tabletop .card-item { width: 63mm; max-width: none; break-inside: avoid; }
+    .card-grid, .tabletop .card-grid { display: flex; width: 196mm; gap: 3mm; justify-content: start; }
+    .card-item, .tabletop .card-item { width: 63mm; max-width: none; flex-shrink: 0; break-inside: avoid; }
+    .card-item[data-format='event'], .tabletop .card-item[data-format='event'] { width: 88.2mm; }
+    .card-item[data-format='leader'], .tabletop .card-item[data-format='leader'] { width: 120mm; }
     .card-wrap { transform: none !important; } .inspect-card { display: none; }
     @page { size: A4; margin: 7mm; }
   }

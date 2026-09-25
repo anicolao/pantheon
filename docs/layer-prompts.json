@@ -1,0 +1,57 @@
+[
+  {
+    "id": "frame-deck",
+    "kind": "frames",
+    "prompt": "Use case: stylized-concept. Asset type: transparent game card FRAME overlay, portrait 5:7 ratio, straight-on flat view filling canvas. Original Greek mythology tabletop game Pantheon Bloodlines. Elaborate antique bronze and ivory marble chassis with fine Greek key engraving, laurel corner ornaments, aged gold bevels, dark patina recesses, restrained premium craftsmanship. EXACT EMPTY LAYOUT in percentages of whole canvas: blank ivory title plate x7-93%, y4-12%; large truly TRANSPARENT alpha art window x7-93%, y15-52%; two separate truly TRANSPARENT alpha small rectangular tag windows x7-48%, y54-61% AND x52-93%, y54-61%; blank smooth pale ivory rules plate x7-93%, y64-92%; narrow blank dark footer strip x7-93%, y94-97%. Thin carved metal dividers enclose every window and panel. Actual transparent pixels in the three windows and outside rounded corners, NOT black or checkerboard paint. The rules and title plates must be opaque pale ivory, untextured enough for dark text readability. No lettering, no numbers, no symbols inside panels, no illustrations, no perspective, no surrounding scene, no drop shadow outside canvas. Frame artwork only, all content overlaid later."
+  },
+  {
+    "id": "frame-event",
+    "kind": "frames",
+    "prompt": "Use case: stylized-concept. Asset type: truly transparent alpha game card FRAME overlay. Straight-on flat orthographic view, fills canvas. Original Greek mythology game Pantheon Bloodlines. Antique bronze, pale ivory marble, fine Greek key engraving, aged gold bevels, dark patina recesses. Blank ivory title panel x6-88%, y5-14%. Truly TRANSPARENT alpha large illustration window x5-43%, y19-83%. Opaque smooth pale ivory rules panel x48-94%, y20-85%. Two independent truly TRANSPARENT alpha tag windows x5-23%, y86-93% and x25-43%, y86-93%. Narrow empty dark footer strip x49-93%, y90-95%. Thin sculpted frame surrounds each panel and window. No lettering, no numerals, no illustrations or symbols inside the windows or panels. No checkerboard paint; all three windows must be real alpha holes. Transparent outside rounded corners. Landscape 7:5 canvas. Restrained temple pediment and small wing-like bronze corner ornaments, divine celestial character. Top-right corner has an empty circular bronze mount for a cost icon. Keep the pale rules panel completely unobstructed."
+  },
+  {
+    "id": "frame-leader",
+    "kind": "frames",
+    "prompt": "Use case: stylized-concept. Asset type: truly transparent alpha game card FRAME overlay. Straight-on flat orthographic view, fills canvas. Original Greek mythology game Pantheon Bloodlines. Antique bronze, pale ivory marble, fine Greek key engraving, aged gold bevels, dark patina recesses. Blank ivory title panel x6-88%, y5-14%. Truly TRANSPARENT alpha large illustration window x5-43%, y19-83%. Opaque smooth pale ivory rules panel x48-94%, y20-85%. Two independent truly TRANSPARENT alpha tag windows x5-23%, y86-93% and x25-43%, y86-93%. Narrow empty dark footer strip x49-93%, y90-95%. Thin sculpted frame surrounds each panel and window. No lettering, no numerals, no illustrations or symbols inside the windows or panels. No checkerboard paint; all three windows must be real alpha holes. Transparent outside rounded corners. Landscape 8:5 canvas, larger player leader board. Rich double laurel branches and royal bronze lion corner ornaments, heavy bronze architectural border with subtle blue-green patina. Top-right has a small decorative laurel seal. Keep the pale rules panel completely unobstructed."
+  },
+  {
+    "id": "victory",
+    "kind": "icons",
+    "prompt": "Use case: stylized-concept. Asset type: a SINGLE game resource icon on genuinely transparent alpha background, square canvas, isolated centered object fills 85% of canvas. Pantheon Bloodlines, ancient Greek bronze and colored enamel, polished sculptural relief, crisp readable simple silhouette, consistent antique gold trim, straight-on view. No words, letters, numbers, frame, background scene, shadow outside the icon. A large clear middle area must remain empty to overlay a numeric value later. The recognizable silhouette and ornament surround this clear center. Subject: thick golden laurel wreath, tied below with an ivory ribbon; unmistakable victory wreath silhouette, dark moss green recessed circular center for a white numeric overlay."
+  },
+  {
+    "id": "cards",
+    "kind": "icons",
+    "prompt": "Use case: stylized-concept. Asset type: a SINGLE game resource icon on genuinely transparent alpha background, square canvas, isolated centered object fills 85% of canvas. Pantheon Bloodlines, ancient Greek bronze and colored enamel, polished sculptural relief, crisp readable simple silhouette, consistent antique gold trim, straight-on view. No words, letters, numbers, frame, background scene, shadow outside the icon. A large clear middle area must remain empty to overlay a numeric value later. The recognizable silhouette and ornament surround this clear center. Subject: fan of three small ivory playing cards with bronze outlines, front card has a deep indigo empty center for a white numeric overlay; unmistakable overlapping rectangular card silhouette."
+  },
+  {
+    "id": "buys",
+    "kind": "icons",
+    "prompt": "Use case: stylized-concept. Asset type: a SINGLE game resource icon on genuinely transparent alpha background, square canvas, isolated centered object fills 85% of canvas. Pantheon Bloodlines, ancient Greek bronze and colored enamel, polished sculptural relief, crisp readable simple silhouette, consistent antique gold trim, straight-on view. No words, letters, numbers, frame, background scene, shadow outside the icon. A large clear middle area must remain empty to overlay a numeric value later. The recognizable silhouette and ornament surround this clear center. Subject: ancient Greek market basket with curved handle and broad turquoise enamel body, small bronze coins peeking over its rim; body has a large blank dark teal central area for a white numeric overlay. Clearly a handled basket, not a coin or wreath."
+  },
+  {
+    "id": "actions",
+    "kind": "icons",
+    "prompt": "Use case: stylized-concept. Asset type: a SINGLE game resource icon on genuinely transparent alpha background, square canvas, isolated centered object fills 85% of canvas. Pantheon Bloodlines, ancient Greek bronze and colored enamel, polished sculptural relief, crisp readable simple silhouette, consistent antique gold trim, straight-on view. No words, letters, numbers, frame, background scene, shadow outside the icon. A large clear middle area must remain empty to overlay a numeric value later. The recognizable silhouette and ornament surround this clear center. Subject: broad bold lightning bolt carved from amber-gold metal with a dark crimson enamel central section for a white numeric overlay. Strong zigzag lightning silhouette, no circular badge behind it."
+  },
+  {
+    "id": "coins",
+    "kind": "icons",
+    "prompt": "Use case: stylized-concept. Asset type: a SINGLE game resource icon on genuinely transparent alpha background, square canvas, isolated centered object fills 85% of canvas. Pantheon Bloodlines, ancient Greek bronze and colored enamel, polished sculptural relief, crisp readable simple silhouette, consistent antique gold trim, straight-on view. No words, letters, numbers, frame, background scene, shadow outside the icon. A large clear middle area must remain empty to overlay a numeric value later. The recognizable silhouette and ornament surround this clear center. Subject: a round gold Greek coin with an engraved dotted rim and tiny olive leaves at its edges; large blank dark bronze recessed center for a white numeric overlay. No stamped face in the center."
+  },
+  {
+    "id": "back-deck",
+    "kind": "backs",
+    "prompt": "Use case: stylized-concept. Asset type: finished card BACK for original Greek mythology game Pantheon Bloodlines, flat orthographic full card, fills entire canvas, no surrounding scene or perspective. Ornate antique gold Greek key perimeter, engraved premium metal and mineral pigment, rich detail but legible central emblem, opaque background, rounded corners. Absolutely no words, letters, numbers or card-specific identification. Rotationally symmetric balanced design. Portrait 5:7. Deep midnight indigo field with gold interlaced olive branches and a central circular gold Greek temple seal, twin temple motifs facing opposite directions, quiet refined library feel. This is the common back of all shuffled player deck cards."
+  },
+  {
+    "id": "back-event",
+    "kind": "backs",
+    "prompt": "Use case: stylized-concept. Asset type: finished card BACK for original Greek mythology game Pantheon Bloodlines, flat orthographic full card, fills entire canvas, no surrounding scene or perspective. Ornate antique gold Greek key perimeter, engraved premium metal and mineral pigment, rich detail but legible central emblem, opaque background, rounded corners. Absolutely no words, letters, numbers or card-specific identification. Rotationally symmetric balanced design. Landscape 7:5. Turquoise and verdigris enamel field, a large radiant sun and ring of five stars surrounded by paired divine wing motifs, ceremonial celestial seal. Very visibly distinct from an indigo deck back. Shared god events."
+  },
+  {
+    "id": "back-leader",
+    "kind": "backs",
+    "prompt": "Use case: stylized-concept. Asset type: finished card BACK for original Greek mythology game Pantheon Bloodlines, flat orthographic full card, fills entire canvas, no surrounding scene or perspective. Ornate antique gold Greek key perimeter, engraved premium metal and mineral pigment, rich detail but legible central emblem, opaque background, rounded corners. Absolutely no words, letters, numbers or card-specific identification. Rotationally symmetric balanced design. Landscape 8:5. Deep oxblood red leather field with a large gold laurel crown and a heraldic pair of lions flanking a ceremonial shield, luxurious double gold perimeter. Visibly distinct from deck and event backs. Oversized bloodline leader boards."
+  }
+]

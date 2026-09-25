@@ -27,6 +27,14 @@ Prepare the following cards. Starting cards are separate from the listed supply 
 
 Also provide a shared trash area, a first-player marker, and a way to track Actions, Buys, and Coins during a turn. These counters are temporary resources, not cards or victory points.
 
+### Prototype presentation
+
+Deck cards use a portrait face and one shared back regardless of type or god. God events use landscape faces and a distinct event back. Leaders use larger landscape boards and their own leader back. Events and leaders never enter a player's deck.
+
+The illustrated resource notation uses a laurel wreath for VP, a fan of cards for Cards, a market basket for Buys, a lightning bolt for Actions, and a coin for Coins. The overlaid number gives the quantity; `+` means add or draw that quantity. Without `+`, read the quantity in the surrounding instruction (for example, a cost or a number of cards to trash). Icons do not change timing or rules. The written card effects below are the authoritative full wording.
+
+Each face has a unique catalog-and-copy identifier, plus `N/M` for its copy number and total copies of that named card in the selected player-count inventory. Totals include starting decks as well as supply; they are not remaining-supply counters. The gallery shows copy 1 by default and offers other copies in the inspector. Each unique leader and god event has one physical copy; selection during setup still determines which are used.
+
 ## 3. Setup
 
 1. Randomly determine a first player. Play proceeds clockwise; keep the first-player marker in place throughout the game.
