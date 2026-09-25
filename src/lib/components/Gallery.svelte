@@ -61,7 +61,7 @@
   <a class="skip-link" href="#collection">Skip to card collection</a>
   <header class="site-header">
     <a href={`${base}/`} class="brand" aria-label="Pantheon: Bloodlines home"><span class="brand-mark" aria-hidden="true">Π</span><span>PANTHEON<small>B L O O D L I N E S</small></span></a>
-    <nav aria-label="Main navigation"><a class="active" href={`${base}/gallery/`} aria-current="page">Card gallery</a><a href={`${base}/rules/`}>How to play</a></nav>
+    <nav aria-label="Main navigation"><a href={`${base}/play/`}>Play</a><a class="active" href={`${base}/gallery/`} aria-current="page">Card gallery</a><a href={`${base}/rules/`}>How to play</a></nav>
     <span class="edition">FIRST EDITION <b>v0.1</b></span>
   </header>
 

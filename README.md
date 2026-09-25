@@ -36,3 +36,5 @@ bun run dev
 Open `http://127.0.0.1:5193/`. To validate the card renders, run `bunx playwright install chromium`, then `bun run verify`.
 
 The project is licensed under [GPLv3](LICENSE). Original card art was created with image generation; the [asset notes](docs/ASSETS.md) include the full prompt set and provenance.
+
+The first online-play milestone adds anonymous sign-in and shared game setup at `/play/`, backed by Firestore events. See [event-sourced setup](docs/EVENT_SOURCING.md) for emulator instructions and the remaining gameplay milestones.

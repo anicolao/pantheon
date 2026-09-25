@@ -10,19 +10,26 @@
     "build": "vite build",
     "preview": "vite preview --host 127.0.0.1 --port 4193 --strictPort",
     "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
-    "test:e2e": "playwright test",
-    "verify": "bun run check && bun run test:e2e"
+    "test:e2e": "firebase emulators:exec --project demo-pantheon --only auth,firestore \"playwright test\"",
+    "verify": "bun run check && bun run test:backend && bun run test:e2e",
+    "test:e2e:update": "firebase emulators:exec --project demo-pantheon --only auth,firestore \"playwright test --update-snapshots\"",
+    "test:backend": "firebase emulators:exec --project demo-pantheon --only firestore \"bun test tests/backend\"",
+    "emulators": "firebase emulators:start --project demo-pantheon --only auth,firestore"
   },
   "dependencies": {
     "@fontsource/atkinson-hyperlegible": "5.2.8",
-    "@fontsource/cormorant-garamond": "5.2.11"
+    "@fontsource/cormorant-garamond": "5.2.11",
+    "firebase": "12.16.0"
   },
   "devDependencies": {
+    "@firebase/rules-unit-testing": "5.0.1",
     "@playwright/test": "1.61.1",
     "@sveltejs/adapter-static": "3.0.10",
     "@sveltejs/kit": "2.69.3",
     "@sveltejs/vite-plugin-svelte": "7.2.0",
+    "@types/bun": "1.3.10",
     "@types/node": "26.1.1",
+    "firebase-tools": "15.25.0",
     "sharp": "0.34.5",
     "svelte": "5.56.5",
     "svelte-check": "4.7.2",

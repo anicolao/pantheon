@@ -8,3 +8,6 @@ playwright-report/
 .env.*
 !.env.example
 result
+
+.firebase/
+*-debug.log

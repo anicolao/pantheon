@@ -71,3 +71,11 @@ Project code, documentation, and original generated illustrations are distribute
 The local gallery shows a live card layout report above the collection. `CardFace` measures all visible text lines and nested icons against named frame panels, checks number overlays against their icons, and detects content collisions. Checks rerun after card resizing, content changes, image loads, and font loading. They do not clip content or automatically shrink it to suppress errors. The report is shown in development; `data-layout-state` and `data-layout-issues` remain available to browser tests in production builds.
 
 The e2e suite checks gallery, tabletop, inspector, rules-page, and physical print sizes. Regression cases deliberately move nested icons beyond every panel edge, overflow a clipped title, and overlap the title and cost to verify detection. Dense rules use smaller inline icons, four-bonus cards use a single row, and Territory wreaths and event footer icons are sized for their frame windows.
+
+## Event-backed setup stories
+
+See [the first milestone](EVENT_SOURCING.md) for backend configuration and scope. `bun run verify` now runs type checks, Firestore/replay tests, and browser tests with isolated Auth/Firestore emulators. Java 21+ is required; `nix develop` provides it. Existing gallery/rules regression cases remain in place.
+
+User stories live in numbered directories under `tests/e2e/`, with a `TestStepHelper` that verifies named assertions, waits for committed state, fonts, images, and finite animations, checks viewport containment and control collisions, and captures each step. Setup stories must fit the viewport without scrolling. Gallery and rules documents intentionally scroll and retain their own layout checks.
+
+Screenshot comparisons have **zero differing pixels and zero color threshold**, with no masks or per-step tolerance overrides. Baselines are explicit per OS and viewport. `bun run test:e2e:update` regenerates local baselines for review; normal CI never updates them. The `update_snapshots` workflow-dispatch option generates Linux baseline artifacts without deploying. Review those images, commit them, then require a normal CI comparison run. The desktop macOS story run also generates the adjacent illustrated README.

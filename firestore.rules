@@ -1,0 +1,47 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function signedIn() { return request.auth != null; }
+    function room(id) { return /databases/$(database)/documents/games/$(id); }
+    function event(id, revision) { return /databases/$(database)/documents/games/$(id)/events/$(string(revision)); }
+    function validRoom(data) {
+      return data.keys().hasOnly(['owner', 'members', 'playerCount', 'revision'])
+        && data.playerCount in [2, 3, 4] && data.revision is int
+        && data.members is list && data.revision == data.members.size()
+        && data.revision >= 1 && data.revision <= data.playerCount;
+    }
+    match /games/{gameId} {
+      // Setup metadata contains only public seats. Collection discovery is denied.
+      allow get: if signedIn();
+      allow create: if signedIn() && validRoom(request.resource.data)
+        && request.resource.data.owner == request.auth.uid
+        && request.resource.data.members == [request.auth.uid]
+        && getAfter(event(gameId, 1)).data.actorUid == request.auth.uid;
+      allow update: if signedIn() && validRoom(request.resource.data)
+        && request.resource.data.owner == resource.data.owner
+        && request.resource.data.playerCount == resource.data.playerCount
+        && !(request.auth.uid in resource.data.members)
+        && request.resource.data.members == resource.data.members.concat([request.auth.uid])
+        && getAfter(event(gameId, request.resource.data.revision)).data.actorUid == request.auth.uid;
+      match /events/{eventId} {
+        allow read: if signedIn() && request.auth.uid in get(room(gameId)).data.members;
+        allow create: if signedIn()
+          && request.resource.data.keys().hasOnly(['schemaVersion', 'sequence', 'actorUid', 'type', 'name', 'playerCount', 'createdAt'])
+          && request.resource.data.schemaVersion == 1
+          && request.resource.data.actorUid == request.auth.uid
+          && request.resource.data.name is string && request.resource.data.name.size() > 0 && request.resource.data.name.size() <= 24
+          && request.resource.data.name.matches('.*\\S.*')
+          && request.resource.data.createdAt == request.time
+          && request.resource.data.sequence == getAfter(room(gameId)).data.revision
+          && request.resource.data.playerCount == getAfter(room(gameId)).data.playerCount
+          && eventId == string(request.resource.data.sequence)
+          && ((request.resource.data.type == 'game/created' && !exists(room(gameId)) && request.resource.data.sequence == 1)
+            || (request.resource.data.type == 'player/joined' && exists(room(gameId))
+              && !(request.auth.uid in get(room(gameId)).data.members)
+              && getAfter(room(gameId)).data.members == get(room(gameId)).data.members.concat([request.auth.uid])))
+          && request.auth.uid in getAfter(room(gameId)).data.members;
+        allow update, delete: if false;
+      }
+    }
+  }
+}
