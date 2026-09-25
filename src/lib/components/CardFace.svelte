@@ -88,7 +88,7 @@
   [data-format='event'] .tag-label { top: 85.47%; }
   [data-format='leader'] .tag-label { top: 85.02%; }
   [data-format='event'] .god-label { left: 10%; width: 15%; }
-  [data-format='leader'] .god-label { left: 12%; width: 14%; }
+  [data-format='leader'] .god-label { left: 11%; width: 15.5%; }
   [data-format='event'] .type-label, [data-format='leader'] .type-label { left: 31%; width: 14%; }
   [data-format='event'] .rules { --bonus-icon-size: 5cqi; --compact-icon-size: 1.2em; left: 51%; top: 24%; width: 39%; height: 57%; font-size: 2.4cqi; gap: 1.2cqi; --inline-icon-size: 1.25em; }
   [data-format='leader'] .rules { left: 51%; top: 23%; width: 39%; height: 54%; font-size: 2.65cqi; gap: 2cqi; }
