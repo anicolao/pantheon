@@ -7,6 +7,7 @@ export default defineConfig({
   fullyParallel: true,
   forbidOnly: true,
   retries: 0,
+  timeout: 60_000,
   workers: process.env.CI ? 2 : undefined,
   reporter: [['list'], ['html', { open: 'never' }]],
   use: {
@@ -27,7 +28,8 @@ export default defineConfig({
     { name: 'tabletop-4k', use: { browserName: 'chromium', viewport: { width: 3840, height: 2160 } } }
   ],
   snapshotPathTemplate: '{testDir}/{testFileDir}/screenshots/{arg}{ext}',
-  expect: { toHaveScreenshot: { maxDiffPixels: 0, threshold: 0, animations: 'disabled', caret: 'hide', scale: 'css', fullPage: true } },
+  // Two complete 4K software captures can exceed five seconds on hosted runners.
+  expect: { toHaveScreenshot: { timeout: 15_000, maxDiffPixels: 0, threshold: 0, animations: 'disabled', caret: 'hide', scale: 'css', fullPage: true } },
   webServer: {
     command: 'bun run build && bun run preview',
     url: `http://127.0.0.1:4193${base}/`,
