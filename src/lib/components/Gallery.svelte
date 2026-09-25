@@ -1,13 +1,17 @@
 <script lang="ts">
   import { base } from '$app/paths';
   import { onMount, tick } from 'svelte';
+  import { dev } from '$app/environment';
+  import CardLayoutReport from './CardLayoutReport.svelte';
+  import StickyNav from './StickyNav.svelte';
   import CardFace from './CardFace.svelte';
   import CardBack from './CardBack.svelte';
   import ResourceIcon from './ResourceIcon.svelte';
-  import { cardFormat, copyCount, resourceNames, type PlayerCount, type Resource } from '$lib/game/presentation';
+  import { cardFormat, copyCount, iconNames, type PlayerCount, type IconKind } from '$lib/game/presentation';
   import { cards } from '$lib/game/cards';
-  import { cardTypes, gods, godSymbols, type CardDefinition, type CardType, type God } from '$lib/game/types';
+  import { gods, godSymbols, type CardDefinition, type CardType, type God } from '$lib/game/types';
 
+  let cardGrid = $state<HTMLDivElement>();
   let ready = $state(false);
   onMount(() => { ready = true; });
   let kind = $state<CardType | 'All'>('All');
@@ -20,12 +24,22 @@
   let inspectBack = $state(false);
   let selected = $state<CardDefinition | null>(null);
   let inspector: HTMLDialogElement;
-  const order: CardType[] = ['Leader', 'Action', 'Treasure', 'Territory', 'Event'];
+  const order: CardType[] = ['Leader', 'Event', 'Treasure', 'Territory', 'Action'];
+  let typeNavigation = $state<HTMLDivElement>();
+  let typeNavigationHeight = $state(100);
+  const typeItems = [...order, 'All'].map(type => ({ id: type, label: type === 'All' ? 'All cards' : type === 'Territory' ? 'Territories' : `${type}s`, count: type === 'All' ? cards.length : cards.filter(card => card.type === type).length }));
   const ordered = [...cards].sort((a, b) => order.indexOf(a.type) - order.indexOf(b.type));
   const visible = $derived(ordered.filter(card =>
     (kind === 'All' || card.type === kind) && (god === 'All' || card.god === god) &&
     `${card.name} ${card.god} ${card.effect} ${card.favored ?? ''}`.toLowerCase().includes(query.trim().toLowerCase())
   ));
+
+  async function selectType(type: CardType | 'All') {
+    const pinned = (typeNavigation?.getBoundingClientRect().top ?? Infinity) <= 1;
+    kind = type;
+    await tick();
+    if (pinned) typeNavigation?.scrollIntoView({ block: 'start' });
+  }
 
   async function inspect(card: CardDefinition) {
     selected = card;
@@ -43,11 +57,11 @@
   <meta name="description" content="Explore the leaders, divine blessings, and empire-building cards of Pantheon: Bloodlines. The complete illustrated v0.1 card gallery." />
 </svelte:head>
 
-<div class="shell" class:tabletop>
+<div class="shell" class:tabletop style:--type-navigation-height={`${typeNavigationHeight}px`}>
   <a class="skip-link" href="#collection">Skip to card collection</a>
   <header class="site-header">
     <a href={`${base}/`} class="brand" aria-label="Pantheon: Bloodlines home"><span class="brand-mark" aria-hidden="true">Π</span><span>PANTHEON<small>B L O O D L I N E S</small></span></a>
-    <nav aria-label="Main navigation"><a class="active" href={`${base}/gallery/`} aria-current="page">Card gallery</a><a href="https://github.com/anicolao/pantheon/blob/main/MVP_CARDSET.md">Rules ↗</a></nav>
+    <nav aria-label="Main navigation"><a class="active" href={`${base}/gallery/`} aria-current="page">Card gallery</a><a href={`${base}/rules/`}>How to play</a></nav>
     <span class="edition">FIRST EDITION <b>v0.1</b></span>
   </header>
 
@@ -59,12 +73,8 @@
     </section>
 
     <section class="collection" id="collection" aria-labelledby="collection-title">
-      <div class="collection-heading"><div><p class="eyebrow">THE FOUNDING COLLECTION</p><h2 id="collection-title">Card gallery <span>26</span></h2></div><p>Four bloodlines. Five affiliations.<br />Every path to power starts here.</p></div>
-      <div class="type-tabs" role="group" aria-label="Filter by card type">
-        {#each ['All', ...cardTypes] as type}
-          <button disabled={!ready} class:chosen={kind === type} aria-pressed={kind === type} onclick={() => kind = type as CardType | 'All'}>{type === 'All' ? 'All cards' : type === 'Territory' ? 'Territories' : `${type}s`} <span>{type === 'All' ? cards.length : cards.filter(c => c.type === type).length}</span></button>
-        {/each}
-      </div>
+      <div class="collection-heading"><div><p class="eyebrow">THE FOUNDING COLLECTION</p><h2 id="collection-title">Card gallery <span>{cards.length}</span></h2></div><p>Four bloodlines. Five affiliations.<br />Every path to power starts here.</p></div>
+      <StickyNav items={typeItems} label="Filter by card type" selected={kind} disabled={!ready} bind:element={typeNavigation} bind:height={typeNavigationHeight} onselect={type => selectType(type as CardType | 'All')} />
       <div class="toolbar">
         <label class="search"><span>Search cards</span><input disabled={!ready} type="search" bind:value={query} placeholder="Search the collection…" /></label>
         <label class="god-filter"><span>God affiliation</span><select disabled={!ready} bind:value={god}><option value="All">All gods</option>{#each gods as deity}<option value={deity}>{deity}</option>{/each}</select></label>
@@ -75,9 +85,10 @@
       </div>
       <div class="collection-meta"><p aria-live="polite" role="status">{visible.length} of {cards.length} cards <span>· {tabletop ? 'Large faces for a shared display' : 'Select a card to inspect'}</span></p><span class="prototype">GALLERY PROTOTYPE · NO ACTIVE GAME</span></div>
 
-      <div class="resource-legend" aria-label="Resource icon legend">{#each Object.entries(resourceNames) as [resource, label]}<span><ResourceIcon resource={resource as Resource} /><span>{label}</span></span>{/each}</div>
+      <div class="resource-legend" aria-label="Resource icon legend">{#each Object.entries(iconNames) as [resource, label]}<span><ResourceIcon resource={resource as IconKind} /><span>{label}</span></span>{/each}</div>
       <p class="copy-note">Faces show copy 1 of each card. Totals include starting decks for {players} players. Inspect a card to select another copy. Deck · 63 × 88 mm / Event · 88 × 63 mm / Leader · 120 × 75 mm.</p>
-      <div class="card-grid" data-testid="card-grid">
+      {#if dev}<CardLayoutReport root={cardGrid} />{/if}
+      <div class="card-grid" bind:this={cardGrid} data-testid="card-grid">
         {#each visible as card (card.id)}
           <div class="card-item" data-format={cardFormat(card)}>
             <div class="card-wrap">{#if showBacks}<CardBack format={cardFormat(card)} />{:else}<CardFace {card} {players} />{/if}<button disabled={!ready} class="inspect-card" onclick={() => inspect(card)} aria-label={`Inspect ${card.name}`}></button></div>
@@ -87,7 +98,7 @@
           <div class="empty"><h3>No cards found</h3><p>Try another name, rule, or affiliation.</p><button onclick={reset}>Reset filters</button></div>
         {/each}
       </div>
-      <aside class="devotion-note"><span aria-hidden="true">◈</span><div><h3>Blood calls to blood.</h3><p>Each matching Action in play gives 1 Devotion. Your leader adds 1 for their own god. Reach 2 to receive a Favored blessing.</p></div><a href="https://github.com/anicolao/pantheon/blob/main/MVP_CARDSET.md#10-gods-devotion-and-invocations">Read the invocation rules ↗</a></aside>
+      <aside class="devotion-note"><span aria-hidden="true">◈</span><div><h3>Blood calls to blood.</h3><p>Each matching Action in play gives 1 Devotion, including your Temple. Reach 2 to receive a Favored blessing when you Worship.</p></div><a href={`${base}/rules/#gods`}>Read the Worship rules ↗</a></aside>
     </section>
   </main>
   <footer class="site-footer"><span>PANTHEON: BLOODLINES</span><p>A race for land. A legacy among gods.</p><a href="https://github.com/anicolao/pantheon">Open source · GPLv3 ↗</a></footer>
@@ -105,7 +116,7 @@
 
 <style>
   .shell { max-width: 1920px; margin: auto; background: radial-gradient(ellipse at 30% 50%, #26312c44, transparent 65%); }
-  .skip-link { position: fixed; left: 1rem; top: -5rem; z-index: 5; padding: 1rem; background: #151b1b; }
+  .skip-link { position: fixed; left: 1rem; top: -5rem; z-index: 11; padding: 1rem; background: #151b1b; }
   .skip-link:focus { top: 1rem; }
   .site-header { display: flex; align-items: center; justify-content: space-between; gap: 2rem; padding: 1.6rem 5%; border-bottom: 1px solid #8d805633; }
   .brand { display: flex; align-items: center; gap: 0.7rem; text-decoration: none; font: 600 1.5rem/1 'Cormorant Garamond', serif; letter-spacing: 0.1em; }
@@ -133,10 +144,6 @@
   h2 { margin: 0; font: 500 2.8rem/1 'Cormorant Garamond', serif; }
   h2 span { display: inline-block; vertical-align: middle; margin-left: 0.7rem; border: 1px solid #736646; border-radius: 50%; padding: 0.4rem; font: 400 0.7rem/1 'Atkinson Hyperlegible', sans-serif; color: #cfb377; }
   .collection-heading > p { color: #a7afa6; margin: 0; line-height: 1.5; font-size: 0.85rem; }
-  .type-tabs { display: flex; gap: 0.6rem 2rem; border-bottom: 1px solid #ffffff1a; flex-wrap: wrap; }
-  .type-tabs button { border: 0; border-bottom: 2px solid transparent; background: none; color: #b2b8ad; padding: 0.9rem 0; font-size: 0.88rem; }
-  .type-tabs button.chosen { color: #e8d3a2; border-bottom-color: #d6ba7f; }
-  .type-tabs button span { margin-left: 0.4rem; opacity: 0.65; font-size: 0.7rem; }
   .toolbar { display: flex; flex-wrap: wrap; align-items: end; gap: 1rem; margin-top: 1.5rem; }
   .toolbar label > span:first-child { display: block; margin-bottom: 0.4rem; font-size: 0.68rem; color: #b3b9ad; letter-spacing: 0.04em; }
   .search { flex: 1; max-width: 24rem; }
@@ -151,7 +158,7 @@
   .collection-meta p span { color: #909d91; }
   .prototype { font-size: 0.57rem; letter-spacing: 0.1em; color: #c0ad86; }
   .card-grid { display: flex; flex-wrap: wrap; gap: 2.1rem 1.8rem; align-items: start; justify-content: center; }
-  .card-item { width: min(100%, 300px); min-width: 0; }
+  .card-item { width: min(100%, 300px); min-width: 0; scroll-margin-top: calc(var(--type-navigation-height) + 16px); }
   .card-item[data-format='event'] { width: min(100%, 420px); }
   .card-item[data-format='leader'] { width: min(100%, 572px); }
   .resource-legend { display: flex; flex-wrap: wrap; gap: 0.8rem 1.5rem; padding: 0.7rem 0; border-top: 1px solid #ffffff18; }
@@ -200,14 +207,14 @@
     .brand { font-size: 1.2rem; gap: 0.45rem; } .brand-mark { font-size: 1.8rem; } .brand small { font-size: 0.4rem; }
     .hero { min-height: 400px; } .hero-art { width: 100%; opacity: 0.45; } .hero::after { background: linear-gradient(90deg, #151b1be6, #151b1b66), linear-gradient(0deg, #151b1b, transparent); }
     .hero-copy { padding-block: 3rem; } .hero .eyebrow { max-width: 15rem; line-height: 1.7; } .hero-caption { display: none; }
-    .collection { padding-top: 2rem; } .collection-heading > p { display: none; } .type-tabs { gap: 0.2rem 1.15rem; } .type-tabs button { font-size: 0.8rem; }
+    .collection { padding-top: 2rem; } .collection-heading > p { display: none; }
     .toolbar { flex-wrap: wrap; gap: 0.8rem; } .search { flex-basis: 55%; max-width: none; } .god-filter { flex: 1; min-width: 100px; }
     .view-toggle { margin-left: 0; flex: 1; } .collection-meta { flex-wrap: wrap; gap: 0.6rem; } .prototype { font-size: 0.53rem; }
     .card-grid { gap: 2rem; } .devotion-note { flex-wrap: wrap; gap: 0.8rem; } .devotion-note > span { display: none; } .devotion-note a { margin-left: 0; }
     .site-footer { flex-wrap: wrap; gap: 0.75rem; } .site-footer p { display: none; }
   }
   @media print {
-    .site-header, .hero, .type-tabs, .toolbar, .collection-meta, .collection-heading, .devotion-note, .site-footer, .card-caption, .skip-link, dialog, .resource-legend, .copy-note { display: none !important; }
+    .site-header, .hero, .toolbar, .collection-meta, .collection-heading, .devotion-note, .site-footer, .card-caption, .skip-link, dialog, .resource-legend, .copy-note { display: none !important; }
     .shell, main, .collection { margin: 0; padding: 0; background: white; }
     .card-grid, .tabletop .card-grid { display: flex; width: 196mm; gap: 3mm; justify-content: start; }
     .card-item, .tabletop .card-item { width: 63mm; max-width: none; flex-shrink: 0; break-inside: avoid; }
