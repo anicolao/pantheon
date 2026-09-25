@@ -54,3 +54,14 @@ test('rules reject unauthenticated reads, outsider event reads, mutation and for
     await assertFails(batch.commit());
   }
 });
+
+test('a retried creation keeps one event and invalid names or invitations cannot write', async () => {
+  const host = database('retry-host');
+  await enterRoom(host, 'creation-retry', 'retry-host', ' Ariadne ', 3);
+  await enterRoom(host, 'creation-retry', 'retry-host', 'Ariadne', 3);
+  expect((await getDocs(collection(host, 'games/creation-retry/events'))).size).toBe(1);
+  await expect(enterRoom(host, '../invalid', 'retry-host', 'Ariadne')).rejects.toThrow('invitation');
+  await expect(enterRoom(host, 'invalid-name', 'retry-host', ' ', 2)).rejects.toThrow('name');
+  await expect(enterRoom(host, 'invalid-name', 'retry-host', 'a'.repeat(25), 2)).rejects.toThrow('name');
+  await expect(enterRoom(database('late-guest'), 'nonexistent-gathering', 'late-guest', 'Guest')).rejects.toThrow('invitation');
+});

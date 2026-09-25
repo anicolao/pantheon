@@ -1,0 +1,40 @@
+{
+  "tool": "Built-in image generation",
+  "prompts": [
+    {
+      "id": "gather-desktop",
+      "ref": "02-gather",
+      "prompt": "Use case: precise-object-edit. Production background plate for this exact game. Extract the LEFT landscape gathering scene as one full bleed landscape image, 16:9 high resolution. Preserve the exquisite large elliptical obsidian table, gold laurel rim, columns, owl left, braziers, moonlit Acropolis and sanctuary lighting. REMOVE every portrait medallion, empty seat token, nameplate, seat-count selector, buttons, invitation seal, text and UI completely. Naturally paint empty dark marble in their places. Keep table central with roomy dark surface from 25% to 77% of image for live seats. No cards, no lettering, no controls, no mobile half, no dividing line. Match reference faithfully, not a redesign."
+    },
+    {
+      "id": "gather-mobile",
+      "ref": "02-gather",
+      "prompt": "Use case: precise-object-edit. Extract RIGHT mobile scene as a SINGLE portrait 9:19.5 production background. Preserve exact premium moonlit Greek sanctuary, Acropolis upper third, columns/torches/olive foliage framing and elliptical dark obsidian table in central/lower scene. REMOVE ALL portraits, seat disks, controls, title, labels, invitation seal and text. Paint natural dark marble across empty table for live seat medallions centered between32% and70% height. No UI, no cards, no text, no split panels, no handset. Preserve art style precisely."
+    },
+    {
+      "id": "gather-medallion",
+      "ref": "02-gather",
+      "prompt": "Use case: background-extraction. Extract/recreate ONE circular antique-gold laurel portrait medallion frame from the reference with its attached parchment nameplate underneath. Production game UI frame, genuine transparent alpha background AND genuinely transparent circular interior for a live portrait. Front-facing circle, entire gold laurel rim and cream parchment plate included, no clipping, square-ish canvas. No portrait, no letters, no symbols, no text anywhere. Plate stays blank ivory opaque, circular portrait hole transparent. Exquisite gold sculpting matching reference; not flat vector. No outer environment or other objects."
+    },
+    {
+      "id": "gather-seat",
+      "ref": "02-gather",
+      "prompt": "Use case: background-extraction. Extract ONE empty seat token from reference: dark obsidian circular disk with antique gold laurel ring and fine sculpted gold beveled rim, viewed with slight tabletop perspective (ellipse approximately1.3:1). Genuine transparent alpha outside. Blank dark center, REMOVE plus sign. No text, no other objects or environment. Entire outline incl shadow within canvas, high quality production game asset faithful to reference."
+    },
+    {
+      "id": "gather-invite",
+      "ref": "02-gather",
+      "prompt": "Use case: background-extraction. Extract the teal wax invitation seal at bottom left of reference as ONE production asset on genuine transparent alpha. Teal round wax seal embossed with small golden group-of-people symbol and gold laurel surround; blank ivory ribbon across lower part. NO letters or words. Entire seal and ribbon within canvas. Faithful premium sculpted painterly style, no backdrop no additionalobjects."
+    },
+    {
+      "id": "unavailable-desktop",
+      "ref": "22-unavailable",
+      "prompt": "Use case: precise-object-edit. Extract LEFT landscape scene as a SINGLE clean 16:9 background. Preserve exact premium moonlit sanctuary, large empty upholstered chair in left foreground, gold owl coin/ribbon on near table bottom, softly blurred gathering of Greek people at distant table, Acropolis and braziers. Remove ALL text, decorative title separators and both buttons completely. Paint background naturally. Keep right-center negative space dark for real live status text. No lettering, no UI, no mobile panel or divider."
+    },
+    {
+      "id": "unavailable-mobile",
+      "ref": "22-unavailable",
+      "prompt": "Use case: precise-object-edit. Extract RIGHT portrait scene as SINGLE 9:19.5 production background. Preserve moonlit Acropolis high, softly blurred group at table behind, emptychair left foreground, obsidian near table and gold owl coin/ribbon bottom, olive framing and torchright. Remove ALL text, ornaments associatedwithtext and buttons. Natural dark quiet central space 44–74% for live status and controls. No lettering no UI no desktop half or divider. Match exact art direction."
+    }
+  ]
+}

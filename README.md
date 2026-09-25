@@ -20,7 +20,7 @@ On your turn, play Actions, collect Coins from Treasures, buy cards, and Worship
 
 ## Current scope
 
-The root opens the illustrated sanctuary with working Play, Learn and verified Continue navigation. The layered card gallery at `/gallery/` is built with SvelteKit. Browse all 30 faces with illustrated frames and resource icons, filter by type or god, inspect rules and copy numbers, switch to tabletop sizing, or print the current selection. Deck cards, landscape events, and larger landscape leaders each have their own back. The `/play/` route adds anonymous sign-in and shared setup rooms backed by Firestore events. Leader drafting and playable turns are future milestones.
+The root opens the illustrated sanctuary with working Play, Learn and verified Continue navigation. The layered card gallery at `/gallery/` is built with SvelteKit. Browse all 30 faces with illustrated frames and resource icons, filter by type or god, inspect rules and copy numbers, switch to tabletop sizing, or print the current selection. Deck cards, landscape events, and larger landscape leaders each have their own back. The `/play/` route gathers 2–4 players around an illustrated table, with live seats, invitations, capacity checks and recovery backed by Firestore events. Leader drafting and playable turns are future milestones.
 
 Version 0.1 uses four leaders, four possible god events, and twelve shared Action piles. It focuses on deck building, divine affiliations, and the race for territory. It has no map, combat system, or direct attacks on other players.
 
