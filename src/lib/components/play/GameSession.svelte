@@ -89,7 +89,7 @@
   function choose() { if (isChoice && ready && !ownerOf(selected)) void command({ type: 'leader/chosen', leaderId: selected }); }
 </script>
 
-<main class="session" class:drafting={game.phase === 'draft'} data-status={status}>
+<main class="session" class:drafting={game.phase === 'draft'} data-status={status} aria-busy={busy}>
   <picture class="environment" aria-hidden="true"><source media="(max-aspect-ratio:3/4)" srcset={`${base}/assets/ui/table-mobile.webp`} /><img src={`${base}/assets/ui/table-desktop.webp`} alt="" draggable="false" /></picture>
   <div class="composition" data-e2e-layout={modal || ownChoice ? undefined : true}>
     <header><a href={`${base}/`} aria-label="Back to sanctuary">‹ Sanctuary</a>{#if /^[A-Z]{4,5}$/.test(roomId)}<span>Game code <strong>{roomId}</strong></span>{:else}<span>{game.playerCount} players</span>{/if}</header>

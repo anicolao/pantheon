@@ -9,6 +9,9 @@ export class TestStepHelper {
     await test.step(description, async () => {
       for (const verification of verifications) await test.step(verification.spec, verification.check);
       await expect(this.page.locator('[data-status]')).toHaveAttribute('data-status', this.settledStatus);
+      // A committed event may arrive before its transaction acknowledgement, especially
+      // in lost-ack stories. Photograph the ready UI rather than a transient disabled control.
+      await expect(this.page.locator('[aria-busy="true"]')).toHaveCount(0, { timeout: 30_000 });
       await this.page.evaluate(async () => {
         // Flush reactive layout before checking fonts or newly scheduled Svelte transitions.
         await new Promise<void>(resolve => requestAnimationFrame(() => requestAnimationFrame(() => resolve())));
