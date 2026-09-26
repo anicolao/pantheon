@@ -54,6 +54,8 @@ bunx firebase deploy --only auth,firestore:rules --project preview
 
 The GitHub repository variables `VITE_FIREBASE_API_KEY`, `VITE_FIREBASE_AUTH_DOMAIN`, `VITE_FIREBASE_PROJECT_ID`, and `VITE_FIREBASE_APP_ID` contain the web-app configuration returned by `firebase apps:sdkconfig`. CI embeds them when publishing the static app. They are public configuration values, not service-account credentials. Configured builds share this preview backend; individual tables have separate event streams. Local development and automated tests continue to use the isolated `demo-pantheon` emulators.
 
+Manual workflow runs may set `story_filter` to a Playwright test-title pattern for focused diagnostics. Filtered runs never deploy; ordinary PR verification always runs the complete suite.
+
 CI publishes the web client but does not deploy cloud rules or authentication configuration. A build without Firebase variables displays an explicit unavailable message. After changing repository variables, rebuild the PR preview to embed the new configuration.
 
 Implementation references: [Firebase anonymous authentication](https://firebase.google.com/docs/auth/web/anonymous-auth), [transaction validation with getAfter](https://firebase.google.com/docs/firestore/security/rules-conditions), and [Firestore rules emulator testing](https://firebase.google.com/docs/firestore/security/test-rules-emulator). Jaipur informed the event repository and user-story test structure; Pantheon adds transaction-enforced setup transitions and strictly zero-pixel screenshot comparison.

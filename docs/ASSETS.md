@@ -58,4 +58,4 @@ All names, statuses, choices and controls remain live Svelte content. Seat portr
 
 Exact generation prompts, references and source PNG paths are recorded in [bloodline-assets.json](ux/bloodline-assets.json). Conversion preserves alpha; the resource rail only trims transparent exterior padding. The four cutouts preserve the actual catalog characters, including Nereon's approved appearance, rather than incidental differences in the concept painting.
 
-The Cards resource uses `static/assets/backs/back-deck-icon.webp`, a 160px-wide lossless derivative of the approved common deck back. `scripts/optimize-layers.mjs` reproduces it. Its artwork is identical; icon-sized sampling avoids inconsistent full-card downsampling in Chromium and reduces image work.
+The Cards resource and small opponent-hand backs use `static/assets/backs/back-deck-icon.webp`, a 160px-wide lossless derivative of the approved common deck back. `scripts/optimize-layers.mjs` reproduces it. Its artwork is identical; icon-sized sampling avoids inconsistent full-card downsampling in Chromium and reduces image work.
