@@ -123,7 +123,7 @@
           <div class="opponent" data-testid="opponent" class:first={id === turnUid}>
             <div class="opponent-portrait" class:blessed={latestMoves.some(move => move.kind === 'leader' && move.uid === id)}><Portrait leader={game.leaders[id]} name={nameOf(id)} active={id === turnUid} /></div>
             <div class="hidden-hand" aria-label={`${nameOf(id)} has ${game.decks[id].hand.length} cards in hand`}>
-              {#each game.decks[id].hand.slice(0, 5) as _, index}<img src={`${base}/assets/backs/back-deck.webp`} alt="Card back" style:--index={index} draggable="false" in:dealBack|global={index} />{/each}
+              {#each game.decks[id].hand.slice(0, 5) as _, index}<img src={`${base}/assets/backs/back-deck-icon.webp`} alt="Card back" style:--index={index} draggable="false" in:dealBack|global={index} />{/each}
               {#if game.decks[id].hand.length > 5}<span class="hand-count">{game.decks[id].hand.length}</span>{/if}
             </div>
             <p>{id === turnUid ? 'Active · ' : ''}Deck {game.decks[id].deck.length} · <button class="opponent-discard" aria-label={`Inspect ${nameOf(id)}’s discard pile, ${game.decks[id].discard.length} cards`} onclick={() => inspectZone(id, 'discard', `${nameOf(id)}’s discard`)}>Discard {game.decks[id].discard.length}</button></p>

@@ -11,7 +11,8 @@
 <style>
   button { position:relative; isolation:isolate; display:grid; place-items:center; width:100%; height:var(--control-height,64px); border:0; padding:0; background:none; color:#fae9c8; font:600 var(--control-font,28px)/1 'Cormorant Garamond',serif; text-shadow:0 2px 3px #000; }
   img { position:absolute; inset:-37.5% 0; width:100%; height:175%; z-index:-1; pointer-events:none; }
-  span { padding:0 15%; }
+  /* Changing labels share one layout box instead of intrinsic grid sizing. */
+  span { width:100%; box-sizing:border-box; padding:0 15%; text-align:center; }
   button:disabled { opacity:.55; cursor:default; }
   button:focus-visible { outline:3px solid #fff0b8; outline-offset:3px; border-radius:18px; }
   @media(hover:hover) { button:not(:disabled):hover img { filter:brightness(1.2); } }
