@@ -5,17 +5,18 @@
   import { afterNavigate, goto } from '$app/navigation';
   import { connectFirebase } from '$lib/backend/firebase';
   import { rememberTable } from '$lib/navigation/return-table';
-  import { createRoom, type CreationAttempt, resizeRoom, enterRoom, inspectRoom, SetupError, watchSetup } from '$lib/backend/setup-repository';
+  import { appendDraftCommand, type DraftCommand, createRoom, type CreationAttempt, resizeRoom, enterRoom, inspectRoom, SetupError, watchSetup } from '$lib/backend/setup-repository';
   import { setupSupply, type SetupState } from '$lib/game/setup';
   import GatheringSeat from '$lib/components/GatheringSeat.svelte';
   import GameButton from '$lib/components/GameButton.svelte';
   import SanctuaryLink from '$lib/components/SanctuaryLink.svelte';
   import CardFace from '$lib/components/CardFace.svelte';
   import { cards } from '$lib/game/cards';
+  import GameSession from '$lib/components/play/GameSession.svelte';
 
   let services = $state<Awaited<ReturnType<typeof connectFirebase>>>();
   let status = $state('connecting');
-  let unavailable = $state<'full' | 'missing' | ''>('');
+  let unavailable = $state<'full' | 'missing' | 'started' | ''>('');
   let name = $state('');
   let nameError = $state('');
   let playerCount = $state<2 | 3 | 4>(2);
@@ -28,12 +29,15 @@
   let capacityChoice = $state<2 | 3 | 4>(2);
   let setup = $state<SetupState | null>(null);
   let busy = $state(false);
+  let playError = $state('');
+  let draftSeed = '';
+  let pendingDraft: { id: string; command: DraftCommand } | undefined;
   let copied = $state(false);
   let manualInvitation = $state(false);
   let invitation = $state('');
   let reducedMotion = $state(false);
   let modal = $state<'invite' | 'details' | 'join' | ''>('');
-  let dialog: HTMLDialogElement;
+  let dialog = $state<HTMLDialogElement>();
   let invitationInput = $state<HTMLInputElement>();
   let opener: HTMLElement | null = null;
   let stop: (() => void) | undefined;
@@ -42,12 +46,12 @@
   const count = $derived(setup?.playerCount ?? playerCount);
   $effect(() => { if (!busy) capacityChoice = count; });
   const openSeats = $derived(count - (setup?.players.length ?? 0));
-  const title = $derived(unavailable === 'full' ? 'This table is full.' : unavailable ? 'This invitation was not found.' : 'Gather at the Table');
+  const title = $derived(unavailable === 'full' ? 'This table is full.' : unavailable === 'started' ? 'This game has already begun.' : unavailable ? 'This invitation was not found.' : 'Gather at the Table');
   const starting = ['obol', 'hamlet'].map(id => cards.find(card => card.id === id)!);
   function arrival(node: Element) { return reducedMotion ? { duration: 0 } : fly(node, { y: 20, duration: 450 }); }
   function fail(cause: unknown) {
     if (!alive) return;
-    if (cause instanceof SetupError && (cause.code === 'full' || cause.code === 'missing')) {
+    if (cause instanceof SetupError && (cause.code === 'full' || cause.code === 'missing' || cause.code === 'started')) {
       unavailable = cause.code; status = 'synced';
     } else if (cause instanceof SetupError && cause.code === 'name') {
       nameError = cause.message; status = 'synced';
@@ -74,6 +78,7 @@
         playerCount = room.playerCount;
         reservedSeats = room.members.length;
         if (room.members.includes(connected.uid)) { subscribe(); return; }
+        if (room.phase && room.phase !== 'gathering') throw new SetupError('started', 'This game has already begun.');
         if (room.members.length >= room.playerCount) throw new SetupError('full', 'This table is full.');
       }
       status = 'synced';
@@ -96,14 +101,23 @@
     } catch (cause) { fail(cause); }
     finally { if (alive) busy = false; }
   }
+  async function sendDraft(command: DraftCommand) {
+    if (!services || !setup || busy || status !== 'synced') return;
+    busy = true; playError = '';
+    if (!pendingDraft || JSON.stringify(pendingDraft.command) !== JSON.stringify(command)) pendingDraft = { id: `${crypto.randomUUID()}:${setup.activity.length + 1}`, command };
+    try { await appendDraftCommand(services.db, roomId, services.uid, pendingDraft.id, pendingDraft.command); pendingDraft = undefined; }
+    catch (cause) { playError = cause instanceof SetupError ? cause.message : 'We couldn’t save your choice. Try again.'; }
+    finally { busy = false; }
+  }
+  function begin() { void sendDraft({ type: 'draft/started', seed: draftSeed ||= crypto.randomUUID() }); }
   async function showModal(kind: 'invite' | 'details' | 'join') {
     opener = document.activeElement as HTMLElement;
     copied = false; manualInvitation = false; codeError = ''; capacityError = '';
     invitation = new URL(`${base}/play/?room=${encodeURIComponent(roomId)}`, location.origin).href;
     modal = kind;
-    await tick(); dialog.showModal();
+    await tick(); dialog!.showModal();
   }
-  function closeModal() { dialog.close(); modal = ''; opener?.focus(); }
+  function closeModal() { dialog!.close(); modal = ''; opener?.focus(); }
   async function copyInvitation() {
     try { await navigator.clipboard.writeText(invitation); copied = true; }
     catch { manualInvitation = true; await tick(); invitationInput?.focus(); invitationInput?.select(); }
@@ -123,7 +137,7 @@
   }
   afterNavigate(({ from, to }) => {
     if (from && to && from.url.pathname === to.url.pathname && from.url.search !== to.url.search) {
-      stop?.(); setup = null; unavailable = ''; nameError = ''; creationAttempt = undefined; joinCode = ''; codeError = ''; capacityError = ''; playerCount = 2; reservedSeats = 0;
+      stop?.(); setup = null; unavailable = ''; pendingDraft = undefined; draftSeed = ''; playError = ''; nameError = ''; creationAttempt = undefined; joinCode = ''; codeError = ''; capacityError = ''; playerCount = 2; reservedSeats = 0;
       roomId = to.url.searchParams.get('room') ?? '';
       void connect();
     }
@@ -143,6 +157,9 @@
 </script>
 
 <svelte:head><title>Gather at the Table — Pantheon: Bloodlines</title><link rel="preload" as="image" href={`${base}/assets/ui/sanctuary-button-secondary.webp`} /></svelte:head>
+{#if setup && setup.phase !== 'gathering' && services}
+  <GameSession game={setup} uid={services.uid} {roomId} {status} {busy} error={playError} command={sendDraft} retry={connect} />
+{:else}
 <main class="gathering" class:unavailable data-status={status}>
   <picture class="environment" aria-hidden="true">
     <source media="(max-aspect-ratio:3/4)" srcset={`${base}/assets/ui/${unavailable ? 'unavailable' : 'gather'}-mobile.webp`} />
@@ -156,7 +173,7 @@
     {#if unavailable}
       <section class="unavailable-message">
         <h1>{title}</h1><div class="flourish" aria-hidden="true">❧</div>
-        <p>{unavailable === 'full' ? 'Every seat has been taken.' : 'Ask your friend for a new invitation.'}</p>
+        <p>{unavailable === 'full' ? 'Every seat has been taken.' : unavailable === 'started' ? 'The players have chosen their seats.' : 'Ask your friend for a new invitation.'}</p>
         <div class="recovery-links"><SanctuaryLink href={`${base}/play/`} label="Find another table" primary /><SanctuaryLink href={`${base}/`} label="Back" /></div>
       </section>
     {:else}
@@ -191,7 +208,9 @@
         {#if !setup && !roomId}<div class="join-choice"><GameButton onclick={() => showModal('join')} disabled={busy || status !== 'synced'}>Join a game</GameButton></div>{/if}
         {#if !setup}<div class="enter" class:invited={!!roomId}><GameButton type="submit" primary disabled={busy || status !== 'synced'}>{busy ? 'Taking your seat…' : roomId ? 'Join table' : 'Create table'}</GameButton></div>{/if}
       </form>
+      {#if playError}<p class="play-error" role="alert">{playError}</p>{/if}
       {#if setup}
+        {#if setup.players[0]?.uid === services?.uid && !openSeats}<div class="begin"><GameButton primary onclick={begin} disabled={busy || status !== 'synced'}>{busy ? 'Drawing first player…' : 'Begin'}</GameButton></div>{/if}
         <button class="invitation-seal" onclick={() => showModal('invite')}><img src={`${base}/assets/ui/gather-invite.webp`} alt="" aria-hidden="true" /><span>Invite friends</span></button>
         <div class="activity" aria-live="polite" aria-atomic="true">{#key latest?.sequence}<p data-testid="latest-activity" in:arrival>{latest?.message}</p>{/key}</div>
       {/if}
@@ -239,7 +258,10 @@
   {/if}
 </dialog>
 
+{/if}
+
 <style>
+  .begin{position:absolute;right:5%;bottom:3%;width:25%;}.play-error{position:absolute;top:73%;left:24%;width:52%;text-align:center;background:#401d1ded;padding:10px;border:1px solid #cb9872;}
   .room-code strong{display:inline-block;margin-left:.4em;letter-spacing:.15em;color:#ffe5a6;font-weight:700;user-select:all;} .heading .room-code{margin-top:.3em;font-size:clamp(16px,2svh,38px);}
   .join-form{display:grid;gap:16px;} .join-form input{width:100%;height:64px;border:1px solid #bd995e;border-radius:8px;background:#061321;color:#ffe5a6;text-align:center;font:600 34px 'Cormorant Garamond',serif;letter-spacing:.18em;text-transform:uppercase;}
   .capacity{display:flex;justify-content:center;gap:16px;border:0;padding:0;margin:0;}.capacity label{position:relative;width:54px;height:44px;display:grid;place-items:center;}.capacity input{appearance:none;position:absolute;inset:0;margin:0;border:1px solid #b8995c;border-radius:8px;background:#07111c;}.capacity input:checked{background:#594326;border-color:#ffe5a6;}.capacity input:disabled{opacity:.35;cursor:not-allowed;}.capacity span{z-index:1;pointer-events:none;font-size:22px;}.capacity-hint{margin:8px 0;}
@@ -279,6 +301,7 @@
     .seat-count{top:75%;left:23%;width:54%;gap:4%;}.seat-count label{width:30%;height:52px;}.seat-count span{font-size:26px;}legend{font-size:16px;}
     .join-choice{left:5%;width:42%;bottom:4%;--control-height:54px;--control-font:24px;}
     .enter{right:5%;width:44%;bottom:4%;--control-height:54px;--control-font:24px;}
+    .begin{right:5%;bottom:3%;width:44%;--control-height:50px;--control-font:26px;} .composition:has(.begin) .activity{bottom:14%;font-size:17px;}
     .enter.invited{right:8%;width:84%;--control-font:28px;}
     .invitation-seal{left:5%;bottom:3%;width:34%;}.invitation-seal span{font-size:21px;}.activity{left:42%;bottom:9%;width:52%;font-size:20px;}
     .connection{top:61%;left:12%;width:76%;font-size:14px;}

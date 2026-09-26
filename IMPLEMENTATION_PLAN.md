@@ -34,13 +34,13 @@ The sequence is a development/review sequence, not a succession of altered game 
 
 **Fidelity review:** occupied/empty medallions, table perspective, seat-count placement, invitation seal and mobile thumb reach; no form-page panel composition.
 
-## 3. Choose a bloodline and receive a private hand
+## 3. Choose a bloodline and receive your hand
 
 **Visible result:** painting **03** flows into the dealt **04** table. Each player has their selected leader, corresponding Temple and private five-card hand; only chosen gods occupy the shared altar area.
 
-**Complete implementation:** authoritative first-player draw once, reverse draft order, unique leader claim, observer waiting state, all four leader/Temple links and shared events. Implement private deck/shuffle/deal projection and authorization now; never put hidden hands, deck order or shuffle seeds in public events. Deal exact starting inventory separately from supply. Persist/replay draft and deal, including interrupted choices.
+**Complete implementation:** trusted clients record one initial seed in the event stream, then deterministically derive first player, clockwise turn order, reverse draft order and unique leader claims. Show observer waiting states, all four leader/Temple links and chosen shared events. Each client replays the same seeded shuffle and exact starting inventory, separately from supply; only the local hand renders faces. No trusted game server or private state service. Preserve draft/deal through interrupted choices and retries.
 
-**E2E:** stories 003–004: all player counts, all leaders, order/claim races, no redeal on return, exact inventory and counters, public backs/counts versus owner faces. Assert hidden data is absent from other clients' network responses, DOM and accessibility tree.
+**E2E:** stories 003–004: all player counts, all leaders, order/claim races, no redeal on return, exact inventory and counters, public backs/counts versus owner faces. Assert opponents’ faces are absent from the DOM and accessibility tree. Verify that independent clients reconstruct identical decks and hands from the shared seed and events; this trusted-client model does not promise secrecy from a participant inspecting the stream.
 
 **Fidelity review:** selected hero scale and actual landscape leader card, linked event/Temple, seat transfer and private hand composition on all sizes. The hand uses real card faces and disjoint hit regions.
 
@@ -48,7 +48,7 @@ The sequence is a development/review sequence, not a succession of altered game 
 
 **Visible result:** painting **04** becomes an interactive Action phase, with real card inspection **07**, optional trash **09**, gain **10**, reveal **11** and mandatory discard **20**.
 
-**Complete implementation:** authoritative Action command, spend then resolve in order, all twelve Action cards and four Temples, first-matching leader triggers, optional Doreios, draw/shuffle rules, legal hand selection, gains and destinations, conditional reveal and public trash. Complete all branches, including zero/empty/partial cases. Add phase-preserving choice state and idempotent recovery. Never replace an unimplemented effect with a no-op. Card inspection is functional for every visible zone.
+**Complete implementation:** client-validated, replayable Action command, spend then resolve in order, all twelve Action cards and four Temples, first-matching leader triggers, optional Doreios, draw/shuffle rules, legal hand selection, gains and destinations, conditional reveal and public trash. Complete all branches, including zero/empty/partial cases. Add phase-preserving choice state and idempotent recovery. Never replace an unimplemented effect with a no-op. Card inspection is functional for every visible zone.
 
 **E2E:** stories 005, 009–011 and 014: every card and leader branch, draw-before-discard, just-drawn target, no-effect leader trigger, no self-trash from play, cost ceilings and cheaper gains, no eligible supply, correct public/private reveal, keyboard/touch choice and large-hand paging.
 
@@ -98,9 +98,9 @@ The sequence is a development/review sequence, not a succession of altered game 
 
 **Visible result:** painting **16** on a shared display, with each player using the normal private **04** controller.
 
-**Complete implementation:** host-issued/revocable read-only display capability, public projection only, distinct viewing and joining invitations, no private payload or command authority, 4K and portrait display layouts. Joining a shared view never consumes a seat. No hidden-hand toggle over a private payload.
+**Complete implementation:** host-issued/revocable read-only display capability, public rendering only, distinct viewing and joining invitations, no command authority, 4K and portrait display layouts. Joining a shared view never consumes a seat. No hidden-hand toggle. The trusted-client replay model also applies to the shared display; a read-only capability limits writes rather than concealing the seed.
 
-**E2E:** story 017: player/viewer contexts, unauthorized reads/commands, revocation, common backs for every hand, private draws only to owner, controller interruption, public display continuing without seat consumption.
+**E2E:** story 017: player/viewer contexts, unauthorized reads/commands, revocation, common backs for every hand, draw faces rendered only for the owner, controller interruption, public display continuing without seat consumption.
 
 **Fidelity review:** all seats fit the shared table, active player remains obvious, public cards large enough at 4K and no turn command on the public screen.
 
@@ -120,7 +120,7 @@ The sequence is a development/review sequence, not a succession of altered game 
 
 **Complete implementation:** complete cross-phase recovery coverage: pending command before/after acknowledgement, draft/choice/cleanup interruption, stale revisions, seat access changes, unavailable invitations and public-view revocation. Earlier steps must already handle their own failures; this step verifies the whole connected match and removes any inconsistent recovery presentation. Never silently replace a game, seat or deck.
 
-**E2E:** story 016 spanning complete-game states: idempotent retry, restore exact pending choice or latest turn, no animation backlog, no private leak, no raw service copy, correct offline/error screenshots through the shared helper. Backend authorization/race/replay checks and full zero-pixel suite pass.
+**E2E:** story 016 spanning complete-game states: idempotent retry, restore exact pending choice or latest turn, no animation backlog, no opponent faces in rendered views, no raw service copy, correct offline/error screenshots through the shared helper. Backend authorization/race/replay checks and full zero-pixel suite pass.
 
 **Fidelity review:** both desktop and mobile keep recognizable table context under the same quiet seal; all error paths provide a real gameplay recovery action.
 
@@ -129,3 +129,7 @@ The sequence is a development/review sequence, not a succession of altered game 
 Each milestone adds a `FIDELITY.md` beside its E2E story: links to concept(s), actual phone/desktop/4K screenshots, a short visual comparison, and the named behavioral checks. A side-by-side human review answers “does this look like the accepted game?”; exact app snapshots answer “did it change after review?” Both are required.
 
 Do not mark a step accepted because snapshots were generated or CI passed. Implementation-complete means checks pass and the PR contains concrete fidelity evidence; visual acceptance remains the reviewer's decision. Steps 1 and 2 are implemented. Step 1’s sanctuary fidelity was accepted; step 2’s gathering is submitted for review with evidence in `tests/e2e/001-game-setup/FIDELITY.md`. Steps 3–11 remain planned.
+
+### Step 3 architecture clarification
+
+Per the accepted trusted-client model, “private hand” describes what the player-facing view renders. Every participant receives the shared seed and event stream and can replay the complete state. Firestore authenticates actors, restricts room access, preserves append-only events and serializes writes; game legality and deterministic randomness live in versioned client reducers. No game server, functions deployment, or private projections are introduced.

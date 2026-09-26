@@ -118,3 +118,78 @@ test('retrying the same creation attempt returns its short code and one event', 
   expect(await createRoom(host, 'short-retry-host', 'Ariadne', 2, attempt, () => { throw new Error('Must reuse the pending code'); })).toBe('RETRY');
   expect((await getDocs(collection(host, 'games/RETRY/events'))).size).toBe(1);
 });
+
+async function history(db: Firestore, id: string) {
+  return (await getDocs(collection(db, `games/${id}/events`))).docs.map(doc => doc.data() as SetupEvent);
+}
+
+test('trusted clients replay seeded drafts and deals identically for every player count', async () => {
+  const { appendDraftCommand } = await import('../../src/lib/backend/setup-repository');
+  const { leaderIds, leaderLinks } = await import('../../src/lib/game/setup');
+  for (const count of [2, 3, 4] as const) {
+    const id = `draft-${count}`, hostUid = `${id}-0`, host = database(hostUid);
+    await enterRoom(host, id, hostUid, 'Ariadne', count);
+    await expect(appendDraftCommand(host, id, hostUid, 'early', { type: 'draft/started', seed: 'fixed' })).rejects.toThrow('every seat');
+    for (let i = 1; i < count; i++) await enterRoom(database(`${id}-${i}`), id, `${id}-${i}`, `Player ${i}`);
+    await expect(appendDraftCommand(database(`${id}-1`), id, `${id}-1`, 'guest-start', { type: 'draft/started', seed: 'fixed' })).rejects.toThrow('host');
+    await appendDraftCommand(host, id, hostUid, 'start', { type: 'draft/started', seed: 'pantheon-v1' });
+    await appendDraftCommand(host, id, hostUid, 'start', { type: 'draft/started', seed: 'pantheon-v1' });
+    let state = replaySetup(await history(host, id));
+    expect(state.phase).toBe('draft'); expect(state.draftOrder).toEqual([...state.turnOrder].reverse());
+    await expect(resizeRoom(host, id, hostUid, count)).rejects.toThrow('begun');
+    await expect(enterRoom(database('late'), id, 'late', 'Late')).rejects.toThrow('begun');
+    const wrong = state.draftOrder[1];
+    await expect(appendDraftCommand(database(wrong), id, wrong, 'out-of-turn', { type: 'leader/chosen', leaderId: 'thaleia' })).rejects.toThrow('draft turn');
+    for (const [index, uid] of state.draftOrder.entries()) {
+      if (index > 0) await expect(appendDraftCommand(database(uid), id, uid, `taken-${index}`, { type: 'leader/chosen', leaderId: 'thaleia' })).rejects.toThrow('available');
+      await appendDraftCommand(database(uid), id, uid, `choose-${index}`, { type: 'leader/chosen', leaderId: leaderIds[index] });
+      await appendDraftCommand(database(uid), id, uid, `choose-${index}`, { type: 'leader/chosen', leaderId: leaderIds[index] });
+    }
+    const events = await history(host, id); state = replaySetup(events);
+    expect(events).toHaveLength(count * 2 + 1); expect(state.phase).toBe('playing');
+    expect(state.resources).toEqual({ actions: 1, buys: 1, worship: 1, coins: 0 });
+    expect(state.sharedEvents).toHaveLength(count);
+    for (const player of state.players) {
+      const deck = state.decks[player.uid], all = [...deck.hand, ...deck.deck];
+      expect(deck.hand).toHaveLength(5); expect(deck.deck).toHaveLength(5); expect(deck.discard).toHaveLength(0); expect(deck.play).toHaveLength(0);
+      expect(all.filter(card => card.cardId === 'obol')).toHaveLength(6);
+      expect(all.filter(card => card.cardId === 'hamlet')).toHaveLength(3);
+      expect(all.filter(card => card.cardId === leaderLinks(state.leaders[player.uid]).temple.id)).toHaveLength(1);
+      expect(replaySetup(await history(database(player.uid), id))).toEqual(state);
+    }
+    expect(replaySetup([...events].reverse())).toEqual(state);
+    expect(JSON.stringify(events)).not.toMatch(/"hand"|"deck"|"shuffleOrder"/);
+    expect(new Set(Object.values(state.decks).flatMap(deck => [...deck.hand, ...deck.deck].map(card => card.id))).size).toBe(count * 10);
+    await expect(appendDraftCommand(host, id, hostUid, 'restart', { type: 'draft/started', seed: 'different' })).rejects.toThrow('host');
+  }
+});
+
+test('two competing choices for one draft turn commit once; invalid versions cannot replay', async () => {
+  const { appendDraftCommand } = await import('../../src/lib/backend/setup-repository');
+  const host = database('draft-race-host');
+  await enterRoom(host, 'draft-race', 'draft-race-host', 'Ariadne', 2);
+  await enterRoom(database('draft-race-guest'), 'draft-race', 'draft-race-guest', 'Theseus');
+  await appendDraftCommand(host, 'draft-race', 'draft-race-host', 'start', { type: 'draft/started', seed: 'race' });
+  const uid = replaySetup(await history(host, 'draft-race')).draftOrder[0];
+  const results = await Promise.allSettled(['thaleia', 'nereon'].map(leaderId => appendDraftCommand(database(uid), 'draft-race', uid, `claim-${leaderId}`, { type: 'leader/chosen', leaderId })));
+  expect(results.filter(result => result.status === 'fulfilled')).toHaveLength(1);
+  const events = await history(host, 'draft-race');
+  expect(Object.values(replaySetup(events).leaders)).toHaveLength(1);
+  expect(() => replaySetup(events.map(event => event.type === 'draft/started' ? { ...event, reducerVersion: 2 } as unknown as SetupEvent : event))).toThrow('Invalid play event');
+  const outsider = database('draft-outsider');
+  await assertFails(getDocs(collection(outsider, 'games/draft-race/events')));
+  const guest = database('draft-race-guest');
+  const batch = writeBatch(guest);
+  batch.update(doc(guest, 'games/draft-race'), { revision: 5, phase: 'draft' });
+  batch.set(doc(guest, 'games/draft-race/events/5'), { schemaVersion: 1, reducerVersion: 1, sequence: 5, actorUid: 'draft-race-host', name: 'Ariadne', playerCount: 2, commandId: 'spoof', type: 'draft/started', seed: 'bad', createdAt: serverTimestamp() });
+  await assertFails(batch.commit());
+});
+
+test('reducer v1 random vectors stay fixed and shuffle preserves its input', async () => {
+  const { createPrng, shuffle } = await import('../../src/lib/game/random');
+  const random = createPrng('pantheon-v1');
+  expect([random(), random(), random()]).toEqual([0.6919899224303663, 0.3612844094168395, 0.9913471946492791]);
+  const input = ['a', 'b', 'c', 'd', 'e', 'f'];
+  expect(shuffle(input, 'pantheon-v1:starting-deck:0')).toEqual(['a', 'f', 'c', 'b', 'e', 'd']);
+  expect(input).toEqual(['a', 'b', 'c', 'd', 'e', 'f']);
+});

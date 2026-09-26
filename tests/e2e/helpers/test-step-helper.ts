@@ -22,12 +22,12 @@ export class TestStepHelper {
         for (const element of visible) {
           const rect = element.getBoundingClientRect();
           if (rect.left < 0 || rect.top < 0 || rect.right > innerWidth || rect.bottom > innerHeight) throw new Error(`${element.tagName} outside viewport`);
-          if (element.scrollWidth > element.clientWidth && getComputedStyle(element).display !== 'inline') throw new Error(`${element.tagName} content overflows`);
+          if (element.scrollWidth > element.clientWidth && getComputedStyle(element).display !== 'inline') throw new Error(`${element.tagName}.${element.className} content overflows (${element.scrollWidth} > ${element.clientWidth})`);
         }
         const controls = visible.filter(element => element.matches('button,input,select,a'));
         for (let i = 0; i < controls.length; i++) for (let j = i + 1; j < controls.length; j++) {
           const a = controls[i].getBoundingClientRect(), b = controls[j].getBoundingClientRect();
-          if (Math.min(a.right, b.right) > Math.max(a.left, b.left) && Math.min(a.bottom, b.bottom) > Math.max(a.top, b.top)) throw new Error('Controls overlap');
+          if (Math.min(a.right, b.right) > Math.max(a.left, b.left) && Math.min(a.bottom, b.bottom) > Math.max(a.top, b.top)) throw new Error(`Controls overlap: ${controls[i].getAttribute("aria-label") ?? controls[i].textContent} / ${controls[j].getAttribute("aria-label") ?? controls[j].textContent}`);
         }
       });
       const filename = `${String(this.steps.length).padStart(3, '0')}-${id}-${this.info.project.name}-${process.platform}.png`;

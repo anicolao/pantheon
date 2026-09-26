@@ -1,0 +1,57 @@
+[
+  {
+    "asset": "static/assets/ui/table-desktop.webp",
+    "sources": [
+      "docs/ux/concepts/04-table-desktop.png"
+    ],
+    "prompt": "Edit the reference into a clean production background layer for the same premium Greek mythology full-screen game. Preserve the exact moonlit Acropolis, blue-and-gold cinematic palette, columns, candles, owl statue, and luxurious dark obsidian table perspective. Remove ALL cards, portraits, counters, UI panels, labels, text, buttons, token icons and game pieces. Reconstruct the empty surfaces naturally. The big elliptical dark obsidian tabletop with gold laurel inlay should extend from y=28% to y=96%, filling almost all width; distant landscape only top 22%. Leave clear dark surfaces for live card layers, especially central and bottom areas. No new objects occupying the table. Landscape 16:10, high quality detailed painterly game environment. No text, no watermark.",
+    "generated": "/Users/anicolao/.codex/generated_images/01a0d67f-4bb5-7f22-9b1f-4851f6ab4fac/exec-d62ec580-0b79-4a1b-96cf-4c6b52752f6b.png"
+  },
+  {
+    "asset": "static/assets/ui/table-mobile.webp",
+    "sources": [
+      "docs/ux/concepts/04-table-mobile.png"
+    ],
+    "prompt": "Edit the reference into a clean production background layer for the same premium Greek mythology full-screen game. Preserve the exact moonlit Acropolis, blue-and-gold cinematic palette, columns, candles, foliage and luxurious dark obsidian table perspective. Remove ALL cards, portraits, counters, UI panels, labels, text, buttons, token icons and game pieces. Reconstruct empty surfaces naturally. The dark obsidian tabletop with gold laurel inlay should extend from y=28% to y=92%, filling most width; distant landscape only top 20%. Leave clear dark surfaces for live card layers, especially center and bottom. Portrait 9:19.5. Highly detailed painterly game environment. No text, no watermark.",
+    "generated": "/Users/anicolao/.codex/generated_images/01a0d67f-4bb5-7f22-9b1f-4851f6ab4fac/exec-bd14d996-7981-416e-9016-ee9e1bdbf850.png"
+  },
+  {
+    "asset": "static/assets/ui/hero-thaleia.webp",
+    "sources": [
+      "static/assets/cards/thaleia.webp"
+    ],
+    "prompt": "Extract the main adult character from the provided approved thaleia card illustration into a production game hero cutout. Preserve exactly this person's face, age, hair, clothing, colors, equipment and painterly rendering. Keep their head, shoulders, torso and hands fully within frame with generous transparent margin; extend gently to waist only if needed. Remove the entire architectural landscape, secondary people and background. Actual transparent alpha background, NOT checkerboard, NOT a solid color. Single isolated half-length hero, no frame, no lettering, no additional portrait or objects. High quality realistic painterly Greek mythology game art, warm gold edge lighting compatible with moonlit blue environment. Output roughly square, transparent background.",
+    "generated": "/Users/anicolao/.codex/generated_images/01a0d67f-4bb5-7f22-9b1f-4851f6ab4fac/exec-c146c531-d031-4f8d-b704-1a712a49370f.png"
+  },
+  {
+    "asset": "static/assets/ui/hero-nereon.webp",
+    "sources": [
+      "static/assets/cards/nereon.webp"
+    ],
+    "prompt": "Extract the main adult character from the provided approved nereon card illustration into a production game hero cutout. Preserve exactly this person's face, age, hair, clothing, colors, equipment and painterly rendering. Keep their head, shoulders, torso and hands fully within frame with generous transparent margin; extend gently to waist only if needed. Remove the entire architectural landscape, secondary people and background. Actual transparent alpha background, NOT checkerboard, NOT a solid color. Single isolated half-length hero, no frame, no lettering, no additional portrait or objects. High quality realistic painterly Greek mythology game art, warm gold edge lighting compatible with moonlit blue environment. Output roughly square, transparent background.",
+    "generated": "/Users/anicolao/.codex/generated_images/01a0d67f-4bb5-7f22-9b1f-4851f6ab4fac/exec-2dbaef19-676e-40ed-a78c-944b5a9573a8.png"
+  },
+  {
+    "asset": "static/assets/ui/hero-melia.webp",
+    "sources": [
+      "static/assets/cards/melia.webp"
+    ],
+    "prompt": "Extract the main adult character from the provided approved melia card illustration into a production game hero cutout. Preserve exactly this person's face, age, hair, clothing, colors, equipment and painterly rendering. Keep their head, shoulders, torso and hands fully within frame with generous transparent margin; extend gently to waist only if needed. Remove the entire architectural landscape, secondary people and background. Actual transparent alpha background, NOT checkerboard, NOT a solid color. Single isolated half-length hero, no frame, no lettering, no additional portrait or objects. High quality realistic painterly Greek mythology game art, warm gold edge lighting compatible with moonlit blue environment. Output roughly square, transparent background.",
+    "generated": "/Users/anicolao/.codex/generated_images/01a0d67f-4bb5-7f22-9b1f-4851f6ab4fac/exec-a1b9470f-0823-4fe0-803e-df4a0e676f84.png"
+  },
+  {
+    "asset": "static/assets/ui/hero-doreios.webp",
+    "sources": [
+      "static/assets/cards/doreios.webp"
+    ],
+    "prompt": "Extract the main adult character from the provided approved doreios card illustration into a production game hero cutout. Preserve exactly this person's face, age, hair, clothing, colors, equipment and painterly rendering. Keep their head, shoulders, torso and hands fully within frame with generous transparent margin; extend gently to waist only if needed. Remove the entire architectural landscape, secondary people and background. Actual transparent alpha background, NOT checkerboard, NOT a solid color. Single isolated half-length hero, no frame, no lettering, no additional portrait or objects. High quality realistic painterly Greek mythology game art, warm gold edge lighting compatible with moonlit blue environment. Output roughly square, transparent background.",
+    "generated": "/Users/anicolao/.codex/generated_images/01a0d67f-4bb5-7f22-9b1f-4851f6ab4fac/exec-86973552-9a90-4bf1-aeff-6b0266235b8b.png"
+  },
+  {
+    "asset": "static/assets/ui/resource-rail.webp",
+    "sources": [],
+    "prompt": "Create one production game UI frame asset for Pantheon: Bloodlines, matching a luxurious painterly ancient Greek game of moonlit blue-black obsidian and warm sculpted gold. A very wide horizontal empty resource rail, 7:1 aspect ratio for the rail itself. Ornate but restrained gold outer border with Greek key carvings and laurel corners, dark polished near-black navy obsidian center. Interior completely empty, no dividers, no icons, no letters, no numbers. Genuine transparent alpha outside the frame. Place the long horizontal rail in the middle of a wider landscape transparent canvas with generous transparent top/bottom margins if needed; the frame itself should be long and shallow, viewed exactly front on with no perspective. Clean crisp silhouette, detailed realistic painterly gold, not a flat vector rectangle. No glow outside the silhouette, no shadow backdrop, no watermark.",
+    "generated": "/Users/anicolao/.codex/generated_images/01a0d67f-4bb5-7f22-9b1f-4851f6ab4fac/exec-e8d210f1-6707-4ede-a4e3-6c1aee3f7623.png",
+    "processing": "Trim transparent exterior only; preserve alpha; WebP quality 94."
+  }
+]

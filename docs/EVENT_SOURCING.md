@@ -1,10 +1,10 @@
-# Event-sourced play: milestone 1
+# Event-sourced play: trusted client replay
 
-This milestone provides anonymous sign-in and a shared setup room at `/play/`. A host chooses 2–4 seats and shares an invitation. Joining players appear in every connected browser. Reloading restores the same anonymous identity and replays the stored events. It stops before leader drafting: no cards have been shuffled or dealt, and there is no turn engine yet.
+Anonymous sign-in and a shared event stream connect 2–4 players at `/play/`. The host begins after every seat is filled. Trusted clients deterministically draw the first player, draft unique leaders in reverse turn order, and shuffle/deal the exact starting decks. Reloading restores the same identity, choices, order and hand. Action resolution begins in the next milestone.
 
 ## Events and consistency
 
-`games/{id}/events/{sequence}` is the append-only source of game history. Version 1 supports `game/created`, `player/joined`, and `table/resized`. Each event has a schema version, integer sequence, authenticated actor UID, display name, player count, and server timestamp. Replay is a pure function ordered by sequence, never by client clocks. Invalid versions, gaps, duplicates, and illegal joins fail visibly.
+`games/{id}/events/{sequence}` is the append-only source of game history. Schema version 1 supports `game/created`, `player/joined`, `table/resized`, `draft/started`, and `leader/chosen`. Play events additionally carry reducer version 1 and a stable command ID. The start event records one seed; a claim records only the chosen leader. Each event has a schema version, integer sequence, authenticated actor UID, display name, player count, and server timestamp. Replay is a pure function ordered by sequence, never by client clocks. Invalid versions, gaps, duplicates, and illegal joins fail visibly.
 
 New tables use five uppercase letters as their invitation code. Allocation retries collisions atomically, including collisions with the creator’s own tables. New creation events carry a stable creation token; a pending creation retains its code and token through a connection failure, so retrying recovers the same table. Existing long invitation links still resolve; new creation never emits those IDs. Players can enter a four- or five-letter code from Play, with lowercase input normalized to uppercase.
 
@@ -14,7 +14,11 @@ The room document contains only an owner, member UIDs, capacity, and revision. T
 
 Firestore rules bind the actor to anonymous auth, enforce capacity and membership transitions, require the event and room update together, and deny event updates/deletion. Setup metadata can be read by a signed-in visitor with an invitation; event history is member-only and room listing is denied. The rules tests include adversarial writes and concurrent joins.
 
-All data in this milestone is public setup information. Future private hands and deck order must live behind per-player authorization or a trusted command processor; do not add secrets to this shared stream. Anonymous identity persists in this browser, not across devices or cleared storage.
+Every member receives the same seed and events and can reconstruct the complete game state. This is a trusted-client game, with no trusted game backend, cloud function, or private projection service. “Private hand” means only the owner’s view renders its faces; it does not imply secrecy from a participant inspecting the stream. Anonymous identity persists in this browser, not across devices or cleared storage.
+
+Reducer v1 uses FNV-1a to hash a seed string and xorshift32 as its PRNG. Fisher–Yates shuffles a copied inventory. Named random streams (`:first-player` and `:starting-deck:{seat}`) keep setup independent of anonymous UIDs and unrelated random calls. The first-player index rotates the clockwise join order; the draft is its reverse. The final leader claim derives the deal once: six Obols, three Hamlets, one matching Temple, hand five/deck five, empty discard/play. Physical copies are assigned by stable seat, outside supply stock. Replaying produces the same cards, order and copy identifiers. Any change to this algorithm requires a new reducer version.
+
+The room’s phase coordinates start/claim transactions and locks seating after Begin. Clients validate the replayed stream before appending. Rules enforce authenticated membership, immutable events, host-only start, full capacity at start, and atomic revision/phase updates. They intentionally do not duplicate the game reducer. Stable command IDs prevent duplicate starts or claims after a lost response; concurrent claims retry against the new revision.
 
 ## Activity and motion
 
@@ -22,10 +26,9 @@ Committed joins add a seat with a short entrance transition and a named activity
 
 ## Next milestones
 
-1. Choose first player and perform reverse-order unique leader drafting; derive available god events and Temples.
-2. Create private starting decks and shuffle/deal through an authoritative service, with public hand/deck counts and per-player private views.
-3. Implement turn commands and legal event transitions, including Actions, Treasures, Buys, Worship, and cleanup.
-4. Animate card movement and resource changes from committed events; add reconnect, simultaneous-command, and complete-game stories.
+1. Resolve Actions and every printed choice through replayable client commands.
+2. Add Treasure play, purchases, Worship and cleanup using the same seeded random streams.
+3. Extend public activity animations, endings, shared display and recovery stories.
 
 ## Local and hosted configuration
 
