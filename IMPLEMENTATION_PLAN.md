@@ -54,7 +54,7 @@ The sequence is a development/review sequence, not a succession of altered game 
 
 **Fidelity review:** selected-card elevation, hand → play travel, source/effect focus, operation icon, destination glow and focused mobile choice. Live rules stay complete at inspection size.
 
-**Implementation evidence:** [Action stories and fidelity review](tests/e2e/004-actions/FIDELITY.md). Action play and all printed Action/leader effects are implemented. Legal turn/economy reducer primitives support recorded-match test setup; their player-facing controls and full turn flow remain the following milestones.
+**Implementation evidence:** [Action stories and fidelity review](tests/e2e/004-actions/FIDELITY.md). Action play and all printed Action/leader effects are implemented. Legal turn/economy reducer primitives support recorded-match test setup; their player-facing controls are implemented in step 5.
 
 ## 5. Play wealth and purchase cards
 
@@ -65,6 +65,8 @@ The sequence is a development/review sequence, not a succession of altered game 
 **E2E:** stories 006–007: individual/batch Treasure totals, no Action cost, no backward phase, leaving Treasures, inspect versus buy, zero-cost payment, multiple purchases, overspend/empty rejection, live stock distinct from physical N/M, observer sees purchase once.
 
 **Fidelity review:** no shopping-page grid; inset card piles, near-hand continuity, selected pile and real destination, usable Basics/Actions selector and readable mobile expanded card.
+
+**Implementation evidence:** [Economy stories and fidelity review](tests/e2e/005-economy/FIDELITY.md). Individual and atomic all-Treasure play, all eighteen supply piles, buying, optional phase departure, and public destinations are implemented. At the user’s request, cleanup, next-player handoff and final score calculation are brought forward so the preview can be tested through ordinary turns. Worship and the complete-match acceptance/final victory composition remain subsequent work.
 
 ## 6. Worship any shared god
 
@@ -80,7 +82,7 @@ The sequence is a development/review sequence, not a succession of altered game 
 
 **Visible result:** decision **21**, handoff **12** and victory **14** complete the playable v0.1 game.
 
-**Complete implementation:** meaningful remaining-option confirmation, cleanup/discard/clear/draw, ending checks after cleanup, next-player reset, both ending conditions, all owned Territory scoring, fewer-turn/shared ties and immutable finished table. Play again creates a new table. No final round or hidden rule adjustment. Enable ordinary complete-match play only when steps 3–7 are all implemented.
+**Complete implementation:** meaningful remaining-option confirmation, cleanup/discard/clear/draw, ending checks after cleanup, next-player reset, both ending conditions, all owned Territory scoring, fewer-turn/shared ties and immutable finished table. Play again creates a new table. No final round or hidden rule adjustment. The step-5 preview exposes ordinary turn progression for manual testing at the user’s request. Complete v0.1 acceptance still requires Worship and the full-match stories.
 
 **E2E:** stories 012/015 plus one complete multi-client game through real commands. Verify decline/confirm, no early end at zero Buys, no cleanup Worship, no repeated draw after retry, both pile endings, starting Hamlets/trash scoring, all ties and 2/3/4 players, persistent final results.
 

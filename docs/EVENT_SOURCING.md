@@ -28,7 +28,7 @@ The remaining queue, choice, counters, supply and card zones are derived from th
 
 Each exhausted-deck shuffle uses `:reshuffle:{seat}:{shuffleNumber}`. Only discard joins the new deck. Gained copies use the next physical supply identifier and reduce the live pile count independently of printed N/M. Reveals record their public face and actual discard/topdeck destination; hidden draws render backs for other players. The leader opportunity is consumed when triggered, even if its optional trash is declined.
 
-The reducer also implements ordinary `phase/advanced`, `treasure/played`, `card/bought`, and `turn/ended` primitives. These prepare legal later-turn event histories for integration testing without injected snapshots or a production test mode. Their player-facing economy, cleanup confirmation and endgame/scoring surfaces remain milestones 5–7; the current UI exposes Action play and inspection only. Worship commands remain milestone 6.
+The player-facing economy uses `phase/advanced`, `treasure/played`, `treasures/played`, `card/bought`, and `turn/ended`. Play-all is one atomic command that plays the currently held Treasures in hand order. Purchases spend exact Coins and one Buy, including cost zero, and gain to discard. Phase departure asks for confirmation only when a legal play or purchase remains. Cleanup discards the hand and play area, draws five through the seeded shuffle, resets resources and leader usage, counts the turn and passes control. Ending checks run after cleanup; final totals include every owned Territory and use fewer-turn/shared ties. No commands can advance a finished game. These are the same commands used by recorded integration preludes; there is no production test mode. Worship remains milestone 6.
 
 ## Activity and motion
 
@@ -36,8 +36,8 @@ Committed joins add a seat with a short entrance transition and a named activity
 
 ## Next milestones
 
-1. Add Treasure play and purchase controls.
-2. Add Worship and complete cleanup/endgame surfaces using the same seeded random streams.
+1. Add Worship and all standard/favored event effects.
+2. Complete full-match acceptance and the dedicated victory composition using the same seeded random streams.
 3. Extend public activity animations, endings, shared display and recovery stories.
 
 ## Local and hosted configuration

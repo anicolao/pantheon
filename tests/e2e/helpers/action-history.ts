@@ -21,9 +21,9 @@ export async function readEvents(code: string): Promise<SetupEvent[]> {
  * Purchase/cleanup commands prepare later turns before the Action UI is exercised.
  * All subsequent player commands go through the real authenticated repository/rules.
  */
-export async function actionTable(page: Page, info: TestInfo, subject: string, leader = 'thaleia', options: { extra?: string[]; reveal?: 'Territory' | 'other'; other?: Page; count?: 2 | 3 | 4 } = {}) {
+export async function actionTable(page: Page, info: TestInfo, subject: string, leader = 'thaleia', options: { extra?: string[]; reveal?: 'Territory' | 'other'; other?: Page; count?: 2 | 3 | 4; empty?: string } = {}) {
   const count = options.count ?? 2;
-  const code = await roomCodeFixture(page, { ...info, title: `${info.title}/${subject}/${leader}/${options.reveal ?? ''}${count === 2 ? '' : `/${count}`}` } as TestInfo);
+  const code = await roomCodeFixture(page, { ...info, title: `${info.title}/${subject}/${leader}/${options.reveal ?? ''}${options.empty ? `/empty-${options.empty}` : ''}${count === 2 ? '' : `/${count}`}` } as TestInfo);
   await page.goto('./play/'); await page.getByLabel('Your name', {exact:true}).fill('Ariadne'); await page.getByRole('radio',{name:`${count} players`,exact:true}).check(); await page.getByRole('button',{name:'Create table',exact:true}).click(); await expect(page.getByTestId('player-seat')).toHaveCount(1);
   if (options.other) { await options.other.goto(page.url()); await options.other.getByLabel('Your name', {exact:true}).fill('Theseus'); await options.other.getByRole('button',{name:'Join table',exact:true}).click(); await expect(options.other.getByTestId('player-seat')).toHaveCount(2); }
   const events = await readEvents(code), host = events[0].actorUid, guest = events[1]?.actorUid ?? `observer-${code}`;
@@ -43,13 +43,13 @@ export async function actionTable(page: Page, info: TestInfo, subject: string, l
   let upgrades = 0;
   for (let turns=0; turns<300; turns++) {
     const uid = activePlayer(game), zones=game.decks[uid];
-    if (uid===host && [subject,...(options.extra??[])].every(id=>zones.hand.some(card=>card.cardId===id)) && (!options.reveal || (zones.deck.length && (definition(zones.deck[0].cardId).type==='Territory') === (options.reveal==='Territory')))) break;
+    if ((!options.empty || game.supply[options.empty] === 0) && uid===host && [subject,...(options.extra??[])].every(id=>zones.hand.some(card=>card.cardId===id)) && (!options.reveal || (zones.deck.length && (definition(zones.deck[0].cardId).type==='Territory') === (options.reveal==='Territory')))) break;
     // Temples are real plays; Nereon/Melia help reach the 5-cost cards naturally.
     if (uid===host) { const temple=zones.hand.find(card=>definition(card.cardId).uniqueStartingCard); if(temple) {append({type:'action/played',instanceId:temple.id}); if(game.turn.choice) append({type:'choice/resolved',choiceId:game.turn.choice.id,targets:[]});} }
     append({type:'phase/advanced'});
     if(uid===host) for(const card of [...zones.hand]) if(definition(card.cardId).type==='Treasure') append({type:'treasure/played',instanceId:card.id});
     append({type:'phase/advanced'});
-    if(uid===host){ const next=wanted.find(id=>!bought.includes(id)); if(next && game.resources.coins>=definition(next).cost!){append({type:'card/bought',cardId:next});bought.push(next);} else if(next && game.resources.coins>=3 && upgrades<3){append({type:'card/bought',cardId:'drachma'});upgrades++;} }
+    if(uid===host){ const next=wanted.find(id=>!bought.includes(id)); if(next && game.resources.coins>=definition(next).cost!){append({type:'card/bought',cardId:next});bought.push(next);} else if(next && game.resources.coins>=3 && upgrades<3){append({type:'card/bought',cardId:'drachma'});upgrades++;} else if(options.empty && game.supply[options.empty] > 0 && game.resources.coins >= definition(options.empty).cost!)append({type:'card/bought',cardId:options.empty}); }
     append({type:'turn/ended'});
     if(turns===299) throw new Error(`Could not reach Action fixture ${subject}`);
   }

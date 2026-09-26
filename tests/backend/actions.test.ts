@@ -1,5 +1,5 @@
 import { expect, test } from 'bun:test';
-import { applyPlayCommand, definition, actionEffects, type ActionCommand } from '../../src/lib/game/actions';
+import { applyPlayCommand, definition, actionEffects, standings, type ActionCommand } from '../../src/lib/game/actions';
 import { replaySetup, type CardInstance, type SetupEvent, type SetupState } from '../../src/lib/game/setup';
 
 function game(leader = 'thaleia', hand = ['oracles-acolyte', 'hamlet', 'obol'], deck = ['obol', 'hamlet', 'drachma', 'talent']): SetupState {
@@ -102,4 +102,41 @@ test('wrong player, phase, empty Actions and unresolved decisions cannot play an
   expect(() => applyPlayCommand(state, 'b', { type:'action/played', instanceId:'h-0' }, ++seq)).toThrow();
   expect(() => play(state, 2)).toThrow(); play(state); expect(() => play(state)).toThrow(); choose(state, []); expect(() => play(state)).toThrow();
   state.resources.actions = 1; run(state, {type:'phase/advanced'}); expect(() => play(state)).toThrow();
+});
+
+test('individual and atomic Treasure play have the same totals, leave non-Treasures and reject replay or wrong phase', () => {
+  const state=game('thaleia',['obol','drachma','talent','hamlet']);
+  expect(()=>run(state,{type:'treasures/played'})).toThrow();run(state,{type:'phase/advanced'});
+  const individual=structuredClone(state);
+  for(const card of individual.decks.a.hand.slice(0,3))run(individual,{type:'treasure/played',instanceId:card.id});
+  run(state,{type:'treasures/played'});
+  expect(state.decks).toEqual(individual.decks);expect(state.resources).toEqual(individual.resources);expect(state.resources.coins).toBe(6);expect(state.resources.actions).toBe(1);
+  expect(state.decks.a.hand.map(card=>card.cardId)).toEqual(['hamlet']);expect(()=>run(state,{type:'treasures/played'})).toThrow();
+  run(state,{type:'phase/advanced'});expect(()=>run(state,{type:'treasure/played',instanceId:'h-0'})).toThrow();expect(()=>run(state,{type:'phase/advanced'})).toThrow();
+});
+
+test('purchases pay exact cost and one Buy, including zero-cost; unavailable purchases do not mutate state',()=>{
+  const state=game();run(state,{type:'phase/advanced'});run(state,{type:'phase/advanced'});state.resources.coins=4;state.resources.buys=3;
+  run(state,{type:'card/bought',cardId:'council-of-sages'});expect(state.resources.coins).toBe(0);expect(state.resources.buys).toBe(2);expect(state.supply['council-of-sages']).toBe(7);
+  run(state,{type:'card/bought',cardId:'obol'});expect(state.resources.buys).toBe(1);expect(state.decks.a.discard.at(-1)?.cardId).toBe('obol');
+  state.supply.obol=0;const before=structuredClone(state);for(const id of ['obol','hamlet','temple-of-athena'])expect(()=>run(state,{type:'card/bought',cardId:id})).toThrow();expect(state).toEqual(before);
+  state.resources.buys=0;state.resources.coins=8;expect(()=>run(state,{type:'card/bought',cardId:'acropolis'})).toThrow();
+});
+
+test('cleanup includes retained Treasures and played cards, draws through seeded reshuffle, passes and resets exactly once',()=>{
+  const state=game('thaleia',['obol','hamlet'],['drachma']);run(state,{type:'phase/advanced'});run(state,{type:'treasure/played',instanceId:'h-0'});run(state,{type:'phase/advanced'});run(state,{type:'card/bought',cardId:'obol'});
+  const repeat=structuredClone(state);run(state,{type:'turn/ended'});run(repeat,{type:'turn/ended'});
+  expect(state.decks).toEqual(repeat.decks);expect(state.decks.a.hand).toHaveLength(4);expect(state.decks.a.play).toHaveLength(0);expect(state.decks.a.discard).toHaveLength(0);expect(state.turn.turns.a).toBe(1);expect(state.turn.shuffles.a).toBe(1);expect(state.turnOrder[state.turn.index]).toBe('b');expect(state.resources).toEqual({actions:1,coins:0,buys:1,worship:1});expect(state.turn.leaderUsed).toBe(false);expect(()=>run(state,{type:'turn/ended'})).toThrow();
+});
+
+
+test('both endings occur only after cleanup; scoring excludes trash and uses fewer-turn and shared ties',()=>{
+  for(const end of ['acropolis','three']) {
+    const state=game('thaleia',['hamlet','polis','acropolis'],[]);state.decks.b={hand:instances(['hamlet','polis','acropolis'],'b'),deck:[],discard:[],play:[]};state.trash=instances(['acropolis'],'trash');
+    if(end==='acropolis')state.supply.acropolis=0;else for(const id of ['obol','drachma','talent'])state.supply[id]=0;
+    expect(state.turn.phase).toBe('actions');run(state,{type:'phase/advanced'});run(state,{type:'phase/advanced'});run(state,{type:'turn/ended'});
+    expect(state.turn.phase).toBe('finished');expect(state.decks.a.play).toHaveLength(0);expect(standings(state).find(row=>row.uid==='b')?.winner).toBe(true);
+    state.decks.a={hand:instances(['hamlet','polis','acropolis'],'a'),deck:[],discard:[],play:[]};state.turn.turns.b=1;
+    expect(standings(state).map(row=>[row.score,row.winner])).toEqual([[10,true],[10,true]]);expect(()=>run(state,{type:'phase/advanced'})).toThrow();
+  }
 });

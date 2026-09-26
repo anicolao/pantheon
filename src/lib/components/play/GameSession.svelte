@@ -11,7 +11,8 @@
   import GameButton from '../GameButton.svelte';
   import Portrait from './Portrait.svelte';
   import ActionChoice from './ActionChoice.svelte';
-  import { activePlayer, canPlayAction, definition } from '$lib/game/actions';
+  import SupplyScene from './SupplyScene.svelte';
+  import { activePlayer, canPlayAction, canPlayTreasure, purchaseReason, standings, definition } from '$lib/game/actions';
 
   let { game, uid, roomId, status, busy, error, command, retry }: {
     game: SetupState; uid: string; roomId: string; status: string; busy: boolean; error: string;
@@ -22,8 +23,8 @@
   let selected = $state<string>('thaleia');
   let reduced = $state(true);
   let inspected = $state<{ card: CardDefinition; copy: number; instanceId?: string } | null>(null);
-  let modal = $state<'card' | 'supply' | 'chronicle' | 'zone' | ''>('');
-  let supplyPage = $state(0), handPage = $state(0), zonePage = $state(0);
+  let modal = $state<'card' | 'supply' | 'chronicle' | 'zone' | 'advance' | ''>('');
+  let handPage = $state(0), zonePage = $state(0);
   let zone = $state<{ uid: string; kind: 'play' | 'discard' | 'trash'; title: string }>();
   const turnUid = $derived(activePlayer(game));
   const choice = $derived(game.turn.choice);
@@ -44,6 +45,10 @@
   const ownerOf = (leader: string) => Object.entries(game.leaders).find(([, value]) => value === leader)?.[0];
   const opponents = $derived(game.turnOrder.filter(id => id !== uid));
   const supply = $derived(setupSupply(game.playerCount).map(pile => ({ ...pile, count: game.supply[pile.id] ?? pile.count })));
+  const treasures = $derived(own?.hand.filter(card => definition(card.cardId).type === 'Treasure') ?? []);
+  const advanceLabel = $derived(game.turn.phase === 'actions' ? 'To Treasures' : game.turn.phase === 'treasures' ? 'To Buys' : 'End turn');
+  const remaining = $derived(game.turn.phase === 'actions' ? own?.hand.find(card => canPlayAction(game, uid, card.id)) : game.turn.phase === 'treasures' ? treasures[0] : supply.find(pile => !purchaseReason(game, uid, pile.id)));
+  const scores = $derived(game.turn.phase === 'finished' ? standings(game) : []);
   const ready = $derived(status === 'synced' && !busy);
   $effect(() => { if (ownerOf(selected) && game.phase === 'draft') selected = leaderIds.find(id => !ownerOf(id)) ?? selected; });
   onMount(() => {
@@ -58,10 +63,10 @@
     const target = node.getBoundingClientRect();
     return fly(node, { x: source.left + source.width / 2 - target.left - target.width / 2, y: source.top + source.height / 2 - target.top - target.height / 2, duration: 450 });
   }
+  function handRevision(id: string) { return game.movements.findLast(move => move.kind === 'draw' && move.card?.id === id)?.sequence ?? game.dealtAtSequence ?? 0; }
   function deal(node: Element, index: number) {
     const id = (node as HTMLElement).dataset.instanceId!;
-    const draw = [...game.movements].reverse().find(move => move.kind === 'draw' && move.card?.id === id);
-    const revision = draw?.sequence ?? game.dealtAtSequence ?? 0;
+    const revision = handRevision(id);
     const animation = `${id}:${revision}`;
     if (animatedHand.has(animation)) return { duration: 0 };
     animatedHand.add(animation);
@@ -72,13 +77,15 @@
   function dealBack(node: Element, index: number) {
     return reduced || !game.dealtAtSequence || game.dealtAtSequence <= initialRevision ? { duration: 0 } : fly(node, { y: 40, duration: 550, delay: index * 85 });
   }
-  async function open(kind: 'card' | 'supply' | 'chronicle' | 'zone') { opener = document.activeElement as HTMLElement; modal = kind; await tick(); dialog!.showModal(); }
+  async function open(kind: 'card' | 'supply' | 'chronicle' | 'zone' | 'advance') { opener = document.activeElement as HTMLElement; modal = kind; await tick(); if (kind !== 'supply') dialog!.showModal(); }
   function inspect(id: string, copy = 1, instanceId?: string) { inspected = { card: definition(id), copy, instanceId }; void open('card'); }
-  function close() { dialog!.close(); modal = ''; opener?.focus(); }
+  function close() { if (dialog?.open) dialog.close(); modal = ''; opener?.focus(); }
   function inspectZone(player: string, kind: 'play' | 'discard' | 'trash', title: string) { zone = { uid: player, kind, title }; zonePage = 0; void open('zone'); }
-  function playInspected() { const id = inspected?.instanceId; if (id && canPlayAction(game, uid, id) && ready) { close(); void command({ type: 'action/played', instanceId: id }); } }
+  function playInspected() { const id = inspected?.instanceId; if (id && ready && (canPlayAction(game, uid, id) || canPlayTreasure(game, uid, id))) { const type = inspected!.card.type === 'Action' ? 'action/played' : 'treasure/played'; close(); void command({ type, instanceId: id }); } }
   function publicFlight(node: Element) { return reduced || game.activity.length <= initialRevision ? { duration: 0 } : fly(node, { x: -90, y: 30, duration: 550 }); }
   function playedFlight(node: Element) { return reduced || game.activity.length <= initialRevision ? { duration: 0 } : fly(node, { y: innerHeight * .25, duration: 550 }); }
+  function advance() { if (!ready || turnUid !== uid || choice || game.turn.phase === 'finished') return; if (remaining) void open('advance'); else commitAdvance(); }
+  function commitAdvance() { close(); handPage = 0; void command({ type: game.turn.phase === 'buys' ? 'turn/ended' : 'phase/advanced' }); }
   function choose() { if (isChoice && ready && !ownerOf(selected)) void command({ type: 'leader/chosen', leaderId: selected }); }
 </script>
 
@@ -134,16 +141,18 @@
       <div class="play-area" aria-label="Active play area">
         {#if game.decks[turnUid].play.length}<div class="played-cards">{#each game.decks[turnUid].play.slice(-3) as card (card.id)}<button aria-label={`Inspect played ${definition(card.cardId).name}`} onclick={() => inspect(card.cardId, card.copy)} in:playedFlight|global><CardFace card={definition(card.cardId)} players={game.playerCount} copy={card.copy} /></button>{/each}</div>{:else}<span>Your play area</span>{/if}
       </div>
-      {#if game.decks[turnUid].play.length}<button class="all-played" onclick={() => inspectZone(turnUid, 'play', `${nameOf(turnUid)}’s play area`)}>In play · {game.decks[turnUid].play.length}</button>{/if}
+      {#if game.decks[turnUid].play.length && !(turnUid === uid && game.turn.phase === 'treasures' && treasures.length)}<button class="all-played" onclick={() => inspectZone(turnUid, 'play', `${nameOf(turnUid)}’s play area`)}>In play · {game.decks[turnUid].play.length}</button>{/if}
       {#if revealed || lastPublic}{#key game.activity.length}<button class="outcome" aria-label={`Inspect ${revealed ? 'revealed' : lastPublic!.kind === 'trash' ? 'trashed' : 'gained'} ${definition((revealed ?? lastPublic)!.card!.cardId).name}`} onclick={() => inspect((revealed ?? lastPublic)!.card!.cardId, (revealed ?? lastPublic)!.card!.copy)} in:publicFlight|global><div class="outcome-card"><CardFace card={definition((revealed ?? lastPublic)!.card!.cardId)} players={game.playerCount} copy={(revealed ?? lastPublic)!.card!.copy} /></div><ResourceIcon resource={lastPublic?.kind === 'topdeck' ? 'topdeck' : lastPublic?.kind === 'trash' ? 'trash' : 'discard'} />{#if revealed && lastPublic?.kind === 'discard'}<ResourceIcon resource="coins" value="+2" />{/if}</button>{/key}{/if}
       {#if game.movements.length}<p class="action-message" role="status">{choice && turnUid !== uid ? `${nameOf(turnUid)} chooses cards for ${definition(choice.source).name.split(',')[0]}.` : game.activity.at(-1)?.message.split(';').slice(0, 2).join(';')}</p>{/if}
       <div class="supply-control"><GameButton onclick={() => open('supply')}>Supply</GameButton></div>
-      <div class="chronicle-control"><GameButton onclick={() => open('chronicle')}>Chronicle</GameButton></div>
-      <section class="turn-rail" aria-label="Turn resources"><img class="rail-frame" src={`${base}/assets/ui/resource-rail.webp`} alt="" aria-hidden="true" /><div class="turn-marker" class:long={nameOf(turnUid).length > 12 && turnUid !== uid}><strong>{turnUid === uid ? 'Your turn' : `${nameOf(turnUid)}’s turn`}</strong><span>{game.turn.phase === 'actions' ? 'Actions' : game.turn.phase === 'treasures' ? 'Treasures' : 'Buys'} · Turn {game.turn.number}</span></div>
+      {#if turnUid === uid && game.turn.phase !== 'finished'}<div class="chronicle-control"><GameButton primary onclick={advance} disabled={!ready || !!choice}>{advanceLabel}</GameButton></div>{/if}
+      {#if turnUid === uid && game.turn.phase === 'treasures' && treasures.length}<div class="treasures-control"><GameButton primary disabled={!ready} onclick={()=>command({type:'treasures/played'})}>Play all Treasures</GameButton></div>{/if}
+      <section class="turn-rail" aria-label="Turn resources"><img class="rail-frame" src={`${base}/assets/ui/resource-rail.webp`} alt="" aria-hidden="true" /><button aria-label="Chronicle" title="Chronicle" onclick={()=>open('chronicle')} class="turn-marker" class:long={nameOf(turnUid).length > 12 && turnUid !== uid}><strong>{turnUid === uid ? 'Your turn' : `${nameOf(turnUid)}’s turn`}</strong><span>{game.turn.phase === 'actions' ? 'Actions' : game.turn.phase === 'treasures' ? 'Treasures' : game.turn.phase === 'finished' ? 'Complete' : 'Buys'} · Turn {game.turn.number} ▤</span></button>
         <div class="resources"><ResourceIcon resource="actions" value={game.resources.actions} /><ResourceIcon resource="coins" value={game.resources.coins} /><ResourceIcon resource="buys" value={game.resources.buys} /><ResourceIcon resource="worship" value={game.resources.worship} /></div>
       </section>
+      {#if scores.length}<section class="results" aria-label="Final scores"><h2>{scores.filter(row=>row.winner).map(row=>row.name).join(' & ')} {scores.filter(row=>row.winner).length > 1 ? 'share victory' : 'wins'}</h2>{#each scores as row}<p><strong>{row.name} · {row.score} VP</strong><span>{row.territories.map(item=>`${item.count} ${definition(item.id).name}`).join(' · ')} · {row.turns} turns</span></p>{/each}<a href={`${base}/play/`}>Play again</a></section>{/if}
       <section class="hand" aria-label="Your hand">
-        {#each visibleHand as card, index (card.id)}<div class="hand-slot" data-instance-id={card.id} class:playable={canPlayAction(game, uid, card.id)} style:--card-index={index} in:deal|global={index}><div class="hand-face"><CardFace card={cards.find(item => item.id === card.cardId)!} players={game.playerCount} copy={card.copy} /></div></div><button data-testid="hand-card" aria-label={`Inspect hand card ${handPage * 5 + index + 1}: ${cards.find(item => item.id === card.cardId)!.name}`} style:--card-index={index} onclick={() => inspect(card.cardId, card.copy, card.id)}></button>{/each}
+        {#each visibleHand as card, index (`${card.id}:${handRevision(card.id)}`)}<div class="hand-slot" data-instance-id={card.id} class:playable={canPlayAction(game, uid, card.id) || canPlayTreasure(game, uid, card.id)} style:--card-index={index} in:deal|global={index}><div class="hand-face"><CardFace card={cards.find(item => item.id === card.cardId)!} players={game.playerCount} copy={card.copy} /></div></div><button data-testid="hand-card" aria-label={`Inspect hand card ${handPage * 5 + index + 1}: ${cards.find(item => item.id === card.cardId)!.name}`} style:--card-index={index} onclick={() => inspect(card.cardId, card.copy, card.id)}></button>{/each}
       </section>
       {#if own.hand.length > 5}<nav class="hand-pages" aria-label="Hand pages"><button aria-label="Previous hand cards" disabled={handPage === 0} onclick={() => handPage--}>‹</button><span>{handPage + 1} / {Math.ceil(own.hand.length / 5)}</span><button aria-label="Next hand cards" disabled={(handPage + 1) * 5 >= own.hand.length} onclick={() => handPage++}>›</button></nav>{/if}
       <button class="own-leader" class:blessed={latestMoves.some(move => move.kind === 'leader' && move.uid === uid)} aria-label={`Inspect your leader, ${leaderLinks(game.leaders[uid]).leader.name}`} onclick={() => inspect(game.leaders[uid])}><div class="leader-face"><CardFace card={leaderLinks(game.leaders[uid]).leader} players={game.playerCount} /></div><div class="leader-portrait"><Portrait leader={game.leaders[uid]} name={leaderLinks(game.leaders[uid]).leader.name.split(',')[0]} active={uid === turnUid} /></div></button>
@@ -157,14 +166,19 @@
 <dialog bind:this={dialog} oncancel={event => { event.preventDefault(); close(); }} aria-labelledby="session-dialog-title" data-e2e-layout={modal ? true : undefined} class:inspection={modal === 'card'}>
   <button class="close" aria-label="Close" onclick={close}>×</button>
   {#if modal === 'card' && inspected}<h2 id="session-dialog-title">{inspected.card.name}</h2><div class="inspected" class:landscape={inspected.card.type === 'Leader' || inspected.card.type === 'Event'}><CardFace card={inspected.card} players={game.playerCount} copy={inspected.copy} /></div>
-    {#if inspected.instanceId && inspected.card.type === 'Action'}<div class="play-command"><GameButton primary onclick={playInspected} disabled={!ready || !canPlayAction(game, uid, inspected.instanceId)}>Play {inspected.card.name}</GameButton>{#if !canPlayAction(game, uid, inspected.instanceId)}<p>{turnUid !== uid ? 'Wait for your turn.' : choice ? 'Finish your current choice.' : game.resources.actions < 1 ? 'No Actions remaining.' : 'The Action phase is over.'}</p>{/if}</div>{/if}
-  {:else if modal === 'supply'}<h2 id="session-dialog-title">Supply · {game.playerCount} players</h2><div class="supply-piles">{#each supply.slice(supplyPage * 6, supplyPage * 6 + 6) as pile}<button aria-label={`Inspect ${cards.find(card => card.id === pile.id)!.name}, ${pile.count} remaining`} onclick={() => { inspected = { card: cards.find(card => card.id === pile.id)!, copy: 1 }; modal = 'card'; }}><CardFace card={cards.find(card => card.id === pile.id)!} players={game.playerCount} /><span class="stock">{pile.count}</span></button>{/each}</div><nav class="supply-pages" aria-label="Supply pages">{#each ['Basics', 'Actions 1', 'Actions 2'] as label, index}<button aria-pressed={supplyPage === index} onclick={() => supplyPage = index}>{label}</button>{/each}</nav>
+    {#if inspected.instanceId && (inspected.card.type === 'Action' || inspected.card.type === 'Treasure')}<div class="play-command"><GameButton primary onclick={playInspected} disabled={!ready || !(canPlayAction(game, uid, inspected.instanceId) || canPlayTreasure(game, uid, inspected.instanceId))}>Play {inspected.card.name}</GameButton>{#if !(canPlayAction(game, uid, inspected.instanceId) || canPlayTreasure(game, uid, inspected.instanceId))}<p>{turnUid !== uid ? 'Wait for your turn.' : choice ? 'Finish your current choice.' : inspected.card.type === 'Treasure' ? 'Play Treasures in the Treasure phase.' : game.resources.actions < 1 ? 'No Actions remaining.' : 'The Action phase is over.'}</p>{/if}</div>{/if}
+  {:else if modal === 'advance'}<h2 id="session-dialog-title">{game.turn.phase === 'buys' ? 'End your turn?' : `Leave ${game.turn.phase === 'actions' ? 'Actions' : 'Treasures'}?`}</h2><div class="confirm-resources"><ResourceIcon resource="coins" value={game.resources.coins}/><ResourceIcon resource="buys" value={game.resources.buys}/></div><p>You can still {game.turn.phase === 'buys' ? 'buy' : 'play'} {remaining ? definition('cardId' in remaining ? remaining.cardId : remaining.id).name : 'cards'}.</p><div class="confirm-controls"><GameButton primary onclick={close}>Keep playing</GameButton><GameButton onclick={commitAdvance} disabled={!ready}>{advanceLabel}</GameButton></div>
   {:else if modal === 'zone' && zone}<h2 id="session-dialog-title">{zone.title}</h2>{#if zoneCards.length}<div class="supply-piles">{#each zoneCards.slice(zonePage * 6, zonePage * 6 + 6) as card}<button aria-label={`Inspect ${definition(card.cardId).name}, copy ${card.copy}`} onclick={() => { inspected = { card: definition(card.cardId), copy: card.copy }; modal = 'card'; }}><CardFace card={definition(card.cardId)} players={game.playerCount} copy={card.copy} /></button>{/each}</div><nav class="supply-pages" aria-label="Pile pages"><button disabled={zonePage === 0} onclick={() => zonePage--}>Previous</button><span>{zonePage + 1} / {Math.ceil(zoneCards.length / 6)}</span><button disabled={(zonePage + 1) * 6 >= zoneCards.length} onclick={() => zonePage++}>Next</button></nav>{:else}<p>No cards here.</p>{/if}
   {:else if modal === 'chronicle'}<h2 id="session-dialog-title">Chronicle</h2><ol class="chronicle">{#each game.activity as item}<li>{item.message}</li>{/each}</ol>{/if}
 </dialog>
+{#if modal === 'supply'}<SupplyScene {game} {uid} {ready} {status} {error} {command} {retry} {close}/>{/if}
 {#if ownChoice}<ActionChoice {game} {uid} choice={ownChoice} {ready} {error} {command} {status} {retry} />{/if}
 
 <style>
+  .results{position:absolute;left:25%;top:22%;width:50%;padding:24px;background:#081522f7;border:2px solid #c5a25e;border-radius:20px;text-align:center;z-index:8;}.results h2{font:600 34px 'Cormorant Garamond',serif;margin:0 0 20px;}.results p{display:grid;gap:6px;}.results span{font-size:14px;}.results a{display:inline-block;padding:14px 24px;border:1px solid #c4a366;color:#ffe2a2;border-radius:10px;}.composition:has(.results) .basic-supply,.composition:has(.results) .play-area,.composition:has(.results) .outcome,.composition:has(.results) .action-message,.composition:has(.results) .all-played,.composition:has(.results) .supply-control{visibility:hidden;}@media(max-aspect-ratio:3/4){.results{left:4%;width:92%;top:25%;padding:16px;}.results h2{font-size:26px;}.results span{font-size:11px;}.composition:has(.results) .altars{visibility:hidden;}}
+  .turn-marker{border:0;background:none;color:inherit;padding:0;cursor:pointer;min-height:44px;}.treasures-control{position:absolute;left:2%;top:73%;width:16%;--control-height:48px;--control-font:23px;}.confirm-resources{display:flex;gap:24px;justify-content:center;--icon-size:30px;margin:24px;}.confirm-controls{display:flex;gap:24px;margin:32px auto 12px;max-width:640px;--control-height:56px;--control-font:24px;}.confirm-controls :global(button){flex:1;}dialog:has(.confirm-controls){background:linear-gradient(#142332f5,#08131efa);}
+  @media(max-aspect-ratio:3/4){.treasures-control{left:35%;top:53%;width:30%;--control-height:44px;--control-font:17px;}.chronicle-control{--control-font:19px!important;}.confirm-controls{flex-direction:column;gap:16px;}.confirm-controls :global(button){flex:auto;}}
+
   .composition:has(.outcome) .play-area{left:34%;top:44%;width:20%;height:17%;}.composition:has(.outcome) .played-cards{margin-left:0;}.composition:has(.outcome) .played-cards button:not(:last-child){display:none;}.outcome{left:56%!important;top:44%!important;width:18%!important;height:17%!important;flex-direction:row!important;}.outcome-card{width:min(54%,12svh)!important;flex-shrink:0;}
   .blessed{filter:drop-shadow(0 0 9px #ffe091);}
   .hand-count{position:absolute;right:0;bottom:0;min-width:24px;background:#071321;border:1px solid #b99a51;border-radius:50%;text-align:center;}
@@ -186,7 +200,7 @@
   .turn-rail{position:absolute;left:23%;top:63%;width:54%;height:10%;isolation:isolate;padding:0 3%;display:flex;align-items:center;justify-content:center;}.rail-frame{position:absolute;inset:0;width:100%;height:100%;z-index:-1;pointer-events:none;} .turn-marker{width:35%;display:grid;text-align:center;font:600 clamp(18px,2.6svh,52px)/1.1 'Cormorant Garamond',serif;color:#f6dfac;}.turn-marker span{font-size:.65em;margin-top:4px;}.resources{display:flex;justify-content:space-evenly;width:65%;--icon-size:clamp(20px,3svh,64px);--icon-number-scale:.8;}
   .hand{position:absolute;left:28%;bottom:2%;width:56%;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:1%;align-items:end;}.hand button{min-width:0;height:100%;z-index:2;}.hand-slot,.hand button{grid-row:1;grid-column:calc(var(--card-index) + 1);}.hand-face{pointer-events:none;}.hand-slot:has(+ button:hover){filter:brightness(1.13);}.own-leader{position:absolute!important;left:1%;bottom:3%;width:17%;}.leader-portrait{display:none;}.deck-pile{position:absolute;left:19%;bottom:3%;width:7%;}.deck-pile img{width:100%;display:block;filter:drop-shadow(3px 5px 1px #000);}.discard-pile{position:absolute;right:3%;bottom:4%;width:10%;text-align:center;font-size:clamp(12px,1.8svh,34px);}.discard-pile img{width:100%;max-height:14svh;object-fit:contain;}.discard-pile span{display:block;background:#071321bb;border:1px solid #b2914f;border-radius:8px;padding:6px;}
   .error{position:absolute;left:24%;width:52%;top:29%;text-align:center;padding:12px;background:#481f18ee;border:1px solid #cb9872;border-radius:12px;color:#fff0cd;z-index:9;}.connection{position:absolute;left:30%;top:42%;width:40%;background:#071321ef;border:1px solid #b2914f;border-radius:16px;padding:20px;text-align:center;z-index:10;}.connection p{margin:0 0 16px;}
-  dialog{width:min(900px,94vw);max-height:95svh;padding:28px;border:2px solid #b58b48;border-radius:20px;background:linear-gradient(#132431f5,#07111cfb);color:#f2dfb9;text-align:center;box-shadow:0 20px 80px #000b;}dialog::backdrop{background:#020811bb;backdrop-filter:blur(6px);}dialog h2{font:600 30px/1 'Cormorant Garamond',serif;margin:14px 32px 24px;}.close{position:absolute;right:7px;top:7px;width:44px;height:44px;border:0;background:none;font-size:28px;}.inspected{width:min(360px,49svh,78vw);margin:auto;}.inspected.landscape{width:min(680px,102svh,80vw);}.supply-piles{display:grid;grid-template-columns:repeat(6,1fr);gap:12px;}.supply-pages{display:flex;justify-content:center;gap:16px;margin-top:24px;}.supply-pages button{min-height:44px;padding:8px 14px;border:1px solid #b2914f;background:#071321;border-radius:8px;}.supply-pages [aria-pressed='true']{background:#584328;color:#ffe4aa;}.chronicle{text-align:left;max-height:65svh;overflow:auto;line-height:1.5;}.chronicle li{padding:6px;}
+  dialog{width:min(900px,94vw);max-height:95svh;padding:28px;border:2px solid #b58b48;border-radius:20px;background:linear-gradient(#132431f5,#07111cfb);color:#f2dfb9;text-align:center;box-shadow:0 20px 80px #000b;}dialog::backdrop{background:#020811bb;backdrop-filter:blur(6px);}dialog h2{font:600 30px/1 'Cormorant Garamond',serif;margin:14px 32px 24px;}.close{position:absolute;right:7px;top:7px;width:44px;height:44px;border:0;background:none;font-size:28px;}.inspected{width:min(360px,49svh,78vw);margin:auto;}.inspected.landscape{width:min(680px,102svh,80vw);}.supply-piles{display:grid;grid-template-columns:repeat(6,1fr);gap:12px;}.supply-pages{display:flex;justify-content:center;gap:16px;margin-top:24px;}.supply-pages button{min-height:44px;padding:8px 14px;border:1px solid #b2914f;background:#071321;border-radius:8px;}.chronicle{text-align:left;max-height:65svh;overflow:auto;line-height:1.5;}.chronicle li{padding:6px;}
   @media(max-aspect-ratio:3/4){
     .session{min-height:700px;}header{top:1%;left:2%;right:2%;font-size:11px;}header a,header>span{padding:6px 10px;}header a{min-height:34px;}
     .draft-title{left:10%;width:80%;top:6%;}h1{font-size:clamp(28px,7.2vw,50px);line-height:.92;}.draft-title h1 br{display:none;}.draft-title p{font-size:20px;margin:9px 0;}.hero{left:10%;top:13%;width:80%;height:27%;}
@@ -195,13 +209,13 @@
     .draft-order,.draft-order.many{display:flex;top:auto;bottom:10%;left:3%;width:94%;right:auto;display:flex;justify-content:center;gap:8px;}.draft-order h2,.order-portrait{display:none;}.draft-order>div{flex:1;min-width:0;}.draft-order p{font-size:10px;margin:0;}.order-index{display:inline;}
     .opponents{top:6%;left:7%;width:86%;height:17%;gap:4%;}.opponent{width:100%;max-width:40svh;grid-template-columns:1fr;justify-items:center;}.opponent-portrait{width:23vw;max-width:11svh;}.opponents:has(.opponent:nth-child(2)) .opponent-portrait{width:20vw;max-width:6svh;}.hidden-hand{height:6svh;width:100%;}.hidden-hand img{width:19%;margin-left:-5%;}.opponent p{font-size:9px;}.basic-supply{display:none;}
     .altars,.altars.four{top:26%;left:3%;width:94%;grid-template-columns:48% 48%;gap:1svh;}.altars.four{top:24%;grid-template-columns:39% 39%;justify-content:space-around;}
-    .play-area{top:48%;left:21%;width:58%;height:9%;}.play-area span{font-size:20px;}.supply-control{top:53%;left:3%;width:29%;--control-height:44px;--control-font:21px;}.chronicle-control{top:53%;right:3%;width:32%;--control-height:44px;--control-font:21px;}
+    .play-area{top:44%;left:21%;width:58%;height:7%;}.play-area span{font-size:20px;}.supply-control{top:53%;left:3%;width:29%;--control-height:44px;--control-font:21px;}.chronicle-control{top:53%;right:3%;width:32%;--control-height:44px;--control-font:21px;}
     .turn-marker.long{font-size:14px;}
     .turn-rail{top:60%;left:3%;width:94%;height:9%;padding:0 6%;}.turn-marker{font-size:19px;width:35%;}.resources{--icon-size:23px;--icon-number-scale:.8;}
     .hand{left:0;width:100%;padding:0 3%;bottom:13%;gap:0;align-items:end;}.hand button{height:34vw;min-height:100px;}.hand-slot{width:24vw;margin-left:-3vw;}.hand-face{width:100%;transform:translateY(calc((2 - var(--card-index)) * 2px));}
     .own-leader{left:37%!important;bottom:1%!important;width:26%!important;}.leader-face{display:none;}.leader-portrait{display:block;}.deck-pile{left:9%;bottom:2%;width:14%;}.discard-pile{right:6%;bottom:2%;width:20%;font-size:12px;}.discard-pile{height:10%;}.discard-pile img{height:65%;max-height:6svh;display:block;margin:auto;}.discard-pile span{padding:2px;}
     .error{left:5%;width:90%;top:19%;font-size:13px;padding:8px;}.connection{left:8%;width:84%;font-size:15px;--control-height:48px;--control-font:25px;}
-    dialog{padding:20px 16px;}dialog h2{font-size:25px;margin:18px 28px 20px;}.supply-piles{grid-template-columns:repeat(3,1fr);gap:12px;}.supply-pages{gap:8px;margin-top:18px;}.supply-pages button{font-size:13px;padding:8px;}.supply-piles .stock{font-size:12px;}
+    dialog{padding:20px 16px;}dialog h2{font-size:25px;margin:18px 28px 20px;}.supply-piles{grid-template-columns:repeat(3,1fr);gap:12px;}.supply-pages{gap:8px;margin-top:18px;}.supply-pages button{font-size:13px;padding:8px;}
   }
   @media (max-aspect-ratio:3/4){
     .hand-slot{width:22vw;margin-left:-2vw;}.hand button{height:31vw;}

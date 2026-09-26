@@ -7,6 +7,7 @@ export type ActionCommand =
   | { type: 'choice/resolved'; choiceId: string; targets: string[] }
   | { type: 'phase/advanced' }
   | { type: 'treasure/played'; instanceId: string }
+  | { type: 'treasures/played' }
   | { type: 'card/bought'; cardId: string }
   | { type: 'turn/ended' };
 export type Effect =
@@ -24,6 +25,28 @@ export const activePlayer = (game: SetupState) => game.turnOrder[game.turn.index
 export function eligibleGains(game: SetupState, limit: number) { return cards.filter(card => (game.supply[card.id] ?? 0) > 0 && card.cost !== null && card.cost <= limit); }
 export function canPlayAction(game: SetupState, uid: string, instanceId: string) {
   return game.phase === 'playing' && activePlayer(game) === uid && game.turn.phase === 'actions' && !game.turn.choice && game.resources.actions > 0 && game.decks[uid]?.hand.some(card => card.id === instanceId && definition(card.cardId).type === 'Action');
+}
+export function canPlayTreasure(game: SetupState, uid: string, instanceId: string) {
+  return game.phase === 'playing' && activePlayer(game) === uid && game.turn.phase === 'treasures' && !game.turn.choice && game.decks[uid]?.hand.some(card => card.id === instanceId && definition(card.cardId).type === 'Treasure');
+}
+export function purchaseReason(game: SetupState, uid: string, id: string): string {
+  if (game.turn.phase === 'finished') return 'The game is over.';
+  if (activePlayer(game) !== uid) return 'Wait for your turn.';
+  if (game.turn.choice) return 'Finish your current choice.';
+  if (game.turn.phase !== 'buys') return 'Enter the Buy phase to purchase cards.';
+  if (!game.supply[id]) return 'This pile is empty.';
+  if (game.resources.buys < 1) return 'No Buys remaining.';
+  const cost = definition(id).cost;
+  if (cost === null || game.resources.coins < cost) return `You need ${cost! - game.resources.coins} more Coins.`;
+  return '';
+}
+export function standings(game: SetupState) {
+  const rows = game.players.map(player => {
+    const owned = Object.values(game.decks[player.uid]).flat();
+    return { ...player, score: owned.reduce((sum, card) => sum + (definition(card.cardId).vp ?? 0), 0), turns: game.turn.turns[player.uid] ?? 0,
+      territories: ['hamlet', 'polis', 'acropolis'].map(id => ({ id, count: owned.filter(card => card.cardId === id).length })) };
+  }).sort((a,b) => b.score-a.score || a.turns-b.turns);
+  return rows.map(row => ({ ...row, winner: row.score === rows[0].score && row.turns === rows[0].turns }));
 }
 function resource(source: string, key: 'actions' | 'coins' | 'buys' | 'worship', amount: number): Effect { return { kind: 'resource', source, resource: key, amount }; }
 export function actionEffects(id: string): Effect[] {
@@ -126,11 +149,16 @@ export function applyPlayCommand(game: SetupState, uid: string, command: ActionC
       }
       game.turn.choice = null; resolve(); break;
     }
-    // These ordinary turn commands also let integration fixtures reach later Action phases
-    // through legal events, without snapshot injection or a test-only game mode.
+    // Phase changes, payment and cleanup are ordinary replayable commands.
     case 'phase/advanced': {
       if (game.turn.phase === 'buys') throw new Error('You are already in the Buy phase.');
       game.turn.phase = game.turn.phase === 'actions' ? 'treasures' : 'buys'; messages.push(`entered the ${game.turn.phase === 'treasures' ? 'Treasure' : 'Buy'} phase`); break;
+    }
+    case 'treasures/played': {
+      const treasures = zones.hand.filter(card => definition(card.cardId).type === 'Treasure');
+      if (game.turn.phase !== 'treasures' || !treasures.length) throw new Error('There are no Treasures to play.');
+      for (const card of treasures) { zones.hand.splice(zones.hand.findIndex(item => item.id === card.id), 1); zones.play.push(card); const value = { obol: 1, drachma: 2, talent: 3 }[card.cardId]!; game.resources.coins += value; move('play', card.cardId, card); messages.push(`played ${definition(card.cardId).name}, +${value} coins`); }
+      break;
     }
     case 'treasure/played': {
       const index = zones.hand.findIndex(card => card.id === command.instanceId);
