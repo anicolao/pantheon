@@ -285,6 +285,8 @@
   .seat-count .selected{filter:drop-shadow(0 0 8px #ffd27f);}.seat-count input:focus-visible{outline:3px solid #fff0b8;outline-offset:2px;}
   .join-choice{position:absolute;left:5%;bottom:5%;width:27%;}
   .enter{position:absolute;right:5%;bottom:5%;width:27%;}
+  /* Keep the entry caption stable when the join dialog blurs the gathering. */
+  .enter :global(button > span){transform:translateZ(0);}
   .invitation-seal{position:absolute;left:5%;bottom:3%;width:clamp(120px,15vw,420px);aspect-ratio:1.1;border:0;padding:0;background:none;isolation:isolate;}
   .invitation-seal img{position:absolute;inset:0;width:100%;height:100%;z-index:-1;}
   .invitation-seal span{position:absolute;top:67%;left:8%;width:84%;font:700 clamp(20px,2.6svh,52px)/1 'Cormorant Garamond',serif;color:#342615;transform:rotate(-7deg);}
