@@ -201,7 +201,7 @@
           {#if nameError}<p id="name-error" role="alert">{nameError}</p>{/if}
         </div>
         {#if !setup && !roomId}
-          <fieldset class="seat-count" style:--seat-skin={`url("${base}/assets/ui/gather-seat.webp")`}><legend>Players</legend>
+          <fieldset class="seat-count" style:--seat-skin={`url("${base}/assets/ui/gather-seat-count.webp")`}><legend>Players</legend>
             {#each [2,3,4] as number}<label class:selected={playerCount === number}><input type="radio" name="players" value={number} bind:group={playerCount} aria-label={`${number} players`} disabled={busy} /><span aria-hidden="true">{number}</span></label>{/each}
           </fieldset>
         {/if}

@@ -10,7 +10,8 @@ export default defineConfig({
   forbidOnly: true,
   retries: 0,
   timeout: 60_000,
-  workers: process.env.CI ? 2 : undefined,
+  // Bound simultaneous 4K software rasterization on developer machines too.
+  workers: process.env.CI ? 2 : 3,
   reporter: [['list'], ['html', { open: 'never' }]],
   use: {
     baseURL: `http://127.0.0.1:4193${base}/`,
