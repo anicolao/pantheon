@@ -265,3 +265,27 @@ test('join by a displayed game code and let only the owner adjust occupied capac
     } finally { await third.close(); }
   } finally { await guest.close(); }
 });
+
+test('a lost creation acknowledgement recovers the same code without another event', async ({ page, context }) => {
+  let lost = false;
+  await context.route(url => url.pathname.endsWith('/documents:commit'), async route => {
+    if (lost) { await route.continue(); return; }
+    const response = await route.fetch();
+    expect(response.ok()).toBe(true);
+    lost = true;
+    // The emulator committed the real transaction; only its response is lost.
+    await route.abort('connectionreset');
+  });
+  await page.goto('./play/');
+  await page.getByLabel('Your name', { exact: true }).fill('Ariadne');
+  await page.getByRole('button', { name: 'Create table', exact: true }).click();
+  await expect(page.getByTestId('player-seat')).toHaveCount(1);
+  expect(lost).toBe(true);
+  const code = await page.getByTestId('room-code').innerText();
+  await page.reload(); await ready(page);
+  await expect(page.getByTestId('room-code')).toHaveText(code);
+  await expect(page.getByTestId('latest-activity')).toHaveText('Ariadne created the table.');
+  const response = await fetch(`http://127.0.0.1:8193/v1/projects/demo-pantheon/databases/(default)/documents/games/${code}/events`, { headers: { Authorization: 'Bearer owner' } });
+  expect(response.ok).toBe(true);
+  expect((await response.json()).documents).toHaveLength(1);
+});

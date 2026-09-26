@@ -28,9 +28,9 @@ The sequence is a development/review sequence, not a succession of altered game 
 
 **Visible result:** painting **02**, invitation/full-table **22** and the relevant **15** recovery states replace the existing setup presentation. Names occupy real seats around the table; invitations and capacity behave correctly.
 
-**Complete implementation:** player-count seals, accessible name entry, live seat arrival, host/guest states, invitation copying with an explicit selectable invitation when clipboard access is unavailable, return to sanctuary and specific full/missing invitation messaging. Use existing event-backed creation/joining; enforce final-seat races and no duplicate membership. Remove all technical/milestone copy from this surface. Draft entry is exposed with step 3 when it can really run.
+**Complete implementation:** visible five-letter codes, joining by code from Play, owner-only live capacity changes that preserve occupied seats, player-count seals, accessible name entry, live seat arrival, host/guest states, invitation copying with an explicit selectable invitation when clipboard access is unavailable, return to sanctuary and specific full/missing invitation messaging. Use existing event-backed creation/joining; enforce final-seat races and no duplicate membership. Remove all technical/milestone copy from this surface. Draft entry is exposed with step 3 when it can really run.
 
-**E2E:** extend existing gathering story 001: 2/3/4 seats, supply scaling, two-client joins, validation, clipboard outcomes, capacity race, identity restoration, full/invalid invite, exact screenshots and seat-motion ordering.
+**E2E:** extend existing gathering story 001: 2/3/4 seats, supply scaling, two-client joins by code or invitation, validation, clipboard outcomes, code collisions, owner/guest capacity permissions, capacity/arrival race, identity restoration, full/invalid invite, exact screenshots and seat-motion ordering.
 
 **Fidelity review:** occupied/empty medallions, table perspective, seat-count placement, invitation seal and mobile thumb reach; no form-page panel composition.
 

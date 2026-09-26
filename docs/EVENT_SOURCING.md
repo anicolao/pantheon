@@ -6,7 +6,7 @@ This milestone provides anonymous sign-in and a shared setup room at `/play/`. A
 
 `games/{id}/events/{sequence}` is the append-only source of game history. Version 1 supports `game/created`, `player/joined`, and `table/resized`. Each event has a schema version, integer sequence, authenticated actor UID, display name, player count, and server timestamp. Replay is a pure function ordered by sequence, never by client clocks. Invalid versions, gaps, duplicates, and illegal joins fail visibly.
 
-New tables use five uppercase letters as their invitation code. Allocation retries collisions atomically, including collisions with the creator’s own tables. Existing long invitation links still resolve; new creation never emits those IDs. Players can enter a four- or five-letter code from Play, with lowercase input normalized to uppercase.
+New tables use five uppercase letters as their invitation code. Allocation retries collisions atomically, including collisions with the creator’s own tables. New creation events carry a stable creation token; a pending creation retains its code and token through a connection failure, so retrying recovers the same table. Existing long invitation links still resolve; new creation never emits those IDs. Players can enter a four- or five-letter code from Play, with lowercase input normalized to uppercase.
 
 The owner can change capacity between two and four in Table details. A resize records the owner’s original name, preserves membership, and cannot remove occupied seats. Guests see the new seats and supply immediately. Repeating the current capacity is a no-op. Event sequence counts all events, independently of the number of players.
 

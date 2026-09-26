@@ -12,7 +12,7 @@ export async function inspectRoom(db: Firestore, id: string) {
   return snapshot.data() as { owner: string; members: string[]; playerCount: 2 | 3 | 4; revision: number };
 }
 
-export async function enterRoom(db: Firestore, id: string, uid: string, name: string, playerCount?: 2 | 3 | 4, fresh = false) {
+export async function enterRoom(db: Firestore, id: string, uid: string, name: string, playerCount?: 2 | 3 | 4, creationToken?: string) {
   if (!validId(id)) throw new SetupError('missing', 'This invitation was not found.');
   name = name.trim();
   if (!name || name.length > 24) throw new SetupError('name', 'Choose a name between 1 and 24 characters.');
@@ -21,7 +21,13 @@ export async function enterRoom(db: Firestore, id: string, uid: string, name: st
   try { await runTransaction(db, async transaction => {
     const snapshot = await transaction.get(room);
     const previous = snapshot.data();
-    if (fresh && snapshot.exists()) throw new SetupError('exists', 'This table already exists.');
+    if (creationToken && snapshot.exists()) {
+      if (previous?.owner === uid) {
+        const created = await transaction.get(doc(room, 'events', '1'));
+        if (created.data()?.creationToken === creationToken) return;
+      }
+      throw new SetupError('exists', 'This table already exists.');
+    }
     if (previous?.members.includes(uid)) return;
     if (snapshot.exists() && playerCount) throw new SetupError('exists', 'This table already exists.');
     if (!snapshot.exists() && !playerCount) throw new SetupError('missing', 'This invitation was not found.');
@@ -30,7 +36,7 @@ export async function enterRoom(db: Firestore, id: string, uid: string, name: st
     if (members.length >= count) throw new SetupError('full', 'This table is full.');
     const sequence = (previous?.revision ?? 0) + 1;
     const event: SetupEvent = { schemaVersion: 1, sequence, actorUid: uid, name, playerCount: count,
-      type: previous ? 'player/joined' : 'game/created' };
+      type: previous ? 'player/joined' : 'game/created', ...(creationToken ? { creationToken } : {}) };
     transaction.set(room, { owner: previous?.owner ?? uid, members: [...members, uid], playerCount: count, revision: sequence });
     transaction.set(doc(room, 'events', String(sequence)), { ...event, createdAt: serverTimestamp() });
   }); } catch (error) {
@@ -40,7 +46,12 @@ export async function enterRoom(db: Firestore, id: string, uid: string, name: st
     const current = await getDocFromServer(room).catch(() => null);
     if (current?.exists()) {
       const data = current.data();
-      if (data.members.includes(uid)) return;
+      if (data.members.includes(uid)) {
+        if (!creationToken) return;
+        const created = await getDocFromServer(doc(room, 'events', '1'));
+        if (created.data()?.creationToken === creationToken) return;
+      }
+      if (creationToken) throw new SetupError('exists', 'This table already exists.');
       if (!playerCount && data.members.length >= data.playerCount) throw new SetupError('full', 'This table is full.');
     }
     throw error;
@@ -61,11 +72,15 @@ export function generateRoomCode() {
   for (let i = 0; i < 5; i++) { code += String.fromCharCode(65 + Number(entropy % 26n)); entropy /= 26n; }
   return code;
 }
-export async function createRoom(db: Firestore, uid: string, name: string, playerCount: 2 | 3 | 4, nextCode = generateRoomCode) {
-  for (let attempt = 0; attempt < 20; attempt++) {
-    const id = nextCode();
-    try { await enterRoom(db, id, uid, name, playerCount, true); return id; }
-    catch (error) { if (!(error instanceof SetupError) || error.code !== 'exists') throw error; }
+export type CreationAttempt = { token: string; code?: string };
+export async function createRoom(db: Firestore, uid: string, name: string, playerCount: 2 | 3 | 4, attempt: CreationAttempt, nextCode = generateRoomCode) {
+  for (let collision = 0; collision < 20; collision++) {
+    const id = attempt.code ??= nextCode();
+    try { await enterRoom(db, id, uid, name, playerCount, attempt.token); return id; }
+    catch (error) {
+      if (!(error instanceof SetupError) || error.code !== 'exists') throw error;
+      attempt.code = undefined;
+    }
   }
   throw new SetupError('exists', 'We couldn’t open a table. Please try again.');
 }
