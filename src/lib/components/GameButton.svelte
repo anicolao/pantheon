@@ -15,5 +15,5 @@
   button:disabled { opacity:.55; cursor:default; }
   button:focus-visible { outline:3px solid #fff0b8; outline-offset:3px; border-radius:18px; }
   @media(hover:hover) { button:not(:disabled):hover img { filter:brightness(1.2); } }
-  button:not(:disabled):active { transform:translateY(2px); }
+  button:not(:disabled):active img { filter:brightness(.9); }
 </style>
