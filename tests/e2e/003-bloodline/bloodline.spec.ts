@@ -13,6 +13,8 @@ const ready = async (page: Page) => expect(page.locator('[data-status]')).toHave
 test.beforeEach(async ({ page }, info) => { await roomCodeFixture(page, info); });
 
 for (const count of [2, 3, 4] as const) test(`${count} players draft unique bloodlines and replay the same starting hands`, async ({ page, browser }, info) => {
+  // Seven exact 4K captures plus three real client contexts exceed a minute on hosted runners.
+  if (count === 2 && info.project.name === 'tabletop-4k') test.setTimeout(120_000);
   const contexts: BrowserContext[] = [];
   const pages: Record<string, Page> = { Ariadne: page };
   const errors: string[] = [];
