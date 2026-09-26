@@ -1,11 +1,16 @@
 import { cards } from './cards';
 import { createPrng, shuffle } from './random';
+import { applyPlayCommand, initialTurn, type ActionCommand, type Movement, type TurnState } from './actions';
 export type SetupEvent = {
   schemaVersion: 1;
   creationToken?: string;
   sequence: number;
   actorUid: string;
-  type: 'game/created' | 'player/joined' | 'table/resized' | 'draft/started' | 'leader/chosen';
+  type: 'game/created' | 'player/joined' | 'table/resized' | 'draft/started' | 'leader/chosen' | ActionCommand['type'];
+  instanceId?: string;
+  choiceId?: string;
+  targets?: string[];
+  cardId?: string;
   reducerVersion?: 1;
   commandId?: string;
   seed?: string;
@@ -22,6 +27,10 @@ export function leaderLinks(id: string) {
   return { leader, temple: cards.find(card => card.uniqueStartingCard && card.god === leader.god)!, event: cards.find(card => card.type === 'Event' && card.god === leader.god)! };
 }
 export type SetupState = {
+  turn: TurnState;
+  supply: Record<string, number>;
+  trash: CardInstance[];
+  movements: Movement[];
   phase: 'gathering' | 'draft' | 'playing';
   seed: string | null;
   turnOrder: string[];
@@ -38,15 +47,21 @@ export type SetupState = {
 };
 /** Replay only committed events. No clock, random source, or mutable projection. */
 export function replaySetup(events: SetupEvent[]): SetupState {
-  const state: SetupState = { playerCount: 2, players: [], activity: [], phase: 'gathering', seed: null, turnOrder: [], draftOrder: [], leaders: {}, decks: {}, sharedEvents: [], dealtAtSequence: null, resources: { actions: 1, buys: 1, worship: 1, coins: 0 } };
+  const state: SetupState = { turn: initialTurn(), supply: {}, trash: [], movements: [], playerCount: 2, players: [], activity: [], phase: 'gathering', seed: null, turnOrder: [], draftOrder: [], leaders: {}, decks: {}, sharedEvents: [], dealtAtSequence: null, resources: { actions: 1, buys: 1, worship: 1, coins: 0 } };
+  const commandIds = new Set<string>();
   for (const event of [...events].sort((a, b) => a.sequence - b.sequence)) {
     if (event.schemaVersion !== 1 || event.sequence !== state.activity.length + 1 ||
       ![2, 3, 4].includes(event.playerCount) || !event.actorUid ||
       typeof event.name !== 'string' || !event.name.trim() || event.name.length > 24) throw new Error('Invalid setup event stream.');
-    if (event.type === 'draft/started' || event.type === 'leader/chosen') {
+    if (event.type === 'draft/started' || event.type === 'leader/chosen' || ['action/played', 'choice/resolved', 'phase/advanced', 'treasure/played', 'treasures/played', 'card/bought', 'turn/ended'].includes(event.type)) {
       if (event.reducerVersion !== 1 || !event.commandId || event.commandId.length > 64 ||
-        events.filter(other => other.commandId === event.commandId).length !== 1 ||
+        commandIds.has(event.commandId) ||
         event.playerCount !== state.playerCount || !state.players.some(player => player.uid === event.actorUid && player.name === event.name)) throw new Error('Invalid play event.');
+      commandIds.add(event.commandId);
+      if (event.type !== 'draft/started' && event.type !== 'leader/chosen') {
+        state.activity.push({ sequence: event.sequence, message: applyPlayCommand(state, event.actorUid, event as ActionCommand, event.sequence) });
+        continue;
+      }
       if (event.type === 'draft/started') {
         if (state.phase !== 'gathering' || event.actorUid !== state.players[0]?.uid || state.players.length !== state.playerCount ||
           typeof event.seed !== 'string' || !event.seed.length || event.seed.length > 64) throw new Error('The host may begin once every seat is filled.');
@@ -73,6 +88,7 @@ export function replaySetup(events: SetupEvent[]): SetupState {
             const shuffled = shuffle(inventory, `${state.seed}:starting-deck:${seat}`);
             state.decks[player.uid] = { hand: shuffled.slice(0, 5), deck: shuffled.slice(5), discard: [], play: [] };
           }
+          state.supply = Object.fromEntries(setupSupply(state.playerCount).map(pile => [pile.id, pile.count]));
           state.phase = 'playing'; state.dealtAtSequence = event.sequence;
           state.activity.at(-1)!.message += ' Five cards dealt to each player.';
         }

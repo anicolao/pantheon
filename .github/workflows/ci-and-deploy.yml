@@ -7,6 +7,10 @@ on:
     branches: [main]
   workflow_dispatch:
     inputs:
+      story_filter:
+        description: Optional test-title pattern for focused manual checks (never deploys)
+        type: string
+        default: ''
       update_snapshots:
         description: Generate Linux screenshot baselines for review
         type: boolean
@@ -44,6 +48,7 @@ jobs:
           fi
         env:
           CI: 'true'
+          E2E_STORY_FILTER: ${{ inputs.story_filter || '' }}
           PUBLIC_BASE_PATH: /pantheon/pr${{ github.event.pull_request.number || 'test' }}
       - uses: actions/upload-artifact@v4
         if: inputs.update_snapshots == true && always()
@@ -62,7 +67,7 @@ jobs:
 
   deploy:
     needs: verify
-    if: inputs.update_snapshots != true && (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository)
+    if: inputs.update_snapshots != true && !inputs.story_filter && (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository)
     runs-on: ubuntu-latest
     permissions:
       contents: write

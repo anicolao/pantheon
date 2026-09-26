@@ -193,3 +193,37 @@ test('reducer v1 random vectors stay fixed and shuffle preserves its input', asy
   expect(shuffle(input, 'pantheon-v1:starting-deck:0')).toEqual(['a', 'f', 'c', 'b', 'e', 'd']);
   expect(input).toEqual(['a', 'b', 'c', 'd', 'e', 'f']);
 });
+
+test('Action commands authenticate, replay and retry exactly once across a pending leader choice', async () => {
+  const { appendGameCommand } = await import('../../src/lib/backend/setup-repository');
+  const { activePlayer } = await import('../../src/lib/game/actions');
+  const a = database('action-a'), b = database('action-b');
+  await enterRoom(a, 'action-stream', 'action-a', 'Ariadne', 2);
+  await enterRoom(b, 'action-stream', 'action-b', 'Theseus');
+  await appendGameCommand(a, 'action-stream', 'action-a', 'action-start', { type: 'draft/started', seed: 'actions-stream' });
+  const history = async () => (await getDocs(collection(a, 'games/action-stream/events'))).docs.map(doc => doc.data() as SetupEvent);
+  let state = replaySetup(await history());
+  for (const uid of state.draftOrder) await appendGameCommand(uid === 'action-a' ? a : b, 'action-stream', uid, `leader-${uid}`, { type: 'leader/chosen', leaderId: uid === state.turnOrder[0] ? 'doreios' : 'thaleia' });
+  state = replaySetup(await history());
+  // Reach the first Ares Temple using real turns if it wasn't in the opening hand.
+  let next = 0;
+  for (let turn = 0; turn < 8; turn++) {
+    const uid = activePlayer(state), db = uid === 'action-a' ? a : b;
+    const temple = state.decks[uid].hand.find(card => card.cardId === 'temple-of-ares');
+    if (temple) {
+      const command = { type: 'action/played' as const, instanceId: temple.id };
+      await expect(appendGameCommand(uid === 'action-a' ? b : a, 'action-stream', uid === 'action-a' ? 'action-b' : 'action-a', 'wrong-turn', command)).rejects.toThrow();
+      await appendGameCommand(db, 'action-stream', uid, 'play-temple', command);
+      await appendGameCommand(db, 'action-stream', uid, 'play-temple', command);
+      state = replaySetup(await history()); expect(state.turn.choice?.source).toBe('doreios'); expect(state.resources.worship).toBe(2);
+      const choice = { type: 'choice/resolved' as const, choiceId: state.turn.choice!.id, targets: [] };
+      await appendGameCommand(db, 'action-stream', uid, 'skip-trash', choice); await appendGameCommand(db, 'action-stream', uid, 'skip-trash', choice);
+      const events = await history(); expect(events.filter(event => event.commandId === 'play-temple')).toHaveLength(1); expect(events.filter(event => event.commandId === 'skip-trash')).toHaveLength(1);
+      expect(replaySetup(events).turn.choice).toBeNull(); expect(replaySetup([...events].reverse())).toEqual(replaySetup(events));
+      await expect(appendGameCommand(db, 'action-stream', uid, 'skip-trash', { ...choice, targets: ['not-a-card'] })).rejects.toThrow(); return;
+    }
+    for (const command of [{type:'phase/advanced'},{type:'phase/advanced'},{type:'turn/ended'}] as const) await appendGameCommand(db, 'action-stream', uid, `advance-${next++}`, command);
+    state = replaySetup(await history());
+  }
+  throw new Error('The Temple must appear within two turns per player.');
+});

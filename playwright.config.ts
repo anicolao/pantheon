@@ -5,10 +5,13 @@ const base = process.env.PUBLIC_BASE_PATH ?? '/pantheon/pr-test';
 export default defineConfig({
   testDir: './tests/e2e',
   fullyParallel: true,
+  // Optional manual CI diagnostics; pull-request verification always runs every story.
+  grep: process.env.E2E_STORY_FILTER ? new RegExp(process.env.E2E_STORY_FILTER) : undefined,
   forbidOnly: true,
   retries: 0,
   timeout: 60_000,
-  workers: process.env.CI ? 2 : undefined,
+  // Bound simultaneous 4K software rasterization on developer machines too.
+  workers: process.env.CI ? 2 : 3,
   reporter: [['list'], ['html', { open: 'never' }]],
   use: {
     baseURL: `http://127.0.0.1:4193${base}/`,

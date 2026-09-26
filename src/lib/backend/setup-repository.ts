@@ -1,5 +1,11 @@
 import { collection, doc, getDocFromServer, onSnapshot, orderBy, query, runTransaction, serverTimestamp, type Firestore } from 'firebase/firestore';
+import type { ActionCommand } from '$lib/game/actions';
 import { replaySetup, type SetupEvent, type SetupState } from '$lib/game/setup';
+
+// Committed immutable prefixes avoid downloading the whole match on every move.
+// A transaction still checks the live revision before appending.
+const histories = new WeakMap<Firestore, Map<string, SetupEvent[]>>();
+function historyCache(db: Firestore) { let cache = histories.get(db); if (!cache) { cache = new Map(); histories.set(db, cache); } return cache; }
 
 export class SetupError extends Error {
   constructor(public code: 'name' | 'missing' | 'full' | 'exists' | 'count' | 'owner' | 'started' | 'choice', message: string) { super(message); }
@@ -61,7 +67,12 @@ export async function enterRoom(db: Firestore, id: string, uid: string, name: st
 export function watchSetup(db: Firestore, id: string, update: (state: SetupState, synced: boolean) => void, fail: (error: Error) => void) {
   return onSnapshot(query(collection(db, 'games', id, 'events'), orderBy('sequence')), { includeMetadataChanges: true }, snapshot => {
     if (snapshot.metadata.hasPendingWrites) return;
-    try { update(replaySetup(snapshot.docs.map(doc => doc.data() as SetupEvent)), !snapshot.metadata.fromCache); }
+    try {
+      const events = snapshot.docs.map(doc => doc.data() as SetupEvent);
+      const state = replaySetup(events);
+      if (!snapshot.metadata.fromCache) historyCache(db).set(id, events);
+      update(state, !snapshot.metadata.fromCache);
+    }
     catch (error) { fail(error as Error); }
   }, fail);
 }
@@ -105,17 +116,21 @@ export async function resizeRoom(db: Firestore, id: string, uid: string, playerC
 
 export type DraftCommand = { type: 'draft/started'; seed: string } | { type: 'leader/chosen'; leaderId: string };
 /** Trusted clients validate and replay; the transaction serializes the shared stream. */
-export async function appendDraftCommand(db: Firestore, id: string, uid: string, commandId: string, command: DraftCommand) {
+export type GameCommand = DraftCommand | ActionCommand;
+export async function appendGameCommand(db: Firestore, id: string, uid: string, commandId: string, command: GameCommand) {
   const room = doc(db, 'games', id);
   await runTransaction(db, async transaction => {
     const previous = (await transaction.get(room)).data();
     if (!previous || !previous.members.includes(uid)) throw new SetupError('missing', 'Your seat was not found.');
-    const snapshots = await Promise.all(Array.from({ length: previous.revision }, (_, i) => transaction.get(doc(room, 'events', String(i + 1)))));
-    const events = snapshots.map(snapshot => snapshot.data() as SetupEvent);
+    const cached = historyCache(db).get(id) ?? [];
+    const prefix = cached[0]?.actorUid === previous.owner && cached.length <= previous.revision ? cached : [];
+    const snapshots = await Promise.all(Array.from({ length: previous.revision - prefix.length }, (_, i) => transaction.get(doc(room, 'events', String(prefix.length + i + 1)))));
+    const events = [...prefix, ...snapshots.map(snapshot => snapshot.data() as SetupEvent)];
+    historyCache(db).set(id, events);
     const acknowledged = events.find(event => event.commandId === commandId);
     if (acknowledged) {
       if (acknowledged.actorUid !== uid || acknowledged.type !== command.type ||
-        (command.type === 'leader/chosen' ? acknowledged.leaderId !== command.leaderId : acknowledged.seed !== command.seed)) throw new SetupError('choice', 'That choice has changed.');
+        Object.entries(command).some(([key, value]) => JSON.stringify(acknowledged[key as keyof SetupEvent]) !== JSON.stringify(value))) throw new SetupError('choice', 'That choice has changed.');
       return;
     }
     const state = replaySetup(events);
@@ -128,3 +143,6 @@ export async function appendDraftCommand(db: Firestore, id: string, uid: string,
     transaction.set(doc(room, 'events', String(event.sequence)), { ...event, createdAt: serverTimestamp() });
   });
 }
+
+/** Kept for callers of the draft-only API. */
+export const appendDraftCommand = appendGameCommand;

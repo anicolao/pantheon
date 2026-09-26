@@ -5,7 +5,7 @@
   import { afterNavigate, goto } from '$app/navigation';
   import { connectFirebase } from '$lib/backend/firebase';
   import { rememberTable } from '$lib/navigation/return-table';
-  import { appendDraftCommand, type DraftCommand, createRoom, type CreationAttempt, resizeRoom, enterRoom, inspectRoom, SetupError, watchSetup } from '$lib/backend/setup-repository';
+  import { appendGameCommand, type GameCommand, createRoom, type CreationAttempt, resizeRoom, enterRoom, inspectRoom, SetupError, watchSetup } from '$lib/backend/setup-repository';
   import { setupSupply, type SetupState } from '$lib/game/setup';
   import GatheringSeat from '$lib/components/GatheringSeat.svelte';
   import GameButton from '$lib/components/GameButton.svelte';
@@ -31,7 +31,7 @@
   let busy = $state(false);
   let playError = $state('');
   let draftSeed = '';
-  let pendingDraft: { id: string; command: DraftCommand } | undefined;
+  let pendingCommand: { id: string; command: GameCommand } | undefined;
   let copied = $state(false);
   let manualInvitation = $state(false);
   let invitation = $state('');
@@ -101,15 +101,15 @@
     } catch (cause) { fail(cause); }
     finally { if (alive) busy = false; }
   }
-  async function sendDraft(command: DraftCommand) {
+  async function sendCommand(command: GameCommand) {
     if (!services || !setup || busy || status !== 'synced') return;
     busy = true; playError = '';
-    if (!pendingDraft || JSON.stringify(pendingDraft.command) !== JSON.stringify(command)) pendingDraft = { id: `${crypto.randomUUID()}:${setup.activity.length + 1}`, command };
-    try { await appendDraftCommand(services.db, roomId, services.uid, pendingDraft.id, pendingDraft.command); pendingDraft = undefined; }
+    if (!pendingCommand || JSON.stringify(pendingCommand.command) !== JSON.stringify(command)) pendingCommand = { id: `${crypto.randomUUID()}:${setup.activity.length + 1}`, command };
+    try { await appendGameCommand(services.db, roomId, services.uid, pendingCommand.id, pendingCommand.command); pendingCommand = undefined; }
     catch (cause) { playError = cause instanceof SetupError ? cause.message : 'We couldn’t save your choice. Try again.'; }
     finally { busy = false; }
   }
-  function begin() { void sendDraft({ type: 'draft/started', seed: draftSeed ||= crypto.randomUUID() }); }
+  function begin() { void sendCommand({ type: 'draft/started', seed: draftSeed ||= crypto.randomUUID() }); }
   async function showModal(kind: 'invite' | 'details' | 'join') {
     opener = document.activeElement as HTMLElement;
     copied = false; manualInvitation = false; codeError = ''; capacityError = '';
@@ -137,7 +137,7 @@
   }
   afterNavigate(({ from, to }) => {
     if (from && to && from.url.pathname === to.url.pathname && from.url.search !== to.url.search) {
-      stop?.(); setup = null; unavailable = ''; pendingDraft = undefined; draftSeed = ''; playError = ''; nameError = ''; creationAttempt = undefined; joinCode = ''; codeError = ''; capacityError = ''; playerCount = 2; reservedSeats = 0;
+      stop?.(); setup = null; unavailable = ''; pendingCommand = undefined; draftSeed = ''; playError = ''; nameError = ''; creationAttempt = undefined; joinCode = ''; codeError = ''; capacityError = ''; playerCount = 2; reservedSeats = 0;
       roomId = to.url.searchParams.get('room') ?? '';
       void connect();
     }
@@ -158,7 +158,7 @@
 
 <svelte:head><title>Gather at the Table — Pantheon: Bloodlines</title><link rel="preload" as="image" href={`${base}/assets/ui/sanctuary-button-secondary.webp`} /></svelte:head>
 {#if setup && setup.phase !== 'gathering' && services}
-  <GameSession game={setup} uid={services.uid} {roomId} {status} {busy} error={playError} command={sendDraft} retry={connect} />
+  <GameSession game={setup} uid={services.uid} {roomId} {status} {busy} error={playError} command={sendCommand} retry={connect} />
 {:else}
 <main class="gathering" class:unavailable data-status={status}>
   <picture class="environment" aria-hidden="true">
@@ -201,7 +201,7 @@
           {#if nameError}<p id="name-error" role="alert">{nameError}</p>{/if}
         </div>
         {#if !setup && !roomId}
-          <fieldset class="seat-count" style:--seat-skin={`url("${base}/assets/ui/gather-seat.webp")`}><legend>Players</legend>
+          <fieldset class="seat-count" style:--seat-skin={`url("${base}/assets/ui/gather-seat-count.webp")`}><legend>Players</legend>
             {#each [2,3,4] as number}<label class:selected={playerCount === number}><input type="radio" name="players" value={number} bind:group={playerCount} aria-label={`${number} players`} disabled={busy} /><span aria-hidden="true">{number}</span></label>{/each}
           </fieldset>
         {/if}
@@ -285,6 +285,8 @@
   .seat-count .selected{filter:drop-shadow(0 0 8px #ffd27f);}.seat-count input:focus-visible{outline:3px solid #fff0b8;outline-offset:2px;}
   .join-choice{position:absolute;left:5%;bottom:5%;width:27%;}
   .enter{position:absolute;right:5%;bottom:5%;width:27%;}
+  /* Keep the entry caption stable when the join dialog blurs the gathering. */
+  .enter :global(button > span){transform:translateZ(0);}
   .invitation-seal{position:absolute;left:5%;bottom:3%;width:clamp(120px,15vw,420px);aspect-ratio:1.1;border:0;padding:0;background:none;isolation:isolate;}
   .invitation-seal img{position:absolute;inset:0;width:100%;height:100%;z-index:-1;}
   .invitation-seal span{position:absolute;top:67%;left:8%;width:84%;font:700 clamp(20px,2.6svh,52px)/1 'Cormorant Garamond',serif;color:#342615;transform:rotate(-7deg);}

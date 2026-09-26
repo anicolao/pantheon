@@ -9,10 +9,21 @@ export class TestStepHelper {
     await test.step(description, async () => {
       for (const verification of verifications) await test.step(verification.spec, verification.check);
       await expect(this.page.locator('[data-status]')).toHaveAttribute('data-status', this.settledStatus);
+      // A committed event may arrive before its transaction acknowledgement, especially
+      // in lost-ack stories. Photograph the ready UI rather than a transient disabled control.
+      await expect(this.page.locator('[aria-busy="true"]')).toHaveCount(0, { timeout: 30_000 });
       await this.page.evaluate(async () => {
+        // Flush reactive layout before checking fonts or newly scheduled Svelte transitions.
+        await new Promise<void>(resolve => requestAnimationFrame(() => requestAnimationFrame(() => resolve())));
         await document.fonts.ready;
         await Promise.all([...document.images].map(image => image.decode()));
-        await Promise.all(document.getAnimations().map(animation => animation.finished));
+        for (let pass = 0; pass < 20; pass++) {
+          await new Promise<void>(resolve => requestAnimationFrame(() => resolve()));
+          const animations = document.getAnimations().filter(animation => animation.playState !== 'finished');
+          if (!animations.length) break;
+          await Promise.all(animations.map(animation => animation.finished.catch(() => undefined)));
+          if (pass === 19) throw new Error('Animations did not settle.');
+        }
       });
       await this.page.mouse.move(0, 0);
       await this.page.evaluate(() => {
