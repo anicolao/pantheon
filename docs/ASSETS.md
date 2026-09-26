@@ -51,3 +51,9 @@ The environments contain no controls or cards. Svelte renders live link labels a
 Step 2 uses seven built-in image-generation outputs from the accepted gathering and unavailable-table paintings: landscape/portrait backgrounds for both scenes, a transparent laurel medallion with a genuine portrait window, an empty seat token and an invitation seal. The exact prompts are in [gathering-assets.json](ux/gathering-assets.json); final assets are `static/assets/ui/gather-*.webp` and `unavailable-*.webp`, under GPL-3.0-only. Backgrounds use WebP quality 92; transparent components are lossless. Delivery conversion preserves the generated imagery and alpha.
 
 All names, statuses, choices and controls remain live Svelte content. Seat portraits reuse the approved Thaleia, Nereon, Melia and Doreios illustrations as decorative seating imagery; no leader or god is assigned during gathering. The background contains no portraits, seat tokens, text or controls. Supply details use the actual layered card renderer.
+
+## Bloodline draft and dealt table
+
+`static/assets/ui/table-desktop.webp` and `table-mobile.webp` are clean scene layers derived from the accepted table paintings. `hero-thaleia.webp`, `hero-nereon.webp`, `hero-melia.webp`, and `hero-doreios.webp` are transparent hero cutouts derived from the approved catalog illustrations. `resource-rail.webp` is a transparent sculpted frame; all counters, icons, names, card faces and interactions remain live components. No new card illustrations or rules were substituted.
+
+Exact generation prompts, references and source PNG paths are recorded in [bloodline-assets.json](ux/bloodline-assets.json). Conversion preserves alpha; the resource rail only trims transparent exterior padding. The four cutouts preserve the actual catalog characters, including Nereon's approved appearance, rather than incidental differences in the concept painting.

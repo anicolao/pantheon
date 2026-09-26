@@ -2,14 +2,14 @@ import { collection, doc, getDocFromServer, onSnapshot, orderBy, query, runTrans
 import { replaySetup, type SetupEvent, type SetupState } from '$lib/game/setup';
 
 export class SetupError extends Error {
-  constructor(public code: 'name' | 'missing' | 'full' | 'exists' | 'count' | 'owner', message: string) { super(message); }
+  constructor(public code: 'name' | 'missing' | 'full' | 'exists' | 'count' | 'owner' | 'started' | 'choice', message: string) { super(message); }
 }
 const validId = (id: string) => /^[\w-]{1,128}$/.test(id);
 export async function inspectRoom(db: Firestore, id: string) {
   if (!validId(id)) throw new SetupError('missing', 'This invitation was not found.');
   const snapshot = await getDocFromServer(doc(db, 'games', id));
   if (!snapshot.exists()) throw new SetupError('missing', 'This invitation was not found.');
-  return snapshot.data() as { owner: string; members: string[]; playerCount: 2 | 3 | 4; revision: number };
+  return snapshot.data() as { owner: string; members: string[]; playerCount: 2 | 3 | 4; revision: number; phase?: SetupState['phase'] };
 }
 
 export async function enterRoom(db: Firestore, id: string, uid: string, name: string, playerCount?: 2 | 3 | 4, creationToken?: string) {
@@ -29,6 +29,7 @@ export async function enterRoom(db: Firestore, id: string, uid: string, name: st
       throw new SetupError('exists', 'This table already exists.');
     }
     if (previous?.members.includes(uid)) return;
+    if (previous?.phase && previous.phase !== 'gathering') throw new SetupError('started', 'This game has already begun.');
     if (snapshot.exists() && playerCount) throw new SetupError('exists', 'This table already exists.');
     if (!snapshot.exists() && !playerCount) throw new SetupError('missing', 'This invitation was not found.');
     const count = playerCount ?? previous!.playerCount;
@@ -90,6 +91,7 @@ export async function resizeRoom(db: Firestore, id: string, uid: string, playerC
     const room = doc(db, 'games', id);
     const previous = (await transaction.get(room)).data();
     if (!previous) throw new SetupError('missing', 'This invitation was not found.');
+    if (previous.phase && previous.phase !== 'gathering') throw new SetupError('started', 'This game has already begun.');
     if (previous.owner !== uid) throw new SetupError('owner', 'Only the host can change the number of players.');
     if (playerCount < previous.members.length) throw new SetupError('count', 'Those seats are already taken.');
     if (playerCount === previous.playerCount) return;
@@ -98,5 +100,31 @@ export async function resizeRoom(db: Firestore, id: string, uid: string, playerC
     transaction.update(room, { playerCount, revision: sequence });
     transaction.set(doc(room, 'events', String(sequence)), { schemaVersion: 1, sequence, actorUid: uid,
       name: creation.name, playerCount, type: 'table/resized', createdAt: serverTimestamp() });
+  });
+}
+
+export type DraftCommand = { type: 'draft/started'; seed: string } | { type: 'leader/chosen'; leaderId: string };
+/** Trusted clients validate and replay; the transaction serializes the shared stream. */
+export async function appendDraftCommand(db: Firestore, id: string, uid: string, commandId: string, command: DraftCommand) {
+  const room = doc(db, 'games', id);
+  await runTransaction(db, async transaction => {
+    const previous = (await transaction.get(room)).data();
+    if (!previous || !previous.members.includes(uid)) throw new SetupError('missing', 'Your seat was not found.');
+    const snapshots = await Promise.all(Array.from({ length: previous.revision }, (_, i) => transaction.get(doc(room, 'events', String(i + 1)))));
+    const events = snapshots.map(snapshot => snapshot.data() as SetupEvent);
+    const acknowledged = events.find(event => event.commandId === commandId);
+    if (acknowledged) {
+      if (acknowledged.actorUid !== uid || acknowledged.type !== command.type ||
+        (command.type === 'leader/chosen' ? acknowledged.leaderId !== command.leaderId : acknowledged.seed !== command.seed)) throw new SetupError('choice', 'That choice has changed.');
+      return;
+    }
+    const state = replaySetup(events);
+    const event: SetupEvent = { schemaVersion: 1, reducerVersion: 1, sequence: previous.revision + 1, actorUid: uid,
+      name: state.players.find(player => player.uid === uid)!.name, playerCount: state.playerCount, commandId, ...command };
+    let next: SetupState;
+    try { next = replaySetup([...events, event]); }
+    catch (error) { throw new SetupError('choice', (error as Error).message); }
+    transaction.update(room, { revision: event.sequence, phase: next.phase });
+    transaction.set(doc(room, 'events', String(event.sequence)), { ...event, createdAt: serverTimestamp() });
   });
 }
