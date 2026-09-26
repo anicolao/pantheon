@@ -11,12 +11,20 @@ export async function roomCodeFixture(page: Page, info: TestInfo) {
   for (let i = 0; i < 5; i++) { code += String.fromCharCode(65 + Number(entropy % 26n)); entropy /= 26n; }
   const root = `http://127.0.0.1:8193/v1/projects/demo-pantheon/databases/(default)/documents/games/${code}`;
   const headers = { Authorization: 'Bearer owner' };
-  const response = await fetch(`${root}/events`, { headers });
-  if (!response.ok) throw new Error(`Cannot reset story events: ${response.status}`);
-  const data = await response.json() as { documents?: { name: string }[] };
-  for (const document of data.documents ?? []) {
-    const deleted = await fetch(`http://127.0.0.1:8193/v1/${document.name}`, { method: 'DELETE', headers });
-    if (!deleted.ok) throw new Error('Cannot remove prior story event.');
+  let pageToken = '';
+  const documents: { name: string }[] = [];
+  do {
+    const response = await fetch(`${root}/events?pageSize=1000${pageToken ? `&pageToken=${encodeURIComponent(pageToken)}` : ''}`, { headers });
+    if (!response.ok) throw new Error(`Cannot reset story events: ${response.status}`);
+    const data = await response.json() as { documents?: { name: string }[]; nextPageToken?: string };
+    documents.push(...(data.documents ?? [])); pageToken = data.nextPageToken ?? '';
+  } while (pageToken);
+  for (let i = 0; i < documents.length; i += 200) {
+    const deleted = await fetch('http://127.0.0.1:8193/v1/projects/demo-pantheon/databases/(default)/documents:commit', {
+      method: 'POST', headers: { ...headers, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ writes: documents.slice(i, i + 200).map(document => ({ delete: document.name })) })
+    });
+    if (!deleted.ok) throw new Error('Cannot remove prior story events.');
   }
   const deleted = await fetch(root, { method: 'DELETE', headers });
   if (!deleted.ok) throw new Error('Cannot reset story table.');

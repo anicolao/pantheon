@@ -14,3 +14,6 @@ for (const { id, kind } of prompts) {
     .toFile(new URL(`../static/assets/${kind}/${id}.webp`, import.meta.url).pathname);
 }
 console.log(`Optimized ${prompts.length} layer assets, preserving alpha.`);
+
+// Use the approved deck back at icon resolution; avoid resampling the full card for tiny counters.
+await sharp("static/assets/backs/back-deck.webp").resize({ width: 160 }).webp({ lossless: true }).toFile("static/assets/backs/back-deck-icon.webp");

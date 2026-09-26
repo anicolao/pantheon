@@ -10,9 +10,17 @@ export class TestStepHelper {
       for (const verification of verifications) await test.step(verification.spec, verification.check);
       await expect(this.page.locator('[data-status]')).toHaveAttribute('data-status', this.settledStatus);
       await this.page.evaluate(async () => {
+        // Flush reactive layout before checking fonts or newly scheduled Svelte transitions.
+        await new Promise<void>(resolve => requestAnimationFrame(() => requestAnimationFrame(() => resolve())));
         await document.fonts.ready;
         await Promise.all([...document.images].map(image => image.decode()));
-        await Promise.all(document.getAnimations().map(animation => animation.finished));
+        for (let pass = 0; pass < 20; pass++) {
+          await new Promise<void>(resolve => requestAnimationFrame(() => resolve()));
+          const animations = document.getAnimations().filter(animation => animation.playState !== 'finished');
+          if (!animations.length) break;
+          await Promise.all(animations.map(animation => animation.finished.catch(() => undefined)));
+          if (pass === 19) throw new Error('Animations did not settle.');
+        }
       });
       await this.page.mouse.move(0, 0);
       await this.page.evaluate(() => {

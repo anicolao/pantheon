@@ -54,6 +54,8 @@ The sequence is a development/review sequence, not a succession of altered game 
 
 **Fidelity review:** selected-card elevation, hand → play travel, source/effect focus, operation icon, destination glow and focused mobile choice. Live rules stay complete at inspection size.
 
+**Implementation evidence:** [Action stories and fidelity review](tests/e2e/004-actions/FIDELITY.md). Action play and all printed Action/leader effects are implemented. Legal turn/economy reducer primitives support recorded-match test setup; their player-facing controls and full turn flow remain the following milestones.
+
 ## 5. Play wealth and purchase cards
 
 **Visible result:** Treasures **05**, supply **06** and purchase detail **07** form a complete economy flow.

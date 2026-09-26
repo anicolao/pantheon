@@ -13,7 +13,7 @@
 </script>
 
 <span class="resource-icon" data-resource={resource} data-value={value} role="img" aria-label={description} title={description}>
-  <img class="component-image" src={resource === 'cards' ? `${base}/assets/backs/back-deck.webp` : `${base}/assets/icons/${resource === 'discard' ? 'discard-v2' : resource}.webp`} alt="" draggable="false" />
+  <img class="component-image" src={resource === 'cards' ? `${base}/assets/backs/back-deck-icon.webp` : `${base}/assets/icons/${resource === 'discard' ? 'discard-v2' : resource}.webp`} alt="" draggable="false" />
   {#if value !== undefined}<b class="resource-number">{#if hasPlus}<span class="math-plus">+</span>{String(value).slice(1)}{:else}{value}{/if}</b>{/if}
 </span>
 
