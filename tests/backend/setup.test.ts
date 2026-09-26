@@ -71,7 +71,7 @@ test('short code collisions never reuse or overwrite a table, including the same
   const host = database('code-host');
   await enterRoom(host, 'TAKEN', 'code-host', 'Ariadne', 2);
   const codes = ['TAKEN', 'FRESH'];
-  expect(await createRoom(host, 'code-host', 'Ariadne', 3, () => codes.shift()!)).toBe('FRESH');
+  expect(await createRoom(host, 'code-host', 'Ariadne', 3, { token: 'fresh-creation' }, () => codes.shift()!)).toBe('FRESH');
   expect((await getDoc(doc(host, 'games/TAKEN'))).data()?.playerCount).toBe(2);
 });
 
@@ -109,4 +109,12 @@ test('a concurrent arrival and capacity reduction cannot discard or overfill sea
   const state = replaySetup((await getDocs(collection(host, 'games/resize-race/events'))).docs.map(doc => doc.data() as SetupEvent));
   expect(state.activity).toHaveLength(3);
   expect(state.players.length).toBe(state.playerCount);
+});
+
+
+test('retrying the same creation attempt returns its short code and one event', async () => {
+  const host = database('short-retry-host'); const attempt = { token: 'stable-command' };
+  expect(await createRoom(host, 'short-retry-host', 'Ariadne', 2, attempt, () => 'RETRY')).toBe('RETRY');
+  expect(await createRoom(host, 'short-retry-host', 'Ariadne', 2, attempt, () => { throw new Error('Must reuse the pending code'); })).toBe('RETRY');
+  expect((await getDocs(collection(host, 'games/RETRY/events'))).size).toBe(1);
 });

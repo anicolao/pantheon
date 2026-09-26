@@ -5,7 +5,7 @@
   import { afterNavigate, goto } from '$app/navigation';
   import { connectFirebase } from '$lib/backend/firebase';
   import { rememberTable } from '$lib/navigation/return-table';
-  import { createRoom, resizeRoom, enterRoom, inspectRoom, SetupError, watchSetup } from '$lib/backend/setup-repository';
+  import { createRoom, type CreationAttempt, resizeRoom, enterRoom, inspectRoom, SetupError, watchSetup } from '$lib/backend/setup-repository';
   import { setupSupply, type SetupState } from '$lib/game/setup';
   import GatheringSeat from '$lib/components/GatheringSeat.svelte';
   import GameButton from '$lib/components/GameButton.svelte';
@@ -21,6 +21,7 @@
   let playerCount = $state<2 | 3 | 4>(2);
   let roomId = $state('');
   let reservedSeats = $state(0);
+  let creationAttempt: CreationAttempt | undefined;
   let joinCode = $state('');
   let codeError = $state('');
   let capacityError = $state('');
@@ -85,7 +86,7 @@
     busy = true; status = 'joining';
     const creating = !roomId;
     try {
-      const id = creating ? await createRoom(services.db, services.uid, name, playerCount) : roomId;
+      const id = creating ? await createRoom(services.db, services.uid, name, playerCount, creationAttempt ??= { token: crypto.randomUUID() }) : roomId;
       if (!creating) await enterRoom(services.db, id, services.uid, name);
       if (!alive) return;
       roomId = id;
@@ -122,7 +123,7 @@
   }
   afterNavigate(({ from, to }) => {
     if (from && to && from.url.pathname === to.url.pathname && from.url.search !== to.url.search) {
-      stop?.(); setup = null; unavailable = ''; nameError = ''; joinCode = ''; codeError = ''; capacityError = ''; playerCount = 2; reservedSeats = 0;
+      stop?.(); setup = null; unavailable = ''; nameError = ''; creationAttempt = undefined; joinCode = ''; codeError = ''; capacityError = ''; playerCount = 2; reservedSeats = 0;
       roomId = to.url.searchParams.get('room') ?? '';
       void connect();
     }

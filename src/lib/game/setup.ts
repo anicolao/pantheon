@@ -1,6 +1,7 @@
 import { cards } from './cards';
 export type SetupEvent = {
   schemaVersion: 1;
+  creationToken?: string;
   sequence: number;
   actorUid: string;
   type: 'game/created' | 'player/joined' | 'table/resized';
