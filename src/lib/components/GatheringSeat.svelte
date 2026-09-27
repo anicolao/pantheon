@@ -8,7 +8,7 @@
 <article class="seat" class:empty={!name && !entering} data-testid={name ? 'player-seat' : undefined}>
   {#if name || entering}
     <div class="portrait"><img src={`${base}/assets/cards/${portraits[index % 4]}.webp`} alt="" draggable="false" /></div>
-    <img class="frame" src={`${base}/assets/ui/gather-medallion.webp`} alt="" aria-hidden="true" draggable="false" />
+    <img class="frame" src={`${base}/assets/ui/gather-medallion.png`} alt="" aria-hidden="true" draggable="false" />
     <div class="plate">
       {#if entering}
         <label class="sr-only" for="player-name">Your name</label>

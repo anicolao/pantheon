@@ -4,7 +4,7 @@
 </script>
 
 <a {href} class:primary>
-  <img src={`${base}/assets/ui/sanctuary-button${primary ? '' : '-secondary'}.webp`} alt="" aria-hidden="true" draggable="false" />
+  <img src={`${base}/assets/ui/sanctuary-button${primary ? '' : '-secondary'}.png`} alt="" aria-hidden="true" draggable="false" />
   <span>{label}</span>
 </a>
 

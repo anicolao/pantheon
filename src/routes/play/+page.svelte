@@ -156,7 +156,7 @@
   });
 </script>
 
-<svelte:head><title>Gather at the Table — Pantheon: Bloodlines</title><link rel="preload" as="image" href={`${base}/assets/ui/sanctuary-button-secondary.webp`} /></svelte:head>
+<svelte:head><title>Gather at the Table — Pantheon: Bloodlines</title><link rel="preload" as="image" href={`${base}/assets/ui/sanctuary-button-secondary.png`} /></svelte:head>
 {#if setup && setup.phase !== 'gathering' && services}
   <GameSession game={setup} uid={services.uid} {roomId} {status} {busy} error={playError} command={sendCommand} retry={connect} />
 {:else}
