@@ -29,7 +29,7 @@ export default defineConfig({
     // The bounded story helper preserves expected/actual/diff images instead.
     screenshot: 'off',
     locale: 'en-CA',
-    reducedMotion: 'reduce'
+    contextOptions: { reducedMotion: 'reduce' }
   },
   projects: [
     { name: 'phone', use: { browserName: 'chromium', viewport: { width: 393, height: 852 } } },
