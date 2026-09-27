@@ -216,7 +216,7 @@
         <button class="invitation-seal" aria-label="Invite friends" onclick={() => showModal('invite')}>
           <img src={`${base}/assets/ui/gather-invite.webp`} alt="" aria-hidden="true" />
           <svg viewBox="0 0 1305 1206" preserveAspectRatio="none" aria-hidden="true">
-            <defs><path id={invitationCurveId} d="M 230 920 C 465 990 850 995 1090 924" /></defs>
+            <defs><path id={invitationCurveId} d="M 209.3 918 C 264.6 889.9 337.2 897.3 410.9 918 C 480.7 937.6 576.6 956.5 680.1 962.6 C 805.2 970 1042.4 962.4 1133.3 912.5" /></defs>
             <text><textPath href={`#${invitationCurveId}`} startOffset="50%" text-anchor="middle">Invite friends</textPath></text>
           </svg>
         </button>
