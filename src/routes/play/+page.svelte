@@ -14,6 +14,8 @@
   import { cards } from '$lib/game/cards';
   import GameSession from '$lib/components/play/GameSession.svelte';
 
+  const invitationCurveId = $props.id();
+
   let services = $state<Awaited<ReturnType<typeof connectFirebase>>>();
   let status = $state('connecting');
   let unavailable = $state<'full' | 'missing' | 'started' | ''>('');
@@ -211,7 +213,13 @@
       {#if playError}<p class="play-error" role="alert">{playError}</p>{/if}
       {#if setup}
         {#if setup.players[0]?.uid === services?.uid && !openSeats}<div class="begin"><GameButton primary onclick={begin} disabled={busy || status !== 'synced'}>{busy ? 'Drawing first player…' : 'Begin'}</GameButton></div>{/if}
-        <button class="invitation-seal" onclick={() => showModal('invite')}><img src={`${base}/assets/ui/gather-invite.webp`} alt="" aria-hidden="true" /><span>Invite friends</span></button>
+        <button class="invitation-seal" aria-label="Invite friends" onclick={() => showModal('invite')}>
+          <img src={`${base}/assets/ui/gather-invite.webp`} alt="" aria-hidden="true" />
+          <svg viewBox="0 0 1305 1206" preserveAspectRatio="none" aria-hidden="true">
+            <defs><path id={invitationCurveId} d="M 230 920 C 465 990 850 995 1090 924" /></defs>
+            <text><textPath href={`#${invitationCurveId}`} startOffset="50%" text-anchor="middle">Invite friends</textPath></text>
+          </svg>
+        </button>
         <div class="activity" aria-live="polite" aria-atomic="true">{#key latest?.sequence}<p data-testid="latest-activity" in:arrival>{latest?.message}</p>{/key}</div>
       {/if}
       {#if status !== 'synced'}
@@ -289,7 +297,8 @@
   .enter :global(button > span){transform:translateZ(0);}
   .invitation-seal{position:absolute;left:5%;bottom:3%;width:clamp(120px,15vw,420px);aspect-ratio:1.1;border:0;padding:0;background:none;isolation:isolate;}
   .invitation-seal img{position:absolute;inset:0;width:100%;height:100%;z-index:-1;}
-  .invitation-seal span{position:absolute;top:67%;left:8%;width:84%;font:700 clamp(20px,2.6svh,52px)/1 'Cormorant Garamond',serif;color:#342615;transform:rotate(-7deg);}
+  .invitation-seal svg{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;}
+  .invitation-seal text{font:700 150px 'Cormorant Garamond',serif;fill:#342615;}
   .activity{position:absolute;left:29%;bottom:9%;width:48%;text-align:center;font:500 clamp(18px,2.4svh,44px)/1.3 'Cormorant Garamond',serif;text-shadow:0 2px 4px #000;}.activity p{margin:0;overflow-wrap:anywhere;}
   .connection{position:absolute;left:34%;width:32%;top:48%;text-align:center;background:#0a1524f0;border:1px solid #b99a61;border-radius:20px;padding:16px;z-index:4;font-size:clamp(14px,1.7svh,32px);--control-height:44px;--control-font:24px;}.connection p{margin:0 0 8px;}
   .unavailable-message{position:absolute;top:43%;left:53%;width:42%;text-align:center;}.unavailable-message p{font:500 clamp(20px,3svh,56px)/1.3 'Cormorant Garamond',serif;}.flourish{color:#e4bd70;font-size:clamp(24px,4svh,70px);line-height:1;}.recovery-links{display:grid;gap:16px;width:85%;margin:auto;--menu-button-height:clamp(54px,7svh,140px);--menu-label-size:clamp(24px,3.3svh,62px);}
@@ -305,7 +314,7 @@
     .enter{right:5%;width:44%;bottom:4%;--control-height:54px;--control-font:24px;}
     .begin{right:5%;bottom:3%;width:44%;--control-height:50px;--control-font:26px;} .composition:has(.begin) .activity{bottom:14%;font-size:17px;}
     .enter.invited{right:8%;width:84%;--control-font:28px;}
-    .invitation-seal{left:5%;bottom:3%;width:34%;}.invitation-seal span{font-size:21px;}.activity{left:42%;bottom:9%;width:52%;font-size:20px;}
+    .invitation-seal{left:5%;bottom:3%;width:34%;}.activity{left:42%;bottom:9%;width:52%;font-size:20px;}
     .connection{top:61%;left:12%;width:76%;font-size:14px;}
     .unavailable-message{left:5%;width:90%;top:43%;}.unavailable-message h1{font-size:34px;}.unavailable-message p{font-size:23px;}.recovery-links{width:88%;--menu-button-height:56px;--menu-label-size:26px;}
     dialog{padding:22px 18px;}dialog h2{font-size:28px;}dialog p{font-size:14px;}.supply{font-size:14px;}.starting-cards figure{width:85px;}
@@ -313,6 +322,6 @@
   @media(max-height:500px) and (min-aspect-ratio:3/4){
     .seats,.seats.four{left:16%;top:18%;width:68%;height:38%;grid-template-columns:repeat(4,1fr);gap:2%;}.seat-position,.four .seat-position{width:min(15vw,35svh);}
     .heading{top:60%;}h1{font-size:26px;}.heading p{font-size:17px;}.seat-count{top:auto;bottom:3%;left:36%;width:28%;}legend{display:none;}.seat-count label{height:44px;}.enter{width:25%;right:3%;bottom:4%;--control-height:44px;--control-font:22px;}
-    .activity{bottom:4%;font-size:16px;}.invitation-seal{width:110px;bottom:1%;}.invitation-seal span{font-size:18px;}.connection{top:56%;}.unavailable-message{top:22%;}.unavailable-message h1{font-size:28px;}.unavailable-message p{font-size:18px;margin:8px;}.flourish{font-size:24px;}.recovery-links{--menu-button-height:44px;--menu-label-size:22px;gap:8px;}
+    .activity{bottom:4%;font-size:16px;}.invitation-seal{width:110px;bottom:1%;}.connection{top:56%;}.unavailable-message{top:22%;}.unavailable-message h1{font-size:28px;}.unavailable-message p{font-size:18px;margin:8px;}.flourish{font-size:24px;}.recovery-links{--menu-button-height:44px;--menu-label-size:22px;gap:8px;}
   }
 </style>

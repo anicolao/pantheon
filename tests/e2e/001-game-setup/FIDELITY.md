@@ -2,6 +2,8 @@
 
 Implementation step 2 follows [Gather your players](../../../docs/ux/concepts/02-gather.png), [unavailable invitations](../../../docs/ux/concepts/22-unavailable.png) and the connection-recovery behavior of [screen 15](../../../docs/ux/concepts/15-interruption.png). The sanctuary from step 1 is accepted; this gathering implementation is submitted for visual review.
 
+The Invite friends lettering follows a cubic Bézier curve through the approved scroll artwork. Text and artwork share the same coordinate system, preserving the ribbon alignment at phone, desktop, and 4K sizes. The control retains its accessible name and invitation behavior.
+
 | View | Gathering | Unavailable invitation |
 | --- | --- | --- |
 | Phone | [Four players](screenshots/four-seats-fill-through-ordered-remote-arrivals-and-respect-reduced-motion/003-four-player-phone-darwin.png) | [Full table](screenshots/full-and-missing-invitations-offer-working-recovery-paths/000-full-phone-darwin.png) |
