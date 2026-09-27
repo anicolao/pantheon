@@ -49,7 +49,8 @@ jobs:
         env:
           CI: 'true'
           E2E_STORY_FILTER: ${{ inputs.story_filter || '' }}
-          PUBLIC_BASE_PATH: /pantheon/pr${{ github.event.pull_request.number || 'test' }}
+          # Invitation screenshots use the same URL in manual and PR verification.
+          PUBLIC_BASE_PATH: /pantheon/prtest
       - uses: actions/upload-artifact@v4
         if: inputs.update_snapshots == true && always()
         with:
