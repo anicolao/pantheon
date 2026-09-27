@@ -1,32 +1,10 @@
-# Gather at the Table
+# Gathering and invitations
 
-## Choose your gathering
+Each walkthrough is generated from a passing story and links phone, desktop, and 4K captures. See the [testing contract](../../../E2E_GUIDE.md) and [visual fidelity review](FIDELITY.md).
 
-![Choose your gathering](./screenshots/000-choose-gathering-desktop-darwin.png)
-
-- [x] Two seats are selected, and the name plate is ready.
-- [x] The screen speaks to the player and shows no undealt cards.
-
-## Take your seat at a two-player table
-
-![Take your seat at a two-player table](./screenshots/001-created-desktop-darwin.png)
-
-- [x] The creator occupies the host seat and one seat remains.
-
-## Inspect the gathering’s supply
-
-![Inspect the gathering’s supply](./screenshots/002-details-desktop-darwin.png)
-
-- [x] Two-player supply and the ten-card starting inventory match the rules.
-
-## Invite friends with the wax seal
-
-![Invite friends with the wax seal](./screenshots/003-invitation-desktop-darwin.png)
-
-- [x] The invitation opens a focused, dismissible sharing control.
-
-## Welcome another player to the table
-
-![Welcome another player to the table](./screenshots/004-joined-desktop-darwin.png)
-
-- [x] The remote arrival fills the second seat and names the action once.
+- [a gathering retains its seats across an interruption](stories/a-gathering-retains-its-seats-across-an-interruption/README.md)
+- [four seats fill through ordered remote arrivals and respect reduced motion](stories/four-seats-fill-through-ordered-remote-arrivals-and-respect-reduced-motion/README.md)
+- [full and missing invitations offer working recovery paths](stories/full-and-missing-invitations-offer-working-recovery-paths/README.md)
+- [gather two players, share an invitation and return to the same seats](stories/gather-two-players-share-an-invitation-and-return-to-the-same-seats/README.md)
+- [join by a displayed game code and let only the owner adjust occupied capacity](stories/join-by-a-displayed-game-code-and-let-only-the-owner-adjust-occupied-capacity/README.md)
+- [three-player gathering provides a selectable invitation when copying is unavailable](stories/three-player-gathering-provides-a-selectable-invitation-when-copying-is-unavailable/README.md)

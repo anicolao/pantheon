@@ -4,17 +4,17 @@ This milestone implements [step 4](../../../IMPLEMENTATION_PLAN.md), using the a
 
 | Interaction | Phone | Desktop | 4K |
 | --- | --- | --- | --- |
-| Inspect and play | [Card](screenshots/000-play-action-phone-darwin.png) | [Card](screenshots/000-play-action-desktop-darwin.png) | [Card](screenshots/000-play-action-tabletop-4k-darwin.png) |
-| Optional trash | [Selection](screenshots/002-trash-selected-phone-darwin.png) | [Selection](screenshots/002-trash-selected-desktop-darwin.png) | [Selection](screenshots/002-trash-selected-tabletop-4k-darwin.png) |
-| Gain | [Selection](screenshots/001-gain-selected-phone-darwin.png) | [Selection](screenshots/001-gain-selected-desktop-darwin.png) | [Selection](screenshots/001-gain-selected-tabletop-4k-darwin.png) |
-| Leader choice | [Doreios](screenshots/002-leader-choice-phone-darwin.png) | [Doreios](screenshots/002-leader-choice-desktop-darwin.png) | [Doreios](screenshots/002-leader-choice-tabletop-4k-darwin.png) |
-| Mandatory discard | [Selection](screenshots/001-discard-selected-phone-darwin.png) | [Selection](screenshots/001-discard-selected-desktop-darwin.png) | [Selection](screenshots/001-discard-selected-tabletop-4k-darwin.png) |
-| Reveal | [Result](screenshots/000-reveal-territory-phone-darwin.png) | [Result](screenshots/000-reveal-territory-desktop-darwin.png) | [Result](screenshots/000-reveal-territory-tabletop-4k-darwin.png) |
-| Four players | [Result](screenshots/000-reveal-4-phone-darwin.png) | [Result](screenshots/000-reveal-4-desktop-darwin.png) | [Result](screenshots/000-reveal-4-tabletop-4k-darwin.png) |
+| Inspect and play | [Card](screenshots/play-choose-optional-trash-reconnect-and-show-the-public-result/001-play-action-phone-darwin.png) | [Card](screenshots/play-choose-optional-trash-reconnect-and-show-the-public-result/001-play-action-desktop-darwin.png) | [Card](screenshots/play-choose-optional-trash-reconnect-and-show-the-public-result/001-play-action-tabletop-4k-darwin.png) |
+| Optional trash | [Selection](screenshots/play-choose-optional-trash-reconnect-and-show-the-public-result/003-trash-selected-phone-darwin.png) | [Selection](screenshots/play-choose-optional-trash-reconnect-and-show-the-public-result/003-trash-selected-desktop-darwin.png) | [Selection](screenshots/play-choose-optional-trash-reconnect-and-show-the-public-result/003-trash-selected-tabletop-4k-darwin.png) |
+| Gain | [Selection](screenshots/forge-gains-a-cheaper-card-before-doreios-offers-his-separate-choice/003-gain-selected-phone-darwin.png) | [Selection](screenshots/forge-gains-a-cheaper-card-before-doreios-offers-his-separate-choice/003-gain-selected-desktop-darwin.png) | [Selection](screenshots/forge-gains-a-cheaper-card-before-doreios-offers-his-separate-choice/003-gain-selected-tabletop-4k-darwin.png) |
+| Leader choice | [Doreios](screenshots/forge-gains-a-cheaper-card-before-doreios-offers-his-separate-choice/004-leader-choice-phone-darwin.png) | [Doreios](screenshots/forge-gains-a-cheaper-card-before-doreios-offers-his-separate-choice/004-leader-choice-desktop-darwin.png) | [Doreios](screenshots/forge-gains-a-cheaper-card-before-doreios-offers-his-separate-choice/004-leader-choice-tabletop-4k-darwin.png) |
+| Mandatory discard | [Selection](screenshots/harvest-feast-requires-a-discard-after-drawing-and-supports-hand-paging/001-discard-selected-phone-darwin.png) | [Selection](screenshots/harvest-feast-requires-a-discard-after-drawing-and-supports-hand-paging/001-discard-selected-desktop-darwin.png) | [Selection](screenshots/harvest-feast-requires-a-discard-after-drawing-and-supports-hand-paging/001-discard-selected-tabletop-4k-darwin.png) |
+| Reveal | [Result](screenshots/procession-reveals-territory-and-preserves-its-proper-destination/000-reveal-territory-phone-darwin.png) | [Result](screenshots/procession-reveals-territory-and-preserves-its-proper-destination/000-reveal-territory-desktop-darwin.png) | [Result](screenshots/procession-reveals-territory-and-preserves-its-proper-destination/000-reveal-territory-tabletop-4k-darwin.png) |
+| Four players | [Result](screenshots/4-players-can-follow-a-public-reveal/000-reveal-4-phone-darwin.png) | [Result](screenshots/4-players-can-follow-a-public-reveal/000-reveal-4-desktop-darwin.png) | [Result](screenshots/4-players-can-follow-a-public-reveal/000-reveal-4-tabletop-4k-darwin.png) |
 
-![Optional trash](screenshots/002-trash-selected-desktop-darwin.png)
+![Optional trash](screenshots/play-choose-optional-trash-reconnect-and-show-the-public-result/003-trash-selected-desktop-darwin.png)
 
-![Public reveal](screenshots/000-reveal-territory-phone-darwin.png)
+![Public reveal](screenshots/procession-reveals-territory-and-preserves-its-proper-destination/000-reveal-territory-phone-darwin.png)
 
 ## Fidelity and interaction
 
@@ -28,7 +28,7 @@ The public result remains beside its played source until the next command, so re
 
 ## Verification
 
-The illustrated [primary story](README.md) and [browser scenarios](actions.spec.ts) cover all twelve supply Actions and four Temples, all leaders, optional trash, mandatory discard of a just-drawn card, cost-limited cheaper gains, both Procession destinations, 2/3/4-player views, paging, keyboard choice, actual card inspection, observer privacy, reconnect, lost acknowledgement, and one-time remote/draw motion. Reduced-motion and normal-motion clients share the same event results.
+The illustrated [primary story](README.md) and [browser scenarios](effects.integration.spec.ts) cover all twelve supply Actions and four Temples, all leaders, optional trash, mandatory discard of a just-drawn card, cost-limited cheaper gains, both Procession destinations, 2/3/4-player views, paging, keyboard choice, actual card inspection, observer privacy, reconnect, lost acknowledgement, and one-time remote/draw motion. Reduced-motion and normal-motion clients share the same event results.
 
 [Reducer tests](../../backend/actions.test.ts) additionally cover no eligible supply, zero/partial/empty draws, shuffle boundaries, no-op leader triggers, duplicate/non-hand/self targets, zero-cost Temple conversion, and first-trigger consumption. [Repository tests](../../backend/setup.test.ts) verify authenticated Action/choice appends, out-of-turn rejection, idempotency, stale payload rejection, and full replay equality.
 

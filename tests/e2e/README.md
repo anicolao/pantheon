@@ -13,3 +13,9 @@ The shared fixture writes each passing story’s illustrated README. Every captu
 Recorded-history integration scenarios are labeled in their documentation. They supplement the ordinary UI journeys. Backend tests verify the event reducer and authorization separately.
 
 Regenerate baselines explicitly, inspect them, and run comparison mode afterward. Linux generation uses the workflow’s `update_snapshots` input and cannot publish the app. PR verification runs the complete suite without snapshot updates, retries, masks, or tolerance exceptions.
+
+Catalog render evidence:
+
+- [Card faces](stories/all-30-v0-1-cards-render-complete-rules-and-generated-artwork/README.md)
+- [Three back families](stories/copy-totals-follow-setup-and-three-back-families-keep-deck-identity-hidden/README.md)
+- [Tabletop scale](stories/tabletop-view-preserves-every-card-and-print-uses-physical-card-dimensions/README.md)

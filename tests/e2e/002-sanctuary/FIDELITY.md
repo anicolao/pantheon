@@ -4,13 +4,13 @@ Target: [accepted sanctuary painting](../../../docs/ux/concepts/01-sanctuary.png
 
 | View | Actual implementation with a waiting table |
 | --- | --- |
-| Phone, 393 × 852 | [Screenshot](screenshots/002-returning-phone-darwin.png) |
-| Desktop, 1440 × 1000 | [Screenshot](screenshots/002-returning-desktop-darwin.png) |
-| Tabletop, 3840 × 2160 | [Screenshot](screenshots/002-returning-tabletop-4k-darwin.png) |
+| Phone, 393 × 852 | [Screenshot](screenshots/enter-the-sanctuary-learn-create-and-continue-a-real-table/006-returning-phone-darwin.png) |
+| Desktop, 1440 × 1000 | [Screenshot](screenshots/enter-the-sanctuary-learn-create-and-continue-a-real-table/006-returning-desktop-darwin.png) |
+| Tabletop, 3840 × 2160 | [Screenshot](screenshots/enter-the-sanctuary-learn-create-and-continue-a-real-table/006-returning-tabletop-4k-darwin.png) |
 
-![Implemented desktop sanctuary](screenshots/002-returning-desktop-darwin.png)
+![Implemented desktop sanctuary](screenshots/enter-the-sanctuary-learn-create-and-continue-a-real-table/006-returning-desktop-darwin.png)
 
-![Implemented phone sanctuary](screenshots/002-returning-phone-darwin.png)
+![Implemented phone sanctuary](screenshots/enter-the-sanctuary-learn-create-and-continue-a-real-table/006-returning-phone-darwin.png)
 
 The scene retains the painting's navy night, torchlight, distant Acropolis, gold wordmark, blue primary plaque, smaller charcoal secondary plaques and cards on the near marble table. Portrait uses its own environment composition. Controls are real links with live labels and visible keyboard focus. The arrival settles after 450 ms; reduced motion removes it.
 

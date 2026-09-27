@@ -4,15 +4,15 @@ Step 3 follows [Choose your bloodline](../../../docs/ux/concepts/03-bloodline.pn
 
 | View | Draft | First hand |
 | --- | --- | --- |
-| Phone | [Two-player choice](screenshots/000-draft-2-phone-darwin.png) | [Two players](screenshots/002-dealt-2-phone-darwin.png) · [Four players](screenshots/001-dealt-4-phone-darwin.png) |
-| Desktop | [Two-player choice](screenshots/000-draft-2-desktop-darwin.png) | [Two players](screenshots/002-dealt-2-desktop-darwin.png) · [Four players](screenshots/001-dealt-4-desktop-darwin.png) |
-| 4K | [Four-player choice](screenshots/000-draft-4-tabletop-4k-darwin.png) | [Four players](screenshots/001-dealt-4-tabletop-4k-darwin.png) |
+| Phone | [Two-player choice](screenshots/2-players-draft-unique-bloodlines-and-replay-the-same-starting-hands/000-draft-2-phone-darwin.png) | [Two players](screenshots/2-players-draft-unique-bloodlines-and-replay-the-same-starting-hands/011-dealt-2-phone-darwin.png) · [Four players](screenshots/4-players-draft-unique-bloodlines-and-replay-the-same-starting-hands/013-dealt-4-phone-darwin.png) |
+| Desktop | [Two-player choice](screenshots/2-players-draft-unique-bloodlines-and-replay-the-same-starting-hands/000-draft-2-desktop-darwin.png) | [Two players](screenshots/2-players-draft-unique-bloodlines-and-replay-the-same-starting-hands/011-dealt-2-desktop-darwin.png) · [Four players](screenshots/4-players-draft-unique-bloodlines-and-replay-the-same-starting-hands/013-dealt-4-desktop-darwin.png) |
+| 4K | [Four-player choice](screenshots/4-players-draft-unique-bloodlines-and-replay-the-same-starting-hands/000-draft-4-tabletop-4k-darwin.png) | [Four players](screenshots/4-players-draft-unique-bloodlines-and-replay-the-same-starting-hands/013-dealt-4-tabletop-4k-darwin.png) |
 
-![Choose your bloodline](screenshots/000-draft-2-desktop-darwin.png)
+![Choose your bloodline](screenshots/2-players-draft-unique-bloodlines-and-replay-the-same-starting-hands/000-draft-2-desktop-darwin.png)
 
-![Your first hand](screenshots/002-dealt-2-phone-darwin.png)
+![Your first hand](screenshots/2-players-draft-unique-bloodlines-and-replay-the-same-starting-hands/011-dealt-2-phone-darwin.png)
 
-The draft uses a large transparent hero, the actual landscape leader and event faces, linked Temple, sculpted portrait choices and visible draft order. Portrait mode keeps the same hierarchy, with order below the four choices. Confirming a leader sends the selected portrait toward its seat; other clients see its owner and cannot select it again. [The claimed/waiting state](screenshots/000-claimed-phone-darwin.png) is captured separately.
+The draft uses a large transparent hero, the actual landscape leader and event faces, linked Temple, sculpted portrait choices and visible draft order. Portrait mode keeps the same hierarchy, with order below the four choices. Confirming a leader sends the selected portrait toward its seat; other clients see its owner and cannot select it again. [The claimed/waiting state](screenshots/2-players-draft-unique-bloodlines-and-replay-the-same-starting-hands/007-claimed-phone-darwin.png) is captured separately.
 
 The dealt table retains the obsidian surface, laurel inlay, distant Acropolis, gold resource frame, landscape altars, near-hand placement and common card backs. Mobile exposes the full supply through an actual inspection overlay; desktop also lays out the six basics. The mobile hand visually overlaps, with separate non-overlapping tap targets and full-sized card inspection. Each player's view displays their own cards and other players' backs/counts. Source catalog faces, serial numbers and starting-copy identities remain intact.
 

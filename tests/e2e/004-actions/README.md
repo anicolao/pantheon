@@ -1,31 +1,11 @@
-# Play Actions and shape your deck
+# Action effect integration scenarios
 
-## Find a playable Action in your hand
+Each walkthrough is generated from a passing story and links phone, desktop, and 4K captures. See the [testing contract](../../../E2E_GUIDE.md) and [visual fidelity review](FIDELITY.md).
 
-![Find a playable Action in your hand](./screenshots/000-action-table-desktop-darwin.png)
-
-- [x] Your hand marks playable Actions and keeps the counters in view.
-
-## Choose cards for Seed Keeper
-
-![Choose cards for Seed Keeper](./screenshots/001-trash-choice-desktop-darwin.png)
-
-- [x] Only cards remaining in hand can be selected; trashing is optional.
-
-## Review the selected cards
-
-![Review the selected cards](./screenshots/002-trash-selected-desktop-darwin.png)
-
-- [x] The selection glows and the confirmation gives the exact count.
-
-## The chosen cards leave your deck
-
-![The chosen cards leave your deck](./screenshots/003-trash-result-desktop-darwin.png)
-
-- [x] Trash is public and Melia draws only after Seed Keeper finishes.
-
-## Inspect the shared trash
-
-![Inspect the shared trash](./screenshots/004-public-trash-desktop-darwin.png)
-
-- [x] Trashed copies are visible and remain outside every player’s deck.
+- [3 players can follow a public reveal](stories/3-players-can-follow-a-public-reveal/README.md)
+- [4 players can follow a public reveal](stories/4-players-can-follow-a-public-reveal/README.md)
+- [Forge gains a cheaper card before Doreios offers his separate choice](stories/forge-gains-a-cheaper-card-before-doreios-offers-his-separate-choice/README.md)
+- [Harvest Feast requires a discard after drawing and supports hand paging](stories/harvest-feast-requires-a-discard-after-drawing-and-supports-hand-paging/README.md)
+- [play, choose optional trash, reconnect, and show the public result](stories/play-choose-optional-trash-reconnect-and-show-the-public-result/README.md)
+- [Procession reveals other and preserves its proper destination](stories/procession-reveals-other-and-preserves-its-proper-destination/README.md)
+- [Procession reveals Territory and preserves its proper destination](stories/procession-reveals-territory-and-preserves-its-proper-destination/README.md)

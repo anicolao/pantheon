@@ -4,13 +4,13 @@ Implementation step 2 follows [Gather your players](../../../docs/ux/concepts/02
 
 | View | Gathering | Unavailable invitation |
 | --- | --- | --- |
-| Phone | [Four players](screenshots/000-four-player-phone-darwin.png) | [Full table](screenshots/000-full-phone-darwin.png) |
-| Desktop | [Two players](screenshots/004-joined-desktop-darwin.png) | [Full table](screenshots/000-full-desktop-darwin.png) |
-| 4K | [Four players](screenshots/000-four-player-tabletop-4k-darwin.png) | [Full table](screenshots/000-full-tabletop-4k-darwin.png) |
+| Phone | [Four players](screenshots/four-seats-fill-through-ordered-remote-arrivals-and-respect-reduced-motion/003-four-player-phone-darwin.png) | [Full table](screenshots/full-and-missing-invitations-offer-working-recovery-paths/000-full-phone-darwin.png) |
+| Desktop | [Two players](screenshots/gather-two-players-share-an-invitation-and-return-to-the-same-seats/008-joined-desktop-darwin.png) | [Full table](screenshots/full-and-missing-invitations-offer-working-recovery-paths/000-full-desktop-darwin.png) |
+| 4K | [Four players](screenshots/four-seats-fill-through-ordered-remote-arrivals-and-respect-reduced-motion/003-four-player-tabletop-4k-darwin.png) | [Full table](screenshots/full-and-missing-invitations-offer-working-recovery-paths/000-full-tabletop-4k-darwin.png) |
 
-![Gathering on desktop](screenshots/004-joined-desktop-darwin.png)
+![Gathering on desktop](screenshots/gather-two-players-share-an-invitation-and-return-to-the-same-seats/008-joined-desktop-darwin.png)
 
-![Gathering on phone](screenshots/000-four-player-phone-darwin.png)
+![Gathering on phone](screenshots/four-seats-fill-through-ordered-remote-arrivals-and-respect-reduced-motion/003-four-player-phone-darwin.png)
 
 The implementation retains the elliptical obsidian table, sculpted gold rim, laurel portrait medallions, parchment nameplates, teal invitation seal, torchlight and distant Acropolis. Desktop places the heading on the near table; portrait moves it above the seats. All names, seat counts and statuses are live. The separate medallion frame exposes the approved portrait artwork through its alpha window. Arrivals illuminate the named seat through a finite 450 ms movement, then retain a readable activity line; reduced motion goes directly to the same state.
 
@@ -24,5 +24,5 @@ Exact screenshot comparisons use zero pixel/color tolerance on macOS and Linux, 
 
 | New controls | Phone | Desktop |
 | --- | --- | --- |
-| Join by code | [Join](screenshots/000-enter-code-phone-darwin.png) | [Join](screenshots/000-enter-code-desktop-darwin.png) |
-| Owner capacity | [Seats](screenshots/000-host-capacity-phone-darwin.png) | [Seats](screenshots/000-host-capacity-desktop-darwin.png) |
+| Join by code | [Join](screenshots/join-by-a-displayed-game-code-and-let-only-the-owner-adjust-occupied-capacity/000-enter-code-phone-darwin.png) | [Join](screenshots/join-by-a-displayed-game-code-and-let-only-the-owner-adjust-occupied-capacity/000-enter-code-desktop-darwin.png) |
+| Owner capacity | [Seats](screenshots/join-by-a-displayed-game-code-and-let-only-the-owner-adjust-occupied-capacity/004-host-capacity-phone-darwin.png) | [Seats](screenshots/join-by-a-displayed-game-code-and-let-only-the-owner-adjust-occupied-capacity/004-host-capacity-desktop-darwin.png) |
