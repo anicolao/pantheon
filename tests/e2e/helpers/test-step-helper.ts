@@ -33,19 +33,39 @@ export class TestStepHelper {
         await page.bringToFront();
         await page.mouse.move(0,0);
         const foreground=performance.now();
-        await page.evaluate(async()=>{
+        const assetTimings=await page.evaluate(async()=>{
+          const start=performance.now();
           await document.fonts.ready;
-          const images=[...document.images].filter(image=>image.checkVisibility()),backgrounds=new Set<string>();
-          for(const element of document.querySelectorAll<HTMLElement>('[data-e2e-layout], [data-e2e-layout] *')){
+          const fonts=performance.now();
+          const top=[...document.querySelectorAll<HTMLDialogElement>('dialog:modal')].at(-1),box=top?.getBoundingClientRect();
+          // These opaque scenes cover the whole table; underlying artwork is not visible.
+          const root=top&&top.matches('.choice-scene,.supply-scene')&&box!.left<=0&&box!.top<=0&&box!.right>=innerWidth&&box!.bottom>=innerHeight?top:document;
+          const images=[...root.querySelectorAll<HTMLImageElement>('img')].filter(image=>image.checkVisibility()),backgrounds=new Set<string>();
+          const elements=[...(root instanceof HTMLElement?[root]:[]),...root.querySelectorAll<HTMLElement>('[data-e2e-layout], [data-e2e-layout] *')];
+          for(const element of elements){
             if(!element.checkVisibility())continue;
             for(const match of getComputedStyle(element).backgroundImage.matchAll(/url\(["']?(.*?)["']?\)/g))backgrounds.add(match[1]);
           }
-          await Promise.all([...images.map(image=>image.decode()),...[...backgrounds].map(async src=>{const image=new Image();image.src=src;await image.decode();})]);
+          const discovered=performance.now();
+          const owner=window as Window&{__pantheonDecodedArtwork?:Map<string,Promise<void>>};
+          const decoded=owner.__pantheonDecodedArtwork??=new Map<string,Promise<void>>();
+          const decode=(image:HTMLImageElement)=>{
+            const src=image.currentSrc||image.src;
+            // A new or failed load must complete itself; loaded copies share the immutable resource.
+            if(!image.complete||!image.naturalWidth||!decoded.has(src))decoded.set(src,image.decode());
+            return decoded.get(src)!;
+          };
+          await Promise.all([...images.map(decode),...[...backgrounds].map(src=>{
+            if(decoded.has(src))return decoded.get(src)!;
+            const image=new Image();image.src=src;return decode(image);
+          })]);
+          const artwork=performance.now();
           let animations:Animation[];
           while((animations=document.getAnimations().filter(animation=>animation.playState!=='finished')).length){
             await Promise.all(animations.map(animation=>animation.finished.catch(()=>undefined)));
           }
           // Capture flushes the complete compositor frame; another rAF would render it twice.
+          return {fonts:Math.round(fonts-start),discovery:Math.round(discovered-fonts),decode:Math.round(artwork-discovered),animations:Math.round(performance.now()-artwork)};
         });
         const ready=performance.now();
         await page.evaluate(assertScreenFit,{document:view.document});
@@ -68,7 +88,7 @@ export class TestStepHelper {
             expect(same,'Every decoded RGBA byte must equal the reviewed baseline').toBe(true);
           }
         }
-        expect(performance.now()-start,`Capture exceeded 2,000 ms: preparation ${Math.round(prepared-start)} (ack ${Math.round(acknowledged-start)}, foreground ${Math.round(foreground-acknowledged)}, assets/animations ${Math.round(ready-foreground)}, layout ${Math.round(prepared-ready)}), image ${Math.round(photographed-prepared)}, comparison ${Math.round(performance.now()-photographed)}`).toBeLessThanOrEqual(OPERATION_BUDGET);
+        expect(performance.now()-start,`Capture exceeded 2,000 ms: preparation ${Math.round(prepared-start)} (ack ${Math.round(acknowledged-start)}, foreground ${Math.round(foreground-acknowledged)}, assets/animations ${Math.round(ready-foreground)} ${JSON.stringify(assetTimings)}, layout ${Math.round(prepared-ready)}), image ${Math.round(photographed-prepared)}, comparison ${Math.round(performance.now()-photographed)}`).toBeLessThanOrEqual(OPERATION_BUDGET);
       },{timeout:OPERATION_BUDGET});
       const views=['phone','desktop','tabletop-4k'].map(project=>`[${project}](../../screenshots/${story.slug}/${stem}-${project}-darwin.png)`).join(' · ');
       story.steps.push(`## ${description}\n\n${view.player?`Viewpoint: **${view.player}**.\n\n`:''}${views}\n\n![${description}](../../screenshots/${story.slug}/${stem}-desktop-darwin.png)\n\n${verifications.map(item=>`- [x] ${item.spec}`).join('\n')}`);
