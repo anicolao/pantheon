@@ -34,8 +34,17 @@ export function assertScreenFit(options: {document?:boolean} = {}) {
     }
     if(element.matches('button,input,select,a')&&element.getBoundingClientRect().width)controls.push(element);
   }
+  // A pinned document navigation deliberately covers scrolled content. Compare
+  // the remaining on-screen hit regions; game views still compare whole controls.
+  const pinned=options.document?[...document.querySelectorAll<HTMLElement>('.sticky-nav')].filter(node=>node.checkVisibility()&&/^(sticky|fixed)$/.test(style(node).position)).map(node=>node.getBoundingClientRect()).filter(rect=>rect.top<=0&&rect.bottom>0):[];
+  const hitRegion=(element:HTMLElement)=>{
+    const rect=element.getBoundingClientRect();
+    if(!options.document)return rect;
+    const top=Math.max(0,rect.top,...(element.closest('.sticky-nav')?[]:pinned.map(header=>header.bottom)));
+    return {left:Math.max(0,rect.left),right:Math.min(innerWidth,rect.right),top,bottom:Math.min(innerHeight,rect.bottom)};
+  };
   for(let i=0;i<controls.length;i++)for(let j=i+1;j<controls.length;j++){
-    const a=controls[i].getBoundingClientRect(),b=controls[j].getBoundingClientRect();
+    const a=hitRegion(controls[i]),b=hitRegion(controls[j]);
     if(Math.min(a.right,b.right)>Math.max(a.left,b.left)&&Math.min(a.bottom,b.bottom)>Math.max(a.top,b.top))throw new Error(`Controls overlap: ${label(controls[i])} / ${label(controls[j])}`);
   }
 }

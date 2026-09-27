@@ -61,7 +61,7 @@
 </div>
 
 <style>
-  .sticky-nav { position: sticky; top: 0; z-index: 10; display: flex; flex-wrap: wrap; gap: 0.6rem 2rem; background: #151b1b; border-bottom: 1px solid #ffffff1a; box-shadow: 0 6px 10px #151b1b99; }
+  .sticky-nav { will-change:transform; position: sticky; top: 0; z-index: 10; display: flex; flex-wrap: wrap; gap: 0.6rem 2rem; background: #151b1b; border-bottom: 1px solid #ffffff1a; box-shadow: 0 6px 10px #151b1b99; }
   a, button { display: inline-flex; align-items: baseline; border: 0; border-bottom: 2px solid transparent; background: none; color: #b2b8ad; padding: 0.9rem 0; font: 400 0.88rem/1.2 'Atkinson Hyperlegible', sans-serif; text-decoration: none; }
   .chosen { color: #e8d3a2; border-bottom-color: #d6ba7f; }
   span { margin-left: 0.4rem; opacity: 0.65; font-size: 0.7rem; }

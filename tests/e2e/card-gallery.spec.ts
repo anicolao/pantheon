@@ -135,8 +135,15 @@ test('copy totals follow setup and three back families keep deck identity hidden
   const sources = await backs.locator('img').evaluateAll(images => [...new Set(images.map(img => (img as HTMLImageElement).src))]);
   expect(sources).toHaveLength(3);
   await expect.poll(() => backs.locator('img').evaluateAll(images => images.every(img => (img as HTMLImageElement).complete && (img as HTMLImageElement).naturalWidth > 0))).toBe(true);
-  await new TestStepHelper(page,testInfo,'Card catalog').step('backs','Distinguish the three card back families',[],{document:true});
+  const backSteps=new TestStepHelper(page,testInfo,'Card catalog');
+  for(const [format,label,filter] of [['leader','Bloodline leader','Leaders'],['event','God event','Events'],['deck','Player deck','Treasures']] as const){
+    const tab=page.getByRole('group',{name:'Filter by card type'}).getByRole('button',{name:new RegExp(`^${filter}`)});
+    await tab.click();await expect(tab).toHaveAttribute('aria-pressed','true');
+    await page.locator(`.card-item[data-format="${format}"]`).first().evaluate(node=>node.scrollIntoView({block:'start'}));
+    await backSteps.step(`backs-${format}`,`Read the ${label.toLowerCase()} card backs`,[{spec:`${label} backs are visible at the chosen gallery scale.`,check:async()=>expect(page.getByRole('img',{name:`${label} card back`,exact:true}).first()).toBeInViewport()}],{document:true});
+  }
   await page.getByRole('checkbox', { name: 'Show backs', exact: true }).uncheck();
+  await page.getByRole('group',{name:'Filter by card type'}).getByRole('button',{name:/^All cards/}).click();
   await expect(page.locator('[data-testid="card-grid"] .card')).toHaveCount(30);
 });
 
@@ -171,6 +178,7 @@ test('tabletop view preserves every card and print uses physical card dimensions
   await expect(page.locator('[data-testid="card-grid"] .card')).toHaveCount(30);
   if (testInfo.project.name !== 'phone') expect((await card.boundingBox())!.width).toBeGreaterThan(initial);
   await expectArtworkAndLayout(page);
+  await page.locator('.card-item').first().evaluate(node=>node.scrollIntoView({block:'start'}));
   await new TestStepHelper(page,testInfo,'Card catalog').step('tabletop','Browse cards at tabletop scale',[],{document:true});
   await page.emulateMedia({ media: 'print' });
   await expectArtworkAndLayout(page);

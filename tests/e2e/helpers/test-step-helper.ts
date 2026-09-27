@@ -29,8 +29,10 @@ export class TestStepHelper {
         const start=performance.now(),remaining=()=>Math.max(1,OPERATION_BUDGET-Math.ceil(performance.now()-start));
         if(!view.document)await expect(page.locator('[data-status]')).toHaveAttribute('data-status',view.status??this.settledStatus,{timeout:remaining()});
         if(!view.document&&(view.status??this.settledStatus)==='synced')await expect(page.locator('[aria-busy="true"]')).toHaveCount(0,{timeout:remaining()});
+        const acknowledged=performance.now();
         await page.bringToFront();
         await page.mouse.move(0,0);
+        const foreground=performance.now();
         await page.evaluate(async()=>{
           await document.fonts.ready;
           const images=[...document.images].filter(image=>image.checkVisibility()),backgrounds=new Set<string>();
@@ -39,11 +41,13 @@ export class TestStepHelper {
             for(const match of getComputedStyle(element).backgroundImage.matchAll(/url\(["']?(.*?)["']?\)/g))backgrounds.add(match[1]);
           }
           await Promise.all([...images.map(image=>image.decode()),...[...backgrounds].map(async src=>{const image=new Image();image.src=src;await image.decode();})]);
-          do{
-            await Promise.all(document.getAnimations().filter(animation=>animation.playState!=='finished').map(animation=>animation.finished.catch(()=>undefined)));
-            await new Promise<void>(resolve=>requestAnimationFrame(()=>resolve()));
-          }while(document.getAnimations().some(animation=>animation.playState!=='finished'));
+          let animations:Animation[];
+          while((animations=document.getAnimations().filter(animation=>animation.playState!=='finished')).length){
+            await Promise.all(animations.map(animation=>animation.finished.catch(()=>undefined)));
+          }
+          // Capture flushes the complete compositor frame; another rAF would render it twice.
         });
+        const ready=performance.now();
         await page.evaluate(assertScreenFit,{document:view.document});
         const prepared=performance.now();
         // One capture after semantic readiness; no screenshot polling or animation fast-forward.
@@ -64,7 +68,7 @@ export class TestStepHelper {
             expect(same,'Every decoded RGBA byte must equal the reviewed baseline').toBe(true);
           }
         }
-        expect(performance.now()-start,`Capture exceeded 2,000 ms: preparation ${Math.round(prepared-start)}, image ${Math.round(photographed-prepared)}, comparison ${Math.round(performance.now()-photographed)}`).toBeLessThanOrEqual(OPERATION_BUDGET);
+        expect(performance.now()-start,`Capture exceeded 2,000 ms: preparation ${Math.round(prepared-start)} (ack ${Math.round(acknowledged-start)}, foreground ${Math.round(foreground-acknowledged)}, assets/animations ${Math.round(ready-foreground)}, layout ${Math.round(prepared-ready)}), image ${Math.round(photographed-prepared)}, comparison ${Math.round(performance.now()-photographed)}`).toBeLessThanOrEqual(OPERATION_BUDGET);
       },{timeout:OPERATION_BUDGET});
       const views=['phone','desktop','tabletop-4k'].map(project=>`[${project}](../../screenshots/${story.slug}/${stem}-${project}-darwin.png)`).join(' · ');
       story.steps.push(`## ${description}\n\n${view.player?`Viewpoint: **${view.player}**.\n\n`:''}${views}\n\n![${description}](../../screenshots/${story.slug}/${stem}-desktop-darwin.png)\n\n${verifications.map(item=>`- [x] ${item.spec}`).join('\n')}`);
