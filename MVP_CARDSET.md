@@ -77,7 +77,7 @@ Actions granted by a card can be spent later in this phase. You may stop even if
 
 ### C. Treasure phase
 
-Play any number of Treasures from your hand into your play area, adding their Coins. You may leave Treasures unplayed to use as targets for later effects. Once you proceed to the Buy phase, you cannot play more Treasures or return to the Action phase.
+Play any number of Treasures from your hand into your play area, adding their Coins. You may leave Treasures unplayed to use as targets for later effects. Your first purchase automatically begins the Buy phase; no separate transition is needed. Once you buy, you cannot play more Treasures or return to the Action phase.
 
 ### D. Buy phase
 

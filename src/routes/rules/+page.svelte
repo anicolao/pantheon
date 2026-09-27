@@ -95,7 +95,7 @@
       <ol class="turns">
         <li><strong>Start.</strong> Set your counters to <strong>1 Action, 1 Buy, 1 Worship, and 0 Coins</strong>. Reset your leader’s once-per-turn ability.</li>
         <li><strong>Actions.</strong> Spend 1 Action to play an Action from your hand. Put it in your play area and resolve its instructions in order, then any triggered leader ability. Continue while you have Actions and want to play more.</li>
-        <li><strong>Treasures.</strong> Play any number of Treasures from your hand, one at a time, adding their Coins. Playing a Treasure costs no Action.</li>
+        <li><strong>Treasures.</strong> Play any number of Treasures from your hand, one at a time, adding their Coins. Playing a Treasure costs no Action. Open Supply whenever you are ready to buy; your first purchase ends Treasure play.</li>
         <li><strong>Buys.</strong> Spend 1 Buy and the printed Coin cost to buy a card from a nonempty supply pile. Put it in your discard pile. Repeat if you have enough Buys and Coins. A cost-0 purchase still uses a Buy.</li>
         <li><strong>Cleanup.</strong> Discard your remaining hand and played cards, lose all unused resources, and draw five. Check the end conditions, then pass the turn.</li>
       </ol>

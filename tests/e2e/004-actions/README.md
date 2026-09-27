@@ -1,6 +1,6 @@
 # Action effect integration scenarios
 
-Each walkthrough is generated from a passing story and links phone, desktop, and 4K captures. See the [testing contract](../../../E2E_GUIDE.md) and [visual fidelity review](FIDELITY.md).
+Each walkthrough is generated from a passing story and shows desktop and phone together, with expandable 4K captures. See the [testing contract](../../../E2E_GUIDE.md) and [visual fidelity review](FIDELITY.md).
 
 - [3 players can follow a public reveal](stories/3-players-can-follow-a-public-reveal/README.md)
 - [4 players can follow a public reveal](stories/4-players-can-follow-a-public-reveal/README.md)

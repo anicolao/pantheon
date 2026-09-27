@@ -100,7 +100,7 @@ Use this as the minimum storyboard for the buying-and-playing journey. Each numb
 | 9 | Inspect an Obol; show its readable face and Play affordance. |
 | 10 | Play it; show hand → play, the exact Coin increase, and the public result for Theseus. |
 | 11 | Explicitly play the remaining Treasures; show the resulting play area and Coin total. |
-| 12 | Advance to Buys and open Supply; show actual stock, Coins, and Buys. |
+| 12 | Open Supply directly after playing Treasures; show actual stock, Coins, and Buys without a phase-transition click. |
 | 13 | Open Actions and select Oracle’s Acolyte; show the selected pile, price, and purchase destination. |
 | 14 | Open its full inspector; show readable rules and a working return control. |
 | 15 | Return and buy; show the exact payment, reduced stock, discard increase, and Theseus’s public purchase result. |

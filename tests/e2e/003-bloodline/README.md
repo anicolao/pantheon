@@ -1,6 +1,6 @@
 # Bloodlines and private hands
 
-Each walkthrough is generated from a passing story and links phone, desktop, and 4K captures. See the [testing contract](../../../E2E_GUIDE.md) and [visual fidelity review](FIDELITY.md).
+Each walkthrough is generated from a passing story and shows desktop and phone together, with expandable 4K captures. See the [testing contract](../../../E2E_GUIDE.md) and [visual fidelity review](FIDELITY.md).
 
 - [2 players draft unique bloodlines and replay the same starting hands](stories/2-players-draft-unique-bloodlines-and-replay-the-same-starting-hands/README.md)
 - [3 players draft unique bloodlines and replay the same starting hands](stories/3-players-draft-unique-bloodlines-and-replay-the-same-starting-hands/README.md)

@@ -12,7 +12,7 @@
   import Portrait from './Portrait.svelte';
   import ActionChoice from './ActionChoice.svelte';
   import SupplyScene from './SupplyScene.svelte';
-  import { activePlayer, canPlayAction, canPlayTreasure, purchaseReason, standings, definition } from '$lib/game/actions';
+  import { activePlayer, canPlayAction, canPlayTreasure, departureReminder, standings, definition } from '$lib/game/actions';
 
   let { game, uid, roomId, status, busy, error, command, retry }: {
     game: SetupState; uid: string; roomId: string; status: string; busy: boolean; error: string;
@@ -46,8 +46,8 @@
   const opponents = $derived(game.turnOrder.filter(id => id !== uid));
   const supply = $derived(setupSupply(game.playerCount).map(pile => ({ ...pile, count: game.supply[pile.id] ?? pile.count })));
   const treasures = $derived(own?.hand.filter(card => definition(card.cardId).type === 'Treasure') ?? []);
-  const advanceLabel = $derived(game.turn.phase === 'actions' ? 'To Treasures' : game.turn.phase === 'treasures' ? 'To Buys' : 'End turn');
-  const remaining = $derived(game.turn.phase === 'actions' ? own?.hand.find(card => canPlayAction(game, uid, card.id)) : game.turn.phase === 'treasures' ? treasures[0] : supply.find(pile => !purchaseReason(game, uid, pile.id)));
+  const advanceLabel = $derived(game.turn.phase === 'actions' ? 'To Treasures' : 'End turn');
+  const remaining = $derived(departureReminder(game, uid));
   const scores = $derived(game.turn.phase === 'finished' ? standings(game) : []);
   const ready = $derived(status === 'synced' && !busy);
   $effect(() => { if (ownerOf(selected) && game.phase === 'draft') selected = leaderIds.find(id => !ownerOf(id)) ?? selected; });
@@ -85,7 +85,7 @@
   function publicFlight(node: Element) { return reduced || game.activity.length <= initialRevision ? { duration: 0 } : fly(node, { x: -90, y: 30, duration: 550 }); }
   function playedFlight(node: Element) { return reduced || game.activity.length <= initialRevision ? { duration: 0 } : fly(node, { y: innerHeight * .25, duration: 550 }); }
   function advance() { if (!ready || turnUid !== uid || choice || game.turn.phase === 'finished') return; if (remaining) void open('advance'); else commitAdvance(); }
-  function commitAdvance() { close(); handPage = 0; void command({ type: game.turn.phase === 'buys' ? 'turn/ended' : 'phase/advanced' }); }
+  function commitAdvance() { close(); handPage = 0; void command({ type: game.turn.phase === 'actions' ? 'phase/advanced' : 'turn/ended' }); }
   function choose() { if (isChoice && ready && !ownerOf(selected)) void command({ type: 'leader/chosen', leaderId: selected }); }
 </script>
 
@@ -167,7 +167,7 @@
   <button class="close" aria-label="Close" onclick={close}>×</button>
   {#if modal === 'card' && inspected}<h2 id="session-dialog-title">{inspected.card.name}</h2><div class="inspected" class:landscape={inspected.card.type === 'Leader' || inspected.card.type === 'Event'}><CardFace card={inspected.card} players={game.playerCount} copy={inspected.copy} /></div>
     {#if inspected.instanceId && (inspected.card.type === 'Action' || inspected.card.type === 'Treasure')}<div class="play-command"><GameButton primary onclick={playInspected} disabled={!ready || !(canPlayAction(game, uid, inspected.instanceId) || canPlayTreasure(game, uid, inspected.instanceId))}>Play {inspected.card.name}</GameButton>{#if !(canPlayAction(game, uid, inspected.instanceId) || canPlayTreasure(game, uid, inspected.instanceId))}<p>{turnUid !== uid ? 'Wait for your turn.' : choice ? 'Finish your current choice.' : inspected.card.type === 'Treasure' ? 'Play Treasures in the Treasure phase.' : game.resources.actions < 1 ? 'No Actions remaining.' : 'The Action phase is over.'}</p>{/if}</div>{/if}
-  {:else if modal === 'advance'}<h2 id="session-dialog-title">{game.turn.phase === 'buys' ? 'End your turn?' : `Leave ${game.turn.phase === 'actions' ? 'Actions' : 'Treasures'}?`}</h2><div class="confirm-resources"><ResourceIcon resource="coins" value={game.resources.coins}/><ResourceIcon resource="buys" value={game.resources.buys}/></div><p>You can still {game.turn.phase === 'buys' ? 'buy' : 'play'} {remaining ? definition('cardId' in remaining ? remaining.cardId : remaining.id).name : 'cards'}.</p><div class="confirm-controls"><GameButton primary onclick={close}>Keep playing</GameButton><GameButton onclick={commitAdvance} disabled={!ready}>{advanceLabel}</GameButton></div>
+  {:else if modal === 'advance'}<h2 id="session-dialog-title">{game.turn.phase === 'actions' ? 'Leave Actions?' : 'End your turn?'}</h2><div class="confirm-resources"><ResourceIcon resource="coins" value={game.resources.coins}/><ResourceIcon resource="buys" value={game.resources.buys}/></div><p>You can still {remaining?.verb} {remaining?.card.name}.</p><div class="confirm-controls"><GameButton primary onclick={close}>Keep playing</GameButton><GameButton onclick={commitAdvance} disabled={!ready}>{advanceLabel}</GameButton></div>
   {:else if modal === 'zone' && zone}<h2 id="session-dialog-title">{zone.title}</h2>{#if zoneCards.length}<div class="supply-piles">{#each zoneCards.slice(zonePage * 6, zonePage * 6 + 6) as card}<button aria-label={`Inspect ${definition(card.cardId).name}, copy ${card.copy}`} onclick={() => { inspected = { card: definition(card.cardId), copy: card.copy }; modal = 'card'; }}><CardFace card={definition(card.cardId)} players={game.playerCount} copy={card.copy} /></button>{/each}</div><nav class="supply-pages" aria-label="Pile pages"><button disabled={zonePage === 0} onclick={() => zonePage--}>Previous</button><span>{zonePage + 1} / {Math.ceil(zoneCards.length / 6)}</span><button disabled={(zonePage + 1) * 6 >= zoneCards.length} onclick={() => zonePage++}>Next</button></nav>{:else}<p>No cards here.</p>{/if}
   {:else if modal === 'chronicle'}<h2 id="session-dialog-title">Chronicle</h2><ol class="chronicle">{#each game.activity as item}<li>{item.message}</li>{/each}</ol>{/if}
 </dialog>

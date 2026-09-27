@@ -33,12 +33,22 @@ export function purchaseReason(game: SetupState, uid: string, id: string): strin
   if (game.turn.phase === 'finished') return 'The game is over.';
   if (activePlayer(game) !== uid) return 'Wait for your turn.';
   if (game.turn.choice) return 'Finish your current choice.';
-  if (game.turn.phase !== 'buys') return 'Enter the Buy phase to purchase cards.';
+  if (!['treasures', 'buys'].includes(game.turn.phase)) return 'Finish playing Actions before buying cards.';
   if (!game.supply[id]) return 'This pile is empty.';
   if (game.resources.buys < 1) return 'No Buys remaining.';
   const cost = definition(id).cost;
   if (cost === null || game.resources.coins < cost) return `You need ${cost! - game.resources.coins} more Coins.`;
   return '';
+}
+/** Printed cost is the reminder's value; ties use card ID, independent of hand/pile order. */
+export function departureReminder(game: SetupState, uid: string) {
+  if (game.phase !== 'playing' || activePlayer(game) !== uid || game.turn.choice || game.turn.phase === 'finished') return null;
+  const highest = (options: ReturnType<typeof definition>[]) => options.sort((a, b) => (b.cost ?? 0) - (a.cost ?? 0) || (a.id < b.id ? -1 : a.id > b.id ? 1 : 0))[0];
+  const playable = game.decks[uid].hand.filter(card => canPlayAction(game, uid, card.id) || canPlayTreasure(game, uid, card.id)).map(card => definition(card.cardId));
+  const card = highest(playable);
+  if (card) return { verb: 'play' as const, card };
+  const purchase = highest(cards.filter(card => !purchaseReason(game, uid, card.id)));
+  return purchase ? { verb: 'buy' as const, card: purchase } : null;
 }
 export function standings(game: SetupState) {
   const rows = game.players.map(player => {
@@ -168,11 +178,13 @@ export function applyPlayCommand(game: SetupState, uid: string, command: ActionC
     }
     case 'card/bought': {
       const card = definition(command.cardId);
-      if (game.turn.phase !== 'buys' || !game.supply[card.id] || game.resources.buys < 1 || card.cost === null || game.resources.coins < card.cost) throw new Error('That purchase is not available.');
+      if (card.cost === null || purchaseReason(game, uid, card.id)) throw new Error('That purchase is not available.');
+      // Purchase and phase transition are one replayable command, including retry recovery.
+      game.turn.phase = 'buys';
       game.resources.buys--; game.resources.coins -= card.cost; gain(card.id, card.id); break;
     }
     case 'turn/ended': {
-      if (game.turn.phase !== 'buys') throw new Error('Finish the Action and Treasure phases first.');
+      if (!['treasures', 'buys'].includes(game.turn.phase)) throw new Error('Finish the Action phase first.');
       zones.discard.push(...zones.hand, ...zones.play); zones.hand = []; zones.play = []; draw(5, game.leaders[uid]);
       game.turn.turns[uid] = (game.turn.turns[uid] ?? 0) + 1;
       game.resources = { actions: 1, coins: 0, buys: 1, worship: 1 }; game.turn.leaderUsed = false;

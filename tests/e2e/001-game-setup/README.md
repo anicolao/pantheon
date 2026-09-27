@@ -1,6 +1,6 @@
 # Gathering and invitations
 
-Each walkthrough is generated from a passing story and links phone, desktop, and 4K captures. See the [testing contract](../../../E2E_GUIDE.md) and [visual fidelity review](FIDELITY.md).
+Each walkthrough is generated from a passing story and shows desktop and phone together, with expandable 4K captures. See the [testing contract](../../../E2E_GUIDE.md) and [visual fidelity review](FIDELITY.md).
 
 - [a gathering retains its seats across an interruption](stories/a-gathering-retains-its-seats-across-an-interruption/README.md)
 - [four seats fill through ordered remote arrivals and respect reduced motion](stories/four-seats-fill-through-ordered-remote-arrivals-and-respect-reduced-motion/README.md)

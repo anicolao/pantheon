@@ -1,5 +1,5 @@
 import { expect, test } from 'bun:test';
-import { applyPlayCommand, definition, actionEffects, standings, type ActionCommand } from '../../src/lib/game/actions';
+import { applyPlayCommand, definition, actionEffects, standings, departureReminder, purchaseReason, canPlayTreasure, type ActionCommand } from '../../src/lib/game/actions';
 import { replaySetup, type CardInstance, type SetupEvent, type SetupState } from '../../src/lib/game/setup';
 
 function game(leader = 'thaleia', hand = ['oracles-acolyte', 'hamlet', 'obol'], deck = ['obol', 'hamlet', 'drachma', 'talent']): SetupState {
@@ -139,4 +139,54 @@ test('both endings occur only after cleanup; scoring excludes trash and uses few
     state.decks.a={hand:instances(['hamlet','polis','acropolis'],'a'),deck:[],discard:[],play:[]};state.turn.turns.b=1;
     expect(standings(state).map(row=>[row.score,row.winner])).toEqual([[10,true],[10,true]]);expect(()=>run(state,{type:'phase/advanced'})).toThrow();
   }
+});
+
+
+test('first purchase atomically closes Treasure play; rejected purchases leave the phase intact', () => {
+  const state = game('thaleia', ['obol', 'talent', 'hamlet']);
+  expect(purchaseReason(state, 'a', 'obol')).not.toBe('');
+  expect(() => run(state, {type:'card/bought',cardId:'obol'})).toThrow();
+  run(state, {type:'phase/advanced'});
+  run(state, {type:'treasure/played',instanceId:'h-1'});
+  const before = structuredClone(state);
+  expect(() => run(state, {type:'card/bought',cardId:'acropolis'})).toThrow();
+  expect(state).toEqual(before);
+  expect(purchaseReason(state, 'a', 'drachma')).toBe('');
+  run(state, {type:'card/bought',cardId:'drachma'});
+  expect(state.turn.phase).toBe('buys');
+  expect(state.resources.coins).toBe(0);
+  expect(state.resources.buys).toBe(0);
+  expect(state.decks.a.discard.at(-1)?.cardId).toBe('drachma');
+  expect(canPlayTreasure(state, 'a', 'h-0')).toBe(false);
+  expect(() => run(state, {type:'treasure/played',instanceId:'h-0'})).toThrow();
+  expect(() => run(state, {type:'treasures/played'})).toThrow();
+});
+
+test('ending directly from Treasures performs cleanup without a separate phase event', () => {
+  const state = game();
+  run(state, {type:'phase/advanced'});
+  run(state, {type:'turn/ended'});
+  expect(state.turn.number).toBe(2);
+  expect(state.turn.phase).toBe('actions');
+  expect(state.turnOrder[state.turn.index]).toBe('b');
+});
+
+test('departure reminders choose the highest-cost legal card with stable ties, without mutating hand or supply', () => {
+  const state = game('thaleia', ['oracles-acolyte', 'council-of-sages', 'obol', 'talent', 'drachma']);
+  const hand = structuredClone(state.decks.a.hand);
+  expect(departureReminder(state, 'a')?.card.id).toBe('council-of-sages');
+  expect(departureReminder(state, 'b')).toBeNull();
+  state.resources.actions = 0;
+  expect(departureReminder(state, 'a')).toBeNull();
+  run(state, {type:'phase/advanced'});
+  expect(departureReminder(state, 'a')?.card.id).toBe('talent');
+  expect(state.decks.a.hand).toEqual(hand);
+  run(state, {type:'treasures/played'});
+  state.resources.coins = 4;
+  expect(departureReminder(state, 'a')?.verb).toBe('buy');
+  expect(departureReminder(state, 'a')?.card.id).toBe('council-of-sages');
+  state.supply['council-of-sages'] = 0;
+  expect(departureReminder(state, 'a')?.card.id).toBe('forge-of-heroes');
+  state.resources.buys = 0;
+  expect(departureReminder(state, 'a')).toBeNull();
 });
