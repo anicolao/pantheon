@@ -29,7 +29,10 @@ export class TestStepHelper {
         const start=performance.now(),remaining=()=>Math.max(1,OPERATION_BUDGET-Math.ceil(performance.now()-start));
         if(!view.document)await expect(page.locator('[data-status]')).toHaveAttribute('data-status',view.status??this.settledStatus,{timeout:remaining()});
         if(!view.document&&(view.status??this.settledStatus)==='synced')await expect(page.locator('[aria-busy="true"]')).toHaveCount(0,{timeout:remaining()});
+        await page.bringToFront();
         await page.mouse.move(0,0);
+        // Apply caret styling before readiness/layout so capture does not trigger another repaint.
+        const caret=await page.addStyleTag({content:'* { caret-color: transparent !important; }'});
         await page.evaluate(async()=>{
           await document.fonts.ready;
           const images=[...document.images].filter(image=>image.checkVisibility()),backgrounds=new Set<string>();
@@ -48,7 +51,6 @@ export class TestStepHelper {
         // One capture after semantic readiness; no screenshot polling or animation fast-forward.
         let camera=cameras.get(page);
         if(!camera){camera=await page.context().newCDPSession(page);cameras.set(page,camera);}
-        const caret=await page.addStyleTag({content:'* { caret-color: transparent !important; }'});
         let capture:Buffer;
         try { const result=await camera.send('Page.captureScreenshot',{format:'png',fromSurface:true,captureBeyondViewport:false,optimizeForSpeed:true});capture=Buffer.from(result.data,'base64'); }
         finally { await caret.evaluate(node=>node.parentNode!.removeChild(node)); }
