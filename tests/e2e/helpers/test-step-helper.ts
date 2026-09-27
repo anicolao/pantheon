@@ -28,8 +28,15 @@ export class TestStepHelper {
       const stem=`${String(story.steps.length).padStart(3,'0')}-${id}`;
       await test.step('Ready, unclipped, and photographed within 2,000 ms',async()=>{
         const start=performance.now(),remaining=()=>Math.max(1,OPERATION_BUDGET-Math.ceil(performance.now()-start));
-        if(!view.document)await expect(page.locator('[data-status]')).toHaveAttribute('data-status',view.status??this.settledStatus,{timeout:remaining()});
-        if(!view.document&&(view.status??this.settledStatus)==='synced')await expect(page.locator('[aria-busy="true"]')).toHaveCount(0,{timeout:remaining()});
+        // Locator assertions back off to one-second polling. Observe readiness promptly
+        // so a settled scene does not spend its capture budget waiting for the next poll.
+        if(!view.document){
+          const ready=await page.waitForFunction(status=>{
+            const scenes=document.querySelectorAll('[data-status]');
+            return scenes.length===1&&scenes[0].getAttribute('data-status')===status&&(status!=='synced'||!document.querySelector('[aria-busy="true"]'));
+          },view.status??this.settledStatus,{polling:20,timeout:remaining()});
+          await ready.dispose();
+        }
         const acknowledged=performance.now();
         await page.bringToFront();
         await page.mouse.move(0,0);

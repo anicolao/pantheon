@@ -70,6 +70,9 @@ export function checkPolicy(files: Sources): string[] {
     'export const OPERATION_BUDGET = 2_000;',
     'for(const verification of verifications)await test.step(verification.spec,verification.check,{timeout:OPERATION_BUDGET});',
     'remaining=()=>Math.max(1,OPERATION_BUDGET-Math.ceil(performance.now()-start))',
+    "scenes.length===1&&scenes[0].getAttribute('data-status')===status",
+    "(status!=='synced'||!document.querySelector('[aria-busy=\"true\"]'))",
+    '},view.status??this.settledStatus,{polling:20,timeout:remaining()});',
     'await page.evaluate(assertScreenFit,{document:view.document});',
     'await identicalPixels(capture,readFileSync(baseline))',
     'expect(same,\'Every decoded RGBA byte must equal the reviewed baseline\').toBe(true);',
@@ -80,7 +83,7 @@ export function checkPolicy(files: Sources): string[] {
   const start = source.indexOf(compact("await test.step('Ready, unclipped, and photographed within 2,000 ms'"));
   const end = source.indexOf('},{timeout:OPERATION_BUDGET});', start);
   const capture = compact(source.slice(start, end));
-  for (const text of ['await document.fonts.ready', 'image.decode()', 'animation.finished', 'await page.evaluate(assertScreenFit', "camera.send('Page.captureScreenshot'", 'await identicalPixels(', 'toBeLessThanOrEqual(OPERATION_BUDGET)']) {
+  for (const text of ['await page.waitForFunction', 'await document.fonts.ready', 'image.decode()', 'animation.finished', 'await page.evaluate(assertScreenFit', "camera.send('Page.captureScreenshot'", 'await identicalPixels(', 'toBeLessThanOrEqual(OPERATION_BUDGET)']) {
     if (start < 0 || end < 0 || !capture.includes(compact(text))) errors.push(`${helper}: ${text} must be inside the one bounded capture step`);
   }
   for (const text of ['context.setDefaultTimeout(OPERATION_BUDGET)', 'context.setDefaultNavigationTimeout(OPERATION_BUDGET)']) requireText('tests/e2e/helpers/players.ts', text);
