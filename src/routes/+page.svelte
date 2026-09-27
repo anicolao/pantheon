@@ -71,7 +71,7 @@
   .composition { position:relative; width:100%; height:100%; --menu-button-height:clamp(54px,7.7svh,160px); --menu-label-size:clamp(28px,4.2svh,90px); }
   h1 { position:absolute; margin:0; left:24%; top:5%; width:55%; height:25%; }
   h1 img { display:block; width:100%; height:100%; object-fit:contain; }
-  .menu { position:absolute; top:32%; left:36%; width:31%; display:grid; gap:clamp(6px,1svh,24px); }
+  .menu { position:absolute; top:round(nearest,32svh,1px); left:round(nearest,36vw,1px); width:round(nearest,31vw,2px); display:grid; gap:round(nearest,clamp(6px,1svh,24px),1px); }
   .table-cards { position:absolute; left:9%; bottom:5%; width:82%; height:31%; }
   /* Keep angled cards on stable compositing layers through image/font loading. */
   .display-card,.display-back { position:absolute; bottom:0; will-change:transform; }
@@ -86,7 +86,7 @@
   @media(max-aspect-ratio:3/4) {
     .composition { --menu-button-height:clamp(48px,6.9svh,90px); --menu-label-size:clamp(26px,3.6svh,48px); }
     h1 { left:4%; top:7%; width:92%; height:17%; }
-    .menu { top:39%; left:16%; width:68%; gap:1.3svh; }
+    .menu { top:round(nearest,39svh,1px); left:round(nearest,16vw,1px); width:round(nearest,68vw,2px); gap:round(nearest,1.3svh,1px); }
     .table-cards { left:4%; bottom:7%; width:92%; height:22%; }
     .thaleia { left:0; bottom:0; width:37%; transform:rotate(-9deg); }
     .temple-of-athena { left:29%; width:26%; bottom:3%; transform:rotate(0); }

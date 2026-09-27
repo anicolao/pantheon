@@ -32,8 +32,8 @@ export class TestStepHelper {
         await page.bringToFront();
         await page.mouse.move(0,0);
         // Apply caret styling before readiness/layout so capture does not trigger another repaint.
-        const caret=await page.addStyleTag({content:'* { caret-color: transparent !important; }'});
         await page.evaluate(async()=>{
+          if(!document.getElementById('e2e-caret')){const style=document.createElement('style');style.id='e2e-caret';style.textContent='* { caret-color: transparent !important; }';document.head.append(style);}
           await document.fonts.ready;
           const images=[...document.images].filter(image=>image.checkVisibility()),backgrounds=new Set<string>();
           for(const element of document.querySelectorAll<HTMLElement>('[data-e2e-layout], [data-e2e-layout] *')){
@@ -52,8 +52,7 @@ export class TestStepHelper {
         let camera=cameras.get(page);
         if(!camera){camera=await page.context().newCDPSession(page);cameras.set(page,camera);}
         let capture:Buffer;
-        try { const result=await camera.send('Page.captureScreenshot',{format:'png',fromSurface:true,captureBeyondViewport:false,optimizeForSpeed:true});capture=Buffer.from(result.data,'base64'); }
-        finally { await caret.evaluate(node=>node.parentNode!.removeChild(node)); }
+        const result=await camera.send('Page.captureScreenshot',{format:'png',fromSurface:true,captureBeyondViewport:false,optimizeForSpeed:true});capture=Buffer.from(result.data,'base64');
         const photographed=performance.now();
         const name=[story.slug,`${stem}-${this.info.project.name}-${process.platform}.png`],baseline=this.info.snapshotPath(...name);
         if(['all','changed'].includes(this.info.config.updateSnapshots)){

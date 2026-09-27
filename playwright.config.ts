@@ -19,7 +19,7 @@ export default defineConfig({
     actionTimeout: 2_000,
     navigationTimeout: 2_000,
     // The story already captures every illustrated step; avoid a competing screencast.
-    trace: { mode: 'retain-on-failure', screenshots: false, snapshots: true, sources: true },
+    trace: { mode: 'retain-on-failure', screenshots: false, snapshots: false, sources: true },
     deviceScaleFactor: 1,
     // Full rasterization avoids reload-dependent rounded-edge pixels on macOS.
     launchOptions: { args: ['--run-all-compositor-stages-before-draw', '--disable-checker-imaging', '--font-render-hinting=none', '--disable-font-subpixel-positioning', '--disable-lcd-text', '--force-device-scale-factor=1', '--disable-gpu', '--disable-skia-runtime-opts', '--disable-partial-raster', '--use-gl=swiftshader'] },
