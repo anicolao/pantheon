@@ -18,10 +18,11 @@ export default defineConfig({
     baseURL: `http://127.0.0.1:4193${base}/`,
     actionTimeout: 2_000,
     navigationTimeout: 2_000,
-    trace: 'retain-on-failure',
+    // The story already captures every illustrated step; avoid a competing screencast.
+    trace: { mode: 'retain-on-failure', screenshots: false, snapshots: true, sources: true },
     deviceScaleFactor: 1,
     // Full rasterization avoids reload-dependent rounded-edge pixels on macOS.
-    launchOptions: { args: ['--font-render-hinting=none', '--disable-font-subpixel-positioning', '--disable-lcd-text', '--force-device-scale-factor=1', '--disable-gpu', '--disable-skia-runtime-opts', '--disable-partial-raster', '--use-gl=swiftshader'] },
+    launchOptions: { args: ['--run-all-compositor-stages-before-draw', '--disable-checker-imaging', '--font-render-hinting=none', '--disable-font-subpixel-positioning', '--disable-lcd-text', '--force-device-scale-factor=1', '--disable-gpu', '--disable-skia-runtime-opts', '--disable-partial-raster', '--use-gl=swiftshader'] },
     timezoneId: 'America/Toronto',
     serviceWorkers: 'block',
     screenshot: 'only-on-failure',
@@ -35,7 +36,7 @@ export default defineConfig({
   ],
   snapshotPathTemplate: '{testDir}/{testFileDir}/screenshots/{arg}{ext}',
   // Every condition and capture has the same hard two-second deadline.
-  expect: { timeout: 2_000, toHaveScreenshot: { timeout: 2_000, maxDiffPixels: 0, threshold: 0, animations: 'disabled', caret: 'hide', scale: 'css', fullPage: true } },
+  expect: { timeout: 2_000, toHaveScreenshot: { timeout: 2_000, maxDiffPixels: 0, threshold: 0, animations: 'allow', caret: 'hide', scale: 'css', fullPage: true } },
   webServer: {
     command: 'bun run build && bun run preview',
     url: `http://127.0.0.1:4193${base}/`,
