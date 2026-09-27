@@ -4,8 +4,19 @@ Recorded-history integration scenario. A legal event history prepares the starti
 
 ## Read the revealed card and its destination
 
-[phone](../../screenshots/procession-reveals-territory-and-preserves-its-proper-destination/000-reveal-territory-phone-darwin.png) · [desktop](../../screenshots/procession-reveals-territory-and-preserves-its-proper-destination/000-reveal-territory-desktop-darwin.png) · [tabletop-4k](../../screenshots/procession-reveals-territory-and-preserves-its-proper-destination/000-reveal-territory-tabletop-4k-darwin.png)
+<table>
+<tr><th>Desktop · 1440 × 1000</th><th>Phone · 393 × 852</th></tr>
+<tr>
+<td valign="top"><a href="../../screenshots/procession-reveals-territory-and-preserves-its-proper-destination/000-reveal-territory-desktop-darwin.png"><img src="../../screenshots/procession-reveals-territory-and-preserves-its-proper-destination/000-reveal-territory-desktop-darwin.png" alt="Read the revealed card and its destination — desktop" width="720"></a></td>
+<td valign="top"><a href="../../screenshots/procession-reveals-territory-and-preserves-its-proper-destination/000-reveal-territory-phone-darwin.png"><img src="../../screenshots/procession-reveals-territory-and-preserves-its-proper-destination/000-reveal-territory-phone-darwin.png" alt="Read the revealed card and its destination — phone" width="240"></a></td>
+</tr>
+</table>
 
-![Read the revealed card and its destination](../../screenshots/procession-reveals-territory-and-preserves-its-proper-destination/000-reveal-territory-desktop-darwin.png)
+<details>
+<summary>Tabletop · 3840 × 2160 — expand screenshot</summary>
+
+<a href="../../screenshots/procession-reveals-territory-and-preserves-its-proper-destination/000-reveal-territory-tabletop-4k-darwin.png"><img src="../../screenshots/procession-reveals-territory-and-preserves-its-proper-destination/000-reveal-territory-tabletop-4k-darwin.png" alt="Read the revealed card and its destination — tabletop-4k" width="960"></a>
+
+</details>
 
 - [x] A Territory goes to discard for +2 Coins; another card returns to the top.

@@ -5,16 +5,18 @@
   "license": "GPL-3.0-only",
   "type": "module",
   "scripts": {
-    "prepare": "svelte-kit sync",
+    "prepare": "svelte-kit sync && node scripts/install-hooks.mjs",
     "dev": "vite dev --host 127.0.0.1 --port 5193 --strictPort",
     "build": "vite build",
     "preview": "vite preview --host 127.0.0.1 --port 4193 --strictPort",
     "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
     "test:e2e": "firebase emulators:exec --project demo-pantheon --only auth,firestore \"playwright test\"",
-    "verify": "bun run check && bun run test:backend && bun run test:e2e",
+    "verify": "bun run test:policy && bun run check && bun run test:backend && bun run test:e2e",
     "test:e2e:update": "firebase emulators:exec --project demo-pantheon --only auth,firestore \"playwright test --update-snapshots\"",
     "test:backend": "firebase emulators:exec --project demo-pantheon --only firestore \"bun test tests/backend\"",
-    "emulators": "firebase emulators:start --project demo-pantheon --only auth,firestore"
+    "emulators": "firebase emulators:start --project demo-pantheon --only auth,firestore",
+    "check:e2e-policy": "bun scripts/check-e2e-policy.ts",
+    "test:policy": "bun run check:e2e-policy && bun test tests/tooling"
   },
   "dependencies": {
     "@fontsource/atkinson-hyperlegible": "5.2.8",

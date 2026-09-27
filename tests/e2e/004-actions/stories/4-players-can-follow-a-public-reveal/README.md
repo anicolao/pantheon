@@ -4,8 +4,19 @@ Recorded-history integration scenario. A legal event history prepares the starti
 
 ## Read the effect without covering the other seats
 
-[phone](../../screenshots/4-players-can-follow-a-public-reveal/000-reveal-4-phone-darwin.png) · [desktop](../../screenshots/4-players-can-follow-a-public-reveal/000-reveal-4-desktop-darwin.png) · [tabletop-4k](../../screenshots/4-players-can-follow-a-public-reveal/000-reveal-4-tabletop-4k-darwin.png)
+<table>
+<tr><th>Desktop · 1440 × 1000</th><th>Phone · 393 × 852</th></tr>
+<tr>
+<td valign="top"><a href="../../screenshots/4-players-can-follow-a-public-reveal/000-reveal-4-desktop-darwin.png"><img src="../../screenshots/4-players-can-follow-a-public-reveal/000-reveal-4-desktop-darwin.png" alt="Read the effect without covering the other seats — desktop" width="720"></a></td>
+<td valign="top"><a href="../../screenshots/4-players-can-follow-a-public-reveal/000-reveal-4-phone-darwin.png"><img src="../../screenshots/4-players-can-follow-a-public-reveal/000-reveal-4-phone-darwin.png" alt="Read the effect without covering the other seats — phone" width="240"></a></td>
+</tr>
+</table>
 
-![Read the effect without covering the other seats](../../screenshots/4-players-can-follow-a-public-reveal/000-reveal-4-desktop-darwin.png)
+<details>
+<summary>Tabletop · 3840 × 2160 — expand screenshot</summary>
+
+<a href="../../screenshots/4-players-can-follow-a-public-reveal/000-reveal-4-tabletop-4k-darwin.png"><img src="../../screenshots/4-players-can-follow-a-public-reveal/000-reveal-4-tabletop-4k-darwin.png" alt="Read the effect without covering the other seats — tabletop-4k" width="960"></a>
+
+</details>
 
 - [x] Every opponent and chosen altar remains visible beside the public result.

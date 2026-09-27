@@ -4,48 +4,114 @@ Recorded-history integration scenario. A legal event history prepares the starti
 
 ## Choose what to forge
 
-[phone](../../screenshots/forge-gains-a-cheaper-card-before-doreios-offers-his-separate-choice/000-forge-trash-phone-darwin.png) · [desktop](../../screenshots/forge-gains-a-cheaper-card-before-doreios-offers-his-separate-choice/000-forge-trash-desktop-darwin.png) · [tabletop-4k](../../screenshots/forge-gains-a-cheaper-card-before-doreios-offers-his-separate-choice/000-forge-trash-tabletop-4k-darwin.png)
+<table>
+<tr><th>Desktop · 1440 × 1000</th><th>Phone · 393 × 852</th></tr>
+<tr>
+<td valign="top"><a href="../../screenshots/forge-gains-a-cheaper-card-before-doreios-offers-his-separate-choice/000-forge-trash-desktop-darwin.png"><img src="../../screenshots/forge-gains-a-cheaper-card-before-doreios-offers-his-separate-choice/000-forge-trash-desktop-darwin.png" alt="Choose what to forge — desktop" width="720"></a></td>
+<td valign="top"><a href="../../screenshots/forge-gains-a-cheaper-card-before-doreios-offers-his-separate-choice/000-forge-trash-phone-darwin.png"><img src="../../screenshots/forge-gains-a-cheaper-card-before-doreios-offers-his-separate-choice/000-forge-trash-phone-darwin.png" alt="Choose what to forge — phone" width="240"></a></td>
+</tr>
+</table>
 
-![Choose what to forge](../../screenshots/forge-gains-a-cheaper-card-before-doreios-offers-his-separate-choice/000-forge-trash-desktop-darwin.png)
+<details>
+<summary>Tabletop · 3840 × 2160 — expand screenshot</summary>
+
+<a href="../../screenshots/forge-gains-a-cheaper-card-before-doreios-offers-his-separate-choice/000-forge-trash-tabletop-4k-darwin.png"><img src="../../screenshots/forge-gains-a-cheaper-card-before-doreios-offers-his-separate-choice/000-forge-trash-tabletop-4k-darwin.png" alt="Choose what to forge — tabletop-4k" width="960"></a>
+
+</details>
 
 - [x] Trashing is optional before choosing a replacement.
 
 ## Review the card being replaced
 
-[phone](../../screenshots/forge-gains-a-cheaper-card-before-doreios-offers-his-separate-choice/001-forge-selected-phone-darwin.png) · [desktop](../../screenshots/forge-gains-a-cheaper-card-before-doreios-offers-his-separate-choice/001-forge-selected-desktop-darwin.png) · [tabletop-4k](../../screenshots/forge-gains-a-cheaper-card-before-doreios-offers-his-separate-choice/001-forge-selected-tabletop-4k-darwin.png)
+<table>
+<tr><th>Desktop · 1440 × 1000</th><th>Phone · 393 × 852</th></tr>
+<tr>
+<td valign="top"><a href="../../screenshots/forge-gains-a-cheaper-card-before-doreios-offers-his-separate-choice/001-forge-selected-desktop-darwin.png"><img src="../../screenshots/forge-gains-a-cheaper-card-before-doreios-offers-his-separate-choice/001-forge-selected-desktop-darwin.png" alt="Review the card being replaced — desktop" width="720"></a></td>
+<td valign="top"><a href="../../screenshots/forge-gains-a-cheaper-card-before-doreios-offers-his-separate-choice/001-forge-selected-phone-darwin.png"><img src="../../screenshots/forge-gains-a-cheaper-card-before-doreios-offers-his-separate-choice/001-forge-selected-phone-darwin.png" alt="Review the card being replaced — phone" width="240"></a></td>
+</tr>
+</table>
 
-![Review the card being replaced](../../screenshots/forge-gains-a-cheaper-card-before-doreios-offers-his-separate-choice/001-forge-selected-desktop-darwin.png)
+<details>
+<summary>Tabletop · 3840 × 2160 — expand screenshot</summary>
+
+<a href="../../screenshots/forge-gains-a-cheaper-card-before-doreios-offers-his-separate-choice/001-forge-selected-tabletop-4k-darwin.png"><img src="../../screenshots/forge-gains-a-cheaper-card-before-doreios-offers-his-separate-choice/001-forge-selected-tabletop-4k-darwin.png" alt="Review the card being replaced — tabletop-4k" width="960"></a>
+
+</details>
 
 - [x] One selected card enables the trash confirmation.
 
 ## Choose a replacement within the cost limit
 
-[phone](../../screenshots/forge-gains-a-cheaper-card-before-doreios-offers-his-separate-choice/002-gain-choice-phone-darwin.png) · [desktop](../../screenshots/forge-gains-a-cheaper-card-before-doreios-offers-his-separate-choice/002-gain-choice-desktop-darwin.png) · [tabletop-4k](../../screenshots/forge-gains-a-cheaper-card-before-doreios-offers-his-separate-choice/002-gain-choice-tabletop-4k-darwin.png)
+<table>
+<tr><th>Desktop · 1440 × 1000</th><th>Phone · 393 × 852</th></tr>
+<tr>
+<td valign="top"><a href="../../screenshots/forge-gains-a-cheaper-card-before-doreios-offers-his-separate-choice/002-gain-choice-desktop-darwin.png"><img src="../../screenshots/forge-gains-a-cheaper-card-before-doreios-offers-his-separate-choice/002-gain-choice-desktop-darwin.png" alt="Choose a replacement within the cost limit — desktop" width="720"></a></td>
+<td valign="top"><a href="../../screenshots/forge-gains-a-cheaper-card-before-doreios-offers-his-separate-choice/002-gain-choice-phone-darwin.png"><img src="../../screenshots/forge-gains-a-cheaper-card-before-doreios-offers-his-separate-choice/002-gain-choice-phone-darwin.png" alt="Choose a replacement within the cost limit — phone" width="240"></a></td>
+</tr>
+</table>
 
-![Choose a replacement within the cost limit](../../screenshots/forge-gains-a-cheaper-card-before-doreios-offers-his-separate-choice/002-gain-choice-desktop-darwin.png)
+<details>
+<summary>Tabletop · 3840 × 2160 — expand screenshot</summary>
+
+<a href="../../screenshots/forge-gains-a-cheaper-card-before-doreios-offers-his-separate-choice/002-gain-choice-tabletop-4k-darwin.png"><img src="../../screenshots/forge-gains-a-cheaper-card-before-doreios-offers-his-separate-choice/002-gain-choice-tabletop-4k-darwin.png" alt="Choose a replacement within the cost limit — tabletop-4k" width="960"></a>
+
+</details>
 
 - [x] The gain uses actual nonempty supply piles and sends the card to discard.
 
 ## A cheaper card is a legal gain
 
-[phone](../../screenshots/forge-gains-a-cheaper-card-before-doreios-offers-his-separate-choice/003-gain-selected-phone-darwin.png) · [desktop](../../screenshots/forge-gains-a-cheaper-card-before-doreios-offers-his-separate-choice/003-gain-selected-desktop-darwin.png) · [tabletop-4k](../../screenshots/forge-gains-a-cheaper-card-before-doreios-offers-his-separate-choice/003-gain-selected-tabletop-4k-darwin.png)
+<table>
+<tr><th>Desktop · 1440 × 1000</th><th>Phone · 393 × 852</th></tr>
+<tr>
+<td valign="top"><a href="../../screenshots/forge-gains-a-cheaper-card-before-doreios-offers-his-separate-choice/003-gain-selected-desktop-darwin.png"><img src="../../screenshots/forge-gains-a-cheaper-card-before-doreios-offers-his-separate-choice/003-gain-selected-desktop-darwin.png" alt="A cheaper card is a legal gain — desktop" width="720"></a></td>
+<td valign="top"><a href="../../screenshots/forge-gains-a-cheaper-card-before-doreios-offers-his-separate-choice/003-gain-selected-phone-darwin.png"><img src="../../screenshots/forge-gains-a-cheaper-card-before-doreios-offers-his-separate-choice/003-gain-selected-phone-darwin.png" alt="A cheaper card is a legal gain — phone" width="240"></a></td>
+</tr>
+</table>
 
-![A cheaper card is a legal gain](../../screenshots/forge-gains-a-cheaper-card-before-doreios-offers-his-separate-choice/003-gain-selected-desktop-darwin.png)
+<details>
+<summary>Tabletop · 3840 × 2160 — expand screenshot</summary>
+
+<a href="../../screenshots/forge-gains-a-cheaper-card-before-doreios-offers-his-separate-choice/003-gain-selected-tabletop-4k-darwin.png"><img src="../../screenshots/forge-gains-a-cheaper-card-before-doreios-offers-his-separate-choice/003-gain-selected-tabletop-4k-darwin.png" alt="A cheaper card is a legal gain — tabletop-4k" width="960"></a>
+
+</details>
 
 - [x] A cost-zero Obol can replace the trashed card without spending a Buy.
 
 ## Finish Doreios’s blessing
 
-[phone](../../screenshots/forge-gains-a-cheaper-card-before-doreios-offers-his-separate-choice/004-leader-choice-phone-darwin.png) · [desktop](../../screenshots/forge-gains-a-cheaper-card-before-doreios-offers-his-separate-choice/004-leader-choice-desktop-darwin.png) · [tabletop-4k](../../screenshots/forge-gains-a-cheaper-card-before-doreios-offers-his-separate-choice/004-leader-choice-tabletop-4k-darwin.png)
+<table>
+<tr><th>Desktop · 1440 × 1000</th><th>Phone · 393 × 852</th></tr>
+<tr>
+<td valign="top"><a href="../../screenshots/forge-gains-a-cheaper-card-before-doreios-offers-his-separate-choice/004-leader-choice-desktop-darwin.png"><img src="../../screenshots/forge-gains-a-cheaper-card-before-doreios-offers-his-separate-choice/004-leader-choice-desktop-darwin.png" alt="Finish Doreios’s blessing — desktop" width="720"></a></td>
+<td valign="top"><a href="../../screenshots/forge-gains-a-cheaper-card-before-doreios-offers-his-separate-choice/004-leader-choice-phone-darwin.png"><img src="../../screenshots/forge-gains-a-cheaper-card-before-doreios-offers-his-separate-choice/004-leader-choice-phone-darwin.png" alt="Finish Doreios’s blessing — phone" width="240"></a></td>
+</tr>
+</table>
 
-![Finish Doreios’s blessing](../../screenshots/forge-gains-a-cheaper-card-before-doreios-offers-his-separate-choice/004-leader-choice-desktop-darwin.png)
+<details>
+<summary>Tabletop · 3840 × 2160 — expand screenshot</summary>
+
+<a href="../../screenshots/forge-gains-a-cheaper-card-before-doreios-offers-his-separate-choice/004-leader-choice-tabletop-4k-darwin.png"><img src="../../screenshots/forge-gains-a-cheaper-card-before-doreios-offers-his-separate-choice/004-leader-choice-tabletop-4k-darwin.png" alt="Finish Doreios’s blessing — tabletop-4k" width="960"></a>
+
+</details>
 
 - [x] The leader offers a separate optional trash only after the gain.
 
 ## Return to the table with the replacement
 
-[phone](../../screenshots/forge-gains-a-cheaper-card-before-doreios-offers-his-separate-choice/005-forge-finished-phone-darwin.png) · [desktop](../../screenshots/forge-gains-a-cheaper-card-before-doreios-offers-his-separate-choice/005-forge-finished-desktop-darwin.png) · [tabletop-4k](../../screenshots/forge-gains-a-cheaper-card-before-doreios-offers-his-separate-choice/005-forge-finished-tabletop-4k-darwin.png)
+<table>
+<tr><th>Desktop · 1440 × 1000</th><th>Phone · 393 × 852</th></tr>
+<tr>
+<td valign="top"><a href="../../screenshots/forge-gains-a-cheaper-card-before-doreios-offers-his-separate-choice/005-forge-finished-desktop-darwin.png"><img src="../../screenshots/forge-gains-a-cheaper-card-before-doreios-offers-his-separate-choice/005-forge-finished-desktop-darwin.png" alt="Return to the table with the replacement — desktop" width="720"></a></td>
+<td valign="top"><a href="../../screenshots/forge-gains-a-cheaper-card-before-doreios-offers-his-separate-choice/005-forge-finished-phone-darwin.png"><img src="../../screenshots/forge-gains-a-cheaper-card-before-doreios-offers-his-separate-choice/005-forge-finished-phone-darwin.png" alt="Return to the table with the replacement — phone" width="240"></a></td>
+</tr>
+</table>
 
-![Return to the table with the replacement](../../screenshots/forge-gains-a-cheaper-card-before-doreios-offers-his-separate-choice/005-forge-finished-desktop-darwin.png)
+<details>
+<summary>Tabletop · 3840 × 2160 — expand screenshot</summary>
+
+<a href="../../screenshots/forge-gains-a-cheaper-card-before-doreios-offers-his-separate-choice/005-forge-finished-tabletop-4k-darwin.png"><img src="../../screenshots/forge-gains-a-cheaper-card-before-doreios-offers-his-separate-choice/005-forge-finished-tabletop-4k-darwin.png" alt="Return to the table with the replacement — tabletop-4k" width="960"></a>
+
+</details>
 
 - [x] Both choices are complete and the Action turn continues.

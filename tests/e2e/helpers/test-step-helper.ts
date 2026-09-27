@@ -3,6 +3,7 @@ import { mkdirSync, writeFileSync, readFileSync, existsSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { assertScreenFit } from './screen-fit';
 import { identicalPixels } from './exact-pixels';
+import { renderStoryImages } from './story-images';
 
 export const OPERATION_BUDGET = 2_000;
 type Verification = { spec: string; check: () => Promise<unknown> };
@@ -90,8 +91,8 @@ export class TestStepHelper {
         }
         expect(performance.now()-start,`Capture exceeded 2,000 ms: preparation ${Math.round(prepared-start)} (ack ${Math.round(acknowledged-start)}, foreground ${Math.round(foreground-acknowledged)}, assets/animations ${Math.round(ready-foreground)} ${JSON.stringify(assetTimings)}, layout ${Math.round(prepared-ready)}), image ${Math.round(photographed-prepared)}, comparison ${Math.round(performance.now()-photographed)}`).toBeLessThanOrEqual(OPERATION_BUDGET);
       },{timeout:OPERATION_BUDGET});
-      const views=['phone','desktop','tabletop-4k'].map(project=>`[${project}](../../screenshots/${story.slug}/${stem}-${project}-darwin.png)`).join(' · ');
-      story.steps.push(`## ${description}\n\n${view.player?`Viewpoint: **${view.player}**.\n\n`:''}${views}\n\n![${description}](../../screenshots/${story.slug}/${stem}-desktop-darwin.png)\n\n${verifications.map(item=>`- [x] ${item.spec}`).join('\n')}`);
+      const views=renderStoryImages(story.slug,stem,description);
+      story.steps.push(`## ${description}\n\n${view.player?`Viewpoint: **${view.player}**.\n\n`:''}${views}\n\n${verifications.map(item=>`- [x] ${item.spec}`).join('\n')}`);
     });
   }
   generateDocs(){/* Shared fixture writes once, after the complete test passes. */}

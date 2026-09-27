@@ -4,8 +4,19 @@ Recorded-history integration scenario. A legal event history prepares the starti
 
 ## An empty pile remains visible
 
-[phone](../../screenshots/empty-piles-stay-inspectable-and-optional-action-departure-can-be-cancelled/000-empty-pile-phone-darwin.png) · [desktop](../../screenshots/empty-piles-stay-inspectable-and-optional-action-departure-can-be-cancelled/000-empty-pile-desktop-darwin.png) · [tabletop-4k](../../screenshots/empty-piles-stay-inspectable-and-optional-action-departure-can-be-cancelled/000-empty-pile-tabletop-4k-darwin.png)
+<table>
+<tr><th>Desktop · 1440 × 1000</th><th>Phone · 393 × 852</th></tr>
+<tr>
+<td valign="top"><a href="../../screenshots/empty-piles-stay-inspectable-and-optional-action-departure-can-be-cancelled/000-empty-pile-desktop-darwin.png"><img src="../../screenshots/empty-piles-stay-inspectable-and-optional-action-departure-can-be-cancelled/000-empty-pile-desktop-darwin.png" alt="An empty pile remains visible — desktop" width="720"></a></td>
+<td valign="top"><a href="../../screenshots/empty-piles-stay-inspectable-and-optional-action-departure-can-be-cancelled/000-empty-pile-phone-darwin.png"><img src="../../screenshots/empty-piles-stay-inspectable-and-optional-action-departure-can-be-cancelled/000-empty-pile-phone-darwin.png" alt="An empty pile remains visible — phone" width="240"></a></td>
+</tr>
+</table>
 
-![An empty pile remains visible](../../screenshots/empty-piles-stay-inspectable-and-optional-action-departure-can-be-cancelled/000-empty-pile-desktop-darwin.png)
+<details>
+<summary>Tabletop · 3840 × 2160 — expand screenshot</summary>
+
+<a href="../../screenshots/empty-piles-stay-inspectable-and-optional-action-departure-can-be-cancelled/000-empty-pile-tabletop-4k-darwin.png"><img src="../../screenshots/empty-piles-stay-inspectable-and-optional-action-departure-can-be-cancelled/000-empty-pile-tabletop-4k-darwin.png" alt="An empty pile remains visible — tabletop-4k" width="960"></a>
+
+</details>
 
 - [x] The card is inspectable but its Buy control explains that the pile is empty.

@@ -81,7 +81,7 @@ await steps.step('treasure-phase', 'Ariadne can play wealth from her hand', [
 
 This example assumes the fixed starting hand has no Actions, so there is no optional-Action confirmation. A story with that confirmation must photograph and resolve it explicitly. Do not use a helper that silently accepts whichever dialog happens to appear.
 
-Import `test` and `expect` from `helpers/fixtures`, not directly from Playwright, for illustrated stories. The fixture writes one complete README only after the test passes. All helpers in that test share an ordered step sequence. Use the step’s view options (`page`, `player`, and expected `status`) for observer and recovery captures; `document: true` identifies a scrolling reference page. Every generated step links phone, desktop, and 4K images. Do not write a competing README from a second helper or test.
+Import `test` and `expect` from `helpers/fixtures`, not directly from Playwright, for illustrated stories. The fixture writes one complete README only after the test passes. All helpers in that test share an ordered step sequence. Use the step’s view options (`page`, `player`, and expected `status`) for observer and recovery captures; `document: true` identifies a scrolling reference page. Every generated step displays desktop and phone screenshots side by side, with clickable full-resolution images and an expandable inline 4K view. Keep these images beside their caption, viewpoint, and assertions so reviewers can evaluate the sequence without leaving the story. Do not write a competing README from a second helper or test.
 
 ## 4. Show the flow, not just its checkpoints
 
@@ -175,6 +175,7 @@ For each new or changed step, `FIDELITY.md` links the applicable UX painting and
 From the repository root:
 
 ```sh
+bun run test:policy
 bun run check
 bun run test:backend
 bun run test:e2e
@@ -193,7 +194,21 @@ When an intentional visual change requires new baselines:
 
 
 
-## 10. Review checklist
+## 10. Fast hooks and required CI
+
+`bun install` installs the versioned `.githooks` through the package's prepare script. Existing checkouts can run `node scripts/install-hooks.mjs`. Installation sets this checkout's `core.hooksPath` to `.githooks`.
+
+- **Pre-commit:** checks the staged index, including partially staged files.
+- **Pre-push:** checks each pushed commit's complete tree, independent of working-tree or index changes. Deleted refs need no check.
+- **CI:** runs `bun run test:policy` before emulator/browser installation. This includes the policy checker, deliberate-violation regression tests, selected-tree tests, and generated-story image/link checks. Full backend and browser verification follows. The `verify` status is required before merging into `main`.
+
+Hooks scan text sources only; they do not render screenshots or start browsers/emulators. They reject excessive, disabled, or unknown operation timeouts, sleeps, `networkidle`, retries, nonzero screenshot tolerances, direct screenshot bypasses, unbounded additional player contexts, and removal of the shared capture/clipping/exact-comparison guards. The only larger budgets are explicitly recognized whole-story and server-startup budgets; they cannot extend an operation deadline.
+
+The shared capture implementation has structural guard checks as well as syntax checks. Changes to that implementation may require updating its structural checks and their negative tests together; never delete a guard merely to pass a hook. Test policy changes must demonstrate rejection of weakened rules. Local hooks can be bypassed by Git options; required CI is the merge gate. These checks prevent accidental regression, not a deliberate rewrite of the guard itself.
+
+Story rendering is centralized in `helpers/story-images.ts`. Presentation-only migrations can run `bun scripts/refresh-story-images.ts` against already passed stories without regenerating PNG baselines. New gameplay steps still require the full story run and reviewed captures.
+
+## 11. Review checklist
 
 - Every meaningful choice and result appears in the generated sequence with the correct caption and player viewpoint.
 - Ordinary journeys use real UI setup and a fixed, explicit plan; injected-history integration and recovery coverage are labelled separately.
