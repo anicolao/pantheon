@@ -9,6 +9,7 @@ export default defineConfig({
   grep: process.env.E2E_STORY_FILTER ? new RegExp(process.env.E2E_STORY_FILTER) : undefined,
   forbidOnly: true,
   retries: 0,
+  updateSnapshots: 'none',
   timeout: 60_000,
   // Isolate software rasterization so each capture owns its two-second CPU budget.
   workers: 1,

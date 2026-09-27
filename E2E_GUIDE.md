@@ -158,7 +158,7 @@ Every screenshot must check component and text bounds, including clipping by anc
 
 ## 8. Configuration and visual review
 
-Keep Chromium software rendering and lossless PNG capture. The shared helper uses Chromium’s fast PNG encoding without changing any pixels; exact comparison remains zero-tolerance. Run one browser worker so simultaneous 4K rendering cannot consume another capture’s budget. Keep DPR 1, `en-CA` locale, `America/Toronto` timezone, and these projects:
+Keep Chromium software rendering and lossless PNG capture. The shared helper uses Chromium’s fast PNG encoding and native decoding, then compares every RGBA byte without changing any pixels. A mismatch retains Playwright’s image-diff report. Explicit baseline generation writes the captured PNG; it is never a verification pass. Run one browser worker so simultaneous 4K rendering cannot consume another capture’s budget. Keep DPR 1, `en-CA` locale, `America/Toronto` timezone, and these projects:
 
 | Project | Viewport |
 | --- | --- |

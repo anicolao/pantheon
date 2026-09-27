@@ -1,7 +1,8 @@
 import { expect, test, type Page, type TestInfo, type CDPSession } from '@playwright/test';
-import { mkdirSync, writeFileSync } from 'node:fs';
+import { mkdirSync, writeFileSync, readFileSync, existsSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { assertScreenFit } from './screen-fit';
+import { identicalPixels } from './exact-pixels';
 
 export const OPERATION_BUDGET = 2_000;
 type Verification = { spec: string; check: () => Promise<unknown> };
@@ -52,7 +53,18 @@ export class TestStepHelper {
         try { const result=await camera.send('Page.captureScreenshot',{format:'png',fromSurface:true,captureBeyondViewport:false,optimizeForSpeed:true});capture=Buffer.from(result.data,'base64'); }
         finally { await caret.evaluate(node=>node.parentNode!.removeChild(node)); }
         const photographed=performance.now();
-        expect(capture).toMatchSnapshot([story.slug,`${stem}-${this.info.project.name}-${process.platform}.png`],{maxDiffPixels:0,threshold:0});
+        const name=[story.slug,`${stem}-${this.info.project.name}-${process.platform}.png`],baseline=this.info.snapshotPath(...name);
+        if(['all','changed'].includes(this.info.config.updateSnapshots)){
+          // Explicit generation is never verification; review and compare in a separate run.
+          mkdirSync(dirname(baseline),{recursive:true});writeFileSync(baseline,capture);
+        }else{
+          const same=existsSync(baseline)&&await identicalPixels(capture,readFileSync(baseline));
+          if(!same){
+            // Keep Playwright's expected/actual/diff report on failures.
+            expect(capture).toMatchSnapshot(name,{maxDiffPixels:0,threshold:0});
+            expect(same,'Every decoded RGBA byte must equal the reviewed baseline').toBe(true);
+          }
+        }
         expect(performance.now()-start,`Capture exceeded 2,000 ms: preparation ${Math.round(prepared-start)}, image ${Math.round(photographed-prepared)}, comparison ${Math.round(performance.now()-photographed)}`).toBeLessThanOrEqual(OPERATION_BUDGET);
       },{timeout:OPERATION_BUDGET});
       const views=['phone','desktop','tabletop-4k'].map(project=>`[${project}](../../screenshots/${story.slug}/${stem}-${project}-darwin.png)`).join(' · ');
