@@ -50,7 +50,7 @@ test('all 30 v0.1 cards render complete rules and generated artwork', async ({ p
   ]);
   expect(await page.locator('[data-card-id="merchant-fleet"] .visual-rule').innerText()).not.toMatch(/[a-z]/i);
   expect(failures).toEqual([]);
-  await new TestStepHelper(page,testInfo,'Card catalog').step('catalog','Read the complete card catalog',[],{document:true});
+  await new TestStepHelper(page,testInfo,'Card catalog').step('catalog','Open the card catalog and its filters',[],{document:true});
 });
 
 test('frames expose real windows fully covered by colored fills, with artwork below metadata', async ({ page }) => {
@@ -140,7 +140,7 @@ test('copy totals follow setup and three back families keep deck identity hidden
     const tab=page.getByRole('group',{name:'Filter by card type'}).getByRole('button',{name:new RegExp(`^${filter}`)});
     await tab.click();await expect(tab).toHaveAttribute('aria-pressed','true');
     await page.locator(`.card-item[data-format="${format}"]`).first().evaluate(node=>node.scrollIntoView({block:'start'}));
-    await backSteps.step(`backs-${format}`,`Read the ${label.toLowerCase()} card backs`,[{spec:`${label} backs are visible at the chosen gallery scale.`,check:async()=>expect(page.getByRole('img',{name:`${label} card back`,exact:true}).first()).toBeInViewport()}],{document:true});
+    await backSteps.step(`backs-${format}`,`Read the ${label.toLowerCase()} card backs`,[{spec:`${label} backs are visible at the chosen gallery scale.`,check:async()=>expect(page.getByRole('img',{name:`${label} card back`,exact:true}).first()).toBeInViewport({ratio:1})}],{document:true});
   }
   await page.getByRole('checkbox', { name: 'Show backs', exact: true }).uncheck();
   await page.getByRole('group',{name:'Filter by card type'}).getByRole('button',{name:/^All cards/}).click();
