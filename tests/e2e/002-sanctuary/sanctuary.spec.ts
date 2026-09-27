@@ -1,7 +1,10 @@
-import { expect, test } from '@playwright/test';
+import { roomCodeFixture } from '../helpers/room-code-fixture';
+import { newPlayerContext } from '../helpers/players';
+import { test, expect } from '../helpers/fixtures';
 import { TestStepHelper } from '../helpers/test-step-helper';
 
 const pointer = 'pantheon:return-table';
+test.beforeEach(async({page},info)=>{await roomCodeFixture(page,info);});
 
 test('enter the sanctuary, learn, create and continue a real table', async ({ page }, info) => {
   const errors: string[] = [];
@@ -35,17 +38,21 @@ test('enter the sanctuary, learn, create and continue a real table', async ({ pa
   await page.getByRole('link', { name: 'Learn', exact: true }).click();
   await expect(page).toHaveURL(/\/rules\/$/);
   await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
+  await steps.step('learn','Open the illustrated rules',[{spec:'Learn opens the actual rules document.',check:async()=>expect(page.getByRole('heading',{level:1})).toHaveText('How to play')}],{document:true,player:'Ariadne'});
   await page.goBack();
+  await steps.step('back-to-sanctuary','Return from reading to the sanctuary',[{spec:'Play remains available.',check:async()=>expect(page.getByRole('link',{name:'Play',exact:true})).toBeVisible()}]);
   await page.getByRole('link', { name: 'Play', exact: true }).click();
+  await steps.step('gathering','Play opens the gathering choices',[{spec:'Create and join are both available.',check:async()=>expect(page.getByRole('button',{name:'Join a game',exact:true})).toBeEnabled()}],{status:'synced'});
   await page.getByLabel('Your name').fill('Ariadne');
   await page.getByRole('button', { name: 'Create table' }).click();
   await expect(page.getByTestId('player-seat')).toHaveCount(1);
   await expect(page.locator('[data-status]')).toHaveAttribute('data-status', 'synced');
   const table = page.url();
+  await steps.step('created','Ariadne takes her seat at a new table',[{spec:'The new table shows the named host.',check:async()=>expect(page.getByTestId('player-seat')).toContainText('Ariadne')}],{status:'synced'});
   await expect.poll(() => page.evaluate(key => localStorage.getItem(key), pointer)).not.toBeNull();
   await page.locator('header > a').click();
   await steps.step('returning', 'Return to the sanctuary with a table waiting', [
-    { spec: 'Continue appears only after the server confirms membership.', check: async () => expect(page.getByRole('link', { name: 'Continue', exact: true })).toBeVisible() },
+    { spec: 'Continue appears only after membership is confirmed.', check: async () => expect(page.getByRole('link', { name: 'Continue', exact: true })).toBeVisible() },
     { spec: 'Play, Continue and Learn retain their visual hierarchy.', check: async () => expect(page.getByRole('navigation').getByRole('link')).toHaveText(['Play', 'Continue', 'Learn']) }
   ]);
   await page.getByRole('link', { name: 'Continue', exact: true }).click();
@@ -53,6 +60,7 @@ test('enter the sanctuary, learn, create and continue a real table', async ({ pa
   await expect(page.getByTestId('player-seat')).toHaveCount(1);
   await expect(page.getByTestId('player-seat')).toContainText('Ariadne');
   await expect(page.getByTestId('latest-activity')).toHaveText('Ariadne created the table.');
+  await steps.step('continued','Continue restores Ariadne’s existing seat',[{spec:'The same table has one seat, without another creation.',check:async()=>expect(page.getByTestId('player-seat')).toHaveCount(1)}],{status:'synced'});
   await page.reload();
   await expect(page.getByTestId('player-seat')).toHaveCount(1);
   await page.locator('header > a').click();
@@ -67,7 +75,7 @@ test('unavailable and unrelated table pointers cannot offer Continue', async ({ 
   await page.getByRole('button', { name: 'Create table' }).click();
   await expect.poll(() => page.evaluate(key => localStorage.getItem(key), pointer)).not.toBeNull();
   const remembered = await page.evaluate(key => JSON.parse(localStorage.getItem(key)!), pointer);
-  const guest = await browser.newContext();
+  const guest = await newPlayerContext(browser);
   try {
     const other = await guest.newPage();
     await other.goto(new URL('./play/', test.info().project.use.baseURL).href);
@@ -95,7 +103,7 @@ test('arrival has a finite animation and respects reduced motion', async ({ page
   await page.emulateMedia({ reducedMotion: 'no-preference' });
   await page.goto('./');
   await expect(page.locator('.arrival')).toHaveCSS('animation-duration', '0.45s');
-  await page.evaluate(async () => { await Promise.all(document.getAnimations().map(animation => animation.finished)); });
+  await test.step('Arrival animation completes',()=>page.evaluate(async()=>{await Promise.all(document.getAnimations().map(animation=>animation.finished));}),{timeout:2_000});
   await expect(page.locator('.arrival')).toHaveCSS('opacity', '1');
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await expect(page.locator('.arrival')).toHaveCSS('animation-name', 'none');
@@ -122,4 +130,5 @@ test('a connection interruption retains the return target and offers a real retr
   await page.getByRole('button', { name: 'Try again' }).click();
   await expect(page.getByRole('link', { name: 'Continue', exact: true })).toBeVisible();
   await expect(page.getByRole('button', { name: 'Try again' })).toHaveCount(0);
+  await steps.step('recovered','Ariadne can continue after reconnecting',[{spec:'Recovery restores Continue for the same table.',check:async()=>expect(page.getByRole('link',{name:'Continue',exact:true})).toBeVisible()}]);
 });

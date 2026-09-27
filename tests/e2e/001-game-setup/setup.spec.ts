@@ -1,4 +1,5 @@
-import { expect, test } from '@playwright/test';
+import { newPlayerContext } from '../helpers/players';
+import { test, expect } from '../helpers/fixtures';
 import { roomCodeFixture } from '../helpers/room-code-fixture';
 import { TestStepHelper } from '../helpers/test-step-helper';
 
@@ -20,6 +21,7 @@ test('gather two players, share an invitation and return to the same seats', asy
   await page.getByRole('button', { name: 'Create table', exact: true }).click();
   await expect(page.getByRole('alert')).toHaveText('Choose a name.');
   await expect(page.getByLabel('Your name', { exact: true })).toBeFocused();
+  await steps.step('name-required','Ariadne is prompted to choose a name',[{spec:'The empty name keeps her at the gathering.',check:async()=>expect(page.getByRole('alert')).toHaveText('Choose a name.')}]);
   await page.getByLabel('Your name', { exact: true }).fill('Ariadne');
   await page.keyboard.press('Enter');
   await steps.step('created', 'Take your seat at a two-player table', [
@@ -40,15 +42,18 @@ test('gather two players, share an invitation and return to the same seats', asy
   await page.getByRole('button', { name: 'Copy invitation', exact: true }).click();
   await expect(page.getByRole('button', { name: 'Invitation copied' })).toBeVisible();
   expect(await page.evaluate(() => navigator.clipboard.readText())).toBe(invitation);
+  await steps.step('invitation-copied','Ariadne has copied the invitation',[{spec:'Copying has a visible confirmation.',check:async()=>expect(page.getByRole('button',{name:'Invitation copied'})).toBeVisible()}]);
   await page.getByRole('button', { name: 'Close', exact: true }).click();
   await expect(page.getByRole('button', { name: 'Invite friends', exact: true })).toBeFocused();
-  const guest = await browser.newContext({ viewport: info.project.use.viewport, reducedMotion: 'reduce' });
+  const guest = await newPlayerContext(browser, { viewport: info.project.use.viewport, reducedMotion: 'reduce' });
   try {
     const other = await guest.newPage();
     await other.goto(invitation);
+    await steps.step('guest-invitation','Theseus opens the invitation before joining',[{spec:'The invitation offers a name and Join table.',check:async()=>expect(other.getByRole('button',{name:'Join table',exact:true})).toBeEnabled()}],{page:other,player:'Theseus'});
     await other.getByLabel('Your name', { exact: true }).fill('Theseus');
     await other.getByRole('button', { name: 'Join table', exact: true }).click();
     await expect(other.getByTestId('player-seat')).toHaveCount(2);
+    await steps.step('guest-joined','Theseus recognizes his own seat',[{spec:'The guest sees both players and his own identity.',check:async()=>expect(other.getByTestId('player-seat').last()).toContainText('You')}],{page:other,player:'Theseus'});
     await steps.step('joined', 'Welcome another player to the table', [
       { spec: 'The remote arrival fills the second seat and names the action once.', check: async () => { await expect(page.getByTestId('player-seat')).toHaveCount(2); await expect(page.getByTestId('latest-activity')).toHaveText('Theseus joined the table.'); await expect(page.getByText('2 players · Everyone is here')).toBeVisible(); } }
     ]);
@@ -63,6 +68,7 @@ test('gather two players, share an invitation and return to the same seats', asy
     await ready(other);
     await expect(other.getByTestId('player-seat')).toHaveCount(2);
     await expect(other.getByTestId('player-seat').last()).toContainText('You');
+    await steps.step('guest-restored','Theseus returns to the same seat',[{spec:'Returning restores membership without joining again.',check:async()=>expect(other.getByTestId('player-seat')).toHaveCount(2)}],{page:other,player:'Theseus'});
     expect(errors).toEqual([]);
     steps.generateDocs();
   } finally { await guest.close(); }
@@ -83,20 +89,21 @@ test('four seats fill through ordered remote arrivals and respect reduced motion
   await page.getByRole('radio', { name: '4 players', exact: true }).check();
   await page.getByRole('button', { name: 'Create table', exact: true }).click();
   await expect(page.getByTestId('player-seat')).toHaveCount(1);
-  await page.evaluate(async () => { await Promise.all(document.getAnimations().map(a => a.finished)); (window as unknown as { motions: number[] }).motions = []; });
+  await test.step('Seat animations complete',()=>page.evaluate(async()=>{await Promise.all(document.getAnimations().map(a=>a.finished));(window as unknown as {motions:number[]}).motions=[];}),{timeout:2_000});
   const guests = [];
+  const steps = new TestStepHelper(page, info, 'Four-player gathering');
   try {
     for (const name of ['Theseus', 'Iris', 'Leon']) {
-      const context = await browser.newContext(); guests.push(context);
+      const context = await newPlayerContext(browser); guests.push(context);
       const other = await context.newPage();
       await other.goto(page.url());
       await other.getByLabel('Your name', { exact: true }).fill(name);
       await other.getByRole('button', { name: 'Join table', exact: true }).click();
       await expect(page.getByTestId('player-seat')).toHaveCount(guests.length + 1);
       await expect(page.getByTestId('latest-activity')).toHaveText(`${name} joined the table.`);
+      await steps.step(`joined-${name.toLowerCase()}`,`${name} arrives at the table`,[{spec:'The new seat and named arrival are visible.',check:async()=>expect(page.getByTestId('player-seat')).toHaveCount(guests.length+1)}],{player:'Ariadne'});
     }
     await expect.poll(() => page.evaluate(() => (window as unknown as { motions: number[] }).motions.filter(n => n === 450).length)).toBe(6);
-    const steps = new TestStepHelper(page, info, 'Four-player gathering');
     await steps.step('four-player', 'Gather all four players', [
       { spec: 'Every player has a named medallion, and all seats are filled.', check: async () => { await expect(page.getByTestId('player-seat')).toHaveCount(4); await expect(page.getByText('Waiting for a player')).toHaveCount(0); } }
     ]);
@@ -135,6 +142,7 @@ test('three-player gathering provides a selectable invitation when copying is un
   await page.getByRole('button', { name: 'Copy invitation', exact: true }).click();
   const input = page.getByLabel('Your invitation', { exact: true });
   await expect(input).toHaveValue(page.url()); await expect(input).toBeFocused();
+  await steps.step('selectable-invitation','Select the invitation when copying is unavailable',[{spec:'The full invitation remains selectable and focused.',check:async()=>expect(input).toHaveValue(page.url())}]);
   expect(await input.evaluate((element: HTMLInputElement) => element.selectionEnd! - element.selectionStart!)).toBe(page.url().length);
   await page.keyboard.press('Escape');
   await expect(page.getByRole('button', { name: 'Invite friends', exact: true })).toBeFocused();
@@ -145,9 +153,9 @@ test('full and missing invitations offer working recovery paths', async ({ page,
   await page.getByRole('button', { name: 'Create table', exact: true }).click(); await expect(page.getByTestId('player-seat')).toHaveCount(1);
   const url = page.url(); const contexts = [];
   try {
-    const guest = await browser.newContext(); contexts.push(guest); const other = await guest.newPage(); await other.goto(url);
+    const guest = await newPlayerContext(browser); contexts.push(guest); const other = await guest.newPage(); await other.goto(url);
     await other.getByLabel('Your name', { exact: true }).fill('Theseus'); await other.getByRole('button', { name: 'Join table', exact: true }).click(); await expect(other.getByTestId('player-seat')).toHaveCount(2);
-    const outsider = await browser.newContext({ viewport: info.project.use.viewport, reducedMotion: 'reduce' }); contexts.push(outsider);
+    const outsider = await newPlayerContext(browser, { viewport: info.project.use.viewport, reducedMotion: 'reduce' }); contexts.push(outsider);
     const rejected = await outsider.newPage(); await rejected.goto(url);
     const steps = new TestStepHelper(rejected, info, 'Invitation recovery');
     await steps.step('full', 'Find a new gathering when every seat is taken', [
@@ -176,6 +184,7 @@ test('a gathering retains its seats across an interruption', async ({ page, cont
     { spec: 'The table stays recognizable and a real retry is available.', check: async () => { await expect(page.getByRole('status')).toContainText('Your place is kept.'); await expect(page.getByTestId('player-seat')).toHaveCount(1); } }
   ]);
   await context.setOffline(false); await ready(page);
+  await steps.step('connection-restored','Ariadne returns to her gathering',[{spec:'Recovery preserves her one seat.',check:async()=>expect(page.getByTestId('player-seat')).toHaveCount(1)}],{status:'synced'});
   await expect(page.getByTestId('player-seat')).toHaveCount(1);
   await expect(page.getByTestId('latest-activity')).toHaveText('Ariadne created the table.');
 });
@@ -183,7 +192,7 @@ test('a gathering retains its seats across an interruption', async ({ page, cont
 test('two guests competing for the last seat cannot overfill the table', async ({ page, browser }) => {
   await page.goto('./play/'); await page.getByLabel('Your name', { exact: true }).fill('Ariadne');
   await page.getByRole('button', { name: 'Create table', exact: true }).click(); await expect(page.getByTestId('player-seat')).toHaveCount(1);
-  const contexts = await Promise.all([browser.newContext(), browser.newContext()]);
+  const contexts = await Promise.all([newPlayerContext(browser), newPlayerContext(browser)]);
   try {
     const guests = await Promise.all(contexts.map(context => context.newPage()));
     await Promise.all(guests.map(async (guest, i) => { await guest.goto(page.url()); await guest.getByLabel('Your name', { exact: true }).fill(['Theseus', 'Iris'][i]); }));
@@ -217,7 +226,7 @@ test('join by a displayed game code and let only the owner adjust occupied capac
   const code = await page.getByTestId('room-code').innerText();
   expect(code).toMatch(/^[A-Z]{5}$/);
   expect(new URL(page.url()).searchParams.get('room')).toBe(code);
-  const guest = await browser.newContext({ viewport: info.project.use.viewport, reducedMotion: 'reduce' });
+  const guest = await newPlayerContext(browser, { viewport: info.project.use.viewport, reducedMotion: 'reduce' });
   try {
     const other = await guest.newPage();
     await other.goto(new URL('./', info.project.use.baseURL).href);
@@ -229,14 +238,17 @@ test('join by a displayed game code and let only the owner adjust occupied capac
     ]);
     await other.getByRole('button', { name: 'Find table', exact: true }).click();
     await expect(other.getByRole('alert')).toHaveText('Enter a four- or five-letter game code.');
+    await joinSteps.step('invalid-code','Theseus sees how to correct the game code',[{spec:'The dialog explains the required code.',check:async()=>expect(other.getByRole('alert')).toHaveText('Enter a four- or five-letter game code.')}],{player:'Theseus'});
     await other.getByLabel('Game code', { exact: true }).fill(code.toLowerCase());
     await other.getByRole('button', { name: 'Find table', exact: true }).click();
     await expect(other.getByTestId('room-code')).toHaveText(code);
+    await joinSteps.step('found-table','Theseus finds the named gathering',[{spec:'The displayed code matches the host’s invitation.',check:async()=>expect(other.getByTestId('room-code')).toHaveText(code)}],{player:'Theseus'});
     await other.getByLabel('Your name', { exact: true }).fill('Theseus');
     await other.getByRole('button', { name: 'Join table', exact: true }).click();
     await expect(other.getByTestId('player-seat')).toHaveCount(2);
     await other.getByRole('button', { name: 'Table details' }).click();
     await expect(other.getByRole('radio')).toHaveCount(0);
+    await joinSteps.step('guest-details','Guests can read the supply but cannot change capacity',[{spec:'The guest details contain no capacity controls.',check:async()=>expect(other.getByRole('radio')).toHaveCount(0)}],{player:'Theseus'});
     await other.keyboard.press('Escape');
     await page.getByRole('button', { name: 'Table details' }).click();
     await page.getByRole('radio', { name: '4 players', exact: true }).check();
@@ -246,11 +258,12 @@ test('join by a displayed game code and let only the owner adjust occupied capac
     await steps.step('host-capacity', 'Open more seats at the table', [
       { spec: 'The owner changes the supply and seats for everyone.', check: async () => expect(page.getByRole('radio', { name: '4 players', exact: true })).toBeChecked() }
     ]);
+    await steps.step('remote-capacity','Theseus sees the two new open seats',[{spec:'The owner’s change reaches the other player.',check:async()=>expect(other.getByText('Waiting for a player')).toHaveCount(2)}],{page:other,player:'Theseus'});
     await page.getByRole('radio', { name: '2 players', exact: true }).check();
     await expect(other.getByText('2 players · Everyone is here')).toBeVisible();
     await page.getByRole('radio', { name: '3 players', exact: true }).check();
     await expect(other.getByText('Waiting for a player')).toHaveCount(1);
-    const third = await browser.newContext();
+    const third = await newPlayerContext(browser);
     try {
       const visitor = await third.newPage(); await visitor.goto(page.url());
       await visitor.getByLabel('Your name', { exact: true }).fill('Iris');
@@ -270,7 +283,7 @@ test('a lost creation acknowledgement recovers the same code without another eve
   let lost = false;
   await context.route(url => url.pathname.endsWith('/documents:commit'), async route => {
     if (lost) { await route.continue(); return; }
-    const response = await route.fetch();
+    const response = await route.fetch({timeout:2_000});
     expect(response.ok()).toBe(true);
     lost = true;
     // The emulator committed the real transaction; only its response is lost.

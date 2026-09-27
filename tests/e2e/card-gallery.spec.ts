@@ -1,9 +1,11 @@
-import { expect, test, type Page } from '@playwright/test';
+import type { Page } from '@playwright/test';
+import { expect, test } from './helpers/fixtures';
+import { TestStepHelper } from './helpers/test-step-helper';
 import { cards } from '../../src/lib/game/cards';
 import { copyCount, cardSerial, ruleParts } from '../../src/lib/game/presentation';
 
 async function expectArtworkAndLayout(page: Page) {
-  await page.evaluate(() => document.fonts.ready);
+  await test.step('Fonts load within 2,000 ms',async()=>{await page.evaluate(() => document.fonts.ready);},{timeout:2000});
   await expect.poll(() => page.locator('.card img').evaluateAll(images =>
     images.every(image => image instanceof HTMLImageElement && image.complete && image.naturalWidth >= 128)
   )).toBe(true);
@@ -48,8 +50,7 @@ test('all 30 v0.1 cards render complete rules and generated artwork', async ({ p
   ]);
   expect(await page.locator('[data-card-id="merchant-fleet"] .visual-rule').innerText()).not.toMatch(/[a-z]/i);
   expect(failures).toEqual([]);
-  await page.screenshot({ path: testInfo.outputPath('gallery.png'), fullPage: true });
-  await testInfo.attach('Rendered card gallery', { path: testInfo.outputPath('gallery.png'), contentType: 'image/png' });
+  await new TestStepHelper(page,testInfo,'Card catalog').step('catalog','Read the complete card catalog',[],{document:true});
 });
 
 test('frames expose real windows fully covered by colored fills, with artwork below metadata', async ({ page }) => {
@@ -134,7 +135,7 @@ test('copy totals follow setup and three back families keep deck identity hidden
   const sources = await backs.locator('img').evaluateAll(images => [...new Set(images.map(img => (img as HTMLImageElement).src))]);
   expect(sources).toHaveLength(3);
   await expect.poll(() => backs.locator('img').evaluateAll(images => images.every(img => (img as HTMLImageElement).complete && (img as HTMLImageElement).naturalWidth > 0))).toBe(true);
-  await page.screenshot({ path: testInfo.outputPath('three-back-families.png'), fullPage: true });
+  await new TestStepHelper(page,testInfo,'Card catalog').step('backs','Distinguish the three card back families',[],{document:true});
   await page.getByRole('checkbox', { name: 'Show backs', exact: true }).uncheck();
   await expect(page.locator('[data-testid="card-grid"] .card')).toHaveCount(30);
 });
@@ -170,8 +171,7 @@ test('tabletop view preserves every card and print uses physical card dimensions
   await expect(page.locator('[data-testid="card-grid"] .card')).toHaveCount(30);
   if (testInfo.project.name !== 'phone') expect((await card.boundingBox())!.width).toBeGreaterThan(initial);
   await expectArtworkAndLayout(page);
-  await page.screenshot({ path: testInfo.outputPath('tabletop.png'), fullPage: true });
-  await testInfo.attach('Tabletop cards', { path: testInfo.outputPath('tabletop.png'), contentType: 'image/png' });
+  await new TestStepHelper(page,testInfo,'Card catalog').step('tabletop','Browse cards at tabletop scale',[],{document:true});
   await page.emulateMedia({ media: 'print' });
   await expectArtworkAndLayout(page);
   await expect(page.locator('.toolbar')).not.toBeVisible();

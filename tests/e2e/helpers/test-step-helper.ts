@@ -1,52 +1,70 @@
-import { expect, test, type Page, type TestInfo } from '@playwright/test';
-import { writeFileSync } from 'node:fs';
+import { expect, test, type Page, type TestInfo, type CDPSession } from '@playwright/test';
+import { mkdirSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
+import { assertScreenFit } from './screen-fit';
 
+export const OPERATION_BUDGET = 2_000;
+type Verification = { spec: string; check: () => Promise<unknown> };
+type View = { page?: Page; player?: string; status?: string; document?: boolean };
+type Story = { slug: string; title: string; steps: string[]; ids: Set<string> };
+const stories = new WeakMap<TestInfo, Story>();
+const cameras = new WeakMap<Page, CDPSession>();
+function storyFor(info: TestInfo): Story {
+  let story=stories.get(info);
+  if(!story){story={slug:info.title.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,''),title:info.title,steps:[],ids:new Set()};stories.set(info,story);}
+  return story;
+}
+/** One ordered narrative per test, including all player viewpoints. */
 export class TestStepHelper {
-  private steps: string[] = [];
-  constructor(private page: Page, private info: TestInfo, private title: string, private settledStatus = 'synced') {}
-  async step(id: string, description: string, verifications: { spec: string; check: () => Promise<unknown> }[]) {
-    await test.step(description, async () => {
-      for (const verification of verifications) await test.step(verification.spec, verification.check);
-      await expect(this.page.locator('[data-status]')).toHaveAttribute('data-status', this.settledStatus);
-      // A committed event may arrive before its transaction acknowledgement, especially
-      // in lost-ack stories. Photograph the ready UI rather than a transient disabled control.
-      await expect(this.page.locator('[aria-busy="true"]')).toHaveCount(0, { timeout: 30_000 });
-      await this.page.evaluate(async () => {
-        // Flush reactive layout before checking fonts or newly scheduled Svelte transitions.
-        await new Promise<void>(resolve => requestAnimationFrame(() => requestAnimationFrame(() => resolve())));
-        await document.fonts.ready;
-        await Promise.all([...document.images].map(image => image.decode()));
-        for (let pass = 0; pass < 20; pass++) {
-          await new Promise<void>(resolve => requestAnimationFrame(() => resolve()));
-          const animations = document.getAnimations().filter(animation => animation.playState !== 'finished');
-          if (!animations.length) break;
-          await Promise.all(animations.map(animation => animation.finished.catch(() => undefined)));
-          if (pass === 19) throw new Error('Animations did not settle.');
-        }
-      });
-      await this.page.mouse.move(0, 0);
-      await this.page.evaluate(() => {
-        const root = document.documentElement;
-        if (root.scrollWidth > innerWidth || root.scrollHeight > innerHeight || scrollX || scrollY) throw new Error('Screen must fit the viewport without scrolling.');
-        const visible = [...document.querySelectorAll<HTMLElement>('[data-e2e-layout] *')].filter(element => !element.closest('.sr-only') && element.checkVisibility() && element.getBoundingClientRect().width && element.getBoundingClientRect().height);
-        for (const element of visible) {
-          const rect = element.getBoundingClientRect();
-          if (rect.left < 0 || rect.top < 0 || rect.right > innerWidth || rect.bottom > innerHeight) throw new Error(`${element.tagName} outside viewport`);
-          if (element.scrollWidth > element.clientWidth && getComputedStyle(element).display !== 'inline') throw new Error(`${element.tagName}.${element.className} content overflows (${element.scrollWidth} > ${element.clientWidth})`);
-        }
-        const controls = visible.filter(element => element.matches('button,input,select,a'));
-        for (let i = 0; i < controls.length; i++) for (let j = i + 1; j < controls.length; j++) {
-          const a = controls[i].getBoundingClientRect(), b = controls[j].getBoundingClientRect();
-          if (Math.min(a.right, b.right) > Math.max(a.left, b.left) && Math.min(a.bottom, b.bottom) > Math.max(a.top, b.top)) throw new Error(`Controls overlap: ${controls[i].getAttribute("aria-label") ?? controls[i].textContent} / ${controls[j].getAttribute("aria-label") ?? controls[j].textContent}`);
-        }
-      });
-      const filename = `${String(this.steps.length).padStart(3, '0')}-${id}-${this.info.project.name}-${process.platform}.png`;
-      await expect(this.page).toHaveScreenshot(filename); // Global zero-pixel and zero-color thresholds; no overrides/masks.
-      this.steps.push(`## ${description}\n\n![${description}](./screenshots/${filename})\n\n${verifications.map(item => `- [x] ${item.spec}`).join('\n')}`);
+  constructor(private page:Page,private info:TestInfo,private title:string,private settledStatus='synced'){}
+  async step(id:string,description:string,verifications:Verification[],view:View={}){
+    const page=view.page??this.page,story=storyFor(this.info);
+    if(story.ids.has(id))throw new Error(`Duplicate story step: ${id}`);
+    story.ids.add(id);
+    await test.step(description,async()=>{
+      for(const verification of verifications)await test.step(verification.spec,verification.check,{timeout:OPERATION_BUDGET});
+      const stem=`${String(story.steps.length).padStart(3,'0')}-${id}`;
+      await test.step('Ready, unclipped, and photographed within 2,000 ms',async()=>{
+        const start=performance.now(),remaining=()=>Math.max(1,OPERATION_BUDGET-Math.ceil(performance.now()-start));
+        if(!view.document)await expect(page.locator('[data-status]')).toHaveAttribute('data-status',view.status??this.settledStatus,{timeout:remaining()});
+        if(!view.document&&(view.status??this.settledStatus)==='synced')await expect(page.locator('[aria-busy="true"]')).toHaveCount(0,{timeout:remaining()});
+        await page.mouse.move(0,0);
+        await page.evaluate(async()=>{
+          await document.fonts.ready;
+          const images=[...document.images].filter(image=>image.checkVisibility()),backgrounds=new Set<string>();
+          for(const element of document.querySelectorAll<HTMLElement>('[data-e2e-layout], [data-e2e-layout] *')){
+            if(!element.checkVisibility())continue;
+            for(const match of getComputedStyle(element).backgroundImage.matchAll(/url\(["']?(.*?)["']?\)/g))backgrounds.add(match[1]);
+          }
+          await Promise.all([...images.map(image=>image.decode()),...[...backgrounds].map(async src=>{const image=new Image();image.src=src;await image.decode();})]);
+          do{
+            await Promise.all(document.getAnimations().filter(animation=>animation.playState!=='finished').map(animation=>animation.finished.catch(()=>undefined)));
+            await new Promise<void>(resolve=>requestAnimationFrame(()=>resolve()));
+          }while(document.getAnimations().some(animation=>animation.playState!=='finished'));
+        });
+        await page.evaluate(assertScreenFit,{document:view.document});
+        const prepared=performance.now();
+        // One capture after semantic readiness; no screenshot polling or animation fast-forward.
+        let camera=cameras.get(page);
+        if(!camera){camera=await page.context().newCDPSession(page);cameras.set(page,camera);}
+        const caret=await page.addStyleTag({content:'* { caret-color: transparent !important; }'});
+        let capture:Buffer;
+        try { const result=await camera.send('Page.captureScreenshot',{format:'png',fromSurface:true,captureBeyondViewport:false,optimizeForSpeed:true});capture=Buffer.from(result.data,'base64'); }
+        finally { await caret.evaluate(node=>node.parentNode!.removeChild(node)); }
+        const photographed=performance.now();
+        expect(capture).toMatchSnapshot([story.slug,`${stem}-${this.info.project.name}-${process.platform}.png`],{maxDiffPixels:0,threshold:0});
+        expect(performance.now()-start,`Capture exceeded 2,000 ms: preparation ${Math.round(prepared-start)}, image ${Math.round(photographed-prepared)}, comparison ${Math.round(performance.now()-photographed)}`).toBeLessThanOrEqual(OPERATION_BUDGET);
+      },{timeout:OPERATION_BUDGET});
+      const views=['phone','desktop','tabletop-4k'].map(project=>`[${project}](../../screenshots/${story.slug}/${stem}-${project}-darwin.png)`).join(' · ');
+      story.steps.push(`## ${description}\n\n${view.player?`Viewpoint: **${view.player}**.\n\n`:''}${views}\n\n![${description}](../../screenshots/${story.slug}/${stem}-desktop-darwin.png)\n\n${verifications.map(item=>`- [x] ${item.spec}`).join('\n')}`);
     });
   }
-  generateDocs() {
-    if (this.info.project.name === 'desktop' && process.platform === 'darwin') writeFileSync(join(dirname(this.info.file), 'README.md'), `# ${this.title}\n\n${this.steps.join('\n\n')}\n`);
-  }
+  generateDocs(){/* Shared fixture writes once, after the complete test passes. */}
+}
+export function finishStory(info:TestInfo){
+  const story=stories.get(info);
+  if(!story||info.status!=='passed'||info.project.name!=='desktop'||process.platform!=='darwin')return;
+  const folder=join(dirname(info.file),'stories',story.slug);mkdirSync(folder,{recursive:true});
+  const setup=info.annotations.filter(item=>item.type==='setup').map(item=>item.description).join('\n\n');
+  writeFileSync(join(folder,'README.md'),`# ${story.title}\n\n${setup?setup+'\n\n':''}${story.steps.join('\n\n')}\n`);
 }

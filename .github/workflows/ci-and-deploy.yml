@@ -54,7 +54,7 @@ jobs:
         if: inputs.update_snapshots == true && always()
         with:
           name: linux-screenshot-baselines
-          path: tests/e2e/**/screenshots/*-linux.png
+          path: tests/e2e/**/screenshots/**/*-linux.png
       - name: Upload browser report and card screenshots
         if: always()
         uses: actions/upload-artifact@v4

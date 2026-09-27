@@ -1,14 +1,15 @@
-# Browser test conventions
+# Browser stories
 
-Keep the gallery/rules regression tests, and put new gameplay user stories in numbered directories with their illustrated README and screenshots. Use `TestStepHelper` for each documented story step: describe the player's outcome and provide named verifications of observable behavior.
+[E2E_GUIDE.md](../../E2E_GUIDE.md) defines the required testing contract: real player journeys, explicit choices, one ordered illustrated narrative across player viewpoints, zero pixel tolerance, and a hard 2,000 ms deadline for every operation. Readiness, animation completion, clipping checks, capture, and comparison share one deadline.
 
-- Exercise the real Firebase client against isolated Auth/Firestore emulators. Do not replace persistence or authentication with browser mocks.
-- Wait for acknowledged state, loaded fonts/images, and completed animations. Avoid fixed sleeps, random visible identifiers, and timestamps in screenshots.
-- Compare screenshots with `maxDiffPixels: 0` and `threshold: 0`. No per-test overrides, masks, image normalization, or automatic baseline updates in verification CI.
-- Setup screens must fit the viewport with zero geometric overflow or overlapping controls. The gallery and rules are scrolling documents with separate containment checks.
-- Keep retries at zero. Fix the implementation or test synchronization when a regression fails; do not make the assertion looser.
-- Generate new baselines explicitly, inspect the images, commit the platform-specific files, and run comparison mode afterward. Linux generation uses the workflow's `update_snapshots` input and never publishes the app.
+The shared fixture writes each passing story’s illustrated README. Every capture audits components, text, clipping ancestors, and active controls at phone, desktop, and 4K sizes. Rules and gallery pages scroll; game screens must fit. Deliberately clipped examples exercise the audit at every size.
 
-`001-game-setup` covers the illustrated gathering: 2/3/4-player creation, invitations, joins/restoration, supply, long names, motion, capacity races, unavailable tables and connection recovery. Its seven scenarios run at phone, desktop and 4K sizes. Backend tests separately enforce immutable events, replay, authorization, and the race for the final seat.
+- [Gathering, invitations, and recovery](001-game-setup/README.md)
+- [Sanctuary and returning to a table](002-sanctuary/README.md)
+- [Bloodline choices and private hands](003-bloodline/README.md)
+- [Recorded-history Action effect scenarios](004-actions/README.md)
+- [Buying, passing turns, drawing, and playing the purchased copy](005-economy/README.md)
 
-`002-sanctuary` covers fresh entry, keyboard navigation, real table return, foreign/stale targets, arrival motion and offline retry. Its four scenarios run on all three sizes. See its `FIDELITY.md` for concept-to-implementation review. The helper accepts a settled status (`ready` for the sanctuary, `synced` by default) and excludes deliberately screen-reader-only nodes from physical geometry checks. Screenshot thresholds remain unchanged.
+Recorded-history integration scenarios are labeled in their documentation. They supplement the ordinary UI journeys. Backend tests verify the event reducer and authorization separately.
+
+Regenerate baselines explicitly, inspect them, and run comparison mode afterward. Linux generation uses the workflow’s `update_snapshots` input and cannot publish the app. PR verification runs the complete suite without snapshot updates, retries, masks, or tolerance exceptions.

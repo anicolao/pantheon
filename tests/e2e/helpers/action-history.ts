@@ -11,7 +11,7 @@ export async function readEvents(code: string): Promise<SetupEvent[]> {
   const documents: {fields:Record<string,Record<string,unknown>>}[] = [];
   let token = '';
   do {
-    const response = await fetch(`${root}/games/${code}/events?pageSize=1000${token ? `&pageToken=${encodeURIComponent(token)}` : ''}`, { headers });
+    const response = await fetch(`${root}/games/${code}/events?pageSize=1000${token ? `&pageToken=${encodeURIComponent(token)}` : ''}`, { headers, signal: AbortSignal.timeout(2000) });
     if (!response.ok) throw new Error(`Read ${code}: ${response.status}`);
     const data = await response.json(); documents.push(...(data.documents ?? [])); token = data.nextPageToken ?? '';
   } while (token);
@@ -22,6 +22,7 @@ export async function readEvents(code: string): Promise<SetupEvent[]> {
  * All subsequent player commands go through the real authenticated repository/rules.
  */
 export async function actionTable(page: Page, info: TestInfo, subject: string, leader = 'thaleia', options: { extra?: string[]; reveal?: 'Territory' | 'other'; other?: Page; count?: 2 | 3 | 4; empty?: string } = {}) {
+  if(!info.annotations.some(item=>item.type==='setup'))info.annotations.push({type:'setup',description:'Recorded-history integration scenario. A legal event history prepares the starting position directly in the emulator. This verifies the illustrated effect from that position; it does not demonstrate the player journey to reach it.'});
   const count = options.count ?? 2;
   const code = await roomCodeFixture(page, { ...info, title: `${info.title}/${subject}/${leader}/${options.reveal ?? ''}${options.empty ? `/empty-${options.empty}` : ''}${count === 2 ? '' : `/${count}`}` } as TestInfo);
   await page.goto('./play/'); await page.getByLabel('Your name', {exact:true}).fill('Ariadne'); await page.getByRole('radio',{name:`${count} players`,exact:true}).check(); await page.getByRole('button',{name:'Create table',exact:true}).click(); await expect(page.getByTestId('player-seat')).toHaveCount(1);
@@ -58,8 +59,8 @@ export async function actionTable(page: Page, info: TestInfo, subject: string, l
   // Clear animation history in the presentation by entering at the completed prelude.
   await page.goto('./'); if (options.other) await options.other.goto('./');
   const writes = events.slice(1).map(event => ({update:{name:`projects/demo-pantheon/databases/(default)/documents/games/${code}/events/${event.sequence}`,fields:fields(event)}}));
-  for(let i=0;i<writes.length;i+=200){ const result=await fetch(`${root}:commit`,{method:'POST',headers,body:JSON.stringify({writes:writes.slice(i,i+200)})});expect(result.ok).toBe(true); }
-  const result=await fetch(`${root}/games/${code}`,{method:'PATCH',headers,body:JSON.stringify({fields:fields({owner:host,members:game.players.map(player=>player.uid),playerCount:count,revision:events.length,phase:'playing'})})});expect(result.ok).toBe(true);
+  for(let i=0;i<writes.length;i+=200){ const result=await fetch(`${root}:commit`,{signal:AbortSignal.timeout(2000),method:'POST',headers,body:JSON.stringify({writes:writes.slice(i,i+200)})});expect(result.ok).toBe(true); }
+  const result=await fetch(`${root}/games/${code}`,{signal:AbortSignal.timeout(2000),method:'PATCH',headers,body:JSON.stringify({fields:fields({owner:host,members:game.players.map(player=>player.uid),playerCount:count,revision:events.length,phase:'playing'})})});expect(result.ok).toBe(true);
   await page.goto(`./play/?room=${code}`); await expect(page.locator('[data-status]')).toHaveAttribute('data-status','synced');
   if (options.other) { await options.other.goto(page.url()); await expect(options.other.locator('[data-status]')).toHaveAttribute('data-status','synced'); }
   return {code,host,guest,game,events};

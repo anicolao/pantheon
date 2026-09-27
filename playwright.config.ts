@@ -10,11 +10,13 @@ export default defineConfig({
   forbidOnly: true,
   retries: 0,
   timeout: 60_000,
-  // Bound simultaneous 4K software rasterization on developer machines too.
-  workers: process.env.CI ? 2 : 3,
+  // Isolate software rasterization so each capture owns its two-second CPU budget.
+  workers: 1,
   reporter: [['list'], ['html', { open: 'never' }]],
   use: {
     baseURL: `http://127.0.0.1:4193${base}/`,
+    actionTimeout: 2_000,
+    navigationTimeout: 2_000,
     trace: 'retain-on-failure',
     deviceScaleFactor: 1,
     // Full rasterization avoids reload-dependent rounded-edge pixels on macOS.
@@ -31,8 +33,8 @@ export default defineConfig({
     { name: 'tabletop-4k', use: { browserName: 'chromium', viewport: { width: 3840, height: 2160 } } }
   ],
   snapshotPathTemplate: '{testDir}/{testFileDir}/screenshots/{arg}{ext}',
-  // Two complete 4K software captures can exceed five seconds on hosted runners.
-  expect: { toHaveScreenshot: { timeout: 15_000, maxDiffPixels: 0, threshold: 0, animations: 'disabled', caret: 'hide', scale: 'css', fullPage: true } },
+  // Every condition and capture has the same hard two-second deadline.
+  expect: { timeout: 2_000, toHaveScreenshot: { timeout: 2_000, maxDiffPixels: 0, threshold: 0, animations: 'disabled', caret: 'hide', scale: 'css', fullPage: true } },
   webServer: {
     command: 'bun run build && bun run preview',
     url: `http://127.0.0.1:4193${base}/`,

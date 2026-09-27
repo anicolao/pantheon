@@ -1,4 +1,5 @@
-import { expect, test } from '@playwright/test';
+import { newPlayerContext } from '../helpers/players';
+import { test, expect } from '../helpers/fixtures';
 import { actionTable, playCard, readEvents } from '../helpers/action-history';
 import { TestStepHelper } from '../helpers/test-step-helper';
 import { replaySetup } from '../../../src/lib/game/setup';
@@ -6,7 +7,7 @@ import { definition } from '../../../src/lib/game/actions';
 
 test('play, choose optional trash, reconnect, and show the public result', async ({page,browser},info)=>{
   test.setTimeout(180_000);
-  const context=await browser.newContext({viewport:info.project.use.viewport,reducedMotion:'reduce'}),other=await context.newPage();
+  const context=await newPlayerContext(browser, {viewport:info.project.use.viewport,reducedMotion:'reduce'}),other=await context.newPage();
   const errors:string[]=[]; page.on('pageerror',error=>errors.push(error.message)); other.on('pageerror',error=>errors.push(error.message));
   try {
     const fixture=await actionTable(page,info,'seed-keeper','melia',{other});
@@ -51,12 +52,16 @@ test('play, choose optional trash, reconnect, and show the public result', async
 test('Forge gains a cheaper card before Doreios offers his separate choice',async({page},info)=>{
   test.setTimeout(120_000);const fixture=await actionTable(page,info,'forge-of-heroes','doreios');const steps=new TestStepHelper(page,info,'Forge a new card');
   await playCard(page,'forge-of-heroes');const state=replaySetup(await readEvents(fixture.code));const target=state.decks[fixture.host].hand[0];
-  await page.getByRole('button',{name:`Select ${definition(target.cardId).name}, copy ${target.copy}`,exact:true}).click();await page.getByRole('button',{name:'Trash 1',exact:true}).click();
+  await steps.step('forge-trash','Choose what to forge',[{spec:'Trashing is optional before choosing a replacement.',check:async()=>expect(page.getByRole('button',{name:'Trash none',exact:true})).toBeEnabled()}]);
+  await page.getByRole('button',{name:`Select ${definition(target.cardId).name}, copy ${target.copy}`,exact:true}).click();
+  await steps.step('forge-selected','Review the card being replaced',[{spec:'One selected card enables the trash confirmation.',check:async()=>expect(page.getByRole('button',{name:'Trash 1',exact:true})).toBeEnabled()}]);
+  await page.getByRole('button',{name:'Trash 1',exact:true}).click();
   await steps.step('gain-choice','Choose a replacement within the cost limit',[{spec:'The gain uses actual nonempty supply piles and sends the card to discard.',check:async()=>{await expect(page.locator('.heading')).toContainText(`up to ${definition(target.cardId).cost!+2}`);await expect(page.locator('.destination')).toHaveText('To your discard pile');}}]);
   await page.getByRole('button',{name:'Select Obol, copy 1',exact:true}).click();await steps.step('gain-selected','A cheaper card is a legal gain',[{spec:'A cost-zero Obol can replace the trashed card without spending a Buy.',check:async()=>expect(page.getByRole('button',{name:'Gain Obol',exact:true})).toBeEnabled()}]);
   await page.getByRole('button',{name:'Gain Obol',exact:true}).click();
   await steps.step('leader-choice','Finish Doreios’s blessing',[{spec:'The leader offers a separate optional trash only after the gain.',check:async()=>{await expect(page.locator('.heading h1')).toHaveText('Doreios');await expect(page.getByRole('button',{name:'Trash none',exact:true})).toBeEnabled();}}]);
   await page.getByRole('button',{name:'Trash none',exact:true}).click();await expect(page.locator('.choice-scene')).toHaveCount(0);
+  await steps.step('forge-finished','Return to the table with the replacement',[{spec:'Both choices are complete and the Action turn continues.',check:async()=>expect(page.locator('.turn-marker')).toContainText('Actions')}]);
   const result=replaySetup(await readEvents(fixture.code));expect(result.supply.obol).toBe(state.supply.obol-1);expect(result.resources.buys).toBe(state.resources.buys);expect(result.turn.leaderUsed).toBe(true);
 });
 
@@ -87,13 +92,13 @@ test('every simple Action and Temple uses real authenticated commands',async({br
   for(const [id,leader] of [
     ['oracles-acolyte','thaleia'],['council-of-sages','thaleia'],['sacred-academy','thaleia'],['harbor-pilot','nereon'],['sea-trade','nereon'],['merchant-fleet','nereon'],['bronze-recruit','doreios'],['sacred-grove','melia'],
     ['temple-of-athena','thaleia'],['temple-of-poseidon','nereon'],['temple-of-demeter','melia'],['temple-of-ares','doreios']]){
-    const context=await browser.newContext({viewport:info.project.use.viewport,baseURL:info.project.use.baseURL,reducedMotion:'reduce'});const page=await context.newPage();
+    const context=await newPlayerContext(browser, {viewport:info.project.use.viewport,baseURL:info.project.use.baseURL,reducedMotion:'reduce'});const page=await context.newPage();
     try { const fixture=await actionTable(page,info,id,leader);
     let lostAcknowledgement=false;
     if(id==='oracles-acolyte'){
       await page.emulateMedia({reducedMotion:'no-preference'});
       await page.evaluate(()=>{const animate=Element.prototype.animate;(window as unknown as {draws:number[]}).draws=[];Element.prototype.animate=function(frames,options){if(this.matches('.hand-slot'))(window as unknown as {draws:number[]}).draws.push(typeof options==='number'?options:Number(options?.duration??0));return animate.call(this,frames,options);};});
-      await context.route(url=>url.pathname.endsWith('/documents:commit'),async route=>{if(lostAcknowledgement){await route.continue();return;}const response=await route.fetch();expect(response.ok()).toBe(true);lostAcknowledgement=true;await route.abort('connectionreset');});
+      await context.route(url=>url.pathname.endsWith('/documents:commit'),async route=>{if(lostAcknowledgement){await route.continue();return;}const response=await route.fetch({timeout:2_000});expect(response.ok()).toBe(true);lostAcknowledgement=true;await route.abort('connectionreset');});
     }
     await playCard(page,id);
     if(id==='sacred-grove'){await page.getByRole('button',{name:'Select Obol, copy 1',exact:true}).click();await page.getByRole('button',{name:'Gain Obol',exact:true}).click();}
