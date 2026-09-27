@@ -22,7 +22,7 @@ export default defineConfig({
     trace: { mode: 'retain-on-failure', screenshots: false, snapshots: false, sources: true },
     deviceScaleFactor: 1,
     // Full rasterization avoids reload-dependent rounded-edge pixels on macOS.
-    launchOptions: { args: ['--run-all-compositor-stages-before-draw', '--disable-checker-imaging', '--font-render-hinting=none', '--disable-font-subpixel-positioning', '--disable-lcd-text', '--force-device-scale-factor=1', '--disable-gpu', '--disable-skia-runtime-opts', '--disable-partial-raster', '--use-gl=swiftshader'] },
+    launchOptions: { args: ['--run-all-compositor-stages-before-draw', '--disable-checker-imaging', '--font-render-hinting=none', '--disable-font-subpixel-positioning', '--disable-lcd-text', '--force-device-scale-factor=1', '--disable-gpu', '--disable-partial-raster', '--use-gl=swiftshader'] },
     timezoneId: 'America/Toronto',
     serviceWorkers: 'block',
     // Playwright's automatic failure capture has an unconfigurable five-second budget.

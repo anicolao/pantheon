@@ -31,9 +31,7 @@ export class TestStepHelper {
         if(!view.document&&(view.status??this.settledStatus)==='synced')await expect(page.locator('[aria-busy="true"]')).toHaveCount(0,{timeout:remaining()});
         await page.bringToFront();
         await page.mouse.move(0,0);
-        // Apply caret styling before readiness/layout so capture does not trigger another repaint.
         await page.evaluate(async()=>{
-          if(!document.getElementById('e2e-caret')){const style=document.createElement('style');style.id='e2e-caret';style.textContent='* { caret-color: transparent !important; }';document.head.append(style);}
           await document.fonts.ready;
           const images=[...document.images].filter(image=>image.checkVisibility()),backgrounds=new Set<string>();
           for(const element of document.querySelectorAll<HTMLElement>('[data-e2e-layout], [data-e2e-layout] *')){
