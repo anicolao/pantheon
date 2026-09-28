@@ -1,0 +1,164 @@
+{
+  "2/treasure": {
+    "blocks": 200,
+    "pairs": 1200,
+    "excludedBlocks": 0,
+    "exposureRate": 1,
+    "difference": 0.2808333333333334,
+    "interval": [
+      0.2425,
+      0.31916666666666665
+    ],
+    "correctedInterval": [
+      0.22624999999999995,
+      0.3350000000000002
+    ],
+    "label": "supported policy-dependent benefit",
+    "baselineShare": 0.24583333333333332,
+    "variantShare": 0.5266666666666666
+  },
+  "2/engine": {
+    "blocks": 200,
+    "pairs": 1200,
+    "excludedBlocks": 0,
+    "exposureRate": 1,
+    "difference": 0.24250000000000005,
+    "interval": [
+      0.21333333333333346,
+      0.27041666666666664
+    ],
+    "correctedInterval": [
+      0.20208333333333325,
+      0.2816666666666668
+    ],
+    "label": "supported policy-dependent benefit",
+    "baselineShare": 0.6129166666666667,
+    "variantShare": 0.8554166666666667
+  },
+  "2/worship": {
+    "blocks": 200,
+    "pairs": 1200,
+    "excludedBlocks": 0,
+    "exposureRate": 1,
+    "difference": 0.1979166666666667,
+    "interval": [
+      0.17166666666666672,
+      0.22458333333333322
+    ],
+    "correctedInterval": [
+      0.16083333333333338,
+      0.23666666666666672
+    ],
+    "label": "supported policy-dependent benefit",
+    "baselineShare": 0.7733333333333333,
+    "variantShare": 0.97125
+  },
+  "3/treasure": {
+    "blocks": 200,
+    "pairs": 1800,
+    "excludedBlocks": 0,
+    "exposureRate": 1,
+    "difference": 0.23731481481481492,
+    "interval": [
+      0.20851851851851838,
+      0.26555555555555577
+    ],
+    "correctedInterval": [
+      0.19675925925925913,
+      0.27648148148148133
+    ],
+    "label": "supported policy-dependent benefit",
+    "baselineShare": 0.10629629629629632,
+    "variantShare": 0.3436111111111111
+  },
+  "3/engine": {
+    "blocks": 200,
+    "pairs": 1800,
+    "excludedBlocks": 0,
+    "exposureRate": 1,
+    "difference": 0.29888888888888887,
+    "interval": [
+      0.2723148148148149,
+      0.3260185185185187
+    ],
+    "correctedInterval": [
+      0.26157407407407407,
+      0.33712962962962967
+    ],
+    "label": "supported policy-dependent benefit",
+    "baselineShare": 0.6283333333333333,
+    "variantShare": 0.9272222222222222
+  },
+  "3/worship": {
+    "blocks": 200,
+    "pairs": 1800,
+    "excludedBlocks": 0,
+    "exposureRate": 1,
+    "difference": 0.2941666666666666,
+    "interval": [
+      0.2694444444444444,
+      0.3190740740740741
+    ],
+    "correctedInterval": [
+      0.26,
+      0.3289814814814816
+    ],
+    "label": "supported policy-dependent benefit",
+    "baselineShare": 0.691111111111111,
+    "variantShare": 0.9852777777777778
+  },
+  "4/treasure": {
+    "blocks": 200,
+    "pairs": 800,
+    "excludedBlocks": 0,
+    "exposureRate": 1,
+    "difference": 0.176875,
+    "interval": [
+      0.14656249999999998,
+      0.2070833333333334
+    ],
+    "correctedInterval": [
+      0.1348958333333333,
+      0.21947916666666667
+    ],
+    "label": "supported policy-dependent benefit",
+    "baselineShare": 0.06770833333333334,
+    "variantShare": 0.24458333333333335
+  },
+  "4/engine": {
+    "blocks": 200,
+    "pairs": 800,
+    "excludedBlocks": 0,
+    "exposureRate": 1,
+    "difference": 0.32177083333333334,
+    "interval": [
+      0.290625,
+      0.353125
+    ],
+    "correctedInterval": [
+      0.27739583333333334,
+      0.3667708333333334
+    ],
+    "label": "supported policy-dependent benefit",
+    "baselineShare": 0.6119791666666666,
+    "variantShare": 0.93375
+  },
+  "4/worship": {
+    "blocks": 200,
+    "pairs": 800,
+    "excludedBlocks": 0,
+    "exposureRate": 1,
+    "difference": 0.3253125,
+    "interval": [
+      0.293125,
+      0.3573958333333333
+    ],
+    "correctedInterval": [
+      0.27947916666666667,
+      0.3710416666666667
+    ],
+    "label": "supported policy-dependent benefit",
+    "baselineShare": 0.6321875,
+    "variantShare": 0.9575
+  }
+}
