@@ -22,7 +22,8 @@
     "test:simulation": "bun test tests/simulation",
     "balance:study": "bun scripts/balance-study.ts",
     "balance:thaleia": "bun scripts/balance-thaleia.ts",
-    "balance:counter": "bun scripts/balance-counter.ts"
+    "balance:counter": "bun scripts/balance-counter.ts",
+    "balance:train-engine": "bun scripts/balance-engine-train.ts"
   },
   "dependencies": {
     "@fontsource/atkinson-hyperlegible": "5.2.8",
