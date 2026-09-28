@@ -36,3 +36,12 @@ test('held-out report uses frozen selections, pairs seats, and excludes failed b
   expect(estimate.blocks).toBe(2); expect(estimate.excludedBlocks).toBe(1);
   broken.result.seed = 'unpaired'; expect(() => counterReport(games, selected)).toThrow('Unpaired evaluation');
 });
+
+
+test('same-seed rival-buff comparison selects its declared arms without changing original defaults', () => {
+  const rows = matrix().map(row => ({ ...row, variant: row.variant === 'standard' ? 'thaleia-draw' as const : 'leader-buffs' as const }));
+  const selected = selectCounters(rows, ['thaleia-draw', 'leader-buffs']);
+  expect(selected.filter(row => row.primary).map(row => row.variant)).toEqual(['thaleia-draw', 'leader-buffs']);
+  expect(() => selectCounters(rows)).toThrow();
+  expect(counterReport([], selected, ['thaleia-draw', 'leader-buffs'], true).markdown).toContain('exploratory same-seed comparison, not independent confirmation');
+});
