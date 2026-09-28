@@ -1,12 +1,13 @@
+import type { PlayVariant } from '../../src/lib/game/actions';
 import { createHash } from 'node:crypto';
 import { cards } from '../../src/lib/game/cards';
 import { leaderIds } from '../../src/lib/game/setup';
 import { lineups, type PlayerCount } from './runner';
-import { candidates, families, type Family, type Profile, type Restriction } from './strategy';
+import { candidates, families, strategyVersion, type Family, type Profile, type Restriction } from './strategy';
 import { runExperiment, type StudyResult } from './experiment';
 
 export const studyVersion = 1;
-export type Profiles = { version: number; trainingSeeds: string[]; selected: Record<string, Profile>; restriction?: Restriction; training: { key: string; candidate: number; share: number; games: number }[] };
+export type Profiles = { version: number; policyVersion?: number; variant?: PlayVariant; trainingSeeds: string[]; selected: Record<string, Profile>; restriction?: Restriction; training: { key: string; candidate: number; share: number; games: number }[] };
 export type StudyConfig = { stage: 'discovery' | 'confirmation'; seed: string; blocks: number; counts: PlayerCount[]; families: Family[]; restrictions: Restriction[] };
 export const profileKey = (count: number, leader: string, family: Family) => `${count}/${leader}/${family}`;
 export function validateConfig(value: unknown): StudyConfig {
@@ -44,7 +45,7 @@ export function eligibleRestriction(restriction: Restriction, lineup: string[], 
   if (restriction.kind === 'event') return lineup.some(leader => cards.find(card => card.id === leader)!.god === cards.find(card => card.id === restriction.id)!.god);
   return true;
 }
-export function trainProfiles(blocks: number, seed: string, counts: PlayerCount[], onProgress: (message: string) => void = () => {}, restriction?: Restriction): Profiles {
+export function trainProfiles(blocks: number, seed: string, counts: PlayerCount[], onProgress: (message: string) => void = () => {}, restriction?: Restriction, variant: PlayVariant = 'standard'): Profiles {
   if (!Number.isSafeInteger(blocks) || blocks < 1 || !/^[a-zA-Z0-9_-]{1,32}$/.test(seed)) throw new Error('Invalid training budget or seed.');
   const trainingSeeds = Array.from({ length: blocks }, (_, block) => `${seed}:training:${block}`);
   const selected: Profiles['selected'] = {}, training: Profiles['training'] = [];
@@ -56,7 +57,7 @@ export function trainProfiles(blocks: number, seed: string, counts: PlayerCount[
       let sum = 0, games = 0;
       for (const [block, gameSeed] of trainingSeeds.entries()) for (const lineup of lineups(count).filter(lineup => lineup.includes(leader))) for (const opponent of ['treasure', 'engine'] as const) {
         const focal = lineup.indexOf(leader), profiles = lineup.map((_, position) => position === focal ? { family, parameters } : { family: opponent, parameters: candidates[0] });
-        const { result } = runExperiment({ seed: gameSeed, block, lineup, profiles, focal, restriction });
+        const { result } = runExperiment({ seed: gameSeed, block, lineup, profiles, focal, restriction, variant });
         if (result.status !== 'completed') throw new Error(`Training failed: ${key}, ${gameSeed}, ${result.status}, ${result.error ?? ''}`);
         sum += result.players.find(player => player.position === focal)!.share!; games++;
       }
@@ -65,7 +66,7 @@ export function trainProfiles(blocks: number, seed: string, counts: PlayerCount[
     const best = scores.indexOf(Math.max(...scores)); selected[key] = { family, parameters: candidates[best] };
     onProgress(`Trained ${key}: preset ${best}, ${(scores[best] * 100).toFixed(1)}% training share`);
   }
-  return { version: studyVersion, trainingSeeds, selected, training, ...(restriction ? { restriction } : {}) };
+  return { version: studyVersion, policyVersion: strategyVersion, variant, trainingSeeds, selected, training, ...(restriction ? { restriction } : {}) };
 }
 export function leagueReport(results: StudyResult[]): string {
   const groups = new Map<string, { share: number; games: number; turns: number; worship: number; favored: number; offGod: number }>();
