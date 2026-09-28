@@ -1,6 +1,7 @@
 import { expect, type Page, type TestInfo } from '@playwright/test';
 import { applyPlayCommand, activePlayer, definition, type ActionCommand } from '../../../src/lib/game/actions';
 import { replaySetup, leaderIds, type SetupEvent } from '../../../src/lib/game/setup';
+import { publicCommandContext, describePublicCommand } from '../../../src/lib/game/public-table';
 import { roomCodeFixture } from './room-code-fixture';
 const root = 'http://127.0.0.1:8193/v1/projects/demo-pantheon/databases/(default)/documents';
 const headers = { Authorization: 'Bearer owner', 'Content-Type': 'application/json' };
@@ -38,7 +39,9 @@ export async function actionTable(page: Page, info: TestInfo, subject: string, l
   const append = (command: ActionCommand) => {
     const uid = activePlayer(game), sequence = events.length+1;
     const event: SetupEvent = {schemaVersion:1,reducerVersion:1,sequence,actorUid:uid,name:game.players.find(player=>player.uid===uid)!.name,playerCount:count,commandId:`prelude-${sequence}`,...command};
+    const before = publicCommandContext(game,uid);
     const message = applyPlayCommand(game,uid,command,sequence); game.activity.push({sequence,message}); events.push(event);
+    game.publicActivity.push(describePublicCommand(before,game,event));
   };
   const wanted = [subject,...(options.extra??[])].filter(id=>!definition(id).uniqueStartingCard), bought: string[] = [];
   let upgrades = 0;

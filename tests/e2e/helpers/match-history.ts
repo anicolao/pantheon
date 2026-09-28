@@ -1,6 +1,7 @@
 import {expect,type Page,type TestInfo} from '@playwright/test';
 import {replaySetup,leaderIds,type SetupEvent,type SetupState} from '../../../src/lib/game/setup';
 import {activePlayer,applyPlayCommand} from '../../../src/lib/game/actions';
+import {publicCommandContext,describePublicCommand} from '../../../src/lib/game/public-table';
 import {readEvents} from './action-history';
 import {roomCodeFixture} from './room-code-fixture';
 import {matchCommand,type MatchGoal} from '../../helpers/match-policy';
@@ -28,7 +29,9 @@ export async function finalTurn(page:Page,info:TestInfo,{count=2,goal='acropolis
     const command=matchCommand(game,goal,host),uid=activePlayer(game);
     if(command.type==='turn/ended'&&ending(game))break;
     const sequence=events.length+1,event:SetupEvent={schemaVersion:1,reducerVersion:1,sequence,actorUid:uid,name:game.players.find(p=>p.uid===uid)!.name,playerCount:count,commandId:`record-${sequence}`,...command};
+    const before=publicCommandContext(game,uid);
     const message=applyPlayCommand(game,uid,command,sequence);game.activity.push({sequence,message});events.push(event);
+    game.publicActivity.push(describePublicCommand(before,game,event));
     if(i===3999)throw Error('The legal match did not reach its ending');
   }
   expect(activePlayer(game)).toBe(host);expect(ending(game)).toBe(true);expect(game.turn.phase).not.toBe('finished');expect(replaySetup(events)).toEqual(game);
