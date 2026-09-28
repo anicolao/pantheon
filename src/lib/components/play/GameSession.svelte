@@ -170,6 +170,7 @@
   {#if status !== 'synced'}<div class="connection" role="status" data-e2e-layout><p>Connection lost. Your place is kept.</p><GameButton onclick={retry}>Try again</GameButton></div>{/if}
 </main>
 <dialog class:decision={modal==='advance'} style:--decision-panel={`url("${base}/assets/ui/decision-panel.webp")`} bind:this={dialog} oncancel={event => { event.preventDefault(); close(); }} aria-labelledby="session-dialog-title" data-e2e-layout={modal && !['worship','supply','chronicle','zone'].includes(modal) ? true : undefined} class:inspection={modal === 'card'}>
+  <div class="decision-surface" aria-hidden="true"></div>
   <button class="close" aria-label="Close" onclick={close}>×</button>
   {#if modal === 'card' && inspected}<h2 id="session-dialog-title">{inspected.card.name}</h2><div class="inspected" class:landscape={inspected.card.type === 'Leader' || inspected.card.type === 'Event'}><CardFace card={inspected.card} players={game.playerCount} copy={inspected.copy} /></div>
     {#if inspected.instanceId && (inspected.card.type === 'Action' || inspected.card.type === 'Treasure')}<div class="play-command"><GameButton primary onclick={playInspected} disabled={!ready || !(canPlayAction(game, uid, inspected.instanceId) || canPlayTreasure(game, uid, inspected.instanceId))}>Play {inspected.card.name}</GameButton>{#if !(canPlayAction(game, uid, inspected.instanceId) || canPlayTreasure(game, uid, inspected.instanceId))}<p>{turnUid !== uid ? 'Wait for your turn.' : choice ? 'Finish your current choice.' : inspected.card.type === 'Treasure' ? 'Play Treasures in the Treasure phase.' : game.resources.actions < 1 ? 'No Actions remaining.' : 'The Action phase is over.'}</p>{/if}</div>{/if}
@@ -213,7 +214,7 @@
   .error{position:absolute;left:24%;width:52%;top:29%;text-align:center;padding:12px;background:#481f18ee;border:1px solid #cb9872;border-radius:12px;color:#fff0cd;z-index:9;}.connection{position:absolute;left:30%;top:42%;width:40%;background:#071321ef;border:1px solid #b2914f;border-radius:16px;padding:20px;text-align:center;z-index:10;}.connection p{margin:0 0 16px;}
   dialog{width:min(900px,94vw);max-height:95svh;padding:28px;border:2px solid #b58b48;border-radius:20px;background:linear-gradient(#132431f5,#07111cfb);color:#f2dfb9;text-align:center;box-shadow:0 20px 80px #000b;}dialog::backdrop{background:#020811bb;backdrop-filter:blur(6px);}dialog h2{font:600 30px/1 'Cormorant Garamond',serif;margin:14px 32px 24px;}.close{position:absolute;right:7px;top:7px;width:44px;height:44px;border:0;background:none;font-size:28px;}.inspected{width:min(360px,49svh,78vw);margin:auto;}.inspected.landscape{width:min(680px,102svh,80vw);}
   @media(max-aspect-ratio:3/4){
-    .session{min-height:700px;}header{top:1%;left:2%;right:2%;font-size:11px;}header a,header>span{padding:6px 10px;}header a{min-height:34px;}
+    .session{min-height:0;}header{top:1%;left:2%;right:2%;font-size:11px;}header a,header>span{padding:6px 10px;}header a{min-height:34px;}
     .draft-title{left:10%;width:80%;top:6%;}h1{font-size:clamp(28px,7.2vw,50px);line-height:.92;}.draft-title h1 br{display:none;}.draft-title p{font-size:20px;margin:9px 0;}.hero{left:10%;top:13%;width:80%;height:27%;}
     button.leader-card{left:7%;top:31%;width:86%;}button.temple-card{left:13%;top:56%;width:25%;}button.event-card{left:43%;top:56%;width:46%;}
     .leaders{left:5%;width:90%;bottom:auto;top:74%;gap:1%;}.leaders button{width:24%;}.taken-by{font-size:10px;bottom:-7%;}.choose{left:10%;width:80%;bottom:2.5%;--control-height:50px;--control-font:25px;}.choose p{font-size:23px;padding:10px;}
@@ -231,5 +232,23 @@
   @media (max-aspect-ratio:3/4){
     .hand-slot{width:22vw;margin-left:-2vw;}.hand button{height:31vw;}
     .trash-control{left:42%;top:1%;width:16%;--icon-size:18px;}.opponent-discard{min-height:44px;padding:0;font-size:9px;}.opponent-portrait{max-width:8svh;}.hidden-hand{height:5svh;}.play-area:has(.played-cards){top:44%;left:35%;width:30%;height:9%;} .played-cards button:first-child:nth-last-child(3){display:none;}.play-area:has(.played-cards) .played-cards{margin:0;gap:6px;}.all-played{top:53%;left:35%;width:30%;font-size:12px;min-height:44px;}.action-message{left:3%;width:94%;top:23%;font-size:10px;}.composition:has(.action-message) .altars{top:28%;}.composition:has(.outcome) .altars{top:22%;grid-template-columns:32% 32%;}.composition:has(.outcome) .opponent{grid-template-columns:1fr 1.6fr;}.composition:has(.outcome) .opponent-portrait{width:100%;max-width:7svh;}.composition:has(.outcome) .hidden-hand{height:6svh;}.composition:has(.outcome) .action-message{top:19%;}.composition:has(.action-message) .altars.four{top:28%;grid-template-columns:30% 30%;gap:0;}.composition:has(.played-cards) .altars.four{top:27%;grid-template-columns:repeat(4,minmax(0,1fr));gap:1%;}.composition:has(.outcome) .altars.four{top:24%;grid-template-columns:repeat(4,minmax(0,1fr));gap:1%;}.composition:has(.outcome):has(.altars.four) .action-message{top:21%;}.composition:has(.outcome) .opponents:has(.opponent:nth-child(2)) .opponent{display:flex;flex-direction:column;justify-content:flex-start;}.composition:has(.outcome) .opponents:has(.opponent:nth-child(2)) .opponent-portrait{max-width:5svh;}.composition:has(.outcome) .opponents:has(.opponent:nth-child(2)) .hidden-hand{height:3.5svh;flex-shrink:0;}.outcome{left:51%!important;top:33%!important;height:19%!important;width:44%!important;z-index:3;flex-direction:row;flex-wrap:nowrap;gap:0;--icon-size:16px;background:none;}.outcome-card{width:60%!important;flex-shrink:0;}.composition:has(.outcome) .play-area{left:7%;top:33%;width:33%;height:19%;}.composition:has(.outcome) .played-cards button:not(:last-child){display:none;}.hand-pages{left:32%;width:36%;bottom:27.5%;z-index:4;gap:6px;background:#071321e8;border-radius:8px;font-size:12px;}.hand-pages button{min-width:44px;min-height:44px;}.inspection:has(.play-command) .inspected{width:min(56vw,35svh);}.play-command{--control-font:22px;}
+  }
+  .decision-surface{display:none;}
+  @media(max-aspect-ratio:3/4){
+    dialog.decision{--panel-width:min(780px,94vw);width:var(--panel-width);background:none;isolation:isolate;}
+    dialog.decision::before{content:'';position:absolute;inset:0;z-index:-1;pointer-events:none;border:1px solid transparent;border-image:var(--decision-panel) 560 96 240 96 / calc(var(--panel-width)*.3645833) calc(var(--panel-width)/16) calc(var(--panel-width)*.15625) stretch;}
+    .decision .decision-surface{display:block;position:absolute;z-index:-2;pointer-events:none;inset:calc(var(--panel-width)*.14) calc(var(--panel-width)*.034) calc(var(--panel-width)*.065);background:linear-gradient(#07132155,#07132155),var(--decision-panel) center / auto 180% no-repeat #071321;}
+  }
+  @media(max-aspect-ratio:3/4) and (max-height:720px){
+    .altars{grid-template-columns:40% 40%;justify-content:space-around;}
+    .altars.four{grid-template-columns:repeat(4,minmax(0,1fr));gap:1%;}
+    .opponents{top:9%;}
+    .opponents:not(:has(.opponent:nth-child(2))) .opponent{grid-template-columns:48px 1fr;grid-template-rows:24px 44px;gap:0 8px;max-width:280px;}
+    .opponents:not(:has(.opponent:nth-child(2))) .opponent-portrait{grid-row:1/3;width:48px;max-width:none;}
+    .opponents:not(:has(.opponent:nth-child(2))) .hidden-hand{height:24px;}
+    .opponents:not(:has(.opponent:nth-child(2))) .opponent p{grid-column:2;}
+    .turn-rail{top:62%;height:7.5%;}.hand{bottom:12%;}
+    .own-leader{left:44.5%!important;width:11svh!important;}
+    .deck-pile{width:calc(10svh * 5 / 7);}
   }
 </style>

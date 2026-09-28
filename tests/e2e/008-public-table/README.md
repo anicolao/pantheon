@@ -12,4 +12,4 @@ The ordinary two-client journey starts with gathering and the bloodline draft, t
 - [Keep a private hand inspection open](stories/keep-a-private-hand-inspection-open-while-another-player-moves/README.md)
 - [Keep reading when the match finishes](stories/keep-reading-the-chronicle-when-a-friend-completes-the-match/README.md)
 
-[Visual comparison and behavioral evidence](FIDELITY.md). Existing Action stories also cover public trash and ordered trash → leader → draw movement through the shared motion cursor.
+[Visual comparison and behavioral evidence](FIDELITY.md). [Mobile review and compact-phone captures](MOBILE_REVIEW.md). Existing Action stories also cover public trash and ordered trash → leader → draw movement through the shared motion cursor.
