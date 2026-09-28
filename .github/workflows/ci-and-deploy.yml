@@ -52,12 +52,27 @@ jobs:
           E2E_STORY_FILTER: ${{ inputs.story_filter || '' }}
           # Invitation screenshots use the same URL in manual and PR verification.
           PUBLIC_BASE_PATH: /pantheon/prtest
+      - name: Collect changed Linux baselines
+        if: inputs.update_snapshots == true && always()
+        run: |
+          python3 - <<'PYTHON'
+          from pathlib import Path
+          import shutil, subprocess
+          paths = subprocess.check_output(['git', 'ls-files', '--others', '--modified', '--exclude-standard', '-z', '--', 'tests/e2e']).split(b'\0')
+          for raw in paths:
+              if not raw.endswith(b'-linux.png'):
+                  continue
+              source = Path(raw.decode())
+              target = Path('linux-screenshot-baselines') / source.relative_to('tests/e2e')
+              target.parent.mkdir(parents=True, exist_ok=True)
+              shutil.copyfile(source, target)
+          PYTHON
       - uses: actions/upload-artifact@v4
         if: inputs.update_snapshots == true && always()
         with:
           name: linux-screenshot-baselines
           compression-level: 0
-          path: tests/e2e/**/screenshots/**/*-linux.png
+          path: linux-screenshot-baselines/
       - name: Upload browser report and card screenshots
         if: always()
         uses: actions/upload-artifact@v4

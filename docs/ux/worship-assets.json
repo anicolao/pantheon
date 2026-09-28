@@ -1,0 +1,17 @@
+{
+  "tool": "built-in image_gen",
+  "reference": "docs/ux/concepts/08-worship.png",
+  "processing": "Sharp WebP quality 90, original generated dimensions; delivery conversion only",
+  "assets": [
+    {
+      "file": "static/assets/ui/worship-desktop.webp",
+      "source": "/Users/anicolao/.codex/generated_images/01a0d67f-4bb5-7f22-9b1f-4851f6ab4fac/exec-f9154498-60bb-4c94-8325-d13647049635.png",
+      "prompt": "Create a shipping BACKGROUND ONLY game environment plate from the LEFT desktop portion of this accepted Worship concept painting for Pantheon Bloodlines. Landscape 16:9, sumptuous painterly realistic Greek mythology boardgame look. Preserve the composition: owl bronze statue and column left, Athena statue right, blue moonlit Acropolis behind, golden braziers, a central stone altar draped in dark blue cloth with subtle gold olive pattern, dark polished marble near table. Remove ALL text, cards, card frames, UI, icons, numbers, title, resource rail and buttons, and remove the separate mobile panel. Empty clear central space from x30%-70%, y15%-80% for live card components. Altar top at y46%, table in bottom35%; subdued dark blue/navy night and rich warm gilded highlights. No lettering anywhere, no drawn cards, no labels or fake controls. A full-bleed clean environment illustration only. Match the existing art faithfully; this is not a redesigned mockup."
+    },
+    {
+      "file": "static/assets/ui/worship-mobile.webp",
+      "source": "/Users/anicolao/.codex/generated_images/01a0d67f-4bb5-7f22-9b1f-4851f6ab4fac/exec-f19b4ce9-d46a-4ef2-99c6-0cc67e20be2f.png",
+      "prompt": "Create a shipping BACKGROUND ONLY environment illustration for the portrait mobile Worship screen of Pantheon Bloodlines, using the RIGHT phone portion of this accepted painting as the composition reference. Tall 9:19 portrait. Full bleed, no separate panels. Preserve rich painterly Greek marble altar, dark navy moonlit Acropolis night skyline, olive leaves around corners, warm golden braziers, flanking stone columns, subtle statue on a far edge. Central unobstructed clear area for live cards: keep busy details at edges; altar top around 45% height with dark blue and gold olive-pattern drape; near foreground dark marble occupies bottom35%. Remove ALL text, titles, game cards, card borders, controls, buttons, icons, numbers, counters and UI rails. No fake controls, no lettering of any kind. Clean atmospheric environment only, matching the supplied concept's lighting, materials and colors."
+    }
+  ]
+}

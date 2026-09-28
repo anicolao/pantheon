@@ -9,20 +9,45 @@ export type ActionCommand =
   | { type: 'treasure/played'; instanceId: string }
   | { type: 'treasures/played' }
   | { type: 'card/bought'; cardId: string }
+  | { type: 'god/worshipped'; cardId: string }
   | { type: 'turn/ended' };
 export type Effect =
   | { kind: 'resource'; resource: 'actions' | 'coins' | 'buys' | 'worship'; amount: number; source: string }
   | { kind: 'draw'; amount: number; source: string }
-  | { kind: 'trash' | 'discard'; amount: number; source: string; forge?: boolean }
-  | { kind: 'gain'; limit: number; source: string }
+  | { kind: 'trash' | 'discard'; amount: number; source: string; forge?: boolean; offering?: 'sum' | 1 | 3 }
+  | { kind: 'gain'; limit: number; source: string; actionOnly?: boolean; topdeck?: boolean; optional?: boolean; cardId?: string }
   | { kind: 'reveal'; source: string };
-export type Choice = { id: string; kind: 'trash' | 'discard' | 'gain'; source: string; min: number; max: number; limit?: number; forge?: boolean };
-export type Movement = { sequence: number; index: number; uid: string; kind: 'play' | 'draw' | 'trash' | 'discard' | 'gain' | 'reveal' | 'topdeck' | 'shuffle' | 'leader'; card?: CardInstance; source: string; amount?: number };
+export type Choice = { id: string; kind: 'trash' | 'discard' | 'gain'; source: string; min: number; max: number; limit?: number; forge?: boolean; offering?: 'sum' | 1 | 3; actionOnly?: boolean; topdeck?: boolean };
+export type Movement = { sequence: number; index: number; uid: string; kind: 'play' | 'draw' | 'trash' | 'discard' | 'gain' | 'reveal' | 'topdeck' | 'shuffle' | 'leader' | 'worship'; card?: CardInstance; source: string; amount?: number };
 export type TurnState = { number: number; index: number; phase: 'actions' | 'treasures' | 'buys' | 'finished'; leaderUsed: boolean; queue: Effect[]; choice: Choice | null; shuffles: Record<string, number>; turns: Record<string, number> };
 export function initialTurn(): TurnState { return { number: 1, index: 0, phase: 'actions', leaderUsed: false, queue: [], choice: null, shuffles: {}, turns: {} }; }
 export const definition = (id: string) => { const card = cards.find(card => card.id === id); if (!card) throw new Error('Unknown card.'); return card; };
 export const activePlayer = (game: SetupState) => game.turnOrder[game.turn.index];
-export function eligibleGains(game: SetupState, limit: number) { return cards.filter(card => (game.supply[card.id] ?? 0) > 0 && card.cost !== null && card.cost <= limit); }
+export function eligibleGains(game: SetupState, limit: number, actionOnly = false) { return cards.filter(card => (game.supply[card.id] ?? 0) > 0 && card.cost !== null && card.cost <= limit && (!actionOnly || card.type === 'Action')); }
+export function devotionCards(game: SetupState, uid: string, eventId: string) {
+  const god = definition(eventId).god;
+  return (game.decks[uid]?.play ?? []).filter(card => definition(card.cardId).type === 'Action' && definition(card.cardId).god === god);
+}
+export function worshipReason(game: SetupState, uid: string, eventId: string): string {
+  if (game.phase !== 'playing' || game.turn.phase === 'finished') return 'Worship is available during play.';
+  if (activePlayer(game) !== uid) return 'Wait for your turn.';
+  if (game.turn.choice || game.turn.queue.length) return 'Finish your current choice.';
+  if (!game.sharedEvents.includes(eventId)) return 'This god is not at this table.';
+  if (game.resources.worship < 1) return 'No Worship remaining.';
+  const cost = definition(eventId).cost!;
+  if (game.resources.coins < cost) return `You need ${cost - game.resources.coins} more ${cost - game.resources.coins === 1 ? 'Coin' : 'Coins'}.`;
+  return '';
+}
+export function worshipEffects(id: string, favored: boolean): Effect[] {
+  const buy: Effect = { kind: 'resource', source: id, resource: 'buys', amount: 1 };
+  switch (id) {
+    case 'counsel-of-olympus': return [{ kind: 'gain', source: id, limit: favored ? 5 : 3, actionOnly: true, topdeck: true }];
+    case 'tribute-of-the-tides': return [{ kind: 'gain', source: id, limit: 3, cardId: 'drachma', topdeck: favored }, ...(favored ? [buy] : [])];
+    case 'blessing-of-the-fields': return [{ kind: 'trash', source: id, amount: 2, ...(favored ? { offering: 'sum' as const } : {}) }, ...(favored ? [buy] : [])];
+    case 'trial-of-the-spear': return [{ kind: 'trash', source: id, amount: 1, offering: favored ? 3 : 1 }];
+    default: throw new Error('Choose a shared god event.');
+  }
+}
 export function canPlayAction(game: SetupState, uid: string, instanceId: string) {
   return game.phase === 'playing' && activePlayer(game) === uid && game.turn.phase === 'actions' && !game.turn.choice && game.resources.actions > 0 && game.decks[uid]?.hand.some(card => card.id === instanceId && definition(card.cardId).type === 'Action');
 }
@@ -97,12 +122,14 @@ export function applyPlayCommand(game: SetupState, uid: string, command: ActionC
     for (let i = 0; i < amount; i++) { const card = takeTop(source); if (!card) break; zones.hand.push(card); move('draw', source, card); drawn++; }
     messages.push(`drew ${drawn} ${drawn === 1 ? 'card' : 'cards'}`);
   }
-  function gain(id: string, source: string) {
+  function gain(id: string, source: string, topdeck = false) {
     const card = definition(id), remaining = game.supply[id];
     if (!remaining) throw new Error('That supply pile is empty.');
     const copy = card.supply[game.playerCount] - remaining + 1;
     const instance = { id: `supply-${id}-${copy}`, cardId: id, copy };
-    game.supply[id]--; zones.discard.push(instance); move('gain', source, instance); messages.push(`gained ${card.name} to discard`);
+    game.supply[id]--;
+    if (topdeck) zones.deck.unshift(instance); else zones.discard.push(instance);
+    move(topdeck ? 'topdeck' : 'gain', source, instance); messages.push(`gained ${card.name} ${topdeck ? 'onto the deck' : 'to discard'}`);
   }
   function resolve() {
     while (game.turn.queue.length && !game.turn.choice) {
@@ -117,12 +144,21 @@ export function applyPlayCommand(game: SetupState, uid: string, command: ActionC
         if (definition(card.cardId).type === 'Territory') { zones.discard.push(card); game.resources.coins += 2; move('discard', effect.source, card); messages.push(`revealed ${definition(card.cardId).name} to discard, +2 coins`); }
         else { zones.deck.unshift(card); move('topdeck', effect.source, card); messages.push(`revealed ${definition(card.cardId).name} and returned it to the deck`); }
       } else if (effect.kind === 'gain') {
-        if (!eligibleGains(game, effect.limit).length) { messages.push('no eligible card to gain'); continue; }
-        game.turn.choice = { id: `${sequence}:${game.turn.queue.length}:gain`, kind: 'gain', source: effect.source, min: 1, max: 1, limit: effect.limit };
+        if (effect.cardId) {
+          if (game.supply[effect.cardId]) gain(effect.cardId, effect.source, effect.topdeck);
+          else messages.push(`${definition(effect.cardId).name} pile is empty`);
+          continue;
+        }
+        if (!eligibleGains(game, effect.limit, effect.actionOnly).length) { messages.push('no eligible card to gain'); continue; }
+        game.turn.choice = { id: `${sequence}:${game.turn.queue.length}:gain`, kind: 'gain', source: effect.source, min: effect.optional ? 0 : 1, max: 1, limit: effect.limit, ...(effect.actionOnly ? { actionOnly: true } : {}), ...(effect.topdeck ? { topdeck: true } : {}) };
       } else {
         const max = Math.min(effect.amount, zones.hand.length);
-        if (!max) { messages.push(`no cards to ${effect.kind}`); continue; }
-        game.turn.choice = { id: `${sequence}:${game.turn.queue.length}:${effect.kind}`, kind: effect.kind, source: effect.source, min: effect.kind === 'discard' ? max : 0, max, ...(effect.forge ? { forge: true } : {}) };
+        if (!max) {
+          messages.push(`no cards to ${effect.kind}`);
+          if (effect.offering === 'sum') game.turn.queue.unshift({ kind: 'gain', source: effect.source, limit: 0, optional: true });
+          continue;
+        }
+        game.turn.choice = { id: `${sequence}:${game.turn.queue.length}:${effect.kind}`, kind: effect.kind, source: effect.source, min: effect.kind === 'discard' ? max : 0, max, ...(effect.forge ? { forge: true } : {}), ...(effect.offering ? { offering: effect.offering } : {}) };
       }
     }
   }
@@ -143,18 +179,30 @@ export function applyPlayCommand(game: SetupState, uid: string, command: ActionC
       }
       resolve(); break;
     }
+    case 'god/worshipped': {
+      const reason = worshipReason(game, uid, command.cardId);
+      if (reason) throw new Error(reason);
+      const event = definition(command.cardId), devotion = devotionCards(game, uid, event.id).length;
+      game.resources.worship--; game.resources.coins -= event.cost!;
+      move('worship', event.id, undefined, devotion);
+      messages.push(`worshipped ${event.god} · ${devotion >= 2 ? 'Favored' : 'Standard'}`);
+      game.turn.queue = worshipEffects(event.id, devotion >= 2); resolve(); break;
+    }
     case 'choice/resolved': {
       const choice = game.turn.choice;
       if (!choice || command.choiceId !== choice.id || !Array.isArray(command.targets) || command.targets.some(id => typeof id !== 'string') || new Set(command.targets).size !== command.targets.length || command.targets.length < choice.min || command.targets.length > choice.max) throw new Error('Choose the required cards for this effect.');
       if (choice.kind === 'gain') {
-        if (!eligibleGains(game, choice.limit!).some(card => card.id === command.targets[0])) throw new Error('Choose an available card within the cost limit.');
-        gain(command.targets[0], choice.source);
+        if (command.targets.length && !eligibleGains(game, choice.limit!, choice.actionOnly).some(card => card.id === command.targets[0])) throw new Error('Choose an available card within the cost limit.');
+        if (command.targets.length) gain(command.targets[0], choice.source, choice.topdeck);
+        else messages.push('chose not to gain');
       } else {
         if (command.targets.some(id => !zones.hand.some(card => card.id === id))) throw new Error('Choose cards from your hand.');
         const chosen = command.targets.map(id => zones.hand.find(card => card.id === id)!);
         zones.hand = zones.hand.filter(card => !command.targets.includes(card.id));
         for (const card of chosen) { (choice.kind === 'trash' ? game.trash : zones.discard).push(card); move(choice.kind, choice.source, card); }
         messages.push(chosen.length ? `${choice.kind === 'trash' ? 'trashed' : 'discarded'} ${chosen.map(card => definition(card.cardId).name).join(', ')}` : 'trashed no cards');
+        if (choice.offering === 'sum') game.turn.queue.unshift({ kind: 'gain', source: choice.source, limit: chosen.reduce((sum, card) => sum + definition(card.cardId).cost!, 0), optional: true });
+        else if (choice.offering && chosen.length) game.turn.queue.unshift({ kind: 'gain', source: choice.source, limit: definition(chosen[0].cardId).cost! + choice.offering });
         if (choice.forge && chosen.length) game.turn.queue.unshift({ kind: 'gain', source: choice.source, limit: definition(chosen[0].cardId).cost! + 2 });
       }
       game.turn.choice = null; resolve(); break;

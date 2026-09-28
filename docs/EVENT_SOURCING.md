@@ -28,7 +28,7 @@ The remaining queue, choice, counters, supply and card zones are derived from th
 
 Each exhausted-deck shuffle uses `:reshuffle:{seat}:{shuffleNumber}`. Only discard joins the new deck. Gained copies use the next physical supply identifier and reduce the live pile count independently of printed N/M. Reveals record their public face and actual discard/topdeck destination; hidden draws render backs for other players. The leader opportunity is consumed when triggered, even if its optional trash is declined.
 
-The player-facing economy uses `phase/advanced`, `treasure/played`, `treasures/played`, `card/bought`, and `turn/ended`. Play-all is one atomic command that plays the currently held Treasures in hand order. Purchases spend exact Coins and one Buy, including cost zero, and gain to discard. Phase departure asks for confirmation only when a legal play or purchase remains. Cleanup discards the hand and play area, draws five through the seeded shuffle, resets resources and leader usage, counts the turn and passes control. Ending checks run after cleanup; final totals include every owned Territory and use fewer-turn/shared ties. No commands can advance a finished game. These are the same commands used by recorded integration preludes; there is no production test mode. Worship remains milestone 6.
+The player-facing economy uses `phase/advanced`, `treasure/played`, `treasures/played`, `card/bought`, and `turn/ended`. Play-all is one atomic command that plays the currently held Treasures in hand order. Purchases spend exact Coins and one Buy, including cost zero, and gain to discard. Phase departure asks for confirmation only when a legal play or purchase remains. Cleanup discards the hand and play area, draws five through the seeded shuffle, resets resources and leader usage, counts the turn and passes control. Ending checks run after cleanup; final totals include every owned Territory and use fewer-turn/shared ties. No commands can advance a finished game. These are the same commands used by recorded integration preludes; there is no production test mode. `god/worshipped` pays one Worship and the event’s Coins atomically, then queues the selected Standard or Favored effect without changing phase or spending a Buy. Devotion is recalculated from matching Actions in play. Persistent choices carry gain restrictions, destination and optionality; empty gains never refund payment, and unconditional rewards continue. Command IDs make Worship and its choices idempotent.
 
 ## Activity and motion
 
@@ -36,7 +36,7 @@ Committed joins add a seat with a short entrance transition and a named activity
 
 ## Next milestones
 
-1. Add Worship and all standard/favored event effects.
+1. Complete match acceptance stories and the final victory presentation.
 2. Complete full-match acceptance and the dedicated victory composition using the same seeded random streams.
 3. Extend public activity animations, endings, shared display and recovery stories.
 

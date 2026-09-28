@@ -66,7 +66,7 @@ The sequence is a development/review sequence, not a succession of altered game 
 
 **Fidelity review:** no shopping-page grid; inset card piles, near-hand continuity, selected pile and real destination, usable Basics/Actions selector and readable mobile expanded card.
 
-**Implementation evidence:** [Economy stories and fidelity review](tests/e2e/005-economy/FIDELITY.md). Individual and atomic all-Treasure play, all eighteen supply piles, buying, optional phase departure, and public destinations are implemented. At the user’s request, cleanup, next-player handoff and final score calculation are brought forward so the preview can be tested through ordinary turns. Worship and the complete-match acceptance/final victory composition remain subsequent work.
+**Implementation evidence:** [Economy stories and fidelity review](tests/e2e/005-economy/FIDELITY.md). Individual and atomic all-Treasure play, all eighteen supply piles, buying, optional phase departure, and public destinations are implemented. At the user’s request, cleanup, next-player handoff and final score calculation are brought forward so the preview can be tested through ordinary turns. Step 6 supplies Worship; complete-match acceptance and the final victory composition remain subsequent work.
 
 ## 6. Worship any shared god
 
@@ -78,11 +78,13 @@ The sequence is a development/review sequence, not a succession of altered game 
 
 **Fidelity review:** altar/card focus, actual contributing Actions connected to the god, distinct active-effect label, cost placement and a reachable mobile Worship control without additional prose panels.
 
+**Implementation evidence:** [Worship stories and fidelity review](tests/e2e/006-worship/FIDELITY.md). All four gods, Devotion, phase-preserving payment, optional choices, topdeck gains, and repeated Worship are implemented. The altar uses live catalog cards over generated environment layers derived from painting 08. Visual acceptance remains the reviewer’s decision.
+
 ## 7. Finish turns and complete a match
 
 **Visible result:** decision **21**, handoff **12** and victory **14** complete the playable v0.1 game.
 
-**Complete implementation:** meaningful remaining-option confirmation, cleanup/discard/clear/draw, ending checks after cleanup, next-player reset, both ending conditions, all owned Territory scoring, fewer-turn/shared ties and immutable finished table. Play again creates a new table. No final round or hidden rule adjustment. The step-5 preview exposes ordinary turn progression for manual testing at the user’s request. Complete v0.1 acceptance still requires Worship and the full-match stories.
+**Complete implementation:** meaningful remaining-option confirmation, cleanup/discard/clear/draw, ending checks after cleanup, next-player reset, both ending conditions, all owned Territory scoring, fewer-turn/shared ties and immutable finished table. Play again creates a new table. No final round or hidden rule adjustment. The step-5 preview exposes ordinary turn progression for manual testing at the user’s request. Complete v0.1 acceptance still requires the full-match stories and final victory presentation.
 
 **E2E:** stories 012/015 plus one complete multi-client game through real commands. Verify decline/confirm, no early end at zero Buys, no cleanup Worship, no repeated draw after retry, both pile endings, starting Hamlets/trash scoring, all ties and 2/3/4 players, persistent final results.
 
@@ -132,7 +134,7 @@ The sequence is a development/review sequence, not a succession of altered game 
 
 Each milestone adds a `FIDELITY.md` beside its E2E story: links to concept(s), actual phone/desktop/4K screenshots, a short visual comparison, and the named behavioral checks. A side-by-side human review answers “does this look like the accepted game?”; exact app snapshots answer “did it change after review?” Both are required.
 
-Do not mark a step accepted because snapshots were generated or CI passed. Implementation-complete means checks pass and the PR contains concrete fidelity evidence; visual acceptance remains the reviewer's decision. Steps 1 and 2 are implemented. Step 1’s sanctuary fidelity was accepted; step 2’s gathering is submitted for review with evidence in `tests/e2e/001-game-setup/FIDELITY.md`. Steps 3–11 remain planned.
+Do not mark a step accepted because snapshots were generated or CI passed. Implementation-complete means checks pass and the PR contains concrete fidelity evidence; visual acceptance remains the reviewer's decision. Steps 1–5 are implemented and merged. Step 6 is implemented and submitted for review with evidence in `tests/e2e/006-worship/FIDELITY.md`. Steps 7–11 remain planned; cleanup and the basic next-player handoff were brought forward in step 5.
 
 ### Step 3 architecture clarification
 

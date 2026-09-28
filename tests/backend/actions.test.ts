@@ -190,3 +190,70 @@ test('departure reminders choose the highest-cost legal card with stable ties, w
   state.resources.buys = 0;
   expect(departureReminder(state, 'a')).toBeNull();
 });
+
+test('Worship checks shared gods, turn, resources and pending choices before payment, with no Buy or phase cost', () => {
+  const state = game(); state.resources.coins = 6;
+  for (const phase of ['actions','treasures','buys'] as const) {
+    const copy = structuredClone(state); copy.turn.phase = phase; copy.resources.buys = 0;
+    run(copy, {type:'god/worshipped',cardId:'tribute-of-the-tides'});
+    expect(copy.turn.phase).toBe(phase); expect(copy.resources).toEqual({...state.resources,coins:3,worship:0,buys:0});
+    expect(copy.decks.a.discard.at(-1)?.cardId).toBe('drachma'); expect(copy.turn.leaderUsed).toBe(false);
+  }
+  const invalid = [
+    (s:SetupState)=>{s.resources.coins=2;}, (s:SetupState)=>{s.resources.worship=0;},
+    (s:SetupState)=>{s.turn.index=s.turnOrder.indexOf('b');}, (s:SetupState)=>{s.turn.phase='finished';},
+    (s:SetupState)=>{s.turn.choice={id:'pending',kind:'trash',source:'seed-keeper',min:0,max:1};},
+    (s:SetupState)=>{s.sharedEvents=[];}
+  ];
+  for(const change of invalid){const copy=structuredClone(state);change(copy);const before=structuredClone(copy);expect(()=>run(copy,{type:'god/worshipped',cardId:'tribute-of-the-tides'})).toThrow();expect(copy).toEqual(before);}
+});
+
+test('Athena counts only matching Actions in play, replaces Standard at two Devotion, and gains Actions onto the deck', () => {
+  for(const devotion of [0,1,2,3]){
+    const state=game('thaleia',['temple-of-athena','sacred-academy']);state.resources.coins=6;state.resources.worship=2;
+    state.decks.a.play=instances(Array.from({length:devotion},(_,i)=>i===0?'temple-of-athena':'oracles-acolyte'),'p');
+    state.decks.a.play.push(...instances(['obol','temple-of-poseidon'],'other'));
+    run(state,{type:'god/worshipped',cardId:'counsel-of-olympus'});
+    expect(state.turn.choice?.limit).toBe(devotion>=2?5:3);expect(state.turn.choice?.actionOnly).toBe(true);
+    expect(()=>choose(state,['drachma'])).toThrow();expect(()=>choose(state,['temple-of-athena'])).toThrow();
+    if(devotion<2)expect(()=>choose(state,['sacred-academy'])).toThrow();
+    choose(state,[devotion>=2?'sacred-academy':'harbor-pilot']);
+    expect(state.decks.a.deck[0].cardId).toBe(devotion>=2?'sacred-academy':'harbor-pilot');expect(state.decks.a.discard).toHaveLength(0);
+    expect(state.turn.leaderUsed).toBe(false);expect(state.resources.buys).toBe(1);
+    run(state,{type:'god/worshipped',cardId:'counsel-of-olympus'});choose(state,['oracles-acolyte']);expect(state.resources.worship).toBe(0);expect(state.resources.coins).toBe(0);
+  }
+});
+
+test('empty gains do not refund Worship and Poseidon still gives the Favored Buy', () => {
+  for(const favored of [false,true]){
+    const state=game('nereon');state.resources.coins=3;
+    if(favored)state.decks.a.play=instances(['temple-of-poseidon','sea-trade'],'p');
+    run(state,{type:'god/worshipped',cardId:'tribute-of-the-tides'});
+    expect((favored?state.decks.a.deck:state.decks.a.discard)[favored?0:state.decks.a.discard.length-1].cardId).toBe('drachma');
+    expect(state.resources.buys).toBe(favored?2:1);
+    const empty=game('nereon');empty.resources.coins=3;empty.decks.a.play=state.decks.a.play;empty.supply.drachma=0;
+    run(empty,{type:'god/worshipped',cardId:'tribute-of-the-tides'});expect(empty.resources).toEqual({actions:1,coins:0,worship:0,buys:favored?2:1});
+  }
+  const state=game();state.resources.coins=3;for(const id of Object.keys(state.supply))if(definition(id).type==='Action')state.supply[id]=0;
+  run(state,{type:'god/worshipped',cardId:'counsel-of-olympus'});expect(state.turn.choice).toBeNull();expect(state.resources.coins).toBe(0);expect(state.resources.worship).toBe(0);
+});
+
+test('Demeter sums actual trash, permits a zero-cost or skipped gain, and always grants its Favored Buy', () => {
+  for(const targets of [[],['h-0'],['h-0','h-1']])for(const gainCard of [true,false]){
+    const state=game('melia',['hamlet','drachma']);state.resources.coins=3;state.decks.a.play=instances(['temple-of-demeter','seed-keeper'],'p');
+    run(state,{type:'god/worshipped',cardId:'blessing-of-the-fields'});choose(state,targets);
+    expect(state.turn.choice?.limit).toBe(targets.length===2?5:targets.length===1?2:0);expect(state.resources.buys).toBe(1);
+    choose(state,gainCard?[targets.length===2?'polis':'obol']:[]);expect(state.resources.buys).toBe(2);expect(state.trash).toHaveLength(targets.length);expect(state.turn.leaderUsed).toBe(false);
+  }
+  for(const favored of [false,true]){const state=game('melia',[],[]);state.resources.coins=3;if(favored)state.decks.a.play=instances(['temple-of-demeter','seed-keeper'],'p');run(state,{type:'god/worshipped',cardId:'blessing-of-the-fields'});if(favored)choose(state,['obol']);expect(state.turn.choice).toBeNull();expect(state.resources.buys).toBe(favored?2:1);}
+  const empty=game('melia',[],[]);empty.resources.coins=3;empty.supply.obol=0;empty.decks.a.play=instances(['temple-of-demeter','seed-keeper'],'p');run(empty,{type:'god/worshipped',cardId:'blessing-of-the-fields'});expect(empty.turn.choice).toBeNull();expect(empty.resources.buys).toBe(2);
+});
+
+test('Ares requires an actual trash and upgrades by one or three without triggering Doreios', () => {
+  for(const favored of [false,true])for(const trash of [false,true]){
+    const state=game('doreios',['hamlet']);state.resources.coins=4;if(favored)state.decks.a.play=instances(['temple-of-ares','bronze-recruit'],'p');
+    run(state,{type:'god/worshipped',cardId:'trial-of-the-spear'});choose(state,trash?['h-0']:[]);
+    if(trash){expect(state.turn.choice?.limit).toBe(favored?5:3);expect(()=>choose(state,['talent'])).toThrow();choose(state,['obol']);}
+    expect(state.turn.choice).toBeNull();expect(state.turn.leaderUsed).toBe(false);expect(state.resources.worship).toBe(0);
+  }
+});

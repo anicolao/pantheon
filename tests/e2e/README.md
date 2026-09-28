@@ -10,6 +10,8 @@ The shared fixture writes each passing story’s illustrated README. Every captu
 - [Recorded-history Action effect scenarios](004-actions/README.md)
 - [Buying, passing turns, drawing, and playing the purchased copy](005-economy/README.md)
 
+- [Worship, Devotion, offerings, and topdeck gains](006-worship/README.md)
+
 Recorded-history integration scenarios are labeled in their documentation. They supplement the ordinary UI journeys. Backend tests verify the event reducer and authorization separately.
 
 Regenerate baselines explicitly, inspect them, and run comparison mode afterward. Linux generation uses the workflow’s `update_snapshots` input and cannot publish the app. PR verification runs the complete suite without snapshot updates, retries, masks, or tolerance exceptions.

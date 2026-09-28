@@ -227,3 +227,31 @@ test('Action commands authenticate, replay and retry exactly once across a pendi
   }
   throw new Error('The Temple must appear within two turns per player.');
 });
+
+test('Worship commands authenticate, serialize payment, and retry a topdeck choice without duplicate gains', async () => {
+  const {appendGameCommand}=await import('../../src/lib/backend/setup-repository');
+  const a=database('worship-a'),b=database('worship-b');
+  await enterRoom(a,'worship-stream','worship-a','Ariadne',2);await enterRoom(b,'worship-stream','worship-b','Theseus');
+  await appendGameCommand(a,'worship-stream','worship-a','draft',{type:'draft/started',seed:'worship-story-0'});
+  const history=async()=>(await getDocs(collection(a,'games/worship-stream/events'))).docs.map(doc=>doc.data() as SetupEvent);
+  let state=replaySetup(await history());
+  for(const uid of state.draftOrder)await appendGameCommand(uid==='worship-a'?a:b,'worship-stream',uid,`leader-${uid}`,{type:'leader/chosen',leaderId:uid===state.turnOrder[0]?'nereon':'thaleia'});
+  const {activePlayer}=await import('../../src/lib/game/actions');state=replaySetup(await history());let counter=0;
+  for(let turn=0;turn<4;turn++){
+    const uid=activePlayer(state),db=uid==='worship-a'?a:b;
+    await appendGameCommand(db,'worship-stream',uid,`phase-${counter++}`,{type:'phase/advanced'});
+    if(state.decks[uid].hand.some(card=>card.cardId==='obol'))await appendGameCommand(db,'worship-stream',uid,`money-${counter++}`,{type:'treasures/played'});
+    state=replaySetup(await history());
+    if(state.resources.coins>=3){
+      const worship={type:'god/worshipped' as const,cardId:'counsel-of-olympus'};
+      await expect(appendGameCommand(uid==='worship-a'?b:a,'worship-stream',uid==='worship-a'?'worship-b':'worship-a','wrong-worship',worship)).rejects.toThrow();
+      await appendGameCommand(db,'worship-stream',uid,'worship',worship);await appendGameCommand(db,'worship-stream',uid,'worship',worship);
+      state=replaySetup(await history());expect(state.resources.worship).toBe(0);expect(state.resources.buys).toBe(1);
+      const choice={type:'choice/resolved' as const,choiceId:state.turn.choice!.id,targets:['oracles-acolyte']};
+      await appendGameCommand(db,'worship-stream',uid,'gain',choice);await appendGameCommand(db,'worship-stream',uid,'gain',choice);
+      const events=await history();state=replaySetup(events);expect(state.decks[uid].deck[0].cardId).toBe('oracles-acolyte');expect(events.filter(event=>event.type==='god/worshipped')).toHaveLength(1);expect(state.supply['oracles-acolyte']).toBe(7);expect(replaySetup([...events].reverse())).toEqual(state);return;
+    }
+    await appendGameCommand(db,'worship-stream',uid,`end-${counter++}`,{type:'turn/ended'});state=replaySetup(await history());
+  }
+  throw new Error('Expected enough Coins during the first two hands.');
+});
