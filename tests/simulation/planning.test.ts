@@ -1,3 +1,5 @@
+import { thinPlayPriority } from '../../scripts/balance/thin';
+import { enginePlayPriority } from '../../scripts/balance/engine';
 import { expect, test } from 'bun:test';
 import { setupMatch } from '../../scripts/balance/runner';
 import { activePlayer, definition } from '../../src/lib/game/actions';
@@ -100,4 +102,21 @@ test('topdeck gains receive immediate value only when known draw and Action capa
  const blocked={...v,leaderUsed:true,hand:[card('council-of-sages')]};
  expect(immediateGainValue(blocked,'council-of-sages')).toBe(0);
  expect(immediateGainValue({...v,phase:'buys'},'talent')).toBe(0);
+});
+
+test('Thin play ordering includes Nereon bonus Coins and Doreios actual trash opportunities',()=>{
+ const {game:n}=setupMatch('nereon-payload',['nereon','thaleia']);const nv=strategyView(n,activePlayer(n),inventoryAtSetup(n));
+ nv.hand=[card('sea-trade'),card('bronze-recruit')];nv.owned={...nv.owned,'sea-trade':1,'bronze-recruit':1};
+ expect(thinPlayPriority(nv,nv.hand[0])).toBeGreaterThan(thinPlayPriority(nv,nv.hand[1]));
+ const {game:d}=setupMatch('doreios-payload',['doreios','thaleia']);const dv=strategyView(d,activePlayer(d),inventoryAtSetup(d));
+ dv.owned={talent:4,hamlet:6,'bronze-recruit':1,'sea-trade':1};dv.hand=[card('bronze-recruit'),card('sea-trade'),card('hamlet')];
+ expect(thinPlayPriority(dv,dv.hand[0])).toBeGreaterThan(thinPlayPriority(dv,dv.hand[1]));
+ expect(thinPlayPriority(dv,dv.hand[0])).toBeGreaterThan(thinPlayPriority({...dv,leaderUsed:true},dv.hand[0]));
+ expect(enginePlayPriority(dv,dv.hand[0])).toBeGreaterThan(enginePlayPriority({...dv,leaderUsed:true},dv.hand[0]));
+});
+
+test('conditional reveal payload is valued from public Territory density',()=>{
+ const money=state();money.owned={obol:10};const territories={...money,owned:{hamlet:10}};
+ const profile={family:'engine' as const,parameters:candidates[0]};
+ expect(cardValue(territories,profile,'victorious-procession')).toBeGreaterThan(cardValue(money,profile,'victorious-procession'));
 });
