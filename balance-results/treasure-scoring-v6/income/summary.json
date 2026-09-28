@@ -1,0 +1,38 @@
+[
+  {
+    "leader": "nereon",
+    "decks": 6000,
+    "hands": 600000,
+    "beforeMean": 8.187076666666666,
+    "afterMean": 7.297240000000004,
+    "beforeHitEight": 0.568785,
+    "afterHitEight": 0.44920333333333334
+  },
+  {
+    "leader": "thaleia",
+    "decks": 6000,
+    "hands": 600000,
+    "beforeMean": 8.235126666666666,
+    "afterMean": 7.198596666666634,
+    "beforeHitEight": 0.56163,
+    "afterHitEight": 0.432185
+  },
+  {
+    "leader": "melia",
+    "decks": 6000,
+    "hands": 600000,
+    "beforeMean": 8.087625,
+    "afterMean": 7.343993333333342,
+    "beforeHitEight": 0.560505,
+    "afterHitEight": 0.461555
+  },
+  {
+    "leader": "doreios",
+    "decks": 6000,
+    "hands": 600000,
+    "beforeMean": 8.215698333333334,
+    "afterMean": 7.411838333333342,
+    "beforeHitEight": 0.592605,
+    "afterHitEight": 0.4750333333333333
+  }
+]
