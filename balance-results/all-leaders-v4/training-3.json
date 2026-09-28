@@ -1,0 +1,74 @@
+[
+  {
+    "key": "2/thaleia/race",
+    "candidate": 0,
+    "share": 0.36041666666666666,
+    "games": 240
+  },
+  {
+    "key": "2/thaleia/race",
+    "candidate": 1,
+    "share": 0.04791666666666667,
+    "games": 240
+  },
+  {
+    "key": "2/thaleia/race",
+    "candidate": 2,
+    "share": 0.4,
+    "games": 240
+  },
+  {
+    "key": "2/nereon/race",
+    "candidate": 0,
+    "share": 0.3854166666666667,
+    "games": 240
+  },
+  {
+    "key": "2/nereon/race",
+    "candidate": 1,
+    "share": 0.18541666666666667,
+    "games": 240
+  },
+  {
+    "key": "2/nereon/race",
+    "candidate": 2,
+    "share": 0.40208333333333335,
+    "games": 240
+  },
+  {
+    "key": "2/melia/race",
+    "candidate": 0,
+    "share": 0.27708333333333335,
+    "games": 240
+  },
+  {
+    "key": "2/melia/race",
+    "candidate": 1,
+    "share": 0.09375,
+    "games": 240
+  },
+  {
+    "key": "2/melia/race",
+    "candidate": 2,
+    "share": 0.2916666666666667,
+    "games": 240
+  },
+  {
+    "key": "2/doreios/race",
+    "candidate": 0,
+    "share": 0.325,
+    "games": 240
+  },
+  {
+    "key": "2/doreios/race",
+    "candidate": 1,
+    "share": 0.125,
+    "games": 240
+  },
+  {
+    "key": "2/doreios/race",
+    "candidate": 2,
+    "share": 0.33541666666666664,
+    "games": 240
+  }
+]

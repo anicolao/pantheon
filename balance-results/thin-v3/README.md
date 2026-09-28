@@ -1,6 +1,6 @@
 # Thin v3 behavior diagnostic
 
-Thin now evaluates removal and replacement by their effect on future spending reliability, retained VP and current-turn income. It considers joint trash subsets, preserves the last useful trasher, allows removal of exhausted tools, scores acquisitions by remaining work, and prioritizes useful thinning during play. The full model, constants and limitations are in [the design reference](../../BOT_STRATEGIES.md#thin-strategy-version-3).
+Thin now evaluates removal and replacement by their effect on future spending reliability, retained VP and current-turn income. It considers joint trash subsets, preserves the last useful trasher, allows removal of exhausted tools, scores acquisitions by remaining work, and prioritizes useful thinning during play. The full model, constants and limitations are in [the design reference](https://github.com/anicolao/pantheon/blob/97a8db9/BOT_STRATEGIES.md#thin-strategy-version-3).
 
 This is a small execution/behavior diagnostic, not a retrained balance comparison. It uses preset 0 in both versions, three new seed blocks, all 12 ordered heads-up leader lineups, both focal positions, Treasure and Engine opponents, and standard/+2A rules. Both rules are pooled below. Each version/opponent row contains 144 games; there are 576 games total. Only three distinct seeds are used, so the many lineup rotations are not independent evidence. No confidence or significance claim is made.
 

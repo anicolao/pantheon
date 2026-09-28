@@ -4,6 +4,8 @@ The current population is **strategy version 4**. See [bot designs](BOT_STRATEGI
 
 ## Full leader/strategy matrix
 
+The completed standard-rule v4 study is archived in [all-leaders-v4](balance-results/all-leaders-v4/README.md), including all 150 strategy matchups, adjusted leader-pair intervals and replay verification.
+
 Run inside `nix develop`, from a clean committed tree, using a fresh output directory:
 
 ```sh
@@ -35,7 +37,9 @@ The full framework supports `[2,3,4]` player counts and `treasure`, `engine`, `t
 
 Output manifests record the full configuration before play, exact seeds, frozen profiles and their SHA-256 digest, source commit, planned game count, weighting, exclusions, guards and inference settings. Confirmation refuses dirty source trees, source/profile changes since discovery, failed discovery runs, reused declared seeds, and fewer than 200 blocks. Training, discovery and confirmation use separate seed namespaces. These checks prevent accidental contamination among the supplied artifacts; they cannot detect other experiments or manual tuning that a researcher fails to disclose.
 
-## Policies and training
+## Historical v2/v3 policies and training
+
+This section describes the older study commands and archives. For current v4 behavior and all-five-family training, use the full-matrix section above and [the current design](BOT_STRATEGIES.md).
 
 For goals, exact decision rules, utility tables, presets, known design gaps and review scenarios for every bot, see [Bot strategy design review](BOT_STRATEGIES.md).
 
