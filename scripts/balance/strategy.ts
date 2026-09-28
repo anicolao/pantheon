@@ -1,9 +1,10 @@
+import { thinToolValue, thinTrashChoice, thinKeepValue, thinGain, thinChangeValue, thinPlayPriority } from './thin';
 import { effectFeatures, engineActionValue, engineKeepValue, enginePlayPriority, type Features } from './engine';
 import { actionEffects, definition, leaderEffects, type PlayVariant, type ActionCommand, type Choice } from '../../src/lib/game/actions';
 import type { CardInstance, SetupState } from '../../src/lib/game/setup';
 import { chooseCommand, observe, type Observation } from './bot';
 
-export const strategyVersion = 2;
+export const strategyVersion = 3;
 export const families = ['treasure', 'engine', 'thin', 'worship', 'race'] as const;
 export type Family = typeof families[number];
 export type Parameters = { scoringAt: number; engineCopies: number; moneyFloor: number; worshipMargin: number };
@@ -70,6 +71,7 @@ function scoreCard(view: View, profile: Profile, id: string): number {
   if (id === 'drachma') return Math.max(1, 6.5 - Math.max(0, money(view) - 10) * 0.35);
   if (card.uniqueStartingCard) return 1;
   if (profile.family === 'engine') return engineActionValue(view, profile, id);
+  if (profile.family === 'thin') { const tool = thinToolValue(view, id); if (tool !== undefined) return tool; }
   const multiplier = end ? 0.35 : 1;
   const cap = profile.parameters.engineCopies;
   const terminal = Object.entries(view.owned).reduce((sum, [key, count]) => sum + (definition(key).type === 'Action' && !actionEffects(key).some(effect => effect.kind === 'resource' && effect.resource === 'actions') ? count : 0), 0);
@@ -99,6 +101,7 @@ function bestGain(view: View, profile: Profile, limit: number, actionOnly = fals
   return gains(view, limit, actionOnly).sort((a, b) => cardValue(view, profile, b) - cardValue(view, profile, a) || a.localeCompare(b))[0];
 }
 function loss(view: View, profile: Profile, card: CardInstance): number {
+  if (profile.family === 'thin') return thinKeepValue(view, card);
   if (disposable(view, profile, card)) return -2;
   const def = definition(card.cardId);
   if (def.type === 'Territory') return (def.vp ?? 0) * 2;
@@ -106,6 +109,7 @@ function loss(view: View, profile: Profile, card: CardInstance): number {
   return Math.max(1, cardValue(view, profile, card.cardId));
 }
 function offering(view: View, profile: Profile, choice: Choice): { targets: string[]; value: number } {
+  if (profile.family === 'thin') return thinTrashChoice(view, choice);
   const subsets: CardInstance[][] = [[], ...view.hand.map(card => [card])];
   if (choice.max > 1) for (let i = 0; i < view.hand.length; i++) for (let j = i + 1; j < view.hand.length; j++) subsets.push([view.hand[i], view.hand[j]]);
   let best = { targets: [] as string[], value: 0 };
@@ -124,9 +128,10 @@ function resolveChoice(view: View, profile: Profile): ActionCommand {
   const choice = view.choice!;
   let targets: string[] = [];
   if (choice.kind === 'gain') {
-    const id = bestGain(view, profile, choice.limit!, choice.actionOnly);
-    if (id && (choice.min > 0 || cardValue(view, profile, id) > 0)) targets = [id];
-  } else if (choice.offering || choice.forge) targets = offering(view, profile, choice).targets;
+    const id = profile.family === 'thin' ? thinGain(view, choice) : bestGain(view, profile, choice.limit!, choice.actionOnly);
+    if (id && (choice.min > 0 || (profile.family === 'thin' ? thinChangeValue(view, [], id) : cardValue(view, profile, id)) > 0)) targets = [id];
+  } else if (profile.family === 'thin' && choice.kind === 'trash') targets = thinTrashChoice(view, choice).targets;
+  else if (choice.offering || choice.forge) targets = offering(view, profile, choice).targets;
   else if (choice.kind === 'trash') {
     let remainingMoney = money(view);
     targets = [...view.hand].sort((a, b) => loss(view, profile, a) - loss(view, profile, b)).filter(card => {
@@ -148,7 +153,7 @@ function worshipValue(view: View, profile: Profile, event: string): number {
       return gain ? cardValue(view, profile, gain) + (view.phase === 'actions' ? 1 : 0) : -1000;
     }
     case 'tribute-of-the-tides': return (view.supply.drachma > 0 ? cardValue(view, profile, 'drachma') : 0) + (favored && view.resources.buys === 0 ? 1 : 0);
-    case 'blessing-of-the-fields': return favored ? offering(view, profile, { id: '', kind: 'trash', source: event, min: 0, max: 2, offering: 'sum' }).value : Math.min(2, view.hand.filter(card => disposable(view, profile, card)).length) * 2;
+    case 'blessing-of-the-fields': return profile.family === 'thin' ? thinTrashChoice(view, { id: '', kind: 'trash', source: event, min: 0, max: 2, ...(favored ? { offering: 'sum' as const } : {}) }).value : favored ? offering(view, profile, { id: '', kind: 'trash', source: event, min: 0, max: 2, offering: 'sum' }).value : Math.min(2, view.hand.filter(card => disposable(view, profile, card)).length) * 2;
     case 'trial-of-the-spear': return offering(view, profile, { id: '', kind: 'trash', source: event, min: 0, max: 1, offering: favored ? 3 : 1 }).value;
     default: return -1000;
   }
@@ -178,6 +183,7 @@ export function strategyCommand(view: View, profile: Profile): ActionCommand {
     const actions = view.hand.filter(card => definition(card.cardId).type === 'Action');
     const priority = (card: CardInstance) => {
       if (profile.family === 'engine') return enginePlayPriority(view, card);
+      if (profile.family === 'thin') return thinPlayPriority(view, card);
       if (card.cardId === 'council-of-sages' && view.leader === 'thaleia' && !view.leaderUsed) return 100;
       return actionEffects(card.cardId).reduce((value, effect) => value + (effect.kind === 'resource' && effect.resource === 'actions' ? 20 * effect.amount : effect.kind === 'draw' ? effect.amount : 0), 0);
     };
