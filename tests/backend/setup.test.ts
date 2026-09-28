@@ -259,6 +259,7 @@ test('Worship commands authenticate, serialize payment, and retry a topdeck choi
 for(const count of [2,3,4] as const)for(const goal of ['acropolis','actions'] as const)test(`${count} authenticated clients complete a whole ${goal} match with replayable cleanup and immutable results`,async()=>{
   const {appendGameCommand}=await import('../../src/lib/backend/setup-repository');
   const {activePlayer,applyPlayCommand,standings}=await import('../../src/lib/game/actions');
+  const {publicCommandContext,describePublicCommand}=await import('../../src/lib/game/public-table');
   const {leaderIds}=await import('../../src/lib/game/setup');
   const {matchCommand}=await import('../helpers/match-policy');
   const id=`whole-${count}-${goal}`,uids=Array.from({length:count},(_,i)=>`${id}-${i}`),clients=new Map(uids.map(uid=>[uid,database(uid)]));
@@ -272,7 +273,13 @@ for(const count of [2,3,4] as const)for(const goal of ['acropolis','actions'] as
   for(let i=0;i<4000&&state.turn.phase!=='finished';i++){
     const uid=activePlayer(state),command=matchCommand(state,goal),commandId=`move-${i}`;
     await appendGameCommand(clients.get(uid)!,id,uid,commandId,command);
+    const context=publicCommandContext(state,uid);
     const sequence=state.activity.length+1,message=applyPlayCommand(state,uid,command,sequence);state.activity.push({sequence,message});last={uid,id:commandId,command};
+    state.publicActivity.push(describePublicCommand(context,state,{
+      schemaVersion:1,reducerVersion:1,sequence,actorUid:uid,
+      name:state.players.find(player=>player.uid===uid)!.name,
+      playerCount:count,commandId,...command
+    }));
   }
   expect(state.turn.phase).toBe('finished');expect(state.decks[last!.uid].hand).toHaveLength(5);expect(state.resources).toEqual({actions:0,coins:0,buys:0,worship:0});
   expect(goal==='acropolis'?state.supply.acropolis===0:Object.values(state.supply).filter(n=>n===0).length>=3).toBe(true);

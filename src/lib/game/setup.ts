@@ -1,6 +1,7 @@
 import { cards } from './cards';
 import { createPrng, shuffle } from './random';
 import { applyPlayCommand, initialTurn, type ActionCommand, type Movement, type TurnState } from './actions';
+import { describePublicCommand, publicCommandContext, type PublicActivity } from './public-table';
 export type SetupEvent = {
   schemaVersion: 1;
   creationToken?: string;
@@ -31,6 +32,7 @@ export type SetupState = {
   supply: Record<string, number>;
   trash: CardInstance[];
   movements: Movement[];
+  publicActivity: PublicActivity[];
   phase: 'gathering' | 'draft' | 'playing';
   seed: string | null;
   turnOrder: string[];
@@ -47,7 +49,7 @@ export type SetupState = {
 };
 /** Replay only committed events. No clock, random source, or mutable projection. */
 export function replaySetup(events: SetupEvent[]): SetupState {
-  const state: SetupState = { turn: initialTurn(), supply: {}, trash: [], movements: [], playerCount: 2, players: [], activity: [], phase: 'gathering', seed: null, turnOrder: [], draftOrder: [], leaders: {}, decks: {}, sharedEvents: [], dealtAtSequence: null, resources: { actions: 1, buys: 1, worship: 1, coins: 0 } };
+  const state: SetupState = { turn: initialTurn(), supply: {}, trash: [], movements: [], publicActivity: [], playerCount: 2, players: [], activity: [], phase: 'gathering', seed: null, turnOrder: [], draftOrder: [], leaders: {}, decks: {}, sharedEvents: [], dealtAtSequence: null, resources: { actions: 1, buys: 1, worship: 1, coins: 0 } };
   const commandIds = new Set<string>();
   for (const event of [...events].sort((a, b) => a.sequence - b.sequence)) {
     if (event.schemaVersion !== 1 || event.sequence !== state.activity.length + 1 ||
@@ -59,7 +61,9 @@ export function replaySetup(events: SetupEvent[]): SetupState {
         event.playerCount !== state.playerCount || !state.players.some(player => player.uid === event.actorUid && player.name === event.name)) throw new Error('Invalid play event.');
       commandIds.add(event.commandId);
       if (event.type !== 'draft/started' && event.type !== 'leader/chosen') {
+        const before = publicCommandContext(state, event.actorUid);
         state.activity.push({ sequence: event.sequence, message: applyPlayCommand(state, event.actorUid, event as ActionCommand, event.sequence) });
+        state.publicActivity.push(describePublicCommand(before, state, event));
         continue;
       }
       if (event.type === 'draft/started') {
