@@ -12,10 +12,10 @@
   .dialog-frame::after{content:'';position:absolute;inset:9.2cqw 3.2cqw 6.2cqw;background:linear-gradient(#07132155,#07132155),var(--frame-art) center / auto 160% no-repeat #071321;}
   :global(dialog.framed-dialog.framed-dialog){border:0;border-radius:0;background:none;box-shadow:none;isolation:isolate;color:#f5dfac;}
   :global(dialog.framed-dialog.framed-dialog:not(.public-table)){padding:90px var(--frame-inline-padding,48px) 64px;}
-  :global(dialog.framed-dialog.framed-dialog:not(.public-table) > .close){top:58px;right:5%;}
+  :global(dialog.framed-dialog.framed-dialog:not(.public-table) > .close){top:90px;right:9%;}
   :global(dialog.framed-dialog.framed-dialog::backdrop){background:#020811bb;backdrop-filter:none;}
   @media(max-aspect-ratio:3/4){
     :global(dialog.framed-dialog.framed-dialog:not(.public-table)){padding:55px 24px 35px;}
-    :global(dialog.framed-dialog.framed-dialog:not(.public-table) > .close){top:38px;}
+    :global(dialog.framed-dialog.framed-dialog:not(.public-table) > .close){top:38px;right:5%;}
   }
 </style>

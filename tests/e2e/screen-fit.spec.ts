@@ -16,4 +16,11 @@ test('capture audit rejects clipped components and text on every viewport',async
   await page.evaluate(assertScreenFit,{document:true});
   await page.locator('#second').evaluate(node=>(node as HTMLElement).style.top='120px');
   await expect(page.evaluate(assertScreenFit,{document:true})).rejects.toThrow(/Controls overlap/);
+  await page.setContent('<button style="position:fixed;inset:0;width:100vw;height:100vh">Inert page control</button><dialog style="width:280px;height:180px;padding:12px"><button id="first" style="position:absolute;top:20px;left:20px;width:100px;height:44px">First</button><button id="second" style="position:absolute;top:80px;left:20px;width:100px;height:44px">Second</button></dialog>');
+  await page.locator('dialog').evaluate(node=>(node as HTMLDialogElement).showModal());
+  await page.evaluate(assertScreenFit,{document:true});
+  await page.locator('#second').evaluate(node=>(node as HTMLElement).style.top='30px');
+  await expect(page.evaluate(assertScreenFit,{document:true})).rejects.toThrow(/Controls overlap/);
+  await page.locator('#second').evaluate(node=>(node as HTMLElement).style.top='180px');
+  await expect(page.evaluate(assertScreenFit,{document:true})).rejects.toThrow(/clipped/);
 });
