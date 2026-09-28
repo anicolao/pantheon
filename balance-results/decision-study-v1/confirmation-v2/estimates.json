@@ -1,0 +1,50 @@
+{
+  "2/leader-trigger:doreios:focal": {
+    "blocks": 200,
+    "pairs": 10800,
+    "excludedBlocks": 0,
+    "exposureRate": 1,
+    "difference": 0.16611111111111115,
+    "interval": [
+      0.1530092592592592,
+      0.17888888888888876
+    ],
+    "correctedInterval": [
+      0.15004629629629634,
+      0.1817129629629628
+    ],
+    "label": "supported policy-dependent benefit"
+  },
+  "2/event:counsel-of-olympus:focal": {
+    "blocks": 200,
+    "pairs": 21600,
+    "excludedBlocks": 0,
+    "exposureRate": 0.6441666666666667,
+    "difference": -0.01659722222222221,
+    "interval": [
+      -0.02296296296296296,
+      -0.010277777777777782
+    ],
+    "correctedInterval": [
+      -0.02439814814814813,
+      -0.008773148148148146
+    ],
+    "label": "inconclusive"
+  },
+  "2/card:sacred-academy:focal": {
+    "blocks": 200,
+    "pairs": 43200,
+    "excludedBlocks": 0,
+    "exposureRate": 0.6546527777777778,
+    "difference": 0.049988425925925915,
+    "interval": [
+      0.0458449074074074,
+      0.0541087962962963
+    ],
+    "correctedInterval": [
+      0.044930555555555564,
+      0.05501157407407407
+    ],
+    "label": "inconclusive"
+  }
+}
