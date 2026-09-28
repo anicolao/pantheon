@@ -7,6 +7,7 @@ export type Telemetry = {
   worship: Record<string, { standard: number; favored: number; offGod: number; coins: number }>;
   acquisitions: Record<string, number>; trashes: Record<string, number>;
   leaderTriggers: number; unusedCoins: number; unusedActions: number; unusedBuys: number;
+  actionPhases: number; fullDeckDraws: number; unseenAtActionEnd: number; spareActionsWithUnseen: number;
   firstScoreTurn: number | null; finalDeckSize: number; scoreMargin: number;
 };
 export type StudyResult = {
@@ -46,18 +47,28 @@ export function runExperiment(options: ExperimentOptions): { result: StudyResult
   if (![maxTurns, maxCommands].every(value => Number.isSafeInteger(value) && value > 0)) throw new Error('Invalid guards.');
   const { game, events } = setupMatch(seed, lineup), inventory = inventoryAtSetup(game), acquired = new Set<string>();
   const metrics = Object.fromEntries(game.turnOrder.map(uid => [uid, { worship: {}, acquisitions: {}, trashes: {}, leaderTriggers: 0,
-    unusedCoins: 0, unusedActions: 0, unusedBuys: 0, firstScoreTurn: null, finalDeckSize: 0, scoreMargin: 0 } as Telemetry]));
+    unusedCoins: 0, unusedActions: 0, unusedBuys: 0, actionPhases: 0, fullDeckDraws: 0, unseenAtActionEnd: 0, spareActionsWithUnseen: 0, firstScoreTurn: null, finalDeckSize: 0, scoreMargin: 0 } as Telemetry]));
+  let progressKey = '', targetCards = 0, seen = new Set<string>(), gainedThisTurn = new Set<string>();
   let status: StudyResult['status'] = 'completed', error: string | undefined, commands = 0, inTurn = 0;
   while (game.turn.phase !== 'finished') {
     const uid = activePlayer(game), position = game.turnOrder.indexOf(uid), activeRestriction = applicable(restriction, position, focal), telemetry = metrics[uid];
+    if (progressKey !== `${uid}/${game.turn.number}`) {
+      progressKey = `${uid}/${game.turn.number}`; targetCards = Object.values(inventory[uid]).reduce((sum, count) => sum + count, 0);
+      seen = new Set(game.decks[uid].hand.map(card => card.id)); gainedThisTurn = new Set();
+    }
     if ((game.turn.turns[uid] ?? 0) >= maxTurns) { status = 'turn-limit'; break; }
     if (inTurn >= maxCommands) { status = 'command-limit'; break; }
     try {
       if (activeRestriction?.kind === 'leader-trigger' && game.leaders[uid] === activeRestriction.id) game.turn.leaderUsed = true;
-      const view = strategyView(game, uid, inventory, activeRestriction), command = strategyCommand(view, profiles[position]);
+      const view = strategyView(game, uid, inventory, activeRestriction, variant, Math.max(0, targetCards - seen.size)), command = strategyCommand(view, profiles[position]);
       const sequence = events.length + 1, start = game.movements.length;
       const event: SetupEvent = { schemaVersion: 1, sequence, actorUid: uid, name: uid, playerCount: game.playerCount, reducerVersion: 1, commandId: `play-${sequence}`, ...command };
       events.push(event);
+      if (command.type === 'phase/advanced' && game.turn.phase === 'actions') {
+        const unseen = Math.max(0, targetCards - seen.size);
+        telemetry.actionPhases++; telemetry.fullDeckDraws += Number(unseen === 0); telemetry.unseenAtActionEnd += unseen;
+        telemetry.spareActionsWithUnseen += Number(unseen > 0 && game.resources.actions > 0);
+      }
       if (command.type === 'turn/ended') { telemetry.unusedCoins += game.resources.coins; telemetry.unusedActions += game.resources.actions; telemetry.unusedBuys += game.resources.buys; }
       const message = applyVariant(game, uid, command, sequence, activeRestriction, variant);
       game.activity.push({ sequence, message });
@@ -70,6 +81,11 @@ export function runExperiment(options: ExperimentOptions): { result: StudyResult
       // A multi-effect trigger emits multiple leader movements, but fires once.
       const triggeredLeaders = new Set<string>();
       for (const move of game.movements.slice(start)) {
+        // Own draws and gains are observed events; never inspect hidden card order. Cleanup belongs to the next turn.
+        if (move.uid === uid && move.card && command.type !== 'turn/ended') {
+          if ((move.kind === 'gain' || move.kind === 'topdeck') && move.card.id.startsWith('supply-')) gainedThisTurn.add(move.card.id);
+          if (move.kind === 'draw' && !gainedThisTurn.has(move.card.id)) seen.add(move.card.id);
+        }
         if (move.kind === 'leader') triggeredLeaders.add(move.source);
         if (move.kind === 'trash' && move.card) telemetry.trashes[move.card.cardId] = (telemetry.trashes[move.card.cardId] ?? 0) + 1;
         if (move.kind === 'worship') {
