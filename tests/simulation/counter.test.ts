@@ -45,3 +45,11 @@ test('same-seed rival-buff comparison selects its declared arms without changing
   expect(() => selectCounters(rows)).toThrow();
   expect(counterReport([], selected, ['thaleia-draw', 'leader-buffs'], true).markdown).toContain('exploratory same-seed comparison, not independent confirmation');
 });
+
+
+test('buy comparison uses the unbuffed baseline and no draw or rival-buff arm', () => {
+  const rows = matrix().map(row => ({ ...row, variant: row.variant === 'standard' ? 'standard' as const : 'thaleia-buy' as const }));
+  const selected = selectCounters(rows, ['standard', 'thaleia-buy']);
+  expect(selected.filter(row => row.primary).map(row => row.variant)).toEqual(['standard', 'thaleia-buy']);
+  expect(counterReport([], selected, ['standard', 'thaleia-buy'], true).markdown).toContain('Rules: standard → thaleia-buy');
+});
