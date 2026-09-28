@@ -4,7 +4,7 @@ import type { CardInstance, SetupState } from '../../src/lib/game/setup';
 
 export const policies = ['treasure', 'draw'] as const;
 export type Policy = typeof policies[number];
-export const policyVersion = 4;
+export const policyVersion = 5;
 /** No seed, draw order, opposing hands, or private movement log crosses this boundary. */
 export type Observation = {
   hand: CardInstance[];
