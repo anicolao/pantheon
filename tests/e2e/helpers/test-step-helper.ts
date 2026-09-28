@@ -47,7 +47,7 @@ export class TestStepHelper {
           const fonts=performance.now();
           const top=[...document.querySelectorAll<HTMLDialogElement>('dialog:modal')].at(-1),box=top?.getBoundingClientRect();
           // These opaque scenes cover the whole table; underlying artwork is not visible.
-          const root=top&&top.matches('.choice-scene,.supply-scene')&&box!.left<=0&&box!.top<=0&&box!.right>=innerWidth&&box!.bottom>=innerHeight?top:document;
+          const root=top&&top.matches('.choice-scene,.supply-scene,.worship-scene')&&box!.left<=0&&box!.top<=0&&box!.right>=innerWidth&&box!.bottom>=innerHeight?top:document;
           const images=[...root.querySelectorAll<HTMLImageElement>('img')].filter(image=>image.checkVisibility()),backgrounds=new Set<string>();
           const elements=[...(root instanceof HTMLElement?[root]:[]),...root.querySelectorAll<HTMLElement>('[data-e2e-layout], [data-e2e-layout] *')];
           for(const element of elements){

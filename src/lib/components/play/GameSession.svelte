@@ -11,6 +11,7 @@
   import GameButton from '../GameButton.svelte';
   import Portrait from './Portrait.svelte';
   import ActionChoice from './ActionChoice.svelte';
+  import WorshipScene from './WorshipScene.svelte';
   import SupplyScene from './SupplyScene.svelte';
   import { activePlayer, canPlayAction, canPlayTreasure, departureReminder, standings, definition } from '$lib/game/actions';
 
@@ -23,7 +24,9 @@
   let selected = $state<string>('thaleia');
   let reduced = $state(true);
   let inspected = $state<{ card: CardDefinition; copy: number; instanceId?: string } | null>(null);
-  let modal = $state<'card' | 'supply' | 'chronicle' | 'zone' | 'advance' | ''>('');
+  let modal = $state<'card' | 'supply' | 'chronicle' | 'zone' | 'advance' | 'worship' | ''>('');
+  let worshipEvent = $state('counsel-of-olympus');
+  function worship(id: string) { worshipEvent = id; void open('worship'); }
   let handPage = $state(0), zonePage = $state(0);
   let zone = $state<{ uid: string; kind: 'play' | 'discard' | 'trash'; title: string }>();
   const turnUid = $derived(activePlayer(game));
@@ -31,6 +34,13 @@
   const ownChoice = $derived(choice && turnUid === uid ? choice : null);
   const zoneCards = $derived(zone?.kind === 'trash' ? game.trash : zone ? game.decks[zone.uid][zone.kind] : []);
   const latestMoves = $derived(game.movements.filter(move => move.sequence === game.activity.at(-1)?.sequence));
+  let lastWorship = initialRevision;
+  $effect(() => {
+    const movement = latestMoves.find(move => move.kind === 'worship');
+    if (!movement || movement.sequence <= lastWorship) return;
+    lastWorship = movement.sequence;
+    if (!reduced) document.querySelector(`[data-god-event="${movement.source}"]`)?.animate([{filter:'drop-shadow(0 0 32px #ffd779)'},{filter:'none'}],{duration:450,easing:'ease-out'});
+  });
   const revealed = $derived(latestMoves.find(move => move.kind === 'reveal'));
   const lastPublic = $derived([...latestMoves].reverse().find(move => ['trash', 'gain', 'discard', 'topdeck'].includes(move.kind) && move.card));
   const own = $derived(game.decks[uid]);
@@ -77,9 +87,9 @@
   function dealBack(node: Element, index: number) {
     return reduced || !game.dealtAtSequence || game.dealtAtSequence <= initialRevision ? { duration: 0 } : fly(node, { y: 40, duration: 550, delay: index * 85 });
   }
-  async function open(kind: 'card' | 'supply' | 'chronicle' | 'zone' | 'advance') { opener = document.activeElement as HTMLElement; modal = kind; await tick(); if (kind !== 'supply') dialog!.showModal(); }
+  async function open(kind: 'card' | 'supply' | 'chronicle' | 'zone' | 'advance' | 'worship') { opener = document.activeElement as HTMLElement; modal = kind; await tick(); if (kind !== 'supply' && kind !== 'worship') dialog!.showModal(); }
   function inspect(id: string, copy = 1, instanceId?: string) { inspected = { card: definition(id), copy, instanceId }; void open('card'); }
-  function close() { if (dialog?.open) dialog.close(); modal = ''; opener?.focus(); }
+  function close() { if (dialog?.open) dialog.close(); modal = ''; const target = opener; void tick().then(() => target?.focus()); }
   function inspectZone(player: string, kind: 'play' | 'discard' | 'trash', title: string) { zone = { uid: player, kind, title }; zonePage = 0; void open('zone'); }
   function playInspected() { const id = inspected?.instanceId; if (id && ready && (canPlayAction(game, uid, id) || canPlayTreasure(game, uid, id))) { const type = inspected!.card.type === 'Action' ? 'action/played' : 'treasure/played'; close(); void command({ type, instanceId: id }); } }
   function publicFlight(node: Element) { return reduced || game.activity.length <= initialRevision ? { duration: 0 } : fly(node, { x: -90, y: 30, duration: 550 }); }
@@ -136,7 +146,7 @@
         {/each}
       </section>
       <section class="altars" aria-label="Shared god events" class:four={game.sharedEvents.length > 2}>
-        {#each game.sharedEvents as id, index}<button style:--altar-index={index} aria-label={`Inspect ${cards.find(card => card.id === id)!.name}`} onclick={() => inspect(id)} in:arrive><CardFace card={cards.find(card => card.id === id)!} players={game.playerCount} /></button>{/each}
+        {#each game.sharedEvents as id, index}<button data-god-event={id} style:--altar-index={index} aria-label={`Inspect ${cards.find(card => card.id === id)!.name}`} onclick={() => worship(id)} in:arrive><CardFace card={cards.find(card => card.id === id)!} players={game.playerCount} /></button>{/each}
       </section>
       <div class="play-area" aria-label="Active play area">
         {#if game.decks[turnUid].play.length}<div class="played-cards">{#each game.decks[turnUid].play.slice(-3) as card (card.id)}<button aria-label={`Inspect played ${definition(card.cardId).name}`} onclick={() => inspect(card.cardId, card.copy)} in:playedFlight|global><CardFace card={definition(card.cardId)} players={game.playerCount} copy={card.copy} /></button>{/each}</div>{:else}<span>Your play area</span>{/if}
@@ -163,7 +173,7 @@
     {#if status !== 'synced'}<div class="connection" role="status"><p>Connection lost. Your place is kept.</p><GameButton onclick={retry}>Try again</GameButton></div>{/if}
   </div>
 </main>
-<dialog bind:this={dialog} oncancel={event => { event.preventDefault(); close(); }} aria-labelledby="session-dialog-title" data-e2e-layout={modal ? true : undefined} class:inspection={modal === 'card'}>
+<dialog bind:this={dialog} oncancel={event => { event.preventDefault(); close(); }} aria-labelledby="session-dialog-title" data-e2e-layout={modal && !['worship','supply'].includes(modal) ? true : undefined} class:inspection={modal === 'card'}>
   <button class="close" aria-label="Close" onclick={close}>×</button>
   {#if modal === 'card' && inspected}<h2 id="session-dialog-title">{inspected.card.name}</h2><div class="inspected" class:landscape={inspected.card.type === 'Leader' || inspected.card.type === 'Event'}><CardFace card={inspected.card} players={game.playerCount} copy={inspected.copy} /></div>
     {#if inspected.instanceId && (inspected.card.type === 'Action' || inspected.card.type === 'Treasure')}<div class="play-command"><GameButton primary onclick={playInspected} disabled={!ready || !(canPlayAction(game, uid, inspected.instanceId) || canPlayTreasure(game, uid, inspected.instanceId))}>Play {inspected.card.name}</GameButton>{#if !(canPlayAction(game, uid, inspected.instanceId) || canPlayTreasure(game, uid, inspected.instanceId))}<p>{turnUid !== uid ? 'Wait for your turn.' : choice ? 'Finish your current choice.' : inspected.card.type === 'Treasure' ? 'Play Treasures in the Treasure phase.' : game.resources.actions < 1 ? 'No Actions remaining.' : 'The Action phase is over.'}</p>{/if}</div>{/if}
@@ -172,6 +182,7 @@
   {:else if modal === 'chronicle'}<h2 id="session-dialog-title">Chronicle</h2><ol class="chronicle">{#each game.activity as item}<li>{item.message}</li>{/each}</ol>{/if}
 </dialog>
 {#if modal === 'supply'}<SupplyScene {game} {uid} {ready} {status} {error} {command} {retry} {close}/>{/if}
+{#if modal === 'worship'}<WorshipScene {game} {uid} selected={worshipEvent} {ready} {status} {error} {command} {retry} {close}/>{/if}
 {#if ownChoice}<ActionChoice {game} {uid} choice={ownChoice} {ready} {error} {command} {status} {retry} />{/if}
 
 <style>

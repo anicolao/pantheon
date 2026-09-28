@@ -10,16 +10,20 @@
   let dialog = $state<HTMLDialogElement>(), detail = $state<HTMLDialogElement>();
   let selected = $state<string[]>([]), page = $state(0), inspected = $state<{ cardId: string; copy: number }>();
   const choiceId = $derived(choice.id);
-  const options = $derived(choice.kind === 'gain' ? eligibleGains(game, choice.limit!).map(card => ({ id: card.id, cardId: card.id, copy: card.supply[game.playerCount] - game.supply[card.id] + 1 })) : game.decks[uid].hand);
+  const options = $derived(choice.kind === 'gain' ? eligibleGains(game, choice.limit!, choice.actionOnly).map(card => ({ id: card.id, cardId: card.id, copy: card.supply[game.playerCount] - game.supply[card.id] + 1 })) : game.decks[uid].hand);
   const pages = $derived(Math.max(1, Math.ceil(options.length / 3)));
   const source = $derived(definition(choice.source));
   const sourceCopy = $derived(game.decks[uid].play.findLast(card => card.cardId === choice.source)?.copy ?? 1);
-  const instruction = $derived(choice.kind === 'gain' ? `Gain a card costing up to ${choice.limit}` : choice.kind === 'discard' ? `Discard ${choice.min} card${choice.min === 1 ? '' : 's'}` : `Choose up to ${choice.max} to trash`);
+  const instruction = $derived(choice.kind === 'gain' ? `Gain ${choice.actionOnly ? "an Action" : "a card"} costing up to ${choice.limit}` : choice.kind === 'discard' ? `Discard ${choice.min} card${choice.min === 1 ? '' : 's'}` : `Choose up to ${choice.max} to trash`);
   const selectedName = $derived(options.find(card => card.id === selected[0]));
   const confirm = $derived(choice.kind === 'gain' ? `Gain ${selectedName ? definition(selectedName.cardId).name : 'a card'}` : `${choice.kind === 'trash' ? 'Trash' : 'Discard'} ${selected.length}`);
   $effect(() => { choiceId; selected = []; page = 0; });
   $effect(() => { if (dialog && !dialog.open) { dialog.showModal(); dialog.focus(); } });
-  onDestroy(() => { queueMicrotask(() => { if (!document.querySelector('dialog[open]')) document.querySelector<HTMLButtonElement>('[data-testid="hand-card"],.supply-control button')?.focus(); }); });
+  onDestroy(() => { queueMicrotask(() => {
+    const altar = document.querySelector<HTMLDialogElement>('.worship-scene[open]');
+    if (altar) (altar.querySelector<HTMLButtonElement>('.worship-submit button:not(:disabled)') ?? altar.querySelector<HTMLButtonElement>('.event-focus'))?.focus();
+    else if (!document.querySelector('dialog[open]')) document.querySelector<HTMLButtonElement>('[data-testid="hand-card"],.supply-control button')?.focus();
+  }); });
   function toggle(id: string) { selected = selected.includes(id) ? selected.filter(value => value !== id) : choice.max === 1 ? [id] : selected.length < choice.max ? [...selected, id] : selected; }
   async function inspect(cardId: string, copy = 1) { inspected = { cardId, copy }; await tick(); detail!.showModal(); }
   function submit(targets = selected) { if (ready) void command({ type: 'choice/resolved', choiceId: choice.id, targets }); }
@@ -28,7 +32,7 @@
 <dialog class="choice-scene" bind:this={dialog} aria-labelledby="choice-title" tabindex="-1" oncancel={event => event.preventDefault()}>
   <picture class="environment" aria-hidden="true"><source media="(max-aspect-ratio:3/4)" srcset={`${base}/assets/ui/table-mobile.webp`} /><img src={`${base}/assets/ui/table-desktop.webp`} alt="" /></picture>
   <div class="scene-content" data-e2e-layout={inspected ? undefined : true}>
-    <button class="source" class:landscape={source.type === 'Leader'} aria-label={`Inspect source: ${source.name}`} onclick={() => inspect(source.id, sourceCopy)}><CardFace card={source} copy={sourceCopy} players={game.playerCount} /></button>
+    <button class="source" class:landscape={source.type === 'Leader' || source.type === 'Event'} aria-label={`Inspect source: ${source.name}`} onclick={() => inspect(source.id, sourceCopy)}><CardFace card={source} copy={sourceCopy} players={game.playerCount} /></button>
     <div class="heading"><h1 id="choice-title">{source.name.split(',')[0]}</h1><p>{instruction}</p></div>
     <div class="operation" class:burning={choice.kind === 'trash'}><ResourceIcon resource={choice.kind} value={choice.kind === 'gain' ? choice.limit : choice.max} /></div>
     <div class="options" class:trash={choice.kind === 'trash'}>
@@ -40,14 +44,14 @@
       {/each}
     </div>
     <nav class="pages" aria-label="Choice pages"><button aria-label="Previous choices" disabled={page === 0} onclick={() => page--}>‹</button><span>{selected.length} selected · {page + 1} / {pages}</span><button aria-label="Next choices" disabled={page + 1 === pages} onclick={() => page++}>›</button></nav>
-    <div class="confirmation"><GameButton primary onclick={() => submit()} disabled={!ready || selected.length < Math.max(1, choice.min)}>{confirm}</GameButton>{#if choice.min === 0}<GameButton onclick={() => submit([])} disabled={!ready}>Trash none</GameButton>{/if}</div>
-    {#if choice.kind === 'gain'}<p class="destination">To your discard pile</p>{/if}
+    <div class="confirmation"><GameButton primary onclick={() => submit()} disabled={!ready || selected.length < Math.max(1, choice.min)}>{confirm}</GameButton>{#if choice.min === 0}<GameButton onclick={() => submit([])} disabled={!ready}>{choice.kind === 'gain' ? 'Gain none' : 'Trash none'}</GameButton>{/if}</div>
+    {#if choice.kind === 'gain'}<p class="destination">{choice.topdeck ? 'Onto your deck' : 'To your discard pile'}</p>{/if}
     {#if error}<p class="error" role="alert">{error}</p>{/if}
     {#if status !== 'synced'}<div class="reconnect" role="status"><p>Connection lost. Your choice is kept.</p><GameButton onclick={retry}>Try again</GameButton></div>{:else if !ready}<p class="pending" role="status">Your choice is kept.</p>{/if}
   </div>
 </dialog>
 <dialog class="detail" bind:this={detail} onclose={() => inspected = undefined} aria-label="Card details" data-e2e-layout={inspected ? true : undefined}>
-  {#if inspected}<h2>{definition(inspected.cardId).name}</h2><div class="detail-card" class:landscape={definition(inspected.cardId).type === 'Leader'}><CardFace card={definition(inspected.cardId)} players={game.playerCount} copy={inspected.copy} /></div><button class="detail-close" onclick={() => detail!.close()}>Back to choice</button>{/if}
+  {#if inspected}<h2>{definition(inspected.cardId).name}</h2><div class="detail-card" class:landscape={definition(inspected.cardId).type === 'Leader' || definition(inspected.cardId).type === 'Event'}><CardFace card={definition(inspected.cardId)} players={game.playerCount} copy={inspected.copy} /></div><button class="detail-close" onclick={() => detail!.close()}>Back to choice</button>{/if}
 </dialog>
 
 <style>

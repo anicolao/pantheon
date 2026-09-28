@@ -1,0 +1,55 @@
+import {test,expect} from '../helpers/fixtures';
+import {newPlayerContext} from '../helpers/players';
+import {roomCodeFixture} from '../helpers/room-code-fixture';
+import {TestStepHelper} from '../helpers/test-step-helper';
+import {readEvents} from '../helpers/action-history';
+import {replaySetup} from '../../../src/lib/game/setup';
+
+test('raise a Temple, worship another bloodline’s god, and keep the gained Action on top',async({page,browser},info)=>{
+  test.setTimeout(120_000);
+  const context=await newPlayerContext(browser,{viewport:info.project.use.viewport,baseURL:info.project.use.baseURL});
+  const other=await context.newPage(),steps=new TestStepHelper(page,info,'Worship a shared god');
+  const capture=(id:string,text:string,check:()=>Promise<unknown>,observer=false)=>steps.step(id,text,[{spec:text,check}],{page:observer?other:page,player:observer?'Theseus':'Ariadne'});
+  try{
+    const code=await roomCodeFixture(page,info,'worship-story-2');
+    await page.goto('./play/');await page.getByLabel('Your name',{exact:true}).fill('Ariadne');await page.getByRole('button',{name:'Create table',exact:true}).click();
+    await expect(page.getByTestId('player-seat')).toHaveCount(1);
+    await other.goto(page.url());await other.getByLabel('Your name',{exact:true}).fill('Theseus');await other.getByRole('button',{name:'Join table',exact:true}).click();
+    await capture('friends','Ariadne gathers Theseus at the table',async()=>expect(page.getByRole('button',{name:'Begin',exact:true})).toBeEnabled());
+    await page.getByRole('button',{name:'Begin',exact:true}).click();
+    await capture('choose-athena','Theseus chooses Thaleia and brings Athena to the shared table',async()=>expect(other.getByRole('button',{name:'Choose Thaleia',exact:true})).toBeEnabled(),true);
+    await other.getByRole('button',{name:'Choose Thaleia',exact:true}).click();await page.getByRole('button',{name:'View Nereon',exact:true}).click();
+    await capture('choose-poseidon','Ariadne chooses Nereon and his Temple of Poseidon',async()=>expect(page.getByRole('button',{name:'Choose Nereon',exact:true})).toBeEnabled());
+    await page.getByRole('button',{name:'Choose Nereon',exact:true}).click();
+    await capture('opening','Ariadne receives her Temple and four Obols',async()=>expect(page.locator('.hand [data-card-id]')).toHaveCount(5));
+    await page.getByTestId('hand-card').first().click();
+    await capture('temple','Read the Temple before playing it',async()=>expect(page.getByRole('button',{name:'Play Temple of Poseidon',exact:true})).toBeEnabled());
+    await page.getByRole('button',{name:'Play Temple of Poseidon',exact:true}).click();
+    await capture('temple-played','The Temple grants Worship and Nereon grants one Coin',async()=>{await expect(page.locator('.resources [data-resource=worship]')).toHaveAttribute('data-value','2');await expect(page.locator('.resources [data-resource=coins]')).toHaveAttribute('data-value','1');});
+    await page.getByRole('button',{name:'Inspect Tribute of the Tides',exact:true}).click();
+    await capture('one-devotion','One matching Action gives one Devotion and the Standard effect',async()=>{await expect(page.getByLabel('1 Devotion to Poseidon',{exact:true})).toBeVisible();await expect(page.getByRole('button',{name:'Worship Poseidon',exact:true})).toBeDisabled();await expect(page.locator('.worship-scene .reason')).toHaveText('You need 2 more Coins.');});
+    await page.keyboard.press('Escape');await expect(page.getByRole('button',{name:'Inspect Tribute of the Tides',exact:true})).toBeFocused();
+    await page.getByRole('button',{name:'To Treasures',exact:true}).click();await page.getByRole('button',{name:'Play all Treasures',exact:true}).click();
+    await capture('wealth','Four Obols bring the shared turn counters to five Coins',async()=>expect(page.locator('.resources [data-resource=coins]')).toHaveAttribute('data-value','5'));
+    await page.getByRole('button',{name:'Inspect Counsel of Olympus',exact:true}).click();
+    await capture('shared-athena','Ariadne can Worship Athena with zero Devotion despite following Poseidon',async()=>{await expect(page.getByLabel('0 Devotion to Athena',{exact:true})).toBeVisible();await expect(page.getByRole('button',{name:'Worship Athena',exact:true})).toBeEnabled();await expect(page.locator('.worship-scene .active-effect')).toContainText('Standard');});
+    await page.getByRole('button',{name:'Read Counsel of Olympus',exact:true}).click();
+    await capture('event-inspection','Read both effects on the actual landscape event',async()=>expect(page.locator('.detail[open] [data-card-id]')).toHaveAttribute('data-card-id','counsel-of-olympus'));
+    await page.getByRole('button',{name:'Return to altar',exact:true}).click();await expect(page.getByRole('button',{name:'Read Counsel of Olympus',exact:true})).toBeFocused();
+    await page.getByRole('button',{name:'Worship Athena',exact:true}).click();
+    await capture('gain-choice','Pay one Worship and three Coins, then choose an Action costing up to three',async()=>{await expect(page.getByRole('heading',{name:'Counsel of Olympus',exact:true,level:1})).toBeVisible();await expect(page.locator('.choice-scene .destination')).toHaveText('Onto your deck');await expect(page.getByRole('button',{name:'Gain none',exact:true})).toHaveCount(0);});
+    await capture('waiting-observer','Theseus sees which god Ariadne invoked while her gain choice is pending',async()=>{await expect(other.locator('.action-message')).toContainText('Ariadne chooses cards for Counsel of Olympus');await expect(other.locator('.opponents [data-card-id]')).toHaveCount(0);},true);
+    await page.reload();
+    await capture('choice-restored','Ariadne returns to exactly the same paid gain choice',async()=>expect(page.locator('.choice-scene .destination')).toHaveText('Onto your deck'));
+    await page.getByRole('button',{name:'Select Oracle’s Acolyte, copy 1',exact:true}).click();
+    await capture('selected-gain','The selected Action is ready to be placed on the deck',async()=>expect(page.getByRole('button',{name:'Gain Oracle’s Acolyte',exact:true})).toBeEnabled());
+    await page.getByRole('button',{name:'Gain Oracle’s Acolyte',exact:true}).click();
+    await capture('topdecked','The gained Action is public, the Buy is kept, and the Treasure phase remains open',async()=>{await expect(page.locator('.outcome [data-card-id]')).toHaveAttribute('data-card-id','oracles-acolyte');await expect(page.locator('.outcome [data-resource=topdeck]')).toBeVisible();await expect(page.locator('.resources [data-resource=buys]')).toHaveAttribute('data-value','1');await expect(page.locator('.turn-marker')).toContainText('Treasures');});
+    await capture('gain-observer','Theseus sees the gained card and its topdeck destination',async()=>{await expect(other.locator('.outcome [data-card-id]')).toHaveAttribute('data-card-id','oracles-acolyte');await expect(other.locator('.outcome [data-resource=topdeck]')).toBeVisible();},true);
+    await page.getByRole('button',{name:'Inspect Counsel of Olympus',exact:true}).click();
+    await capture('no-refund','The payment is kept and another Worship needs one more Coin',async()=>{await expect(page.locator('.worship-wallet [data-resource=worship]')).toHaveAttribute('data-value','1');await expect(page.locator('.worship-wallet [data-resource=coins]')).toHaveAttribute('data-value','2');await expect(page.locator('.worship-scene .reason')).toHaveText('You need 1 more Coin.');});
+    await page.getByRole('button',{name:'Return',exact:true}).click();
+    const events=await readEvents(code),state=replaySetup(events),uid=state.players[0].uid;
+    expect(events.filter(event=>event.type==='god/worshipped')).toHaveLength(1);expect(state.decks[uid].deck[0].cardId).toBe('oracles-acolyte');expect(state.resources).toEqual({actions:1,coins:2,buys:1,worship:1});expect(state.turn.phase).toBe('treasures');
+  }finally{await context.close();}
+});

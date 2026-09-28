@@ -61,3 +61,7 @@ Exact generation prompts, references and source PNG paths are recorded in [blood
 The Cards resource and small opponent-hand backs use `static/assets/backs/back-deck-icon.webp`, a 160px-wide lossless derivative of the approved common deck back. `scripts/optimize-layers.mjs` reproduces it. Its artwork is identical; icon-sized sampling avoids inconsistent full-card downsampling in Chromium and reduces image work.
 
 The player-count controls use `static/assets/ui/gather-seat-count.webp`, a 384px-wide lossless derivative of the approved gathering seat artwork. `bun scripts/optimize-ui-icons.mjs` reproduces it, keeping small-control sampling consistent.
+
+## Worship altar
+
+`static/assets/ui/worship-desktop.webp` and `worship-mobile.webp` are clean environment plates generated with the built-in image generation tool from accepted painting 08. [Exact prompts and provenance](ux/worship-assets.json) document both outputs. WebP quality 90 conversion preserves the illustrations at their original generated dimensions. No card faces, words, counters, or buttons are baked into either background. The altar reuses approved catalog cards, resource icons, resource rail, and sculpted controls; Devotion threads and pips are live vector/CSS decoration. The common environment frames every shared god, with the selected god identified by its actual event card and contributing Actions.
