@@ -1,4 +1,4 @@
-# Bot strategy design reference — version 5
+# Bot strategy design reference — version 6
 
 This reference describes implemented behavior. The [defect ledger](BOT_DEFECTS.md) records the concrete corrections and regression coverage. Bots are deterministic public-information heuristics, not optimal players. Earlier studies remain reproducible at their recorded source commits; their outcomes do not describe this version.
 
@@ -8,7 +8,7 @@ The completed [standard-rule v4 matrix](balance-results/all-leaders-v4/README.md
 
 | Family | Objective and implementation |
 | --- | --- |
-| Treasure | Big money through expected hand income. Considers every card, including Actions; maximizes the resulting deck’s expected spendable Coins until points preserve at least $8 EV. Recomputes after every buy and retains known-ending protection. Does not Worship. |
+| Treasure | Big money through expected hand income. Considers every card, including Actions; takes affordable top-value points, otherwise maximizes the resulting deck’s expected spendable Coins or takes lesser points that preserve at least $8 EV. Recomputes after every buy and retains known-ending protection. Does not Worship. |
 | Engine | Builds executable whole-deck draw, buys support when draw is blocked, then converts income to points. Generic effect-based scoring; no named opening or draw-copy cap. |
 | Thin | Favors economically useful removals and upgrades. Scores trashing tools by remaining work; uses joint before/after deck evaluation and current-turn opportunity costs. Other Actions receive 0.8× Engine utility. |
 | Worship | Builds achievable two-Action Devotion and uses worthwhile events. Actions receive 0.8× Engine utility plus marginal Favored-access value; tools use remaining-work value plus Devotion value. |
@@ -40,11 +40,11 @@ Ending evaluation uses actual VP and the production fewer-completed-turns tiebre
 
 The planner is exact for the enumerated purchase quantities and retained utility/VP frontier, not a full game-tree solver. Utilities for different card types are separable within a basket and reevaluated after actual purchases. It does not plan arbitrary future Actions, Worship chains, unknown draws or opponent turns. Positive split-tie endings may be preferred to an uncertain continuation.
 
-## Treasure: expected hand income (v5)
+## Treasure: expected hand income with scoring (v6)
 
-The previous Treasure policy was a fixed Acropolis/Talent/Drachma priority list that excluded Action purchases. That was a restricted baseline, not the requested big-money objective. Both the study Treasure family (strategy version 5) and standalone Treasure policy (policy version 3) now use the same acquisition model; legacy Draw is unchanged.
+The previous Treasure policy was a fixed Acropolis/Talent/Drachma priority list that excluded Action purchases. That was a restricted baseline, not the requested big-money objective. Both the study Treasure family (strategy version 6) and standalone Treasure policy (policy version 4) now use the same acquisition model; legacy Draw is unchanged.
 
-For every legal affordable supply card, evaluate the entire owned deck after adding it. Buy the card with the highest resulting expected spendable Coins, provided it improves on buying nothing. Every supply card competes, including draw, filtering, Action support and coin Actions. Cost breaks exact EV ties before card ID. Once a point card leaves expected income **at least $8 after dilution**, prefer the highest VP such card; otherwise keep improving income. Recompute after each actual purchase. Known positive-share endings, including multi-buy wins and split ties, override this investment gate in the study controller; known losing endings remain protected. Mandatory gains take the highest-EV available option even when all gains dilute income.
+For every legal affordable supply card, evaluate the entire owned deck after adding it. Buy the card with the highest resulting expected spendable Coins, provided it improves on buying nothing. Every supply card competes, including draw, filtering, Action support and coin Actions. Cost breaks exact EV ties before card ID. Prefer the highest printed VP tier in the entire supply whenever it is legal and affordable, regardless of income dilution. Lesser point cards qualify only when they leave expected income **at least $8 after dilution**; otherwise keep improving income. Recompute after each actual purchase. Known positive-share endings, including multi-buy wins and split ties, override this investment gate in the study controller; known losing endings remain protected. Mandatory gains take the highest-EV available option even when all gains dilute income.
 
 “Hand EV” means income from five cards drawn uniformly from the resulting whole deck, followed by legal Action play. It measures the next shuffled hand's economy, not the literal next turn's draw from the current deck: a purchase normally goes to discard and may not be available immediately. No actual shuffled order, game seed or opponent hand enters the estimate.
 
@@ -52,9 +52,9 @@ Pure money/point decks have exact mean `min(5,N) × total Treasure Coins / N`. D
 
 Execution preserves an available Action chain, then ranks Action payloads by printed/trigger Coins and expected Treasure draw income. Forced discards use current-turn cash/playability. The same greedy play rule runs inside the estimator and in actual Treasure turns. This is finite-policy income estimation, not exhaustive optimal Action sequencing. Optional trash/upgrade is declined inside the one-hand model; mandatory sampled gains use immediate draw/coin payload. Discard gains contribute only if later draw reaches them. Actual gain decisions use the EV model; actual optional trashing retains the conservative benchmark income floor. Pure trashing/gaining/Worship capacity receives no speculative future-turn premium. Treasure continues to skip Worship events.
 
-Examples without leader bonuses: seven Obols and three Hamlets give $3.50 EV; adding Drachma gives $4.091, while adding Council of Sages gives $4.136. With six Obols and four inert cards, Drachma instead gives $3.636 versus Council's $3.545. The actual game starts with six Obols, three Hamlets and a leader-specific Temple. A six-Talent/five-Hamlet deck has $8.182 EV, but adding Acropolis drops it to $7.50, so it buys income instead. With six Talents/four Hamlets, Acropolis leaves $8.182 and is accepted.
+Examples without leader bonuses: seven Obols and three Hamlets give $3.50 EV; adding Drachma gives $4.091, while adding Council of Sages gives $4.136. With six Obols and four inert cards, Drachma instead gives $3.636 versus Council's $3.545. The actual game starts with six Obols, three Hamlets and a leader-specific Temple. A six-Talent/five-Hamlet deck has $8.182 EV, but adding Acropolis drops it to $7.50, so v5 bought income instead. V6 accepts that Acropolis: the six points are available now, even though the next hand has lower mean income. With six Talents/four Hamlets, Acropolis leaves $8.182 and both versions accept it.
 
-The objective is the **mean of spendable Coins**, not `P(Coins >= 8)`, expected VP, or eventual victory probability. Sampled means have approximation error, especially for close decisions; multi-turn investment and mixed-card purchase baskets are not searched. Regression coverage: [money tests](tests/simulation/money.test.ts).
+The economic acquisition objective is the **mean of spendable Coins**, not `P(Coins >= 8)`, expected VP, or eventual victory probability. Sampled means have approximation error, especially for close decisions; multi-turn investment and mixed-card purchase baskets are not searched. Regression coverage: [money tests](tests/simulation/money.test.ts).
 
 ## Engine
 
@@ -111,3 +111,9 @@ The full matrix runner trains all four non-Treasure families for every leader ag
 The historical v4 full study used eight training blocks (11,520 games), then 200 independent evaluation blocks (60,000 games): six distinct leader pairs × 25 strategy pairings × two seats × 200. Standard leader rules apply. Every strategy cell has 400 games. Its headline comparison uses the best observed family for each leader against the other leader’s best observed family. Original equal-strategy averages and adjusted intervals are supplementary. Every individual strategy matchup is also reported, descriptively. This is a defined policy population, not optimal play, a mixed-strategy equilibrium or human balance validation.
 
 Historical variants and earlier studies are separate, source-pinned artifacts. Fresh profiles and fresh evaluation seeds are required to assess the corrected population.
+
+## Treasure scoring correction (v6)
+
+Treasure now takes the highest printed VP tier in the complete supply whenever legal and affordable, even when its dilution lowers estimated income below $8. The top tier is determined from the whole supply, not the affordable subset. Known losing endings are still rejected by the study purchase planner. Lower-value points retain the v5 income floor; all economic acquisitions, Action execution, estimation and Worship behavior remain unchanged. This single scoring exception addresses the opportunity cost of rejecting points already affordable. It is a heuristic, not an optimal multi-turn investment calculation. Standalone Treasure increments to policy 4 and study strategies to version 6.
+
+The fixed-profile experiment uses the v5 profiles and all 200 original evaluation seeds, changes only this scoring rule, and reruns every cell involving Treasure. Non-Treasure profiles are not retrained. Results are exploratory because the seeds were examined previously.
