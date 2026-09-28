@@ -1,10 +1,11 @@
-# Bot defect correction ledger — version 5
+# Bot defect correction ledger — version 6
 
 This ledger distinguishes concrete decision defects from unavoidable uncertainty and deliberate benchmark restrictions. “Corrected” means implementation plus a targeted behavioral check or the specified shared regression coverage; it does not certify perfect play.
 
 | Previously identified defect | Correction | Evidence |
 | --- | --- | --- |
 | Treasure used a fixed money/points list, excluded Actions and ignored scoring dilution | All-card expected hand-income evaluation, post-purchase $8 scoring gate, per-buy recomputation and cash-oriented Action play | `money.test.ts`; policy v5 |
+| The v5 income floor repeatedly rejected affordable top-value points | Exempt the highest printed VP tier from the $8 income floor while retaining safe endings and all-card EV investment | `money.test.ts`; [21,600-game fixed-profile test](balance-results/treasure-scoring-v6/README.md) |
 | Engine purchases ignored whole-deck draw and actual trigger capacity | Generic draw deficit, actual leader effects, support only when useful, opening reliability and shortfall feedback | `engine.test.ts`; variant capacity test in `planning.test.ts` |
 | Static Action scores/copy limits persisted in other families | Replaced study Action table with effect-based capacity and family objectives | All-family capacity test; source has no named Action score switch |
 | Conditional reveal Coins were omitted from generic payload estimates | Value the conditional income using public Territory density, without next-card access | Conditional reveal regression |
@@ -28,7 +29,7 @@ This ledger distinguishes concrete decision defects from unavoidable uncertainty
 
 ## Deliberate limits retained
 
-Treasure v5 replaces the previous restricted baseline with the requested all-card big-money objective. It still skips Worship and uses a one-hand income horizon; future benefits from pure trash/gain tools are not projected. Its sampled EV and greedy Action order are approximations. Legacy Draw remains a fixed-list historical baseline and is not one of the five study families.
+Treasure v6 retains v5’s all-card economy model and replaces the previous restricted baseline with the requested all-card big-money objective. It still skips Worship and uses a one-hand income horizon; future benefits from pure trash/gain tools are not projected. Its sampled EV and greedy Action order are approximations. Legacy Draw remains a fixed-list historical baseline and is not one of the five study families.
 
 Unknown draws, approximate income/Devotion/accessibility, fixed utility weights, finite known-hand search, separable basket utilities and a heuristic game horizon remain disclosed model assumptions. We have improved the concrete failure modes they caused, not solved optimal hidden-information play. The bots do not perform arbitrary multi-turn opponent search, strategic drafting or mixed-strategy equilibrium search. Mandatory losing choices can be unavoidable. These limits must remain visible when interpreting the matrix.
 
