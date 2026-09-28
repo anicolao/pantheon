@@ -141,3 +141,5 @@ bun run balance:counter --comparison thaleia-actions --profiles balance-runs/eng
 ```
 
 All commands run inside `nix develop`. The profile trainer records policy version, rule, seeds, every candidate score and source provenance. The counter runner checks policy versions, variant identity, matching retuning budgets and seed separation. The original 43,200-game counter budget and nine primary comparisons are unchanged; the additional 9,216 games train fresh profile parameters. These remain exploratory results because the evaluation seeds have been examined in earlier policy and rule trials.
+
+The [completed Engine v2 comparison](balance-results/engine-cycle-v1/README.md) records fresh results for both arms, whole-deck telemetry and a full purchase audit. Historical study commands above reproduce their archived outcomes only at their recorded source commits; use the explicit retrained-profile commands here for Engine v2.
