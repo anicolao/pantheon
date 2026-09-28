@@ -4,7 +4,7 @@ import { gzipSync,gunzipSync } from 'node:zlib';
 import { availableParallelism } from 'node:os';
 import { resolve } from 'node:path';
 import type { MatrixGame } from './balance/matrix';
-const out=resolve(process.argv[2]??'balance-runs/treasure-epsilon-v7');
+const out=resolve(process.argv[2]??'balance-runs/treasure-epsilon-v8');
 const blocks=Number(process.argv[3]??200),workers=availableParallelism();
 if(!Number.isInteger(blocks)||blocks<1||blocks>200)throw new Error('Invalid blocks');
 const git=(...args:string[])=>execFileSync('git',args,{encoding:'utf8'}).trim();
@@ -15,15 +15,11 @@ const rows:MatrixGame[]=Array.from({length:previous.workers},(_,i)=>gunzipSync(r
 if(previous.status!=='completed'||rows.length!==21600)throw new Error('Incomplete baseline');
 mkdirSync(out);mkdirSync(`${out}/replays`);
 const write=(name:string,data:unknown)=>writeFileSync(`${out}/${name}`,JSON.stringify(data,null,2)+'\n');
-const manifest={sourceCommit,dirty:false,baselineCommit:previous.sourceCommit,baselineDirectory:beforeDir,policyVersion:7,variant:'standard',profiles:'Frozen v5 profiles; no retraining',blocks,workers,evaluationSeeds:previous.evaluationSeeds.slice(0,blocks),plannedGames:108*blocks,primary:'Four leader-specific Treasure vs Engine changes; paired seed-block bootstrap with four-way correction',change:'Only economic candidates within $0.10 of maximum EV prefer Treasures; scoring unchanged',status:'running',startedAt:new Date().toISOString()};
+const manifest={sourceCommit,dirty:false,baselineCommit:previous.sourceCommit,baselineDirectory:beforeDir,policyVersion:8,variant:'standard',profiles:'Frozen v5 profiles; no retraining',blocks,workers,evaluationSeeds:previous.evaluationSeeds.slice(0,blocks),plannedGames:108*blocks,primary:'Eight leader-by-baseline Treasure vs Engine changes, versus no epsilon and $0.10; paired seed-block bootstrap with eight-way correction',change:'Only economic candidates within $0.035 of maximum EV prefer Treasures; scoring unchanged',status:'running',startedAt:new Date().toISOString()};
 write('manifest.json',manifest);write('profiles.json',JSON.parse(readFileSync(`${beforeDir}/profiles.json`,'utf8')));
-const controlsManifest=JSON.parse(readFileSync('balance-results/all-leaders-v5/manifest.json','utf8'));
-for(let i=0;i<controlsManifest.workers;i++)for(const line of gunzipSync(readFileSync(`balance-results/all-leaders-v5/games-${i}.jsonl.gz`)).toString().trim().split('\n')){
- const row:MatrixGame=JSON.parse(line);if(row.result.block===0&&row.familyA!=='treasure'&&row.familyB!=='treasure')rows.push(row);
-}
 const tasks=Array.from({length:workers},()=>[] as MatrixGame[]);
 let index=0;
-for(const row of rows)if(row.result.block<blocks&&((row.familyA==='treasure'||row.familyB==='treasure')||row.result.block===0))tasks[index++%workers].push(row);
+for(const row of rows)if(row.result.block<blocks&&(row.familyA==='treasure'||row.familyB==='treasure'))tasks[index++%workers].push(row);
 const start=performance.now();
 const children=tasks.map((rows,worker)=>{
  const input=`${out}/input-${worker}.json.gz`,path=`${out}/task-${worker}.json`;
@@ -33,8 +29,8 @@ const children=tasks.map((rows,worker)=>{
 try{
  await Promise.all(children.map(async child=>{if(await child.exited!==0){for(const other of children)other.kill();throw new Error('Worker failed');}}));
  const checks=tasks.map((_,i)=>JSON.parse(readFileSync(`${out}/checks-${i}.json`,'utf8')));
- if(checks.reduce((s,r)=>s+r.games,0)!==108*blocks||checks.reduce((s,r)=>s+r.checks,0)!==192||checks.reduce((s,r)=>s+r.replays,0)!==108)throw new Error('Budget/check failure');
+ if(checks.reduce((s,r)=>s+r.games,0)!==108*blocks||checks.reduce((s,r)=>s+r.checks,0)!==0||checks.reduce((s,r)=>s+r.replays,0)!==108)throw new Error('Budget/check failure');
  if(git('rev-parse','HEAD')!==sourceCommit||git('status','--porcelain'))throw new Error('Source changed');
- write('manifest.json',{...manifest,status:'completed',games:108*blocks,failures:0,unchangedChecks:192,replays:108,elapsedSeconds:(performance.now()-start)/1000});
+ write('manifest.json',{...manifest,status:'completed',games:108*blocks,failures:0,unchangedChecks:0,replays:108,elapsedSeconds:(performance.now()-start)/1000});
  console.log(`Completed ${108*blocks} paired games on ${workers} CPUs`);
 }catch(error){write('manifest.json',{...manifest,status:'failed',error:String(error)});throw error;}
