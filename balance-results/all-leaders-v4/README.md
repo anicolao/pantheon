@@ -2,18 +2,18 @@
 
 This study uses standard production leader rules: Thaleia has +1 Action. All five study families (Treasure, Engine, Thin, Worship and Race) use the corrected v4 controller. The correction ledger and complete policy specification are linked below. Legacy Draw is a historical baseline, not a sixth study family.
 
-| Leader A | Leader B | A victory share | Adjusted interval | Games |
-| --- | --- | ---: | --- | ---: |
-| thaleia | nereon | 59.5% | 57.8% to 61.2% | 10000 |
-| thaleia | melia | 55.5% | 53.7% to 57.2% | 10000 |
-| thaleia | doreios | 55.6% | 53.8% to 57.3% | 10000 |
-| nereon | melia | 46.3% | 44.3% to 48.3% | 10000 |
-| nereon | doreios | 49.9% | 48.0% to 51.8% | 10000 |
-| melia | doreios | 52.0% | 49.9% to 54.2% | 10000 |
+Each leader uses its highest-share family in the observed league: Engine for all four leaders. Each row reports the actual head-to-head cell, with 400 games across 200 seeds and both seats. Strategies were selected after evaluation, so this is a descriptive comparison of the strongest observed families, not independently validated optimal play.
 
-Thaleia leads all three rivals under standard +1 Action rules, with all three adjusted intervals above 50%. Melia leads Nereon; Nereon–Doreios and Melia–Doreios intervals include 50%. Overall equal-family averages are Thaleia **56.9%**, Melia **50.1%**, Doreios **47.5%**, Nereon **45.5%**.
+| Leader A | A strategy | Leader B | B strategy | A victory share | Games |
+| --- | --- | --- | --- | ---: | ---: |
+| thaleia | engine | nereon | engine | 72.6% | 400 |
+| thaleia | engine | melia | engine | 64.6% | 400 |
+| thaleia | engine | doreios | engine | 57.6% | 400 |
+| nereon | engine | melia | engine | 42.1% | 400 |
+| nereon | engine | doreios | engine | 40.5% | 400 |
+| melia | engine | doreios | engine | 50.9% | 400 |
 
-Engine is the highest-share family for every leader against the uniform opponent population: Thaleia **80.3%**, Melia **65.0%**, Doreios **64.6%**, Nereon **57.4%**. These family scores also include games against weaker families. In Engine-versus-Engine cells, Thaleia scores **72.6%** against Nereon, **64.6%** against Melia and **57.6%** against Doreios. Those cells are descriptive, but the pattern gives no reason here to buff Thaleia.
+Thaleia leads every rival in Engine-versus-Engine play. Melia and Doreios are near even with each other; both lead Nereon. The previous equal-strategy summary diluted these differences with games involving weaker families and did not answer the intended best-strategy-versus-best-strategy question.
 
 Thin and Race remain weak despite the defect corrections: Thin averages 30.1–39.5% for the other three leaders (53.8% for Thaleia), and Race 29.2–41.4%. Fixing decision defects does not make all strategic objectives equally effective. Broad leader averages therefore need to be read alongside the full matrices, not as a definitive ranking of optimal play.
 
@@ -27,11 +27,12 @@ The 11,520 training games compare three presets for each of 16 leader/non-benchm
 
 The 60,000 evaluation games cover all six distinct leader pairs and all 25 family combinations in both seats across 200 fresh seed blocks. Every strategy cell has 400 games, every leader pair has 10,000, and every leader/family summary has 6,000. A win is one share; ties split the share after the production turn-count tiebreak.
 
-The six primary estimates average the 25 strategy pairings equally. Their intervals resample whole seed blocks 20,000 times, with Bonferroni adjustment across the six leader pairs (family-wise alpha 0.05). These estimate performance against an explicitly uniform strategy population. The individual cells, family rankings and selected counter patterns are descriptive; selecting a strong strategy after evaluation does not establish a validated best response or equilibrium. No tuning used these final win rates.
+The headline comparison now uses each leader’s best observed family against the other leader’s best observed family, as requested. This is a reporting correction using existing games; no bots or game outcomes changed. The original predeclared six equal-strategy estimates are retained as supplementary evidence and average the 25 strategy pairings equally. Their intervals resample whole seed blocks 20,000 times, with Bonferroni adjustment across the six leader pairs (family-wise alpha 0.05). Those intervals describe the supplementary averages and do not apply to the headline best-strategy table. The individual cells, family rankings and selected counter patterns are descriptive; selecting a strong strategy after evaluation does not establish a validated best response or equilibrium. No tuning used these final win rates.
 
 ## Artifacts
 
-- [Full report: six strategy matrices and 20 leader/family summaries](report.md)
+- [Headline best-strategy matchups](best-strategies.md), [machine-readable matchups](best-strategies.json)
+- [Supplementary full matrix: six strategy matrices and 20 leader/family summaries](report.md)
 - [Machine-readable cells](cells.csv), [estimates](estimates.json), [league](league.json)
 - [Descriptive counter patterns](counter-patterns.md)
 - [Manifest](manifest.json), [frozen profiles and candidate scores](profiles.json)
@@ -62,6 +63,8 @@ After returning to a commit containing this archive, verify its records and firs
 ```sh
 bun balance-results/all-leaders-v4/verify.ts balance-results/all-leaders-v4
 ```
+
+Regenerate the descriptive summaries with `python3 balance-results/all-leaders-v4/summarize.py balance-results/all-leaders-v4`.
 
 The archived worker task files are omitted because they contain machine-specific paths; the manifest and frozen profiles preserve the portable configuration. Raw game records, training scores and replay traces are unchanged.
 

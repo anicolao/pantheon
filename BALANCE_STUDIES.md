@@ -4,7 +4,7 @@ The current population is **strategy version 4**. See [bot designs](BOT_STRATEGI
 
 ## Full leader/strategy matrix
 
-The completed standard-rule v4 study is archived in [all-leaders-v4](balance-results/all-leaders-v4/README.md), including all 150 strategy matchups, adjusted leader-pair intervals and replay verification.
+The completed standard-rule v4 study is archived in [all-leaders-v4](balance-results/all-leaders-v4/README.md), with a headline best-observed-strategy-versus-best-observed-strategy table (Engine for every leader), all 150 strategy matchups and replay verification. The original equal-strategy averages and their adjusted intervals are supplementary.
 
 Run inside `nix develop`, from a clean committed tree, using a fresh output directory:
 
