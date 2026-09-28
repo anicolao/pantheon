@@ -170,3 +170,7 @@ The [completed Engine v2 comparison](balance-results/engine-cycle-v1/README.md) 
 ## Thin policy v3
 
 The [Thin design](BOT_STRATEGIES.md#thin-strategy-version-3) now specifies joint removal/replacement evaluation, modeled spending reliability, finite game horizon and remaining-work tool purchases. The [576-game diagnostic](balance-results/thin-v3/README.md) checks execution and behavior against the preceding policy using fixed presets. It is not a retrained leader-balance comparison. Strategy version 3 requires fresh profiles and counter selection before new balance inference; version-2 archives remain historical.
+
+## Independent ending-deck audit
+
+The [100-hands-per-deck audit](balance-results/ending-hands-v1/README.md) checks all 240,000 ending decks from the v4/v5 matrices. Treasure increases both average income and the frequency of reaching $8 despite losing more games; the report separates final economy from scoring timing and calibrates the EV estimator against independent shuffles. No bot policy changed.
