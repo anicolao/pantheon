@@ -30,14 +30,15 @@ The card costs and powers are initial playtest values, not a claim of tested bal
 
 ## Run locally
 
-With Node 24 and Bun 1.3.10 installed:
+Run all development, test, simulation, and repository commands inside the pinned Nix shell. It supplies Bun, Node.js, Java, Git, GitHub CLI, Python, and ripgrep:
 
 ```sh
+nix develop
 bun install --frozen-lockfile
 bun run dev
 ```
 
-Open `http://127.0.0.1:5193/` for the sanctuary or `/gallery/` for the card catalog. To validate the card renders, run `bunx playwright install chromium`, then `bun run verify` with Java 21+ available for the Firebase emulators (`nix develop` supplies it).
+Open `http://127.0.0.1:5193/` for the sanctuary or `/gallery/` for the card catalog. To validate the card renders, run `bunx playwright install chromium`, then `bun run verify` inside the same shell. Java is used by the Firebase emulators; the balance simulations run directly in Bun.
 
 To adjust the invitation lettering, run `bun run dev:curve-editor` and open `http://127.0.0.1:5194/`. The [curve editor guide](tools/curve-editor/README.md) covers control points, whole-curve translation, previews, and exporting values.
 

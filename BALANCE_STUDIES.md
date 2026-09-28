@@ -4,6 +4,8 @@ The study runner adds training, stronger strategies, mixed-policy opposition, pa
 
 ## Run an experiment
 
+Run every command in the pinned development environment: start `nix develop`, or prefix individual commands with `nix develop --no-write-lock-file --command`. The flake provides Bun, Node.js, Java (for Firebase emulator regression tests), Git, GitHub CLI, Python and ripgrep. The balance runner itself does not require Java.
+
 Start from a clean commit and use new output directories:
 
 ```sh
