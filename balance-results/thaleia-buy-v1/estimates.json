@@ -1,0 +1,224 @@
+{
+  "nereon/standard": {
+    "blocks": 200,
+    "pairs": 400,
+    "excludedBlocks": 0,
+    "exposureRate": 1,
+    "difference": -0.115,
+    "interval": [
+      -0.16,
+      -0.06875
+    ],
+    "correctedInterval": [
+      -0.17875,
+      -0.04875
+    ],
+    "label": "signal; practical magnitude unresolved",
+    "share": 0.385,
+    "shareInterval": [
+      0.32125000000000004,
+      0.45125
+    ],
+    "selection": {
+      "leader": "nereon",
+      "variant": "standard",
+      "family": "engine",
+      "counter": "treasure-0",
+      "trainingShare": 0.34375,
+      "primary": true
+    }
+  },
+  "nereon/thaleia-buy": {
+    "blocks": 200,
+    "pairs": 400,
+    "excludedBlocks": 0,
+    "exposureRate": 1,
+    "difference": -0.11625,
+    "interval": [
+      -0.16125,
+      -0.07
+    ],
+    "correctedInterval": [
+      -0.18,
+      -0.05
+    ],
+    "label": "signal; practical magnitude unresolved",
+    "share": 0.38375,
+    "shareInterval": [
+      0.32,
+      0.45
+    ],
+    "selection": {
+      "leader": "nereon",
+      "variant": "thaleia-buy",
+      "family": "engine",
+      "counter": "treasure-0",
+      "trainingShare": 0.35625,
+      "primary": true
+    }
+  },
+  "melia/standard": {
+    "blocks": 200,
+    "pairs": 400,
+    "excludedBlocks": 0,
+    "exposureRate": 1,
+    "difference": -0.1225,
+    "interval": [
+      -0.1675,
+      -0.07625
+    ],
+    "correctedInterval": [
+      -0.185,
+      -0.05625
+    ],
+    "label": "discovery signal (negative)",
+    "share": 0.3775,
+    "shareInterval": [
+      0.315,
+      0.44375
+    ],
+    "selection": {
+      "leader": "melia",
+      "variant": "standard",
+      "family": "engine",
+      "counter": "engine-1",
+      "trainingShare": 0.33125,
+      "primary": true
+    }
+  },
+  "melia/thaleia-buy": {
+    "blocks": 200,
+    "pairs": 400,
+    "excludedBlocks": 0,
+    "exposureRate": 1,
+    "difference": -0.1175,
+    "interval": [
+      -0.16125,
+      -0.0725
+    ],
+    "correctedInterval": [
+      -0.18,
+      -0.055
+    ],
+    "label": "discovery signal (negative)",
+    "share": 0.3825,
+    "shareInterval": [
+      0.32,
+      0.445
+    ],
+    "selection": {
+      "leader": "melia",
+      "variant": "thaleia-buy",
+      "family": "engine",
+      "counter": "engine-1",
+      "trainingShare": 0.33125,
+      "primary": true
+    }
+  },
+  "doreios/standard": {
+    "blocks": 200,
+    "pairs": 400,
+    "excludedBlocks": 0,
+    "exposureRate": 1,
+    "difference": -0.2125,
+    "interval": [
+      -0.25375,
+      -0.17125
+    ],
+    "correctedInterval": [
+      -0.27,
+      -0.1525
+    ],
+    "label": "discovery signal (negative)",
+    "share": 0.2875,
+    "shareInterval": [
+      0.22999999999999998,
+      0.34750000000000003
+    ],
+    "selection": {
+      "leader": "doreios",
+      "variant": "standard",
+      "family": "engine",
+      "counter": "treasure-0",
+      "trainingShare": 0.31875,
+      "primary": true
+    }
+  },
+  "doreios/thaleia-buy": {
+    "blocks": 200,
+    "pairs": 400,
+    "excludedBlocks": 0,
+    "exposureRate": 1,
+    "difference": -0.2075,
+    "interval": [
+      -0.24875,
+      -0.165
+    ],
+    "correctedInterval": [
+      -0.26625,
+      -0.1475
+    ],
+    "label": "discovery signal (negative)",
+    "share": 0.2925,
+    "shareInterval": [
+      0.23375,
+      0.35250000000000004
+    ],
+    "selection": {
+      "leader": "doreios",
+      "variant": "thaleia-buy",
+      "family": "engine",
+      "counter": "treasure-0",
+      "trainingShare": 0.31875,
+      "primary": true
+    }
+  },
+  "nereon/adapted-difference": {
+    "blocks": 200,
+    "pairs": 400,
+    "excludedBlocks": 0,
+    "exposureRate": 1,
+    "difference": -0.00125,
+    "interval": [
+      -0.0075,
+      0.00375
+    ],
+    "correctedInterval": [
+      -0.01125,
+      0.005
+    ],
+    "label": "inconclusive"
+  },
+  "melia/adapted-difference": {
+    "blocks": 200,
+    "pairs": 400,
+    "excludedBlocks": 0,
+    "exposureRate": 1,
+    "difference": 0.005,
+    "interval": [
+      -0.005,
+      0.015
+    ],
+    "correctedInterval": [
+      -0.0075,
+      0.02
+    ],
+    "label": "inconclusive"
+  },
+  "doreios/adapted-difference": {
+    "blocks": 200,
+    "pairs": 400,
+    "excludedBlocks": 0,
+    "exposureRate": 1,
+    "difference": 0.005,
+    "interval": [
+      0,
+      0.0125
+    ],
+    "correctedInterval": [
+      0,
+      0.015
+    ],
+    "label": "inconclusive"
+  }
+}
