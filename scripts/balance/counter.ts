@@ -9,9 +9,9 @@ export const counterVariants: PlayVariant[] = ['standard', 'thaleia-draw'];
 export type TrainingCell = { leader: string; variant: PlayVariant; family: Family; counter: string; sum: number; games: number };
 export type CounterSelection = { leader: string; variant: PlayVariant; family: Family; counter: string; trainingShare: number; primary: boolean };
 /** Minimum Thaleia share chooses a counter; maximum of those minima chooses her pure strategy. Ties retain declared order. */
-export function selectCounters(cells: TrainingCell[]): CounterSelection[] {
+export function selectCounters(cells: TrainingCell[], variants: PlayVariant[] = counterVariants): CounterSelection[] {
   const selections: CounterSelection[] = [];
-  for (const leader of [...new Set(cells.map(row => row.leader))]) for (const variant of counterVariants) {
+  for (const leader of [...new Set(cells.map(row => row.leader))]) for (const variant of variants) {
     const selected = families.map(family => {
       const rows = counterCandidates.map(candidate => {
         const matches = cells.filter(row => row.leader === leader && row.variant === variant && row.family === family && row.counter === candidate.id);
@@ -31,7 +31,8 @@ export function selectCounters(cells: TrainingCell[]): CounterSelection[] {
 export type CounterGame = { leader: string; variant: PlayVariant; family: Family; counter: string; result: StudyResult };
 const share = (row: CounterGame) => row.result.players.find(player => player.leader === 'thaleia')!.share;
 const percent = (n: number) => `${(100 * n).toFixed(1)}%`;
-export function counterReport(games: CounterGame[], selections: CounterSelection[]) {
+export function counterReport(games: CounterGame[], selections: CounterSelection[], variants: PlayVariant[] = counterVariants, reusedSeeds = false) {
+  if (variants.length !== 2 || variants[0] === variants[1]) throw new Error('Declare two distinct comparison arms.');
   const estimates: Record<string, unknown> = {};
   const lines = ['# Thaleia against selected leader-specific counters', '',
     'Training selects the lowest Thaleia victory share among 13 counter configurations for each of her five frozen profiles, then selects her highest such minimum. Selection is separate for each rival and rule. Fresh evaluation seeds never select strategies. Ties retain candidate order. This is a pure-strategy search within these bots, not optimal play or a mixed-strategy equilibrium.', '',
@@ -41,7 +42,7 @@ export function counterReport(games: CounterGame[], selections: CounterSelection
   const toPair = (row: CounterGame, second: number | null): Pair => ({ baselineId: `${row.result.block}/${row.result.focal}/${row.variant}`, treatmentId: 'reference', block: row.result.block, count: 2, target: row.leader, focalFamily: row.family, opponentFamily: row.result.profiles[1 - row.result.focal].family, leader: 'thaleia', baselineShare: share(row), treatmentShare: second, exposure: 1 });
   for (const selected of selections.filter(row => row.primary)) {
     const rows = games.filter(row => row.leader === selected.leader && row.variant === selected.variant && row.family === selected.family);
-    const estimate = pairedEstimate(rows.map(row => toPair(row, 0.5)), 9, true);
+    const estimate = pairedEstimate(rows.map(row => toPair(row, 0.5)), 9, !reusedSeeds);
     const value = estimate.difference === null ? null : estimate.difference + 0.5;
     const interval = estimate.correctedInterval?.map(value => value + 0.5);
     estimates[`${selected.leader}/${selected.variant}`] = { ...estimate, share: value, shareInterval: interval, selection: selected };
@@ -51,13 +52,13 @@ export function counterReport(games: CounterGame[], selections: CounterSelection
   for (const leader of [...new Set(selections.map(row => row.leader))]) {
     const primary = selections.filter(row => row.leader === leader && row.primary);
     const rows = games.filter(row => row.leader === leader && primary.some(selected => selected.variant === row.variant && selected.family === row.family));
-    const baseline = new Map(rows.filter(row => row.variant === 'standard').map(row => [`${row.result.block}/${row.result.focal}`, row]));
-    const inputs = rows.filter(row => row.variant === 'thaleia-draw').map(row => {
+    const baseline = new Map(rows.filter(row => row.variant === variants[0]).map(row => [`${row.result.block}/${row.result.focal}`, row]));
+    const inputs = rows.filter(row => row.variant === variants[1]).map(row => {
       const other = baseline.get(`${row.result.block}/${row.result.focal}`);
       if (!other || other.result.seed !== row.result.seed || JSON.stringify(other.result.lineup) !== JSON.stringify(row.result.lineup)) throw new Error('Unpaired evaluation.');
       return toPair(row, share(other));
     });
-    const estimate = pairedEstimate(inputs, 9, true); estimates[`${leader}/adapted-difference`] = estimate;
+    const estimate = pairedEstimate(inputs, 9, !reusedSeeds); estimates[`${leader}/adapted-difference`] = estimate;
     const pp = (n: number) => `${n >= 0 ? '+' : ''}${(100 * n).toFixed(1)} pp`;
     lines.push(`| ${leader} | ${estimate.difference === null ? 'n/a' : pp(estimate.difference)} | ${estimate.correctedInterval?.map(pp).join(' to ') ?? 'n/a'} | ${estimate.blocks} |`);
   }
@@ -69,5 +70,7 @@ export function counterReport(games: CounterGame[], selections: CounterSelection
     const value = valid.length ? valid.reduce((sum, row) => sum + share(row)!, 0) / valid.length : null;
     lines.push(`| ${selected.leader} | ${selected.variant} | ${selected.family}${selected.primary ? ' (selected)' : ''} | ${selected.counter} | ${percent(selected.trainingShare)} | ${value === null ? 'n/a' : percent(value)} | ${valid.length} |`);
   }
-  return { markdown: lines.join('\n') + '\n', estimates };
+  if (reusedSeeds) lines.splice(2, 0, 'Rules: ' + variants.join(' → ') + '. Evaluation seeds are deliberately reused from the prior study. This is an exploratory same-seed comparison, not independent confirmation. Training and evaluation remain disjoint. Strategy selection uses training only.', '');
+  const markdown = lines.join('\n') + '\n';
+  return { markdown: reusedSeeds ? markdown.replace('Fresh evaluation seeds never select strategies.', 'Evaluation seeds never select strategies.') : markdown, estimates };
 }

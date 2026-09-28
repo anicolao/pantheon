@@ -84,3 +84,56 @@ test('reports orient the effect toward the proposed rule and exclude failed pair
   variant.status = 'error'; variant.players.forEach(row => row.share = null);
   expect(thaleiaReport([pair], false).markdown).toContain('1 incomplete pairs');
 });
+
+
+test('leader buffs add one coin/card beyond existing triggers, once per turn with reset', () => {
+  for (const [leader, temple] of [['nereon', 'temple-of-poseidon'], ['melia', 'temple-of-demeter']]) {
+    const { game } = setupMatch('leader-buffs-unit', [leader, 'doreios']);
+    const uid = activePlayer(game);
+    game.resources.actions = 3;
+    game.decks[uid].hand = [0, 1].map(i => ({ id: `temple-${i}`, cardId: temple, copy: i + 1 }));
+    game.decks[uid].deck = [{ id: 'top', cardId: 'obol', copy: 1 }];
+    game.decks[uid].discard = [{ id: 'reshuffle', cardId: 'obol', copy: 2 }];
+    const before = structuredClone(game);
+    for (const [target, variant] of [[before, 'thaleia-draw'], [game, 'leader-buffs']] as const) {
+      applyPlayCommand(target, uid, { type: 'action/played', instanceId: 'temple-0' }, 100, variant);
+      applyPlayCommand(target, uid, { type: 'action/played', instanceId: 'temple-1' }, 101, variant);
+    }
+    expect(game.resources.coins - before.resources.coins).toBe(leader === 'nereon' ? 1 : 0);
+    expect(game.decks[uid].hand.length - before.decks[uid].hand.length).toBe(leader === 'melia' ? 1 : 0);
+    if (leader === 'melia') {
+      expect(game.decks[uid].hand.map(card => card.id)).toEqual(['top', 'reshuffle']);
+      expect(game.turn.shuffles[uid]).toBe(1);
+    }
+    expect(game.turn.leaderUsed).toBe(true);
+    applyPlayCommand(game, uid, { type: 'phase/advanced' }, 102, 'leader-buffs');
+    applyPlayCommand(game, uid, { type: 'turn/ended' }, 103, 'leader-buffs');
+    const other = activePlayer(game);
+    applyPlayCommand(game, other, { type: 'phase/advanced' }, 104, 'leader-buffs');
+    applyPlayCommand(game, other, { type: 'turn/ended' }, 105, 'leader-buffs');
+    expect(game.turn.leaderUsed).toBe(false);
+    game.decks[uid].hand = [{ id: 'again', cardId: temple, copy: 1 }];
+    game.decks[uid].deck = [0, 1].map(i => ({ id: `again-${i}`, cardId: 'obol', copy: i + 1 }));
+    game.decks[uid].discard = [];
+    const coins = game.resources.coins;
+    applyPlayCommand(game, uid, { type: 'action/played', instanceId: 'again' }, 106, 'leader-buffs');
+    expect(game.turn.leaderUsed).toBe(true);
+    if (leader === 'melia') expect(game.decks[uid].hand).toHaveLength(2);
+    else expect(game.resources.coins - coins).toBe(2);
+  }
+});
+
+test('leader buffs preserve Thaleia versus Doreios exactly and replay each buffed rival', () => {
+  for (const leader of ['nereon', 'melia', 'doreios']) {
+    const options = { seed: 'leader-buffs-replay', block: 0, lineup: ['thaleia', leader], focal: 0,
+      profiles: Array.from({ length: 2 }, () => ({ family: 'engine' as const, parameters: candidates[1] })) };
+    const run = runExperiment({ ...options, variant: 'leader-buffs' });
+    expect(run.result.status).toBe('completed');
+    const replayed = replayExperiment(run.events, { ...options, variant: 'leader-buffs' });
+    expect(standings(replayed).map(row => [row.uid, row.score, row.turns])).toEqual(run.result.players.map(row => [row.uid, row.score, row.turns]));
+    if (leader === 'doreios') {
+      const old = runExperiment({ ...options, variant: 'thaleia-draw' });
+      expect(run.events).toEqual(old.events); expect(run.result.players).toEqual(old.result.players);
+    }
+  }
+});
