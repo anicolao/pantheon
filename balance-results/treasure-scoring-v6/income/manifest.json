@@ -1,0 +1,11 @@
+{
+  "status": "completed",
+  "sourceCommit": "676e5606e02cd39619cede0040da80f86fab5d51",
+  "workers": 16,
+  "decks": 24000,
+  "hands": 2400000,
+  "failures": 0,
+  "elapsedSeconds": 8.407765458,
+  "baseline": "balance-results/ending-hands-v1: v5 Treasure",
+  "sampling": "100 independent Fisher-Yates deals per deck, same paired ending-hands-v1 namespace and common cash execution as baseline"
+}
