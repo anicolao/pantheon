@@ -74,3 +74,5 @@ Replay samples cover the first game of each player-count/focal-family/opponent-f
 ```sh
 bunx tsc --noEmit --target es2022 --module esnext --moduleResolution bundler --types bun --skipLibCheck --strict scripts/balance-study.ts scripts/balance/*.ts
 ```
+
+The [first paired decision study](balance-results/decision-study-v1/README.md) contains the 118,800-game held-out confirmation results, full compressed data, and a replay example. It also documents the observed strategy weaknesses that limit rule recommendations.
