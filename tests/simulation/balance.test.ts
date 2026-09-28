@@ -41,7 +41,7 @@ test('both policies finish every lineup; saved events replay to the same scores 
     expect(replayed.turn.phase).toBe('finished');
     expect(result.players.map(row => [row.uid, row.score, row.turns, row.victoryShare])).toEqual(rows.map(row => [row.uid, row.score, row.turns, row.winner ? 1 / winners : 0]));
   }
-});
+}, 180000); // 120 complete games, including sampled EV money policies.
 
 test('seeded runs are deterministic, and guards/errors never become scored losses', () => {
   const options = { seed: 'repeat', block: 0, lineup: ['nereon', 'doreios'], policy: 'draw' as const };

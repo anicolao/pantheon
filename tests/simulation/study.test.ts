@@ -21,7 +21,7 @@ for (const count of [2, 3, 4] as const) test(`new strategies complete ${count}-p
     expect(result.players.reduce((sum, row) => sum + row.share!, 0)).toBeCloseTo(1);
     expect(standings(replayExperiment(events, options)).map(row => [row.uid, row.score, row.turns])).toEqual(result.players.map(row => [row.uid, row.score, row.turns]));
   }
-});
+}, 60000); // Full 25-matchup sweep includes sampled EV purchasing.
 test('leader, event and card restrictions apply only at the declared scope and replay exactly', () => {
   for (const restriction of restrictions) for (const scope of ['focal', 'table'] as const) {
     const options = { seed: 'restriction', block: 0, lineup: ['doreios', 'thaleia', 'melia', 'nereon'], focal: 0,

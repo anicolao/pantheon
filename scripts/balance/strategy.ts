@@ -1,3 +1,4 @@
+import { moneyPurchase, moneyBuy, moneyDiscard, moneyAction } from './money';
 import { devotionValue, favoredPaths } from './worship';
 import { purchasePlan, endingShare, gainOutcome, availableCoins, publicHorizon, treasureValue, immediateGainValue } from './planning';
 import { thinToolValue, thinTrashChoice, thinKeepValue, thinGain, thinChangeValue, thinPlayPriority } from './thin';
@@ -6,7 +7,7 @@ import { actionEffects, definition, leaderEffects, type PlayVariant, type Action
 import type { CardInstance, SetupState } from '../../src/lib/game/setup';
 import { chooseCommand, observe, type Observation } from './bot';
 
-export const strategyVersion = 4;
+export const strategyVersion = 5;
 export const families = ['treasure', 'engine', 'thin', 'worship', 'race'] as const;
 export type Family = typeof families[number];
 export type Parameters = { scoringAt: number; engineCopies: number; moneyFloor: number; worshipMargin: number };
@@ -165,22 +166,25 @@ function worshipValue(view: View, profile: Profile, event: string): number {
 }
 export function strategyCommand(view: View, profile: Profile): ActionCommand {
   if (profile.family === 'treasure') {
-    if (view.choice?.kind === 'discard') return resolveChoice(view, profile);
+    if (view.choice?.kind === 'discard') return { type: 'choice/resolved', choiceId: view.choice.id, targets: moneyDiscard(view) };
     const filtered = structuredClone(view);
     for (const id of view.bannedCards) filtered.supply[id] = 0;
     if (view.choice?.kind === 'gain') {
       const eligible = gains(view, view.choice.limit!, view.choice.actionOnly), safe = eligible.filter(id => gainOutcome(view, id) !== 0);
       if (safe.length || view.choice.min === 0) for (const id of eligible.filter(id => gainOutcome(view, id) === 0)) filtered.supply[id] = 0;
     }
+    if (view.choice?.kind === 'gain') {
+      const eligible = gains(filtered, view.choice.limit!, view.choice.actionOnly);
+      const winning = eligible.filter(id => (gainOutcome(view, id) ?? 0) > 0).sort((a,b)=>(definition(b).vp??0)-(definition(a).vp??0));
+      const id = winning[0] ?? moneyBuy(filtered, eligible, view.choice.min > 0);
+      return { type: 'choice/resolved', choiceId: view.choice.id, targets: id ? [id] : [] };
+    }
     if (!view.choice && view.phase === 'actions' && view.resources.actions > 0) {
-      const actions = view.hand.filter(c => definition(c.cardId).type === 'Action').sort((a,b)=>enginePlayPriority(view,b)-enginePlayPriority(view,a) || a.id.localeCompare(b.id));
-      if (actions[0]) return { type: 'action/played', instanceId: actions[0].id };
+      const action = moneyAction(view);
+      if (action) return { type: 'action/played', instanceId: action.id };
     }
     if (!view.choice && (view.phase === 'buys' || view.phase === 'treasures' && !view.hand.some(c=>definition(c.cardId).type==='Treasure'))) {
-      const end = late(view, profile);
-      const utility = (id: string) => id === 'acropolis' ? 14 : id === 'polis' && end ? 9 : id === 'talent' ? 8 : id === 'drachma' ? 5 : id === 'hamlet' && end ? 1 : -1000;
-      const plan = purchasePlan(filtered, utility);
-      return plan.cards[0] ? { type: 'card/bought', cardId: plan.cards[0] } : { type: 'turn/ended' };
+      return moneyPurchase(filtered);
     }
     return chooseCommand(filtered, 'treasure');
   }
