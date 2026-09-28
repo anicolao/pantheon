@@ -38,7 +38,7 @@ Recorded-history integration scenario. A legal event history prepares the starti
 
 </details>
 
-- [x] Stock and Buy each decrease once and the destination remains discard.
+- [x] Recovery finishes with stock and Buy decreased once and the destination still discard.
 
 ## Return to the same turn with the purchased card kept
 
