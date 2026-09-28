@@ -53,3 +53,11 @@ test('buy comparison uses the unbuffed baseline and no draw or rival-buff arm', 
   expect(selected.filter(row => row.primary).map(row => row.variant)).toEqual(['standard', 'thaleia-buy']);
   expect(counterReport([], selected, ['standard', 'thaleia-buy'], true).markdown).toContain('Rules: standard → thaleia-buy');
 });
+
+
+test('two-Action comparison declares only the standard and two-Action arms', () => {
+  const rows = matrix().map(row => ({ ...row, variant: row.variant === 'standard' ? 'standard' as const : 'thaleia-actions' as const }));
+  const selected = selectCounters(rows, ['standard', 'thaleia-actions']);
+  expect(selected.filter(row => row.primary).map(row => row.variant)).toEqual(['standard', 'thaleia-actions']);
+  expect(counterReport([], selected, ['standard', 'thaleia-actions'], true).markdown).toContain('Rules: standard → thaleia-actions');
+});

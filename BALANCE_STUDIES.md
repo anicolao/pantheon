@@ -116,3 +116,9 @@ The [completed same-seed rival-buff study](balance-results/leader-buffs-v1/READM
 This repeats the same five-profile versus 13-counter search, 40 training blocks and 200 evaluation blocks, both turn orders and original seed lists. Full runs enforce the previous seeds and frozen profiles exactly. Both sides reselect on training only; all evaluation choices are frozen. Because the evaluation seeds are reused after earlier rule experiments, this remains exploratory rather than independent confirmation. The control arm is the original unbuffed baseline, not the earlier Thaleia extra-card variant.
 
 The [completed extra-Buy study](balance-results/thaleia-buy-v1/README.md) compares against the original unbuffed baseline, with paired intervals and unused-Buy telemetry.
+
+## Thaleia +2 Actions only
+
+`bun run balance:counter --comparison thaleia-actions --out balance-runs/thaleia-actions-v1` compares original standard rules against Thaleia's first matching Action trigger granting +2 Actions total. It grants no extra Buy or Card. Nereon, Melia and Doreios retain their original triggers. Effects resolve at the existing point, with the same once-per-turn condition.
+
+The search repeats the same profiles, 13 counter configurations, 40 training and 200 evaluation seed blocks, both turn orders and selection method. Full runs enforce exact seed/profile equality with the original counter study. Both sides may reselect on training only. This is an exploratory reused-seed comparison, not independent confirmation. Previous variants remain only as explicit alternatives for their archived studies; none of their buffs apply to this comparison.
