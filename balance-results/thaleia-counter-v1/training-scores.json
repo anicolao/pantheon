@@ -1,0 +1,3122 @@
+[
+  {
+    "leader": "nereon",
+    "variant": "standard",
+    "family": "treasure",
+    "counter": "treasure-0",
+    "sum": 17,
+    "games": 80
+  },
+  {
+    "leader": "nereon",
+    "variant": "standard",
+    "family": "treasure",
+    "counter": "engine-0",
+    "sum": 33.5,
+    "games": 80
+  },
+  {
+    "leader": "nereon",
+    "variant": "standard",
+    "family": "treasure",
+    "counter": "engine-1",
+    "sum": 31,
+    "games": 80
+  },
+  {
+    "leader": "nereon",
+    "variant": "standard",
+    "family": "treasure",
+    "counter": "engine-2",
+    "sum": 41.5,
+    "games": 80
+  },
+  {
+    "leader": "nereon",
+    "variant": "standard",
+    "family": "treasure",
+    "counter": "thin-0",
+    "sum": 42.5,
+    "games": 80
+  },
+  {
+    "leader": "nereon",
+    "variant": "standard",
+    "family": "treasure",
+    "counter": "thin-1",
+    "sum": 54,
+    "games": 80
+  },
+  {
+    "leader": "nereon",
+    "variant": "standard",
+    "family": "treasure",
+    "counter": "thin-2",
+    "sum": 58.5,
+    "games": 80
+  },
+  {
+    "leader": "nereon",
+    "variant": "standard",
+    "family": "treasure",
+    "counter": "worship-0",
+    "sum": 59.5,
+    "games": 80
+  },
+  {
+    "leader": "nereon",
+    "variant": "standard",
+    "family": "treasure",
+    "counter": "worship-1",
+    "sum": 44,
+    "games": 80
+  },
+  {
+    "leader": "nereon",
+    "variant": "standard",
+    "family": "treasure",
+    "counter": "worship-2",
+    "sum": 57,
+    "games": 80
+  },
+  {
+    "leader": "nereon",
+    "variant": "standard",
+    "family": "treasure",
+    "counter": "race-0",
+    "sum": 45.5,
+    "games": 80
+  },
+  {
+    "leader": "nereon",
+    "variant": "standard",
+    "family": "treasure",
+    "counter": "race-1",
+    "sum": 49,
+    "games": 80
+  },
+  {
+    "leader": "nereon",
+    "variant": "standard",
+    "family": "treasure",
+    "counter": "race-2",
+    "sum": 58.5,
+    "games": 80
+  },
+  {
+    "leader": "nereon",
+    "variant": "standard",
+    "family": "engine",
+    "counter": "treasure-0",
+    "sum": 27.5,
+    "games": 80
+  },
+  {
+    "leader": "nereon",
+    "variant": "standard",
+    "family": "engine",
+    "counter": "engine-0",
+    "sum": 44.5,
+    "games": 80
+  },
+  {
+    "leader": "nereon",
+    "variant": "standard",
+    "family": "engine",
+    "counter": "engine-1",
+    "sum": 39.5,
+    "games": 80
+  },
+  {
+    "leader": "nereon",
+    "variant": "standard",
+    "family": "engine",
+    "counter": "engine-2",
+    "sum": 52.5,
+    "games": 80
+  },
+  {
+    "leader": "nereon",
+    "variant": "standard",
+    "family": "engine",
+    "counter": "thin-0",
+    "sum": 66.5,
+    "games": 80
+  },
+  {
+    "leader": "nereon",
+    "variant": "standard",
+    "family": "engine",
+    "counter": "thin-1",
+    "sum": 61,
+    "games": 80
+  },
+  {
+    "leader": "nereon",
+    "variant": "standard",
+    "family": "engine",
+    "counter": "thin-2",
+    "sum": 70.5,
+    "games": 80
+  },
+  {
+    "leader": "nereon",
+    "variant": "standard",
+    "family": "engine",
+    "counter": "worship-0",
+    "sum": 67,
+    "games": 80
+  },
+  {
+    "leader": "nereon",
+    "variant": "standard",
+    "family": "engine",
+    "counter": "worship-1",
+    "sum": 65,
+    "games": 80
+  },
+  {
+    "leader": "nereon",
+    "variant": "standard",
+    "family": "engine",
+    "counter": "worship-2",
+    "sum": 71.5,
+    "games": 80
+  },
+  {
+    "leader": "nereon",
+    "variant": "standard",
+    "family": "engine",
+    "counter": "race-0",
+    "sum": 72,
+    "games": 80
+  },
+  {
+    "leader": "nereon",
+    "variant": "standard",
+    "family": "engine",
+    "counter": "race-1",
+    "sum": 65,
+    "games": 80
+  },
+  {
+    "leader": "nereon",
+    "variant": "standard",
+    "family": "engine",
+    "counter": "race-2",
+    "sum": 78,
+    "games": 80
+  },
+  {
+    "leader": "nereon",
+    "variant": "standard",
+    "family": "thin",
+    "counter": "treasure-0",
+    "sum": 4.5,
+    "games": 80
+  },
+  {
+    "leader": "nereon",
+    "variant": "standard",
+    "family": "thin",
+    "counter": "engine-0",
+    "sum": 19.5,
+    "games": 80
+  },
+  {
+    "leader": "nereon",
+    "variant": "standard",
+    "family": "thin",
+    "counter": "engine-1",
+    "sum": 8.5,
+    "games": 80
+  },
+  {
+    "leader": "nereon",
+    "variant": "standard",
+    "family": "thin",
+    "counter": "engine-2",
+    "sum": 19,
+    "games": 80
+  },
+  {
+    "leader": "nereon",
+    "variant": "standard",
+    "family": "thin",
+    "counter": "thin-0",
+    "sum": 36,
+    "games": 80
+  },
+  {
+    "leader": "nereon",
+    "variant": "standard",
+    "family": "thin",
+    "counter": "thin-1",
+    "sum": 32.5,
+    "games": 80
+  },
+  {
+    "leader": "nereon",
+    "variant": "standard",
+    "family": "thin",
+    "counter": "thin-2",
+    "sum": 51,
+    "games": 80
+  },
+  {
+    "leader": "nereon",
+    "variant": "standard",
+    "family": "thin",
+    "counter": "worship-0",
+    "sum": 39,
+    "games": 80
+  },
+  {
+    "leader": "nereon",
+    "variant": "standard",
+    "family": "thin",
+    "counter": "worship-1",
+    "sum": 25.5,
+    "games": 80
+  },
+  {
+    "leader": "nereon",
+    "variant": "standard",
+    "family": "thin",
+    "counter": "worship-2",
+    "sum": 46,
+    "games": 80
+  },
+  {
+    "leader": "nereon",
+    "variant": "standard",
+    "family": "thin",
+    "counter": "race-0",
+    "sum": 40.5,
+    "games": 80
+  },
+  {
+    "leader": "nereon",
+    "variant": "standard",
+    "family": "thin",
+    "counter": "race-1",
+    "sum": 35,
+    "games": 80
+  },
+  {
+    "leader": "nereon",
+    "variant": "standard",
+    "family": "thin",
+    "counter": "race-2",
+    "sum": 51.5,
+    "games": 80
+  },
+  {
+    "leader": "nereon",
+    "variant": "standard",
+    "family": "worship",
+    "counter": "treasure-0",
+    "sum": 18,
+    "games": 80
+  },
+  {
+    "leader": "nereon",
+    "variant": "standard",
+    "family": "worship",
+    "counter": "engine-0",
+    "sum": 34,
+    "games": 80
+  },
+  {
+    "leader": "nereon",
+    "variant": "standard",
+    "family": "worship",
+    "counter": "engine-1",
+    "sum": 28,
+    "games": 80
+  },
+  {
+    "leader": "nereon",
+    "variant": "standard",
+    "family": "worship",
+    "counter": "engine-2",
+    "sum": 40.5,
+    "games": 80
+  },
+  {
+    "leader": "nereon",
+    "variant": "standard",
+    "family": "worship",
+    "counter": "thin-0",
+    "sum": 50,
+    "games": 80
+  },
+  {
+    "leader": "nereon",
+    "variant": "standard",
+    "family": "worship",
+    "counter": "thin-1",
+    "sum": 44.5,
+    "games": 80
+  },
+  {
+    "leader": "nereon",
+    "variant": "standard",
+    "family": "worship",
+    "counter": "thin-2",
+    "sum": 65.5,
+    "games": 80
+  },
+  {
+    "leader": "nereon",
+    "variant": "standard",
+    "family": "worship",
+    "counter": "worship-0",
+    "sum": 56,
+    "games": 80
+  },
+  {
+    "leader": "nereon",
+    "variant": "standard",
+    "family": "worship",
+    "counter": "worship-1",
+    "sum": 46,
+    "games": 80
+  },
+  {
+    "leader": "nereon",
+    "variant": "standard",
+    "family": "worship",
+    "counter": "worship-2",
+    "sum": 65,
+    "games": 80
+  },
+  {
+    "leader": "nereon",
+    "variant": "standard",
+    "family": "worship",
+    "counter": "race-0",
+    "sum": 59,
+    "games": 80
+  },
+  {
+    "leader": "nereon",
+    "variant": "standard",
+    "family": "worship",
+    "counter": "race-1",
+    "sum": 57,
+    "games": 80
+  },
+  {
+    "leader": "nereon",
+    "variant": "standard",
+    "family": "worship",
+    "counter": "race-2",
+    "sum": 67,
+    "games": 80
+  },
+  {
+    "leader": "nereon",
+    "variant": "standard",
+    "family": "race",
+    "counter": "treasure-0",
+    "sum": 20.5,
+    "games": 80
+  },
+  {
+    "leader": "nereon",
+    "variant": "standard",
+    "family": "race",
+    "counter": "engine-0",
+    "sum": 36,
+    "games": 80
+  },
+  {
+    "leader": "nereon",
+    "variant": "standard",
+    "family": "race",
+    "counter": "engine-1",
+    "sum": 36,
+    "games": 80
+  },
+  {
+    "leader": "nereon",
+    "variant": "standard",
+    "family": "race",
+    "counter": "engine-2",
+    "sum": 37,
+    "games": 80
+  },
+  {
+    "leader": "nereon",
+    "variant": "standard",
+    "family": "race",
+    "counter": "thin-0",
+    "sum": 56.5,
+    "games": 80
+  },
+  {
+    "leader": "nereon",
+    "variant": "standard",
+    "family": "race",
+    "counter": "thin-1",
+    "sum": 56,
+    "games": 80
+  },
+  {
+    "leader": "nereon",
+    "variant": "standard",
+    "family": "race",
+    "counter": "thin-2",
+    "sum": 67,
+    "games": 80
+  },
+  {
+    "leader": "nereon",
+    "variant": "standard",
+    "family": "race",
+    "counter": "worship-0",
+    "sum": 60,
+    "games": 80
+  },
+  {
+    "leader": "nereon",
+    "variant": "standard",
+    "family": "race",
+    "counter": "worship-1",
+    "sum": 56.5,
+    "games": 80
+  },
+  {
+    "leader": "nereon",
+    "variant": "standard",
+    "family": "race",
+    "counter": "worship-2",
+    "sum": 67.5,
+    "games": 80
+  },
+  {
+    "leader": "nereon",
+    "variant": "standard",
+    "family": "race",
+    "counter": "race-0",
+    "sum": 68,
+    "games": 80
+  },
+  {
+    "leader": "nereon",
+    "variant": "standard",
+    "family": "race",
+    "counter": "race-1",
+    "sum": 60.5,
+    "games": 80
+  },
+  {
+    "leader": "nereon",
+    "variant": "standard",
+    "family": "race",
+    "counter": "race-2",
+    "sum": 69.5,
+    "games": 80
+  },
+  {
+    "leader": "nereon",
+    "variant": "thaleia-draw",
+    "family": "treasure",
+    "counter": "treasure-0",
+    "sum": 40,
+    "games": 80
+  },
+  {
+    "leader": "nereon",
+    "variant": "thaleia-draw",
+    "family": "treasure",
+    "counter": "engine-0",
+    "sum": 58,
+    "games": 80
+  },
+  {
+    "leader": "nereon",
+    "variant": "thaleia-draw",
+    "family": "treasure",
+    "counter": "engine-1",
+    "sum": 54.5,
+    "games": 80
+  },
+  {
+    "leader": "nereon",
+    "variant": "thaleia-draw",
+    "family": "treasure",
+    "counter": "engine-2",
+    "sum": 62,
+    "games": 80
+  },
+  {
+    "leader": "nereon",
+    "variant": "thaleia-draw",
+    "family": "treasure",
+    "counter": "thin-0",
+    "sum": 70,
+    "games": 80
+  },
+  {
+    "leader": "nereon",
+    "variant": "thaleia-draw",
+    "family": "treasure",
+    "counter": "thin-1",
+    "sum": 75,
+    "games": 80
+  },
+  {
+    "leader": "nereon",
+    "variant": "thaleia-draw",
+    "family": "treasure",
+    "counter": "thin-2",
+    "sum": 75.5,
+    "games": 80
+  },
+  {
+    "leader": "nereon",
+    "variant": "thaleia-draw",
+    "family": "treasure",
+    "counter": "worship-0",
+    "sum": 73.5,
+    "games": 80
+  },
+  {
+    "leader": "nereon",
+    "variant": "thaleia-draw",
+    "family": "treasure",
+    "counter": "worship-1",
+    "sum": 72.5,
+    "games": 80
+  },
+  {
+    "leader": "nereon",
+    "variant": "thaleia-draw",
+    "family": "treasure",
+    "counter": "worship-2",
+    "sum": 79.5,
+    "games": 80
+  },
+  {
+    "leader": "nereon",
+    "variant": "thaleia-draw",
+    "family": "treasure",
+    "counter": "race-0",
+    "sum": 69,
+    "games": 80
+  },
+  {
+    "leader": "nereon",
+    "variant": "thaleia-draw",
+    "family": "treasure",
+    "counter": "race-1",
+    "sum": 69,
+    "games": 80
+  },
+  {
+    "leader": "nereon",
+    "variant": "thaleia-draw",
+    "family": "treasure",
+    "counter": "race-2",
+    "sum": 76.5,
+    "games": 80
+  },
+  {
+    "leader": "nereon",
+    "variant": "thaleia-draw",
+    "family": "engine",
+    "counter": "treasure-0",
+    "sum": 58,
+    "games": 80
+  },
+  {
+    "leader": "nereon",
+    "variant": "thaleia-draw",
+    "family": "engine",
+    "counter": "engine-0",
+    "sum": 72,
+    "games": 80
+  },
+  {
+    "leader": "nereon",
+    "variant": "thaleia-draw",
+    "family": "engine",
+    "counter": "engine-1",
+    "sum": 62,
+    "games": 80
+  },
+  {
+    "leader": "nereon",
+    "variant": "thaleia-draw",
+    "family": "engine",
+    "counter": "engine-2",
+    "sum": 73,
+    "games": 80
+  },
+  {
+    "leader": "nereon",
+    "variant": "thaleia-draw",
+    "family": "engine",
+    "counter": "thin-0",
+    "sum": 78.5,
+    "games": 80
+  },
+  {
+    "leader": "nereon",
+    "variant": "thaleia-draw",
+    "family": "engine",
+    "counter": "thin-1",
+    "sum": 75,
+    "games": 80
+  },
+  {
+    "leader": "nereon",
+    "variant": "thaleia-draw",
+    "family": "engine",
+    "counter": "thin-2",
+    "sum": 77.5,
+    "games": 80
+  },
+  {
+    "leader": "nereon",
+    "variant": "thaleia-draw",
+    "family": "engine",
+    "counter": "worship-0",
+    "sum": 79,
+    "games": 80
+  },
+  {
+    "leader": "nereon",
+    "variant": "thaleia-draw",
+    "family": "engine",
+    "counter": "worship-1",
+    "sum": 75,
+    "games": 80
+  },
+  {
+    "leader": "nereon",
+    "variant": "thaleia-draw",
+    "family": "engine",
+    "counter": "worship-2",
+    "sum": 79.5,
+    "games": 80
+  },
+  {
+    "leader": "nereon",
+    "variant": "thaleia-draw",
+    "family": "engine",
+    "counter": "race-0",
+    "sum": 79,
+    "games": 80
+  },
+  {
+    "leader": "nereon",
+    "variant": "thaleia-draw",
+    "family": "engine",
+    "counter": "race-1",
+    "sum": 77,
+    "games": 80
+  },
+  {
+    "leader": "nereon",
+    "variant": "thaleia-draw",
+    "family": "engine",
+    "counter": "race-2",
+    "sum": 79,
+    "games": 80
+  },
+  {
+    "leader": "nereon",
+    "variant": "thaleia-draw",
+    "family": "thin",
+    "counter": "treasure-0",
+    "sum": 28.5,
+    "games": 80
+  },
+  {
+    "leader": "nereon",
+    "variant": "thaleia-draw",
+    "family": "thin",
+    "counter": "engine-0",
+    "sum": 51,
+    "games": 80
+  },
+  {
+    "leader": "nereon",
+    "variant": "thaleia-draw",
+    "family": "thin",
+    "counter": "engine-1",
+    "sum": 39.5,
+    "games": 80
+  },
+  {
+    "leader": "nereon",
+    "variant": "thaleia-draw",
+    "family": "thin",
+    "counter": "engine-2",
+    "sum": 58.5,
+    "games": 80
+  },
+  {
+    "leader": "nereon",
+    "variant": "thaleia-draw",
+    "family": "thin",
+    "counter": "thin-0",
+    "sum": 69,
+    "games": 80
+  },
+  {
+    "leader": "nereon",
+    "variant": "thaleia-draw",
+    "family": "thin",
+    "counter": "thin-1",
+    "sum": 69,
+    "games": 80
+  },
+  {
+    "leader": "nereon",
+    "variant": "thaleia-draw",
+    "family": "thin",
+    "counter": "thin-2",
+    "sum": 74.5,
+    "games": 80
+  },
+  {
+    "leader": "nereon",
+    "variant": "thaleia-draw",
+    "family": "thin",
+    "counter": "worship-0",
+    "sum": 73.5,
+    "games": 80
+  },
+  {
+    "leader": "nereon",
+    "variant": "thaleia-draw",
+    "family": "thin",
+    "counter": "worship-1",
+    "sum": 64,
+    "games": 80
+  },
+  {
+    "leader": "nereon",
+    "variant": "thaleia-draw",
+    "family": "thin",
+    "counter": "worship-2",
+    "sum": 74,
+    "games": 80
+  },
+  {
+    "leader": "nereon",
+    "variant": "thaleia-draw",
+    "family": "thin",
+    "counter": "race-0",
+    "sum": 71,
+    "games": 80
+  },
+  {
+    "leader": "nereon",
+    "variant": "thaleia-draw",
+    "family": "thin",
+    "counter": "race-1",
+    "sum": 64,
+    "games": 80
+  },
+  {
+    "leader": "nereon",
+    "variant": "thaleia-draw",
+    "family": "thin",
+    "counter": "race-2",
+    "sum": 74,
+    "games": 80
+  },
+  {
+    "leader": "nereon",
+    "variant": "thaleia-draw",
+    "family": "worship",
+    "counter": "treasure-0",
+    "sum": 45.5,
+    "games": 80
+  },
+  {
+    "leader": "nereon",
+    "variant": "thaleia-draw",
+    "family": "worship",
+    "counter": "engine-0",
+    "sum": 56,
+    "games": 80
+  },
+  {
+    "leader": "nereon",
+    "variant": "thaleia-draw",
+    "family": "worship",
+    "counter": "engine-1",
+    "sum": 57,
+    "games": 80
+  },
+  {
+    "leader": "nereon",
+    "variant": "thaleia-draw",
+    "family": "worship",
+    "counter": "engine-2",
+    "sum": 67.5,
+    "games": 80
+  },
+  {
+    "leader": "nereon",
+    "variant": "thaleia-draw",
+    "family": "worship",
+    "counter": "thin-0",
+    "sum": 75.5,
+    "games": 80
+  },
+  {
+    "leader": "nereon",
+    "variant": "thaleia-draw",
+    "family": "worship",
+    "counter": "thin-1",
+    "sum": 71,
+    "games": 80
+  },
+  {
+    "leader": "nereon",
+    "variant": "thaleia-draw",
+    "family": "worship",
+    "counter": "thin-2",
+    "sum": 78.5,
+    "games": 80
+  },
+  {
+    "leader": "nereon",
+    "variant": "thaleia-draw",
+    "family": "worship",
+    "counter": "worship-0",
+    "sum": 75,
+    "games": 80
+  },
+  {
+    "leader": "nereon",
+    "variant": "thaleia-draw",
+    "family": "worship",
+    "counter": "worship-1",
+    "sum": 73.5,
+    "games": 80
+  },
+  {
+    "leader": "nereon",
+    "variant": "thaleia-draw",
+    "family": "worship",
+    "counter": "worship-2",
+    "sum": 78,
+    "games": 80
+  },
+  {
+    "leader": "nereon",
+    "variant": "thaleia-draw",
+    "family": "worship",
+    "counter": "race-0",
+    "sum": 78,
+    "games": 80
+  },
+  {
+    "leader": "nereon",
+    "variant": "thaleia-draw",
+    "family": "worship",
+    "counter": "race-1",
+    "sum": 76,
+    "games": 80
+  },
+  {
+    "leader": "nereon",
+    "variant": "thaleia-draw",
+    "family": "worship",
+    "counter": "race-2",
+    "sum": 75.5,
+    "games": 80
+  },
+  {
+    "leader": "nereon",
+    "variant": "thaleia-draw",
+    "family": "race",
+    "counter": "treasure-0",
+    "sum": 55,
+    "games": 80
+  },
+  {
+    "leader": "nereon",
+    "variant": "thaleia-draw",
+    "family": "race",
+    "counter": "engine-0",
+    "sum": 74,
+    "games": 80
+  },
+  {
+    "leader": "nereon",
+    "variant": "thaleia-draw",
+    "family": "race",
+    "counter": "engine-1",
+    "sum": 71,
+    "games": 80
+  },
+  {
+    "leader": "nereon",
+    "variant": "thaleia-draw",
+    "family": "race",
+    "counter": "engine-2",
+    "sum": 75,
+    "games": 80
+  },
+  {
+    "leader": "nereon",
+    "variant": "thaleia-draw",
+    "family": "race",
+    "counter": "thin-0",
+    "sum": 76,
+    "games": 80
+  },
+  {
+    "leader": "nereon",
+    "variant": "thaleia-draw",
+    "family": "race",
+    "counter": "thin-1",
+    "sum": 77.5,
+    "games": 80
+  },
+  {
+    "leader": "nereon",
+    "variant": "thaleia-draw",
+    "family": "race",
+    "counter": "thin-2",
+    "sum": 77,
+    "games": 80
+  },
+  {
+    "leader": "nereon",
+    "variant": "thaleia-draw",
+    "family": "race",
+    "counter": "worship-0",
+    "sum": 78,
+    "games": 80
+  },
+  {
+    "leader": "nereon",
+    "variant": "thaleia-draw",
+    "family": "race",
+    "counter": "worship-1",
+    "sum": 78,
+    "games": 80
+  },
+  {
+    "leader": "nereon",
+    "variant": "thaleia-draw",
+    "family": "race",
+    "counter": "worship-2",
+    "sum": 79,
+    "games": 80
+  },
+  {
+    "leader": "nereon",
+    "variant": "thaleia-draw",
+    "family": "race",
+    "counter": "race-0",
+    "sum": 80,
+    "games": 80
+  },
+  {
+    "leader": "nereon",
+    "variant": "thaleia-draw",
+    "family": "race",
+    "counter": "race-1",
+    "sum": 76,
+    "games": 80
+  },
+  {
+    "leader": "nereon",
+    "variant": "thaleia-draw",
+    "family": "race",
+    "counter": "race-2",
+    "sum": 80,
+    "games": 80
+  },
+  {
+    "leader": "melia",
+    "variant": "standard",
+    "family": "treasure",
+    "counter": "treasure-0",
+    "sum": 19.5,
+    "games": 80
+  },
+  {
+    "leader": "melia",
+    "variant": "standard",
+    "family": "treasure",
+    "counter": "engine-0",
+    "sum": 15.5,
+    "games": 80
+  },
+  {
+    "leader": "melia",
+    "variant": "standard",
+    "family": "treasure",
+    "counter": "engine-1",
+    "sum": 26,
+    "games": 80
+  },
+  {
+    "leader": "melia",
+    "variant": "standard",
+    "family": "treasure",
+    "counter": "engine-2",
+    "sum": 21.5,
+    "games": 80
+  },
+  {
+    "leader": "melia",
+    "variant": "standard",
+    "family": "treasure",
+    "counter": "thin-0",
+    "sum": 52,
+    "games": 80
+  },
+  {
+    "leader": "melia",
+    "variant": "standard",
+    "family": "treasure",
+    "counter": "thin-1",
+    "sum": 68.5,
+    "games": 80
+  },
+  {
+    "leader": "melia",
+    "variant": "standard",
+    "family": "treasure",
+    "counter": "thin-2",
+    "sum": 55.5,
+    "games": 80
+  },
+  {
+    "leader": "melia",
+    "variant": "standard",
+    "family": "treasure",
+    "counter": "worship-0",
+    "sum": 30.5,
+    "games": 80
+  },
+  {
+    "leader": "melia",
+    "variant": "standard",
+    "family": "treasure",
+    "counter": "worship-1",
+    "sum": 48,
+    "games": 80
+  },
+  {
+    "leader": "melia",
+    "variant": "standard",
+    "family": "treasure",
+    "counter": "worship-2",
+    "sum": 37,
+    "games": 80
+  },
+  {
+    "leader": "melia",
+    "variant": "standard",
+    "family": "treasure",
+    "counter": "race-0",
+    "sum": 38,
+    "games": 80
+  },
+  {
+    "leader": "melia",
+    "variant": "standard",
+    "family": "treasure",
+    "counter": "race-1",
+    "sum": 43.5,
+    "games": 80
+  },
+  {
+    "leader": "melia",
+    "variant": "standard",
+    "family": "treasure",
+    "counter": "race-2",
+    "sum": 43,
+    "games": 80
+  },
+  {
+    "leader": "melia",
+    "variant": "standard",
+    "family": "engine",
+    "counter": "treasure-0",
+    "sum": 35.5,
+    "games": 80
+  },
+  {
+    "leader": "melia",
+    "variant": "standard",
+    "family": "engine",
+    "counter": "engine-0",
+    "sum": 35,
+    "games": 80
+  },
+  {
+    "leader": "melia",
+    "variant": "standard",
+    "family": "engine",
+    "counter": "engine-1",
+    "sum": 26.5,
+    "games": 80
+  },
+  {
+    "leader": "melia",
+    "variant": "standard",
+    "family": "engine",
+    "counter": "engine-2",
+    "sum": 49.5,
+    "games": 80
+  },
+  {
+    "leader": "melia",
+    "variant": "standard",
+    "family": "engine",
+    "counter": "thin-0",
+    "sum": 64.5,
+    "games": 80
+  },
+  {
+    "leader": "melia",
+    "variant": "standard",
+    "family": "engine",
+    "counter": "thin-1",
+    "sum": 71,
+    "games": 80
+  },
+  {
+    "leader": "melia",
+    "variant": "standard",
+    "family": "engine",
+    "counter": "thin-2",
+    "sum": 74,
+    "games": 80
+  },
+  {
+    "leader": "melia",
+    "variant": "standard",
+    "family": "engine",
+    "counter": "worship-0",
+    "sum": 65.5,
+    "games": 80
+  },
+  {
+    "leader": "melia",
+    "variant": "standard",
+    "family": "engine",
+    "counter": "worship-1",
+    "sum": 57.5,
+    "games": 80
+  },
+  {
+    "leader": "melia",
+    "variant": "standard",
+    "family": "engine",
+    "counter": "worship-2",
+    "sum": 64,
+    "games": 80
+  },
+  {
+    "leader": "melia",
+    "variant": "standard",
+    "family": "engine",
+    "counter": "race-0",
+    "sum": 65,
+    "games": 80
+  },
+  {
+    "leader": "melia",
+    "variant": "standard",
+    "family": "engine",
+    "counter": "race-1",
+    "sum": 67.5,
+    "games": 80
+  },
+  {
+    "leader": "melia",
+    "variant": "standard",
+    "family": "engine",
+    "counter": "race-2",
+    "sum": 64.5,
+    "games": 80
+  },
+  {
+    "leader": "melia",
+    "variant": "standard",
+    "family": "thin",
+    "counter": "treasure-0",
+    "sum": 6,
+    "games": 80
+  },
+  {
+    "leader": "melia",
+    "variant": "standard",
+    "family": "thin",
+    "counter": "engine-0",
+    "sum": 9,
+    "games": 80
+  },
+  {
+    "leader": "melia",
+    "variant": "standard",
+    "family": "thin",
+    "counter": "engine-1",
+    "sum": 10,
+    "games": 80
+  },
+  {
+    "leader": "melia",
+    "variant": "standard",
+    "family": "thin",
+    "counter": "engine-2",
+    "sum": 15.5,
+    "games": 80
+  },
+  {
+    "leader": "melia",
+    "variant": "standard",
+    "family": "thin",
+    "counter": "thin-0",
+    "sum": 38,
+    "games": 80
+  },
+  {
+    "leader": "melia",
+    "variant": "standard",
+    "family": "thin",
+    "counter": "thin-1",
+    "sum": 45,
+    "games": 80
+  },
+  {
+    "leader": "melia",
+    "variant": "standard",
+    "family": "thin",
+    "counter": "thin-2",
+    "sum": 46,
+    "games": 80
+  },
+  {
+    "leader": "melia",
+    "variant": "standard",
+    "family": "thin",
+    "counter": "worship-0",
+    "sum": 28.5,
+    "games": 80
+  },
+  {
+    "leader": "melia",
+    "variant": "standard",
+    "family": "thin",
+    "counter": "worship-1",
+    "sum": 24,
+    "games": 80
+  },
+  {
+    "leader": "melia",
+    "variant": "standard",
+    "family": "thin",
+    "counter": "worship-2",
+    "sum": 28.5,
+    "games": 80
+  },
+  {
+    "leader": "melia",
+    "variant": "standard",
+    "family": "thin",
+    "counter": "race-0",
+    "sum": 35.5,
+    "games": 80
+  },
+  {
+    "leader": "melia",
+    "variant": "standard",
+    "family": "thin",
+    "counter": "race-1",
+    "sum": 37.5,
+    "games": 80
+  },
+  {
+    "leader": "melia",
+    "variant": "standard",
+    "family": "thin",
+    "counter": "race-2",
+    "sum": 35,
+    "games": 80
+  },
+  {
+    "leader": "melia",
+    "variant": "standard",
+    "family": "worship",
+    "counter": "treasure-0",
+    "sum": 27.5,
+    "games": 80
+  },
+  {
+    "leader": "melia",
+    "variant": "standard",
+    "family": "worship",
+    "counter": "engine-0",
+    "sum": 35,
+    "games": 80
+  },
+  {
+    "leader": "melia",
+    "variant": "standard",
+    "family": "worship",
+    "counter": "engine-1",
+    "sum": 24.5,
+    "games": 80
+  },
+  {
+    "leader": "melia",
+    "variant": "standard",
+    "family": "worship",
+    "counter": "engine-2",
+    "sum": 43,
+    "games": 80
+  },
+  {
+    "leader": "melia",
+    "variant": "standard",
+    "family": "worship",
+    "counter": "thin-0",
+    "sum": 61.5,
+    "games": 80
+  },
+  {
+    "leader": "melia",
+    "variant": "standard",
+    "family": "worship",
+    "counter": "thin-1",
+    "sum": 68.5,
+    "games": 80
+  },
+  {
+    "leader": "melia",
+    "variant": "standard",
+    "family": "worship",
+    "counter": "thin-2",
+    "sum": 67,
+    "games": 80
+  },
+  {
+    "leader": "melia",
+    "variant": "standard",
+    "family": "worship",
+    "counter": "worship-0",
+    "sum": 55,
+    "games": 80
+  },
+  {
+    "leader": "melia",
+    "variant": "standard",
+    "family": "worship",
+    "counter": "worship-1",
+    "sum": 55,
+    "games": 80
+  },
+  {
+    "leader": "melia",
+    "variant": "standard",
+    "family": "worship",
+    "counter": "worship-2",
+    "sum": 57,
+    "games": 80
+  },
+  {
+    "leader": "melia",
+    "variant": "standard",
+    "family": "worship",
+    "counter": "race-0",
+    "sum": 56.5,
+    "games": 80
+  },
+  {
+    "leader": "melia",
+    "variant": "standard",
+    "family": "worship",
+    "counter": "race-1",
+    "sum": 62.5,
+    "games": 80
+  },
+  {
+    "leader": "melia",
+    "variant": "standard",
+    "family": "worship",
+    "counter": "race-2",
+    "sum": 59.5,
+    "games": 80
+  },
+  {
+    "leader": "melia",
+    "variant": "standard",
+    "family": "race",
+    "counter": "treasure-0",
+    "sum": 35.5,
+    "games": 80
+  },
+  {
+    "leader": "melia",
+    "variant": "standard",
+    "family": "race",
+    "counter": "engine-0",
+    "sum": 25,
+    "games": 80
+  },
+  {
+    "leader": "melia",
+    "variant": "standard",
+    "family": "race",
+    "counter": "engine-1",
+    "sum": 29.5,
+    "games": 80
+  },
+  {
+    "leader": "melia",
+    "variant": "standard",
+    "family": "race",
+    "counter": "engine-2",
+    "sum": 37,
+    "games": 80
+  },
+  {
+    "leader": "melia",
+    "variant": "standard",
+    "family": "race",
+    "counter": "thin-0",
+    "sum": 57.5,
+    "games": 80
+  },
+  {
+    "leader": "melia",
+    "variant": "standard",
+    "family": "race",
+    "counter": "thin-1",
+    "sum": 64,
+    "games": 80
+  },
+  {
+    "leader": "melia",
+    "variant": "standard",
+    "family": "race",
+    "counter": "thin-2",
+    "sum": 66.5,
+    "games": 80
+  },
+  {
+    "leader": "melia",
+    "variant": "standard",
+    "family": "race",
+    "counter": "worship-0",
+    "sum": 53,
+    "games": 80
+  },
+  {
+    "leader": "melia",
+    "variant": "standard",
+    "family": "race",
+    "counter": "worship-1",
+    "sum": 50,
+    "games": 80
+  },
+  {
+    "leader": "melia",
+    "variant": "standard",
+    "family": "race",
+    "counter": "worship-2",
+    "sum": 51,
+    "games": 80
+  },
+  {
+    "leader": "melia",
+    "variant": "standard",
+    "family": "race",
+    "counter": "race-0",
+    "sum": 61.5,
+    "games": 80
+  },
+  {
+    "leader": "melia",
+    "variant": "standard",
+    "family": "race",
+    "counter": "race-1",
+    "sum": 63.5,
+    "games": 80
+  },
+  {
+    "leader": "melia",
+    "variant": "standard",
+    "family": "race",
+    "counter": "race-2",
+    "sum": 54.5,
+    "games": 80
+  },
+  {
+    "leader": "melia",
+    "variant": "thaleia-draw",
+    "family": "treasure",
+    "counter": "treasure-0",
+    "sum": 40,
+    "games": 80
+  },
+  {
+    "leader": "melia",
+    "variant": "thaleia-draw",
+    "family": "treasure",
+    "counter": "engine-0",
+    "sum": 44.5,
+    "games": 80
+  },
+  {
+    "leader": "melia",
+    "variant": "thaleia-draw",
+    "family": "treasure",
+    "counter": "engine-1",
+    "sum": 59,
+    "games": 80
+  },
+  {
+    "leader": "melia",
+    "variant": "thaleia-draw",
+    "family": "treasure",
+    "counter": "engine-2",
+    "sum": 50.5,
+    "games": 80
+  },
+  {
+    "leader": "melia",
+    "variant": "thaleia-draw",
+    "family": "treasure",
+    "counter": "thin-0",
+    "sum": 70,
+    "games": 80
+  },
+  {
+    "leader": "melia",
+    "variant": "thaleia-draw",
+    "family": "treasure",
+    "counter": "thin-1",
+    "sum": 75.5,
+    "games": 80
+  },
+  {
+    "leader": "melia",
+    "variant": "thaleia-draw",
+    "family": "treasure",
+    "counter": "thin-2",
+    "sum": 72.5,
+    "games": 80
+  },
+  {
+    "leader": "melia",
+    "variant": "thaleia-draw",
+    "family": "treasure",
+    "counter": "worship-0",
+    "sum": 61.5,
+    "games": 80
+  },
+  {
+    "leader": "melia",
+    "variant": "thaleia-draw",
+    "family": "treasure",
+    "counter": "worship-1",
+    "sum": 66,
+    "games": 80
+  },
+  {
+    "leader": "melia",
+    "variant": "thaleia-draw",
+    "family": "treasure",
+    "counter": "worship-2",
+    "sum": 63,
+    "games": 80
+  },
+  {
+    "leader": "melia",
+    "variant": "thaleia-draw",
+    "family": "treasure",
+    "counter": "race-0",
+    "sum": 57,
+    "games": 80
+  },
+  {
+    "leader": "melia",
+    "variant": "thaleia-draw",
+    "family": "treasure",
+    "counter": "race-1",
+    "sum": 69.5,
+    "games": 80
+  },
+  {
+    "leader": "melia",
+    "variant": "thaleia-draw",
+    "family": "treasure",
+    "counter": "race-2",
+    "sum": 60.5,
+    "games": 80
+  },
+  {
+    "leader": "melia",
+    "variant": "thaleia-draw",
+    "family": "engine",
+    "counter": "treasure-0",
+    "sum": 54.5,
+    "games": 80
+  },
+  {
+    "leader": "melia",
+    "variant": "thaleia-draw",
+    "family": "engine",
+    "counter": "engine-0",
+    "sum": 64,
+    "games": 80
+  },
+  {
+    "leader": "melia",
+    "variant": "thaleia-draw",
+    "family": "engine",
+    "counter": "engine-1",
+    "sum": 42,
+    "games": 80
+  },
+  {
+    "leader": "melia",
+    "variant": "thaleia-draw",
+    "family": "engine",
+    "counter": "engine-2",
+    "sum": 65.5,
+    "games": 80
+  },
+  {
+    "leader": "melia",
+    "variant": "thaleia-draw",
+    "family": "engine",
+    "counter": "thin-0",
+    "sum": 77,
+    "games": 80
+  },
+  {
+    "leader": "melia",
+    "variant": "thaleia-draw",
+    "family": "engine",
+    "counter": "thin-1",
+    "sum": 78,
+    "games": 80
+  },
+  {
+    "leader": "melia",
+    "variant": "thaleia-draw",
+    "family": "engine",
+    "counter": "thin-2",
+    "sum": 78.5,
+    "games": 80
+  },
+  {
+    "leader": "melia",
+    "variant": "thaleia-draw",
+    "family": "engine",
+    "counter": "worship-0",
+    "sum": 75.5,
+    "games": 80
+  },
+  {
+    "leader": "melia",
+    "variant": "thaleia-draw",
+    "family": "engine",
+    "counter": "worship-1",
+    "sum": 75,
+    "games": 80
+  },
+  {
+    "leader": "melia",
+    "variant": "thaleia-draw",
+    "family": "engine",
+    "counter": "worship-2",
+    "sum": 77,
+    "games": 80
+  },
+  {
+    "leader": "melia",
+    "variant": "thaleia-draw",
+    "family": "engine",
+    "counter": "race-0",
+    "sum": 74.5,
+    "games": 80
+  },
+  {
+    "leader": "melia",
+    "variant": "thaleia-draw",
+    "family": "engine",
+    "counter": "race-1",
+    "sum": 73,
+    "games": 80
+  },
+  {
+    "leader": "melia",
+    "variant": "thaleia-draw",
+    "family": "engine",
+    "counter": "race-2",
+    "sum": 75,
+    "games": 80
+  },
+  {
+    "leader": "melia",
+    "variant": "thaleia-draw",
+    "family": "thin",
+    "counter": "treasure-0",
+    "sum": 33,
+    "games": 80
+  },
+  {
+    "leader": "melia",
+    "variant": "thaleia-draw",
+    "family": "thin",
+    "counter": "engine-0",
+    "sum": 41,
+    "games": 80
+  },
+  {
+    "leader": "melia",
+    "variant": "thaleia-draw",
+    "family": "thin",
+    "counter": "engine-1",
+    "sum": 26.5,
+    "games": 80
+  },
+  {
+    "leader": "melia",
+    "variant": "thaleia-draw",
+    "family": "thin",
+    "counter": "engine-2",
+    "sum": 46.5,
+    "games": 80
+  },
+  {
+    "leader": "melia",
+    "variant": "thaleia-draw",
+    "family": "thin",
+    "counter": "thin-0",
+    "sum": 66,
+    "games": 80
+  },
+  {
+    "leader": "melia",
+    "variant": "thaleia-draw",
+    "family": "thin",
+    "counter": "thin-1",
+    "sum": 73.5,
+    "games": 80
+  },
+  {
+    "leader": "melia",
+    "variant": "thaleia-draw",
+    "family": "thin",
+    "counter": "thin-2",
+    "sum": 73.5,
+    "games": 80
+  },
+  {
+    "leader": "melia",
+    "variant": "thaleia-draw",
+    "family": "thin",
+    "counter": "worship-0",
+    "sum": 67.5,
+    "games": 80
+  },
+  {
+    "leader": "melia",
+    "variant": "thaleia-draw",
+    "family": "thin",
+    "counter": "worship-1",
+    "sum": 55,
+    "games": 80
+  },
+  {
+    "leader": "melia",
+    "variant": "thaleia-draw",
+    "family": "thin",
+    "counter": "worship-2",
+    "sum": 64,
+    "games": 80
+  },
+  {
+    "leader": "melia",
+    "variant": "thaleia-draw",
+    "family": "thin",
+    "counter": "race-0",
+    "sum": 61,
+    "games": 80
+  },
+  {
+    "leader": "melia",
+    "variant": "thaleia-draw",
+    "family": "thin",
+    "counter": "race-1",
+    "sum": 63,
+    "games": 80
+  },
+  {
+    "leader": "melia",
+    "variant": "thaleia-draw",
+    "family": "thin",
+    "counter": "race-2",
+    "sum": 61,
+    "games": 80
+  },
+  {
+    "leader": "melia",
+    "variant": "thaleia-draw",
+    "family": "worship",
+    "counter": "treasure-0",
+    "sum": 62,
+    "games": 80
+  },
+  {
+    "leader": "melia",
+    "variant": "thaleia-draw",
+    "family": "worship",
+    "counter": "engine-0",
+    "sum": 65,
+    "games": 80
+  },
+  {
+    "leader": "melia",
+    "variant": "thaleia-draw",
+    "family": "worship",
+    "counter": "engine-1",
+    "sum": 58,
+    "games": 80
+  },
+  {
+    "leader": "melia",
+    "variant": "thaleia-draw",
+    "family": "worship",
+    "counter": "engine-2",
+    "sum": 69,
+    "games": 80
+  },
+  {
+    "leader": "melia",
+    "variant": "thaleia-draw",
+    "family": "worship",
+    "counter": "thin-0",
+    "sum": 77,
+    "games": 80
+  },
+  {
+    "leader": "melia",
+    "variant": "thaleia-draw",
+    "family": "worship",
+    "counter": "thin-1",
+    "sum": 78.5,
+    "games": 80
+  },
+  {
+    "leader": "melia",
+    "variant": "thaleia-draw",
+    "family": "worship",
+    "counter": "thin-2",
+    "sum": 78.5,
+    "games": 80
+  },
+  {
+    "leader": "melia",
+    "variant": "thaleia-draw",
+    "family": "worship",
+    "counter": "worship-0",
+    "sum": 75,
+    "games": 80
+  },
+  {
+    "leader": "melia",
+    "variant": "thaleia-draw",
+    "family": "worship",
+    "counter": "worship-1",
+    "sum": 76,
+    "games": 80
+  },
+  {
+    "leader": "melia",
+    "variant": "thaleia-draw",
+    "family": "worship",
+    "counter": "worship-2",
+    "sum": 80,
+    "games": 80
+  },
+  {
+    "leader": "melia",
+    "variant": "thaleia-draw",
+    "family": "worship",
+    "counter": "race-0",
+    "sum": 76,
+    "games": 80
+  },
+  {
+    "leader": "melia",
+    "variant": "thaleia-draw",
+    "family": "worship",
+    "counter": "race-1",
+    "sum": 76,
+    "games": 80
+  },
+  {
+    "leader": "melia",
+    "variant": "thaleia-draw",
+    "family": "worship",
+    "counter": "race-2",
+    "sum": 75.5,
+    "games": 80
+  },
+  {
+    "leader": "melia",
+    "variant": "thaleia-draw",
+    "family": "race",
+    "counter": "treasure-0",
+    "sum": 63,
+    "games": 80
+  },
+  {
+    "leader": "melia",
+    "variant": "thaleia-draw",
+    "family": "race",
+    "counter": "engine-0",
+    "sum": 63.5,
+    "games": 80
+  },
+  {
+    "leader": "melia",
+    "variant": "thaleia-draw",
+    "family": "race",
+    "counter": "engine-1",
+    "sum": 56.5,
+    "games": 80
+  },
+  {
+    "leader": "melia",
+    "variant": "thaleia-draw",
+    "family": "race",
+    "counter": "engine-2",
+    "sum": 68,
+    "games": 80
+  },
+  {
+    "leader": "melia",
+    "variant": "thaleia-draw",
+    "family": "race",
+    "counter": "thin-0",
+    "sum": 78,
+    "games": 80
+  },
+  {
+    "leader": "melia",
+    "variant": "thaleia-draw",
+    "family": "race",
+    "counter": "thin-1",
+    "sum": 78.5,
+    "games": 80
+  },
+  {
+    "leader": "melia",
+    "variant": "thaleia-draw",
+    "family": "race",
+    "counter": "thin-2",
+    "sum": 79.5,
+    "games": 80
+  },
+  {
+    "leader": "melia",
+    "variant": "thaleia-draw",
+    "family": "race",
+    "counter": "worship-0",
+    "sum": 77,
+    "games": 80
+  },
+  {
+    "leader": "melia",
+    "variant": "thaleia-draw",
+    "family": "race",
+    "counter": "worship-1",
+    "sum": 74.5,
+    "games": 80
+  },
+  {
+    "leader": "melia",
+    "variant": "thaleia-draw",
+    "family": "race",
+    "counter": "worship-2",
+    "sum": 79,
+    "games": 80
+  },
+  {
+    "leader": "melia",
+    "variant": "thaleia-draw",
+    "family": "race",
+    "counter": "race-0",
+    "sum": 74.5,
+    "games": 80
+  },
+  {
+    "leader": "melia",
+    "variant": "thaleia-draw",
+    "family": "race",
+    "counter": "race-1",
+    "sum": 75.5,
+    "games": 80
+  },
+  {
+    "leader": "melia",
+    "variant": "thaleia-draw",
+    "family": "race",
+    "counter": "race-2",
+    "sum": 75,
+    "games": 80
+  },
+  {
+    "leader": "doreios",
+    "variant": "standard",
+    "family": "treasure",
+    "counter": "treasure-0",
+    "sum": 15.5,
+    "games": 80
+  },
+  {
+    "leader": "doreios",
+    "variant": "standard",
+    "family": "treasure",
+    "counter": "engine-0",
+    "sum": 59,
+    "games": 80
+  },
+  {
+    "leader": "doreios",
+    "variant": "standard",
+    "family": "treasure",
+    "counter": "engine-1",
+    "sum": 68.5,
+    "games": 80
+  },
+  {
+    "leader": "doreios",
+    "variant": "standard",
+    "family": "treasure",
+    "counter": "engine-2",
+    "sum": 62,
+    "games": 80
+  },
+  {
+    "leader": "doreios",
+    "variant": "standard",
+    "family": "treasure",
+    "counter": "thin-0",
+    "sum": 78,
+    "games": 80
+  },
+  {
+    "leader": "doreios",
+    "variant": "standard",
+    "family": "treasure",
+    "counter": "thin-1",
+    "sum": 79,
+    "games": 80
+  },
+  {
+    "leader": "doreios",
+    "variant": "standard",
+    "family": "treasure",
+    "counter": "thin-2",
+    "sum": 78,
+    "games": 80
+  },
+  {
+    "leader": "doreios",
+    "variant": "standard",
+    "family": "treasure",
+    "counter": "worship-0",
+    "sum": 57.5,
+    "games": 80
+  },
+  {
+    "leader": "doreios",
+    "variant": "standard",
+    "family": "treasure",
+    "counter": "worship-1",
+    "sum": 68,
+    "games": 80
+  },
+  {
+    "leader": "doreios",
+    "variant": "standard",
+    "family": "treasure",
+    "counter": "worship-2",
+    "sum": 55.5,
+    "games": 80
+  },
+  {
+    "leader": "doreios",
+    "variant": "standard",
+    "family": "treasure",
+    "counter": "race-0",
+    "sum": 73,
+    "games": 80
+  },
+  {
+    "leader": "doreios",
+    "variant": "standard",
+    "family": "treasure",
+    "counter": "race-1",
+    "sum": 78,
+    "games": 80
+  },
+  {
+    "leader": "doreios",
+    "variant": "standard",
+    "family": "treasure",
+    "counter": "race-2",
+    "sum": 74,
+    "games": 80
+  },
+  {
+    "leader": "doreios",
+    "variant": "standard",
+    "family": "engine",
+    "counter": "treasure-0",
+    "sum": 25.5,
+    "games": 80
+  },
+  {
+    "leader": "doreios",
+    "variant": "standard",
+    "family": "engine",
+    "counter": "engine-0",
+    "sum": 74,
+    "games": 80
+  },
+  {
+    "leader": "doreios",
+    "variant": "standard",
+    "family": "engine",
+    "counter": "engine-1",
+    "sum": 72.5,
+    "games": 80
+  },
+  {
+    "leader": "doreios",
+    "variant": "standard",
+    "family": "engine",
+    "counter": "engine-2",
+    "sum": 77,
+    "games": 80
+  },
+  {
+    "leader": "doreios",
+    "variant": "standard",
+    "family": "engine",
+    "counter": "thin-0",
+    "sum": 80,
+    "games": 80
+  },
+  {
+    "leader": "doreios",
+    "variant": "standard",
+    "family": "engine",
+    "counter": "thin-1",
+    "sum": 80,
+    "games": 80
+  },
+  {
+    "leader": "doreios",
+    "variant": "standard",
+    "family": "engine",
+    "counter": "thin-2",
+    "sum": 80,
+    "games": 80
+  },
+  {
+    "leader": "doreios",
+    "variant": "standard",
+    "family": "engine",
+    "counter": "worship-0",
+    "sum": 73.5,
+    "games": 80
+  },
+  {
+    "leader": "doreios",
+    "variant": "standard",
+    "family": "engine",
+    "counter": "worship-1",
+    "sum": 75.5,
+    "games": 80
+  },
+  {
+    "leader": "doreios",
+    "variant": "standard",
+    "family": "engine",
+    "counter": "worship-2",
+    "sum": 74.5,
+    "games": 80
+  },
+  {
+    "leader": "doreios",
+    "variant": "standard",
+    "family": "engine",
+    "counter": "race-0",
+    "sum": 79,
+    "games": 80
+  },
+  {
+    "leader": "doreios",
+    "variant": "standard",
+    "family": "engine",
+    "counter": "race-1",
+    "sum": 80,
+    "games": 80
+  },
+  {
+    "leader": "doreios",
+    "variant": "standard",
+    "family": "engine",
+    "counter": "race-2",
+    "sum": 80,
+    "games": 80
+  },
+  {
+    "leader": "doreios",
+    "variant": "standard",
+    "family": "thin",
+    "counter": "treasure-0",
+    "sum": 6.5,
+    "games": 80
+  },
+  {
+    "leader": "doreios",
+    "variant": "standard",
+    "family": "thin",
+    "counter": "engine-0",
+    "sum": 52,
+    "games": 80
+  },
+  {
+    "leader": "doreios",
+    "variant": "standard",
+    "family": "thin",
+    "counter": "engine-1",
+    "sum": 47.5,
+    "games": 80
+  },
+  {
+    "leader": "doreios",
+    "variant": "standard",
+    "family": "thin",
+    "counter": "engine-2",
+    "sum": 52.5,
+    "games": 80
+  },
+  {
+    "leader": "doreios",
+    "variant": "standard",
+    "family": "thin",
+    "counter": "thin-0",
+    "sum": 77,
+    "games": 80
+  },
+  {
+    "leader": "doreios",
+    "variant": "standard",
+    "family": "thin",
+    "counter": "thin-1",
+    "sum": 73.5,
+    "games": 80
+  },
+  {
+    "leader": "doreios",
+    "variant": "standard",
+    "family": "thin",
+    "counter": "thin-2",
+    "sum": 79,
+    "games": 80
+  },
+  {
+    "leader": "doreios",
+    "variant": "standard",
+    "family": "thin",
+    "counter": "worship-0",
+    "sum": 49.5,
+    "games": 80
+  },
+  {
+    "leader": "doreios",
+    "variant": "standard",
+    "family": "thin",
+    "counter": "worship-1",
+    "sum": 56,
+    "games": 80
+  },
+  {
+    "leader": "doreios",
+    "variant": "standard",
+    "family": "thin",
+    "counter": "worship-2",
+    "sum": 45,
+    "games": 80
+  },
+  {
+    "leader": "doreios",
+    "variant": "standard",
+    "family": "thin",
+    "counter": "race-0",
+    "sum": 75,
+    "games": 80
+  },
+  {
+    "leader": "doreios",
+    "variant": "standard",
+    "family": "thin",
+    "counter": "race-1",
+    "sum": 69,
+    "games": 80
+  },
+  {
+    "leader": "doreios",
+    "variant": "standard",
+    "family": "thin",
+    "counter": "race-2",
+    "sum": 74,
+    "games": 80
+  },
+  {
+    "leader": "doreios",
+    "variant": "standard",
+    "family": "worship",
+    "counter": "treasure-0",
+    "sum": 6,
+    "games": 80
+  },
+  {
+    "leader": "doreios",
+    "variant": "standard",
+    "family": "worship",
+    "counter": "engine-0",
+    "sum": 67.5,
+    "games": 80
+  },
+  {
+    "leader": "doreios",
+    "variant": "standard",
+    "family": "worship",
+    "counter": "engine-1",
+    "sum": 57.5,
+    "games": 80
+  },
+  {
+    "leader": "doreios",
+    "variant": "standard",
+    "family": "worship",
+    "counter": "engine-2",
+    "sum": 71,
+    "games": 80
+  },
+  {
+    "leader": "doreios",
+    "variant": "standard",
+    "family": "worship",
+    "counter": "thin-0",
+    "sum": 80,
+    "games": 80
+  },
+  {
+    "leader": "doreios",
+    "variant": "standard",
+    "family": "worship",
+    "counter": "thin-1",
+    "sum": 78,
+    "games": 80
+  },
+  {
+    "leader": "doreios",
+    "variant": "standard",
+    "family": "worship",
+    "counter": "thin-2",
+    "sum": 79,
+    "games": 80
+  },
+  {
+    "leader": "doreios",
+    "variant": "standard",
+    "family": "worship",
+    "counter": "worship-0",
+    "sum": 61.5,
+    "games": 80
+  },
+  {
+    "leader": "doreios",
+    "variant": "standard",
+    "family": "worship",
+    "counter": "worship-1",
+    "sum": 63,
+    "games": 80
+  },
+  {
+    "leader": "doreios",
+    "variant": "standard",
+    "family": "worship",
+    "counter": "worship-2",
+    "sum": 64,
+    "games": 80
+  },
+  {
+    "leader": "doreios",
+    "variant": "standard",
+    "family": "worship",
+    "counter": "race-0",
+    "sum": 79,
+    "games": 80
+  },
+  {
+    "leader": "doreios",
+    "variant": "standard",
+    "family": "worship",
+    "counter": "race-1",
+    "sum": 79,
+    "games": 80
+  },
+  {
+    "leader": "doreios",
+    "variant": "standard",
+    "family": "worship",
+    "counter": "race-2",
+    "sum": 78,
+    "games": 80
+  },
+  {
+    "leader": "doreios",
+    "variant": "standard",
+    "family": "race",
+    "counter": "treasure-0",
+    "sum": 22,
+    "games": 80
+  },
+  {
+    "leader": "doreios",
+    "variant": "standard",
+    "family": "race",
+    "counter": "engine-0",
+    "sum": 74,
+    "games": 80
+  },
+  {
+    "leader": "doreios",
+    "variant": "standard",
+    "family": "race",
+    "counter": "engine-1",
+    "sum": 64.5,
+    "games": 80
+  },
+  {
+    "leader": "doreios",
+    "variant": "standard",
+    "family": "race",
+    "counter": "engine-2",
+    "sum": 68,
+    "games": 80
+  },
+  {
+    "leader": "doreios",
+    "variant": "standard",
+    "family": "race",
+    "counter": "thin-0",
+    "sum": 80,
+    "games": 80
+  },
+  {
+    "leader": "doreios",
+    "variant": "standard",
+    "family": "race",
+    "counter": "thin-1",
+    "sum": 80,
+    "games": 80
+  },
+  {
+    "leader": "doreios",
+    "variant": "standard",
+    "family": "race",
+    "counter": "thin-2",
+    "sum": 80,
+    "games": 80
+  },
+  {
+    "leader": "doreios",
+    "variant": "standard",
+    "family": "race",
+    "counter": "worship-0",
+    "sum": 67,
+    "games": 80
+  },
+  {
+    "leader": "doreios",
+    "variant": "standard",
+    "family": "race",
+    "counter": "worship-1",
+    "sum": 73,
+    "games": 80
+  },
+  {
+    "leader": "doreios",
+    "variant": "standard",
+    "family": "race",
+    "counter": "worship-2",
+    "sum": 66,
+    "games": 80
+  },
+  {
+    "leader": "doreios",
+    "variant": "standard",
+    "family": "race",
+    "counter": "race-0",
+    "sum": 80,
+    "games": 80
+  },
+  {
+    "leader": "doreios",
+    "variant": "standard",
+    "family": "race",
+    "counter": "race-1",
+    "sum": 77.5,
+    "games": 80
+  },
+  {
+    "leader": "doreios",
+    "variant": "standard",
+    "family": "race",
+    "counter": "race-2",
+    "sum": 79,
+    "games": 80
+  },
+  {
+    "leader": "doreios",
+    "variant": "thaleia-draw",
+    "family": "treasure",
+    "counter": "treasure-0",
+    "sum": 42.5,
+    "games": 80
+  },
+  {
+    "leader": "doreios",
+    "variant": "thaleia-draw",
+    "family": "treasure",
+    "counter": "engine-0",
+    "sum": 75.5,
+    "games": 80
+  },
+  {
+    "leader": "doreios",
+    "variant": "thaleia-draw",
+    "family": "treasure",
+    "counter": "engine-1",
+    "sum": 79,
+    "games": 80
+  },
+  {
+    "leader": "doreios",
+    "variant": "thaleia-draw",
+    "family": "treasure",
+    "counter": "engine-2",
+    "sum": 78,
+    "games": 80
+  },
+  {
+    "leader": "doreios",
+    "variant": "thaleia-draw",
+    "family": "treasure",
+    "counter": "thin-0",
+    "sum": 80,
+    "games": 80
+  },
+  {
+    "leader": "doreios",
+    "variant": "thaleia-draw",
+    "family": "treasure",
+    "counter": "thin-1",
+    "sum": 80,
+    "games": 80
+  },
+  {
+    "leader": "doreios",
+    "variant": "thaleia-draw",
+    "family": "treasure",
+    "counter": "thin-2",
+    "sum": 80,
+    "games": 80
+  },
+  {
+    "leader": "doreios",
+    "variant": "thaleia-draw",
+    "family": "treasure",
+    "counter": "worship-0",
+    "sum": 70.5,
+    "games": 80
+  },
+  {
+    "leader": "doreios",
+    "variant": "thaleia-draw",
+    "family": "treasure",
+    "counter": "worship-1",
+    "sum": 79,
+    "games": 80
+  },
+  {
+    "leader": "doreios",
+    "variant": "thaleia-draw",
+    "family": "treasure",
+    "counter": "worship-2",
+    "sum": 72,
+    "games": 80
+  },
+  {
+    "leader": "doreios",
+    "variant": "thaleia-draw",
+    "family": "treasure",
+    "counter": "race-0",
+    "sum": 79,
+    "games": 80
+  },
+  {
+    "leader": "doreios",
+    "variant": "thaleia-draw",
+    "family": "treasure",
+    "counter": "race-1",
+    "sum": 79.5,
+    "games": 80
+  },
+  {
+    "leader": "doreios",
+    "variant": "thaleia-draw",
+    "family": "treasure",
+    "counter": "race-2",
+    "sum": 80,
+    "games": 80
+  },
+  {
+    "leader": "doreios",
+    "variant": "thaleia-draw",
+    "family": "engine",
+    "counter": "treasure-0",
+    "sum": 42,
+    "games": 80
+  },
+  {
+    "leader": "doreios",
+    "variant": "thaleia-draw",
+    "family": "engine",
+    "counter": "engine-0",
+    "sum": 80,
+    "games": 80
+  },
+  {
+    "leader": "doreios",
+    "variant": "thaleia-draw",
+    "family": "engine",
+    "counter": "engine-1",
+    "sum": 79.5,
+    "games": 80
+  },
+  {
+    "leader": "doreios",
+    "variant": "thaleia-draw",
+    "family": "engine",
+    "counter": "engine-2",
+    "sum": 79,
+    "games": 80
+  },
+  {
+    "leader": "doreios",
+    "variant": "thaleia-draw",
+    "family": "engine",
+    "counter": "thin-0",
+    "sum": 80,
+    "games": 80
+  },
+  {
+    "leader": "doreios",
+    "variant": "thaleia-draw",
+    "family": "engine",
+    "counter": "thin-1",
+    "sum": 80,
+    "games": 80
+  },
+  {
+    "leader": "doreios",
+    "variant": "thaleia-draw",
+    "family": "engine",
+    "counter": "thin-2",
+    "sum": 80,
+    "games": 80
+  },
+  {
+    "leader": "doreios",
+    "variant": "thaleia-draw",
+    "family": "engine",
+    "counter": "worship-0",
+    "sum": 80,
+    "games": 80
+  },
+  {
+    "leader": "doreios",
+    "variant": "thaleia-draw",
+    "family": "engine",
+    "counter": "worship-1",
+    "sum": 79.5,
+    "games": 80
+  },
+  {
+    "leader": "doreios",
+    "variant": "thaleia-draw",
+    "family": "engine",
+    "counter": "worship-2",
+    "sum": 79,
+    "games": 80
+  },
+  {
+    "leader": "doreios",
+    "variant": "thaleia-draw",
+    "family": "engine",
+    "counter": "race-0",
+    "sum": 80,
+    "games": 80
+  },
+  {
+    "leader": "doreios",
+    "variant": "thaleia-draw",
+    "family": "engine",
+    "counter": "race-1",
+    "sum": 80,
+    "games": 80
+  },
+  {
+    "leader": "doreios",
+    "variant": "thaleia-draw",
+    "family": "engine",
+    "counter": "race-2",
+    "sum": 80,
+    "games": 80
+  },
+  {
+    "leader": "doreios",
+    "variant": "thaleia-draw",
+    "family": "thin",
+    "counter": "treasure-0",
+    "sum": 35,
+    "games": 80
+  },
+  {
+    "leader": "doreios",
+    "variant": "thaleia-draw",
+    "family": "thin",
+    "counter": "engine-0",
+    "sum": 78,
+    "games": 80
+  },
+  {
+    "leader": "doreios",
+    "variant": "thaleia-draw",
+    "family": "thin",
+    "counter": "engine-1",
+    "sum": 72.5,
+    "games": 80
+  },
+  {
+    "leader": "doreios",
+    "variant": "thaleia-draw",
+    "family": "thin",
+    "counter": "engine-2",
+    "sum": 77,
+    "games": 80
+  },
+  {
+    "leader": "doreios",
+    "variant": "thaleia-draw",
+    "family": "thin",
+    "counter": "thin-0",
+    "sum": 80,
+    "games": 80
+  },
+  {
+    "leader": "doreios",
+    "variant": "thaleia-draw",
+    "family": "thin",
+    "counter": "thin-1",
+    "sum": 78.5,
+    "games": 80
+  },
+  {
+    "leader": "doreios",
+    "variant": "thaleia-draw",
+    "family": "thin",
+    "counter": "thin-2",
+    "sum": 80,
+    "games": 80
+  },
+  {
+    "leader": "doreios",
+    "variant": "thaleia-draw",
+    "family": "thin",
+    "counter": "worship-0",
+    "sum": 76.5,
+    "games": 80
+  },
+  {
+    "leader": "doreios",
+    "variant": "thaleia-draw",
+    "family": "thin",
+    "counter": "worship-1",
+    "sum": 77,
+    "games": 80
+  },
+  {
+    "leader": "doreios",
+    "variant": "thaleia-draw",
+    "family": "thin",
+    "counter": "worship-2",
+    "sum": 75,
+    "games": 80
+  },
+  {
+    "leader": "doreios",
+    "variant": "thaleia-draw",
+    "family": "thin",
+    "counter": "race-0",
+    "sum": 80,
+    "games": 80
+  },
+  {
+    "leader": "doreios",
+    "variant": "thaleia-draw",
+    "family": "thin",
+    "counter": "race-1",
+    "sum": 80,
+    "games": 80
+  },
+  {
+    "leader": "doreios",
+    "variant": "thaleia-draw",
+    "family": "thin",
+    "counter": "race-2",
+    "sum": 80,
+    "games": 80
+  },
+  {
+    "leader": "doreios",
+    "variant": "thaleia-draw",
+    "family": "worship",
+    "counter": "treasure-0",
+    "sum": 27.5,
+    "games": 80
+  },
+  {
+    "leader": "doreios",
+    "variant": "thaleia-draw",
+    "family": "worship",
+    "counter": "engine-0",
+    "sum": 79,
+    "games": 80
+  },
+  {
+    "leader": "doreios",
+    "variant": "thaleia-draw",
+    "family": "worship",
+    "counter": "engine-1",
+    "sum": 74,
+    "games": 80
+  },
+  {
+    "leader": "doreios",
+    "variant": "thaleia-draw",
+    "family": "worship",
+    "counter": "engine-2",
+    "sum": 77,
+    "games": 80
+  },
+  {
+    "leader": "doreios",
+    "variant": "thaleia-draw",
+    "family": "worship",
+    "counter": "thin-0",
+    "sum": 80,
+    "games": 80
+  },
+  {
+    "leader": "doreios",
+    "variant": "thaleia-draw",
+    "family": "worship",
+    "counter": "thin-1",
+    "sum": 80,
+    "games": 80
+  },
+  {
+    "leader": "doreios",
+    "variant": "thaleia-draw",
+    "family": "worship",
+    "counter": "thin-2",
+    "sum": 80,
+    "games": 80
+  },
+  {
+    "leader": "doreios",
+    "variant": "thaleia-draw",
+    "family": "worship",
+    "counter": "worship-0",
+    "sum": 80,
+    "games": 80
+  },
+  {
+    "leader": "doreios",
+    "variant": "thaleia-draw",
+    "family": "worship",
+    "counter": "worship-1",
+    "sum": 79,
+    "games": 80
+  },
+  {
+    "leader": "doreios",
+    "variant": "thaleia-draw",
+    "family": "worship",
+    "counter": "worship-2",
+    "sum": 80,
+    "games": 80
+  },
+  {
+    "leader": "doreios",
+    "variant": "thaleia-draw",
+    "family": "worship",
+    "counter": "race-0",
+    "sum": 79,
+    "games": 80
+  },
+  {
+    "leader": "doreios",
+    "variant": "thaleia-draw",
+    "family": "worship",
+    "counter": "race-1",
+    "sum": 80,
+    "games": 80
+  },
+  {
+    "leader": "doreios",
+    "variant": "thaleia-draw",
+    "family": "worship",
+    "counter": "race-2",
+    "sum": 80,
+    "games": 80
+  },
+  {
+    "leader": "doreios",
+    "variant": "thaleia-draw",
+    "family": "race",
+    "counter": "treasure-0",
+    "sum": 47.5,
+    "games": 80
+  },
+  {
+    "leader": "doreios",
+    "variant": "thaleia-draw",
+    "family": "race",
+    "counter": "engine-0",
+    "sum": 79,
+    "games": 80
+  },
+  {
+    "leader": "doreios",
+    "variant": "thaleia-draw",
+    "family": "race",
+    "counter": "engine-1",
+    "sum": 79,
+    "games": 80
+  },
+  {
+    "leader": "doreios",
+    "variant": "thaleia-draw",
+    "family": "race",
+    "counter": "engine-2",
+    "sum": 80,
+    "games": 80
+  },
+  {
+    "leader": "doreios",
+    "variant": "thaleia-draw",
+    "family": "race",
+    "counter": "thin-0",
+    "sum": 80,
+    "games": 80
+  },
+  {
+    "leader": "doreios",
+    "variant": "thaleia-draw",
+    "family": "race",
+    "counter": "thin-1",
+    "sum": 80,
+    "games": 80
+  },
+  {
+    "leader": "doreios",
+    "variant": "thaleia-draw",
+    "family": "race",
+    "counter": "thin-2",
+    "sum": 80,
+    "games": 80
+  },
+  {
+    "leader": "doreios",
+    "variant": "thaleia-draw",
+    "family": "race",
+    "counter": "worship-0",
+    "sum": 80,
+    "games": 80
+  },
+  {
+    "leader": "doreios",
+    "variant": "thaleia-draw",
+    "family": "race",
+    "counter": "worship-1",
+    "sum": 79,
+    "games": 80
+  },
+  {
+    "leader": "doreios",
+    "variant": "thaleia-draw",
+    "family": "race",
+    "counter": "worship-2",
+    "sum": 78.5,
+    "games": 80
+  },
+  {
+    "leader": "doreios",
+    "variant": "thaleia-draw",
+    "family": "race",
+    "counter": "race-0",
+    "sum": 80,
+    "games": 80
+  },
+  {
+    "leader": "doreios",
+    "variant": "thaleia-draw",
+    "family": "race",
+    "counter": "race-1",
+    "sum": 80,
+    "games": 80
+  },
+  {
+    "leader": "doreios",
+    "variant": "thaleia-draw",
+    "family": "race",
+    "counter": "race-2",
+    "sum": 80,
+    "games": 80
+  }
+]
