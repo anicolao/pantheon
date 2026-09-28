@@ -1,7 +1,9 @@
 /** Runs inside the page: audit components, text lines and every clipping ancestor. */
 export function assertScreenFit(options: {document?:boolean} = {}) {
   const modal = [...document.querySelectorAll<HTMLElement>('dialog:modal')].at(-1);
-  const roots = options.document ? [document.body] : [...document.querySelectorAll<HTMLElement>('[data-e2e-layout]')].filter(root => root.checkVisibility() && (!modal || modal.contains(root)));
+  // Native modality makes the document behind a popup inert. Audit its active
+  // surface, including vertical viewport fit, even on a scrolling document page.
+  const roots = options.document ? [modal ?? document.body] : [...document.querySelectorAll<HTMLElement>('[data-e2e-layout]')].filter(root => root.checkVisibility() && (!modal || modal.contains(root)));
   if (!roots.length) throw new Error('No visible layout root to audit');
   const elements = [...new Set(roots.flatMap(root => [root, ...root.querySelectorAll<HTMLElement>('*')]))];
   const styles = new Map<Element, CSSStyleDeclaration>();
@@ -12,7 +14,7 @@ export function assertScreenFit(options: {document?:boolean} = {}) {
     (x && (rect.left<box.left || rect.right>box.right)) || (y && (rect.top<box.top || rect.bottom>box.bottom));
   const inspect = (element:HTMLElement, rect:DOMRect, text=false) => {
     if (!rect.width || !rect.height) return;
-    if (outside(rect,viewport,true,!options.document)) throw new Error(`${text?'Text':'Component'} clipped by viewport: ${label(element)}`);
+    if (outside(rect,viewport,true,!options.document || !!modal)) throw new Error(`${text?'Text':'Component'} clipped by viewport: ${label(element)}`);
     for(let ancestor:HTMLElement|null=text?element:element.parentElement;ancestor;ancestor=ancestor.parentElement){
       const css=style(ancestor), x=/^(hidden|clip|auto|scroll)$/.test(css.overflowX), y=/^(hidden|clip|auto|scroll)$/.test(css.overflowY);
       if(!x&&!y)continue;
@@ -39,7 +41,7 @@ export function assertScreenFit(options: {document?:boolean} = {}) {
   const pinned=options.document?[...document.querySelectorAll<HTMLElement>('.sticky-nav')].filter(node=>node.checkVisibility()&&/^(sticky|fixed)$/.test(style(node).position)).map(node=>node.getBoundingClientRect()).filter(rect=>rect.top<=0&&rect.bottom>0):[];
   const hitRegion=(element:HTMLElement)=>{
     const rect=element.getBoundingClientRect();
-    if(!options.document)return rect;
+    if(!options.document || modal)return rect;
     const top=Math.max(0,rect.top,...(element.closest('.sticky-nav')?[]:pinned.map(header=>header.bottom)));
     return {left:Math.max(0,rect.left),right:Math.min(innerWidth,rect.right),top,bottom:Math.min(innerHeight,rect.bottom)};
   };
