@@ -73,6 +73,10 @@ export function runExperiment(options: ExperimentOptions): { result: StudyResult
       const message = applyVariant(game, uid, command, sequence, activeRestriction, variant);
       game.activity.push({ sequence, message });
       const before = { ...inventory[uid] };
+      // A topdeck can be a gain or an Oracle returning an already-owned card.
+      // Inspect acquisition memory before updating it so only genuinely new cards are excluded.
+      for (const move of game.movements.slice(start)) if (move.uid === uid && move.card &&
+        (move.kind === 'gain' || move.kind === 'topdeck') && move.card.id.startsWith('supply-') && !acquired.has(move.card.id)) gainedThisTurn.add(move.card.id);
       updateInventory(inventory, game, start, acquired);
       for (const [id, count] of Object.entries(inventory[uid])) if (count > (before[id] ?? 0)) {
         telemetry.acquisitions[id] = (telemetry.acquisitions[id] ?? 0) + count - (before[id] ?? 0);
@@ -83,7 +87,6 @@ export function runExperiment(options: ExperimentOptions): { result: StudyResult
       for (const move of game.movements.slice(start)) {
         // Own draws and gains are observed events; never inspect hidden card order. Cleanup belongs to the next turn.
         if (move.uid === uid && move.card && command.type !== 'turn/ended') {
-          if ((move.kind === 'gain' || move.kind === 'topdeck') && move.card.id.startsWith('supply-')) gainedThisTurn.add(move.card.id);
           if (move.kind === 'draw' && !gainedThisTurn.has(move.card.id)) seen.add(move.card.id);
         }
         if (move.kind === 'leader') triggeredLeaders.add(move.source);
