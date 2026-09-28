@@ -29,3 +29,18 @@ for leader in leaders:
   lines.append(f'| {leader} | {rival} | {chosen[0]} | {chosen[1]} | {100*chosen[2]:.1f}% |')
 (p/'counter-patterns.md').write_text('\n'.join(lines)+'\n')
 (p/'summary.json').write_text(json.dumps(summary,indent=2)+'\n')
+
+# Select each leader's strongest observed family, then report that actual head-to-head cell.
+# Selection uses the existing league ranking; it does not average matchup outcomes.
+best={leader:summary[leader]['bestObserved']['family'] for leader in leaders}
+matchups=[row for row in cells if row['familyA']==best[row['a']] and row['familyB']==best[row['b']]]
+assert len(matchups)==6
+(p/'best-strategies.json').write_text(json.dumps({'selection':'Highest observed league share per leader; selected after evaluation','strategies':best,'matchups':matchups},indent=2)+'\n')
+lines=['# Best observed strategy versus best observed strategy','',
+ 'Each leader uses its highest-share family in the observed league: Engine for all four leaders. Each row reports the actual head-to-head cell, with 400 games across 200 seeds and both seats. Strategies were selected after evaluation, so this is a descriptive comparison of the strongest observed families, not independently validated optimal play.','',
+ '| Leader A | A strategy | Leader B | B strategy | A victory share | Games |',
+ '| --- | --- | --- | --- | ---: | ---: |']
+for row in matchups:
+ lines.append(f"| {row['a']} | {row['familyA']} | {row['b']} | {row['familyB']} | {100*row['share']:.1f}% | {row['games']} |")
+lines.extend(['', 'Thaleia leads every rival; Melia and Doreios are near even with each other, and both lead Nereon. Averaging these matchups with weaker-family games masked the size of several differences. The original equal-strategy averages and their intervals remain in the [supplementary full matrix](report.md); those intervals do not apply to this table.', ''])
+(p/'best-strategies.md').write_text('\n'.join(lines))
