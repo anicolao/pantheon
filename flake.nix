@@ -11,7 +11,7 @@
       let pkgs = import nixpkgs { inherit system; };
       in {
         devShells.default = pkgs.mkShell {
-          packages = with pkgs; [ bun git jdk ];
+          packages = with pkgs; [ bun git jdk nodejs gh python3 ripgrep ];
           shellHook = ''
             # Keep downloaded browser and Firebase artifacts stable across
             # separate `nix develop --command` invocations in CI.
