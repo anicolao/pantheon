@@ -1,9 +1,10 @@
+import { moneyBuy, moneyAction, moneyDiscard } from './money';
 import { actionEffects, definition, leaderEffects, type ActionCommand, type Choice } from '../../src/lib/game/actions';
 import type { CardInstance, SetupState } from '../../src/lib/game/setup';
 
 export const policies = ['treasure', 'draw'] as const;
 export type Policy = typeof policies[number];
-export const policyVersion = 2;
+export const policyVersion = 3;
 /** No seed, draw order, opposing hands, or private movement log crosses this boundary. */
 export type Observation = {
   hand: CardInstance[];
@@ -46,7 +47,7 @@ export function chooseCommand(view: Observation, policy: Policy): ActionCommand 
     if (choice.kind === 'gain') {
       const eligible = Object.keys(view.supply).filter(id => view.supply[id] > 0 && definition(id).cost !== null &&
         definition(id).cost! <= choice.limit! && (!choice.actionOnly || definition(id).type === 'Action'));
-      const preferred = preferences(view, policy).find(id => eligible.includes(id));
+      const preferred = policy === 'treasure' ? moneyBuy(view, eligible, choice.min > 0) : preferences(view, policy).find(id => eligible.includes(id));
       const fallback = eligible.sort((a, b) => definition(b).cost! - definition(a).cost! || a.localeCompare(b))[0];
       targets = preferred ? [preferred] : choice.min && fallback ? [fallback] : [];
     } else {
@@ -63,9 +64,14 @@ export function chooseCommand(view: Observation, policy: Policy): ActionCommand 
         if (choice.kind !== 'discard' && card.cardId === 'obol') remainingMoney--;
       }
     }
+    if (policy === 'treasure' && choice.kind === 'discard') targets = moneyDiscard(view);
     return { type: 'choice/resolved', choiceId: choice.id, targets };
   }
   if (view.phase === 'actions') {
+    if (policy === 'treasure') {
+      const action = view.resources.actions > 0 ? moneyAction(view) : undefined;
+      return action ? { type: 'action/played', instanceId: action.id } : { type: 'phase/advanced' };
+    }
     const actions = view.hand.filter(card => definition(card.cardId).type === 'Action');
     const priority = (card: CardInstance) => {
       const effects = [...actionEffects(card.cardId), ...(!view.leaderUsed && definition(card.cardId).god === definition(view.leader).god ? leaderEffects(view.leader) : [])];
@@ -76,7 +82,7 @@ export function chooseCommand(view: Observation, policy: Policy): ActionCommand 
     return { type: 'phase/advanced' };
   }
   if (view.phase === 'treasures' && view.hand.some(card => definition(card.cardId).type === 'Treasure')) return { type: 'treasures/played' };
-  const purchase = preferences(view, policy).find(id => view.supply[id] > 0 && definition(id).cost! <= view.resources.coins);
+  const purchase = policy === 'treasure' ? moneyBuy(view) : preferences(view, policy).find(id => view.supply[id] > 0 && definition(id).cost! <= view.resources.coins);
   if (view.resources.buys > 0 && purchase) return { type: 'card/bought', cardId: purchase };
   return { type: 'turn/ended' };
 }
