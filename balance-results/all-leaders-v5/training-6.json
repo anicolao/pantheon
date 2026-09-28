@@ -1,0 +1,38 @@
+[
+  {
+    "key": "2/nereon/worship",
+    "candidate": 0,
+    "share": 0.6104166666666667,
+    "games": 240
+  },
+  {
+    "key": "2/nereon/worship",
+    "candidate": 1,
+    "share": 0.19166666666666668,
+    "games": 240
+  },
+  {
+    "key": "2/nereon/worship",
+    "candidate": 2,
+    "share": 0.6333333333333333,
+    "games": 240
+  },
+  {
+    "key": "2/doreios/worship",
+    "candidate": 0,
+    "share": 0.58125,
+    "games": 240
+  },
+  {
+    "key": "2/doreios/worship",
+    "candidate": 1,
+    "share": 0.21666666666666667,
+    "games": 240
+  },
+  {
+    "key": "2/doreios/worship",
+    "candidate": 2,
+    "share": 0.5875,
+    "games": 240
+  }
+]

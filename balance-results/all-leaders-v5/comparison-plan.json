@@ -1,0 +1,22 @@
+{
+  "baseline": "balance-results/all-leaders-v4",
+  "after": "balance-runs/all-leaders-v5",
+  "baselineSource": "744d0b142e19c7cc06d59421d6461b6f2730992e",
+  "afterSource": "784cfd52a69984b67c58327afc53525bcf33895e",
+  "rules": "standard",
+  "seed": "all-leaders-v4-final",
+  "trainingBlocks": 8,
+  "evaluationBlocks": 200,
+  "headline": "Each leader selects its highest observed league-share family separately in each policy version; report their actual head-to-head cell, before/after and paired change.",
+  "selectionCaveat": "Families are selected on evaluation, so headline intervals are exploratory conditional-on-selection intervals, not selection-adjusted confirmation.",
+  "otherOutputs": [
+    "All 150 cell before/after values",
+    "Treasure versus Engine in all 12 directed leader pairs",
+    "Four Treasure family summaries",
+    "Changed training-selected presets",
+    "Exact equality of non-Treasure games with unchanged profiles",
+    "Descriptive Treasure first-points timing, no-points rate, Action acquisitions and final VP"
+  ],
+  "intervals": "20,000 paired whole-seed bootstrap resamples; Bonferroni six for headline deltas, conditional on selected families.",
+  "attribution": "Both populations retrained using identical budgets and seeds. Delta includes adaptation of other families to the changed Treasure opponent. Reused evaluation seeds mean this is paired exploratory evidence, not fresh confirmation."
+}

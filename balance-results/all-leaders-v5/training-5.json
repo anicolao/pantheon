@@ -1,0 +1,38 @@
+[
+  {
+    "key": "2/nereon/thin",
+    "candidate": 0,
+    "share": 0.3625,
+    "games": 240
+  },
+  {
+    "key": "2/nereon/thin",
+    "candidate": 1,
+    "share": 0.17916666666666667,
+    "games": 240
+  },
+  {
+    "key": "2/nereon/thin",
+    "candidate": 2,
+    "share": 0.36041666666666666,
+    "games": 240
+  },
+  {
+    "key": "2/doreios/thin",
+    "candidate": 0,
+    "share": 0.30833333333333335,
+    "games": 240
+  },
+  {
+    "key": "2/doreios/thin",
+    "candidate": 1,
+    "share": 0.09583333333333334,
+    "games": 240
+  },
+  {
+    "key": "2/doreios/thin",
+    "candidate": 2,
+    "share": 0.31666666666666665,
+    "games": 240
+  }
+]
