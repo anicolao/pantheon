@@ -1,6 +1,6 @@
 # Mobile visual review
 
-The original phone Chronicle stretched a 3:2 painting into a tall dialog. User review correctly identified the distorted crest and laurels. The phone frame now preserves their proportions. The Leave Actions and End turn panels had the same issue and use the same approach. No new raster artwork was generated.
+The original phone Chronicle stretched a 3:2 painting into a tall dialog. User review correctly identified the distorted crest and laurels. The phone frame now preserves their proportions. The Leave Actions and End turn panels had the same issue. All popup dialogs now use the shared `DialogFrame` component: Chronicle/public trays, private card inspection, Action/Worship/Supply/Victory card details, gallery inspection, joining, invitations, setup details, and turn confirmations. This also unifies their desktop and 4K frames. Full-screen painted scenes retain their existing artwork. No new raster artwork was generated.
 
 The review covered the 421 existing phone captures: gathering/invitations/recovery, Sanctuary, bloodline drafting for 2–4 players, the active and observing table, private card inspection, Actions and choices, supply/purchases, all gods and Worship choices, turn handoff, all match endings and score inspection, public history/piles, gallery, and rules. Changed captures were reviewed together, with representative frames inspected at full resolution.
 

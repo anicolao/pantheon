@@ -1,4 +1,5 @@
 <script lang="ts">
+  import DialogFrame from "$lib/components/DialogFrame.svelte";
   import { base } from '$app/paths';
   import { onMount, tick } from 'svelte';
   import { dev } from '$app/environment';
@@ -104,11 +105,12 @@
   <footer class="site-footer"><span>PANTHEON: BLOODLINES</span><p>A race for land. A legacy among gods.</p><a href="https://github.com/anicolao/pantheon">Open source · GPLv3 ↗</a></footer>
 </div>
 
-<dialog bind:this={inspector} data-format={selected ? cardFormat(selected) : 'deck'} aria-label={selected ? `${selected.name} details` : 'Card details'}>
+<dialog class="framed-dialog" bind:this={inspector} data-format={selected ? cardFormat(selected) : 'deck'} aria-label={selected ? `${selected.name} details` : 'Card details'}>
+  <DialogFrame />
   <button class="close" onclick={() => inspector.close()}>Close <span aria-hidden="true">×</span></button>
   {#if selected}
     <div class="inspector-controls"><label>Copy<select aria-label="Copy" bind:value={selectedCopy}>{#each Array.from({ length: copyCount(selected, players) }, (_, i) => i + 1) as n}<option value={n}>{n}/{copyCount(selected, players)}</option>{/each}</select></label><button onclick={() => inspectBack = !inspectBack}>{inspectBack ? 'Show front' : 'Show back'}</button></div>
-    {#if inspectBack}<CardBack format={cardFormat(selected)} />{:else}<CardFace card={selected} {players} copy={selectedCopy} />{/if}
+    <div class="inspector-card">{#if inspectBack}<CardBack format={cardFormat(selected)} />{:else}<CardFace card={selected} {players} copy={selectedCopy} />{/if}</div>
     <div class="accessible-rules"><h3>{selected.name}</h3><p>{selected.effect}</p>{#if selected.favored}<p><strong>Favored:</strong> {selected.favored}</p>{/if}</div>
   {/if}
   <p class="dialog-hint">Press Escape or Close to return to the collection.</p>
@@ -187,10 +189,12 @@
   .tabletop .card-item { width: min(100%, 420px); }
   .tabletop .card-item[data-format='event'] { width: min(100%, 588px); }
   .tabletop .card-item[data-format='leader'] { width: min(100%, 800px); }
-  dialog { width: min(94vw, 510px); max-height: 95dvh; border: 1px solid #b49964; border-radius: 8px; background: #151b1b; padding: 1rem; color: #ece4d3; }
+  dialog { --frame-inline-padding:90px; width: min(94vw, 510px); max-height: 95dvh; border: 1px solid #b49964; border-radius: 8px; background: #151b1b; padding: 1rem; color: #ece4d3; }
   dialog::backdrop { background: #050908dc; backdrop-filter: blur(5px); }
   dialog[data-format='event'] { width: min(96vw, 760px); }
   dialog[data-format='leader'] { width: min(96vw, 960px); }
+  .inspector-card { width:min(100%,32svh); margin:auto; }
+  dialog[data-format="event"] .inspector-card, dialog[data-format="leader"] .inspector-card { width:min(100%,60svh); }
   .inspector-controls { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-bottom: 1rem; font-size: 0.8rem; }
   .inspector-controls label { display: flex; align-items: center; gap: 0.5rem; }
   .inspector-controls select { width: auto; }
@@ -198,7 +202,7 @@
   .accessible-rules { margin-top: 1rem; border-top: 1px solid #8f805d; padding-top: 1rem; font-size: 1rem; line-height: 1.5; }
   .accessible-rules h3 { font: 600 1.6rem 'Cormorant Garamond', serif; margin: 0; }
   .accessible-rules p { margin-bottom: 0; }
-  .close { display: flex; align-items: center; justify-content: space-between; width: 100%; margin-bottom: 0.8rem; border: 0; background: none; padding: 0.35rem 0; font-size: 0.8rem; }
+  .close { min-height:44px; display: flex; align-items: center; justify-content: space-between; width: 100%; margin-bottom: 0.8rem; border: 0; background: none; padding: 0.35rem 0; font-size: 0.8rem; }
   .close span { font-size: 1.5rem; }
   .dialog-hint { font-size: 0.65rem; text-align: center; margin: 1rem 0 0; color: #b8c0b3; }
   @media (min-width: 1800px) { .tabletop { max-width: none; } }

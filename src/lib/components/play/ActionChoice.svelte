@@ -1,4 +1,5 @@
 <script lang="ts">
+  import DialogFrame from "$lib/components/DialogFrame.svelte";
   import { tick, onDestroy } from 'svelte';
   import { base } from '$app/paths';
   import { definition, eligibleGains, type ActionCommand, type Choice } from '$lib/game/actions';
@@ -50,7 +51,7 @@
     {#if status !== 'synced'}<div class="reconnect" role="status"><p>Connection lost. Your choice is kept.</p><GameButton onclick={retry}>Try again</GameButton></div>{:else if !ready}<p class="pending" role="status">Your choice is kept.</p>{/if}
   </div>
 </dialog>
-<dialog class="detail" bind:this={detail} onclose={() => inspected = undefined} aria-label="Card details" data-e2e-layout={inspected ? true : undefined}>
+<dialog class="detail framed-dialog" bind:this={detail} onclose={() => inspected = undefined} aria-label="Card details" data-e2e-layout={inspected ? true : undefined}><DialogFrame />
   {#if inspected}<h2>{definition(inspected.cardId).name}</h2><div class="detail-card" class:landscape={definition(inspected.cardId).type === 'Leader' || definition(inspected.cardId).type === 'Event'}><CardFace card={definition(inspected.cardId)} players={game.playerCount} copy={inspected.copy} /></div><button class="detail-close" onclick={() => detail!.close()}>Back to choice</button>{/if}
 </dialog>
 
