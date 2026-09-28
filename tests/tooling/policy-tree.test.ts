@@ -4,6 +4,29 @@ import { mkdtempSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'nod
 import { tmpdir } from 'node:os';
 import { dirname, join, resolve } from 'node:path';
 
+test('a checkout without the pinned compiler fails with installation instructions', () => {
+  const root = mkdtempSync(join(tmpdir(), 'pantheon-policy-dependencies-'));
+  try {
+    mkdirSync(join(root, 'scripts'));
+    writeFileSync(join(root, 'package.json'), readFileSync('package.json'));
+    writeFileSync(join(root, 'scripts/e2e-policy.ts'), readFileSync('scripts/e2e-policy.ts'));
+    const check = () => spawnSync(process.execPath, ['--no-install', 'scripts/e2e-policy.ts'], { cwd: root, encoding: 'utf8' });
+    const expectedVersion = JSON.parse(readFileSync('package.json', 'utf8')).devDependencies.typescript;
+    for (const version of [undefined, '7.0.2', expectedVersion]) {
+      if (version) {
+        mkdirSync(join(root, 'node_modules/typescript'), { recursive: true });
+        writeFileSync(join(root, 'node_modules/typescript/package.json'), JSON.stringify({ version, main: 'index.js' }));
+        writeFileSync(join(root, 'node_modules/typescript/index.js'), `module.exports = ${JSON.stringify({ version })};`);
+      }
+      const result = check();
+      expect(result.status).not.toBe(0);
+      expect(result.stderr).toContain(`requires this checkout's TypeScript ${expectedVersion}`);
+      expect(result.stderr).toContain('bun install --frozen-lockfile');
+      expect(result.stderr).not.toContain('TypeError');
+    }
+  } finally { rmSync(root, { recursive: true, force: true }); }
+});
+
 // Exercise index/revision reads in an isolated tiny repo; never change the developer's index.
 test('staged and push checks read the selected tree, not unstaged files', () => {
   const root = mkdtempSync(join(tmpdir(), 'pantheon-policy-'));

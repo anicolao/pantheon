@@ -1,4 +1,4 @@
 #!/bin/sh
 set -eu
 cd "$(git rev-parse --show-toplevel)"
-bun scripts/check-e2e-policy.ts --staged
+bun --no-install scripts/check-e2e-policy.ts --staged
