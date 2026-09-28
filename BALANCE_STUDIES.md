@@ -124,3 +124,20 @@ The [completed extra-Buy study](balance-results/thaleia-buy-v1/README.md) compar
 The search repeats the same profiles, 13 counter configurations, 40 training and 200 evaluation seed blocks, both turn orders and selection method. Full runs enforce exact seed/profile equality with the original counter study. Both sides may reselect on training only. This is an exploratory reused-seed comparison, not independent confirmation. Previous variants remain only as explicit alternatives for their archived studies; none of their buffs apply to this comparison.
 
 The [completed two-Action study](balance-results/thaleia-actions-v1/README.md) records the selected-policy comparison, fixed-Engine diagnostics and unused-Action telemetry.
+
+## Engine policy v2: draw the whole deck
+
+Engine now values Action acquisitions by marginal executable draw coverage of the owned deck, using printed card effects and the actual public leader trigger. It estimates the draw available after allocating terminal Action slots, values support when it unlocks stranded draw, subtracts mandatory discards from net draw, includes the acquired card's own deck-size cost, and stops rewarding additional draw once coverage is sufficient. A two-card reliability buffer grows by up to three after an observed end-of-Action-phase draw shortfall with Actions left over. A spare-Action shortfall also increases draw pressure by 25%. Trashing, coins, gains and useful Buys provide generic payload value. There is no Council-first exception or draw-card copy cap; the old `engineCopies` cap remains relevant only to the other policy families.
+
+This is an optimistic composition heuristic, not hidden-state search: it assumes supporting cards can be found and played, and terminal draw is allocated before non-draw terminals. It cannot guarantee full-deck draw from every opening hand or model every shuffle/discard interaction. Observations expose only counts of own unseen cards tracked from observed draws, unordered inventory and public trigger effects. They contain no shuffle seed, future card order or opponent private zones.
+
+Engine play ordering is also generic: favor draw while Actions suffice, use matching trigger effects in the calculation, and avoid stranding other Actions when a support card can keep the sequence going. Other strategy families retain their decision rules, but all Engine opponents and training references use v2. New metrics record Action phases, phases in which every card owned at turn start has been seen, unseen-card totals and spare-Action shortfalls; unused Actions alone are no longer a measure of engine failure.
+
+For the new +1A versus +2A experiment, first retrain both arms with the same eight profile-training seed blocks (4,608 games per rule), then repeat the original 40-block counter search and 200-block evaluation. There are five trained Thaleia families and 13 rival configurations. Both arms use v2, and neither arm reuses old game outcomes. Evaluation seeds match the preceding studies for paired exploration and remain separate from all training seeds.
+
+```sh
+bun run balance:train-engine --out balance-runs/engine-cycle-training-v1
+bun run balance:counter --comparison thaleia-actions --profiles balance-runs/engine-cycle-training-v1/standard.json --variant-profiles balance-runs/engine-cycle-training-v1/thaleia-actions.json --out balance-runs/engine-cycle-actions-v1
+```
+
+All commands run inside `nix develop`. The profile trainer records policy version, rule, seeds, every candidate score and source provenance. The counter runner checks policy versions, variant identity, matching retuning budgets and seed separation. The original 43,200-game counter budget and nine primary comparisons are unchanged; the additional 9,216 games train fresh profile parameters. These remain exploratory results because the evaluation seeds have been examined in earlier policy and rule trials.

@@ -1,7 +1,9 @@
-import { actionEffects, definition, type ActionCommand, type Choice } from '../../src/lib/game/actions';
+import { effectFeatures, engineActionValue, engineKeepValue, enginePlayPriority, type Features } from './engine';
+import { actionEffects, definition, leaderEffects, type PlayVariant, type ActionCommand, type Choice } from '../../src/lib/game/actions';
 import type { CardInstance, SetupState } from '../../src/lib/game/setup';
 import { chooseCommand, observe, type Observation } from './bot';
 
+export const strategyVersion = 2;
 export const families = ['treasure', 'engine', 'thin', 'worship', 'race'] as const;
 export type Family = typeof families[number];
 export type Parameters = { scoringAt: number; engineCopies: number; moneyFloor: number; worshipMargin: number };
@@ -14,6 +16,7 @@ export type Profile = { family: Family; parameters: Parameters };
 export type Restriction = { kind: 'event' | 'card' | 'leader-trigger'; id: string; scope: 'focal' | 'table' };
 export type PublicInventory = Record<string, Record<string, number>>;
 export type View = Observation & {
+  leaderBonus: Features; unseenCount: number;
   play: CardInstance[]; events: string[]; playerCount: number; turn: number;
   scores: number[]; myScore: number; myTurns: number; opposingTurns: number[];
   bannedCards: string[]; bannedEvents: string[];
@@ -32,9 +35,9 @@ export function updateInventory(inventory: PublicInventory, game: SetupState, st
     } else if (move.kind === 'trash') owned[cardId] = (owned[cardId] ?? 0) - 1;
   }
 }
-export function strategyView(game: SetupState, uid: string, inventory: PublicInventory, restriction?: Restriction): View {
+export function strategyView(game: SetupState, uid: string, inventory: PublicInventory, restriction?: Restriction, variant: PlayVariant = 'standard', unseenCount?: number): View {
   const score = (player: string) => Object.entries(inventory[player]).reduce((sum, [id, count]) => sum + (definition(id).vp ?? 0) * count, 0);
-  return { ...observe(game, uid), play: structuredClone(game.decks[uid].play), events: [...game.sharedEvents],
+  return { ...observe(game, uid), leaderBonus: effectFeatures(restriction?.kind === 'leader-trigger' && restriction.id === game.leaders[uid] ? [] : leaderEffects(game.leaders[uid], variant)), unseenCount: unseenCount ?? game.decks[uid].deck.length + game.decks[uid].discard.length, play: structuredClone(game.decks[uid].play), events: [...game.sharedEvents],
     playerCount: game.playerCount, turn: game.turn.number, myTurns: game.turn.turns[uid] ?? 0,
     opposingTurns: game.players.filter(player => player.uid !== uid).map(player => game.turn.turns[player.uid] ?? 0),
     scores: game.players.filter(player => player.uid !== uid).map(player => score(player.uid)), myScore: score(uid),
@@ -66,6 +69,7 @@ function scoreCard(view: View, profile: Profile, id: string): number {
   if (id === 'talent') return end ? 6 : 9;
   if (id === 'drachma') return Math.max(1, 6.5 - Math.max(0, money(view) - 10) * 0.35);
   if (card.uniqueStartingCard) return 1;
+  if (profile.family === 'engine') return engineActionValue(view, profile, id);
   const multiplier = end ? 0.35 : 1;
   const cap = profile.parameters.engineCopies;
   const terminal = Object.entries(view.owned).reduce((sum, [key, count]) => sum + (definition(key).type === 'Action' && !actionEffects(key).some(effect => effect.kind === 'resource' && effect.resource === 'actions') ? count : 0), 0);
@@ -98,6 +102,7 @@ function loss(view: View, profile: Profile, card: CardInstance): number {
   if (disposable(view, profile, card)) return -2;
   const def = definition(card.cardId);
   if (def.type === 'Territory') return (def.vp ?? 0) * 2;
+  if (profile.family === 'engine' && def.type === 'Action') return engineKeepValue(view, profile, card.cardId);
   return Math.max(1, cardValue(view, profile, card.cardId));
 }
 function offering(view: View, profile: Profile, choice: Choice): { targets: string[]; value: number } {
@@ -172,6 +177,7 @@ export function strategyCommand(view: View, profile: Profile): ActionCommand {
   if (view.phase === 'actions') {
     const actions = view.hand.filter(card => definition(card.cardId).type === 'Action');
     const priority = (card: CardInstance) => {
+      if (profile.family === 'engine') return enginePlayPriority(view, card);
       if (card.cardId === 'council-of-sages' && view.leader === 'thaleia' && !view.leaderUsed) return 100;
       return actionEffects(card.cardId).reduce((value, effect) => value + (effect.kind === 'resource' && effect.resource === 'actions' ? 20 * effect.amount : effect.kind === 'draw' ? effect.amount : 0), 0);
     };

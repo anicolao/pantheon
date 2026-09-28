@@ -5,14 +5,14 @@ import { gzipSync } from 'node:zlib';
 import type { PlayVariant } from '../src/lib/game/actions';
 import { leaderIds } from '../src/lib/game/setup';
 import { runExperiment } from './balance/experiment';
-import { families } from './balance/strategy';
+import { families, strategyVersion } from './balance/strategy';
 import { checkIndependentSeeds, digest, getProfile, type Profiles } from './balance/study';
 import { counterCandidates, counterReport, counterVariants, selectCounters, type CounterGame, type TrainingCell } from './balance/counter';
 
 const flags: Record<string, string> = {}, args = process.argv.slice(2);
-if (args.includes('--help')) { console.log('bun run balance:counter --out directory [--training-blocks 40] [--blocks 200] [--seed thaleia-counter-v1] [--comparison thaleia|leader-buffs|thaleia-buy|thaleia-actions]'); process.exit(0); }
+if (args.includes('--help')) { console.log('bun run balance:counter --out directory [--training-blocks 40] [--blocks 200] [--seed thaleia-counter-v1] [--comparison thaleia|leader-buffs|thaleia-buy|thaleia-actions] [--profiles file --variant-profiles file]'); process.exit(0); }
 for (let i = 0; i < args.length; i += 2) {
-  if (!['--out', '--training-blocks', '--blocks', '--seed', '--comparison'].includes(args[i]) || !args[i + 1] || args[i + 1].startsWith('--') || flags[args[i]]) throw new Error('Invalid flags; use --help.');
+  if (!['--out', '--training-blocks', '--blocks', '--seed', '--comparison', '--profiles', '--variant-profiles'].includes(args[i]) || !args[i + 1] || args[i + 1].startsWith('--') || flags[args[i]]) throw new Error('Invalid flags; use --help.');
   flags[args[i]] = args[i + 1];
 }
 const trainingBlocks = Number(flags['--training-blocks'] ?? 40), blocks = Number(flags['--blocks'] ?? 200), seed = flags['--seed'] ?? 'thaleia-counter-v1';
@@ -21,15 +21,19 @@ const comparison = flags['--comparison'] ?? 'thaleia';
 if (!['thaleia', 'leader-buffs', 'thaleia-buy', 'thaleia-actions'].includes(comparison)) throw new Error('Unknown comparison.');
 const variants: PlayVariant[] = comparison === 'thaleia-actions' ? ['standard', 'thaleia-actions'] : comparison === 'thaleia-buy' ? ['standard', 'thaleia-buy'] : comparison === 'leader-buffs' ? ['thaleia-draw', 'leader-buffs'] : counterVariants;
 const reusedSeeds = comparison !== 'thaleia';
-const profiles: Profiles = JSON.parse(readFileSync('balance-results/decision-study-v1/training-v2/profiles.json', 'utf8'));
-if (profiles.version !== 1 || profiles.restriction) throw new Error('Expected unrestricted profiles.');
+const profiles: Profiles = JSON.parse(readFileSync(flags['--profiles'] ?? 'balance-results/decision-study-v1/training-v2/profiles.json', 'utf8'));
+const variantProfiles: Profiles = flags['--variant-profiles'] ? JSON.parse(readFileSync(flags['--variant-profiles'], 'utf8')) : profiles;
+if (flags['--profiles'] && profiles.policyVersion !== strategyVersion || flags['--variant-profiles'] && (variantProfiles.policyVersion !== strategyVersion || variantProfiles.variant !== variants[1])) throw new Error('Use profiles trained for this policy version and rule.');
+if (flags['--variant-profiles'] && (!flags['--profiles'] || profiles.variant !== variants[0] || profiles.training.length !== variantProfiles.training.length || profiles.training.some((row, i) => row.key !== variantProfiles.training[i].key || row.candidate !== variantProfiles.training[i].candidate || row.games !== variantProfiles.training[i].games))) throw new Error('Retuned arms need matching search budgets.');
+const profilesFor = (variant: PlayVariant) => variant === variants[0] ? profiles : variantProfiles;
+if (profiles.version !== 1 || profiles.restriction || variantProfiles.version !== 1 || variantProfiles.restriction) throw new Error('Expected unrestricted profiles.');
 const trainingSeeds = Array.from({ length: trainingBlocks }, (_, i) => `${seed}:training:${i}`);
 const evaluationSeeds = Array.from({ length: blocks }, (_, i) => `${seed}:evaluation:${i}`);
-checkIndependentSeeds(evaluationSeeds, [...trainingSeeds, ...profiles.trainingSeeds]);
-checkIndependentSeeds(trainingSeeds, profiles.trainingSeeds);
+checkIndependentSeeds(evaluationSeeds, [...trainingSeeds, ...profiles.trainingSeeds, ...variantProfiles.trainingSeeds]);
+checkIndependentSeeds(trainingSeeds, [...profiles.trainingSeeds, ...variantProfiles.trainingSeeds]);
 if (reusedSeeds && blocks >= 200) {
   const previous = JSON.parse(readFileSync('balance-results/thaleia-counter-v1/manifest.json', 'utf8'));
-  if (JSON.stringify(trainingSeeds) !== JSON.stringify(previous.trainingSeeds) || JSON.stringify(evaluationSeeds) !== JSON.stringify(previous.evaluationSeeds) || digest(profiles) !== previous.profilesHash) throw new Error('Same-seed comparison must match the archived training/evaluation seeds and profiles exactly.');
+  if (JSON.stringify(trainingSeeds) !== JSON.stringify(previous.trainingSeeds) || JSON.stringify(evaluationSeeds) !== JSON.stringify(previous.evaluationSeeds) || !flags['--profiles'] && digest(profiles) !== previous.profilesHash) throw new Error('Same-seed comparison must match the archived training/evaluation seeds and profiles exactly.');
 }
 const git = (...args: string[]) => execFileSync('git', args, { encoding: 'utf8' }).trim();
 const sourceCommit = git('rev-parse', 'HEAD'), dirty = Boolean(git('status', '--porcelain'));
@@ -39,7 +43,7 @@ const out = resolve(flags['--out']); mkdirSync(resolve(out, '..'), { recursive: 
 const write = (path: string, data: unknown) => writeFileSync(resolve(out, path), JSON.stringify(data, null, 2) + '\n');
 const compressed = (path: string, rows: unknown[]) => appendFileSync(resolve(out, path), gzipSync(rows.map(row => JSON.stringify(row)).join('\n') + '\n'));
 const started = performance.now();
-const manifest = { comparison, variants, reusedSeeds, stage: reusedSeeds ? 'exploratory-same-seeds' : blocks >= 200 ? 'confirmation' : 'pilot', sourceCommit, dirty, runtime: Bun.version, trainingBlocks, blocks, trainingSeeds, evaluationSeeds, profiles, profilesHash: digest(profiles), counterCandidates,
+const manifest = { retunedProfiles: Boolean(flags['--variant-profiles']), policyVersion: strategyVersion, variantProfiles, variantProfilesHash: digest(variantProfiles), comparison, variants, reusedSeeds, stage: reusedSeeds ? 'exploratory-same-seeds' : blocks >= 200 ? 'confirmation' : 'pilot', sourceCommit, dirty, runtime: Bun.version, trainingBlocks, blocks, trainingSeeds, evaluationSeeds, profiles, profilesHash: digest(profiles), counterCandidates,
   primaryFamilySize: 9, bootstrapReplicates: 20_000, plannedTrainingGames: trainingBlocks * 780, plannedEvaluationGames: blocks * 60,
   design: 'Per rival and rule: each of five frozen Thaleia profiles faces 13 counter configurations with both turn orders on shared training seeds. Pick minimum Thaleia share counter per profile, then maximum of minima Thaleia profile; ties retain declared order. Freeze all selections before evaluation. Evaluate every selected counter on seeds disjoint from training (reused from the previous study when explicitly requested); only training-selected Thaleia rows are primary. Primary family: six victory shares and three adapted differences.',
   startedAt: new Date().toISOString() };
@@ -51,7 +55,7 @@ for (const [block, gameSeed] of trainingSeeds.entries()) {
     const shares = [];
     for (const focal of [0, 1]) {
       const lineup = focal === 0 ? ['thaleia', cell.leader] : [cell.leader, 'thaleia'];
-      const players = lineup.map((leader, position) => position === focal ? getProfile(profiles, 2, leader, cell.family) : counterCandidates.find(candidate => candidate.id === cell.counter)!.profile);
+      const players = lineup.map((leader, position) => position === focal ? getProfile(profilesFor(cell.variant), 2, leader, cell.family) : counterCandidates.find(candidate => candidate.id === cell.counter)!.profile);
       const run = runExperiment({ seed: gameSeed, block, lineup, profiles: players, focal, variant: cell.variant });
       if (run.result.status !== 'completed') { write('training-failure.json', run); write('manifest.json', { ...manifest, status: 'failed-training' }); throw new Error('Training game failed; no selections made.'); }
       const value = run.result.players.find(player => player.leader === 'thaleia')!.share!;
@@ -70,7 +74,7 @@ for (const [block, gameSeed] of evaluationSeeds.entries()) {
   const records: CounterGame[] = [];
   for (const selected of selections) for (const focal of [0, 1]) {
     const lineup = focal === 0 ? ['thaleia', selected.leader] : [selected.leader, 'thaleia'];
-    const players = lineup.map((leader, position) => position === focal ? getProfile(profiles, 2, leader, selected.family) : counterCandidates.find(candidate => candidate.id === selected.counter)!.profile);
+    const players = lineup.map((leader, position) => position === focal ? getProfile(profilesFor(selected.variant), 2, leader, selected.family) : counterCandidates.find(candidate => candidate.id === selected.counter)!.profile);
     const options = { seed: gameSeed, block, lineup, profiles: players, focal, variant: selected.variant };
     const run = runExperiment(options), row = { leader: selected.leader, variant: selected.variant, family: selected.family, counter: selected.counter, result: run.result };
     records.push(row); games.push(row);
@@ -81,7 +85,7 @@ for (const [block, gameSeed] of evaluationSeeds.entries()) {
   if ((block + 1) % 20 === 0 || block + 1 === blocks) console.log(`Evaluation ${block + 1}/${blocks}; ${failures} failures; ${(performance.now() - started) / 1000 | 0}s`);
 }
 if (git('rev-parse', 'HEAD') !== sourceCommit || Boolean(git('status', '--porcelain')) !== dirty || digest(JSON.parse(readFileSync(resolve(out, 'selections.json'), 'utf8'))) !== selectionHash) throw new Error('Source or selections changed during execution.');
-const report = counterReport(games, selections, variants, reusedSeeds);
+const report = counterReport(games, selections, variants, reusedSeeds, Boolean(flags['--variant-profiles']));
 writeFileSync(resolve(out, 'report.md'), report.markdown); write('estimates.json', report.estimates);
 write('manifest.json', { ...manifest, status: failures ? 'completed-with-failures' : 'completed', selectionHash, selectionsFrozenAt, trainingGames: cells.reduce((sum, cell) => sum + cell.games, 0), evaluationGames: games.length, failures, elapsedSeconds: (performance.now() - started) / 1000 });
 console.log(`Results: ${out}`); if (failures) process.exitCode = 1;
