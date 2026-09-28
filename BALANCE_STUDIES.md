@@ -1,5 +1,20 @@
 # Balance decision studies
 
+The current population is **strategy version 4**. See [bot designs](BOT_STRATEGIES.md) and the [defect correction ledger](BOT_DEFECTS.md). Earlier commands and results below are historical and reproduce their archived outcomes only at the recorded source commit.
+
+## Full leader/strategy matrix
+
+Run inside `nix develop`, from a clean committed tree, using a fresh output directory:
+
+```sh
+bun run balance:matrix --out balance-runs/all-leaders-v4
+```
+
+Defaults: standard leader rules, eight training blocks, 200 fresh evaluation blocks, four worker processes, seed namespace `all-leaders-v4`. Equal-budget preset training covers all five opposing strategy families. The 11,520 training games freeze profiles before 60,000 evaluation games cover all six distinct leader pairs, all 25 strategy combinations and both seats. The six primary leader-pair shares weight strategies equally; each pair has 10,000 games and each individual strategy cell has 400. Intervals bootstrap whole seed blocks 20,000 times and adjust across six primary quantities. Individual matrices and rankings are descriptive.
+
+Manifests, frozen profiles, candidate training scores, all compressed game records, first-block replays and reports preserve provenance. Failed games abort the run instead of becoming losses. Source changes during execution invalidate completion. Options `--training-blocks`, `--blocks`, `--workers`, `--seed`, and `--variant standard|thaleia-actions` support separately declared runs. The isolated execution pilot uses a different namespace and is excluded from the full study.
+
+
 The study runner adds training, stronger strategies, mixed-policy opposition, paired interventions, and held-out confirmation to the [original baseline simulator](BALANCE_SIMULATION.md). Production game rules remain unchanged. The original `simulate:balance` command and archived results retain their original meaning.
 
 ## Run an experiment

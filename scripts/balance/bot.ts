@@ -1,9 +1,9 @@
-import { actionEffects, definition, type ActionCommand, type Choice } from '../../src/lib/game/actions';
+import { actionEffects, definition, leaderEffects, type ActionCommand, type Choice } from '../../src/lib/game/actions';
 import type { CardInstance, SetupState } from '../../src/lib/game/setup';
 
 export const policies = ['treasure', 'draw'] as const;
 export type Policy = typeof policies[number];
-export const policyVersion = 1;
+export const policyVersion = 2;
 /** No seed, draw order, opposing hands, or private movement log crosses this boundary. */
 export type Observation = {
   hand: CardInstance[];
@@ -54,16 +54,21 @@ export function chooseCommand(view: Observation, policy: Policy): ActionCommand 
         const value = (card: CardInstance) => definition(card.cardId).type === 'Territory' ? -1 : definition(card.cardId).cost ?? 0;
         return value(a) - value(b) || a.id.localeCompare(b.id);
       });
-      targets = ordered.filter(card => choice.kind === 'discard' || trashable(view, card)).slice(0, choice.max).map(card => card.id);
+      let remainingMoney = (view.owned.obol ?? 0) + 2 * (view.owned.drachma ?? 0) + 3 * (view.owned.talent ?? 0);
+      targets = [];
+      for (const card of ordered) {
+        if (targets.length >= choice.max) break;
+        if (choice.kind !== 'discard' && (!trashable(view, card) || card.cardId === 'obol' && remainingMoney <= 7)) continue;
+        targets.push(card.id);
+        if (choice.kind !== 'discard' && card.cardId === 'obol') remainingMoney--;
+      }
     }
     return { type: 'choice/resolved', choiceId: choice.id, targets };
   }
   if (view.phase === 'actions') {
     const actions = view.hand.filter(card => definition(card.cardId).type === 'Action');
     const priority = (card: CardInstance) => {
-      // Thaleia makes the first Council nonterminal; otherwise play villages/cantrips first.
-      if (card.cardId === 'council-of-sages' && view.leader === 'thaleia' && !view.leaderUsed) return 100;
-      const effects = actionEffects(card.cardId);
+      const effects = [...actionEffects(card.cardId), ...(!view.leaderUsed && definition(card.cardId).god === definition(view.leader).god ? leaderEffects(view.leader) : [])];
       return effects.reduce((score, effect) => score + (effect.kind === 'resource' && effect.resource === 'actions' ? 20 * effect.amount : effect.kind === 'draw' ? effect.amount : 0), 0);
     };
     actions.sort((a, b) => priority(b) - priority(a) || a.id.localeCompare(b.id));

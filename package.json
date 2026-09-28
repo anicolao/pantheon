@@ -23,7 +23,8 @@
     "balance:study": "bun scripts/balance-study.ts",
     "balance:thaleia": "bun scripts/balance-thaleia.ts",
     "balance:counter": "bun scripts/balance-counter.ts",
-    "balance:train-engine": "bun scripts/balance-engine-train.ts"
+    "balance:train-engine": "bun scripts/balance-engine-train.ts",
+    "balance:matrix": "bun scripts/balance-matrix.ts"
   },
   "dependencies": {
     "@fontsource/atkinson-hyperlegible": "5.2.8",

@@ -52,6 +52,7 @@ test('Worship preserves offerings, handles Favored gains, and can run after buyi
   view.events = ['trial-of-the-spear']; view.phase = 'treasures'; view.resources = { coins: 4, actions: 0, buys: 0, worship: 1 };
   view.play = [{ id: 'temple', cardId: 'temple-of-ares', copy: 1 }, { id: 'recruit', cardId: 'bronze-recruit', copy: 1 }];
   view.hand = [{ id: 'polis', cardId: 'polis', copy: 1 }, { id: 'talent', cardId: 'talent', copy: 1 }];
+  view.owned = { ...view.owned, polis: 1, talent: 1, 'bronze-recruit': 1 }; view.myScore += 3;
   expect(strategyCommand(view, profile('worship'))).toEqual({ type: 'god/worshipped', cardId: 'trial-of-the-spear' });
   view.choice = { id: 'offer', kind: 'trash', min: 0, max: 1, source: 'trial-of-the-spear', offering: 3 };
   expect(strategyCommand(view, profile('worship'))).toEqual({ type: 'choice/resolved', choiceId: 'offer', targets: ['polis'] });
