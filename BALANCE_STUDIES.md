@@ -2,7 +2,7 @@
 
 The current population is **strategy version 5**. See [bot designs](BOT_STRATEGIES.md) and the [defect correction ledger](BOT_DEFECTS.md). Earlier commands and results below are historical and reproduce their archived outcomes only at the recorded source commit.
 
-Treasure v5 now maximizes all-card expected hand income and gates points on post-purchase $8 EV. The archived v4 leader comparison predates this change; a new balance claim requires fresh training and evaluation.
+Treasure v5 now maximizes all-card expected hand income and gates points on post-purchase $8 EV. The [completed paired v4→v5 study](balance-results/all-leaders-v5/README.md) repeats training and evaluation on the same seeds. It leads with best-observed-strategy matchups and includes all 150 before/after cells.
 
 ## Full leader/strategy matrix
 

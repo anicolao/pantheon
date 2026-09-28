@@ -1,0 +1,38 @@
+[
+  {
+    "key": "2/nereon/race",
+    "candidate": 0,
+    "share": 0.4166666666666667,
+    "games": 240
+  },
+  {
+    "key": "2/nereon/race",
+    "candidate": 1,
+    "share": 0.21875,
+    "games": 240
+  },
+  {
+    "key": "2/nereon/race",
+    "candidate": 2,
+    "share": 0.4375,
+    "games": 240
+  },
+  {
+    "key": "2/doreios/race",
+    "candidate": 0,
+    "share": 0.3458333333333333,
+    "games": 240
+  },
+  {
+    "key": "2/doreios/race",
+    "candidate": 1,
+    "share": 0.14166666666666666,
+    "games": 240
+  },
+  {
+    "key": "2/doreios/race",
+    "candidate": 2,
+    "share": 0.3416666666666667,
+    "games": 240
+  }
+]

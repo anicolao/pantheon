@@ -1,0 +1,38 @@
+[
+  {
+    "key": "2/thaleia/race",
+    "candidate": 0,
+    "share": 0.4083333333333333,
+    "games": 240
+  },
+  {
+    "key": "2/thaleia/race",
+    "candidate": 1,
+    "share": 0.06041666666666667,
+    "games": 240
+  },
+  {
+    "key": "2/thaleia/race",
+    "candidate": 2,
+    "share": 0.4479166666666667,
+    "games": 240
+  },
+  {
+    "key": "2/melia/race",
+    "candidate": 0,
+    "share": 0.32708333333333334,
+    "games": 240
+  },
+  {
+    "key": "2/melia/race",
+    "candidate": 1,
+    "share": 0.12916666666666668,
+    "games": 240
+  },
+  {
+    "key": "2/melia/race",
+    "candidate": 2,
+    "share": 0.33541666666666664,
+    "games": 240
+  }
+]

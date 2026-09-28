@@ -1,0 +1,38 @@
+[
+  {
+    "key": "2/nereon/engine",
+    "candidate": 0,
+    "share": 0.6041666666666666,
+    "games": 240
+  },
+  {
+    "key": "2/nereon/engine",
+    "candidate": 1,
+    "share": 0.29791666666666666,
+    "games": 240
+  },
+  {
+    "key": "2/nereon/engine",
+    "candidate": 2,
+    "share": 0.6395833333333333,
+    "games": 240
+  },
+  {
+    "key": "2/doreios/engine",
+    "candidate": 0,
+    "share": 0.7395833333333334,
+    "games": 240
+  },
+  {
+    "key": "2/doreios/engine",
+    "candidate": 1,
+    "share": 0.25833333333333336,
+    "games": 240
+  },
+  {
+    "key": "2/doreios/engine",
+    "candidate": 2,
+    "share": 0.7541666666666667,
+    "games": 240
+  }
+]
