@@ -102,7 +102,7 @@ The sequence is a development/review sequence, not a succession of altered game 
 
 **Fidelity review:** portrait active ring, clear travel path, restrained persistent message and game-native tray; no feed of diagnostics or timestamps.
 
-**Foundation progress:** Committed-event replay now retains structured public activity with actors, ordered movements, destinations, and resource deltas. Hidden draws and shuffles retain no card identities in this projection. Public pile snapshots and separate motion/reading cursors are covered by backend tests. The Chronicle interface, tray integration, cross-player animation, illustrated E2E stories, and visual review remain outstanding; step 8 is not implementation-complete.
+**Implementation evidence:** [Public-table stories and fidelity review](tests/e2e/008-public-table/FIDELITY.md). The Chronicle retains ordered public effects, source/destination anchors, resource changes and exact results. Public pile snapshots, owner selection, deck counts, nested inspection, New moves, and ordered committed motion preserve the reader’s context through remote play and reconnect. Normal/reduced-motion and multi-client stories include private backs, both reveal destinations, cleanup/shuffle, empty/paged piles, and reading through match completion. Visual acceptance remains the reviewer’s decision.
 
 ## 9. Share the public table privately
 
@@ -138,7 +138,7 @@ The sequence is a development/review sequence, not a succession of altered game 
 
 Each milestone adds a `FIDELITY.md` beside its E2E story: links to concept(s), actual phone/desktop/4K screenshots, a short visual comparison, and the named behavioral checks. A side-by-side human review answers “does this look like the accepted game?”; exact app snapshots answer “did it change after review?” Both are required.
 
-Do not mark a step accepted because snapshots were generated or CI passed. Implementation-complete means checks pass and the PR contains concrete fidelity evidence; visual acceptance remains the reviewer's decision. Steps 1–7 are implemented and merged, with match evidence in `tests/e2e/007-match/FIDELITY.md`. Step 8 has a tested replay/presentation foundation; its interface and steps 9–11 remain planned; basic finished-match Chronicle paging is included in step 7.
+Do not mark a step accepted because snapshots were generated or CI passed. Implementation-complete means checks pass and the PR contains concrete fidelity evidence; visual acceptance remains the reviewer's decision. Steps 1–7 are implemented and merged, with match evidence in `tests/e2e/007-match/FIDELITY.md`. Step 8 is implemented with evidence in `tests/e2e/008-public-table/FIDELITY.md`. Steps 9–11 remain planned; basic finished-match Chronicle paging is included in step 7.
 
 ### Step 3 architecture clarification
 
