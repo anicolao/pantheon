@@ -1,0 +1,242 @@
+[
+  {
+    "leader": "nereon",
+    "variant": "standard",
+    "family": "treasure",
+    "counter": "treasure-0",
+    "trainingShare": 0.2125,
+    "primary": false
+  },
+  {
+    "leader": "nereon",
+    "variant": "standard",
+    "family": "engine",
+    "counter": "treasure-0",
+    "trainingShare": 0.34375,
+    "primary": true
+  },
+  {
+    "leader": "nereon",
+    "variant": "standard",
+    "family": "thin",
+    "counter": "treasure-0",
+    "trainingShare": 0.05625,
+    "primary": false
+  },
+  {
+    "leader": "nereon",
+    "variant": "standard",
+    "family": "worship",
+    "counter": "treasure-0",
+    "trainingShare": 0.225,
+    "primary": false
+  },
+  {
+    "leader": "nereon",
+    "variant": "standard",
+    "family": "race",
+    "counter": "treasure-0",
+    "trainingShare": 0.25625,
+    "primary": false
+  },
+  {
+    "leader": "nereon",
+    "variant": "thaleia-buy",
+    "family": "treasure",
+    "counter": "treasure-0",
+    "trainingShare": 0.26875,
+    "primary": false
+  },
+  {
+    "leader": "nereon",
+    "variant": "thaleia-buy",
+    "family": "engine",
+    "counter": "treasure-0",
+    "trainingShare": 0.35625,
+    "primary": true
+  },
+  {
+    "leader": "nereon",
+    "variant": "thaleia-buy",
+    "family": "thin",
+    "counter": "treasure-0",
+    "trainingShare": 0.0625,
+    "primary": false
+  },
+  {
+    "leader": "nereon",
+    "variant": "thaleia-buy",
+    "family": "worship",
+    "counter": "treasure-0",
+    "trainingShare": 0.2125,
+    "primary": false
+  },
+  {
+    "leader": "nereon",
+    "variant": "thaleia-buy",
+    "family": "race",
+    "counter": "treasure-0",
+    "trainingShare": 0.2625,
+    "primary": false
+  },
+  {
+    "leader": "melia",
+    "variant": "standard",
+    "family": "treasure",
+    "counter": "engine-0",
+    "trainingShare": 0.19375,
+    "primary": false
+  },
+  {
+    "leader": "melia",
+    "variant": "standard",
+    "family": "engine",
+    "counter": "engine-1",
+    "trainingShare": 0.33125,
+    "primary": true
+  },
+  {
+    "leader": "melia",
+    "variant": "standard",
+    "family": "thin",
+    "counter": "treasure-0",
+    "trainingShare": 0.075,
+    "primary": false
+  },
+  {
+    "leader": "melia",
+    "variant": "standard",
+    "family": "worship",
+    "counter": "engine-1",
+    "trainingShare": 0.30625,
+    "primary": false
+  },
+  {
+    "leader": "melia",
+    "variant": "standard",
+    "family": "race",
+    "counter": "engine-0",
+    "trainingShare": 0.3125,
+    "primary": false
+  },
+  {
+    "leader": "melia",
+    "variant": "thaleia-buy",
+    "family": "treasure",
+    "counter": "engine-0",
+    "trainingShare": 0.19375,
+    "primary": false
+  },
+  {
+    "leader": "melia",
+    "variant": "thaleia-buy",
+    "family": "engine",
+    "counter": "engine-1",
+    "trainingShare": 0.33125,
+    "primary": true
+  },
+  {
+    "leader": "melia",
+    "variant": "thaleia-buy",
+    "family": "thin",
+    "counter": "treasure-0",
+    "trainingShare": 0.0875,
+    "primary": false
+  },
+  {
+    "leader": "melia",
+    "variant": "thaleia-buy",
+    "family": "worship",
+    "counter": "engine-1",
+    "trainingShare": 0.29375,
+    "primary": false
+  },
+  {
+    "leader": "melia",
+    "variant": "thaleia-buy",
+    "family": "race",
+    "counter": "engine-0",
+    "trainingShare": 0.3125,
+    "primary": false
+  },
+  {
+    "leader": "doreios",
+    "variant": "standard",
+    "family": "treasure",
+    "counter": "treasure-0",
+    "trainingShare": 0.19375,
+    "primary": false
+  },
+  {
+    "leader": "doreios",
+    "variant": "standard",
+    "family": "engine",
+    "counter": "treasure-0",
+    "trainingShare": 0.31875,
+    "primary": true
+  },
+  {
+    "leader": "doreios",
+    "variant": "standard",
+    "family": "thin",
+    "counter": "treasure-0",
+    "trainingShare": 0.08125,
+    "primary": false
+  },
+  {
+    "leader": "doreios",
+    "variant": "standard",
+    "family": "worship",
+    "counter": "treasure-0",
+    "trainingShare": 0.075,
+    "primary": false
+  },
+  {
+    "leader": "doreios",
+    "variant": "standard",
+    "family": "race",
+    "counter": "treasure-0",
+    "trainingShare": 0.275,
+    "primary": false
+  },
+  {
+    "leader": "doreios",
+    "variant": "thaleia-buy",
+    "family": "treasure",
+    "counter": "treasure-0",
+    "trainingShare": 0.19375,
+    "primary": false
+  },
+  {
+    "leader": "doreios",
+    "variant": "thaleia-buy",
+    "family": "engine",
+    "counter": "treasure-0",
+    "trainingShare": 0.31875,
+    "primary": true
+  },
+  {
+    "leader": "doreios",
+    "variant": "thaleia-buy",
+    "family": "thin",
+    "counter": "treasure-0",
+    "trainingShare": 0.08125,
+    "primary": false
+  },
+  {
+    "leader": "doreios",
+    "variant": "thaleia-buy",
+    "family": "worship",
+    "counter": "treasure-0",
+    "trainingShare": 0.0625,
+    "primary": false
+  },
+  {
+    "leader": "doreios",
+    "variant": "thaleia-buy",
+    "family": "race",
+    "counter": "treasure-0",
+    "trainingShare": 0.275,
+    "primary": false
+  }
+]
