@@ -41,6 +41,13 @@ export class TestStepHelper {
         await page.bringToFront();
         await page.mouse.move(0,0);
         const foreground=performance.now();
+        const transitioned=await page.waitForFunction(()=>{
+          const transitions=(window as Window&{__pantheonTransitions?:Map<Element,string>}).__pantheonTransitions;
+          if(!transitions)throw new Error('Capture context must observe transition lifetimes before navigation');
+          for(const node of transitions.keys())if(!node.isConnected)transitions.delete(node);
+          return transitions.size===0;
+        },undefined,{polling:20,timeout:remaining()});
+        await transitioned.dispose();
         const assetTimings=await page.evaluate(async()=>{
           const start=performance.now();
           await document.fonts.ready;
