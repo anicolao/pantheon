@@ -18,12 +18,15 @@ test('plain money EV is exact and points dilute the deck',()=>{
  expect(moneyAfter(v,'drachma').mean).toBeCloseTo(45/11,10);
  expect(moneyAfter(v,'acropolis').mean).toBeCloseTo(35/11,10);
 });
-test('draw competes with money using exact whole-hand EV, with no named opening rule',()=>{
+test('Treasures win near ties, while sufficiently better draw still wins',()=>{
  const v=state();
  expect(moneyAfter(v,'council-of-sages').mean).toBeCloseTo(35/11+(5/11)*3*7/10,10);
+ expect(moneyBuy(v,['council-of-sages','drachma'])).toBe('drachma');
+ expect(strategyCommand(v,{family:'treasure',parameters:candidates[0]})).toMatchObject({type:'card/bought',cardId:'drachma'});
+ expect(chooseCommand(v,'treasure')).toMatchObject({type:'card/bought',cardId:'drachma'});
+ v.owned={obol:8,hamlet:2};
+ expect(moneyAfter(v,'council-of-sages').mean-moneyAfter(v,'drachma').mean).toBeGreaterThan(0.1);
  expect(moneyBuy(v,['council-of-sages','drachma'])).toBe('council-of-sages');
- expect(strategyCommand(v,{family:'treasure',parameters:candidates[0]})).toMatchObject({type:'card/bought',cardId:'council-of-sages'});
- expect(chooseCommand(v,'treasure')).toMatchObject({type:'card/bought',cardId:'council-of-sages'});
  v.owned={obol:6,hamlet:4};
  expect(moneyBuy(v,['council-of-sages','drachma'])).toBe('drachma');
 });
@@ -86,4 +89,27 @@ test('unaffordable or unsafe top points do not promote smaller points to top tie
  v.resources.coins=8;v.supply.acropolis=1;v.myScore=0;v.scores=[40];
  expect(moneyPurchase(v)).not.toMatchObject({cardId:'acropolis'});
  expect(moneyPurchase(v)).not.toMatchObject({cardId:'polis'});
+});
+
+
+test('starting Bronze Recruit tie or sampled edge prefers Drachma for every leader',()=>{
+ for(const leader of ['thaleia','nereon','melia','doreios']){
+  const {game}=setupMatch('epsilon-start',[leader,leader==='thaleia'?'nereon':'thaleia']);
+  const uid=game.turnOrder.find(uid=>game.leaders[uid]===leader)!;
+  const v=strategyView(game,uid,inventoryAtSetup(game));v.resources.coins=3;
+  expect(Math.abs(moneyAfter(v,'bronze-recruit').mean-moneyAfter(v,'drachma').mean)).toBeLessThan(0.1);
+  expect(moneyBuy(v,['bronze-recruit','drachma'])).toBe('drachma');
+  expect(moneyBuy(v,['drachma','bronze-recruit'])).toBe('drachma');
+ }
+});
+
+
+test('the ten-cent band is inclusive and anchored to the maximum',()=>{
+ const v=state();v.owned={obol:20,hamlet:4};
+ expect(moneyAfter(v,'council-of-sages').mean-moneyAfter(v,'drachma').mean).toBeCloseTo(0.1,12);
+ expect(moneyBuy(v,['council-of-sages','drachma','obol'])).toBe('drachma');
+ expect(moneyBuy(v,['obol','drachma','council-of-sages'])).toBe('drachma');
+ v.owned={obol:21,hamlet:3};
+ expect(moneyAfter(v,'council-of-sages').mean-moneyAfter(v,'drachma').mean).toBeCloseTo(0.125,12);
+ expect(moneyBuy(v,['drachma','council-of-sages'])).toBe('council-of-sages');
 });
