@@ -31,7 +31,7 @@ export function selectCounters(cells: TrainingCell[], variants: PlayVariant[] = 
 export type CounterGame = { leader: string; variant: PlayVariant; family: Family; counter: string; result: StudyResult };
 const share = (row: CounterGame) => row.result.players.find(player => player.leader === 'thaleia')!.share;
 const percent = (n: number) => `${(100 * n).toFixed(1)}%`;
-export function counterReport(games: CounterGame[], selections: CounterSelection[], variants: PlayVariant[] = counterVariants, reusedSeeds = false) {
+export function counterReport(games: CounterGame[], selections: CounterSelection[], variants: PlayVariant[] = counterVariants, reusedSeeds = false, retunedProfiles = false) {
   if (variants.length !== 2 || variants[0] === variants[1]) throw new Error('Declare two distinct comparison arms.');
   const estimates: Record<string, unknown> = {};
   const lines = ['# Thaleia against selected leader-specific counters', '',
@@ -71,6 +71,7 @@ export function counterReport(games: CounterGame[], selections: CounterSelection
     lines.push(`| ${selected.leader} | ${selected.variant} | ${selected.family}${selected.primary ? ' (selected)' : ''} | ${selected.counter} | ${percent(selected.trainingShare)} | ${value === null ? 'n/a' : percent(value)} | ${valid.length} |`);
   }
   if (reusedSeeds) lines.splice(2, 0, 'Rules: ' + variants.join(' → ') + '. Evaluation seeds are deliberately reused from the prior study. This is an exploratory same-seed comparison, not independent confirmation. Training and evaluation remain disjoint. Strategy selection uses training only.', '');
+  if (retunedProfiles) lines.splice(2, 0, 'Both arms use the revised Engine policy for all leaders. Initial profiles were separately retrained under each rule with equal candidate and game budgets before counter selection. Earlier-policy baseline outcomes are not reused.', '');
   const markdown = lines.join('\n') + '\n';
   return { markdown: reusedSeeds ? markdown.replace('Fresh evaluation seeds never select strategies.', 'Evaluation seeds never select strategies.') : markdown, estimates };
 }

@@ -108,6 +108,16 @@ export function actionEffects(id: string): Effect[] {
 }
 /** Explicit opt-in experiment; ordinary games and replay retain the standard rules. */
 export type PlayVariant = 'standard' | 'thaleia-draw' | 'leader-buffs' | 'thaleia-buy' | 'thaleia-actions';
+/** Public trigger definition shared by the reducer and simulation observations. */
+export function leaderEffects(id: string, variant: PlayVariant = 'standard'): Effect[] {
+  if (id === 'thaleia') return [resource(id, 'actions', variant === 'thaleia-actions' ? 2 : 1),
+    ...(variant === 'thaleia-buy' ? [resource(id, 'buys', 1)] : []),
+    ...(variant === 'thaleia-draw' || variant === 'leader-buffs' ? [{ kind: 'draw' as const, source: id, amount: 1 }] : [])];
+  if (id === 'nereon') return [resource(id, 'coins', variant === 'leader-buffs' ? 2 : 1)];
+  if (id === 'melia') return [{ kind: 'draw', source: id, amount: variant === 'leader-buffs' ? 2 : 1 }];
+  if (id === 'doreios') return [{ kind: 'trash', source: id, amount: 1 }];
+  return [];
+}
 export function applyPlayCommand(game: SetupState, uid: string, command: ActionCommand, sequence: number, variant: PlayVariant = 'standard'): string {
   if (game.phase !== 'playing' || activePlayer(game) !== uid || game.turn.phase === 'finished') throw new Error('Wait for your turn.');
   const zones = game.decks[uid], name = game.players.find(player => player.uid === uid)!.name;
@@ -176,14 +186,7 @@ export function applyPlayCommand(game: SetupState, uid: string, command: ActionC
       const leader = definition(game.leaders[uid]);
       if (!game.turn.leaderUsed && leader.god === definition(card.cardId).god) {
         game.turn.leaderUsed = true;
-        if (leader.id === 'thaleia') {
-          game.turn.queue.push(resource(leader.id, 'actions', variant === 'thaleia-actions' ? 2 : 1));
-          if (variant === 'thaleia-buy') game.turn.queue.push(resource(leader.id, 'buys', 1));
-          if (variant === 'thaleia-draw' || variant === 'leader-buffs') game.turn.queue.push({ kind: 'draw', source: leader.id, amount: 1 });
-        }
-        if (leader.id === 'nereon') game.turn.queue.push(resource(leader.id, 'coins', variant === 'leader-buffs' ? 2 : 1));
-        if (leader.id === 'melia') game.turn.queue.push({ kind: 'draw', source: leader.id, amount: variant === 'leader-buffs' ? 2 : 1 });
-        if (leader.id === 'doreios') game.turn.queue.push({ kind: 'trash', source: leader.id, amount: 1 });
+        game.turn.queue.push(...leaderEffects(leader.id, variant));
       }
       resolve(); break;
     }
