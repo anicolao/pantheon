@@ -6,7 +6,9 @@ This ledger distinguishes concrete decision defects from unavoidable uncertainty
 | --- | --- | --- |
 | Engine purchases ignored whole-deck draw and actual trigger capacity | Generic draw deficit, actual leader effects, support only when useful, opening reliability and shortfall feedback | `engine.test.ts`; variant capacity test in `planning.test.ts` |
 | Static Action scores/copy limits persisted in other families | Replaced study Action table with effect-based capacity and family objectives | All-family capacity test; source has no named Action score switch |
+| Conditional reveal Coins were omitted from generic payload estimates | Value the conditional income using public Territory density, without next-card access | Conditional reveal regression |
 | Terminal payload overvalued despite insufficient Actions | Discount by executable Action capacity relative to terminal demand | Capacity/play regression coverage; model remains approximate |
+| Thin play priority omitted leader Coins/trashing; Engine priority omitted leader trashing | Include actual trigger payload and value the available trash opportunity after printed resources | Nereon/Doreios payload regression in `planning.test.ts` |
 | Nonterminal ordering could strand useful Actions or penalize a terminal when no support existed | Use actual effects; strand penalty requires available Action support | Engine sequencing tests |
 | Thin optimized trash count/classes rather than deck quality | Joint income/VP/horizon evaluation, tool retirement and replacement search | `thin.test.ts` |
 | Tool demand summed mutually incompatible hypothetical removals | Recompute after each positive marginal hypothetical removal | Joint-removal tests and source review |
