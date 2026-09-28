@@ -1,0 +1,38 @@
+[
+  {
+    "key": "2/thaleia/engine",
+    "candidate": 0,
+    "share": 0.79375,
+    "games": 240
+  },
+  {
+    "key": "2/thaleia/engine",
+    "candidate": 1,
+    "share": 0.27291666666666664,
+    "games": 240
+  },
+  {
+    "key": "2/thaleia/engine",
+    "candidate": 2,
+    "share": 0.8,
+    "games": 240
+  },
+  {
+    "key": "2/melia/engine",
+    "candidate": 0,
+    "share": 0.6416666666666667,
+    "games": 240
+  },
+  {
+    "key": "2/melia/engine",
+    "candidate": 1,
+    "share": 0.16875,
+    "games": 240
+  },
+  {
+    "key": "2/melia/engine",
+    "candidate": 2,
+    "share": 0.6666666666666666,
+    "games": 240
+  }
+]
