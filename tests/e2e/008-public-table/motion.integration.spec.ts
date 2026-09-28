@@ -126,7 +126,7 @@ test('keep a private hand inspection open while another player moves',async({pag
   try{
     await actionTable(page,info,'oracles-acolyte','thaleia',{other});
     await steps.step('waiting','Theseus can inspect his own hand while Ariadne takes her turn',[{spec:'The observer has five private hand cards and cannot play out of turn.',check:async()=>{await expect(other.getByTestId('hand-card')).toHaveCount(5);await expect(other.getByRole('button',{name:'To Treasures',exact:true})).toHaveCount(0);}}],{page:other,player:'Theseus'});
-    await observe(other);await other.getByTestId('hand-card').first().click();
+    await observe(other);await other.getByTestId('hand-card').first().click({button:'right'});
     const reading=await other.locator('.inspection [data-card-id]').getAttribute('data-card-id');
     await steps.step('private-card','Theseus reads his own card without exposing Ariadne’s hand',[{spec:'Inspection is read-only during the other player’s turn.',check:async()=>{await expect(other.locator('.inspection[open]')).toBeVisible();await expect(other.locator('.opponents [data-card-id]')).toHaveCount(0);}}],{page:other,player:'Theseus'});
     await playCard(page,'oracles-acolyte');

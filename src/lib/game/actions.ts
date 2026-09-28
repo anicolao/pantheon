@@ -52,7 +52,7 @@ export function canPlayAction(game: SetupState, uid: string, instanceId: string)
   return game.phase === 'playing' && activePlayer(game) === uid && game.turn.phase === 'actions' && !game.turn.choice && game.resources.actions > 0 && game.decks[uid]?.hand.some(card => card.id === instanceId && definition(card.cardId).type === 'Action');
 }
 export function canPlayTreasure(game: SetupState, uid: string, instanceId: string) {
-  return game.phase === 'playing' && activePlayer(game) === uid && game.turn.phase === 'treasures' && !game.turn.choice && game.decks[uid]?.hand.some(card => card.id === instanceId && definition(card.cardId).type === 'Treasure');
+  return game.phase === 'playing' && activePlayer(game) === uid && ['actions','treasures'].includes(game.turn.phase) && !game.turn.choice && game.decks[uid]?.hand.some(card => card.id === instanceId && definition(card.cardId).type === 'Treasure');
 }
 export function purchaseReason(game: SetupState, uid: string, id: string): string {
   if (game.turn.phase === 'finished') return 'The game is over.';
@@ -69,7 +69,7 @@ export function purchaseReason(game: SetupState, uid: string, id: string): strin
 export function departureReminder(game: SetupState, uid: string) {
   if (game.phase !== 'playing' || activePlayer(game) !== uid || game.turn.choice || game.turn.phase === 'finished') return null;
   const highest = (options: ReturnType<typeof definition>[]) => options.sort((a, b) => (b.cost ?? 0) - (a.cost ?? 0) || (a.id < b.id ? -1 : a.id > b.id ? 1 : 0))[0];
-  const playable = game.decks[uid].hand.filter(card => canPlayAction(game, uid, card.id) || canPlayTreasure(game, uid, card.id)).map(card => definition(card.cardId));
+  const playable = game.decks[uid].hand.filter(card => canPlayAction(game, uid, card.id) || (game.turn.phase !== 'actions' && canPlayTreasure(game, uid, card.id))).map(card => definition(card.cardId));
   const card = highest(playable);
   if (card) return { verb: 'play' as const, card };
   const purchase = highest(cards.filter(card => !purchaseReason(game, uid, card.id)));
@@ -216,13 +216,15 @@ export function applyPlayCommand(game: SetupState, uid: string, command: ActionC
     }
     case 'treasures/played': {
       const treasures = zones.hand.filter(card => definition(card.cardId).type === 'Treasure');
-      if (game.turn.phase !== 'treasures' || !treasures.length) throw new Error('There are no Treasures to play.');
+      if (!['actions','treasures'].includes(game.turn.phase) || !treasures.length) throw new Error('There are no Treasures to play.');
+      game.turn.phase = 'treasures';
       for (const card of treasures) { zones.hand.splice(zones.hand.findIndex(item => item.id === card.id), 1); zones.play.push(card); const value = { obol: 1, drachma: 2, talent: 3 }[card.cardId]!; game.resources.coins += value; move('play', card.cardId, card); messages.push(`played ${definition(card.cardId).name}, +${value} coins`); }
       break;
     }
     case 'treasure/played': {
       const index = zones.hand.findIndex(card => card.id === command.instanceId);
-      if (game.turn.phase !== 'treasures' || index < 0 || definition(zones.hand[index].cardId).type !== 'Treasure') throw new Error('Play a Treasure from your hand in the Treasure phase.');
+      if (!['actions','treasures'].includes(game.turn.phase) || index < 0 || definition(zones.hand[index].cardId).type !== 'Treasure') throw new Error('Play a Treasure from your hand in the Treasure phase.');
+      game.turn.phase = 'treasures';
       const card = zones.hand.splice(index, 1)[0]; zones.play.push(card); const value = { obol: 1, drachma: 2, talent: 3 }[card.cardId]!;
       game.resources.coins += value; move('play', card.cardId, card); messages.push(`played ${definition(card.cardId).name}, +${value} coins`); break;
     }

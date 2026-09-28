@@ -25,9 +25,8 @@ test('retain Treasures deliberately and spend multiple Buys including a zero-cos
 });
 
 
-test('empty piles stay inspectable and optional Action departure can be cancelled',async({page},info)=>{
+test('empty piles stay inspectable and turn departure can be cancelled',async({page},info)=>{
   test.setTimeout(120_000);const fixture=await actionTable(page,info,'temple-of-athena','thaleia',{empty:'obol'});
-  const before=await readEvents(fixture.code);await page.getByRole('button',{name:'To Treasures',exact:true}).click();await expect(page.getByRole('dialog')).toContainText('You can still play');await page.getByRole('button',{name:'Keep playing',exact:true}).click();expect(await readEvents(fixture.code)).toEqual(before);
   await advance(page,'To Treasures');await page.getByRole('button',{name:'Play all Treasures',exact:true}).click();await page.getByRole('button',{name:'Supply',exact:true}).click();
   await new TestStepHelper(page,info,'Inspect exhausted supply').step('empty-pile','An empty pile remains visible',[{spec:'The card is inspectable but its Buy control explains that the pile is empty.',check:async()=>{await expect(page.getByRole('button',{name:'Select Obol, 0 remaining',exact:true})).toBeVisible();await expect(page.getByRole('button',{name:'Buy Obol',exact:true})).toBeDisabled();await expect(page.locator('.reason')).toHaveText('This pile is empty.');}}]);
   await page.getByRole('button',{name:'Inspect Obol',exact:true}).click();await expect(page.getByRole('dialog',{name:'Obol',exact:true})).toBeVisible();await page.keyboard.press('Escape');await page.getByRole('button',{name:'‹ Table',exact:true}).click();
@@ -56,14 +55,11 @@ test('a lost purchase acknowledgement does not duplicate the card or its animati
 });
 
 
-test('departure reminders name the most valuable playable Action and Treasure',async({page},info)=>{
+test('leaving Actions is immediate and ending the turn names the most valuable Treasure',async({page},info)=>{
   await actionTable(page,info,'council-of-sages','thaleia',{extra:['oracles-acolyte','drachma']});
   const steps=new TestStepHelper(page,info,'Keep the strongest remaining play in view');
   await page.getByRole('button',{name:'To Treasures',exact:true}).click();
-  await steps.step('valuable-action','The reminder names Council of Sages instead of the cheaper Acolyte',[{spec:'The highest-cost playable Action is named.',check:async()=>expect(page.getByRole('dialog')).toContainText('You can still play Council of Sages.')}]);
-  await page.getByRole('button',{name:'Keep playing',exact:true}).click();
-  await page.getByRole('button',{name:'To Treasures',exact:true}).click();
-  await page.getByRole('dialog').getByRole('button',{name:'To Treasures',exact:true}).click();
+  await steps.step('treasure-phase','Move directly to Treasures without a confirmation',[{spec:'The phase changes immediately and no modal opens.',check:async()=>{await expect(page.locator('.turn-marker')).toContainText('Treasures');await expect(page.locator('dialog:modal')).toHaveCount(0);}}]);
   await expect(page.getByRole('button',{name:'To Buys',exact:true})).toHaveCount(0);
   await page.getByRole('button',{name:'End turn',exact:true}).click();
   await steps.step('valuable-treasure','The reminder names the most valuable unplayed Treasure',[{spec:'Drachma is offered before ending the turn.',check:async()=>expect(page.getByRole('dialog')).toContainText('You can still play Drachma.')}]);

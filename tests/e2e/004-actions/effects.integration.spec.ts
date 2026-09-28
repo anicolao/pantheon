@@ -14,7 +14,7 @@ test('play, choose optional trash, reconnect, and show the public result', async
     const steps=new TestStepHelper(page,info,'Play Actions and shape your deck');
     await steps.step('action-table','Find a playable Action in your hand',[{spec:'Your hand marks playable Actions and keeps the counters in view.',check:async()=>{await expect(page.locator('.hand-slot.playable')).not.toHaveCount(0);await expect(page.locator('.turn-marker')).toContainText('Your turn');}}]);
     const actionIndex=await page.locator('.hand [data-card-id]').evaluateAll(cards=>cards.findIndex(card=>card.getAttribute('data-card-id')==='seed-keeper'));
-    await page.getByTestId('hand-card').nth(actionIndex).click();
+    await page.getByTestId('hand-card').nth(actionIndex).click({button:'right'});
     await new TestStepHelper(page,info,'Inspect an Action').step('play-action','Inspect before playing',[{spec:'The actual card has a working Play control, with its physical copy preserved.',check:async()=>expect(page.getByRole('button',{name:'Play Seed Keeper',exact:true})).toBeEnabled()}]);
     await page.keyboard.press('Escape');
     await other.emulateMedia({reducedMotion:'no-preference'});
@@ -66,7 +66,7 @@ test('Forge gains a cheaper card before Doreios offers his separate choice',asyn
   const result=replaySetup(await readEvents(fixture.code));expect(result.supply.obol).toBe(state.supply.obol-1);expect(result.resources.buys).toBe(state.resources.buys);expect(result.turn.leaderUsed).toBe(true);
 });
 
-test('Harvest Feast requires a discard after drawing and supports hand paging',async({page},info)=>{
+test('Harvest Feast requires a discard after drawing and fits the expanded hand in a fan',async({page},info)=>{
   test.setTimeout(120_000);const fixture=await actionTable(page,info,'harvest-feast','melia');const steps=new TestStepHelper(page,info,'Resolve a mandatory discard');
   const initial=fixture.game.decks[fixture.host];const newlyDrawn=initial.deck.slice(0,2);
   await playCard(page,'harvest-feast');const state=replaySetup(await readEvents(fixture.code));expect(state.decks[fixture.host].hand.length).toBe(initial.hand.length+1);
@@ -77,8 +77,10 @@ test('Harvest Feast requires a discard after drawing and supports hand paging',a
   await page.getByRole('button',{name:`Select ${definition(card.cardId).name}, copy ${card.copy}`,exact:true}).focus();await page.keyboard.press('Space');
   await steps.step('discard-selected','A just-drawn card can be discarded',[{spec:'Keyboard selection marks the card and enables the mandatory discard.',check:async()=>expect(page.getByRole('button',{name:'Discard 1',exact:true})).toBeEnabled()}]);
   await page.getByRole('button',{name:'Discard 1',exact:true}).click();await expect(page.locator('.choice-scene')).toHaveCount(0);
-  await steps.step('expanded-hand','Melia’s draw follows the discard',[{spec:'A hand larger than five has reachable pages with no overlapping controls.',check:async()=>{await expect(page.getByRole('button',{name:'Next hand cards',exact:true})).toBeEnabled();await expect(page.locator('.hand [data-card-id]')).toHaveCount(5);}}]);
-  await page.getByRole('button',{name:'Next hand cards',exact:true}).click();await steps.step('hand-last-page','Inspect the end of the expanded hand',[{spec:'The last page is bounded, and the first page remains reachable.',check:async()=>{await expect(page.getByRole('button',{name:'Next hand cards',exact:true})).toBeDisabled();await expect(page.getByRole('button',{name:'Previous hand cards',exact:true})).toBeEnabled();}}]);
+  await steps.step('expanded-hand','Melia’s draw follows the discard',[{spec:'All six cards fit in the overlapping fan without paging.',check:async()=>{await expect(page.locator('.hand [data-card-id]')).toHaveCount(6);await expect(page.getByRole('navigation',{name:'Hand pages'})).toHaveCount(0);}}]);
+  await page.getByTestId('hand-card').last().click({button:'right'});
+  await steps.step('hand-last-card','Read the last card without changing pages',[{spec:'The final card opens for inspection and returns to the same fan.',check:async()=>expect(page.locator('dialog:modal .inspected [data-card-id]')).toHaveCount(1)}]);
+
 });
 
 for(const reveal of ['Territory','other'] as const)test(`Procession reveals ${reveal} and preserves its proper destination`,async({page},info)=>{

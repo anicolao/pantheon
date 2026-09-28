@@ -25,12 +25,7 @@ test('keep playing a Temple, spend the last Buy, and hand the turn to a friend e
     await capture('thaleia','Ariadne chooses Thaleia for her empire',page,'Ariadne',async()=>expect(page.getByRole('button',{name:'Choose Thaleia',exact:true})).toBeEnabled());
     await page.getByRole('button',{name:'Choose Thaleia',exact:true}).click();
     await capture('hand','Ariadne receives a Temple and four Obols',page,'Ariadne',async()=>{await expect(page.locator('.hand [data-card-id="temple-of-athena"]')).toHaveCount(1);await expect(page.locator('.hand [data-card-id="obol"]')).toHaveCount(4);});
-    await page.getByRole('button',{name:'To Treasures',exact:true}).click();
-    await capture('decision','Leaving Actions would leave the Temple unplayed',page,'Ariadne',async()=>expect(page.getByRole('dialog')).toContainText('You can still play Temple of Athena.'));
-    const before=await readEvents(code);
-    await page.getByRole('button',{name:'Keep playing',exact:true}).click();
-    await capture('keep','Ariadne keeps playing without spending anything',page,'Ariadne',async()=>{await expect(page.getByRole('button',{name:'To Treasures',exact:true})).toBeFocused();expect(await readEvents(code)).toHaveLength(before.length);});
-    const index=await page.locator('.hand [data-card-id="temple-of-athena"]').evaluate(node=>[...node.closest('.hand')!.querySelectorAll('[data-card-id]')].indexOf(node));await page.getByTestId('hand-card').nth(index).click();
+    const index=await page.locator('.hand [data-card-id="temple-of-athena"]').evaluate(node=>[...node.closest('.hand')!.querySelectorAll('[data-card-id]')].indexOf(node));await page.getByTestId('hand-card').nth(index).click({button:'right'});
     await capture('temple','The Temple can be read before it is played',page,'Ariadne',async()=>expect(page.getByRole('button',{name:'Play Temple of Athena',exact:true})).toBeEnabled());
     await page.getByRole('button',{name:'Play Temple of Athena',exact:true}).click();
     await capture('played','The Temple and Thaleia leave two Actions and two Worship',page,'Ariadne',async()=>{await expect(page.locator('.resources [data-resource=actions]')).toHaveAttribute('data-value','2');await expect(page.locator('.resources [data-resource=worship]')).toHaveAttribute('data-value','2');});

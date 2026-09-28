@@ -24,7 +24,7 @@ test('follow a friend from the first Temple through Worship and cleanup while re
     await page.getByRole('button',{name:'Choose Nereon',exact:true}).click();
     await capture('opening','Ariadne holds her Temple and four Obols',async()=>expect.poll(()=>page.locator('.hand [data-card-id]').evaluateAll(nodes=>nodes.map(node=>node.getAttribute('data-card-id')))).toEqual(['temple-of-poseidon','obol','obol','obol','obol']));
     await capture('observer','Theseus sees whose turn it is and only common backs for Ariadne’s hand',async()=>{await expect(other.locator('.turn-marker')).toContainText('Ariadne');await expect(other.locator('.opponents [data-card-id]')).toHaveCount(0);},true);
-    await page.getByTestId('hand-card').first().click();
+    await page.getByTestId('hand-card').first().click({button:'right'});
     await capture('temple','Ariadne reads her Temple before playing it',async()=>expect(page.getByRole('button',{name:'Play Temple of Poseidon',exact:true})).toBeEnabled());
     await page.getByRole('button',{name:'Play Temple of Poseidon',exact:true}).click();
     await capture('played','Theseus sees the Temple, Nereon’s blessing, and the resulting Coin',async()=>{await expect(other.locator('.played-cards [data-card-id]')).toHaveAttribute('data-card-id','temple-of-poseidon');await expect(other.locator('.resources [data-resource=coins]')).toHaveAttribute('data-value','1');},true);

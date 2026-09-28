@@ -113,7 +113,7 @@ for (const count of [2, 3, 4] as const) test(`${count} players draft unique bloo
     expect(await eventsAt(code)).toEqual(before);
     await steps.step('restored-hand','Return to the same hand without another deal',[{spec:'The physical copies remain unchanged.',check:async()=>expect(choosing.getByTestId('hand-card')).toHaveCount(5)}],{player:chooserName});
     if (count === 2) {
-      await choosing.getByTestId('hand-card').first().click();
+      await choosing.getByTestId('hand-card').first().click({button:'right'});
       await steps.step('hand-inspection', 'Read a card in your hand', [{ spec: 'Inspection preserves the physical copy identifier.', check: async () => expect(choosing.getByRole('dialog').locator('[data-serial]')).toHaveAttribute('data-serial', hand[0]!) }]);
       await choosing.keyboard.press('Escape');
       await choosing.getByRole('button', { name: 'Supply', exact: true }).click();

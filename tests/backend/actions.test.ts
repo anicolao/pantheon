@@ -106,10 +106,11 @@ test('wrong player, phase, empty Actions and unresolved decisions cannot play an
 
 test('individual and atomic Treasure play have the same totals, leave non-Treasures and reject replay or wrong phase', () => {
   const state=game('thaleia',['obol','drachma','talent','hamlet']);
-  expect(()=>run(state,{type:'treasures/played'})).toThrow();run(state,{type:'phase/advanced'});
+
   const individual=structuredClone(state);
   for(const card of individual.decks.a.hand.slice(0,3))run(individual,{type:'treasure/played',instanceId:card.id});
   run(state,{type:'treasures/played'});
+  expect(state.turn.phase).toBe('treasures');expect(individual.turn.phase).toBe('treasures');
   expect(state.decks).toEqual(individual.decks);expect(state.resources).toEqual(individual.resources);expect(state.resources.coins).toBe(6);expect(state.resources.actions).toBe(1);
   expect(state.decks.a.hand.map(card=>card.cardId)).toEqual(['hamlet']);expect(()=>run(state,{type:'treasures/played'})).toThrow();
   run(state,{type:'phase/advanced'});expect(()=>run(state,{type:'treasure/played',instanceId:'h-0'})).toThrow();expect(()=>run(state,{type:'phase/advanced'})).toThrow();
@@ -274,4 +275,29 @@ test('all owned zones score, starting Hamlets count, and trash and resources nev
   const state=game('thaleia',['hamlet','hamlet','hamlet'],['polis']);state.decks.a.discard=instances(['acropolis'],'discard');state.decks.a.play=instances(['polis','obol','temple-of-athena'],'play');state.trash=instances(['acropolis','hamlet'],'trash');state.resources={actions:99,coins:99,buys:99,worship:99};
   expect(standings(state).find(row=>row.uid==='a')?.score).toBe(15);
   expect(standings(state).find(row=>row.uid==='a')?.territories.map(t=>t.count)).toEqual([3,2,1]);
+});
+
+test('Treasure shortcuts validate before leaving Actions and cannot reopen play after buying', () => {
+  for (const command of [{type:'treasure/played',instanceId:'missing'}, {type:'treasure/played',instanceId:'h-0'}, {type:'treasures/played'}] as ActionCommand[]) {
+    const state=game('thaleia',['hamlet']),before=structuredClone(state);
+    expect(()=>run(state,command)).toThrow();expect(state).toEqual(before);
+  }
+  for (const command of [{type:'treasure/played',instanceId:'h-1'}, {type:'treasures/played'}] as ActionCommand[]) {
+    const state=game('thaleia',['seed-keeper','obol']);
+    const before=structuredClone(state);
+    expect(()=>applyPlayCommand(state,'b',command,++seq)).toThrow();expect(state).toEqual(before);
+    play(state);const pending=structuredClone(state);
+    expect(()=>run(state,command)).toThrow();expect(state).toEqual(pending);
+    choose(state,[]);run(state,command);
+    expect(state.turn.phase).toBe('treasures');
+  }
+  const state=game('thaleia',['oracles-acolyte','obol','drachma']);
+  expect(canPlayTreasure(state,'a','h-1')).toBe(true);
+  run(state,{type:'treasure/played',instanceId:'h-1'});
+  expect(()=>play(state)).toThrow();
+  run(state,{type:'card/bought',cardId:'obol'});
+  const before=structuredClone(state);
+  expect(canPlayTreasure(state,'a','h-2')).toBe(false);
+  expect(()=>run(state,{type:'treasure/played',instanceId:'h-2'})).toThrow();
+  expect(()=>run(state,{type:'treasures/played'})).toThrow();expect(state).toEqual(before);
 });

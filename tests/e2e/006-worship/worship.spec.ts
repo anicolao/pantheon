@@ -22,7 +22,7 @@ test('raise a Temple, worship another bloodline’s god, and keep the gained Act
     await capture('choose-poseidon','Ariadne chooses Nereon and his Temple of Poseidon',async()=>expect(page.getByRole('button',{name:'Choose Nereon',exact:true})).toBeEnabled());
     await page.getByRole('button',{name:'Choose Nereon',exact:true}).click();
     await capture('opening','Ariadne receives her Temple and four Obols',async()=>expect(page.locator('.hand [data-card-id]')).toHaveCount(5));
-    await page.getByTestId('hand-card').first().click();
+    await page.getByTestId('hand-card').first().click({button:'right'});
     await capture('temple','Read the Temple before playing it',async()=>expect(page.getByRole('button',{name:'Play Temple of Poseidon',exact:true})).toBeEnabled());
     await page.getByRole('button',{name:'Play Temple of Poseidon',exact:true}).click();
     await capture('temple-played','The Temple grants Worship and Nereon grants one Coin',async()=>{await expect(page.locator('.resources [data-resource=worship]')).toHaveAttribute('data-value','2');await expect(page.locator('.resources [data-resource=coins]')).toHaveAttribute('data-value','1');});
