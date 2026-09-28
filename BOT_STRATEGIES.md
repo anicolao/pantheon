@@ -1,6 +1,6 @@
 # Bot strategy design review
 
-This is a description of the implemented bots, not a claim that their strategy designs are correct. Reviewed against source commit `be60b041e6b742ff4abacbd8a7f618215c29177c` (strategy version 2). Documentation changes do not change policies or archived results.
+This is a description of the implemented bots, not a claim that their strategy designs are correct. The original review described strategy version 2 at `be60b041e6b742ff4abacbd8a7f618215c29177c`. Updated for strategy version 3: Thin now implements the deck-quality model below. Archived version-2 results remain historical; changing Thin requires fresh training before another balance comparison.
 
 The Engine correction demonstrated a central limitation: a legal, deterministic bot with many completed games can still implement its named strategy badly. Statistical precision does not validate strategy design. Review the behavioral contracts below before using these bots to make balance decisions.
 
@@ -10,14 +10,14 @@ The Engine correction demonstrated a central limitation: a legal, deterministic 
 | --- | --- | --- | --- |
 | Treasure | Increase reliable spending power, then score | Fixed purchase list; never voluntarily buys Actions or Worships | Transparent benchmark, deliberately limited |
 | Engine | Draw the whole deck, support that draw with Actions, convert it into points | Generic marginal draw-capacity scoring, shared economy/Worship/scoring rules | Draw objective implemented and tested; economy and reliability still heuristic |
-| Thin | Remove weak cards to improve deck quality | Shared policy with higher Seed Keeper/Forge scores and income-floor trashing | Deck-quality objective is not implemented |
+| Thin | Improve future spending reliability while preserving points and needed tools | Joint removal/replacement evaluation, finite game horizon, work-dependent tool purchases | Implemented with explicit income/draw approximations; behavioral tests cover the contract |
 | Worship | Build access to valuable, preferably Favored, Worship | Shared immediate Worship evaluator plus small matching-god and named-card acquisition bonuses | Does not plan Devotion or future offerings |
 | Race | Score quickly and control the ending | Higher Polis/Grove/Procession scores plus shared one-purchase winning-ending override | Does not plan a race or reject losing endings |
 | Legacy Draw | Simple Action-buying comparison for the original simulator | Fixed purchase list with named copy limits | Historical baseline; not Engine v2 |
 
-Thin, Worship and Race share almost all control flow and differ mainly in numeric acquisition preferences. All four non-Treasure families Worship. The label “Worship” does not mean other families ignore events. Multiplayer studies currently assign all opponents one family per scheduled matchup; they do not search every combination of opposing families.
+Worship and Race still differ mainly in numeric acquisition preferences. Thin shares ordinary purchase scores but now has separate removal, replacement, tool-acquisition, gain and Action-priority decisions. All four non-Treasure families Worship. The label “Worship” does not mean other families ignore events. Multiplayer studies currently assign all opponents one family per scheduled matchup; they do not search every combination of opposing families.
 
-Sources: [strategy definitions and shared decisions](scripts/balance/strategy.ts), [Engine scoring](scripts/balance/engine.ts), [Treasure and legacy Draw](scripts/balance/bot.ts), [production effects](src/lib/game/actions.ts).
+Sources: [Thin model](scripts/balance/thin.ts), [strategy definitions and shared decisions](scripts/balance/strategy.ts), [Engine scoring](scripts/balance/engine.ts), [Treasure and legacy Draw](scripts/balance/bot.ts), [production effects](src/lib/game/actions.ts).
 
 ## What bots can know
 
@@ -58,13 +58,13 @@ The ending override looks for an affordable last Acropolis, or last card in a th
 
 ### Trashing, discarding and gaining
 
-Ordinary optional trashing removes Hamlets before late game and Obols while retained nominal Treasure value stays above `moneyFloor`. It never deliberately trashes another card type, and it stops this ordinary trashing entirely when late. Forge and Worship offerings are evaluated separately and can trash other card types.
+For Engine, Worship and Race, ordinary optional trashing removes Hamlets before late game and Obols while retained nominal Treasure value stays above `moneyFloor`. It never deliberately trashes another card type, and it stops this ordinary trashing entirely when late. Forge and Worship offerings are evaluated separately and can trash other card types.
 
-Retention loss is −2 for a disposable Hamlet/Obol, twice VP for a Territory, and otherwise at least 1 using acquisition utility. Engine instead values owned Actions by their marginal contribution when removed and restored. Other families still use the value of buying an additional copy as a proxy for losing an existing copy; this can undervalue important cards with declining copy scores.
+Retention loss is −2 for a disposable Hamlet/Obol, twice VP for a Territory, and otherwise at least 1 using acquisition utility. Engine instead values owned Actions by their marginal contribution when removed and restored. Worship and Race still use the value of buying an additional copy as a proxy for losing an existing copy; this can undervalue important cards with declining copy scores.
 
 Mandatory discards take Territories first, then lowest retention loss. This does not generally evaluate this turn's remaining spending or play sequence. Optional gains require positive utility; mandatory gains take the best eligible card even when its utility is poor.
 
-Offering/Forge choices enumerate zero, one or two hand cards, as allowed, and maximize gained-card utility minus retention losses. Only a strictly positive improvement is accepted. The calculation does not model topdeck timing, the resulting hand's execution, or long-term income distribution.
+Offering/Forge choices enumerate zero, one or two hand cards, as allowed. Engine, Worship and Race maximize gained-card utility minus retention losses. Thin compares the joint before/after deck, plus the current-turn cost of removing unplayed Treasures. Only a strictly positive improvement is accepted. The calculation does not model topdeck timing, the resulting hand's execution, or long-term income distribution.
 
 ### Shared Worship evaluator
 
@@ -115,13 +115,27 @@ Play priority is 4×useful draw + 2×Actions + Coins + 0.5×printed trash, inclu
 
 **Evidence:** Tests cover draw demand growing with deck size, no draw-copy cap, support when blocked, public trigger variants, play ordering, retention and draw accounting. The [latest comparison](balance-results/engine-cycle-v1/README.md) measures actual full-deck phases. It does not establish optimal engine construction. Shared economy, Worship, scoring transitions and ending limitations still apply.
 
-## Thin
+## Thin (strategy version 3)
 
-**Intended contract for review:** Trash when the expected improvement in future hands outweighs the lost payload, preserve sufficient income, and stop buying thinning tools when their remaining work is small.
+**Contract:** Improve useful future hands without sacrificing required income, retained VP or the last useful thinning tool. Evaluate replacements together with removals. Stop investing in tools when remaining work or time is insufficient.
 
-**Implemented:** Higher Seed Keeper and Forge scores, slightly lower Sacred Academy score, and the shared trash/upgrade/retention rules. It has no target deck composition, money-per-hand estimate, time-to-payoff model or general valuation of removing a card. Forge's acquisition score does not inspect remaining useful upgrade targets. Ordinary trashing shuts off solely because the Acropolis threshold is reached.
+Thin scores a change as `H × change in expected spending utility + change in owned VP`, then subtracts the current-turn spending utility lost by removing unplayed Treasures from the actual hand. `H` is a public pile-pressure horizon: the minimum of six turns, `1.5 × remaining Acropolises / player count`, and `1.5 × total cards in the three smallest supply piles / player count`. It can reach zero for an ending already triggered. It is a heuristic, not a predicted ending date, and does not use `scoringAt` as a blanket prohibition on trashing.
 
-**Review examples to agree before changing it:** A weak Treasure can be useful to keep before replacing income but harmful afterward; a second trashing card should depend on remaining junk and time; an obsolete Action may be worth trashing; a late trash that enables a winning hand should not be rejected merely by the scoring threshold. These are proposed behavioral contracts, not claims that current tests establish them.
+The economy model estimates cards seen from composition as `min(N, 5N / max(1, N − playable net draw))`. Playable net draw and terminal capacity come from the generic Engine capacity model and actual leader effects. For that many sampled cards, dynamic programming computes the exact Treasure-coin distribution of uniform subsets; fractional hand sizes interpolate the two neighboring distributions. Expected playable Action Coins and matching leader Coins are added as a constant approximation. Spending utility is 0.25 per Coin plus premiums of 0.5 at $3, 0.5 at $4, 0.75 at $5, 0.75 at $6 and 1.5 at $8, interpolated over the preceding Coin. A small capped value (0.25 per modeled turn) preserves access to additional Worship capacity.
+
+When more than one modeled turn remains, a removal/replacement must retain a modeled chance of reaching $3 of at least `min(80%, current chance) − 5 percentage points`. A strictly winning last-pile gain is exempt. This uses income reliability rather than a fixed nominal Treasure floor; Thin no longer uses `moneyFloor`.
+
+Every legal trash subset is evaluated jointly, including declining an optional trash. The current rules allow at most two cards, so the search is small. Improvements must exceed 0.1 utility. Cards are considered by their effects and contribution, not a whitelist of Hamlet/Obol: an exhausted Action may be removed. The last plain trashing tool is protected while profitable work remains after the proposed removal and at least two modeled turns remain. Redundant tools and tools with no useful work may be retired. The last Forge receives an opportunity-cost penalty based on its remaining upgrade value.
+
+Forge and offering evaluation includes the best legal resulting gain, respects acquisition bans and supply availability, and distinguishes optional sum-offering gains from mandatory numeric/Forge gains. Once a gain choice arrives, Thin selects by the same deck-quality change. Ordinary gains also use this model. This is a one-step replacement search, not an upgrade-chain planner.
+
+Trashing-tool acquisition reads printed effects. For plain trashing it estimates positive removal opportunities, subtracts work covered by existing tools and leader trashing over the remaining cycles, and values the remaining work. Its score is four times remaining work (discounted when less than a cycle remains) plus three times the deck-quality change from adding the tool. Cycles use `(H−1) × estimated cards seen / (N+1)`, allowing for acquisition delay. Forge scans legal owned-card replacements and scores four times its best improvement, discounted for remaining cycles and existing Forges, plus the same acquisition cost. It does not force a first/second copy or a named opening. Work estimates consider individual hypothetical removals, whereas actual hand choices evaluate subsets jointly.
+
+Thin's play priority includes actual unused leader effects: 20 per +Action, 1 per draw, 2 per printed Coin, and 4 per positive immediate trash/upgrade improvement. A prospective play evaluates trashing with the played card removed from the hand, so a tool cannot offer itself. This lets valuable thinning compete with other terminal Actions. Non-tool purchase scores and the shared immediate Worship scheduler remain heuristic.
+
+**Limits:** Uniform-subset Treasure arithmetic is exact only conditional on the estimated cards seen. Draw accessibility, Action contention, Action/leader income, future purchases, tool availability and remaining game length are approximations. The model does not simulate shuffles, learn the scoring weights, value every reveal/gain payload in its economy estimate, or solve optimal turn sequencing. Its reliability constraint is deliberately conservative and may reject worthwhile risky conversions. Structural tests are not proof of stronger or optimal play.
+
+**Behavioral tests:** Preserve starting income; remove weak Treasures after replacement; evaluate multiple removals together; retain VP near Acropolis and third-pile endings; continue useful cleanup after the old scoring threshold; decline tools with no work; keep needed draw and the last useful trasher; retire exhausted tools; evaluate Forge replacement income; make winning late conversions; respect gain bans; spend terminal capacity on valuable thinning; preserve inventory-order invariance and verify a known $3 probability. See [tests](tests/simulation/thin.test.ts).
 
 ## Worship
 
@@ -141,7 +155,7 @@ Play priority is 4×useful draw + 2×Actions + Coins + 0.5×printed trash, inclu
 
 ## Exact named-card scores outside Engine
 
-This table applies to Thin, Worship and Race before the 0.35 late multiplier. `n` means copies owned of that card, `C` is `engineCopies`, `S` is total deck size. `T` is the number of owned Actions with no printed +Action. Thaleia's support allowance here remains hardcoded to 1 even under the +2A variant; only Engine's generic model was corrected.
+This table applies to Worship and Race, and to Thin purchases other than trashing tools, before the 0.35 late multiplier. Thin now uses its model for Seed Keeper and Forge, so the historical Thin bonuses for those two cards are superseded. `n` means copies owned of that card, `C` is `engineCopies`, `S` is total deck size. `T` is the number of owned Actions with no printed +Action. Thaleia's support allowance here remains hardcoded to 1 even under the +2A variant; Engine uses generic capacity; Thin uses actual effects for its thinning model and play order, but its remaining named purchase table still has this limitation.
 
 | Action | Utility |
 | --- | --- |
@@ -160,7 +174,7 @@ This table applies to Thin, Worship and Race before the 0.35 late multiplier. `n
 
 Worship adds its +1 matching-god bonus after these adjustments when n<2. Unrecognized supply Actions receive zero base value in this switch. `engineCopies` is a soft penalty threshold only for Sacred Academy here, not a general cap on Actions or draw.
 
-Non-Engine play ordering gives a Council with unused Thaleia trigger priority 100; otherwise it scores 20 per printed +Action and 1 per printed draw. It does not evaluate actual trigger amounts, current draw need, terminal payload or Devotion sequencing.
+Treasure, legacy Draw, Worship and Race play ordering gives a Council with unused Thaleia trigger priority 100; otherwise it scores 20 per printed +Action and 1 per printed draw. It does not evaluate actual trigger amounts, current draw need, terminal payload or Devotion sequencing.
 
 ## What training changes
 
@@ -170,7 +184,7 @@ Non-Engine play ordering gives a Council with unused Thaleia trigger priority 10
 | 1 | 5 | 2 | 9 | 1 |
 | 2 | 2 | 5 | 6 | 0 |
 
-Training selects one of these three bundled presets per leader, family and player count by victory share against fixed Treasure and Engine preset-0 references, across relevant leader/seat assignments. Ties keep the first candidate. Engine ignores the Academy threshold; Treasure ignores all four parameters. Training does not learn the utility weights, purchase tables, objectives or decision order, and cannot repair a missing design concept.
+Training selects one of these three bundled presets per leader, family and player count by victory share against fixed Treasure and Engine preset-0 references, across relevant leader/seat assignments. Ties keep the first candidate. Engine ignores the Academy threshold; Thin ignores the nominal Treasure floor; Treasure ignores all four parameters. Training does not learn the utility weights, purchase tables, objectives or decision order, and cannot repair a missing design concept.
 
 The heads-up counter search offers one Treasure configuration and three presets for each other family: 13 rivals. It chooses the lowest Thaleia share per family, then her best minimum. “Best counter” therefore means best among this small declared population. See [training](scripts/balance/study.ts) and [counter selection](scripts/balance/counter.ts).
 
@@ -179,13 +193,13 @@ The heads-up counter search offers one Treasure configuration and three presets 
 | Priority | Concern supported by code inspection | Design decision to settle |
 | --- | --- | --- |
 | 1 | Worship is evaluated before actions without planning Favored | When should it wait, and how should acquisition value Devotion? |
-| 1 | Thin uses nominal total income and fixed junk classes | What deck-quality and income-reliability objective should govern trashing? |
+| Addressed in v3 | Thin now compares joint removals/replacements with income reliability and VP | Review the explicit model and conservative reliability constraint above; validate on traces before balance inference. |
 | 1 | Race lacks a losing-ending veto and horizon model | What ending search and opponent-tempo model are required? |
 | 2 | Shared scoring uses one pile threshold and arbitrary utility scales | How should future income/draw be compared with immediate VP? |
 | 2 | Non-Engine leader/copy heuristics are static | Should all families use generic capacity and actual trigger effects? |
 | 2 | Non-Engine retention uses extra-copy purchase value | How should discards, offerings and upgrades value the owned copy? |
 | 2 | Engine is optimistic about draw accessibility and payload execution | What reliability and Action-contention model is sufficient? |
 
-These are design findings, not measured estimates of how much each issue changes wins. The existing tests establish legal execution, replay, information isolation and specific local behaviors; they do not certify strategic soundness. Source review identified the gaps above without changing policies or rerunning balance outcomes.
+These are design findings, not measured estimates of how much each issue changes wins. The existing tests establish legal execution, replay, information isolation and specific local behaviors; they do not certify strategic soundness. The original source review changed no policies. Thin v3 now addresses its core thinning findings; the other findings remain. No version-2 balance outcome is evidence about version-3 Thin.
 
 A useful next review is one family at a time: agree its objective and concrete decision examples, write behavioral tests for those examples, inspect game traces for whether the intended behavior occurs, then retrain and rerun both balance arms with equal budgets. Retain the simple Treasure benchmark and use fresh evaluation seeds for confirmation after the design choices are settled.
