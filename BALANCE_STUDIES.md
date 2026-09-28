@@ -178,3 +178,7 @@ The [100-hands-per-deck audit](balance-results/ending-hands-v1/README.md) checks
 ## Treasure scoring v6
 
 The [frozen-profile scoring test](balance-results/treasure-scoring-v6/README.md) changes only the income gate for highest-value points. All 21,600 affected games reuse v5 seeds and profiles; Treasure gains 22–31 percentage points against fixed Engine opponents. A follow-up 100-hand audit shows lower ending income despite higher victory shares. This is an exploratory policy test, not a retrained best-strategy leader matrix.
+
+## Treasure epsilon v7
+
+The [isolated $0.10 tolerance test](balance-results/treasure-epsilon-v7/README.md) freezes v6 profiles, seeds and scoring, rerunning all 21,600 affected games. Bronze Recruit disappears from all ending decks. Melia regresses against Engine; other leader changes are inconclusive. The report records the requested change without tuning another parameter or attributing the regression to a particular card.
