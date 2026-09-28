@@ -10,7 +10,7 @@ import { checkIndependentSeeds, digest, getProfile, type Profiles } from './bala
 import { counterCandidates, counterReport, counterVariants, selectCounters, type CounterGame, type TrainingCell } from './balance/counter';
 
 const flags: Record<string, string> = {}, args = process.argv.slice(2);
-if (args.includes('--help')) { console.log('bun run balance:counter --out directory [--training-blocks 40] [--blocks 200] [--seed thaleia-counter-v1] [--comparison thaleia|leader-buffs]'); process.exit(0); }
+if (args.includes('--help')) { console.log('bun run balance:counter --out directory [--training-blocks 40] [--blocks 200] [--seed thaleia-counter-v1] [--comparison thaleia|leader-buffs|thaleia-buy]'); process.exit(0); }
 for (let i = 0; i < args.length; i += 2) {
   if (!['--out', '--training-blocks', '--blocks', '--seed', '--comparison'].includes(args[i]) || !args[i + 1] || args[i + 1].startsWith('--') || flags[args[i]]) throw new Error('Invalid flags; use --help.');
   flags[args[i]] = args[i + 1];
@@ -18,9 +18,9 @@ for (let i = 0; i < args.length; i += 2) {
 const trainingBlocks = Number(flags['--training-blocks'] ?? 40), blocks = Number(flags['--blocks'] ?? 200), seed = flags['--seed'] ?? 'thaleia-counter-v1';
 if (!flags['--out'] || ![trainingBlocks, blocks].every(n => Number.isSafeInteger(n) && n > 0) || !/^[a-zA-Z0-9_-]{1,32}$/.test(seed)) throw new Error('Use fresh --out, positive integer budgets and a 1–32 character seed.');
 const comparison = flags['--comparison'] ?? 'thaleia';
-if (!['thaleia', 'leader-buffs'].includes(comparison)) throw new Error('Unknown comparison.');
-const variants: PlayVariant[] = comparison === 'leader-buffs' ? ['thaleia-draw', 'leader-buffs'] : counterVariants;
-const reusedSeeds = comparison === 'leader-buffs';
+if (!['thaleia', 'leader-buffs', 'thaleia-buy'].includes(comparison)) throw new Error('Unknown comparison.');
+const variants: PlayVariant[] = comparison === 'thaleia-buy' ? ['standard', 'thaleia-buy'] : comparison === 'leader-buffs' ? ['thaleia-draw', 'leader-buffs'] : counterVariants;
+const reusedSeeds = comparison !== 'thaleia';
 const profiles: Profiles = JSON.parse(readFileSync('balance-results/decision-study-v1/training-v2/profiles.json', 'utf8'));
 if (profiles.version !== 1 || profiles.restriction) throw new Error('Expected unrestricted profiles.');
 const trainingSeeds = Array.from({ length: trainingBlocks }, (_, i) => `${seed}:training:${i}`);
