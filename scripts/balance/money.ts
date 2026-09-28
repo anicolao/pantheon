@@ -115,8 +115,11 @@ export function moneyBuy(view: MoneyView, legal?: string[], mandatory=false): st
   const topVP=Math.max(0,...Object.keys(view.supply).map(id=>definition(id).vp??0));
   const points=options.filter(c=>c.vp>0&&(c.vp===topVP||c.ev>=8));
   if(points.length)return points.sort((a,b)=>b.vp-a.vp||b.ev-a.ev||definition(a.id).cost!-definition(b.id).cost!||a.id.localeCompare(b.id))[0].id;
-  const best=options.sort((a,b)=>b.ev-a.ev||definition(a.id).cost!-definition(b.id).cost!||a.id.localeCompare(b.id))[0];
-  return best&&(mandatory||best.ev>moneyEstimate(view).mean+1e-9)?best.id:undefined;
+  const ranked=options.sort((a,b)=>b.ev-a.ev||definition(a.id).cost!-definition(b.id).cost!||a.id.localeCompare(b.id));
+  const best=ranked[0];
+  // Compare to the global maximum: pairwise epsilon comparators are not transitive.
+  const chosen=best&&(ranked.find(c=>definition(c.id).type==='Treasure'&&c.ev>=best.ev-0.1-1e-9)??best);
+  return chosen&&(mandatory||chosen.ev>moneyEstimate(view).mean+1e-9)?chosen.id:undefined;
 }
 /** Retain exact ending protection, including winning multi-buy sequences. Recompute EV after each buy. */
 export function moneyPurchase(view: View): ActionCommand {
