@@ -1,6 +1,6 @@
 # Turn completion and victory fidelity review
 
-References: [decision 21](../../../../docs/ux/concepts/21-end-turn.png), [handoff 12](../../../../docs/ux/concepts/12-opponent.png), and [victory 14](../../../../docs/ux/concepts/14-victory.png).
+References: [decision 21](../../../docs/ux/concepts/21-end-turn.png), [handoff 12](../../../docs/ux/concepts/12-opponent.png), and [victory 14](../../../docs/ux/concepts/14-victory.png).
 
 | View | Actual implementation |
 | --- | --- |
