@@ -1,0 +1,12 @@
+{
+  "stage": "confirmation",
+  "seed": "balance-v2",
+  "blocks": 200,
+  "counts": [2],
+  "families": ["treasure", "engine", "worship"],
+  "restrictions": [
+    { "kind": "leader-trigger", "id": "doreios", "scope": "focal" },
+    { "kind": "event", "id": "counsel-of-olympus", "scope": "focal" },
+    { "kind": "card", "id": "sacred-academy", "scope": "focal" }
+  ]
+}
