@@ -1,0 +1,31 @@
+{
+  "sourceCommit": "a598e012cf8a4de970431d9351abcb339891aa05",
+  "dirty": false,
+  "status": "completed",
+  "startedAt": "2026-09-28T21:42:05.967Z",
+  "workers": 16,
+  "blocks": 200,
+  "handsPerDeck": 100,
+  "plannedDecks": 240000,
+  "plannedHands": 24000000,
+  "sourceMatrices": [
+    {
+      "policyVersion": 4,
+      "sourceCommit": "744d0b142e19c7cc06d59421d6461b6f2730992e",
+      "seed": "all-leaders-v4-final"
+    },
+    {
+      "policyVersion": 5,
+      "sourceCommit": "784cfd52a69984b67c58327afc53525bcf33895e",
+      "seed": "all-leaders-v4-final"
+    }
+  ],
+  "traceDeckChecks": 1200,
+  "sampling": "Independent Fisher-Yates shuffles; namespace ending-hands-v1; paired by game/leader/hand across versions",
+  "execution": "Common v5 cash Action/discard policy; production reducer; no Worship or purchases; optional trash/upgrade declined; mandatory gain payload heuristic; same assumptions as EV estimator",
+  "limits": "Ending-deck diagnostic, not a replay of game timing or actual next turn; means and P(Coins>=8) are distinct; 100 hands per deck, not optimized play",
+  "decks": 240000,
+  "hands": 24000000,
+  "failures": 0,
+  "elapsedSeconds": 38.437595792
+}
