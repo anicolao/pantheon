@@ -4,5 +4,5 @@ cd "$(git rev-parse --show-toplevel)"
 # Validate the actual pushed commits, even with unrelated unstaged edits.
 while read -r local_ref local_sha remote_ref remote_sha; do
   case "$local_sha" in 0000000000000000000000000000000000000000) continue ;; esac
-  bun scripts/check-e2e-policy.ts --revision "$local_sha"
+  bun --no-install scripts/check-e2e-policy.ts --revision "$local_sha"
 done

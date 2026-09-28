@@ -1,4 +1,19 @@
-import ts from 'typescript';
+import { createRequire } from 'node:module';
+import type * as TypeScript from 'typescript';
+
+// Resolve this checkout's installed compiler, never Bun's automatic package cache.
+const require = createRequire(import.meta.url);
+const expectedVersion = require('../package.json').devDependencies.typescript;
+const ts: typeof TypeScript = (() => {
+  try {
+    const installed = require('../node_modules/typescript/package.json');
+    const compiler = require('../node_modules/typescript');
+    if (installed.version !== expectedVersion || typeof compiler.createPrinter !== 'function') throw new Error('Incompatible compiler');
+    return compiler;
+  } catch {
+    throw new Error(`E2E policy requires this checkout's TypeScript ${expectedVersion}. Run bun install --frozen-lockfile in this checkout, then retry. No policy checks were skipped.`);
+  }
+})();
 
 export type Sources = Map<string, string>;
 const helper = 'tests/e2e/helpers/test-step-helper.ts';
@@ -18,14 +33,14 @@ export function checkPolicy(files: Sources): string[] {
   for (const [file, source] of files) {
     if (file !== config && !/^tests\/e2e\/.*\.[cm]?[jt]s$/.test(file)) continue;
     const tree = ts.createSourceFile(file, source, ts.ScriptTarget.Latest, true);
-    const report = (node: ts.Node, reason: string) => errors.push(`${file}:${tree.getLineAndCharacterOfPosition(node.getStart()).line + 1}: ${reason}`);
-    const name = (node: ts.Node) => ts.isIdentifier(node) || ts.isStringLiteral(node) ? node.text : node.getText(tree);
-    const value = (node: ts.Node) => ts.isNumericLiteral(node) ? Number(node.text) : undefined;
-    const bounded = (node: ts.Node) => {
+    const report = (node: TypeScript.Node, reason: string) => errors.push(`${file}:${tree.getLineAndCharacterOfPosition(node.getStart()).line + 1}: ${reason}`);
+    const name = (node: TypeScript.Node) => ts.isIdentifier(node) || ts.isStringLiteral(node) ? node.text : node.getText(tree);
+    const value = (node: TypeScript.Node) => ts.isNumericLiteral(node) ? Number(node.text) : undefined;
+    const bounded = (node: TypeScript.Node) => {
       const n = value(node);
       return n !== undefined ? n > 0 && n <= 2000 : name(node) === 'OPERATION_BUDGET' || (file === helper && compact(node.getText(tree)) === 'remaining()');
     };
-    const walk = (node: ts.Node) => {
+    const walk = (node: TypeScript.Node) => {
       if (ts.isVariableDeclaration(node) && name(node.name) === 'OPERATION_BUDGET' && (file !== helper || !node.initializer || value(node.initializer) !== 2000)) report(node, 'OPERATION_BUDGET must be exactly 2000 in the shared helper');
       if (ts.isShorthandPropertyAssignment(node) && ['timeout', 'actionTimeout', 'navigationTimeout', 'retries', 'maxDiffPixels', 'maxDiffPixelRatio', 'threshold'].includes(name(node.name))) report(node, 'policy options must have explicit, statically checked values');
       if (ts.isPropertyAssignment(node)) {
