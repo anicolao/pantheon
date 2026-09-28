@@ -1,0 +1,12 @@
+{
+  "2/leader-trigger:doreios:focal": {
+    "blocks": 1,
+    "pairs": 24,
+    "excludedBlocks": 0,
+    "exposureRate": 1,
+    "difference": 0.2708333333333333,
+    "interval": null,
+    "correctedInterval": null,
+    "label": "inconclusive"
+  }
+}

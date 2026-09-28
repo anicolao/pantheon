@@ -1,0 +1,1010 @@
+{
+  "sourceCommit": "2734eec3d40b16038bee92216d6d52ab3d517e5d",
+  "dirty": false,
+  "studyVersion": 1,
+  "runtime": "1.3.10",
+  "config": {
+    "stage": "discovery",
+    "seed": "retune-check",
+    "blocks": 1,
+    "counts": [
+      2
+    ],
+    "families": [
+      "treasure",
+      "engine"
+    ],
+    "restrictions": [
+      {
+        "kind": "leader-trigger",
+        "id": "doreios",
+        "scope": "focal"
+      }
+    ]
+  },
+  "profilesHash": "5a89f6bfc330af728f304e479f67075a823855ed5d9b63a95edc469c864879f4",
+  "profiles": {
+    "version": 1,
+    "trainingSeeds": [
+      "retune-check:training:0"
+    ],
+    "selected": {
+      "2/thaleia/treasure": {
+        "family": "treasure",
+        "parameters": {
+          "scoringAt": 3,
+          "engineCopies": 3,
+          "moneyFloor": 7,
+          "worshipMargin": 0.5
+        }
+      },
+      "2/thaleia/engine": {
+        "family": "engine",
+        "parameters": {
+          "scoringAt": 3,
+          "engineCopies": 3,
+          "moneyFloor": 7,
+          "worshipMargin": 0.5
+        }
+      },
+      "2/thaleia/thin": {
+        "family": "thin",
+        "parameters": {
+          "scoringAt": 3,
+          "engineCopies": 3,
+          "moneyFloor": 7,
+          "worshipMargin": 0.5
+        }
+      },
+      "2/thaleia/worship": {
+        "family": "worship",
+        "parameters": {
+          "scoringAt": 5,
+          "engineCopies": 2,
+          "moneyFloor": 9,
+          "worshipMargin": 1
+        }
+      },
+      "2/thaleia/race": {
+        "family": "race",
+        "parameters": {
+          "scoringAt": 5,
+          "engineCopies": 2,
+          "moneyFloor": 9,
+          "worshipMargin": 1
+        }
+      },
+      "2/nereon/treasure": {
+        "family": "treasure",
+        "parameters": {
+          "scoringAt": 3,
+          "engineCopies": 3,
+          "moneyFloor": 7,
+          "worshipMargin": 0.5
+        }
+      },
+      "2/nereon/engine": {
+        "family": "engine",
+        "parameters": {
+          "scoringAt": 5,
+          "engineCopies": 2,
+          "moneyFloor": 9,
+          "worshipMargin": 1
+        }
+      },
+      "2/nereon/thin": {
+        "family": "thin",
+        "parameters": {
+          "scoringAt": 3,
+          "engineCopies": 3,
+          "moneyFloor": 7,
+          "worshipMargin": 0.5
+        }
+      },
+      "2/nereon/worship": {
+        "family": "worship",
+        "parameters": {
+          "scoringAt": 3,
+          "engineCopies": 3,
+          "moneyFloor": 7,
+          "worshipMargin": 0.5
+        }
+      },
+      "2/nereon/race": {
+        "family": "race",
+        "parameters": {
+          "scoringAt": 5,
+          "engineCopies": 2,
+          "moneyFloor": 9,
+          "worshipMargin": 1
+        }
+      },
+      "2/melia/treasure": {
+        "family": "treasure",
+        "parameters": {
+          "scoringAt": 3,
+          "engineCopies": 3,
+          "moneyFloor": 7,
+          "worshipMargin": 0.5
+        }
+      },
+      "2/melia/engine": {
+        "family": "engine",
+        "parameters": {
+          "scoringAt": 3,
+          "engineCopies": 3,
+          "moneyFloor": 7,
+          "worshipMargin": 0.5
+        }
+      },
+      "2/melia/thin": {
+        "family": "thin",
+        "parameters": {
+          "scoringAt": 3,
+          "engineCopies": 3,
+          "moneyFloor": 7,
+          "worshipMargin": 0.5
+        }
+      },
+      "2/melia/worship": {
+        "family": "worship",
+        "parameters": {
+          "scoringAt": 3,
+          "engineCopies": 3,
+          "moneyFloor": 7,
+          "worshipMargin": 0.5
+        }
+      },
+      "2/melia/race": {
+        "family": "race",
+        "parameters": {
+          "scoringAt": 2,
+          "engineCopies": 5,
+          "moneyFloor": 6,
+          "worshipMargin": 0
+        }
+      },
+      "2/doreios/treasure": {
+        "family": "treasure",
+        "parameters": {
+          "scoringAt": 3,
+          "engineCopies": 3,
+          "moneyFloor": 7,
+          "worshipMargin": 0.5
+        }
+      },
+      "2/doreios/engine": {
+        "family": "engine",
+        "parameters": {
+          "scoringAt": 3,
+          "engineCopies": 3,
+          "moneyFloor": 7,
+          "worshipMargin": 0.5
+        }
+      },
+      "2/doreios/thin": {
+        "family": "thin",
+        "parameters": {
+          "scoringAt": 3,
+          "engineCopies": 3,
+          "moneyFloor": 7,
+          "worshipMargin": 0.5
+        }
+      },
+      "2/doreios/worship": {
+        "family": "worship",
+        "parameters": {
+          "scoringAt": 2,
+          "engineCopies": 5,
+          "moneyFloor": 6,
+          "worshipMargin": 0
+        }
+      },
+      "2/doreios/race": {
+        "family": "race",
+        "parameters": {
+          "scoringAt": 3,
+          "engineCopies": 3,
+          "moneyFloor": 7,
+          "worshipMargin": 0.5
+        }
+      }
+    },
+    "training": [
+      {
+        "key": "2/thaleia/engine",
+        "candidate": 0,
+        "share": 0.875,
+        "games": 12
+      },
+      {
+        "key": "2/thaleia/engine",
+        "candidate": 1,
+        "share": 0.5,
+        "games": 12
+      },
+      {
+        "key": "2/thaleia/engine",
+        "candidate": 2,
+        "share": 0.4583333333333333,
+        "games": 12
+      },
+      {
+        "key": "2/thaleia/thin",
+        "candidate": 0,
+        "share": 0.7916666666666666,
+        "games": 12
+      },
+      {
+        "key": "2/thaleia/thin",
+        "candidate": 1,
+        "share": 0.625,
+        "games": 12
+      },
+      {
+        "key": "2/thaleia/thin",
+        "candidate": 2,
+        "share": 0.5,
+        "games": 12
+      },
+      {
+        "key": "2/thaleia/worship",
+        "candidate": 0,
+        "share": 0.5,
+        "games": 12
+      },
+      {
+        "key": "2/thaleia/worship",
+        "candidate": 1,
+        "share": 0.6666666666666666,
+        "games": 12
+      },
+      {
+        "key": "2/thaleia/worship",
+        "candidate": 2,
+        "share": 0.6666666666666666,
+        "games": 12
+      },
+      {
+        "key": "2/thaleia/race",
+        "candidate": 0,
+        "share": 0.4166666666666667,
+        "games": 12
+      },
+      {
+        "key": "2/thaleia/race",
+        "candidate": 1,
+        "share": 0.5416666666666666,
+        "games": 12
+      },
+      {
+        "key": "2/thaleia/race",
+        "candidate": 2,
+        "share": 0.3333333333333333,
+        "games": 12
+      },
+      {
+        "key": "2/nereon/engine",
+        "candidate": 0,
+        "share": 0.4166666666666667,
+        "games": 12
+      },
+      {
+        "key": "2/nereon/engine",
+        "candidate": 1,
+        "share": 0.5,
+        "games": 12
+      },
+      {
+        "key": "2/nereon/engine",
+        "candidate": 2,
+        "share": 0.3333333333333333,
+        "games": 12
+      },
+      {
+        "key": "2/nereon/thin",
+        "candidate": 0,
+        "share": 0.5416666666666666,
+        "games": 12
+      },
+      {
+        "key": "2/nereon/thin",
+        "candidate": 1,
+        "share": 0.4166666666666667,
+        "games": 12
+      },
+      {
+        "key": "2/nereon/thin",
+        "candidate": 2,
+        "share": 0.4583333333333333,
+        "games": 12
+      },
+      {
+        "key": "2/nereon/worship",
+        "candidate": 0,
+        "share": 0.3333333333333333,
+        "games": 12
+      },
+      {
+        "key": "2/nereon/worship",
+        "candidate": 1,
+        "share": 0.25,
+        "games": 12
+      },
+      {
+        "key": "2/nereon/worship",
+        "candidate": 2,
+        "share": 0.25,
+        "games": 12
+      },
+      {
+        "key": "2/nereon/race",
+        "candidate": 0,
+        "share": 0.16666666666666666,
+        "games": 12
+      },
+      {
+        "key": "2/nereon/race",
+        "candidate": 1,
+        "share": 0.25,
+        "games": 12
+      },
+      {
+        "key": "2/nereon/race",
+        "candidate": 2,
+        "share": 0.16666666666666666,
+        "games": 12
+      },
+      {
+        "key": "2/melia/engine",
+        "candidate": 0,
+        "share": 0.6666666666666666,
+        "games": 12
+      },
+      {
+        "key": "2/melia/engine",
+        "candidate": 1,
+        "share": 0.5833333333333334,
+        "games": 12
+      },
+      {
+        "key": "2/melia/engine",
+        "candidate": 2,
+        "share": 0.6666666666666666,
+        "games": 12
+      },
+      {
+        "key": "2/melia/thin",
+        "candidate": 0,
+        "share": 0.08333333333333333,
+        "games": 12
+      },
+      {
+        "key": "2/melia/thin",
+        "candidate": 1,
+        "share": 0,
+        "games": 12
+      },
+      {
+        "key": "2/melia/thin",
+        "candidate": 2,
+        "share": 0.08333333333333333,
+        "games": 12
+      },
+      {
+        "key": "2/melia/worship",
+        "candidate": 0,
+        "share": 0.5833333333333334,
+        "games": 12
+      },
+      {
+        "key": "2/melia/worship",
+        "candidate": 1,
+        "share": 0.20833333333333334,
+        "games": 12
+      },
+      {
+        "key": "2/melia/worship",
+        "candidate": 2,
+        "share": 0.4166666666666667,
+        "games": 12
+      },
+      {
+        "key": "2/melia/race",
+        "candidate": 0,
+        "share": 0.5833333333333334,
+        "games": 12
+      },
+      {
+        "key": "2/melia/race",
+        "candidate": 1,
+        "share": 0.20833333333333334,
+        "games": 12
+      },
+      {
+        "key": "2/melia/race",
+        "candidate": 2,
+        "share": 0.625,
+        "games": 12
+      },
+      {
+        "key": "2/doreios/engine",
+        "candidate": 0,
+        "share": 0.16666666666666666,
+        "games": 12
+      },
+      {
+        "key": "2/doreios/engine",
+        "candidate": 1,
+        "share": 0,
+        "games": 12
+      },
+      {
+        "key": "2/doreios/engine",
+        "candidate": 2,
+        "share": 0.16666666666666666,
+        "games": 12
+      },
+      {
+        "key": "2/doreios/thin",
+        "candidate": 0,
+        "share": 0,
+        "games": 12
+      },
+      {
+        "key": "2/doreios/thin",
+        "candidate": 1,
+        "share": 0,
+        "games": 12
+      },
+      {
+        "key": "2/doreios/thin",
+        "candidate": 2,
+        "share": 0,
+        "games": 12
+      },
+      {
+        "key": "2/doreios/worship",
+        "candidate": 0,
+        "share": 0.041666666666666664,
+        "games": 12
+      },
+      {
+        "key": "2/doreios/worship",
+        "candidate": 1,
+        "share": 0,
+        "games": 12
+      },
+      {
+        "key": "2/doreios/worship",
+        "candidate": 2,
+        "share": 0.16666666666666666,
+        "games": 12
+      },
+      {
+        "key": "2/doreios/race",
+        "candidate": 0,
+        "share": 0,
+        "games": 12
+      },
+      {
+        "key": "2/doreios/race",
+        "candidate": 1,
+        "share": 0,
+        "games": 12
+      },
+      {
+        "key": "2/doreios/race",
+        "candidate": 2,
+        "share": 0,
+        "games": 12
+      }
+    ]
+  },
+  "treatments": {
+    "leader-trigger:doreios:focal": {
+      "version": 1,
+      "trainingSeeds": [
+        "retune-check:training:0"
+      ],
+      "selected": {
+        "2/thaleia/treasure": {
+          "family": "treasure",
+          "parameters": {
+            "scoringAt": 3,
+            "engineCopies": 3,
+            "moneyFloor": 7,
+            "worshipMargin": 0.5
+          }
+        },
+        "2/thaleia/engine": {
+          "family": "engine",
+          "parameters": {
+            "scoringAt": 3,
+            "engineCopies": 3,
+            "moneyFloor": 7,
+            "worshipMargin": 0.5
+          }
+        },
+        "2/thaleia/thin": {
+          "family": "thin",
+          "parameters": {
+            "scoringAt": 3,
+            "engineCopies": 3,
+            "moneyFloor": 7,
+            "worshipMargin": 0.5
+          }
+        },
+        "2/thaleia/worship": {
+          "family": "worship",
+          "parameters": {
+            "scoringAt": 5,
+            "engineCopies": 2,
+            "moneyFloor": 9,
+            "worshipMargin": 1
+          }
+        },
+        "2/thaleia/race": {
+          "family": "race",
+          "parameters": {
+            "scoringAt": 5,
+            "engineCopies": 2,
+            "moneyFloor": 9,
+            "worshipMargin": 1
+          }
+        },
+        "2/nereon/treasure": {
+          "family": "treasure",
+          "parameters": {
+            "scoringAt": 3,
+            "engineCopies": 3,
+            "moneyFloor": 7,
+            "worshipMargin": 0.5
+          }
+        },
+        "2/nereon/engine": {
+          "family": "engine",
+          "parameters": {
+            "scoringAt": 5,
+            "engineCopies": 2,
+            "moneyFloor": 9,
+            "worshipMargin": 1
+          }
+        },
+        "2/nereon/thin": {
+          "family": "thin",
+          "parameters": {
+            "scoringAt": 3,
+            "engineCopies": 3,
+            "moneyFloor": 7,
+            "worshipMargin": 0.5
+          }
+        },
+        "2/nereon/worship": {
+          "family": "worship",
+          "parameters": {
+            "scoringAt": 3,
+            "engineCopies": 3,
+            "moneyFloor": 7,
+            "worshipMargin": 0.5
+          }
+        },
+        "2/nereon/race": {
+          "family": "race",
+          "parameters": {
+            "scoringAt": 5,
+            "engineCopies": 2,
+            "moneyFloor": 9,
+            "worshipMargin": 1
+          }
+        },
+        "2/melia/treasure": {
+          "family": "treasure",
+          "parameters": {
+            "scoringAt": 3,
+            "engineCopies": 3,
+            "moneyFloor": 7,
+            "worshipMargin": 0.5
+          }
+        },
+        "2/melia/engine": {
+          "family": "engine",
+          "parameters": {
+            "scoringAt": 3,
+            "engineCopies": 3,
+            "moneyFloor": 7,
+            "worshipMargin": 0.5
+          }
+        },
+        "2/melia/thin": {
+          "family": "thin",
+          "parameters": {
+            "scoringAt": 3,
+            "engineCopies": 3,
+            "moneyFloor": 7,
+            "worshipMargin": 0.5
+          }
+        },
+        "2/melia/worship": {
+          "family": "worship",
+          "parameters": {
+            "scoringAt": 3,
+            "engineCopies": 3,
+            "moneyFloor": 7,
+            "worshipMargin": 0.5
+          }
+        },
+        "2/melia/race": {
+          "family": "race",
+          "parameters": {
+            "scoringAt": 2,
+            "engineCopies": 5,
+            "moneyFloor": 6,
+            "worshipMargin": 0
+          }
+        },
+        "2/doreios/treasure": {
+          "family": "treasure",
+          "parameters": {
+            "scoringAt": 3,
+            "engineCopies": 3,
+            "moneyFloor": 7,
+            "worshipMargin": 0.5
+          }
+        },
+        "2/doreios/engine": {
+          "family": "engine",
+          "parameters": {
+            "scoringAt": 3,
+            "engineCopies": 3,
+            "moneyFloor": 7,
+            "worshipMargin": 0.5
+          }
+        },
+        "2/doreios/thin": {
+          "family": "thin",
+          "parameters": {
+            "scoringAt": 5,
+            "engineCopies": 2,
+            "moneyFloor": 9,
+            "worshipMargin": 1
+          }
+        },
+        "2/doreios/worship": {
+          "family": "worship",
+          "parameters": {
+            "scoringAt": 2,
+            "engineCopies": 5,
+            "moneyFloor": 6,
+            "worshipMargin": 0
+          }
+        },
+        "2/doreios/race": {
+          "family": "race",
+          "parameters": {
+            "scoringAt": 3,
+            "engineCopies": 3,
+            "moneyFloor": 7,
+            "worshipMargin": 0.5
+          }
+        }
+      },
+      "training": [
+        {
+          "key": "2/thaleia/engine",
+          "candidate": 0,
+          "share": 0.875,
+          "games": 12
+        },
+        {
+          "key": "2/thaleia/engine",
+          "candidate": 1,
+          "share": 0.5,
+          "games": 12
+        },
+        {
+          "key": "2/thaleia/engine",
+          "candidate": 2,
+          "share": 0.4583333333333333,
+          "games": 12
+        },
+        {
+          "key": "2/thaleia/thin",
+          "candidate": 0,
+          "share": 0.7916666666666666,
+          "games": 12
+        },
+        {
+          "key": "2/thaleia/thin",
+          "candidate": 1,
+          "share": 0.625,
+          "games": 12
+        },
+        {
+          "key": "2/thaleia/thin",
+          "candidate": 2,
+          "share": 0.5,
+          "games": 12
+        },
+        {
+          "key": "2/thaleia/worship",
+          "candidate": 0,
+          "share": 0.5,
+          "games": 12
+        },
+        {
+          "key": "2/thaleia/worship",
+          "candidate": 1,
+          "share": 0.6666666666666666,
+          "games": 12
+        },
+        {
+          "key": "2/thaleia/worship",
+          "candidate": 2,
+          "share": 0.6666666666666666,
+          "games": 12
+        },
+        {
+          "key": "2/thaleia/race",
+          "candidate": 0,
+          "share": 0.4166666666666667,
+          "games": 12
+        },
+        {
+          "key": "2/thaleia/race",
+          "candidate": 1,
+          "share": 0.5416666666666666,
+          "games": 12
+        },
+        {
+          "key": "2/thaleia/race",
+          "candidate": 2,
+          "share": 0.3333333333333333,
+          "games": 12
+        },
+        {
+          "key": "2/nereon/engine",
+          "candidate": 0,
+          "share": 0.4166666666666667,
+          "games": 12
+        },
+        {
+          "key": "2/nereon/engine",
+          "candidate": 1,
+          "share": 0.5,
+          "games": 12
+        },
+        {
+          "key": "2/nereon/engine",
+          "candidate": 2,
+          "share": 0.3333333333333333,
+          "games": 12
+        },
+        {
+          "key": "2/nereon/thin",
+          "candidate": 0,
+          "share": 0.5416666666666666,
+          "games": 12
+        },
+        {
+          "key": "2/nereon/thin",
+          "candidate": 1,
+          "share": 0.4166666666666667,
+          "games": 12
+        },
+        {
+          "key": "2/nereon/thin",
+          "candidate": 2,
+          "share": 0.4583333333333333,
+          "games": 12
+        },
+        {
+          "key": "2/nereon/worship",
+          "candidate": 0,
+          "share": 0.3333333333333333,
+          "games": 12
+        },
+        {
+          "key": "2/nereon/worship",
+          "candidate": 1,
+          "share": 0.25,
+          "games": 12
+        },
+        {
+          "key": "2/nereon/worship",
+          "candidate": 2,
+          "share": 0.25,
+          "games": 12
+        },
+        {
+          "key": "2/nereon/race",
+          "candidate": 0,
+          "share": 0.16666666666666666,
+          "games": 12
+        },
+        {
+          "key": "2/nereon/race",
+          "candidate": 1,
+          "share": 0.25,
+          "games": 12
+        },
+        {
+          "key": "2/nereon/race",
+          "candidate": 2,
+          "share": 0.16666666666666666,
+          "games": 12
+        },
+        {
+          "key": "2/melia/engine",
+          "candidate": 0,
+          "share": 0.6666666666666666,
+          "games": 12
+        },
+        {
+          "key": "2/melia/engine",
+          "candidate": 1,
+          "share": 0.5833333333333334,
+          "games": 12
+        },
+        {
+          "key": "2/melia/engine",
+          "candidate": 2,
+          "share": 0.6666666666666666,
+          "games": 12
+        },
+        {
+          "key": "2/melia/thin",
+          "candidate": 0,
+          "share": 0.08333333333333333,
+          "games": 12
+        },
+        {
+          "key": "2/melia/thin",
+          "candidate": 1,
+          "share": 0,
+          "games": 12
+        },
+        {
+          "key": "2/melia/thin",
+          "candidate": 2,
+          "share": 0.08333333333333333,
+          "games": 12
+        },
+        {
+          "key": "2/melia/worship",
+          "candidate": 0,
+          "share": 0.5833333333333334,
+          "games": 12
+        },
+        {
+          "key": "2/melia/worship",
+          "candidate": 1,
+          "share": 0.20833333333333334,
+          "games": 12
+        },
+        {
+          "key": "2/melia/worship",
+          "candidate": 2,
+          "share": 0.4166666666666667,
+          "games": 12
+        },
+        {
+          "key": "2/melia/race",
+          "candidate": 0,
+          "share": 0.5833333333333334,
+          "games": 12
+        },
+        {
+          "key": "2/melia/race",
+          "candidate": 1,
+          "share": 0.20833333333333334,
+          "games": 12
+        },
+        {
+          "key": "2/melia/race",
+          "candidate": 2,
+          "share": 0.625,
+          "games": 12
+        },
+        {
+          "key": "2/doreios/engine",
+          "candidate": 0,
+          "share": 0.08333333333333333,
+          "games": 12
+        },
+        {
+          "key": "2/doreios/engine",
+          "candidate": 1,
+          "share": 0,
+          "games": 12
+        },
+        {
+          "key": "2/doreios/engine",
+          "candidate": 2,
+          "share": 0,
+          "games": 12
+        },
+        {
+          "key": "2/doreios/thin",
+          "candidate": 0,
+          "share": 0,
+          "games": 12
+        },
+        {
+          "key": "2/doreios/thin",
+          "candidate": 1,
+          "share": 0.08333333333333333,
+          "games": 12
+        },
+        {
+          "key": "2/doreios/thin",
+          "candidate": 2,
+          "share": 0,
+          "games": 12
+        },
+        {
+          "key": "2/doreios/worship",
+          "candidate": 0,
+          "share": 0,
+          "games": 12
+        },
+        {
+          "key": "2/doreios/worship",
+          "candidate": 1,
+          "share": 0,
+          "games": 12
+        },
+        {
+          "key": "2/doreios/worship",
+          "candidate": 2,
+          "share": 0.08333333333333333,
+          "games": 12
+        },
+        {
+          "key": "2/doreios/race",
+          "candidate": 0,
+          "share": 0,
+          "games": 12
+        },
+        {
+          "key": "2/doreios/race",
+          "candidate": 1,
+          "share": 0,
+          "games": 12
+        },
+        {
+          "key": "2/doreios/race",
+          "candidate": 2,
+          "share": 0,
+          "games": 12
+        }
+      ],
+      "restriction": {
+        "kind": "leader-trigger",
+        "id": "doreios",
+        "scope": "focal"
+      }
+    }
+  },
+  "seeds": [
+    "retune-check:discovery:0"
+  ],
+  "plannedGames": 120,
+  "scenariosPerBlock": 96,
+  "discovery": null,
+  "primaryFamilySize": 1,
+  "practicalThreshold": 0.05,
+  "bootstrapReplicates": 20000,
+  "guards": {
+    "turnsPerPlayer": 200,
+    "commandsPerTurn": 10000
+  },
+  "weighting": "All ordered leader lineups × focal families × homogeneous opponent families × focal positions. Restriction pairs only where target exists. Uniform within each count/target.",
+  "exclusions": "An incomplete arm excludes the entire count/target/seed block from primary inference and prevents a supported classification.",
+  "replays": "First game per count/focal-family/opponent-family/arm and all failures. Use replayExperiment for leader-trigger variants.",
+  "startedAt": "2026-09-28T09:02:36.411Z",
+  "status": "completed",
+  "games": 120,
+  "failures": 0,
+  "elapsedSeconds": 0.729402875
+}
