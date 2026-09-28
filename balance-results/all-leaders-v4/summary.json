@@ -1,0 +1,62 @@
+{
+  "thaleia": {
+    "share": 0.56865,
+    "bestObserved": {
+      "leader": "thaleia",
+      "family": "engine",
+      "games": 6000,
+      "share": 0.80325,
+      "meanTurns": 14.894666666666666,
+      "fullDeckPhases": 6446,
+      "actionPhases": 89368,
+      "trashes": 17255,
+      "favored": 35118,
+      "worship": 42692
+    }
+  },
+  "nereon": {
+    "share": 0.45536666666666664,
+    "bestObserved": {
+      "leader": "nereon",
+      "family": "engine",
+      "games": 6000,
+      "share": 0.5740833333333333,
+      "meanTurns": 15.8695,
+      "fullDeckPhases": 426,
+      "actionPhases": 95217,
+      "trashes": 15007,
+      "favored": 7915,
+      "worship": 24727
+    }
+  },
+  "melia": {
+    "share": 0.5008333333333334,
+    "bestObserved": {
+      "leader": "melia",
+      "family": "engine",
+      "games": 6000,
+      "share": 0.6495833333333333,
+      "meanTurns": 15.707166666666666,
+      "fullDeckPhases": 4253,
+      "actionPhases": 94243,
+      "trashes": 25520,
+      "favored": 10255,
+      "worship": 24986
+    }
+  },
+  "doreios": {
+    "share": 0.47515,
+    "bestObserved": {
+      "leader": "doreios",
+      "family": "engine",
+      "games": 6000,
+      "share": 0.6463333333333333,
+      "meanTurns": 16.280166666666666,
+      "fullDeckPhases": 2020,
+      "actionPhases": 97681,
+      "trashes": 26217,
+      "favored": 8611,
+      "worship": 17197
+    }
+  }
+}

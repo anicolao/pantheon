@@ -1,0 +1,1202 @@
+[
+  {
+    "a": "thaleia",
+    "b": "nereon",
+    "familyA": "treasure",
+    "familyB": "treasure",
+    "games": 400,
+    "share": 0.3075
+  },
+  {
+    "a": "thaleia",
+    "b": "nereon",
+    "familyA": "treasure",
+    "familyB": "engine",
+    "games": 400,
+    "share": 0.22
+  },
+  {
+    "a": "thaleia",
+    "b": "nereon",
+    "familyA": "treasure",
+    "familyB": "thin",
+    "games": 400,
+    "share": 0.465
+  },
+  {
+    "a": "thaleia",
+    "b": "nereon",
+    "familyA": "treasure",
+    "familyB": "worship",
+    "games": 400,
+    "share": 0.265
+  },
+  {
+    "a": "thaleia",
+    "b": "nereon",
+    "familyA": "treasure",
+    "familyB": "race",
+    "games": 400,
+    "share": 0.545
+  },
+  {
+    "a": "thaleia",
+    "b": "nereon",
+    "familyA": "engine",
+    "familyB": "treasure",
+    "games": 400,
+    "share": 0.78
+  },
+  {
+    "a": "thaleia",
+    "b": "nereon",
+    "familyA": "engine",
+    "familyB": "engine",
+    "games": 400,
+    "share": 0.72625
+  },
+  {
+    "a": "thaleia",
+    "b": "nereon",
+    "familyA": "engine",
+    "familyB": "thin",
+    "games": 400,
+    "share": 0.9675
+  },
+  {
+    "a": "thaleia",
+    "b": "nereon",
+    "familyA": "engine",
+    "familyB": "worship",
+    "games": 400,
+    "share": 0.77375
+  },
+  {
+    "a": "thaleia",
+    "b": "nereon",
+    "familyA": "engine",
+    "familyB": "race",
+    "games": 400,
+    "share": 0.905
+  },
+  {
+    "a": "thaleia",
+    "b": "nereon",
+    "familyA": "thin",
+    "familyB": "treasure",
+    "games": 400,
+    "share": 0.475
+  },
+  {
+    "a": "thaleia",
+    "b": "nereon",
+    "familyA": "thin",
+    "familyB": "engine",
+    "games": 400,
+    "share": 0.4075
+  },
+  {
+    "a": "thaleia",
+    "b": "nereon",
+    "familyA": "thin",
+    "familyB": "thin",
+    "games": 400,
+    "share": 0.74
+  },
+  {
+    "a": "thaleia",
+    "b": "nereon",
+    "familyA": "thin",
+    "familyB": "worship",
+    "games": 400,
+    "share": 0.4
+  },
+  {
+    "a": "thaleia",
+    "b": "nereon",
+    "familyA": "thin",
+    "familyB": "race",
+    "games": 400,
+    "share": 0.7975
+  },
+  {
+    "a": "thaleia",
+    "b": "nereon",
+    "familyA": "worship",
+    "familyB": "treasure",
+    "games": 400,
+    "share": 0.69375
+  },
+  {
+    "a": "thaleia",
+    "b": "nereon",
+    "familyA": "worship",
+    "familyB": "engine",
+    "games": 400,
+    "share": 0.60625
+  },
+  {
+    "a": "thaleia",
+    "b": "nereon",
+    "familyA": "worship",
+    "familyB": "thin",
+    "games": 400,
+    "share": 0.89375
+  },
+  {
+    "a": "thaleia",
+    "b": "nereon",
+    "familyA": "worship",
+    "familyB": "worship",
+    "games": 400,
+    "share": 0.66875
+  },
+  {
+    "a": "thaleia",
+    "b": "nereon",
+    "familyA": "worship",
+    "familyB": "race",
+    "games": 400,
+    "share": 0.895
+  },
+  {
+    "a": "thaleia",
+    "b": "nereon",
+    "familyA": "race",
+    "familyB": "treasure",
+    "games": 400,
+    "share": 0.46375
+  },
+  {
+    "a": "thaleia",
+    "b": "nereon",
+    "familyA": "race",
+    "familyB": "engine",
+    "games": 400,
+    "share": 0.34375
+  },
+  {
+    "a": "thaleia",
+    "b": "nereon",
+    "familyA": "race",
+    "familyB": "thin",
+    "games": 400,
+    "share": 0.57375
+  },
+  {
+    "a": "thaleia",
+    "b": "nereon",
+    "familyA": "race",
+    "familyB": "worship",
+    "games": 400,
+    "share": 0.32
+  },
+  {
+    "a": "thaleia",
+    "b": "nereon",
+    "familyA": "race",
+    "familyB": "race",
+    "games": 400,
+    "share": 0.64875
+  },
+  {
+    "a": "thaleia",
+    "b": "melia",
+    "familyA": "treasure",
+    "familyB": "treasure",
+    "games": 400,
+    "share": 0.25375
+  },
+  {
+    "a": "thaleia",
+    "b": "melia",
+    "familyA": "treasure",
+    "familyB": "engine",
+    "games": 400,
+    "share": 0.1575
+  },
+  {
+    "a": "thaleia",
+    "b": "melia",
+    "familyA": "treasure",
+    "familyB": "thin",
+    "games": 400,
+    "share": 0.48125
+  },
+  {
+    "a": "thaleia",
+    "b": "melia",
+    "familyA": "treasure",
+    "familyB": "worship",
+    "games": 400,
+    "share": 0.18625
+  },
+  {
+    "a": "thaleia",
+    "b": "melia",
+    "familyA": "treasure",
+    "familyB": "race",
+    "games": 400,
+    "share": 0.6475
+  },
+  {
+    "a": "thaleia",
+    "b": "melia",
+    "familyA": "engine",
+    "familyB": "treasure",
+    "games": 400,
+    "share": 0.72875
+  },
+  {
+    "a": "thaleia",
+    "b": "melia",
+    "familyA": "engine",
+    "familyB": "engine",
+    "games": 400,
+    "share": 0.64625
+  },
+  {
+    "a": "thaleia",
+    "b": "melia",
+    "familyA": "engine",
+    "familyB": "thin",
+    "games": 400,
+    "share": 0.9175
+  },
+  {
+    "a": "thaleia",
+    "b": "melia",
+    "familyA": "engine",
+    "familyB": "worship",
+    "games": 400,
+    "share": 0.7525
+  },
+  {
+    "a": "thaleia",
+    "b": "melia",
+    "familyA": "engine",
+    "familyB": "race",
+    "games": 400,
+    "share": 0.9475
+  },
+  {
+    "a": "thaleia",
+    "b": "melia",
+    "familyA": "thin",
+    "familyB": "treasure",
+    "games": 400,
+    "share": 0.435
+  },
+  {
+    "a": "thaleia",
+    "b": "melia",
+    "familyA": "thin",
+    "familyB": "engine",
+    "games": 400,
+    "share": 0.315
+  },
+  {
+    "a": "thaleia",
+    "b": "melia",
+    "familyA": "thin",
+    "familyB": "thin",
+    "games": 400,
+    "share": 0.64
+  },
+  {
+    "a": "thaleia",
+    "b": "melia",
+    "familyA": "thin",
+    "familyB": "worship",
+    "games": 400,
+    "share": 0.41
+  },
+  {
+    "a": "thaleia",
+    "b": "melia",
+    "familyA": "thin",
+    "familyB": "race",
+    "games": 400,
+    "share": 0.8225
+  },
+  {
+    "a": "thaleia",
+    "b": "melia",
+    "familyA": "worship",
+    "familyB": "treasure",
+    "games": 400,
+    "share": 0.68
+  },
+  {
+    "a": "thaleia",
+    "b": "melia",
+    "familyA": "worship",
+    "familyB": "engine",
+    "games": 400,
+    "share": 0.475
+  },
+  {
+    "a": "thaleia",
+    "b": "melia",
+    "familyA": "worship",
+    "familyB": "thin",
+    "games": 400,
+    "share": 0.835
+  },
+  {
+    "a": "thaleia",
+    "b": "melia",
+    "familyA": "worship",
+    "familyB": "worship",
+    "games": 400,
+    "share": 0.615
+  },
+  {
+    "a": "thaleia",
+    "b": "melia",
+    "familyA": "worship",
+    "familyB": "race",
+    "games": 400,
+    "share": 0.945
+  },
+  {
+    "a": "thaleia",
+    "b": "melia",
+    "familyA": "race",
+    "familyB": "treasure",
+    "games": 400,
+    "share": 0.38875
+  },
+  {
+    "a": "thaleia",
+    "b": "melia",
+    "familyA": "race",
+    "familyB": "engine",
+    "games": 400,
+    "share": 0.18375
+  },
+  {
+    "a": "thaleia",
+    "b": "melia",
+    "familyA": "race",
+    "familyB": "thin",
+    "games": 400,
+    "share": 0.47375
+  },
+  {
+    "a": "thaleia",
+    "b": "melia",
+    "familyA": "race",
+    "familyB": "worship",
+    "games": 400,
+    "share": 0.2525
+  },
+  {
+    "a": "thaleia",
+    "b": "melia",
+    "familyA": "race",
+    "familyB": "race",
+    "games": 400,
+    "share": 0.685
+  },
+  {
+    "a": "thaleia",
+    "b": "doreios",
+    "familyA": "treasure",
+    "familyB": "treasure",
+    "games": 400,
+    "share": 0.21625
+  },
+  {
+    "a": "thaleia",
+    "b": "doreios",
+    "familyA": "treasure",
+    "familyB": "engine",
+    "games": 400,
+    "share": 0.18
+  },
+  {
+    "a": "thaleia",
+    "b": "doreios",
+    "familyA": "treasure",
+    "familyB": "thin",
+    "games": 400,
+    "share": 0.575
+  },
+  {
+    "a": "thaleia",
+    "b": "doreios",
+    "familyA": "treasure",
+    "familyB": "worship",
+    "games": 400,
+    "share": 0.2625
+  },
+  {
+    "a": "thaleia",
+    "b": "doreios",
+    "familyA": "treasure",
+    "familyB": "race",
+    "games": 400,
+    "share": 0.6875
+  },
+  {
+    "a": "thaleia",
+    "b": "doreios",
+    "familyA": "engine",
+    "familyB": "treasure",
+    "games": 400,
+    "share": 0.6375
+  },
+  {
+    "a": "thaleia",
+    "b": "doreios",
+    "familyA": "engine",
+    "familyB": "engine",
+    "games": 400,
+    "share": 0.57625
+  },
+  {
+    "a": "thaleia",
+    "b": "doreios",
+    "familyA": "engine",
+    "familyB": "thin",
+    "games": 400,
+    "share": 0.92625
+  },
+  {
+    "a": "thaleia",
+    "b": "doreios",
+    "familyA": "engine",
+    "familyB": "worship",
+    "games": 400,
+    "share": 0.81375
+  },
+  {
+    "a": "thaleia",
+    "b": "doreios",
+    "familyA": "engine",
+    "familyB": "race",
+    "games": 400,
+    "share": 0.95
+  },
+  {
+    "a": "thaleia",
+    "b": "doreios",
+    "familyA": "thin",
+    "familyB": "treasure",
+    "games": 400,
+    "share": 0.42875
+  },
+  {
+    "a": "thaleia",
+    "b": "doreios",
+    "familyA": "thin",
+    "familyB": "engine",
+    "games": 400,
+    "share": 0.2425
+  },
+  {
+    "a": "thaleia",
+    "b": "doreios",
+    "familyA": "thin",
+    "familyB": "thin",
+    "games": 400,
+    "share": 0.7275
+  },
+  {
+    "a": "thaleia",
+    "b": "doreios",
+    "familyA": "thin",
+    "familyB": "worship",
+    "games": 400,
+    "share": 0.43625
+  },
+  {
+    "a": "thaleia",
+    "b": "doreios",
+    "familyA": "thin",
+    "familyB": "race",
+    "games": 400,
+    "share": 0.8
+  },
+  {
+    "a": "thaleia",
+    "b": "doreios",
+    "familyA": "worship",
+    "familyB": "treasure",
+    "games": 400,
+    "share": 0.6325
+  },
+  {
+    "a": "thaleia",
+    "b": "doreios",
+    "familyA": "worship",
+    "familyB": "engine",
+    "games": 400,
+    "share": 0.46625
+  },
+  {
+    "a": "thaleia",
+    "b": "doreios",
+    "familyA": "worship",
+    "familyB": "thin",
+    "games": 400,
+    "share": 0.8575
+  },
+  {
+    "a": "thaleia",
+    "b": "doreios",
+    "familyA": "worship",
+    "familyB": "worship",
+    "games": 400,
+    "share": 0.6625
+  },
+  {
+    "a": "thaleia",
+    "b": "doreios",
+    "familyA": "worship",
+    "familyB": "race",
+    "games": 400,
+    "share": 0.9375
+  },
+  {
+    "a": "thaleia",
+    "b": "doreios",
+    "familyA": "race",
+    "familyB": "treasure",
+    "games": 400,
+    "share": 0.3075
+  },
+  {
+    "a": "thaleia",
+    "b": "doreios",
+    "familyA": "race",
+    "familyB": "engine",
+    "games": 400,
+    "share": 0.1475
+  },
+  {
+    "a": "thaleia",
+    "b": "doreios",
+    "familyA": "race",
+    "familyB": "thin",
+    "games": 400,
+    "share": 0.47375
+  },
+  {
+    "a": "thaleia",
+    "b": "doreios",
+    "familyA": "race",
+    "familyB": "worship",
+    "games": 400,
+    "share": 0.28
+  },
+  {
+    "a": "thaleia",
+    "b": "doreios",
+    "familyA": "race",
+    "familyB": "race",
+    "games": 400,
+    "share": 0.66625
+  },
+  {
+    "a": "nereon",
+    "b": "melia",
+    "familyA": "treasure",
+    "familyB": "treasure",
+    "games": 400,
+    "share": 0.4225
+  },
+  {
+    "a": "nereon",
+    "b": "melia",
+    "familyA": "treasure",
+    "familyB": "engine",
+    "games": 400,
+    "share": 0.3925
+  },
+  {
+    "a": "nereon",
+    "b": "melia",
+    "familyA": "treasure",
+    "familyB": "thin",
+    "games": 400,
+    "share": 0.7525
+  },
+  {
+    "a": "nereon",
+    "b": "melia",
+    "familyA": "treasure",
+    "familyB": "worship",
+    "games": 400,
+    "share": 0.4525
+  },
+  {
+    "a": "nereon",
+    "b": "melia",
+    "familyA": "treasure",
+    "familyB": "race",
+    "games": 400,
+    "share": 0.6025
+  },
+  {
+    "a": "nereon",
+    "b": "melia",
+    "familyA": "engine",
+    "familyB": "treasure",
+    "games": 400,
+    "share": 0.525
+  },
+  {
+    "a": "nereon",
+    "b": "melia",
+    "familyA": "engine",
+    "familyB": "engine",
+    "games": 400,
+    "share": 0.42125
+  },
+  {
+    "a": "nereon",
+    "b": "melia",
+    "familyA": "engine",
+    "familyB": "thin",
+    "games": 400,
+    "share": 0.7775
+  },
+  {
+    "a": "nereon",
+    "b": "melia",
+    "familyA": "engine",
+    "familyB": "worship",
+    "games": 400,
+    "share": 0.51125
+  },
+  {
+    "a": "nereon",
+    "b": "melia",
+    "familyA": "engine",
+    "familyB": "race",
+    "games": 400,
+    "share": 0.66875
+  },
+  {
+    "a": "nereon",
+    "b": "melia",
+    "familyA": "thin",
+    "familyB": "treasure",
+    "games": 400,
+    "share": 0.26
+  },
+  {
+    "a": "nereon",
+    "b": "melia",
+    "familyA": "thin",
+    "familyB": "engine",
+    "games": 400,
+    "share": 0.175
+  },
+  {
+    "a": "nereon",
+    "b": "melia",
+    "familyA": "thin",
+    "familyB": "thin",
+    "games": 400,
+    "share": 0.48125
+  },
+  {
+    "a": "nereon",
+    "b": "melia",
+    "familyA": "thin",
+    "familyB": "worship",
+    "games": 400,
+    "share": 0.2125
+  },
+  {
+    "a": "nereon",
+    "b": "melia",
+    "familyA": "thin",
+    "familyB": "race",
+    "games": 400,
+    "share": 0.4875
+  },
+  {
+    "a": "nereon",
+    "b": "melia",
+    "familyA": "worship",
+    "familyB": "treasure",
+    "games": 400,
+    "share": 0.505
+  },
+  {
+    "a": "nereon",
+    "b": "melia",
+    "familyA": "worship",
+    "familyB": "engine",
+    "games": 400,
+    "share": 0.3875
+  },
+  {
+    "a": "nereon",
+    "b": "melia",
+    "familyA": "worship",
+    "familyB": "thin",
+    "games": 400,
+    "share": 0.70875
+  },
+  {
+    "a": "nereon",
+    "b": "melia",
+    "familyA": "worship",
+    "familyB": "worship",
+    "games": 400,
+    "share": 0.46875
+  },
+  {
+    "a": "nereon",
+    "b": "melia",
+    "familyA": "worship",
+    "familyB": "race",
+    "games": 400,
+    "share": 0.675
+  },
+  {
+    "a": "nereon",
+    "b": "melia",
+    "familyA": "race",
+    "familyB": "treasure",
+    "games": 400,
+    "share": 0.295
+  },
+  {
+    "a": "nereon",
+    "b": "melia",
+    "familyA": "race",
+    "familyB": "engine",
+    "games": 400,
+    "share": 0.24
+  },
+  {
+    "a": "nereon",
+    "b": "melia",
+    "familyA": "race",
+    "familyB": "thin",
+    "games": 400,
+    "share": 0.46375
+  },
+  {
+    "a": "nereon",
+    "b": "melia",
+    "familyA": "race",
+    "familyB": "worship",
+    "games": 400,
+    "share": 0.23125
+  },
+  {
+    "a": "nereon",
+    "b": "melia",
+    "familyA": "race",
+    "familyB": "race",
+    "games": 400,
+    "share": 0.45125
+  },
+  {
+    "a": "nereon",
+    "b": "doreios",
+    "familyA": "treasure",
+    "familyB": "treasure",
+    "games": 400,
+    "share": 0.39125
+  },
+  {
+    "a": "nereon",
+    "b": "doreios",
+    "familyA": "treasure",
+    "familyB": "engine",
+    "games": 400,
+    "share": 0.48375
+  },
+  {
+    "a": "nereon",
+    "b": "doreios",
+    "familyA": "treasure",
+    "familyB": "thin",
+    "games": 400,
+    "share": 0.76875
+  },
+  {
+    "a": "nereon",
+    "b": "doreios",
+    "familyA": "treasure",
+    "familyB": "worship",
+    "games": 400,
+    "share": 0.48
+  },
+  {
+    "a": "nereon",
+    "b": "doreios",
+    "familyA": "treasure",
+    "familyB": "race",
+    "games": 400,
+    "share": 0.6425
+  },
+  {
+    "a": "nereon",
+    "b": "doreios",
+    "familyA": "engine",
+    "familyB": "treasure",
+    "games": 400,
+    "share": 0.5175
+  },
+  {
+    "a": "nereon",
+    "b": "doreios",
+    "familyA": "engine",
+    "familyB": "engine",
+    "games": 400,
+    "share": 0.405
+  },
+  {
+    "a": "nereon",
+    "b": "doreios",
+    "familyA": "engine",
+    "familyB": "thin",
+    "games": 400,
+    "share": 0.905
+  },
+  {
+    "a": "nereon",
+    "b": "doreios",
+    "familyA": "engine",
+    "familyB": "worship",
+    "games": 400,
+    "share": 0.49125
+  },
+  {
+    "a": "nereon",
+    "b": "doreios",
+    "familyA": "engine",
+    "familyB": "race",
+    "games": 400,
+    "share": 0.6925
+  },
+  {
+    "a": "nereon",
+    "b": "doreios",
+    "familyA": "thin",
+    "familyB": "treasure",
+    "games": 400,
+    "share": 0.3225
+  },
+  {
+    "a": "nereon",
+    "b": "doreios",
+    "familyA": "thin",
+    "familyB": "engine",
+    "games": 400,
+    "share": 0.16125
+  },
+  {
+    "a": "nereon",
+    "b": "doreios",
+    "familyA": "thin",
+    "familyB": "thin",
+    "games": 400,
+    "share": 0.62875
+  },
+  {
+    "a": "nereon",
+    "b": "doreios",
+    "familyA": "thin",
+    "familyB": "worship",
+    "games": 400,
+    "share": 0.23375
+  },
+  {
+    "a": "nereon",
+    "b": "doreios",
+    "familyA": "thin",
+    "familyB": "race",
+    "games": 400,
+    "share": 0.52375
+  },
+  {
+    "a": "nereon",
+    "b": "doreios",
+    "familyA": "worship",
+    "familyB": "treasure",
+    "games": 400,
+    "share": 0.50625
+  },
+  {
+    "a": "nereon",
+    "b": "doreios",
+    "familyA": "worship",
+    "familyB": "engine",
+    "games": 400,
+    "share": 0.445
+  },
+  {
+    "a": "nereon",
+    "b": "doreios",
+    "familyA": "worship",
+    "familyB": "thin",
+    "games": 400,
+    "share": 0.8475
+  },
+  {
+    "a": "nereon",
+    "b": "doreios",
+    "familyA": "worship",
+    "familyB": "worship",
+    "games": 400,
+    "share": 0.4725
+  },
+  {
+    "a": "nereon",
+    "b": "doreios",
+    "familyA": "worship",
+    "familyB": "race",
+    "games": 400,
+    "share": 0.72625
+  },
+  {
+    "a": "nereon",
+    "b": "doreios",
+    "familyA": "race",
+    "familyB": "treasure",
+    "games": 400,
+    "share": 0.3275
+  },
+  {
+    "a": "nereon",
+    "b": "doreios",
+    "familyA": "race",
+    "familyB": "engine",
+    "games": 400,
+    "share": 0.2075
+  },
+  {
+    "a": "nereon",
+    "b": "doreios",
+    "familyA": "race",
+    "familyB": "thin",
+    "games": 400,
+    "share": 0.56
+  },
+  {
+    "a": "nereon",
+    "b": "doreios",
+    "familyA": "race",
+    "familyB": "worship",
+    "games": 400,
+    "share": 0.28
+  },
+  {
+    "a": "nereon",
+    "b": "doreios",
+    "familyA": "race",
+    "familyB": "race",
+    "games": 400,
+    "share": 0.44625
+  },
+  {
+    "a": "melia",
+    "b": "doreios",
+    "familyA": "treasure",
+    "familyB": "treasure",
+    "games": 400,
+    "share": 0.45375
+  },
+  {
+    "a": "melia",
+    "b": "doreios",
+    "familyA": "treasure",
+    "familyB": "engine",
+    "games": 400,
+    "share": 0.55125
+  },
+  {
+    "a": "melia",
+    "b": "doreios",
+    "familyA": "treasure",
+    "familyB": "thin",
+    "games": 400,
+    "share": 0.79625
+  },
+  {
+    "a": "melia",
+    "b": "doreios",
+    "familyA": "treasure",
+    "familyB": "worship",
+    "games": 400,
+    "share": 0.6125
+  },
+  {
+    "a": "melia",
+    "b": "doreios",
+    "familyA": "treasure",
+    "familyB": "race",
+    "games": 400,
+    "share": 0.79
+  },
+  {
+    "a": "melia",
+    "b": "doreios",
+    "familyA": "engine",
+    "familyB": "treasure",
+    "games": 400,
+    "share": 0.53375
+  },
+  {
+    "a": "melia",
+    "b": "doreios",
+    "familyA": "engine",
+    "familyB": "engine",
+    "games": 400,
+    "share": 0.50875
+  },
+  {
+    "a": "melia",
+    "b": "doreios",
+    "familyA": "engine",
+    "familyB": "thin",
+    "games": 400,
+    "share": 0.74125
+  },
+  {
+    "a": "melia",
+    "b": "doreios",
+    "familyA": "engine",
+    "familyB": "worship",
+    "games": 400,
+    "share": 0.565
+  },
+  {
+    "a": "melia",
+    "b": "doreios",
+    "familyA": "engine",
+    "familyB": "race",
+    "games": 400,
+    "share": 0.78875
+  },
+  {
+    "a": "melia",
+    "b": "doreios",
+    "familyA": "thin",
+    "familyB": "treasure",
+    "games": 400,
+    "share": 0.2875
+  },
+  {
+    "a": "melia",
+    "b": "doreios",
+    "familyA": "thin",
+    "familyB": "engine",
+    "games": 400,
+    "share": 0.33375
+  },
+  {
+    "a": "melia",
+    "b": "doreios",
+    "familyA": "thin",
+    "familyB": "thin",
+    "games": 400,
+    "share": 0.65375
+  },
+  {
+    "a": "melia",
+    "b": "doreios",
+    "familyA": "thin",
+    "familyB": "worship",
+    "games": 400,
+    "share": 0.43
+  },
+  {
+    "a": "melia",
+    "b": "doreios",
+    "familyA": "thin",
+    "familyB": "race",
+    "games": 400,
+    "share": 0.75
+  },
+  {
+    "a": "melia",
+    "b": "doreios",
+    "familyA": "worship",
+    "familyB": "treasure",
+    "games": 400,
+    "share": 0.4175
+  },
+  {
+    "a": "melia",
+    "b": "doreios",
+    "familyA": "worship",
+    "familyB": "engine",
+    "games": 400,
+    "share": 0.3925
+  },
+  {
+    "a": "melia",
+    "b": "doreios",
+    "familyA": "worship",
+    "familyB": "thin",
+    "games": 400,
+    "share": 0.665
+  },
+  {
+    "a": "melia",
+    "b": "doreios",
+    "familyA": "worship",
+    "familyB": "worship",
+    "games": 400,
+    "share": 0.46875
+  },
+  {
+    "a": "melia",
+    "b": "doreios",
+    "familyA": "worship",
+    "familyB": "race",
+    "games": 400,
+    "share": 0.715
+  },
+  {
+    "a": "melia",
+    "b": "doreios",
+    "familyA": "race",
+    "familyB": "treasure",
+    "games": 400,
+    "share": 0.20625
+  },
+  {
+    "a": "melia",
+    "b": "doreios",
+    "familyA": "race",
+    "familyB": "engine",
+    "games": 400,
+    "share": 0.20375
+  },
+  {
+    "a": "melia",
+    "b": "doreios",
+    "familyA": "race",
+    "familyB": "thin",
+    "games": 400,
+    "share": 0.35875
+  },
+  {
+    "a": "melia",
+    "b": "doreios",
+    "familyA": "race",
+    "familyB": "worship",
+    "games": 400,
+    "share": 0.285
+  },
+  {
+    "a": "melia",
+    "b": "doreios",
+    "familyA": "race",
+    "familyB": "race",
+    "games": 400,
+    "share": 0.4975
+  }
+]
