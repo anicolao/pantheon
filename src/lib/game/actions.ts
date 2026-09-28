@@ -110,7 +110,7 @@ export function actionEffects(id: string): Effect[] {
   }
 }
 /** Explicit opt-in experiment; ordinary games and replay retain the standard rules. */
-export type PlayVariant = 'standard' | 'thaleia-draw';
+export type PlayVariant = 'standard' | 'thaleia-draw' | 'leader-buffs';
 export function applyPlayCommand(game: SetupState, uid: string, command: ActionCommand, sequence: number, variant: PlayVariant = 'standard'): string {
   if (command.type === 'action/undone') throw new Error('Undo requires the committed command history.');
   if (game.phase !== 'playing' || activePlayer(game) !== uid || game.turn.phase === 'finished') throw new Error('Wait for your turn.');
@@ -189,10 +189,10 @@ export function applyPlayCommand(game: SetupState, uid: string, command: ActionC
         game.turn.leaderUsed = true;
         if (leader.id === 'thaleia') {
           game.turn.queue.push(resource(leader.id, 'actions', 1));
-          if (variant === 'thaleia-draw') game.turn.queue.push({ kind: 'draw', source: leader.id, amount: 1 });
+          if (variant === 'thaleia-draw' || variant === 'leader-buffs') game.turn.queue.push({ kind: 'draw', source: leader.id, amount: 1 });
         }
-        if (leader.id === 'nereon') game.turn.queue.push(resource(leader.id, 'coins', 1));
-        if (leader.id === 'melia') game.turn.queue.push({ kind: 'draw', source: leader.id, amount: 1 });
+        if (leader.id === 'nereon') game.turn.queue.push(resource(leader.id, 'coins', variant === 'leader-buffs' ? 2 : 1));
+        if (leader.id === 'melia') game.turn.queue.push({ kind: 'draw', source: leader.id, amount: variant === 'leader-buffs' ? 2 : 1 });
         if (leader.id === 'doreios') game.turn.queue.push({ kind: 'trash', source: leader.id, amount: 1 });
       }
       resolve(); break;

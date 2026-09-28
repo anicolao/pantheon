@@ -100,3 +100,9 @@ All selections are frozen before 200 independent evaluation blocks (12,000 games
 The manifest records candidates, profiles, seeds, source and selection hash. Compressed training rows retain both turn-order shares for every candidate; full evaluation results and first-block replay samples are archived. Source must be clean for confirmation. Failed training aborts selection; evaluation failures are recorded and exclude their affected blocks. Short pilots can use `--training-blocks 1 --blocks 2 --seed counter-pilot`, with a distinct output directory.
 
 The [completed heads-up counter study](balance-results/thaleia-counter-v1/README.md) reports each leader separately, with the training-selected strategies and held-out intervals.
+
+## Matching Thaleia with Nereon and Melia buffs
+
+`bun run balance:counter --comparison leader-buffs --out balance-runs/leader-buffs-v1` compares the previous `thaleia-draw` rule against `leader-buffs`: retain Thaleia's +1 Action/+1 Card, raise Nereon's first matching Action trigger from +1 to +2 Coins, and Melia's from +1 to +2 Cards. Trigger timing and once-per-turn conditions are unchanged. Doreios is unchanged and serves as a control. Ordinary play still defaults to standard rules.
+
+The same 40 training and 200 evaluation seed blocks, five frozen Thaleia profiles, 13 counter candidates, both turn orders, and selection algorithm are reused. Full runs enforce exact seed/profile equality with the archived counter study. Both sides select strategies again on training only. These are deliberately reused evaluation seeds after viewing earlier results: this is an exploratory comparison, not independent confirmation. The reported intervals describe seed variation for the selected matchups, not uncertainty from repeated rule search. The original unbuffed-Thaleia arm is not part of this comparison.
