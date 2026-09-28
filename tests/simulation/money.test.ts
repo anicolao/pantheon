@@ -27,11 +27,11 @@ test('draw competes with money using exact whole-hand EV, with no named opening 
  v.owned={obol:6,hamlet:4};
  expect(moneyBuy(v,['council-of-sages','drachma'])).toBe('drachma');
 });
-test('first affordable points are deferred if their dilution drops EV below eight',()=>{
+test('top-value points cash in an affordable scoring opportunity despite income dilution',()=>{
  const v=state();v.resources.coins=8;v.owned={talent:6,hamlet:5};
  expect(moneyEstimate(v).mean).toBeGreaterThan(8);
  expect(moneyAfter(v,'acropolis').mean).toBe(7.5);
- expect(moneyBuy(v,['acropolis','talent'])).toBe('talent');
+ expect(moneyBuy(v,['acropolis','talent'])).toBe('acropolis');
  v.owned={talent:6,hamlet:4};
  expect(moneyAfter(v,'acropolis').mean).toBeGreaterThan(8);
  expect(moneyBuy(v,['acropolis','talent'])).toBe('acropolis');
@@ -53,7 +53,7 @@ test('estimates use public composition, respect leader variants, and ignore curr
 test('each buy recomputes dilution, banned cards are excluded, and known wins override EV',()=>{
  const v=state();v.resources.coins=8;v.owned={talent:6,hamlet:4};
  expect(moneyBuy(v,['acropolis','talent'])).toBe('acropolis');
- v.owned.acropolis=1;expect(moneyBuy(v,['acropolis','talent'])).toBe('talent');
+ v.owned.acropolis=1;expect(moneyBuy(v,['acropolis','talent'])).toBe('acropolis');
  v.resources.coins=4;v.owned={obol:7,hamlet:3};v.bannedCards=['council-of-sages'];
  expect(moneyPurchase(v)).not.toMatchObject({cardId:'council-of-sages'});
  v.resources.coins=8;v.supply.acropolis=1;v.myScore=30;v.scores=[20];
@@ -77,4 +77,13 @@ test('mandatory gains choose the least harmful EV when every gain dilutes income
  const v=state();v.owned={talent:10};
  expect(moneyBuy(v,['obol','drachma'])).toBeUndefined();
  expect(moneyBuy(v,['obol','drachma'],true)).toBe('drachma');
+});
+
+
+test('unaffordable or unsafe top points do not promote smaller points to top tier',()=>{
+ const v=state();v.resources.coins=5;v.owned={obol:7,hamlet:3};
+ expect(moneyBuy(v,['polis','drachma'])).toBe('drachma');
+ v.resources.coins=8;v.supply.acropolis=1;v.myScore=0;v.scores=[40];
+ expect(moneyPurchase(v)).not.toMatchObject({cardId:'acropolis'});
+ expect(moneyPurchase(v)).not.toMatchObject({cardId:'polis'});
 });
