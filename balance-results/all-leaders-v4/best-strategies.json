@@ -1,0 +1,59 @@
+{
+  "selection": "Highest observed league share per leader; selected after evaluation",
+  "strategies": {
+    "thaleia": "engine",
+    "nereon": "engine",
+    "melia": "engine",
+    "doreios": "engine"
+  },
+  "matchups": [
+    {
+      "a": "thaleia",
+      "b": "nereon",
+      "familyA": "engine",
+      "familyB": "engine",
+      "games": 400,
+      "share": 0.72625
+    },
+    {
+      "a": "thaleia",
+      "b": "melia",
+      "familyA": "engine",
+      "familyB": "engine",
+      "games": 400,
+      "share": 0.64625
+    },
+    {
+      "a": "thaleia",
+      "b": "doreios",
+      "familyA": "engine",
+      "familyB": "engine",
+      "games": 400,
+      "share": 0.57625
+    },
+    {
+      "a": "nereon",
+      "b": "melia",
+      "familyA": "engine",
+      "familyB": "engine",
+      "games": 400,
+      "share": 0.42125
+    },
+    {
+      "a": "nereon",
+      "b": "doreios",
+      "familyA": "engine",
+      "familyB": "engine",
+      "games": 400,
+      "share": 0.405
+    },
+    {
+      "a": "melia",
+      "b": "doreios",
+      "familyA": "engine",
+      "familyB": "engine",
+      "games": 400,
+      "share": 0.50875
+    }
+  ]
+}
