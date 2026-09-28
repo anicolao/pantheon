@@ -174,3 +174,7 @@ The [Thin design](BOT_STRATEGIES.md#thin-strategy-version-3) now specifies joint
 ## Independent ending-deck audit
 
 The [100-hands-per-deck audit](balance-results/ending-hands-v1/README.md) checks all 240,000 ending decks from the v4/v5 matrices. Treasure increases both average income and the frequency of reaching $8 despite losing more games; the report separates final economy from scoring timing and calibrates the EV estimator against independent shuffles. No bot policy changed.
+
+## Treasure scoring v6
+
+The [frozen-profile scoring test](balance-results/treasure-scoring-v6/README.md) changes only the income gate for highest-value points. All 21,600 affected games reuse v5 seeds and profiles; Treasure gains 22–31 percentage points against fixed Engine opponents. A follow-up 100-hand audit shows lower ending income despite higher victory shares. This is an exploratory policy test, not a retrained best-strategy leader matrix.
