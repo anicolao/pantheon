@@ -1,0 +1,242 @@
+[
+  {
+    "leader": "nereon",
+    "variant": "standard",
+    "family": "treasure",
+    "counter": "treasure-0",
+    "trainingShare": 0.2125,
+    "primary": false
+  },
+  {
+    "leader": "nereon",
+    "variant": "standard",
+    "family": "engine",
+    "counter": "treasure-0",
+    "trainingShare": 0.34375,
+    "primary": true
+  },
+  {
+    "leader": "nereon",
+    "variant": "standard",
+    "family": "thin",
+    "counter": "treasure-0",
+    "trainingShare": 0.05625,
+    "primary": false
+  },
+  {
+    "leader": "nereon",
+    "variant": "standard",
+    "family": "worship",
+    "counter": "treasure-0",
+    "trainingShare": 0.225,
+    "primary": false
+  },
+  {
+    "leader": "nereon",
+    "variant": "standard",
+    "family": "race",
+    "counter": "treasure-0",
+    "trainingShare": 0.25625,
+    "primary": false
+  },
+  {
+    "leader": "nereon",
+    "variant": "thaleia-draw",
+    "family": "treasure",
+    "counter": "treasure-0",
+    "trainingShare": 0.5,
+    "primary": false
+  },
+  {
+    "leader": "nereon",
+    "variant": "thaleia-draw",
+    "family": "engine",
+    "counter": "treasure-0",
+    "trainingShare": 0.725,
+    "primary": true
+  },
+  {
+    "leader": "nereon",
+    "variant": "thaleia-draw",
+    "family": "thin",
+    "counter": "treasure-0",
+    "trainingShare": 0.35625,
+    "primary": false
+  },
+  {
+    "leader": "nereon",
+    "variant": "thaleia-draw",
+    "family": "worship",
+    "counter": "treasure-0",
+    "trainingShare": 0.56875,
+    "primary": false
+  },
+  {
+    "leader": "nereon",
+    "variant": "thaleia-draw",
+    "family": "race",
+    "counter": "treasure-0",
+    "trainingShare": 0.6875,
+    "primary": false
+  },
+  {
+    "leader": "melia",
+    "variant": "standard",
+    "family": "treasure",
+    "counter": "engine-0",
+    "trainingShare": 0.19375,
+    "primary": false
+  },
+  {
+    "leader": "melia",
+    "variant": "standard",
+    "family": "engine",
+    "counter": "engine-1",
+    "trainingShare": 0.33125,
+    "primary": true
+  },
+  {
+    "leader": "melia",
+    "variant": "standard",
+    "family": "thin",
+    "counter": "treasure-0",
+    "trainingShare": 0.075,
+    "primary": false
+  },
+  {
+    "leader": "melia",
+    "variant": "standard",
+    "family": "worship",
+    "counter": "engine-1",
+    "trainingShare": 0.30625,
+    "primary": false
+  },
+  {
+    "leader": "melia",
+    "variant": "standard",
+    "family": "race",
+    "counter": "engine-0",
+    "trainingShare": 0.3125,
+    "primary": false
+  },
+  {
+    "leader": "melia",
+    "variant": "thaleia-draw",
+    "family": "treasure",
+    "counter": "treasure-0",
+    "trainingShare": 0.5,
+    "primary": false
+  },
+  {
+    "leader": "melia",
+    "variant": "thaleia-draw",
+    "family": "engine",
+    "counter": "engine-1",
+    "trainingShare": 0.525,
+    "primary": false
+  },
+  {
+    "leader": "melia",
+    "variant": "thaleia-draw",
+    "family": "thin",
+    "counter": "engine-1",
+    "trainingShare": 0.33125,
+    "primary": false
+  },
+  {
+    "leader": "melia",
+    "variant": "thaleia-draw",
+    "family": "worship",
+    "counter": "engine-1",
+    "trainingShare": 0.725,
+    "primary": true
+  },
+  {
+    "leader": "melia",
+    "variant": "thaleia-draw",
+    "family": "race",
+    "counter": "engine-1",
+    "trainingShare": 0.70625,
+    "primary": false
+  },
+  {
+    "leader": "doreios",
+    "variant": "standard",
+    "family": "treasure",
+    "counter": "treasure-0",
+    "trainingShare": 0.19375,
+    "primary": false
+  },
+  {
+    "leader": "doreios",
+    "variant": "standard",
+    "family": "engine",
+    "counter": "treasure-0",
+    "trainingShare": 0.31875,
+    "primary": true
+  },
+  {
+    "leader": "doreios",
+    "variant": "standard",
+    "family": "thin",
+    "counter": "treasure-0",
+    "trainingShare": 0.08125,
+    "primary": false
+  },
+  {
+    "leader": "doreios",
+    "variant": "standard",
+    "family": "worship",
+    "counter": "treasure-0",
+    "trainingShare": 0.075,
+    "primary": false
+  },
+  {
+    "leader": "doreios",
+    "variant": "standard",
+    "family": "race",
+    "counter": "treasure-0",
+    "trainingShare": 0.275,
+    "primary": false
+  },
+  {
+    "leader": "doreios",
+    "variant": "thaleia-draw",
+    "family": "treasure",
+    "counter": "treasure-0",
+    "trainingShare": 0.53125,
+    "primary": false
+  },
+  {
+    "leader": "doreios",
+    "variant": "thaleia-draw",
+    "family": "engine",
+    "counter": "treasure-0",
+    "trainingShare": 0.525,
+    "primary": false
+  },
+  {
+    "leader": "doreios",
+    "variant": "thaleia-draw",
+    "family": "thin",
+    "counter": "treasure-0",
+    "trainingShare": 0.4375,
+    "primary": false
+  },
+  {
+    "leader": "doreios",
+    "variant": "thaleia-draw",
+    "family": "worship",
+    "counter": "treasure-0",
+    "trainingShare": 0.34375,
+    "primary": false
+  },
+  {
+    "leader": "doreios",
+    "variant": "thaleia-draw",
+    "family": "race",
+    "counter": "treasure-0",
+    "trainingShare": 0.59375,
+    "primary": true
+  }
+]
