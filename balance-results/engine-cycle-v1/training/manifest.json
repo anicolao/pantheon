@@ -1,0 +1,18 @@
+{
+  "sourceCommit": "4b7648936b109f312bb3ce69abdc8930e5c2e871",
+  "policyVersion": 2,
+  "runtime": "1.3.13",
+  "blocks": 8,
+  "seed": "engine-cycle-v1",
+  "variants": [
+    "standard",
+    "thaleia-actions"
+  ],
+  "plannedGamesPerArm": 4608,
+  "startedAt": "2026-09-28T11:14:36.035Z",
+  "status": "completed",
+  "profilesHashes": {
+    "standard": "45f453f805b97a36938199b6d9eaa09cb13523105e22c1134e376eb910c32efa",
+    "thaleia-actions": "19d2cae3e6f5e8107f29259d7007b6b6e83edaa95f26324853c7e14d0d5a129d"
+  }
+}

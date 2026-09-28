@@ -1,0 +1,242 @@
+[
+  {
+    "leader": "nereon",
+    "variant": "standard",
+    "family": "treasure",
+    "counter": "treasure-0",
+    "trainingShare": 0.2125,
+    "primary": false
+  },
+  {
+    "leader": "nereon",
+    "variant": "standard",
+    "family": "engine",
+    "counter": "treasure-0",
+    "trainingShare": 0.66875,
+    "primary": true
+  },
+  {
+    "leader": "nereon",
+    "variant": "standard",
+    "family": "thin",
+    "counter": "treasure-0",
+    "trainingShare": 0.125,
+    "primary": false
+  },
+  {
+    "leader": "nereon",
+    "variant": "standard",
+    "family": "worship",
+    "counter": "engine-0",
+    "trainingShare": 0.15625,
+    "primary": false
+  },
+  {
+    "leader": "nereon",
+    "variant": "standard",
+    "family": "race",
+    "counter": "engine-0",
+    "trainingShare": 0.2,
+    "primary": false
+  },
+  {
+    "leader": "nereon",
+    "variant": "thaleia-actions",
+    "family": "treasure",
+    "counter": "treasure-0",
+    "trainingShare": 0.2125,
+    "primary": false
+  },
+  {
+    "leader": "nereon",
+    "variant": "thaleia-actions",
+    "family": "engine",
+    "counter": "treasure-0",
+    "trainingShare": 0.74375,
+    "primary": true
+  },
+  {
+    "leader": "nereon",
+    "variant": "thaleia-actions",
+    "family": "thin",
+    "counter": "treasure-0",
+    "trainingShare": 0.125,
+    "primary": false
+  },
+  {
+    "leader": "nereon",
+    "variant": "thaleia-actions",
+    "family": "worship",
+    "counter": "engine-0",
+    "trainingShare": 0.2,
+    "primary": false
+  },
+  {
+    "leader": "nereon",
+    "variant": "thaleia-actions",
+    "family": "race",
+    "counter": "engine-0",
+    "trainingShare": 0.25,
+    "primary": false
+  },
+  {
+    "leader": "melia",
+    "variant": "standard",
+    "family": "treasure",
+    "counter": "engine-2",
+    "trainingShare": 0.20625,
+    "primary": false
+  },
+  {
+    "leader": "melia",
+    "variant": "standard",
+    "family": "engine",
+    "counter": "engine-0",
+    "trainingShare": 0.6,
+    "primary": true
+  },
+  {
+    "leader": "melia",
+    "variant": "standard",
+    "family": "thin",
+    "counter": "engine-0",
+    "trainingShare": 0.1125,
+    "primary": false
+  },
+  {
+    "leader": "melia",
+    "variant": "standard",
+    "family": "worship",
+    "counter": "engine-0",
+    "trainingShare": 0.1625,
+    "primary": false
+  },
+  {
+    "leader": "melia",
+    "variant": "standard",
+    "family": "race",
+    "counter": "engine-0",
+    "trainingShare": 0.1875,
+    "primary": false
+  },
+  {
+    "leader": "melia",
+    "variant": "thaleia-actions",
+    "family": "treasure",
+    "counter": "engine-2",
+    "trainingShare": 0.20625,
+    "primary": false
+  },
+  {
+    "leader": "melia",
+    "variant": "thaleia-actions",
+    "family": "engine",
+    "counter": "engine-0",
+    "trainingShare": 0.75,
+    "primary": true
+  },
+  {
+    "leader": "melia",
+    "variant": "thaleia-actions",
+    "family": "thin",
+    "counter": "engine-0",
+    "trainingShare": 0.125,
+    "primary": false
+  },
+  {
+    "leader": "melia",
+    "variant": "thaleia-actions",
+    "family": "worship",
+    "counter": "engine-0",
+    "trainingShare": 0.23125,
+    "primary": false
+  },
+  {
+    "leader": "melia",
+    "variant": "thaleia-actions",
+    "family": "race",
+    "counter": "engine-0",
+    "trainingShare": 0.2125,
+    "primary": false
+  },
+  {
+    "leader": "doreios",
+    "variant": "standard",
+    "family": "treasure",
+    "counter": "treasure-0",
+    "trainingShare": 0.19375,
+    "primary": false
+  },
+  {
+    "leader": "doreios",
+    "variant": "standard",
+    "family": "engine",
+    "counter": "treasure-0",
+    "trainingShare": 0.6875,
+    "primary": true
+  },
+  {
+    "leader": "doreios",
+    "variant": "standard",
+    "family": "thin",
+    "counter": "treasure-0",
+    "trainingShare": 0.15,
+    "primary": false
+  },
+  {
+    "leader": "doreios",
+    "variant": "standard",
+    "family": "worship",
+    "counter": "treasure-0",
+    "trainingShare": 0.175,
+    "primary": false
+  },
+  {
+    "leader": "doreios",
+    "variant": "standard",
+    "family": "race",
+    "counter": "engine-0",
+    "trainingShare": 0.25,
+    "primary": false
+  },
+  {
+    "leader": "doreios",
+    "variant": "thaleia-actions",
+    "family": "treasure",
+    "counter": "treasure-0",
+    "trainingShare": 0.19375,
+    "primary": false
+  },
+  {
+    "leader": "doreios",
+    "variant": "thaleia-actions",
+    "family": "engine",
+    "counter": "treasure-0",
+    "trainingShare": 0.8125,
+    "primary": true
+  },
+  {
+    "leader": "doreios",
+    "variant": "thaleia-actions",
+    "family": "thin",
+    "counter": "engine-0",
+    "trainingShare": 0.15,
+    "primary": false
+  },
+  {
+    "leader": "doreios",
+    "variant": "thaleia-actions",
+    "family": "worship",
+    "counter": "treasure-0",
+    "trainingShare": 0.09375,
+    "primary": false
+  },
+  {
+    "leader": "doreios",
+    "variant": "thaleia-actions",
+    "family": "race",
+    "counter": "engine-0",
+    "trainingShare": 0.2625,
+    "primary": false
+  }
+]
