@@ -1,7 +1,7 @@
 import { publicHorizon, gainOutcome, endingShare, immediateGainValue } from './planning';
 import { actionEffects, definition, type Choice } from '../../src/lib/game/actions';
 import type { CardInstance } from '../../src/lib/game/setup';
-import { cardFeatures, engineCapacity } from './engine';
+import { cardFeatures, engineCapacity, revealCoins } from './engine';
 import type { View } from './strategy';
 
 type Inventory = Record<string, number>;
@@ -44,7 +44,7 @@ export function thinEconomy(view: View, owned: Inventory = view.owned): ThinEcon
   for (const [id, n] of entries) {
     const f = cardFeatures(id), def = definition(id);
     vp += (def.vp ?? 0) * n;
-    actionCoins += f.coins * n * reach * (f.actions ? 1 : terminalShare);
+    actionCoins += (f.coins + revealCoins({ owned }, f.reveal)) * n * reach * (f.actions ? 1 : terminalShare);
     if (def.type === 'Action' && def.god === definition(view.leader).god) matching += n;
     worship += effects(id).reduce((sum, e) => sum + (e.kind === 'resource' && e.resource === 'worship' ? e.amount : 0), 0) * n;
     for (let i = 0; i < n; i++) coinCards.push(treasureCoins(id));
@@ -184,9 +184,14 @@ export function thinKeepValue(view: View, card: CardInstance): number {
 
 export function thinPlayPriority(view: View, card: CardInstance): number {
   const f = cardFeatures(card.cardId), triggers = !view.leaderUsed && definition(card.cardId).god === definition(view.leader).god;
-  const actions = f.actions + (triggers ? view.leaderBonus.actions : 0);
-  const afterPlay = { ...view, hand: view.hand.filter(c => c.id !== card.id), resources: { ...view.resources, actions: view.resources.actions - 1 + actions } };
-  const work = plainTrash(card.cardId) || forge(card.cardId) ? thinTrashChoice(afterPlay, { id: '', source: card.cardId, kind: 'trash', min: 0,
-    max: forge(card.cardId) ? 1 : plainTrash(card.cardId), ...(forge(card.cardId) ? { forge: true } : {}) }).value : 0;
-  return 20 * actions + f.draw + (triggers ? view.leaderBonus.draw : 0) + 2 * f.coins + 4 * Math.max(0, work);
+  const bonus = triggers ? view.leaderBonus : { actions: 0, draw: 0, coins: 0, buys: 0, trash: 0 };
+  const actions = f.actions + bonus.actions;
+  const afterPlay = { ...view, leaderUsed: view.leaderUsed || triggers, hand: view.hand.filter(c => c.id !== card.id),
+    resources: { ...view.resources, actions: view.resources.actions - 1 + actions, coins: view.resources.coins + f.coins + bonus.coins, buys: view.resources.buys + f.buys + bonus.buys } };
+  const capacity = plainTrash(card.cardId) + bonus.trash;
+  const ordinaryWork = capacity ? thinTrashChoice(afterPlay, { id: '', source: card.cardId, kind: 'trash', min: 0, max: capacity }).value : 0;
+  const upgradeWork = forge(card.cardId) ? thinTrashChoice(afterPlay, { id: '', source: card.cardId, kind: 'trash', min: 0, max: 1, forge: true }).value : 0;
+  // Consecutive optional effects cannot both claim the same offering; use the larger opportunity.
+  const work = Math.max(0, ordinaryWork, upgradeWork);
+  return 20 * actions + f.draw + bonus.draw + 2 * (f.coins + bonus.coins + (view.unseenCount > 0 ? revealCoins(view, f.reveal) : 0)) + 4 * work;
 }
