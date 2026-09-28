@@ -1,0 +1,235 @@
+{
+  "games": 1200,
+  "cost4": {
+    "eligible": 945,
+    "bothCouncil": 793,
+    "topPatterns": [
+      [
+        "council-of-sages \u2192 council-of-sages",
+        793
+      ],
+      [
+        "council-of-sages \u2192 sea-trade",
+        149
+      ],
+      [
+        "council-of-sages \u2192 harvest-feast",
+        3
+      ]
+    ]
+  },
+  "coins4": {
+    "eligible": 1048,
+    "bothCouncil": 435,
+    "topPatterns": [
+      [
+        "council-of-sages \u2192 harbor-pilot",
+        449
+      ],
+      [
+        "council-of-sages \u2192 council-of-sages",
+        435
+      ],
+      [
+        "council-of-sages \u2192 sea-trade",
+        87
+      ],
+      [
+        "council-of-sages \u2192 drachma",
+        52
+      ],
+      [
+        "harbor-pilot \u2192 council-of-sages",
+        19
+      ],
+      [
+        "harbor-pilot \u2192 drachma",
+        2
+      ]
+    ]
+  },
+  "coinsAtLeast4": {
+    "eligible": 1200,
+    "bothCouncil": 275,
+    "topPatterns": [
+      [
+        "council-of-sages \u2192 harbor-pilot",
+        406
+      ],
+      [
+        "council-of-sages \u2192 council-of-sages",
+        275
+      ],
+      [
+        "council-of-sages \u2192 sacred-academy",
+        233
+      ],
+      [
+        "sacred-academy \u2192 council-of-sages",
+        170
+      ],
+      [
+        "council-of-sages \u2192 merchant-fleet",
+        40
+      ],
+      [
+        "sacred-academy \u2192 harbor-pilot",
+        30
+      ]
+    ]
+  },
+  "example": {
+    "seed": "thaleia-counter-v1:evaluation:1",
+    "rival": "nereon",
+    "focal": 1,
+    "buys": [
+      {
+        "turn": 1,
+        "card": "seed-keeper",
+        "cost": 2,
+        "coins": 2
+      },
+      {
+        "turn": 2,
+        "card": "council-of-sages",
+        "cost": 4,
+        "coins": 4
+      },
+      {
+        "turn": 3,
+        "card": "oracles-acolyte",
+        "cost": 2,
+        "coins": 2
+      },
+      {
+        "turn": 4,
+        "card": "harbor-pilot",
+        "cost": 3,
+        "coins": 4
+      },
+      {
+        "turn": 7,
+        "card": "council-of-sages",
+        "cost": 4,
+        "coins": 4
+      },
+      {
+        "turn": 8,
+        "card": "drachma",
+        "cost": 3,
+        "coins": 3
+      },
+      {
+        "turn": 10,
+        "card": "sea-trade",
+        "cost": 4,
+        "coins": 4
+      },
+      {
+        "turn": 11,
+        "card": "merchant-fleet",
+        "cost": 5,
+        "coins": 5
+      },
+      {
+        "turn": 12,
+        "card": "drachma",
+        "cost": 3,
+        "coins": 5
+      },
+      {
+        "turn": 13,
+        "card": "talent",
+        "cost": 6,
+        "coins": 6
+      },
+      {
+        "turn": 14,
+        "card": "drachma",
+        "cost": 3,
+        "coins": 3
+      },
+      {
+        "turn": 15,
+        "card": "acropolis",
+        "cost": 8,
+        "coins": 14
+      },
+      {
+        "turn": 15,
+        "card": "polis",
+        "cost": 5,
+        "coins": 6
+      },
+      {
+        "turn": 16,
+        "card": "acropolis",
+        "cost": 8,
+        "coins": 14
+      },
+      {
+        "turn": 16,
+        "card": "polis",
+        "cost": 5,
+        "coins": 6
+      }
+    ],
+    "worship": [
+      {
+        "turn": 8,
+        "card": "counsel-of-olympus",
+        "coins": 6
+      },
+      {
+        "turn": 10,
+        "card": "counsel-of-olympus",
+        "coins": 7
+      },
+      {
+        "turn": 11,
+        "card": "counsel-of-olympus",
+        "coins": 6
+      },
+      {
+        "turn": 12,
+        "card": "counsel-of-olympus",
+        "coins": 6
+      },
+      {
+        "turn": 12,
+        "card": "counsel-of-olympus",
+        "coins": 6
+      },
+      {
+        "turn": 13,
+        "card": "tribute-of-the-tides",
+        "coins": 6
+      },
+      {
+        "turn": 13,
+        "card": "tribute-of-the-tides",
+        "coins": 7
+      },
+      {
+        "turn": 14,
+        "card": "tribute-of-the-tides",
+        "coins": 6
+      },
+      {
+        "turn": 15,
+        "card": "counsel-of-olympus",
+        "coins": 12
+      },
+      {
+        "turn": 16,
+        "card": "tribute-of-the-tides",
+        "coins": 11
+      },
+      {
+        "turn": 16,
+        "card": "tribute-of-the-tides",
+        "coins": 12
+      }
+    ]
+  }
+}
