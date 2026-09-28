@@ -1,0 +1,422 @@
+{
+  "traces": 24,
+  "affordable": 160,
+  "rejected": 75,
+  "examples": [
+    {
+      "trace": "melia-doreios-engine-treasure-0.json.gz",
+      "leader": "doreios",
+      "turn": 8,
+      "coins": 8,
+      "owned": {
+        "drachma": 2,
+        "sacred-academy": 3,
+        "temple-of-ares": 1,
+        "bronze-recruit": 1,
+        "obol": 4
+      },
+      "oldPurchase": "talent",
+      "newPurchase": "acropolis",
+      "baseEV": 8.676136363636363,
+      "afterPointsEV": 7.604166666666667,
+      "afterOldPurchaseEV": 9.677083333333334,
+      "acropolisesLeft": 6,
+      "oldFinalResult": [
+        {
+          "uid": "seat-1",
+          "leader": "doreios",
+          "family": "treasure",
+          "seat": 1,
+          "position": 1,
+          "score": 24,
+          "turns": 14,
+          "share": 1,
+          "telemetry": {
+            "worship": {},
+            "acquisitions": {
+              "bronze-recruit": 1,
+              "obol": 1,
+              "drachma": 2,
+              "sacred-academy": 5,
+              "talent": 1,
+              "acropolis": 4
+            },
+            "trashes": {
+              "hamlet": 3,
+              "obol": 5
+            },
+            "leaderTriggers": 11,
+            "unusedCoins": 14,
+            "unusedActions": 6,
+            "unusedBuys": 0,
+            "actionPhases": 14,
+            "fullDeckDraws": 0,
+            "unseenAtActionEnd": 68,
+            "spareActionsWithUnseen": 6,
+            "firstScoreTurn": 9,
+            "finalDeckSize": 16,
+            "scoreMargin": 7
+          }
+        },
+        {
+          "uid": "seat-0",
+          "leader": "melia",
+          "family": "engine",
+          "seat": 0,
+          "position": 0,
+          "score": 17,
+          "turns": 14,
+          "share": 0,
+          "telemetry": {
+            "worship": {},
+            "acquisitions": {
+              "drachma": 5,
+              "council-of-sages": 1,
+              "seed-keeper": 2,
+              "sacred-academy": 3,
+              "acropolis": 2,
+              "polis": 1
+            },
+            "trashes": {
+              "hamlet": 1,
+              "obol": 1
+            },
+            "leaderTriggers": 8,
+            "unusedCoins": 11,
+            "unusedActions": 7,
+            "unusedBuys": 0,
+            "actionPhases": 14,
+            "fullDeckDraws": 0,
+            "unseenAtActionEnd": 122,
+            "spareActionsWithUnseen": 7,
+            "firstScoreTurn": 11,
+            "finalDeckSize": 22,
+            "scoreMargin": -7
+          }
+        }
+      ]
+    },
+    {
+      "trace": "melia-doreios-treasure-engine-0.json.gz",
+      "leader": "melia",
+      "turn": 8,
+      "coins": 8,
+      "owned": {
+        "hamlet": 3,
+        "bronze-recruit": 1,
+        "obol": 6,
+        "talent": 2,
+        "harvest-feast": 2,
+        "sacred-academy": 1,
+        "temple-of-demeter": 1,
+        "drachma": 1
+      },
+      "oldPurchase": "talent",
+      "newPurchase": "acropolis",
+      "baseEV": 7.702205882352941,
+      "afterPointsEV": 7.225694444444445,
+      "afterOldPurchaseEV": 8.444444444444445,
+      "acropolisesLeft": 6,
+      "oldFinalResult": [
+        {
+          "uid": "seat-0",
+          "leader": "melia",
+          "family": "treasure",
+          "seat": 0,
+          "position": 0,
+          "score": 25,
+          "turns": 16,
+          "share": 1,
+          "telemetry": {
+            "worship": {},
+            "acquisitions": {
+              "bronze-recruit": 1,
+              "drachma": 1,
+              "harvest-feast": 3,
+              "talent": 4,
+              "sacred-academy": 2,
+              "acropolis": 3,
+              "polis": 1,
+              "hamlet": 1
+            },
+            "trashes": {},
+            "leaderTriggers": 11,
+            "unusedCoins": 29,
+            "unusedActions": 9,
+            "unusedBuys": 0,
+            "actionPhases": 16,
+            "fullDeckDraws": 0,
+            "unseenAtActionEnd": 153,
+            "spareActionsWithUnseen": 9,
+            "firstScoreTurn": 10,
+            "finalDeckSize": 26,
+            "scoreMargin": 1
+          }
+        },
+        {
+          "uid": "seat-1",
+          "leader": "doreios",
+          "family": "engine",
+          "seat": 1,
+          "position": 1,
+          "score": 24,
+          "turns": 15,
+          "share": 0,
+          "telemetry": {
+            "worship": {
+              "blessing-of-the-fields": {
+                "standard": 1,
+                "favored": 0,
+                "offGod": 1,
+                "coins": 3
+              },
+              "trial-of-the-spear": {
+                "standard": 2,
+                "favored": 0,
+                "offGod": 0,
+                "coins": 8
+              }
+            },
+            "acquisitions": {
+              "council-of-sages": 1,
+              "oracles-acolyte": 2,
+              "sacred-academy": 2,
+              "forge-of-heroes": 2,
+              "drachma": 5,
+              "acropolis": 3,
+              "polis": 2
+            },
+            "trashes": {
+              "hamlet": 3,
+              "obol": 3,
+              "forge-of-heroes": 2
+            },
+            "leaderTriggers": 7,
+            "unusedCoins": 4,
+            "unusedActions": 7,
+            "unusedBuys": 1,
+            "actionPhases": 15,
+            "fullDeckDraws": 0,
+            "unseenAtActionEnd": 77,
+            "spareActionsWithUnseen": 7,
+            "firstScoreTurn": 9,
+            "finalDeckSize": 19,
+            "scoreMargin": -1
+          }
+        }
+      ]
+    },
+    {
+      "trace": "nereon-doreios-treasure-engine-0.json.gz",
+      "leader": "nereon",
+      "turn": 6,
+      "coins": 9,
+      "owned": {
+        "obol": 6,
+        "hamlet": 3,
+        "merchant-fleet": 2,
+        "temple-of-poseidon": 1,
+        "drachma": 2,
+        "bronze-recruit": 1
+      },
+      "oldPurchase": "talent",
+      "newPurchase": "acropolis",
+      "baseEV": 6.045833333333333,
+      "afterPointsEV": 5.64453125,
+      "afterOldPurchaseEV": 6.734375,
+      "acropolisesLeft": 6,
+      "oldFinalResult": [
+        {
+          "uid": "seat-1",
+          "leader": "doreios",
+          "family": "engine",
+          "seat": 1,
+          "position": 1,
+          "score": 27,
+          "turns": 14,
+          "share": 1,
+          "telemetry": {
+            "worship": {
+              "tribute-of-the-tides": {
+                "standard": 3,
+                "favored": 0,
+                "offGod": 3,
+                "coins": 9
+              }
+            },
+            "acquisitions": {
+              "council-of-sages": 1,
+              "oracles-acolyte": 1,
+              "drachma": 6,
+              "sacred-academy": 3,
+              "talent": 1,
+              "acropolis": 4,
+              "polis": 1
+            },
+            "trashes": {
+              "hamlet": 3
+            },
+            "leaderTriggers": 5,
+            "unusedCoins": 4,
+            "unusedActions": 9,
+            "unusedBuys": 0,
+            "actionPhases": 14,
+            "fullDeckDraws": 0,
+            "unseenAtActionEnd": 109,
+            "spareActionsWithUnseen": 9,
+            "firstScoreTurn": 9,
+            "finalDeckSize": 24,
+            "scoreMargin": 9
+          }
+        },
+        {
+          "uid": "seat-0",
+          "leader": "nereon",
+          "family": "treasure",
+          "seat": 0,
+          "position": 0,
+          "score": 18,
+          "turns": 14,
+          "share": 0,
+          "telemetry": {
+            "worship": {},
+            "acquisitions": {
+              "bronze-recruit": 1,
+              "drachma": 3,
+              "merchant-fleet": 3,
+              "talent": 4,
+              "harvest-feast": 1,
+              "polis": 1,
+              "acropolis": 2,
+              "sacred-academy": 2
+            },
+            "trashes": {},
+            "leaderTriggers": 9,
+            "unusedCoins": 6,
+            "unusedActions": 10,
+            "unusedBuys": 5,
+            "actionPhases": 14,
+            "fullDeckDraws": 0,
+            "unseenAtActionEnd": 163,
+            "spareActionsWithUnseen": 10,
+            "firstScoreTurn": 10,
+            "finalDeckSize": 27,
+            "scoreMargin": -9
+          }
+        }
+      ]
+    },
+    {
+      "trace": "thaleia-doreios-treasure-engine-0.json.gz",
+      "leader": "thaleia",
+      "turn": 8,
+      "coins": 9,
+      "owned": {
+        "hamlet": 3,
+        "sacred-academy": 1,
+        "council-of-sages": 2,
+        "temple-of-athena": 1,
+        "bronze-recruit": 1,
+        "obol": 7,
+        "drachma": 1,
+        "talent": 1
+      },
+      "oldPurchase": "talent",
+      "newPurchase": "acropolis",
+      "baseEV": 6.731617647058823,
+      "afterPointsEV": 6.211805555555555,
+      "afterOldPurchaseEV": 7.517361111111111,
+      "acropolisesLeft": 6,
+      "oldFinalResult": [
+        {
+          "uid": "seat-1",
+          "leader": "doreios",
+          "family": "engine",
+          "seat": 1,
+          "position": 1,
+          "score": 33,
+          "turns": 16,
+          "share": 1,
+          "telemetry": {
+            "worship": {
+              "counsel-of-olympus": {
+                "standard": 0,
+                "favored": 9,
+                "offGod": 9,
+                "coins": 27
+              },
+              "trial-of-the-spear": {
+                "standard": 1,
+                "favored": 0,
+                "offGod": 0,
+                "coins": 4
+              }
+            },
+            "acquisitions": {
+              "council-of-sages": 1,
+              "oracles-acolyte": 4,
+              "sacred-academy": 7,
+              "forge-of-heroes": 1,
+              "drachma": 5,
+              "merchant-fleet": 1,
+              "acropolis": 5,
+              "talent": 1,
+              "polis": 1
+            },
+            "trashes": {
+              "hamlet": 3,
+              "forge-of-heroes": 1
+            },
+            "leaderTriggers": 8,
+            "unusedCoins": 9,
+            "unusedActions": 6,
+            "unusedBuys": 4,
+            "actionPhases": 16,
+            "fullDeckDraws": 1,
+            "unseenAtActionEnd": 119,
+            "spareActionsWithUnseen": 6,
+            "firstScoreTurn": 12,
+            "finalDeckSize": 32,
+            "scoreMargin": 18
+          }
+        },
+        {
+          "uid": "seat-0",
+          "leader": "thaleia",
+          "family": "treasure",
+          "seat": 0,
+          "position": 0,
+          "score": 15,
+          "turns": 16,
+          "share": 0,
+          "telemetry": {
+            "worship": {},
+            "acquisitions": {
+              "obol": 1,
+              "bronze-recruit": 1,
+              "drachma": 1,
+              "council-of-sages": 2,
+              "talent": 5,
+              "sacred-academy": 1,
+              "polis": 2,
+              "acropolis": 1,
+              "harvest-feast": 2
+            },
+            "trashes": {},
+            "leaderTriggers": 11,
+            "unusedCoins": 27,
+            "unusedActions": 15,
+            "unusedBuys": 0,
+            "actionPhases": 16,
+            "fullDeckDraws": 0,
+            "unseenAtActionEnd": 170,
+            "spareActionsWithUnseen": 13,
+            "firstScoreTurn": 11,
+            "finalDeckSize": 26,
+            "scoreMargin": -18
+          }
+        }
+      ]
+    }
+  ]
+}
