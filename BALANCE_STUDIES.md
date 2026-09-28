@@ -122,3 +122,5 @@ The [completed extra-Buy study](balance-results/thaleia-buy-v1/README.md) compar
 `bun run balance:counter --comparison thaleia-actions --out balance-runs/thaleia-actions-v1` compares original standard rules against Thaleia's first matching Action trigger granting +2 Actions total. It grants no extra Buy or Card. Nereon, Melia and Doreios retain their original triggers. Effects resolve at the existing point, with the same once-per-turn condition.
 
 The search repeats the same profiles, 13 counter configurations, 40 training and 200 evaluation seed blocks, both turn orders and selection method. Full runs enforce exact seed/profile equality with the original counter study. Both sides may reselect on training only. This is an exploratory reused-seed comparison, not independent confirmation. Previous variants remain only as explicit alternatives for their archived studies; none of their buffs apply to this comparison.
+
+The [completed two-Action study](balance-results/thaleia-actions-v1/README.md) records the selected-policy comparison, fixed-Engine diagnostics and unused-Action telemetry.
