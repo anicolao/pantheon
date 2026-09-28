@@ -1,0 +1,26 @@
+{
+  "nereon": {
+    "pairs": 6000,
+    "higherMean": 5867,
+    "higherHitRate": 5784,
+    "higherMeanButLowerHitRate": 73
+  },
+  "thaleia": {
+    "pairs": 6000,
+    "higherMean": 5868,
+    "higherHitRate": 5747,
+    "higherMeanButLowerHitRate": 103
+  },
+  "melia": {
+    "pairs": 6000,
+    "higherMean": 5856,
+    "higherHitRate": 5756,
+    "higherMeanButLowerHitRate": 84
+  },
+  "doreios": {
+    "pairs": 6000,
+    "higherMean": 5722,
+    "higherHitRate": 5664,
+    "higherMeanButLowerHitRate": 68
+  }
+}
