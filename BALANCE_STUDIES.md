@@ -76,3 +76,11 @@ bunx tsc --noEmit --target es2022 --module esnext --moduleResolution bundler --t
 ```
 
 The [first paired decision study](balance-results/decision-study-v1/README.md) contains the 118,800-game held-out confirmation results, full compressed data, and a replay example. It also documents the observed strategy weaknesses that limit rule recommendations.
+
+## Thaleia: one-change experiment
+
+`bun run balance:thaleia --out balance-runs/thaleia-confirmation` tests the proposed trigger **+1 Action, +1 Card** against the current **+1 Action**, with the previous trained profiles frozen. The explicit `thaleia-draw` reducer option adds one draw after the existing Action bonus, after the first matching Action resolves; the once-per-turn condition is preserved. Standard play and ordinary setup replay default to the current rule. Variant traces must use `replayExperiment` with their recorded `variant`.
+
+The default experiment predeclares 200 fresh seed blocks and 37,200 games. It tests homogeneous Treasure, Engine and Worship tables separately at 2, 3 and 4 players, plus every mixed pairing of those families at 2 players. Thaleia is the focal player. Within each block, every available opposing-leader subset is included; the opposing leaders' order is sampled independently of game randomness, and every cyclic seat rotation is played. This balances Thaleia's turn positions exactly, while sampling multiplayer opponent order across independent blocks instead of exhaustively duplicating every order inside each block. The actual per-block schedules are saved in the manifest.
+
+The nine player-count × homogeneous-policy cells are the primary comparison family, with seed-block bootstrap intervals adjusted across all nine. Mixed two-player policy cells are descriptive diagnostics. The report shows both current/proposed victory shares and their paired difference, oriented so positive means the new trigger helps Thaleia. Frozen strategies can react to their new hands, but purchase utilities, parameters, opponents, other rules and scoring are held fixed; there is no retraining. A short execution pilot can use `--blocks 5 --seed a-distinct-pilot-seed` and does not enter the confirmation sample. Runs with at least 200 blocks require a clean committed source.
