@@ -1,5 +1,7 @@
 # All leaders and strategies — policy v4
 
+**Historical policy v4:** Treasure changed to all-card expected-income purchasing in v5. This archive has not been rerun for that policy.
+
 This study uses standard production leader rules: Thaleia has +1 Action. All five study families (Treasure, Engine, Thin, Worship and Race) use the corrected v4 controller. The correction ledger and complete policy specification are linked below. Legacy Draw is a historical baseline, not a sixth study family.
 
 Each leader uses its highest-share family in the observed league: Engine for all four leaders. Each row reports the actual head-to-head cell, with 400 games across 200 seeds and both seats. Strategies were selected after evaluation, so this is a descriptive comparison of the strongest observed families, not independently validated optimal play.
@@ -38,7 +40,7 @@ The headline comparison now uses each leader’s best observed family against th
 - [Manifest](manifest.json), [frozen profiles and candidate scores](profiles.json)
 - All four compressed game-record shards and all 300 first-block replay traces
 - [Verification script](verify.ts)
-- [Policy design](../../BOT_STRATEGIES.md), [defect corrections](../../BOT_DEFECTS.md)
+- [Policy v4 design](https://github.com/anicolao/pantheon/blob/744d0b142e19c7cc06d59421d6461b6f2730992e/BOT_STRATEGIES.md), [v4 defect corrections](https://github.com/anicolao/pantheon/blob/744d0b142e19c7cc06d59421d6461b6f2730992e/BOT_DEFECTS.md)
 
 ## Provenance and validation
 
@@ -58,7 +60,7 @@ Check out the recorded source commit in a clean worktree. Run within `nix develo
 bun run balance:matrix --out balance-runs/reproduction-v4 --seed all-leaders-v4-final
 ```
 
-After returning to a commit containing this archive, verify its records and first-block deterministic reruns inside `nix develop`:
+Check out `2bdef22f506a71441081e57de9a44c35f63e2974` (the archive with v4 policies) to verify its records and first-block deterministic reruns inside `nix develop`:
 
 ```sh
 bun balance-results/all-leaders-v4/verify.ts balance-results/all-leaders-v4
