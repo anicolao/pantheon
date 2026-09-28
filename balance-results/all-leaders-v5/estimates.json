@@ -1,0 +1,128 @@
+{
+  "thaleia/nereon": {
+    "blocks": 200,
+    "pairs": 10000,
+    "excludedBlocks": 0,
+    "exposureRate": 1,
+    "difference": 0.10249999999999997,
+    "interval": [
+      0.09075,
+      0.11459999999999992
+    ],
+    "correctedInterval": [
+      0.08649999999999995,
+      0.11844999999999996
+    ],
+    "label": "supported policy-dependent benefit",
+    "share": 0.6024999999999999,
+    "shareInterval": [
+      0.5864999999999999,
+      0.6184499999999999
+    ]
+  },
+  "thaleia/melia": {
+    "blocks": 200,
+    "pairs": 10000,
+    "excludedBlocks": 0,
+    "exposureRate": 1,
+    "difference": 0.055549999999999995,
+    "interval": [
+      0.04215000000000001,
+      0.06865000000000004
+    ],
+    "correctedInterval": [
+      0.03775,
+      0.07350000000000004
+    ],
+    "label": "signal; practical magnitude unresolved",
+    "share": 0.55555,
+    "shareInterval": [
+      0.53775,
+      0.5735
+    ]
+  },
+  "thaleia/doreios": {
+    "blocks": 200,
+    "pairs": 10000,
+    "excludedBlocks": 0,
+    "exposureRate": 1,
+    "difference": 0.054700000000000006,
+    "interval": [
+      0.04255,
+      0.06685000000000003
+    ],
+    "correctedInterval": [
+      0.03844999999999999,
+      0.07095
+    ],
+    "label": "signal; practical magnitude unresolved",
+    "share": 0.5547,
+    "shareInterval": [
+      0.53845,
+      0.57095
+    ]
+  },
+  "nereon/melia": {
+    "blocks": 200,
+    "pairs": 10000,
+    "excludedBlocks": 0,
+    "exposureRate": 1,
+    "difference": -0.0478,
+    "interval": [
+      -0.06340000000000005,
+      -0.03205
+    ],
+    "correctedInterval": [
+      -0.06880000000000004,
+      -0.02670000000000001
+    ],
+    "label": "inconclusive",
+    "share": 0.4522,
+    "shareInterval": [
+      0.43119999999999997,
+      0.4733
+    ]
+  },
+  "nereon/doreios": {
+    "blocks": 200,
+    "pairs": 10000,
+    "excludedBlocks": 0,
+    "exposureRate": 1,
+    "difference": -0.015599999999999998,
+    "interval": [
+      -0.029350000000000005,
+      -0.0021999999999999984
+    ],
+    "correctedInterval": [
+      -0.034300000000000004,
+      0.0025
+    ],
+    "label": "inconclusive",
+    "share": 0.4844,
+    "shareInterval": [
+      0.4657,
+      0.5025
+    ]
+  },
+  "melia/doreios": {
+    "blocks": 200,
+    "pairs": 10000,
+    "excludedBlocks": 0,
+    "exposureRate": 1,
+    "difference": 0.010649999999999998,
+    "interval": [
+      -0.005099999999999997,
+      0.026750000000000003
+    ],
+    "correctedInterval": [
+      -0.010500000000000002,
+      0.031700000000000006
+    ],
+    "label": "inconclusive",
+    "share": 0.51065,
+    "shareInterval": [
+      0.4895,
+      0.5317000000000001
+    ]
+  }
+}

@@ -1,6 +1,6 @@
 # All leaders and strategies — policy v4
 
-**Historical policy v4:** Treasure changed to all-card expected-income purchasing in v5. This archive has not been rerun for that policy.
+**Historical policy v4:** Treasure changed to all-card expected-income purchasing in v5. The [paired v5 rerun](../all-leaders-v5/README.md) reports before/after figures; the original v4 data here is unchanged.
 
 This study uses standard production leader rules: Thaleia has +1 Action. All five study families (Treasure, Engine, Thin, Worship and Race) use the corrected v4 controller. The correction ledger and complete policy specification are linked below. Legacy Draw is a historical baseline, not a sixth study family.
 

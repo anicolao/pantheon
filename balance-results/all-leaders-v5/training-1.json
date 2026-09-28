@@ -1,0 +1,38 @@
+[
+  {
+    "key": "2/thaleia/thin",
+    "candidate": 0,
+    "share": 0.51875,
+    "games": 240
+  },
+  {
+    "key": "2/thaleia/thin",
+    "candidate": 1,
+    "share": 0.20208333333333334,
+    "games": 240
+  },
+  {
+    "key": "2/thaleia/thin",
+    "candidate": 2,
+    "share": 0.5666666666666667,
+    "games": 240
+  },
+  {
+    "key": "2/melia/thin",
+    "candidate": 0,
+    "share": 0.47708333333333336,
+    "games": 240
+  },
+  {
+    "key": "2/melia/thin",
+    "candidate": 1,
+    "share": 0.19583333333333333,
+    "games": 240
+  },
+  {
+    "key": "2/melia/thin",
+    "candidate": 2,
+    "share": 0.49583333333333335,
+    "games": 240
+  }
+]
