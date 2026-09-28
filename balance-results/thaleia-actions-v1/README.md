@@ -2,6 +2,8 @@
 
 Granting +2 Actions total on Thaleia's trigger does not bring her near an even heads-up victory share in the tested counter search. She receives no extra Card or Buy, and every other leader retains the original rules.
 
+The subsequent [Council-opening audit](council-audit.md) found that the Engine bot is not aware of the trigger variant when buying cards and often buys Harbor Pilot ahead of a second Council. The results below therefore do not test a deliberately prioritized two-Council opening.
+
 ## Same-seed primary results
 
 These are Thaleia's victory shares, splitting tied wins equally. Each primary rule/leader configuration has 400 evaluation games: 200 seed blocks with both turn orders balanced. Only strategies selected on training enter the primary comparison.
