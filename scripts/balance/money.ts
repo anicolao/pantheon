@@ -105,11 +105,15 @@ export function moneyEstimate(view: MoneyView, owned=view.owned): MoneyEstimate 
 export function moneyAfter(view: MoneyView, id: string): MoneyEstimate {
   return moneyEstimate(view,{...view.owned,[id]:(view.owned[id]??0)+1});
 }
-/** Every legal card competes on resulting deck EV; points require sustainable $8. */
+/** Cash in top-value points now; other acquisitions retain the whole-deck EV rule. */
 export function moneyBuy(view: MoneyView, legal?: string[], mandatory=false): string | undefined {
   const ids=legal??Object.keys(view.supply).filter(id=>view.supply[id]>0&&definition(id).cost!==null&&definition(id).cost!<=view.resources.coins);
   const options=ids.map(id=>({id,ev:moneyAfter(view,id).mean,vp:definition(id).vp??0}));
-  const points=options.filter(c=>c.vp>0&&c.ev>=8);
+  // A future-income floor must not veto the best scoring opportunity already in hand.
+  // Use the whole supply, not just affordable/safe cards, so cheap points do not become
+  // "top tier" merely because the actual top tier is unaffordable or a losing ending.
+  const topVP=Math.max(0,...Object.keys(view.supply).map(id=>definition(id).vp??0));
+  const points=options.filter(c=>c.vp>0&&(c.vp===topVP||c.ev>=8));
   if(points.length)return points.sort((a,b)=>b.vp-a.vp||b.ev-a.ev||definition(a.id).cost!-definition(b.id).cost!||a.id.localeCompare(b.id))[0].id;
   const best=options.sort((a,b)=>b.ev-a.ev||definition(a.id).cost!-definition(b.id).cost!||a.id.localeCompare(b.id))[0];
   return best&&(mandatory||best.ev>moneyEstimate(view).mean+1e-9)?best.id:undefined;
