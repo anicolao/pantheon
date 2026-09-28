@@ -1,10 +1,12 @@
+import { devotionValue, favoredPaths } from './worship';
+import { purchasePlan, endingShare, gainOutcome, availableCoins, publicHorizon, treasureValue, immediateGainValue } from './planning';
 import { thinToolValue, thinTrashChoice, thinKeepValue, thinGain, thinChangeValue, thinPlayPriority } from './thin';
-import { effectFeatures, engineActionValue, engineKeepValue, enginePlayPriority, type Features } from './engine';
+import { effectFeatures, cardFeatures, engineActionValue, engineKeepValue, enginePlayPriority, type Features } from './engine';
 import { actionEffects, definition, leaderEffects, type PlayVariant, type ActionCommand, type Choice } from '../../src/lib/game/actions';
 import type { CardInstance, SetupState } from '../../src/lib/game/setup';
 import { chooseCommand, observe, type Observation } from './bot';
 
-export const strategyVersion = 3;
+export const strategyVersion = 4;
 export const families = ['treasure', 'engine', 'thin', 'worship', 'race'] as const;
 export type Family = typeof families[number];
 export type Parameters = { scoringAt: number; engineCopies: number; moneyFloor: number; worshipMargin: number };
@@ -19,6 +21,7 @@ export type PublicInventory = Record<string, Record<string, number>>;
 export type View = Observation & {
   leaderBonus: Features; unseenCount: number;
   play: CardInstance[]; events: string[]; playerCount: number; turn: number;
+  opponentIncome: number[];
   scores: number[]; myScore: number; myTurns: number; opposingTurns: number[];
   bannedCards: string[]; bannedEvents: string[];
 };
@@ -41,11 +44,12 @@ export function strategyView(game: SetupState, uid: string, inventory: PublicInv
   return { ...observe(game, uid), leaderBonus: effectFeatures(restriction?.kind === 'leader-trigger' && restriction.id === game.leaders[uid] ? [] : leaderEffects(game.leaders[uid], variant)), unseenCount: unseenCount ?? game.decks[uid].deck.length + game.decks[uid].discard.length, play: structuredClone(game.decks[uid].play), events: [...game.sharedEvents],
     playerCount: game.playerCount, turn: game.turn.number, myTurns: game.turn.turns[uid] ?? 0,
     opposingTurns: game.players.filter(player => player.uid !== uid).map(player => game.turn.turns[player.uid] ?? 0),
+    opponentIncome: game.players.filter(player => player.uid !== uid).map(player => { const cards = inventory[player.uid]; return 5 * Object.entries(cards).reduce((sum, [id, n]) => sum + n * (treasureValue(id) + cardFeatures(id).coins), 0) / Math.max(5, Object.values(cards).reduce((a,b) => a+b, 0)); }),
     scores: game.players.filter(player => player.uid !== uid).map(player => score(player.uid)), myScore: score(uid),
     bannedCards: restriction?.kind === 'card' ? [restriction.id] : [], bannedEvents: restriction?.kind === 'event' ? [restriction.id] : [] };
 }
 const money = (view: View) => (view.owned.obol ?? 0) + 2 * (view.owned.drachma ?? 0) + 3 * (view.owned.talent ?? 0);
-const late = (view: View, profile: Profile) => view.supply.acropolis <= profile.parameters.scoringAt;
+const late = (view: View, profile: Profile) => publicHorizon(view) <= profile.parameters.scoringAt;
 function disposable(view: View, profile: Profile, card: CardInstance): boolean {
   return !late(view, profile) && (card.cardId === 'hamlet' || card.cardId === 'obol' && money(view) > profile.parameters.moneyFloor);
 }
@@ -70,35 +74,22 @@ function scoreCard(view: View, profile: Profile, id: string): number {
   if (id === 'talent') return end ? 6 : 9;
   if (id === 'drachma') return Math.max(1, 6.5 - Math.max(0, money(view) - 10) * 0.35);
   if (card.uniqueStartingCard) return 1;
+  const tool = thinToolValue(view, id);
+  if (tool !== undefined) return tool * (profile.family === 'thin' ? 1 : 0.35) + (profile.family === 'worship' ? devotionValue(view, id) : 0);
   if (profile.family === 'engine') return engineActionValue(view, profile, id);
-  if (profile.family === 'thin') { const tool = thinToolValue(view, id); if (tool !== undefined) return tool; }
-  const multiplier = end ? 0.35 : 1;
-  const cap = profile.parameters.engineCopies;
-  const terminal = Object.entries(view.owned).reduce((sum, [key, count]) => sum + (definition(key).type === 'Action' && !actionEffects(key).some(effect => effect.kind === 'resource' && effect.resource === 'actions') ? count : 0), 0);
-  let value = 0;
-  switch (id) {
-    case 'sacred-academy': value = 10 - owned * 1.3 - Math.max(0, owned - cap) * 4; break;
-    case 'council-of-sages': value = (view.leader === 'thaleia' ? 9.5 : 6) - owned * 2; break;
-    case 'harbor-pilot': value = terminal > owned + (view.leader === 'thaleia' ? 1 : 0) ? 9 : 4 - owned; break;
-    case 'merchant-fleet': value = 8.5 - owned; break;
-    case 'sea-trade': value = 7 - owned * 2; break;
-    case 'seed-keeper': value = (profile.family === 'thin' || view.leader === 'melia' ? 11 : 8) - owned * 12 - (size < 9 ? 8 : 0); break;
-    case 'harvest-feast': value = (view.leader === 'melia' ? 9 : 6) - owned * 2; break;
-    case 'sacred-grove': value = (profile.family === 'race' ? 10 : 6) - owned * 3; break;
-    case 'bronze-recruit': value = (view.leader === 'doreios' || profile.family === 'worship' ? 7 : 4) - owned * 2; break;
-    case 'forge-of-heroes': value = (profile.family === 'thin' ? 10 : 5) - owned * 10; break;
-    case 'victorious-procession': value = (profile.family === 'race' ? 9 : 5) - owned * 2; break;
-    case 'oracles-acolyte': value = (profile.family === 'worship' && view.events.includes('counsel-of-olympus') ? 8 : 3) - owned * 3; break;
-  }
-  if (profile.family === 'worship' && card.god === definition(view.leader).god && owned < 2) value += 1;
-  if (profile.family === 'thin' && id === 'sacred-academy') value -= 1;
-  return value * multiplier;
+  const base = engineActionValue(view, profile, id), f = cardFeatures(id);
+  if (profile.family === 'worship') return base * 0.8 + devotionValue(view, id) * (end ? 0.35 : 1);
+  if (profile.family === 'race') return base * 0.45 + (f.coins + f.gain) * Math.min(1, publicHorizon(view) / 3);
+  return base * 0.8;
+
 }
 function gains(view: View, limit: number, actionOnly = false): string[] {
   return Object.keys(view.supply).filter(id => view.supply[id] > 0 && !view.bannedCards.includes(id) && definition(id).cost !== null && definition(id).cost! <= limit && (!actionOnly || definition(id).type === 'Action'));
 }
-function bestGain(view: View, profile: Profile, limit: number, actionOnly = false): string | undefined {
-  return gains(view, limit, actionOnly).sort((a, b) => cardValue(view, profile, b) - cardValue(view, profile, a) || a.localeCompare(b))[0];
+function bestGain(view: View, profile: Profile, limit: number, actionOnly = false, topdeck = false): string | undefined {
+  const eligible = gains(view, limit, actionOnly), safe = eligible.filter(id => gainOutcome(view, id) !== 0);
+  const value = (id: string) => { const outcome = gainOutcome(view, id); return outcome !== null && outcome > 0 ? 1000 * outcome + (definition(id).vp ?? 0) : cardValue(view, profile, id) + (topdeck ? immediateGainValue(view, id) : 0); };
+  return (safe.length ? safe : eligible).sort((a, b) => value(b) - value(a) || a.localeCompare(b))[0];
 }
 function loss(view: View, profile: Profile, card: CardInstance): number {
   if (profile.family === 'thin') return thinKeepValue(view, card);
@@ -106,7 +97,8 @@ function loss(view: View, profile: Profile, card: CardInstance): number {
   const def = definition(card.cardId);
   if (def.type === 'Territory') return (def.vp ?? 0) * 2;
   if (profile.family === 'engine' && def.type === 'Action') return engineKeepValue(view, profile, card.cardId);
-  return Math.max(1, cardValue(view, profile, card.cardId));
+  const without = { ...view, owned: { ...view.owned, [card.cardId]: Math.max(0, (view.owned[card.cardId] ?? 0) - 1) } };
+  return Math.max(1, cardValue(without, profile, card.cardId));
 }
 function offering(view: View, profile: Profile, choice: Choice): { targets: string[]; value: number } {
   if (profile.family === 'thin') return thinTrashChoice(view, choice);
@@ -117,30 +109,43 @@ function offering(view: View, profile: Profile, choice: Choice): { targets: stri
     if (cards.length > choice.max || cards.length < choice.min) continue;
     if (!cards.length && choice.offering !== 'sum') continue;
     const limit = cards.reduce((sum, card) => sum + definition(card.cardId).cost!, 0) + (choice.forge ? 2 : typeof choice.offering === 'number' ? choice.offering : 0);
-    const gain = bestGain(view, profile, limit);
+    const owned = { ...view.owned };
+    for (const card of cards) owned[card.cardId]--;
+    const after = { ...view, owned, hand: view.hand.filter(c => !cards.includes(c)), myScore: view.myScore - cards.reduce((n,c)=>n+(definition(c.cardId).vp ?? 0),0) };
+    const gain = bestGain(after, profile, limit);
     if (!gain) continue;
-    const value = cardValue(view, profile, gain) - cards.reduce((sum, card) => sum + loss(view, profile, card), 0);
+    if (thinChangeValue(view, cards, gain) <= -100 || gainOutcome(after, gain) === 0) continue;
+    let reduced = view, cost = 0;
+    for (const card of cards) { cost += loss(reduced, profile, card); reduced = { ...reduced, owned: { ...reduced.owned, [card.cardId]: reduced.owned[card.cardId] - 1 } }; }
+    const value = cardValue(after, profile, gain) - cost;
     if (value > best.value) best = { targets: cards.map(card => card.id), value };
   }
   return best;
+}
+function discardValue(view: View, profile: Profile, card: CardInstance): number {
+  if (definition(card.cardId).type === 'Territory') return -100;
+  if (definition(card.cardId).type === 'Treasure') {
+    const coins = treasureValue(card.cardId);
+    if (view.phase === 'buys' || view.resources.buys === 0 && view.resources.worship === 0) return 0;
+    const best = (money: number) => Math.max(0, ...gains(view, money).filter(id => profile.family !== 'treasure' || definition(id).type !== 'Action').map(id => cardValue(view, profile, id)));
+    const money = availableCoins(view);
+    return coins + best(money) - best(money-coins);
+  }
+  if (view.phase !== 'actions' || view.resources.actions === 0) return 0;
+  return Math.max(0, enginePlayPriority(view, card));
 }
 function resolveChoice(view: View, profile: Profile): ActionCommand {
   const choice = view.choice!;
   let targets: string[] = [];
   if (choice.kind === 'gain') {
-    const id = profile.family === 'thin' ? thinGain(view, choice) : bestGain(view, profile, choice.limit!, choice.actionOnly);
-    if (id && (choice.min > 0 || (profile.family === 'thin' ? thinChangeValue(view, [], id) : cardValue(view, profile, id)) > 0)) targets = [id];
+    const id = profile.family === 'thin' ? thinGain(view, choice) : bestGain(view, profile, choice.limit!, choice.actionOnly, choice.topdeck);
+    if (id && (choice.min > 0 || gainOutcome(view, id) !== 0 && (profile.family === 'thin' ? thinChangeValue(view, [], id) : cardValue(view, profile, id)) > 0)) targets = [id];
   } else if (profile.family === 'thin' && choice.kind === 'trash') targets = thinTrashChoice(view, choice).targets;
   else if (choice.offering || choice.forge) targets = offering(view, profile, choice).targets;
   else if (choice.kind === 'trash') {
-    let remainingMoney = money(view);
-    targets = [...view.hand].sort((a, b) => loss(view, profile, a) - loss(view, profile, b)).filter(card => {
-      if (!disposable(view, profile, card)) return false;
-      if (card.cardId === 'obol') { if (remainingMoney <= profile.parameters.moneyFloor) return false; remainingMoney--; }
-      return true;
-    }).slice(0, choice.max).map(card => card.id);
+    targets = thinTrashChoice(view, choice).targets;
   } else targets = [...view.hand].sort((a, b) => {
-    const value = (card: CardInstance) => definition(card.cardId).type === 'Territory' ? -10 : loss(view, profile, card);
+    const value = (card: CardInstance) => discardValue(view, profile, card);
     return value(a) - value(b) || a.id.localeCompare(b.id);
   }).slice(0, choice.max).map(card => card.id);
   return { type: 'choice/resolved', choiceId: choice.id, targets };
@@ -149,43 +154,58 @@ function worshipValue(view: View, profile: Profile, event: string): number {
   const favored = view.play.filter(card => definition(card.cardId).type === 'Action' && definition(card.cardId).god === definition(event).god).length >= 2;
   switch (event) {
     case 'counsel-of-olympus': {
-      const gain = bestGain(view, profile, favored ? 5 : 3, true);
-      return gain ? cardValue(view, profile, gain) + (view.phase === 'actions' ? 1 : 0) : -1000;
+      const gain = bestGain(view, profile, favored ? 5 : 3, true, true);
+      return gain && gainOutcome(view, gain) !== 0 ? cardValue(view, profile, gain) + immediateGainValue(view, gain) : -1000;
     }
-    case 'tribute-of-the-tides': return (view.supply.drachma > 0 ? cardValue(view, profile, 'drachma') : 0) + (favored && view.resources.buys === 0 ? 1 : 0);
-    case 'blessing-of-the-fields': return profile.family === 'thin' ? thinTrashChoice(view, { id: '', kind: 'trash', source: event, min: 0, max: 2, ...(favored ? { offering: 'sum' as const } : {}) }).value : favored ? offering(view, profile, { id: '', kind: 'trash', source: event, min: 0, max: 2, offering: 'sum' }).value : Math.min(2, view.hand.filter(card => disposable(view, profile, card)).length) * 2;
+    case 'tribute-of-the-tides': if (view.supply.drachma > 0 && gainOutcome(view, 'drachma') === 0) return -1000; return (view.supply.drachma > 0 ? cardValue(view, profile, 'drachma') + (favored ? immediateGainValue(view, 'drachma') : 0) : 0) + (favored && view.resources.buys === 0 ? 1 : 0);
+    case 'blessing-of-the-fields': return favored ? offering(view, profile, { id: '', kind: 'trash', source: event, min: 0, max: 2, offering: 'sum' }).value : thinTrashChoice(view, { id: '', kind: 'trash', source: event, min: 0, max: 2 }).value * (profile.family === 'thin' ? 1 : 2);
     case 'trial-of-the-spear': return offering(view, profile, { id: '', kind: 'trash', source: event, min: 0, max: 1, offering: favored ? 3 : 1 }).value;
     default: return -1000;
   }
 }
 export function strategyCommand(view: View, profile: Profile): ActionCommand {
   if (profile.family === 'treasure') {
+    if (view.choice?.kind === 'discard') return resolveChoice(view, profile);
     const filtered = structuredClone(view);
     for (const id of view.bannedCards) filtered.supply[id] = 0;
+    if (view.choice?.kind === 'gain') {
+      const eligible = gains(view, view.choice.limit!, view.choice.actionOnly), safe = eligible.filter(id => gainOutcome(view, id) !== 0);
+      if (safe.length || view.choice.min === 0) for (const id of eligible.filter(id => gainOutcome(view, id) === 0)) filtered.supply[id] = 0;
+    }
+    if (!view.choice && view.phase === 'actions' && view.resources.actions > 0) {
+      const actions = view.hand.filter(c => definition(c.cardId).type === 'Action').sort((a,b)=>enginePlayPriority(view,b)-enginePlayPriority(view,a) || a.id.localeCompare(b.id));
+      if (actions[0]) return { type: 'action/played', instanceId: actions[0].id };
+    }
+    if (!view.choice && (view.phase === 'buys' || view.phase === 'treasures' && !view.hand.some(c=>definition(c.cardId).type==='Treasure'))) {
+      const end = late(view, profile);
+      const utility = (id: string) => id === 'acropolis' ? 14 : id === 'polis' && end ? 9 : id === 'talent' ? 8 : id === 'drachma' ? 5 : id === 'hamlet' && end ? 1 : -1000;
+      const plan = purchasePlan(filtered, utility);
+      return plan.cards[0] ? { type: 'card/bought', cardId: plan.cards[0] } : { type: 'turn/ended' };
+    }
     return chooseCommand(filtered, 'treasure');
   }
   if (view.choice) return resolveChoice(view, profile);
-  const purchase = (coins: number) => {
-    const id = bestGain(view, profile, coins);
-    return id ? Math.max(0, cardValue(view, profile, id)) : 0;
-  };
-  // Compare Worship with the purchase opportunity it displaces. Can run before
-  // drawing, between individual Treasures (preserving offerings), or after buying.
-  if (view.resources.worship > 0) {
-    const options = view.events.filter(id => !view.bannedEvents.includes(id) && definition(id).cost! <= view.resources.coins).map(id => {
-      const cost = definition(id).cost!;
-      const displaced = view.resources.buys > 0 ? purchase(view.resources.coins) - purchase(view.resources.coins - cost) : 0;
-      return { id, value: worshipValue(view, profile, id) - displaced - cost * 0.5 };
-    }).sort((a, b) => b.value - a.value || a.id.localeCompare(b.id));
-    if (options[0]?.value > profile.parameters.worshipMargin) return { type: 'god/worshipped', cardId: options[0].id };
-  }
+  const utility = (v: View) => (id: string, copies: number) => cardValue(copies ? { ...v, owned: { ...v.owned, [id]: (v.owned[id] ?? 0) + copies } } : v, profile, id);
+  const plans = new Map<number, ReturnType<typeof purchasePlan>>();
+  const planAt = (coins: number) => { if (!plans.has(coins)) plans.set(coins, purchasePlan(view, utility(view), coins)); return plans.get(coins)!; };
+  const worshipOptions = (v: View) => v.events.filter(id => !v.bannedEvents.includes(id) && definition(id).cost! <= v.resources.coins && v.resources.worship > 0).map(id => {
+    const cost = definition(id).cost!, money = availableCoins(v);
+    const before = v === view ? planAt(money) : purchasePlan(v, utility(v), money);
+    const after = v === view ? planAt(money-cost) : purchasePlan(v, utility(v), money-cost);
+    if (before.share === 1 && after.share !== 1) return { id, value: -1000 };
+    return { id, value: worshipValue(v, profile, id) - (before.utility-after.utility) - cost*0.5 };
+  }).sort((a,b)=>b.value-a.value || a.id.localeCompare(b.id));
+  const current = worshipOptions(view)[0];
+  // Delay for a known legal path to Favored instead of spending Worship prematurely.
+  const future = favoredPaths(view).map(path => ({ ...path, option: worshipOptions(path.future)[0] })).filter(path => path.option && path.option.value > Math.max(profile.parameters.worshipMargin, current?.value ?? -Infinity) + 0.1).sort((a,b)=>b.option!.value-a.option!.value);
+  if (future[0]) return { type: 'action/played', instanceId: future[0].first };
+  if (current && current.value > profile.parameters.worshipMargin) return { type: 'god/worshipped', cardId: current.id };
   if (view.phase === 'actions') {
     const actions = view.hand.filter(card => definition(card.cardId).type === 'Action');
     const priority = (card: CardInstance) => {
       if (profile.family === 'engine') return enginePlayPriority(view, card);
       if (profile.family === 'thin') return thinPlayPriority(view, card);
-      if (card.cardId === 'council-of-sages' && view.leader === 'thaleia' && !view.leaderUsed) return 100;
-      return actionEffects(card.cardId).reduce((value, effect) => value + (effect.kind === 'resource' && effect.resource === 'actions' ? 20 * effect.amount : effect.kind === 'draw' ? effect.amount : 0), 0);
+      return enginePlayPriority(view, card);
     };
     actions.sort((a, b) => priority(b) - priority(a) || a.id.localeCompare(b.id));
     if (view.resources.actions > 0 && actions[0]) return { type: 'action/played', instanceId: actions[0].id };
@@ -196,12 +216,8 @@ export function strategyCommand(view: View, profile: Profile): ActionCommand {
     if (treasure) return { type: 'treasure/played', instanceId: treasure.id };
   }
   if (view.resources.buys > 0) {
-    const available = gains(view, view.resources.coins);
-    // Public inventory supports intentional pile endings without opposing-hand access.
-    const winner = available.find(id => (id === 'acropolis' && view.supply[id] === 1 || view.supply[id] === 1 && Object.values(view.supply).filter(count => count === 0).length >= 2) &&
-      view.myScore + (definition(id).vp ?? 0) > Math.max(...view.scores));
-    const best = winner ?? bestGain(view, profile, view.resources.coins);
-    if (best && cardValue(view, profile, best) > 0) return { type: 'card/bought', cardId: best };
+    const plan = planAt(view.resources.coins);
+    if (plan.cards[0]) return { type: 'card/bought', cardId: plan.cards[0] };
   }
   return { type: 'turn/ended' };
 }
