@@ -1,0 +1,62 @@
+{
+  "3/leader-trigger:doreios:focal": {
+    "blocks": 1,
+    "pairs": 72,
+    "excludedBlocks": 0,
+    "exposureRate": 1,
+    "difference": 0,
+    "interval": null,
+    "correctedInterval": null,
+    "label": "inconclusive"
+  },
+  "3/event:counsel-of-olympus:focal": {
+    "blocks": 1,
+    "pairs": 216,
+    "excludedBlocks": 0,
+    "exposureRate": 0.9814814814814815,
+    "difference": 0.05324074074074074,
+    "interval": null,
+    "correctedInterval": null,
+    "label": "inconclusive"
+  },
+  "3/card:sacred-academy:focal": {
+    "blocks": 1,
+    "pairs": 288,
+    "excludedBlocks": 0,
+    "exposureRate": 1,
+    "difference": 0.09375,
+    "interval": null,
+    "correctedInterval": null,
+    "label": "inconclusive"
+  },
+  "4/leader-trigger:doreios:focal": {
+    "blocks": 1,
+    "pairs": 96,
+    "excludedBlocks": 0,
+    "exposureRate": 1,
+    "difference": 0.003472222222222222,
+    "interval": null,
+    "correctedInterval": null,
+    "label": "inconclusive"
+  },
+  "4/event:counsel-of-olympus:focal": {
+    "blocks": 1,
+    "pairs": 384,
+    "excludedBlocks": 0,
+    "exposureRate": 1,
+    "difference": 0.07682291666666666,
+    "interval": null,
+    "correctedInterval": null,
+    "label": "inconclusive"
+  },
+  "4/card:sacred-academy:focal": {
+    "blocks": 1,
+    "pairs": 384,
+    "excludedBlocks": 0,
+    "exposureRate": 1,
+    "difference": 0.13411458333333334,
+    "interval": null,
+    "correctedInterval": null,
+    "label": "inconclusive"
+  }
+}

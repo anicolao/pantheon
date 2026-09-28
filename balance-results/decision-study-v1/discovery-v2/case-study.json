@@ -1,0 +1,92 @@
+{
+  "selection": "Illustrative discovery pair deliberately selected for a baseline win and restricted loss; not independent statistical evidence.",
+  "comparison": [
+    {
+      "id": "0-145-base",
+      "seed": "balance-v2:discovery:0",
+      "lineup": [
+        "melia",
+        "doreios"
+      ],
+      "restriction": null,
+      "players": [
+        {
+          "leader": "doreios",
+          "score": 27,
+          "turns": 14,
+          "share": 1
+        },
+        {
+          "leader": "melia",
+          "score": 21,
+          "turns": 14,
+          "share": 0
+        }
+      ],
+      "focalTelemetry": {
+        "worship": {},
+        "acquisitions": {
+          "drachma": 7,
+          "talent": 2,
+          "acropolis": 4,
+          "polis": 1
+        },
+        "trashes": {
+          "hamlet": 3,
+          "obol": 2
+        },
+        "leaderTriggers": 6,
+        "unusedCoins": 14,
+        "unusedActions": 14,
+        "unusedBuys": 0,
+        "firstScoreTurn": 8,
+        "finalDeckSize": 19,
+        "scoreMargin": 6
+      }
+    },
+    {
+      "id": "0-145-0",
+      "seed": "balance-v2:discovery:0",
+      "lineup": [
+        "melia",
+        "doreios"
+      ],
+      "restriction": {
+        "kind": "leader-trigger",
+        "id": "doreios",
+        "scope": "focal"
+      },
+      "players": [
+        {
+          "leader": "melia",
+          "score": 33,
+          "turns": 17,
+          "share": 1
+        },
+        {
+          "leader": "doreios",
+          "score": 27,
+          "turns": 16,
+          "share": 0
+        }
+      ],
+      "focalTelemetry": {
+        "worship": {},
+        "acquisitions": {
+          "drachma": 9,
+          "acropolis": 3,
+          "talent": 1,
+          "polis": 2
+        },
+        "trashes": {},
+        "leaderTriggers": 0,
+        "unusedCoins": 11,
+        "unusedActions": 16,
+        "unusedBuys": 1,
+        "firstScoreTurn": 7,
+        "finalDeckSize": 25,
+        "scoreMargin": -6
+      }
+    }
+  ]
+}
