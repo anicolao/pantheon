@@ -20,7 +20,8 @@
     "dev:curve-editor": "node tools/curve-editor/server.mjs",
     "simulate:balance": "bun scripts/balance-simulation.ts",
     "test:simulation": "bun test tests/simulation",
-    "balance:study": "bun scripts/balance-study.ts"
+    "balance:study": "bun scripts/balance-study.ts",
+    "balance:thaleia": "bun scripts/balance-thaleia.ts"
   },
   "dependencies": {
     "@fontsource/atkinson-hyperlegible": "5.2.8",
