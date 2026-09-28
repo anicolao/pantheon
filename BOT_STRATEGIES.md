@@ -1,4 +1,4 @@
-# Bot strategy design reference — version 7
+# Bot strategy design reference — version 8
 
 This reference describes implemented behavior. The [defect ledger](BOT_DEFECTS.md) records the concrete corrections and regression coverage. Bots are deterministic public-information heuristics, not optimal players. Earlier studies remain reproducible at their recorded source commits; their outcomes do not describe this version.
 
@@ -127,3 +127,9 @@ After applying the unchanged v6 scoring rule, identify the highest estimated eco
 The isolated experiment freezes the same profiles and 200 seed blocks as v6, reruns all 21,600 Treasure games, and checks the same 192 non-Treasure controls. Primary comparisons are Treasure against fixed Engine opponents; all other strategy cells and ending composition are descriptive.
 
 The [completed v7 epsilon test](balance-results/treasure-epsilon-v7/README.md) removes Bronze Recruit from all 24,000 ending Treasure decks but does not demonstrate an overall improvement. Melia loses 6.21 percentage points against fixed Engine opponents (adjusted paired interval −10.79 to −1.67); the other leader changes are inconclusive. The broad preference also reduces draw purchases. The requested epsilon remains in the tested implementation; no further policy edits were made based on these results.
+
+## Treasure epsilon refinement (v8)
+
+The economic near-tie threshold is now $0.035 instead of $0.10. All other v7 behavior is unchanged, including v6 scoring and the global-maximum comparison. This covers Melia's approximately $0.03409 starting Bronze Recruit estimation edge while allowing the approximately $0.045 opening Council advantage to win. Study version is 8; standalone Treasure version is 6.
+
+The experiment runs only the 21,600 games involving Treasure, on the same 200 seed blocks and frozen profiles. It compares with both v6 (no epsilon) and v7 ($0.10); eight primary leader-by-baseline comparisons against Engine share a Bonferroni-adjusted family. No non-Treasure control games are rerun. Results remain exploratory because the seeds were previously examined.

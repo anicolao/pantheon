@@ -118,7 +118,7 @@ export function moneyBuy(view: MoneyView, legal?: string[], mandatory=false): st
   const ranked=options.sort((a,b)=>b.ev-a.ev||definition(a.id).cost!-definition(b.id).cost!||a.id.localeCompare(b.id));
   const best=ranked[0];
   // Compare to the global maximum: pairwise epsilon comparators are not transitive.
-  const chosen=best&&(ranked.find(c=>definition(c.id).type==='Treasure'&&c.ev>=best.ev-0.1-1e-9)??best);
+  const chosen=best&&(ranked.find(c=>definition(c.id).type==='Treasure'&&c.ev>=best.ev-0.035-1e-9)??best);
   return chosen&&(mandatory||chosen.ev>moneyEstimate(view).mean+1e-9)?chosen.id:undefined;
 }
 /** Retain exact ending protection, including winning multi-buy sequences. Recompute EV after each buy. */
