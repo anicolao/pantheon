@@ -26,8 +26,10 @@
     const elements = [...document.querySelectorAll<HTMLElement>('[data-public-zone]')];
     const match = (element: HTMLElement) => (!value.uid || element.dataset.publicUid === value.uid) && (!value.cardId || !element.dataset.publicCard || element.dataset.publicCard === value.cardId);
     const exact = elements.find(element => element.dataset.publicZone === value.zone && match(element));
-    const fallback = elements.find(element => element.dataset.publicZone === 'seat' && element.dataset.publicUid === value.uid)
-      ?? elements.find(element => element.dataset.publicZone === (value.zone === 'reveal' ? 'play' : 'supply'))!;
+    // The common play/reveal area stays at the same place across a turn handoff.
+    const common = ['play','reveal'].includes(value.zone) ? elements.find(element => element.dataset.publicZone === 'play') : undefined;
+    const fallback = common ?? elements.find(element => element.dataset.publicZone === 'seat' && element.dataset.publicUid === value.uid)
+      ?? elements.find(element => element.dataset.publicZone === 'supply')!;
     const box = (exact ?? fallback).getBoundingClientRect();
     return { x: Math.max(55,Math.min(innerWidth-55,box.left+box.width/2)), y: Math.max(85,Math.min(innerHeight-85,box.top+box.height/2)) };
   }

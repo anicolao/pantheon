@@ -23,7 +23,7 @@
   let pilePage = $state(0), stepPage = $state(0);
   let inspected = $state<{card: CardInstance; source: string} | null>(null);
   let dialog: HTMLDialogElement;
-  let returnLabel = '';
+  let returnKey = '';
   const name = (id: string) => game.players.find(p => p.uid === id)!.name;
   const item = $derived(history[movePage]);
   const entry = $derived(entries.find(entry => entry.sequence === item?.sequence));
@@ -48,8 +48,8 @@
     if (tab !== 'chronicle') { pile = publicPile(game, player, tab); pilePage = Math.min(pilePage, Math.max(0, Math.ceil(pile.length / 3) - 1)); }
   }
   function moveTo(index: number) { movePage = index; stepPage = 0; }
-  async function inspect(card: CardInstance, source: string) { returnLabel = document.activeElement?.getAttribute('aria-label') ?? ''; inspected = { card, source }; await tick(); dialog.querySelector<HTMLButtonElement>('.return')?.focus(); }
-  async function returnToTray() { inspected = null; await tick(); [...dialog.querySelectorAll<HTMLButtonElement>('button')].find(button=>button.getAttribute('aria-label')===returnLabel)?.focus(); }
+  async function inspect(card: CardInstance, source: string) { returnKey = (document.activeElement as HTMLElement | null)?.dataset.inspectionKey ?? ''; inspected = { card, source }; await tick(); dialog.querySelector<HTMLButtonElement>('.return')?.focus(); }
+  async function returnToTray() { inspected = null; await tick(); [...dialog.querySelectorAll<HTMLButtonElement>('button')].find(button=>button.dataset.inspectionKey===returnKey)?.focus(); }
   function stepCard(step: PublicStep): CardInstance | undefined {
     return step.card ?? (step.kind === 'leader' || step.kind === 'worship' ? { id: '', cardId: step.from.cardId!, copy: 1 } : undefined);
   }
@@ -74,7 +74,7 @@
               {@const card = stepCard(step)}
               <article class="move" data-movement={step.kind}>
                 <h3>{verbs[step.kind]}{step.backs ? ` · ${step.count}` : ''}</h3>
-                <div class="face-slot">{#if card}<button class="miniature" class:landscape={['Leader','Event'].includes(definition(card.cardId).type)} aria-label={`Inspect ${definition(card.cardId).name}, copy ${card.copy}`} onclick={()=>inspect(card,'Chronicle')}><CardFace card={definition(card.cardId)} players={game.playerCount} copy={card.copy}/></button>{:else}<div class="miniature back"><CardBack format="deck"/></div>{/if}</div>
+                <div class="face-slot">{#if card}<button data-inspection-key={step.id} class="miniature" class:landscape={['Leader','Event'].includes(definition(card.cardId).type)} aria-label={`Inspect ${definition(card.cardId).name}, copy ${card.copy}`} onclick={()=>inspect(card,'Chronicle')}><CardFace card={definition(card.cardId)} players={game.playerCount} copy={card.copy}/></button>{:else}<div class="miniature back"><CardBack format="deck"/></div>{/if}</div>
                 <p class="path">{zones[step.from.zone]} → {zones[step.to.zone]}</p>{#if !card || step.effect !== definition(card.cardId).name || step.devotion !== undefined}<p class="effect">{step.effect}{step.devotion !== undefined ? ` · Devotion ${step.devotion}` : ''}</p>{/if}
               </article>
             {/each}
@@ -88,7 +88,7 @@
       <nav class="pages" aria-label="Chronicle pages"><button aria-label="First moves" disabled={movePage===0} onclick={()=>moveTo(0)}>First</button><button aria-label="Earlier moves" disabled={movePage===0} onclick={()=>moveTo(movePage-1)}>‹</button><span>{movePage+1} / {history.length}</span><button aria-label="Later moves" disabled={movePage+1>=history.length} onclick={()=>moveTo(movePage+1)}>›</button><button aria-label="Latest moves" disabled={movePage+1>=history.length} onclick={()=>moveTo(history.length-1)}>Latest</button></nav>
     {:else}
       <div class="owner"><label>Player <select aria-label="Player" bind:value={player} onchange={changeOwner}>{#each game.players as person}<option value={person.uid}>{person.name}</option>{/each}</select></label><span class="deck-count">Deck · {publicDeckCount(game,player)} cards</span></div>
-      <section class="pile" aria-label={title}>{#each pile.slice(pilePage*3,pilePage*3+3) as card (card.id)}<button aria-label={`Inspect ${definition(card.cardId).name}, copy ${card.copy}`} onclick={()=>inspect(card,'pile')}><CardFace card={definition(card.cardId)} players={game.playerCount} copy={card.copy}/></button>{:else}<p>No cards here.</p>{/each}</section>
+      <section class="pile" aria-label={title}>{#each pile.slice(pilePage*3,pilePage*3+3) as card (card.id)}<button data-inspection-key={card.id} aria-label={`Inspect ${definition(card.cardId).name}, copy ${card.copy}`} onclick={()=>inspect(card,'pile')}><CardFace card={definition(card.cardId)} players={game.playerCount} copy={card.copy}/></button>{:else}<p>No cards here.</p>{/each}</section>
       <p class="pile-count">{pile.length} cards{changed ? ' · Showing the cards you opened' : ''}</p>
       <nav class="pages" aria-label="Pile pages"><button disabled={pilePage===0} onclick={()=>pilePage--}>Previous</button><span>{pilePage+1} / {Math.max(1,Math.ceil(pile.length/3))}</span><button disabled={(pilePage+1)*3>=pile.length} onclick={()=>pilePage++}>Next</button></nav>
     {/if}

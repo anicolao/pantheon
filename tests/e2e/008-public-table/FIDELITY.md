@@ -1,0 +1,24 @@
+# Public table and Chronicle fidelity review
+
+References: [observer table 12](../../../docs/ux/concepts/12-opponent.png) and [Chronicle/public trays 13](../../../docs/ux/concepts/13-chronicle.png).
+
+| View | Actual implementation |
+| --- | --- |
+| Phone Chronicle | [Temple, leader, paths and resource result](screenshots/follow-a-friend-from-the-first-temple-through-worship-and-cleanup-while-reading-the-public-table/008-chronicle-phone-darwin.png) |
+| Desktop Chronicle | [Public faces above the retained table](screenshots/follow-a-friend-from-the-first-temple-through-worship-and-cleanup-while-reading-the-public-table/008-chronicle-desktop-darwin.png) |
+| 4K Chronicle | [Shared-scale history tray](screenshots/follow-a-friend-from-the-first-temple-through-worship-and-cleanup-while-reading-the-public-table/008-chronicle-tabletop-4k-darwin.png) |
+| Phone inspector | [Complete public card at reading size](screenshots/follow-a-friend-from-the-first-temple-through-worship-and-cleanup-while-reading-the-public-table/009-public-inspector-phone-darwin.png) |
+| Phone public pile | [Last page of all five played cards](screenshots/follow-a-friend-from-the-first-temple-through-worship-and-cleanup-while-reading-the-public-table/022-last-pile-page-phone-darwin.png) |
+| Phone hidden draws | [Cleanup and common backs](screenshots/follow-a-friend-from-the-first-temple-through-worship-and-cleanup-while-reading-the-public-table/030-cleanup-phone-darwin.png) |
+
+The tray retains the concept’s blue marble, gold laurel rim, centered Chronicle title, live character portrait, public card miniatures, directional paths, and tabs over the existing table. Its decorative layer is generated from painting 13; all words, counters, cards and controls remain live accessible components. Full card inspection uses the approved catalog renderer, preserves the physical copy, and returns to the same card and page. The underlying table remains recognizable through a quiet backdrop.
+
+The production composition deliberately uses the concept’s dark phone material on all sizes. It shows one committed command at a time, with three effects per page, rather than the painting’s combined multi-command parchment strip and simultaneous discard fan. This makes long Treasure plays, cleanup, draws, source effects and exact resource accounting fully reachable. Landscape leader and event cards retain their actual aspect ratios. The In play tab and explicit player selector extend the pictured Chronicle/Discard/Trash navigation. First/Earlier/Later/Latest and effect/pile paging provide bounded access without document scrolling. Desktop and 4K increase portrait, text and control scale; phone controls stay within thumb reach and preserve 44px targets.
+
+Incoming commits never replace a reader’s history or public-pile snapshot. The New moves seal offers an explicit refresh. A changed pile retains its cards and page until that refresh, including while a nested card is open. Decks expose only their current counts. A remote match ending also leaves the current reading surface open; Final scores remains available when the reader returns.
+
+The shared motion cursor consumes only committed events. It orders play, draw, leader, Worship, gain, discard, trash, reveal, shuffle and cleanup steps; source and destination labels travel with public faces or common backs. A hidden/offscreen card uses the appropriate public zone or owner’s seat anchor. Reveals pause at their public anchor before moving to the real destination. Larger commands use shorter sequential flights to keep the table responsive. A source portrait or altar pulses at its own step. Reading a tray, inspecting a private card, reduced motion, a hidden page, or reconnect catch-up consumes history without playing a motion backlog. Initial dealing remains its own setup transition.
+
+The [illustrated stories](README.md) test two independent authenticated clients, normal motion, reduced-motion equivalence, ordered unique animation IDs, hidden draws without card faces, public reveal branches, source/destination/resource results, empty and paged piles, stable reading positions, nested inspection focus, Escape, ongoing remote play, reconnect and post-reconnect delivery. The ordinary journey creates and drafts the table through UI controls. Recorded-history stories are labeled and never claim to demonstrate their prelude as UI play. Backend tests verify public projections, snapshot isolation, and motion/reading cursor behavior, including hidden-page suppression.
+
+Every capture retains the shared 2,000 ms readiness/capture budget, card-fit checks, viewport and hit-region audits, and zero-pixel comparison. Visual review found and corrected title/crest interference, card/caption crowding, and a large-hand Treasure-phase pager overlap. These captures and comparisons are review evidence; visual acceptance remains the reviewer’s decision.

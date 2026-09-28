@@ -71,3 +71,9 @@ The player-count controls use `static/assets/ui/gather-seat-count.webp`, a 384px
 Four shipping layers use the built-in image generation tool with accepted paintings 14 and 21 as references: `static/assets/ui/victory-desktop.webp`, `victory-mobile.webp`, `victory-portrait-frame.webp`, and `decision-panel.webp`. [Exact prompts, references, and original paths](ux/match-assets.json) record their provenance. Delivery conversion uses WebP quality 90 at the original dimensions and preserves alpha. The portrait frame has a transparent central window and exterior; the decision panel has a transparent exterior. These assets share the repository’s GPL-3.0-only license.
 
 The victory scene layers approved leader art under the empty laurel frame. Names, scores, turns, tie explanations, actual Territory cards, arithmetic, and controls are live accessible content. The environments contain no counterfeit controls or text. Turn confirmations use the empty marble seal beneath live reminders and resource icons.
+
+## Public table tray
+
+Milestone 8 uses `static/assets/ui/chronicle-tray.webp`, a decorative marble-and-laurel layer generated with the built-in image generation tool from painting 13. [Exact prompt and provenance](ux/chronicle-assets.json) record the reference and original output. WebP quality 92 conversion preserves the generated dimensions and alpha. The asset shares the repository’s GPL-3.0-only license.
+
+All tabs, portraits, public card faces, common backs, movement paths, resource changes, owner selection, page controls, and inspection are live Svelte content. No text, cards, or controls are baked into the tray. The table environment remains visible behind the tray; the production layout uses one paged command at a time to preserve complete effects and accessible touch targets.

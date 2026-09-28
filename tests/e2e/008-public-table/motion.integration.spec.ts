@@ -10,14 +10,14 @@ async function observe(page:Page){
   await page.emulateMedia({reducedMotion:'no-preference'});
   await page.evaluate(()=>{
     const animate=Element.prototype.animate;
-    const owner=window as unknown as {flights:{id:string;kind:string;faces:number}[]};owner.flights=[];
+    const owner=window as unknown as {flights:{id:string;kind:string;faces:number;end:string}[]};owner.flights=[];
     Element.prototype.animate=function(frames,options){
-      if(this.matches('.public-flight'))owner.flights.push({id:this.getAttribute('data-motion-step')!,kind:this.getAttribute('data-motion-kind')!,faces:this.querySelectorAll('[data-card-id]').length});
+      if(this.matches('.public-flight'))owner.flights.push({id:this.getAttribute('data-motion-step')!,kind:this.getAttribute('data-motion-kind')!,faces:this.querySelectorAll('[data-card-id]').length,end:Array.isArray(frames)?String(frames.at(-2)?.transform):''});
       return animate.call(this,frames,options);
     };
   });
 }
-async function flights(page:Page){return page.evaluate(()=>(window as unknown as {flights:{id:string;kind:string;faces:number}[]}).flights);}
+async function flights(page:Page){return page.evaluate(()=>(window as unknown as {flights:{id:string;kind:string;faces:number;end:string}[]}).flights);}
 
 for(const scenario of [
   {card:'oracles-acolyte',leader:'thaleia',title:'an Action draw followed by a bloodline blessing'},
@@ -65,6 +65,10 @@ for(const scenario of [
     const observed=await flights(other);expect(new Set(observed.map(move=>move.id)).size).toBe(observed.length);
     expect(observed.filter(move=>['draw','shuffle','cleanup'].includes(move.kind)).every(move=>move.faces===0)).toBe(true);
     if(scenario.cleanup)expect(observed.some(move=>move.kind==='shuffle')).toBe(true);
+    if(scenario.reveal){
+      const target=await other.locator('.play-area').boundingBox();
+      expect(observed.find(move=>move.kind==='reveal')!.end).toContain(`translate(${target!.x+target!.width/2}px,${target!.y+target!.height/2}px)`);
+    }
     await capture('result','Every public movement arrived in order while hidden cards stayed backs',async()=>expect(other.locator('.opponents [data-card-id]')).toHaveCount(0),true);
     await other.getByRole('button',{name:'Chronicle',exact:true}).click();
     await capture('history','The same source, destination, and resource result remain after motion',async()=>expect(other.locator('.chronicle .actor')).toContainText('Ariadne'),true);
