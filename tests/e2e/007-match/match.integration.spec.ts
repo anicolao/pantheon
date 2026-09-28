@@ -45,7 +45,7 @@ for(const scenario of [{count:2 as const,goal:'acropolis' as const,last:false},{
       await page.getByRole('button',{name:'Latest moves',exact:true}).click();
       await steps.step('last-moves','Return to the final cleanup at the end of the Chronicle',[{spec:'The latest page is complete and cannot advance beyond the last move.',check:async()=>{await expect(page.locator('.chronicle')).toContainText('ended the turn');await expect(page.getByRole('button',{name:'Later moves',exact:true})).toBeDisabled();}}]);
       await page.getByRole('button',{name:'Close',exact:true}).click();
-      await steps.step('finished-table','The table remains inspectable after scoring',[{spec:'Final scores can be reopened, and no play commands are offered.',check:async()=>{await expect(page.getByRole('button',{name:'Final scores',exact:true})).toBeEnabled();await expect(page.getByRole('button',{name:'To Treasures',exact:true})).toHaveCount(0);}}]);
+      await steps.step('finished-table','The table remains inspectable after scoring',[{spec:'Final scores can be reopened, and no play commands are offered.',check:async()=>{await expect(page.getByRole('button',{name:'Final scores',exact:true})).toBeFocused();await expect(page.getByRole('button',{name:'To Treasures',exact:true})).toHaveCount(0);}}]);
       await page.getByRole('button',{name:'Final scores',exact:true}).click();
       await steps.step('scores-again','Return to the same final standings',[{spec:'The winner and Territory total have not changed.',check:async()=>expect(page.locator('.total')).toHaveText('Total 39 VP')}]);
       const newCode=await roomCodeFixture(page,{...info,title:`${info.title}/rematch`});

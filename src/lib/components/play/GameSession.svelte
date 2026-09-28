@@ -62,7 +62,7 @@
   let resultsOpen=$state(true);
   const showResults=$derived(game.turn.phase==='finished'&&resultsOpen);
   $effect(()=>{if(game.turn.phase==='finished')untrack(()=>{dialog?.close();modal='';resultsOpen=true;});});
-  async function leaveResults(chronicle=false){resultsOpen=false;await tick();if(chronicle)await open('chronicle');else document.querySelector<HTMLButtonElement>('.final-control button')?.focus();}
+  async function leaveResults(chronicle=false){resultsOpen=false;await tick();document.querySelector<HTMLButtonElement>('.final-control button')?.focus();if(chronicle)await open('chronicle');}
   const ready = $derived(status === 'synced' && !busy);
   $effect(() => { if (ownerOf(selected) && game.phase === 'draft') selected = leaderIds.find(id => !ownerOf(id)) ?? selected; });
   onMount(() => {
