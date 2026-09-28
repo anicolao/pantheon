@@ -59,6 +59,7 @@ test('cleanup precedes shuffle and private draws; next-player reset is never pre
   expect(entry.steps.slice(0,3).map(step=>step.kind)).toEqual(['cleanup','cleanup','shuffle']);
   expect(entry.steps.filter(step=>step.kind==='draw')).toHaveLength(5);
   expect(entry.steps.every(step=>step.backs&&!step.card)).toBe(true);expect(entry.change).toBeNull();expect(entry.resources.uid).toBe('b');
+  expect(entry.steps.every(step=>step.effect==='Cleanup')).toBe(true);
 });
 
 test('trash and discard choices name their public card and distinct destinations',()=>{
