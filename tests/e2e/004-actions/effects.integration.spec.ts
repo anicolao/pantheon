@@ -20,8 +20,8 @@ test('play, choose optional trash, reconnect, and show the public result', async
     await other.emulateMedia({reducedMotion:'no-preference'});
     await other.evaluate(() => {
       const animate=Element.prototype.animate;
-      (window as unknown as {flights:number[]}).flights=[];
-      Element.prototype.animate=function(frames,options){if(this.matches('.played-cards button,.outcome'))(window as unknown as {flights:number[]}).flights.push(typeof options==='number'?options:Number(options?.duration??0));return animate.call(this,frames,options);};
+      (window as unknown as {flights:string[]}).flights=[];
+      Element.prototype.animate=function(frames,options){if(this.matches('.public-flight'))(window as unknown as {flights:string[]}).flights.push(this.getAttribute('data-motion-step')!);return animate.call(this,frames,options);};
     });
     await playCard(page,'seed-keeper');
     await steps.step('trash-choice','Choose cards for Seed Keeper',[{spec:'Only cards remaining in hand can be selected; trashing is optional.',check:async()=>{await expect(page.getByRole('dialog',{name:'Seed Keeper',exact:true})).toBeVisible();await expect(page.getByRole('button',{name:'Trash none',exact:true})).toBeEnabled();await expect(page.locator('.options [data-card-id="seed-keeper"]')).toHaveCount(0);}}]);
@@ -42,7 +42,8 @@ test('play, choose optional trash, reconnect, and show the public result', async
     await steps.step('trash-result','The chosen cards leave your deck',[{spec:'Trash is public and Melia draws only after Seed Keeper finishes.',check:async()=>{await expect(page.getByRole('button',{name:`Inspect shared trash, ${targets.length} cards`,exact:true})).toBeVisible();await expect(other.locator('.action-message')).toContainText('trashed');await expect(other.locator('.opponents [data-card-id]')).toHaveCount(0);}}]);
     await page.getByRole('button',{name:`Inspect shared trash, ${targets.length} cards`,exact:true}).click();await steps.step('public-trash','Inspect the shared trash',[{spec:'Trashed copies are visible and remain outside every player’s deck.',check:async()=>expect(page.getByRole('dialog').locator('[data-card-id]')).toHaveCount(targets.length)}]);
     await page.keyboard.press('Escape'); await expect(page.getByRole('button',{name:`Inspect shared trash, ${targets.length} cards`,exact:true})).toBeFocused();
-    await expect.poll(()=>other.evaluate(()=>(window as unknown as {flights:number[]}).flights.filter(value=>value===550).length)).toBe(2);
+    const expectedFlights=result.publicActivity.filter(entry=>entry.sequence>fixture.events.length).flatMap(entry=>entry.steps.map(step=>step.id));
+    await expect.poll(()=>other.evaluate(()=>(window as unknown as {flights:string[]}).flights)).toEqual(expectedFlights);
     await other.reload();await expect(other.locator('[data-status]')).toHaveAttribute('data-status','synced');
     expect(await other.evaluate(()=>document.getAnimations().length)).toBe(0);
     expect(errors).toEqual([]);steps.generateDocs();
@@ -97,14 +98,14 @@ test('every simple Action and Temple uses real authenticated commands',async({br
     let lostAcknowledgement=false;
     if(id==='oracles-acolyte'){
       await page.emulateMedia({reducedMotion:'no-preference'});
-      await page.evaluate(()=>{const animate=Element.prototype.animate;(window as unknown as {draws:number[]}).draws=[];Element.prototype.animate=function(frames,options){if(this.matches('.hand-slot'))(window as unknown as {draws:number[]}).draws.push(typeof options==='number'?options:Number(options?.duration??0));return animate.call(this,frames,options);};});
+      await page.evaluate(()=>{const animate=Element.prototype.animate;(window as unknown as {draws:string[]}).draws=[];Element.prototype.animate=function(frames,options){if(this.matches('.public-flight[data-motion-kind="draw"]'))(window as unknown as {draws:string[]}).draws.push(this.getAttribute('data-motion-step')!);return animate.call(this,frames,options);};});
       await context.route(url=>url.pathname.endsWith('/documents:commit'),async route=>{if(lostAcknowledgement){await route.continue();return;}const response=await route.fetch({timeout:2_000});expect(response.ok()).toBe(true);lostAcknowledgement=true;await route.abort('connectionreset');});
     }
     await playCard(page,id);
     if(id==='sacred-grove'){await page.getByRole('button',{name:'Select Obol, copy 1',exact:true}).click();await page.getByRole('button',{name:'Gain Obol',exact:true}).click();}
     if(leader==='doreios')await page.getByRole('button',{name:'Trash none',exact:true}).click();
     await expect(page.locator('.choice-scene')).toHaveCount(0);const events=await readEvents(fixture.code),state=replaySetup(events);expect(state.decks[fixture.host].play.at(-1)?.cardId).toBe(id);expect(state.turn.leaderUsed).toBe(true);expect(events.at(-1)?.actorUid).toBe(fixture.host);
-    if(id==='oracles-acolyte'){expect(lostAcknowledgement).toBe(true);expect(events.filter(event=>event.type==='action/played'&&event.instanceId===fixture.game.decks[fixture.host].hand.find(card=>card.cardId===id)!.id)).toHaveLength(1);await expect.poll(()=>page.evaluate(()=>(window as unknown as {draws:number[]}).draws.filter(value=>value===550).length)).toBe(1);}
+    if(id==='oracles-acolyte'){expect(lostAcknowledgement).toBe(true);expect(events.filter(event=>event.type==='action/played'&&event.instanceId===fixture.game.decks[fixture.host].hand.find(card=>card.cardId===id)!.id)).toHaveLength(1);await expect.poll(()=>page.evaluate(()=>(window as unknown as {draws:string[]}).draws.length)).toBe(1);}
 
     } finally { await context.close(); }
   }

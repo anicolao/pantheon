@@ -73,7 +73,7 @@ export function describePublicCommand(
     steps.push({
       id: `${event.sequence}:${movement.index}`, kind, from, to,
       count: kind === 'shuffle' ? movement.amount! : 1,
-      effect: source.name,
+      effect: event.type === 'turn/ended' ? 'Cleanup' : source.name,
       backs,
       ...(kind === 'worship' ? { devotion: movement.amount } : {}),
       ...(!backs && card ? { card: { ...card } } : {})
