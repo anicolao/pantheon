@@ -378,26 +378,26 @@ Viewpoint: **Ariadne**.
 
 - [x] Ariadne chooses when to finish her turn
 
-## Theseus receives the turn with fresh counters
+## Theseus receives fresh counters after public cleanup finishes
 
 Viewpoint: **Theseus**.
 
 <table>
 <tr><th>Desktop · 1440 × 1000</th><th>Phone · 393 × 852</th></tr>
 <tr>
-<td valign="top"><a href="../../screenshots/keep-playing-a-temple-spend-the-last-buy-and-hand-the-turn-to-a-friend-exactly-once/018-handoff-desktop-darwin.png"><img src="../../screenshots/keep-playing-a-temple-spend-the-last-buy-and-hand-the-turn-to-a-friend-exactly-once/018-handoff-desktop-darwin.png" alt="Theseus receives the turn with fresh counters — desktop" width="720"></a></td>
-<td valign="top"><a href="../../screenshots/keep-playing-a-temple-spend-the-last-buy-and-hand-the-turn-to-a-friend-exactly-once/018-handoff-phone-darwin.png"><img src="../../screenshots/keep-playing-a-temple-spend-the-last-buy-and-hand-the-turn-to-a-friend-exactly-once/018-handoff-phone-darwin.png" alt="Theseus receives the turn with fresh counters — phone" width="240"></a></td>
+<td valign="top"><a href="../../screenshots/keep-playing-a-temple-spend-the-last-buy-and-hand-the-turn-to-a-friend-exactly-once/018-handoff-desktop-darwin.png"><img src="../../screenshots/keep-playing-a-temple-spend-the-last-buy-and-hand-the-turn-to-a-friend-exactly-once/018-handoff-desktop-darwin.png" alt="Theseus receives fresh counters after public cleanup finishes — desktop" width="720"></a></td>
+<td valign="top"><a href="../../screenshots/keep-playing-a-temple-spend-the-last-buy-and-hand-the-turn-to-a-friend-exactly-once/018-handoff-phone-darwin.png"><img src="../../screenshots/keep-playing-a-temple-spend-the-last-buy-and-hand-the-turn-to-a-friend-exactly-once/018-handoff-phone-darwin.png" alt="Theseus receives fresh counters after public cleanup finishes — phone" width="240"></a></td>
 </tr>
 </table>
 
 <details>
 <summary>Tabletop · 3840 × 2160 — expand screenshot</summary>
 
-<a href="../../screenshots/keep-playing-a-temple-spend-the-last-buy-and-hand-the-turn-to-a-friend-exactly-once/018-handoff-tabletop-4k-darwin.png"><img src="../../screenshots/keep-playing-a-temple-spend-the-last-buy-and-hand-the-turn-to-a-friend-exactly-once/018-handoff-tabletop-4k-darwin.png" alt="Theseus receives the turn with fresh counters — tabletop-4k" width="960"></a>
+<a href="../../screenshots/keep-playing-a-temple-spend-the-last-buy-and-hand-the-turn-to-a-friend-exactly-once/018-handoff-tabletop-4k-darwin.png"><img src="../../screenshots/keep-playing-a-temple-spend-the-last-buy-and-hand-the-turn-to-a-friend-exactly-once/018-handoff-tabletop-4k-darwin.png" alt="Theseus receives fresh counters after public cleanup finishes — tabletop-4k" width="960"></a>
 
 </details>
 
-- [x] Theseus receives the turn with fresh counters
+- [x] Theseus receives fresh counters after public cleanup finishes
 
 ## Ariadne receives five private cards and waits for Theseus
 
