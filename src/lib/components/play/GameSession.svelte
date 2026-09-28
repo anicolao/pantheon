@@ -12,12 +12,13 @@
   import Portrait from './Portrait.svelte';
   import ActionChoice from './ActionChoice.svelte';
   import WorshipScene from './WorshipScene.svelte';
+  import VictoryScene from './VictoryScene.svelte';
   import SupplyScene from './SupplyScene.svelte';
-  import { activePlayer, canPlayAction, canPlayTreasure, departureReminder, standings, definition } from '$lib/game/actions';
+  import { activePlayer, canPlayAction, canPlayTreasure, departureReminder, definition } from '$lib/game/actions';
 
-  let { game, uid, roomId, status, busy, error, command, retry }: {
+  let { game, uid, roomId, status, busy, error, command, retry, again }: {
     game: SetupState; uid: string; roomId: string; status: string; busy: boolean; error: string;
-    command: (command: GameCommand) => Promise<void>; retry: () => void;
+    command: (command: GameCommand) => Promise<void>; retry: () => void; again: () => void;
   } = $props();
   const initialRevision = untrack(() => game.activity.length);
   const animatedHand = new Set<string>();
@@ -27,7 +28,7 @@
   let modal = $state<'card' | 'supply' | 'chronicle' | 'zone' | 'advance' | 'worship' | ''>('');
   let worshipEvent = $state('counsel-of-olympus');
   function worship(id: string) { worshipEvent = id; void open('worship'); }
-  let handPage = $state(0), zonePage = $state(0);
+  let handPage = $state(0), zonePage = $state(0), chroniclePage=$state(0);
   let zone = $state<{ uid: string; kind: 'play' | 'discard' | 'trash'; title: string }>();
   const turnUid = $derived(activePlayer(game));
   const choice = $derived(game.turn.choice);
@@ -58,7 +59,10 @@
   const treasures = $derived(own?.hand.filter(card => definition(card.cardId).type === 'Treasure') ?? []);
   const advanceLabel = $derived(game.turn.phase === 'actions' ? 'To Treasures' : 'End turn');
   const remaining = $derived(departureReminder(game, uid));
-  const scores = $derived(game.turn.phase === 'finished' ? standings(game) : []);
+  let resultsOpen=$state(true);
+  const showResults=$derived(game.turn.phase==='finished'&&resultsOpen);
+  $effect(()=>{if(game.turn.phase==='finished')untrack(()=>{dialog?.close();modal='';resultsOpen=true;});});
+  async function leaveResults(chronicle=false){resultsOpen=false;await tick();if(chronicle)await open('chronicle');else document.querySelector<HTMLButtonElement>('.final-control button')?.focus();}
   const ready = $derived(status === 'synced' && !busy);
   $effect(() => { if (ownerOf(selected) && game.phase === 'draft') selected = leaderIds.find(id => !ownerOf(id)) ?? selected; });
   onMount(() => {
@@ -87,7 +91,7 @@
   function dealBack(node: Element, index: number) {
     return reduced || !game.dealtAtSequence || game.dealtAtSequence <= initialRevision ? { duration: 0 } : fly(node, { y: 40, duration: 550, delay: index * 85 });
   }
-  async function open(kind: 'card' | 'supply' | 'chronicle' | 'zone' | 'advance' | 'worship') { opener = document.activeElement as HTMLElement; modal = kind; await tick(); if (kind !== 'supply' && kind !== 'worship') dialog!.showModal(); }
+  async function open(kind: 'card' | 'supply' | 'chronicle' | 'zone' | 'advance' | 'worship') { opener = document.activeElement as HTMLElement; if(kind==='chronicle')chroniclePage=Math.max(0,Math.ceil(game.activity.length/4)-1); modal = kind; await tick(); if (kind !== 'supply' && kind !== 'worship') dialog!.showModal(); }
   function inspect(id: string, copy = 1, instanceId?: string) { inspected = { card: definition(id), copy, instanceId }; void open('card'); }
   function close() { if (dialog?.open) dialog.close(); modal = ''; const target = opener; void tick().then(() => target?.focus()); }
   function inspectZone(player: string, kind: 'play' | 'discard' | 'trash', title: string) { zone = { uid: player, kind, title }; zonePage = 0; void open('zone'); }
@@ -101,7 +105,7 @@
 
 <main class="session" class:drafting={game.phase === 'draft'} data-status={status} aria-busy={busy}>
   <picture class="environment" aria-hidden="true"><source media="(max-aspect-ratio:3/4)" srcset={`${base}/assets/ui/table-mobile.webp`} /><img src={`${base}/assets/ui/table-desktop.webp`} alt="" draggable="false" /></picture>
-  <div class="composition" data-e2e-layout={modal || ownChoice ? undefined : true}>
+  <div class="composition" data-e2e-layout={modal || ownChoice || showResults ? undefined : true}>
     <header><a href={`${base}/`} aria-label="Back to sanctuary">‹ Sanctuary</a>{#if /^[A-Z]{4,5}$/.test(roomId)}<span>Game code <strong>{roomId}</strong></span>{:else}<span>{game.playerCount} players</span>{/if}</header>
     {#if game.phase === 'playing'}<button class="trash-control" onclick={() => inspectZone(uid, 'trash', 'Shared trash')} aria-label={`Inspect shared trash, ${game.trash.length} cards`}><ResourceIcon resource="trash" value={game.trash.length} label={`${game.trash.length} cards in shared trash`} /></button>{/if}
     {#if game.phase === 'draft'}
@@ -160,7 +164,7 @@
       <section class="turn-rail" aria-label="Turn resources"><img class="rail-frame" src={`${base}/assets/ui/resource-rail.webp`} alt="" aria-hidden="true" /><button aria-label="Chronicle" title="Chronicle" onclick={()=>open('chronicle')} class="turn-marker" class:long={nameOf(turnUid).length > 12 && turnUid !== uid}><strong>{turnUid === uid ? 'Your turn' : `${nameOf(turnUid)}’s turn`}</strong><span>{game.turn.phase === 'actions' ? 'Actions' : game.turn.phase === 'treasures' ? 'Treasures' : game.turn.phase === 'finished' ? 'Complete' : 'Buys'} · Turn {game.turn.number} ▤</span></button>
         <div class="resources"><ResourceIcon resource="actions" value={game.resources.actions} /><ResourceIcon resource="coins" value={game.resources.coins} /><ResourceIcon resource="buys" value={game.resources.buys} /><ResourceIcon resource="worship" value={game.resources.worship} /></div>
       </section>
-      {#if scores.length}<section class="results" aria-label="Final scores"><h2>{scores.filter(row=>row.winner).map(row=>row.name).join(' & ')} {scores.filter(row=>row.winner).length > 1 ? 'share victory' : 'wins'}</h2>{#each scores as row}<p><strong>{row.name} · {row.score} VP</strong><span>{row.territories.map(item=>`${item.count} ${definition(item.id).name}`).join(' · ')} · {row.turns} turns</span></p>{/each}<a href={`${base}/play/`}>Play again</a></section>{/if}
+      {#if game.turn.phase==='finished'}<div class="chronicle-control final-control"><GameButton primary onclick={()=>resultsOpen=true}>Final scores</GameButton></div>{/if}
       <section class="hand" aria-label="Your hand">
         {#each visibleHand as card, index (`${card.id}:${handRevision(card.id)}`)}<div class="hand-slot" data-instance-id={card.id} class:playable={canPlayAction(game, uid, card.id) || canPlayTreasure(game, uid, card.id)} style:--card-index={index} in:deal|global={index}><div class="hand-face"><CardFace card={cards.find(item => item.id === card.cardId)!} players={game.playerCount} copy={card.copy} /></div></div><button data-testid="hand-card" aria-label={`Inspect hand card ${handPage * 5 + index + 1}: ${cards.find(item => item.id === card.cardId)!.name}`} style:--card-index={index} onclick={() => inspect(card.cardId, card.copy, card.id)}></button>{/each}
       </section>
@@ -173,21 +177,23 @@
     {#if status !== 'synced'}<div class="connection" role="status"><p>Connection lost. Your place is kept.</p><GameButton onclick={retry}>Try again</GameButton></div>{/if}
   </div>
 </main>
-<dialog bind:this={dialog} oncancel={event => { event.preventDefault(); close(); }} aria-labelledby="session-dialog-title" data-e2e-layout={modal && !['worship','supply'].includes(modal) ? true : undefined} class:inspection={modal === 'card'}>
+<dialog class:decision={modal==='advance'} style:--decision-panel={`url("${base}/assets/ui/decision-panel.webp")`} bind:this={dialog} oncancel={event => { event.preventDefault(); close(); }} aria-labelledby="session-dialog-title" data-e2e-layout={modal && !['worship','supply'].includes(modal) ? true : undefined} class:inspection={modal === 'card'}>
   <button class="close" aria-label="Close" onclick={close}>×</button>
   {#if modal === 'card' && inspected}<h2 id="session-dialog-title">{inspected.card.name}</h2><div class="inspected" class:landscape={inspected.card.type === 'Leader' || inspected.card.type === 'Event'}><CardFace card={inspected.card} players={game.playerCount} copy={inspected.copy} /></div>
     {#if inspected.instanceId && (inspected.card.type === 'Action' || inspected.card.type === 'Treasure')}<div class="play-command"><GameButton primary onclick={playInspected} disabled={!ready || !(canPlayAction(game, uid, inspected.instanceId) || canPlayTreasure(game, uid, inspected.instanceId))}>Play {inspected.card.name}</GameButton>{#if !(canPlayAction(game, uid, inspected.instanceId) || canPlayTreasure(game, uid, inspected.instanceId))}<p>{turnUid !== uid ? 'Wait for your turn.' : choice ? 'Finish your current choice.' : inspected.card.type === 'Treasure' ? 'Play Treasures in the Treasure phase.' : game.resources.actions < 1 ? 'No Actions remaining.' : 'The Action phase is over.'}</p>{/if}</div>{/if}
-  {:else if modal === 'advance'}<h2 id="session-dialog-title">{game.turn.phase === 'actions' ? 'Leave Actions?' : 'End your turn?'}</h2><div class="confirm-resources"><ResourceIcon resource="coins" value={game.resources.coins}/><ResourceIcon resource="buys" value={game.resources.buys}/></div><p>You can still {remaining?.verb} {remaining?.card.name}.</p><div class="confirm-controls"><GameButton primary onclick={close}>Keep playing</GameButton><GameButton onclick={commitAdvance} disabled={!ready}>{advanceLabel}</GameButton></div>
+  {:else if modal === 'advance'}<h2 id="session-dialog-title">{game.turn.phase === 'actions' ? 'Leave Actions?' : 'End your turn?'}</h2><div class="confirm-resources"><ResourceIcon resource="coins" value={game.resources.coins}/><ResourceIcon resource="buys" value={game.resources.buys}/><ResourceIcon resource="worship" value={game.resources.worship}/></div><p>You can still {remaining?.verb} {remaining?.verb==='worship'?remaining.card.god:remaining?.card.name}.</p><div class="confirm-controls"><GameButton primary onclick={close}>Keep playing</GameButton><GameButton onclick={commitAdvance} disabled={!ready}>{advanceLabel}</GameButton></div>
   {:else if modal === 'zone' && zone}<h2 id="session-dialog-title">{zone.title}</h2>{#if zoneCards.length}<div class="supply-piles">{#each zoneCards.slice(zonePage * 6, zonePage * 6 + 6) as card}<button aria-label={`Inspect ${definition(card.cardId).name}, copy ${card.copy}`} onclick={() => { inspected = { card: definition(card.cardId), copy: card.copy }; modal = 'card'; }}><CardFace card={definition(card.cardId)} players={game.playerCount} copy={card.copy} /></button>{/each}</div><nav class="supply-pages" aria-label="Pile pages"><button disabled={zonePage === 0} onclick={() => zonePage--}>Previous</button><span>{zonePage + 1} / {Math.ceil(zoneCards.length / 6)}</span><button disabled={(zonePage + 1) * 6 >= zoneCards.length} onclick={() => zonePage++}>Next</button></nav>{:else}<p>No cards here.</p>{/if}
-  {:else if modal === 'chronicle'}<h2 id="session-dialog-title">Chronicle</h2><ol class="chronicle">{#each game.activity as item}<li>{item.message}</li>{/each}</ol>{/if}
+  {:else if modal === 'chronicle'}<h2 id="session-dialog-title">Chronicle</h2><ol class="chronicle" start={chroniclePage*4+1}>{#each game.activity.slice(chroniclePage*4,chroniclePage*4+4) as item}<li>{item.message}</li>{/each}</ol><nav class="supply-pages" aria-label="Chronicle pages"><button aria-label="First moves" disabled={chroniclePage===0} onclick={()=>chroniclePage=0}>First</button><button aria-label="Earlier moves" disabled={chroniclePage===0} onclick={()=>chroniclePage--}>‹</button><span>{chroniclePage+1} / {Math.ceil(game.activity.length/4)}</span><button aria-label="Later moves" disabled={(chroniclePage+1)*4>=game.activity.length} onclick={()=>chroniclePage++}>›</button><button aria-label="Latest moves" disabled={(chroniclePage+1)*4>=game.activity.length} onclick={()=>chroniclePage=Math.ceil(game.activity.length/4)-1}>Latest</button></nav>{/if}
 </dialog>
 {#if modal === 'supply'}<SupplyScene {game} {uid} {ready} {status} {error} {command} {retry} {close}/>{/if}
 {#if modal === 'worship'}<WorshipScene {game} {uid} selected={worshipEvent} {ready} {status} {error} {command} {retry} {close}/>{/if}
 {#if ownChoice}<ActionChoice {game} {uid} choice={ownChoice} {ready} {error} {command} {status} {retry} />{/if}
 
+{#if showResults}<VictoryScene {game} {uid} {busy} {status} {error} {again} {retry} close={()=>void leaveResults()} chronicle={()=>void leaveResults(true)}/>{/if}
+
 <style>
-  .results{position:absolute;left:25%;top:22%;width:50%;padding:24px;background:#081522f7;border:2px solid #c5a25e;border-radius:20px;text-align:center;z-index:8;}.results h2{font:600 34px 'Cormorant Garamond',serif;margin:0 0 20px;}.results p{display:grid;gap:6px;}.results span{font-size:14px;}.results a{display:inline-block;padding:14px 24px;border:1px solid #c4a366;color:#ffe2a2;border-radius:10px;}.composition:has(.results) .basic-supply,.composition:has(.results) .play-area,.composition:has(.results) .outcome,.composition:has(.results) .action-message,.composition:has(.results) .all-played,.composition:has(.results) .supply-control{visibility:hidden;}@media(max-aspect-ratio:3/4){.results{left:4%;width:92%;top:25%;padding:16px;}.results h2{font-size:26px;}.results span{font-size:11px;}.composition:has(.results) .altars{visibility:hidden;}}
-  .turn-marker{border:0;background:none;color:inherit;padding:0;cursor:pointer;min-height:44px;}.treasures-control{position:absolute;left:2%;top:73%;width:16%;--control-height:48px;--control-font:23px;}.confirm-resources{display:flex;gap:24px;justify-content:center;--icon-size:30px;margin:24px;}.confirm-controls{display:flex;gap:24px;margin:32px auto 12px;max-width:640px;--control-height:56px;--control-font:24px;}.confirm-controls :global(button){flex:1;}dialog:has(.confirm-controls){background:linear-gradient(#142332f5,#08131efa);}
+
+  .turn-marker{border:0;background:none;color:inherit;padding:0;cursor:pointer;min-height:44px;}.treasures-control{position:absolute;left:2%;top:73%;width:16%;--control-height:48px;--control-font:23px;}.confirm-resources{display:flex;gap:24px;justify-content:center;--icon-size:30px;margin:24px;}.confirm-controls{display:flex;gap:24px;margin:32px auto 12px;max-width:640px;--control-height:56px;--control-font:24px;}.confirm-controls :global(button){flex:1;}dialog.decision{width:min(780px,94vw);max-height:94svh;background:var(--decision-panel) center/100% 100% no-repeat;border:0;box-shadow:none;padding:70px 70px 55px;}dialog.decision h2{font-size:clamp(32px,4svh,72px);margin-top:0;}dialog.decision .close{display:none;}dialog.decision::backdrop{background:#02081155;backdrop-filter:none;}@media(max-aspect-ratio:3/4){dialog.decision{padding:58px 35px 45px;}.confirm-controls{flex-direction:column;gap:6px;margin-top:20px;}.confirm-resources{margin:18px 0;gap:20px;}}
   @media(max-aspect-ratio:3/4){.treasures-control{left:35%;top:53%;width:30%;--control-height:44px;--control-font:17px;}.chronicle-control{--control-font:19px!important;}.confirm-controls{flex-direction:column;gap:16px;}.confirm-controls :global(button){flex:auto;}}
 
   .composition:has(.outcome) .play-area{left:34%;top:44%;width:20%;height:17%;}.composition:has(.outcome) .played-cards{margin-left:0;}.composition:has(.outcome) .played-cards button:not(:last-child){display:none;}.outcome{left:56%!important;top:44%!important;width:18%!important;height:17%!important;flex-direction:row!important;}.outcome-card{width:min(54%,12svh)!important;flex-shrink:0;}
@@ -211,7 +217,7 @@
   .turn-rail{position:absolute;left:23%;top:63%;width:54%;height:10%;isolation:isolate;padding:0 3%;display:flex;align-items:center;justify-content:center;}.rail-frame{position:absolute;inset:0;width:100%;height:100%;z-index:-1;pointer-events:none;} .turn-marker{width:35%;display:grid;text-align:center;font:600 clamp(18px,2.6svh,52px)/1.1 'Cormorant Garamond',serif;color:#f6dfac;}.turn-marker span{font-size:.65em;margin-top:4px;}.resources{display:flex;justify-content:space-evenly;width:65%;--icon-size:clamp(20px,3svh,64px);--icon-number-scale:.8;}
   .hand{position:absolute;left:28%;bottom:2%;width:56%;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:1%;align-items:end;}.hand button{min-width:0;height:100%;z-index:2;}.hand-slot,.hand button{grid-row:1;grid-column:calc(var(--card-index) + 1);}.hand-face{pointer-events:none;}.hand-slot:has(+ button:hover){filter:brightness(1.13);}.own-leader{position:absolute!important;left:1%;bottom:3%;width:17%;}.leader-portrait{display:none;}.deck-pile{position:absolute;left:19%;bottom:3%;width:7%;}.deck-pile img{width:100%;display:block;filter:drop-shadow(3px 5px 1px #000);}.discard-pile{position:absolute;right:3%;bottom:4%;width:10%;text-align:center;font-size:clamp(12px,1.8svh,34px);}.discard-pile img{width:100%;max-height:14svh;object-fit:contain;}.discard-pile span{display:block;background:#071321bb;border:1px solid #b2914f;border-radius:8px;padding:6px;}
   .error{position:absolute;left:24%;width:52%;top:29%;text-align:center;padding:12px;background:#481f18ee;border:1px solid #cb9872;border-radius:12px;color:#fff0cd;z-index:9;}.connection{position:absolute;left:30%;top:42%;width:40%;background:#071321ef;border:1px solid #b2914f;border-radius:16px;padding:20px;text-align:center;z-index:10;}.connection p{margin:0 0 16px;}
-  dialog{width:min(900px,94vw);max-height:95svh;padding:28px;border:2px solid #b58b48;border-radius:20px;background:linear-gradient(#132431f5,#07111cfb);color:#f2dfb9;text-align:center;box-shadow:0 20px 80px #000b;}dialog::backdrop{background:#020811bb;backdrop-filter:blur(6px);}dialog h2{font:600 30px/1 'Cormorant Garamond',serif;margin:14px 32px 24px;}.close{position:absolute;right:7px;top:7px;width:44px;height:44px;border:0;background:none;font-size:28px;}.inspected{width:min(360px,49svh,78vw);margin:auto;}.inspected.landscape{width:min(680px,102svh,80vw);}.supply-piles{display:grid;grid-template-columns:repeat(6,1fr);gap:12px;}.supply-pages{display:flex;justify-content:center;gap:16px;margin-top:24px;}.supply-pages button{min-height:44px;padding:8px 14px;border:1px solid #b2914f;background:#071321;border-radius:8px;}.chronicle{text-align:left;max-height:65svh;overflow:auto;line-height:1.5;}.chronicle li{padding:6px;}
+  dialog{width:min(900px,94vw);max-height:95svh;padding:28px;border:2px solid #b58b48;border-radius:20px;background:linear-gradient(#132431f5,#07111cfb);color:#f2dfb9;text-align:center;box-shadow:0 20px 80px #000b;}dialog::backdrop{background:#020811bb;backdrop-filter:blur(6px);}dialog h2{font:600 30px/1 'Cormorant Garamond',serif;margin:14px 32px 24px;}.close{position:absolute;right:7px;top:7px;width:44px;height:44px;border:0;background:none;font-size:28px;}.inspected{width:min(360px,49svh,78vw);margin:auto;}.inspected.landscape{width:min(680px,102svh,80vw);}.supply-piles{display:grid;grid-template-columns:repeat(6,1fr);gap:12px;}.supply-pages{display:flex;justify-content:center;gap:16px;margin-top:24px;}.supply-pages button{min-height:44px;padding:8px 14px;border:1px solid #b2914f;background:#071321;border-radius:8px;}.chronicle{text-align:left;line-height:1.5;padding-left:24px;}.supply-pages{align-items:center;}.chronicle li{padding:6px;}nav[aria-label="Chronicle pages"]{gap:6px;}nav[aria-label="Chronicle pages"] button{min-width:44px;}
   @media(max-aspect-ratio:3/4){
     .session{min-height:700px;}header{top:1%;left:2%;right:2%;font-size:11px;}header a,header>span{padding:6px 10px;}header a{min-height:34px;}
     .draft-title{left:10%;width:80%;top:6%;}h1{font-size:clamp(28px,7.2vw,50px);line-height:.92;}.draft-title h1 br{display:none;}.draft-title p{font-size:20px;margin:9px 0;}.hero{left:10%;top:13%;width:80%;height:27%;}

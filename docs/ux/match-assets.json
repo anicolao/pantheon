@@ -1,0 +1,29 @@
+{
+  "mode": "built-in image_gen",
+  "references": [
+    "docs/ux/concepts/14-victory.png",
+    "docs/ux/concepts/21-end-turn.png"
+  ],
+  "assets": [
+    {
+      "path": "static/assets/ui/victory-desktop.webp",
+      "prompt": "Use case: stylized-concept. Asset type: shipping decorative environment layer for Pantheon: Bloodlines victory scene. Input image is an approved concept reference, NOT an edit target. Generate ONLY the desktop background from its LEFT composition: a moonlit Greek temple terrace, warm gold braziers and candles, marble columns and Athena owl statuary at edges, distant illuminated Acropolis, midnight blue and gold palette, near foreground stone with scattered olive leaves. Composition 3:2 landscape, full bleed, camera frontal, central 75% calm and open for live winner portraits and a score panel, upper center open night sky for a live title, lower center unobstructed dark marble for live controls. Rich polished painterly game art, closely match the reference's materials and lighting. Remove ALL interface content: no cards, portraits in frames, panels, banners, laurels, text, numbers, buttons, logos, watermarks, or phone inset. No people. This is only the environment behind the actual interactive UI.",
+      "source": "/Users/anicolao/.codex/generated_images/01a0d67f-4bb5-7f22-9b1f-4851f6ab4fac/exec-f97692e3-5758-48fa-b706-66ef78cdfe48.png"
+    },
+    {
+      "path": "static/assets/ui/victory-mobile.webp",
+      "prompt": "Use case: stylized-concept. Asset type: shipping decorative portrait environment for Pantheon: Bloodlines victory scene. Input image is approved concept reference, NOT an edit target. Generate ONLY the phone environment suggested by the RIGHT composition, full bleed vertical 2:3 portrait: moonlit Greek temple terrace, marble columns and golden braziers at edges, distant illuminated Acropolis high in the night sky, dark blue reflective marble foreground with a few scattered olive leaves. Rich polished painterly game art, reference materials and warm gold/blue lighting. Keep the central 80% spacious and restrained for live victory title, stacked player portraits, score breakdown and controls. No inset desktop view. Absolutely NO cards, framed portraits, panels, laurels, interface, text, lettering, numerals, buttons, banners, logos or watermark. No people. This image is only the background behind real accessible interface elements.",
+      "source": "/Users/anicolao/.codex/generated_images/01a0d67f-4bb5-7f22-9b1f-4851f6ab4fac/exec-75bbf5fe-43f6-4dba-a2a9-b2dd64f3c896.png"
+    },
+    {
+      "path": "static/assets/ui/victory-portrait-frame.webp",
+      "prompt": "Use case: stylized-concept. Asset type: transparent game UI portrait frame, shipping reusable layer. Reference image is an approved victory screen; emulate the ornate rectangular gold portrait frames around its Thaleia and Nereon images. Generate ONE empty landscape 3:2 gold frame, viewed exactly head-on, with sculpted laurel leaves rising along the left and right edges, slim ornate upper border and an ivory blank name plaque along the lower 18%. The large central portrait window MUST BE truly TRANSPARENT alpha, and the exterior outside the frame MUST BE truly TRANSPARENT alpha. Leave the plaque empty with no symbols. Keep the frame symmetric, restrained, polished antique gold, crisp detailed painted game art matching the reference. No character, no scene, no portrait, no card, no score badge, no letters, no numbers, no text, no checkerboard. Frame fills almost the entire canvas with small equal margins. This will be layered over approved character artwork and live text.",
+      "source": "/Users/anicolao/.codex/generated_images/01a0d67f-4bb5-7f22-9b1f-4851f6ab4fac/exec-57c23218-5c89-4125-815b-2ee0ac4bf08f.png"
+    },
+    {
+      "path": "static/assets/ui/decision-panel.webp",
+      "prompt": "Use case: stylized-concept. Asset type: transparent shipping game decision panel layer. Reference is approved Pantheon turn-confirmation painting. Generate ONLY its large central dark blue-black marble decision seal: rectangular landscape panel, ornate thin antique gold border with laurel accents along left/right upper edges and a small empty gold medallion centered just above the top edge. Flat frontal view, 3:2 canvas. Keep interior dark quiet blue marble, empty of everything so live interface text, counters and two buttons can be layered on top. Gold frame perimeter occupies about 8% on each side, central 80% is unobstructed. Panel fills 96% canvas with minimal equal outer margins. Outside the gold outline must be genuine transparent alpha. No text, no letters, no numbers, no symbols in the seal, no buttons, no cards, no tabletop, no people, no scene. Match the rich polished painterly gold and marble material of the reference.",
+      "source": "/Users/anicolao/.codex/generated_images/01a0d67f-4bb5-7f22-9b1f-4851f6ab4fac/exec-6b63217d-5da9-4730-b759-0f3da76d2b1d.png"
+    }
+  ]
+}
