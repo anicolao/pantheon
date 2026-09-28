@@ -1,0 +1,628 @@
+{
+  "primary": [
+    {
+      "leader": "thaleia",
+      "games": 1200,
+      "before": 0.06708333333333333,
+      "after": 0.3725,
+      "blocks": 200,
+      "pairs": 1200,
+      "excludedBlocks": 0,
+      "exposureRate": 1,
+      "difference": 0.30541666666666667,
+      "interval": [
+        0.2749999999999998,
+        0.33625
+      ],
+      "correctedInterval": [
+        0.26708333333333323,
+        0.3458333333333332
+      ],
+      "label": "discovery signal"
+    },
+    {
+      "leader": "nereon",
+      "games": 1200,
+      "before": 0.12041666666666667,
+      "after": 0.4025000000000002,
+      "blocks": 200,
+      "pairs": 1200,
+      "excludedBlocks": 0,
+      "exposureRate": 1,
+      "difference": 0.2820833333333335,
+      "interval": [
+        0.2479166666666667,
+        0.31625
+      ],
+      "correctedInterval": [
+        0.2375,
+        0.325
+      ],
+      "label": "discovery signal"
+    },
+    {
+      "leader": "melia",
+      "games": 1200,
+      "before": 0.20291666666666666,
+      "after": 0.4916666666666668,
+      "blocks": 200,
+      "pairs": 1200,
+      "excludedBlocks": 0,
+      "exposureRate": 1,
+      "difference": 0.2887500000000001,
+      "interval": [
+        0.2575,
+        0.31958333333333344
+      ],
+      "correctedInterval": [
+        0.24916666666666656,
+        0.3283333333333332
+      ],
+      "label": "discovery signal"
+    },
+    {
+      "leader": "doreios",
+      "games": 1200,
+      "before": 0.2525,
+      "after": 0.4766666666666667,
+      "blocks": 200,
+      "pairs": 1200,
+      "excludedBlocks": 0,
+      "exposureRate": 1,
+      "difference": 0.22416666666666668,
+      "interval": [
+        0.19333333333333333,
+        0.2558333333333333
+      ],
+      "correctedInterval": [
+        0.18458333333333324,
+        0.26416666666666655
+      ],
+      "label": "discovery signal"
+    }
+  ],
+  "engineCells": [
+    {
+      "leader": "thaleia",
+      "opponent": "nereon",
+      "games": 400,
+      "before": 0.125,
+      "after": 0.5
+    },
+    {
+      "leader": "thaleia",
+      "opponent": "melia",
+      "games": 400,
+      "before": 0.05,
+      "after": 0.34
+    },
+    {
+      "leader": "thaleia",
+      "opponent": "doreios",
+      "games": 400,
+      "before": 0.02625,
+      "after": 0.2775
+    },
+    {
+      "leader": "nereon",
+      "opponent": "thaleia",
+      "games": 400,
+      "before": 0.04625,
+      "after": 0.34
+    },
+    {
+      "leader": "nereon",
+      "opponent": "melia",
+      "games": 400,
+      "before": 0.17125,
+      "after": 0.41375
+    },
+    {
+      "leader": "nereon",
+      "opponent": "doreios",
+      "games": 400,
+      "before": 0.14375,
+      "after": 0.45375
+    },
+    {
+      "leader": "melia",
+      "opponent": "thaleia",
+      "games": 400,
+      "before": 0.095,
+      "after": 0.32125
+    },
+    {
+      "leader": "melia",
+      "opponent": "nereon",
+      "games": 400,
+      "before": 0.30625,
+      "after": 0.59625
+    },
+    {
+      "leader": "melia",
+      "opponent": "doreios",
+      "games": 400,
+      "before": 0.2075,
+      "after": 0.5575
+    },
+    {
+      "leader": "doreios",
+      "opponent": "thaleia",
+      "games": 400,
+      "before": 0.11875,
+      "after": 0.34125
+    },
+    {
+      "leader": "doreios",
+      "opponent": "nereon",
+      "games": 400,
+      "before": 0.335,
+      "after": 0.57375
+    },
+    {
+      "leader": "doreios",
+      "opponent": "melia",
+      "games": 400,
+      "before": 0.30375,
+      "after": 0.515
+    }
+  ],
+  "diagnostics": [
+    {
+      "leader": "thaleia",
+      "before": {
+        "games": 6000,
+        "share": 0.22008333333333333,
+        "meanVP": 20.616333333333333,
+        "meanTurns": 18.815166666666666,
+        "meanFirstPoints": 11.239746582194064,
+        "noPoints": 2,
+        "meanAcropolises": 2.1611666666666665,
+        "meanDeckSize": 28.842333333333332
+      },
+      "after": {
+        "games": 6000,
+        "share": 0.5383333333333333,
+        "meanVP": 24.309333333333335,
+        "meanTurns": 15.394833333333333,
+        "meanFirstPoints": 8.1925,
+        "noPoints": 0,
+        "meanAcropolises": 3.4816666666666665,
+        "meanDeckSize": 25.368833333333335
+      }
+    },
+    {
+      "leader": "nereon",
+      "before": {
+        "games": 6000,
+        "share": 0.3115,
+        "meanVP": 22.572166666666668,
+        "meanTurns": 18.091833333333334,
+        "meanFirstPoints": 10.493,
+        "noPoints": 0,
+        "meanAcropolises": 2.1683333333333334,
+        "meanDeckSize": 32.472833333333334
+      },
+      "after": {
+        "games": 6000,
+        "share": 0.5695833333333333,
+        "meanVP": 24.378,
+        "meanTurns": 14.8295,
+        "meanFirstPoints": 7.46,
+        "noPoints": 0,
+        "meanAcropolises": 3.4355,
+        "meanDeckSize": 26.1465
+      }
+    },
+    {
+      "leader": "melia",
+      "before": {
+        "games": 6000,
+        "share": 0.4315833333333333,
+        "meanVP": 24.393166666666666,
+        "meanTurns": 17.767333333333333,
+        "meanFirstPoints": 10.254666666666667,
+        "noPoints": 0,
+        "meanAcropolises": 2.758,
+        "meanDeckSize": 28.002333333333333
+      },
+      "after": {
+        "games": 6000,
+        "share": 0.6500833333333333,
+        "meanVP": 25.821833333333334,
+        "meanTurns": 14.728833333333334,
+        "meanFirstPoints": 7.57,
+        "noPoints": 0,
+        "meanAcropolises": 3.7038333333333333,
+        "meanDeckSize": 24.779
+      }
+    },
+    {
+      "leader": "doreios",
+      "before": {
+        "games": 6000,
+        "share": 0.4553333333333333,
+        "meanVP": 23.445333333333334,
+        "meanTurns": 16.903833333333335,
+        "meanFirstPoints": 8.864166666666666,
+        "noPoints": 0,
+        "meanAcropolises": 3.0695,
+        "meanDeckSize": 20.487166666666667
+      },
+      "after": {
+        "games": 6000,
+        "share": 0.6045,
+        "meanVP": 24.2165,
+        "meanTurns": 14.178166666666666,
+        "meanFirstPoints": 7.7625,
+        "noPoints": 0,
+        "meanAcropolises": 3.81,
+        "meanDeckSize": 18.3795
+      }
+    }
+  ],
+  "cells": [
+    {
+      "key": "thaleia/nereon/treasure/treasure",
+      "games": 400,
+      "before": 0.31875,
+      "after": 0.355
+    },
+    {
+      "key": "thaleia/melia/worship/treasure",
+      "games": 400,
+      "before": 0.8325,
+      "after": 0.55125
+    },
+    {
+      "key": "nereon/melia/engine/treasure",
+      "games": 400,
+      "before": 0.69375,
+      "after": 0.40375
+    },
+    {
+      "key": "nereon/doreios/treasure/race",
+      "games": 400,
+      "before": 0.4725,
+      "after": 0.72625
+    },
+    {
+      "key": "nereon/doreios/race/treasure",
+      "games": 400,
+      "before": 0.48,
+      "after": 0.26375
+    },
+    {
+      "key": "melia/doreios/treasure/worship",
+      "games": 400,
+      "before": 0.4325,
+      "after": 0.695
+    },
+    {
+      "key": "thaleia/nereon/treasure/thin",
+      "games": 400,
+      "before": 0.26,
+      "after": 0.68125
+    },
+    {
+      "key": "thaleia/melia/treasure/engine",
+      "games": 400,
+      "before": 0.05,
+      "after": 0.34
+    },
+    {
+      "key": "thaleia/doreios/treasure/treasure",
+      "games": 400,
+      "before": 0.22,
+      "after": 0.46625
+    },
+    {
+      "key": "thaleia/doreios/race/treasure",
+      "games": 400,
+      "before": 0.42375,
+      "after": 0.2025
+    },
+    {
+      "key": "nereon/melia/worship/treasure",
+      "games": 400,
+      "before": 0.71625,
+      "after": 0.415
+    },
+    {
+      "key": "nereon/doreios/thin/treasure",
+      "games": 400,
+      "before": 0.42625,
+      "after": 0.13625
+    },
+    {
+      "key": "melia/doreios/engine/treasure",
+      "games": 400,
+      "before": 0.69625,
+      "after": 0.485
+    },
+    {
+      "key": "thaleia/nereon/treasure/race",
+      "games": 400,
+      "before": 0.345,
+      "after": 0.72125
+    },
+    {
+      "key": "thaleia/melia/treasure/worship",
+      "games": 400,
+      "before": 0.085,
+      "after": 0.425
+    },
+    {
+      "key": "thaleia/doreios/treasure/thin",
+      "games": 400,
+      "before": 0.37875,
+      "after": 0.74
+    },
+    {
+      "key": "nereon/melia/treasure/engine",
+      "games": 400,
+      "before": 0.17125,
+      "after": 0.41375
+    },
+    {
+      "key": "nereon/doreios/treasure/treasure",
+      "games": 400,
+      "before": 0.37375,
+      "after": 0.565
+    },
+    {
+      "key": "melia/doreios/worship/treasure",
+      "games": 400,
+      "before": 0.61875,
+      "after": 0.4025
+    },
+    {
+      "key": "thaleia/nereon/thin/treasure",
+      "games": 400,
+      "before": 0.745,
+      "after": 0.4125
+    },
+    {
+      "key": "thaleia/melia/engine/treasure",
+      "games": 400,
+      "before": 0.905,
+      "after": 0.67875
+    },
+    {
+      "key": "thaleia/doreios/treasure/race",
+      "games": 400,
+      "before": 0.46125,
+      "after": 0.81125
+    },
+    {
+      "key": "nereon/melia/treasure/worship",
+      "games": 400,
+      "before": 0.15875,
+      "after": 0.4875
+    },
+    {
+      "key": "nereon/doreios/treasure/thin",
+      "games": 400,
+      "before": 0.51625,
+      "after": 0.825
+    },
+    {
+      "key": "melia/doreios/treasure/engine",
+      "games": 400,
+      "before": 0.2075,
+      "after": 0.5575
+    },
+    {
+      "key": "thaleia/nereon/race/treasure",
+      "games": 400,
+      "before": 0.69125,
+      "after": 0.3525
+    },
+    {
+      "key": "thaleia/doreios/thin/treasure",
+      "games": 400,
+      "before": 0.58875,
+      "after": 0.30625
+    },
+    {
+      "key": "thaleia/nereon/treasure/engine",
+      "games": 400,
+      "before": 0.125,
+      "after": 0.5
+    },
+    {
+      "key": "thaleia/melia/treasure/treasure",
+      "games": 400,
+      "before": 0.20125,
+      "after": 0.30875
+    },
+    {
+      "key": "thaleia/doreios/worship/treasure",
+      "games": 400,
+      "before": 0.805,
+      "after": 0.59625
+    },
+    {
+      "key": "nereon/doreios/engine/treasure",
+      "games": 400,
+      "before": 0.665,
+      "after": 0.42625
+    },
+    {
+      "key": "melia/doreios/treasure/race",
+      "games": 400,
+      "before": 0.65125,
+      "after": 0.8575
+    },
+    {
+      "key": "melia/doreios/race/treasure",
+      "games": 400,
+      "before": 0.32125,
+      "after": 0.1275
+    },
+    {
+      "key": "thaleia/nereon/treasure/worship",
+      "games": 400,
+      "before": 0.08625,
+      "after": 0.445
+    },
+    {
+      "key": "thaleia/melia/treasure/thin",
+      "games": 400,
+      "before": 0.255,
+      "after": 0.67375
+    },
+    {
+      "key": "thaleia/doreios/treasure/engine",
+      "games": 400,
+      "before": 0.02625,
+      "after": 0.2775
+    },
+    {
+      "key": "nereon/melia/treasure/treasure",
+      "games": 400,
+      "before": 0.425,
+      "after": 0.5
+    },
+    {
+      "key": "nereon/melia/race/treasure",
+      "games": 400,
+      "before": 0.45625,
+      "after": 0.19375
+    },
+    {
+      "key": "nereon/doreios/worship/treasure",
+      "games": 400,
+      "before": 0.73,
+      "after": 0.45625
+    },
+    {
+      "key": "melia/doreios/thin/treasure",
+      "games": 400,
+      "before": 0.465,
+      "after": 0.21875
+    },
+    {
+      "key": "thaleia/nereon/engine/treasure",
+      "games": 400,
+      "before": 0.95375,
+      "after": 0.66
+    },
+    {
+      "key": "thaleia/melia/treasure/race",
+      "games": 400,
+      "before": 0.37,
+      "after": 0.815
+    },
+    {
+      "key": "thaleia/doreios/treasure/worship",
+      "games": 400,
+      "before": 0.11875,
+      "after": 0.515
+    },
+    {
+      "key": "nereon/melia/treasure/thin",
+      "games": 400,
+      "before": 0.4325,
+      "after": 0.78375
+    },
+    {
+      "key": "nereon/doreios/treasure/engine",
+      "games": 400,
+      "before": 0.14375,
+      "after": 0.45375
+    },
+    {
+      "key": "melia/doreios/treasure/treasure",
+      "games": 400,
+      "before": 0.475,
+      "after": 0.62125
+    },
+    {
+      "key": "thaleia/nereon/worship/treasure",
+      "games": 400,
+      "before": 0.92,
+      "after": 0.63
+    },
+    {
+      "key": "thaleia/melia/thin/treasure",
+      "games": 400,
+      "before": 0.6775,
+      "after": 0.335
+    },
+    {
+      "key": "thaleia/doreios/engine/treasure",
+      "games": 400,
+      "before": 0.88125,
+      "after": 0.65875
+    },
+    {
+      "key": "nereon/melia/treasure/race",
+      "games": 400,
+      "before": 0.42875,
+      "after": 0.695
+    },
+    {
+      "key": "nereon/doreios/treasure/worship",
+      "games": 400,
+      "before": 0.17875,
+      "after": 0.50375
+    },
+    {
+      "key": "melia/doreios/treasure/thin",
+      "games": 400,
+      "before": 0.6125,
+      "after": 0.8325
+    },
+    {
+      "key": "thaleia/melia/race/treasure",
+      "games": 400,
+      "before": 0.5325,
+      "after": 0.28
+    },
+    {
+      "key": "nereon/melia/thin/treasure",
+      "games": 400,
+      "before": 0.465,
+      "after": 0.14625
+    }
+  ],
+  "endingIncome": [
+    {
+      "leader": "nereon",
+      "decks": 6000,
+      "hands": 600000,
+      "beforeMean": 8.187076666666666,
+      "afterMean": 7.297240000000004,
+      "beforeHitEight": 0.568785,
+      "afterHitEight": 0.44920333333333334
+    },
+    {
+      "leader": "thaleia",
+      "decks": 6000,
+      "hands": 600000,
+      "beforeMean": 8.235126666666666,
+      "afterMean": 7.198596666666634,
+      "beforeHitEight": 0.56163,
+      "afterHitEight": 0.432185
+    },
+    {
+      "leader": "melia",
+      "decks": 6000,
+      "hands": 600000,
+      "beforeMean": 8.087625,
+      "afterMean": 7.343993333333342,
+      "beforeHitEight": 0.560505,
+      "afterHitEight": 0.461555
+    },
+    {
+      "leader": "doreios",
+      "decks": 6000,
+      "hands": 600000,
+      "beforeMean": 8.215698333333334,
+      "afterMean": 7.411838333333342,
+      "beforeHitEight": 0.592605,
+      "afterHitEight": 0.4750333333333333
+    }
+  ]
+}
