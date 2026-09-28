@@ -1,6 +1,8 @@
 # Balance decision studies
 
-The current population is **strategy version 4**. See [bot designs](BOT_STRATEGIES.md) and the [defect correction ledger](BOT_DEFECTS.md). Earlier commands and results below are historical and reproduce their archived outcomes only at the recorded source commit.
+The current population is **strategy version 5**. See [bot designs](BOT_STRATEGIES.md) and the [defect correction ledger](BOT_DEFECTS.md). Earlier commands and results below are historical and reproduce their archived outcomes only at the recorded source commit.
+
+Treasure v5 now maximizes all-card expected hand income and gates points on post-purchase $8 EV. The archived v4 leader comparison predates this change; a new balance claim requires fresh training and evaluation.
 
 ## Full leader/strategy matrix
 

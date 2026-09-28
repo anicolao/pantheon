@@ -1,14 +1,14 @@
-# Bot strategy design reference — version 4
+# Bot strategy design reference — version 5
 
 This reference describes implemented behavior. The [defect ledger](BOT_DEFECTS.md) records the concrete corrections and regression coverage. Bots are deterministic public-information heuristics, not optimal players. Earlier studies remain reproducible at their recorded source commits; their outcomes do not describe this version.
 
-The completed [standard-rule v4 matrix](balance-results/all-leaders-v4/README.md) covers every leader pair and all five strategy families.
+The completed [standard-rule v4 matrix](balance-results/all-leaders-v4/README.md) covers every leader pair and all five strategy families **at policy v4**. Treasure changed in v5; those results have not been rerun for this population.
 
 ## The five families
 
 | Family | Objective and implementation |
 | --- | --- |
-| Treasure | Stable money benchmark. Buys Acropolis, late Polis, Talent, Drachma and late Hamlet. It deliberately does not voluntarily buy Actions or Worship. Uses safe ending/multi-buy planning and actual leader effects when playing owned Actions. |
+| Treasure | Big money through expected hand income. Considers every card, including Actions; maximizes the resulting deck’s expected spendable Coins until points preserve at least $8 EV. Recomputes after every buy and retains known-ending protection. Does not Worship. |
 | Engine | Builds executable whole-deck draw, buys support when draw is blocked, then converts income to points. Generic effect-based scoring; no named opening or draw-copy cap. |
 | Thin | Favors economically useful removals and upgrades. Scores trashing tools by remaining work; uses joint before/after deck evaluation and current-turn opportunity costs. Other Actions receive 0.8× Engine utility. |
 | Worship | Builds achievable two-Action Devotion and uses worthwhile events. Actions receive 0.8× Engine utility plus marginal Favored-access value; tools use remaining-work value plus Devotion value. |
@@ -22,15 +22,15 @@ The observation contains the bot's hand, unordered owned inventory, public suppl
 
 Study decisions resolve choices first, consider whether a legal known Action sequence should establish Favored, compare available Worship against displaced purchases, play Actions, play Treasures one at a time, execute a purchase plan, then end. Treasure plays its Treasures together and bypasses Worship. Forecasts never fabricate cards from an unseen draw.
 
-Source: [controller](scripts/balance/strategy.ts), [planning](scripts/balance/planning.ts), [Worship](scripts/balance/worship.ts), [Engine](scripts/balance/engine.ts), [Thin](scripts/balance/thin.ts), [benchmark](scripts/balance/bot.ts).
+Source: [money EV](scripts/balance/money.ts), [controller](scripts/balance/strategy.ts), [planning](scripts/balance/planning.ts), [Worship](scripts/balance/worship.ts), [Engine](scripts/balance/engine.ts), [Thin](scripts/balance/thin.ts), [benchmark](scripts/balance/bot.ts).
 
 ## Game horizon and common scoring
 
 A public horizon `H` is the minimum of six turns, `1.5 × Acropolises remaining / players`, `1.5 × cards remaining in the three smallest piles / players`, and `Acropolises remaining / (1 + sum(opponent nominal income / 8))`. It reaches zero for an ending already triggered. This is an explicit pressure estimate, not a learned forecast. It responds to third-pile danger and publicly richer opponents.
 
-A profile enters its late scoring mode when H is at most `scoringAt`. Acropolis utility is 14; Polis is 9 when late or playing Race, otherwise 0.4; Hamlet is 2.5 late, otherwise −1. Talent is 6 late, otherwise 9. Drachma is `max(1, 6.5 − 0.35 × max(0, nominal owned Treasure value−10))`. Obol is 1 below five nominal Treasure Coins, otherwise −2. These utilities compare investment and points heuristically; they are not expected VP or probabilities.
+For the four non-Treasure families, a profile enters its late scoring mode when H is at most `scoringAt`. Acropolis utility is 14; Polis is 9 when late or playing Race, otherwise 0.4; Hamlet is 2.5 late, otherwise −1. Talent is 6 late, otherwise 9. Drachma is `max(1, 6.5 − 0.35 × max(0, nominal owned Treasure value−10))`. Obol is 1 below five nominal Treasure Coins, otherwise −2. These utilities compare investment and points heuristically; they are not expected VP or probabilities.
 
-There is no longer a named Action purchase-score table for the study families. Action value comes from effects, owned composition, actual trigger capacity, time and family objective. The `engineCopies` preset field is retained for artifact compatibility but is unused by v4 study policies. Utilities for extra copies in a multi-buy basket are recomputed with preceding copies of that card added.
+There is no longer a named Action purchase-score table for the study families. Action value comes from effects, owned composition, actual trigger capacity, time and family objective. The `engineCopies` preset field is retained for artifact compatibility but is unused by v5 study policies. Utilities for extra copies in a multi-buy basket are recomputed with preceding copies of that card added.
 
 ## Ending and purchase planning
 
@@ -40,13 +40,29 @@ Ending evaluation uses actual VP and the production fewer-completed-turns tiebre
 
 The planner is exact for the enumerated purchase quantities and retained utility/VP frontier, not a full game-tree solver. Utilities for different card types are separable within a basket and reevaluated after actual purchases. It does not plan arbitrary future Actions, Worship chains, unknown draws or opponent turns. Positive split-tie endings may be preferred to an uncertain continuation.
 
+## Treasure: expected hand income (v5)
+
+The previous Treasure policy was a fixed Acropolis/Talent/Drachma priority list that excluded Action purchases. That was a restricted baseline, not the requested big-money objective. Both the study Treasure family (strategy version 5) and standalone Treasure policy (policy version 3) now use the same acquisition model; legacy Draw is unchanged.
+
+For every legal affordable supply card, evaluate the entire owned deck after adding it. Buy the card with the highest resulting expected spendable Coins, provided it improves on buying nothing. Every supply card competes, including draw, filtering, Action support and coin Actions. Cost breaks exact EV ties before card ID. Once a point card leaves expected income **at least $8 after dilution**, prefer the highest VP such card; otherwise keep improving income. Recompute after each actual purchase. Known positive-share endings, including multi-buy wins and split ties, override this investment gate in the study controller; known losing endings remain protected. Mandatory gains take the highest-EV available option even when all gains dilute income.
+
+“Hand EV” means income from five cards drawn uniformly from the resulting whole deck, followed by legal Action play. It measures the next shuffled hand's economy, not the literal next turn's draw from the current deck: a purchase normally goes to discard and may not be available immediately. No actual shuffled order, game seed or opponent hand enters the estimate.
+
+Pure money/point decks have exact mean `min(5,N) × total Treasure Coins / N`. Decks containing one simple Action also have an exact mean: opening probability times printed/trigger Coins and expected extra draw, capped by available cards. Other decks use 16 deterministic shuffled orders and every cyclic rotation of each order (`16N` sampled hands), so each card appears equally often in opening hands. Alternative inventories share per-copy random ranks; these synthetic samples do not use match seeds. The production reducer executes draws, Action consumption, once-per-turn leader effects, discards, conditional reveals and reshuffles. The estimator caches only public composition, leader effects and supply when gains can matter.
+
+Execution preserves an available Action chain, then ranks Action payloads by printed/trigger Coins and expected Treasure draw income. Forced discards use current-turn cash/playability. The same greedy play rule runs inside the estimator and in actual Treasure turns. This is finite-policy income estimation, not exhaustive optimal Action sequencing. Optional trash/upgrade is declined inside the one-hand model; mandatory sampled gains use immediate draw/coin payload. Discard gains contribute only if later draw reaches them. Actual gain decisions use the EV model; actual optional trashing retains the conservative benchmark income floor. Pure trashing/gaining/Worship capacity receives no speculative future-turn premium. Treasure continues to skip Worship events.
+
+Examples without leader bonuses: seven Obols and three Hamlets give $3.50 EV; adding Drachma gives $4.091, while adding Council of Sages gives $4.136. With six Obols and four inert cards, Drachma instead gives $3.636 versus Council's $3.545. The actual game starts with six Obols, three Hamlets and a leader-specific Temple. A six-Talent/five-Hamlet deck has $8.182 EV, but adding Acropolis drops it to $7.50, so it buys income instead. With six Talents/four Hamlets, Acropolis leaves $8.182 and is accepted.
+
+The objective is the **mean of spendable Coins**, not `P(Coins >= 8)`, expected VP, or eventual victory probability. Sampled means have approximation error, especially for close decisions; multi-turn investment and mixed-card purchase baskets are not searched. Regression coverage: [money tests](tests/simulation/money.test.ts).
+
 ## Engine
 
 The capacity model starts with one Action and adds surplus Actions from nonterminal cards plus the matching leader trigger. Terminal slots are allocated to the largest draw effects first; mandatory discards reduce net draw. Draw demand is deck size minus five opening cards, plus a two-card reliability margin. Spare Actions with unseen cards after the Action phase increase that margin by up to three and increase marginal draw pressure by 25%.
 
 Each unit of reduced draw deficit earns 6 utility; each unit of unlocked stranded draw earns 2. Printed Coins, gains, filtering and useful Buys provide payload value. Conditional reveal income uses public Territory density; it never inspects the next card. Terminal payload is discounted by Action capacity relative to terminal demand. Acquisition includes the new card's deck-size cost. A probability-based opening bonus rewards a marginal increase in opening a draw card that can preserve Actions. Utilities receive a 0.35 late multiplier.
 
-All families now obtain trashing-tool scores from Thin's remaining-work model; Engine, Worship and Race weight its utility by 0.35, while Thin uses full weight. This prevents a generic engine from valuing upgrades as highly as the dedicated thinning strategy solely because of a shared evaluator.
+The four non-Treasure families obtain trashing-tool scores from Thin's remaining-work model; Engine, Worship and Race weight its utility by 0.35, while Thin uses full weight. This prevents a generic engine from valuing upgrades as highly as the dedicated thinning strategy solely because of a shared evaluator.
 
 Play ordering considers usable draw, Actions, Coins and trashing, including actual unused leader effects. It penalizes ending the Action chain only when another available card could keep that chain alive. Owned Action retention uses marginal removal/restoration, rather than the value of acquiring another copy.
 
@@ -88,10 +104,10 @@ Discarding is distinct from permanent removal: Territories go first; unplayable 
 
 ## Training and interpretation
 
-The three bundled presets remain `(scoringAt, engineCopies, moneyFloor, worshipMargin)` = `(3,3,7,0.5)`, `(5,2,9,1)`, `(2,5,6,0)`. `engineCopies` is now unused by study policies. `moneyFloor` remains relevant to the legacy disposable-card retention shortcut in non-Thin offerings; actual joint trash safety uses the income model. The benchmark uses preset 0 and ignores profile tuning beyond the study controller's fixed late threshold.
+The three bundled presets remain `(scoringAt, engineCopies, moneyFloor, worshipMargin)` = `(3,3,7,0.5)`, `(5,2,9,1)`, `(2,5,6,0)`. `engineCopies` is now unused by study policies. `moneyFloor` remains relevant to the legacy disposable-card retention shortcut in non-Thin offerings; actual joint trash safety uses the income model. Treasure uses preset 0 for artifact compatibility and ignores all preset parameters; its income threshold is $8.
 
 The full matrix runner trains all four non-Treasure families for every leader against all five fixed preset-0 reference families, every other leader and both seats, with equal candidate budgets. It freezes one preset per leader/family before evaluation. Training changes only these presets, not objective weights or program structure.
 
-The declared full study uses eight training blocks (11,520 games), then 200 independent evaluation blocks (60,000 games): six distinct leader pairs × 25 strategy pairings × two seats × 200. Standard leader rules apply. Every strategy cell has 400 games. The six primary pair shares weight strategy pairings equally and use whole-seed bootstrap intervals adjusted across six comparisons. Every individual strategy matchup is also reported, descriptively. This is a defined policy population, not optimal play, a mixed-strategy equilibrium or human balance validation.
+The historical v4 full study used eight training blocks (11,520 games), then 200 independent evaluation blocks (60,000 games): six distinct leader pairs × 25 strategy pairings × two seats × 200. Standard leader rules apply. Every strategy cell has 400 games. Its headline comparison uses the best observed family for each leader against the other leader’s best observed family. Original equal-strategy averages and adjusted intervals are supplementary. Every individual strategy matchup is also reported, descriptively. This is a defined policy population, not optimal play, a mixed-strategy equilibrium or human balance validation.
 
 Historical variants and earlier studies are separate, source-pinned artifacts. Fresh profiles and fresh evaluation seeds are required to assess the corrected population.
