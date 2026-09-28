@@ -137,3 +137,38 @@ test('leader buffs preserve Thaleia versus Doreios exactly and replay each buffe
     }
   }
 });
+
+
+test('Thaleia buy variant adds one Buy without an extra card, once per turn with reset', () => {
+  const { game, uid } = fixture(), baseline = structuredClone(game);
+  for (const [state, variant] of [[baseline, 'standard'], [game, 'thaleia-buy']] as const) {
+    applyPlayCommand(state, uid, { type: 'action/played', instanceId: 'hand-0' }, 100, variant);
+    applyPlayCommand(state, uid, { type: 'action/played', instanceId: 'hand-2' }, 101, variant);
+  }
+  expect(game.resources).toEqual({ ...baseline.resources, buys: baseline.resources.buys + 1 });
+  expect(game.decks).toEqual(baseline.decks);
+  expect(game.movements.filter(move => move.source === 'thaleia' && move.kind === 'draw')).toHaveLength(0);
+  applyPlayCommand(game, uid, { type: 'phase/advanced' }, 102, 'thaleia-buy');
+  applyPlayCommand(game, uid, { type: 'turn/ended' }, 103, 'thaleia-buy');
+  const other = activePlayer(game);
+  applyPlayCommand(game, other, { type: 'phase/advanced' }, 104, 'thaleia-buy');
+  applyPlayCommand(game, other, { type: 'turn/ended' }, 105, 'thaleia-buy');
+  expect(game.resources.buys).toBe(1); expect(game.turn.leaderUsed).toBe(false);
+  game.decks[uid].hand = [{ id: 'new-temple', cardId: 'temple-of-athena', copy: 1 }];
+  applyPlayCommand(game, uid, { type: 'action/played', instanceId: 'new-temple' }, 106, 'thaleia-buy');
+  expect(game.resources.buys).toBe(2);
+});
+
+test('buy variant keeps every other leader standard and completes replayable heads-up games', () => {
+  const otherOptions = { seed: 'buy-other-leaders', block: 0, lineup: ['nereon', 'melia', 'doreios'], focal: 0,
+    profiles: Array.from({ length: 3 }, () => ({ family: 'engine' as const, parameters: candidates[1] })) };
+  const before = runExperiment(otherOptions), after = runExperiment({ ...otherOptions, variant: 'thaleia-buy' });
+  expect(after.events).toEqual(before.events); expect(after.result.players).toEqual(before.result.players);
+  for (const leader of ['nereon', 'melia', 'doreios']) {
+    const options = { seed: 'buy-replay', block: 0, lineup: ['thaleia', leader], focal: 0,
+      profiles: Array.from({ length: 2 }, () => ({ family: 'engine' as const, parameters: candidates[1] })), variant: 'thaleia-buy' as const };
+    const run = runExperiment(options), replayed = replayExperiment(run.events, options);
+    expect(run.result.status).toBe('completed');
+    expect(standings(replayed).map(row => [row.uid, row.score, row.turns])).toEqual(run.result.players.map(row => [row.uid, row.score, row.turns]));
+  }
+});
