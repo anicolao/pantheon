@@ -76,3 +76,36 @@ test('mandatory discards are not valued as free net draw', () => {
   const state = view(); state.resources.coins = 5;
   expect(cardValue(state, profile, 'sacred-academy')).toBeGreaterThan(cardValue(state, profile, 'harvest-feast'));
 });
+
+
+test('public draw-progress accounting agrees with turn-start card identities through full games', () => {
+  for (let block = 0; block < 12; block++) {
+    const options = { seed: `engine-progress-${block}`, block, lineup: ['thaleia', 'melia'], focal: 0,
+      profiles: [profile, { family: 'thin' as const, parameters: candidates[0] }], variant: 'thaleia-actions' as const };
+    const run = runExperiment(options), { game, events: setup } = setupMatch(options.seed, options.lineup);
+    const expected = Object.fromEntries(game.turnOrder.map(uid => [uid, { actionPhases: 0, fullDeckDraws: 0, unseenAtActionEnd: 0, spareActionsWithUnseen: 0 }]));
+    let key = '', targets = new Set<string>(), seen = new Set<string>();
+    for (const event of run.events.slice(setup.length)) {
+      const uid = activePlayer(game);
+      if (key !== `${uid}/${game.turn.number}`) {
+        key = `${uid}/${game.turn.number}`;
+        targets = new Set(Object.values(game.decks[uid]).flat().map(card => card.id));
+        seen = new Set(game.decks[uid].hand.map(card => card.id));
+      }
+      if (event.type === 'phase/advanced' && game.turn.phase === 'actions') {
+        const unseen = [...targets].filter(id => !seen.has(id)).length, m = expected[uid];
+        m.actionPhases++; m.fullDeckDraws += Number(unseen === 0); m.unseenAtActionEnd += unseen;
+        m.spareActionsWithUnseen += Number(unseen > 0 && game.resources.actions > 0);
+      }
+      const start = game.movements.length;
+      const message = applyPlayCommand(game, event.actorUid, event as Parameters<typeof applyPlayCommand>[2], event.sequence, options.variant);
+      game.activity.push({ sequence: event.sequence, message });
+      if (event.type !== 'turn/ended') for (const move of game.movements.slice(start)) {
+        if (move.uid === uid && move.kind === 'draw' && move.card && targets.has(move.card.id)) seen.add(move.card.id);
+      }
+    }
+    for (const player of run.result.players) for (const [metric, value] of Object.entries(expected[player.uid])) {
+      expect(player.telemetry[metric as keyof typeof expected[string]]).toBe(value);
+    }
+  }
+});
