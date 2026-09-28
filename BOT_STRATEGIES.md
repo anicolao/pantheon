@@ -23,7 +23,7 @@ Sources: [Thin model](scripts/balance/thin.ts), [strategy definitions and shared
 
 Bots receive their hand, unordered owned-card counts, resources, supply, phase, pending choice, leader and trigger-used flag. Study bots additionally receive public played cards, available events, turn counts, public inventory-derived scores and the actual leader trigger effects for the rule variant. Engine receives a count of unseen turn-start cards, maintained from its observed draws and gains. No policy receives the shuffle seed, future deck order or opposing hands.
 
-Public score estimates are exact inventory VP totals for the current card set, not estimates of hidden hands. The ending heuristic uses scores but ignores the fewer-turn tiebreak. All decisions are deterministic; there is no rollout, probability model, opponent policy inference, learning during play or strategic leader drafting.
+Public score estimates are exact inventory VP totals for the current card set, not estimates of hidden hands. The ending heuristic uses scores but ignores the fewer-turn tiebreak. All decisions are deterministic; there is no rollout, opponent policy inference, learning during play or strategic leader drafting. Thin v3 models a distribution of future Treasure income, conditional on approximate draw capacity.
 
 ## Shared decisions: Engine, Thin, Worship and Race
 
@@ -36,7 +36,7 @@ At each decision, the bot follows this order:
 5. If a Buy remains, prefer a detected winning pile-ending purchase; otherwise buy the affordable card with the highest positive utility.
 6. End the turn when no purchase is selected.
 
-Utilities are arbitrary comparable scores, not expected VP or victory probabilities. Purchases and gains use the same scores. Acquisitions tie-break by card ID; Action/discard ties generally use instance ID. The purchase heuristic does not plan how to split multiple Buys or preserve money for a later command.
+Utilities are arbitrary comparable scores, not expected VP or victory probabilities. Engine, Worship and Race use the same scores for purchases and gains. Thin now evaluates gains by its before/after deck model; ordinary non-tool purchases still use the common score table. Acquisitions tie-break by card ID; Action/discard ties generally use instance ID. The purchase heuristic does not plan how to split multiple Buys or preserve money for a later command.
 
 ### Common economy and scoring
 
@@ -81,6 +81,8 @@ The best event is used only when its net utility strictly exceeds `worshipMargin
 | Tribute of the Tides | Drachma acquisition utility if available; +1 when Favored and no Buys remain |
 | Blessing of the Fields | Standard: 2 per disposable card, up to two; Favored: best combined-cost offering improvement |
 | Trial of the Spear | Best one-card offering improvement using +1 gain limit, or +3 when Favored |
+
+Thin substitutes its joint deck-change evaluation for the Blessing trash benefit and for Forge/numeric/sum offerings. The other event estimates and scheduling order remain shared.
 
 This evaluator does not compare Worship now with Worship after another Action establishes Favored, anticipate money from unplayed Treasures, or plan multiple Worships. It compares only the best single displaced purchase, not a complete turn. These limitations affect every non-Treasure family, including Engine.
 
@@ -135,7 +137,7 @@ Thin's play priority includes actual unused leader effects: 20 per +Action, 1 pe
 
 **Limits:** Uniform-subset Treasure arithmetic is exact only conditional on the estimated cards seen. Draw accessibility, Action contention, Action/leader income, future purchases, tool availability and remaining game length are approximations. The model does not simulate shuffles, learn the scoring weights, value every reveal/gain payload in its economy estimate, or solve optimal turn sequencing. Its reliability constraint is deliberately conservative and may reject worthwhile risky conversions. Structural tests are not proof of stronger or optimal play.
 
-**Behavioral tests:** Preserve starting income; remove weak Treasures after replacement; evaluate multiple removals together; retain VP near Acropolis and third-pile endings; continue useful cleanup after the old scoring threshold; decline tools with no work; keep needed draw and the last useful trasher; retire exhausted tools; evaluate Forge replacement income; make winning late conversions; respect gain bans; spend terminal capacity on valuable thinning; preserve inventory-order invariance and verify a known $3 probability. See [tests](tests/simulation/thin.test.ts).
+**Behavioral tests:** Preserve starting income; remove weak Treasures after replacement; evaluate multiple removals together; retain VP near Acropolis and third-pile endings; continue useful cleanup after the old scoring threshold; decline tools with no work; keep needed draw and the last useful trasher; retire exhausted tools; evaluate Forge replacement income; make winning late conversions; respect gain bans; spend terminal capacity on valuable thinning; preserve inventory-order invariance and verify a known $3 probability. See [tests](tests/simulation/thin.test.ts) and the [576-game behavior diagnostic](balance-results/thin-v3/README.md).
 
 ## Worship
 
