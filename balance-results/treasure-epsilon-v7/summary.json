@@ -1,0 +1,1260 @@
+{
+  "primary": [
+    {
+      "leader": "thaleia",
+      "games": 1200,
+      "before": 0.3725,
+      "after": 0.37583333333333335,
+      "blocks": 200,
+      "pairs": 1200,
+      "excludedBlocks": 0,
+      "exposureRate": 1,
+      "difference": 0.0033333333333333335,
+      "interval": [
+        -0.036666666666666674,
+        0.04208333333333335
+      ],
+      "correctedInterval": [
+        -0.04708333333333336,
+        0.052916666666666626
+      ],
+      "label": "inconclusive"
+    },
+    {
+      "leader": "nereon",
+      "games": 1200,
+      "before": 0.4025,
+      "after": 0.3875,
+      "blocks": 200,
+      "pairs": 1200,
+      "excludedBlocks": 0,
+      "exposureRate": 1,
+      "difference": -0.014999999999999993,
+      "interval": [
+        -0.04375000000000001,
+        0.014166666666666676
+      ],
+      "correctedInterval": [
+        -0.05125000000000002,
+        0.021666666666666664
+      ],
+      "label": "inconclusive"
+    },
+    {
+      "leader": "melia",
+      "games": 1200,
+      "before": 0.49166666666666664,
+      "after": 0.4295833333333333,
+      "blocks": 200,
+      "pairs": 1200,
+      "excludedBlocks": 0,
+      "exposureRate": 1,
+      "difference": -0.06208333333333331,
+      "interval": [
+        -0.0979166666666667,
+        -0.026250000000000006
+      ],
+      "correctedInterval": [
+        -0.10791666666666666,
+        -0.01666666666666666
+      ],
+      "label": "signal; practical magnitude unresolved"
+    },
+    {
+      "leader": "doreios",
+      "games": 1200,
+      "before": 0.4766666666666667,
+      "after": 0.46708333333333335,
+      "blocks": 200,
+      "pairs": 1200,
+      "excludedBlocks": 0,
+      "exposureRate": 1,
+      "difference": -0.009583333333333333,
+      "interval": [
+        -0.04666666666666666,
+        0.027916666666666652
+      ],
+      "correctedInterval": [
+        -0.05625000000000001,
+        0.0383333333333333
+      ],
+      "label": "inconclusive"
+    }
+  ],
+  "engineCells": [
+    {
+      "leader": "thaleia",
+      "opponent": "nereon",
+      "games": 400,
+      "before": 0.5,
+      "after": 0.49625
+    },
+    {
+      "leader": "thaleia",
+      "opponent": "melia",
+      "games": 400,
+      "before": 0.34,
+      "after": 0.3675
+    },
+    {
+      "leader": "thaleia",
+      "opponent": "doreios",
+      "games": 400,
+      "before": 0.2775,
+      "after": 0.26375
+    },
+    {
+      "leader": "nereon",
+      "opponent": "thaleia",
+      "games": 400,
+      "before": 0.34,
+      "after": 0.3225
+    },
+    {
+      "leader": "nereon",
+      "opponent": "melia",
+      "games": 400,
+      "before": 0.41375,
+      "after": 0.40875
+    },
+    {
+      "leader": "nereon",
+      "opponent": "doreios",
+      "games": 400,
+      "before": 0.45375,
+      "after": 0.43125
+    },
+    {
+      "leader": "melia",
+      "opponent": "thaleia",
+      "games": 400,
+      "before": 0.32125,
+      "after": 0.265
+    },
+    {
+      "leader": "melia",
+      "opponent": "nereon",
+      "games": 400,
+      "before": 0.59625,
+      "after": 0.54
+    },
+    {
+      "leader": "melia",
+      "opponent": "doreios",
+      "games": 400,
+      "before": 0.5575,
+      "after": 0.48375
+    },
+    {
+      "leader": "doreios",
+      "opponent": "thaleia",
+      "games": 400,
+      "before": 0.34125,
+      "after": 0.3025
+    },
+    {
+      "leader": "doreios",
+      "opponent": "nereon",
+      "games": 400,
+      "before": 0.57375,
+      "after": 0.5675
+    },
+    {
+      "leader": "doreios",
+      "opponent": "melia",
+      "games": 400,
+      "before": 0.515,
+      "after": 0.53125
+    }
+  ],
+  "diagnostics": [
+    {
+      "leader": "thaleia",
+      "before": {
+        "games": 6000,
+        "share": 0.5383333333333333,
+        "meanVP": 24.309333333333335,
+        "meanTurns": 15.394833333333333,
+        "meanFirstPoints": 8.1925,
+        "noPoints": 0,
+        "meanAcropolises": 3.4816666666666665,
+        "meanDeckSize": 25.368833333333335
+      },
+      "after": {
+        "games": 6000,
+        "share": 0.5593333333333333,
+        "meanVP": 24.684333333333335,
+        "meanTurns": 15.385,
+        "meanFirstPoints": 8.1175,
+        "noPoints": 0,
+        "meanAcropolises": 3.5288333333333335,
+        "meanDeckSize": 25.391166666666667
+      }
+    },
+    {
+      "leader": "nereon",
+      "before": {
+        "games": 6000,
+        "share": 0.5695833333333333,
+        "meanVP": 24.378,
+        "meanTurns": 14.8295,
+        "meanFirstPoints": 7.46,
+        "noPoints": 0,
+        "meanAcropolises": 3.4355,
+        "meanDeckSize": 26.1465
+      },
+      "after": {
+        "games": 6000,
+        "share": 0.5524166666666667,
+        "meanVP": 24.272666666666666,
+        "meanTurns": 14.923166666666667,
+        "meanFirstPoints": 7.1425,
+        "noPoints": 0,
+        "meanAcropolises": 3.4223333333333334,
+        "meanDeckSize": 26.07
+      }
+    },
+    {
+      "leader": "melia",
+      "before": {
+        "games": 6000,
+        "share": 0.6500833333333333,
+        "meanVP": 25.821833333333334,
+        "meanTurns": 14.728833333333334,
+        "meanFirstPoints": 7.57,
+        "noPoints": 0,
+        "meanAcropolises": 3.7038333333333333,
+        "meanDeckSize": 24.779
+      },
+      "after": {
+        "games": 6000,
+        "share": 0.604,
+        "meanVP": 25.473833333333335,
+        "meanTurns": 15.1385,
+        "meanFirstPoints": 7.395,
+        "noPoints": 0,
+        "meanAcropolises": 3.597,
+        "meanDeckSize": 25.480833333333333
+      }
+    },
+    {
+      "leader": "doreios",
+      "before": {
+        "games": 6000,
+        "share": 0.6045,
+        "meanVP": 24.2165,
+        "meanTurns": 14.178166666666666,
+        "meanFirstPoints": 7.7625,
+        "noPoints": 0,
+        "meanAcropolises": 3.81,
+        "meanDeckSize": 18.3795
+      },
+      "after": {
+        "games": 6000,
+        "share": 0.58825,
+        "meanVP": 24.292,
+        "meanTurns": 14.574333333333334,
+        "meanFirstPoints": 7.232333333333333,
+        "noPoints": 0,
+        "meanAcropolises": 3.7856666666666667,
+        "meanDeckSize": 20.533333333333335
+      }
+    }
+  ],
+  "cells": [
+    {
+      "key": "thaleia/nereon/treasure/treasure",
+      "games": 400,
+      "before": 0.355,
+      "after": 0.385
+    },
+    {
+      "key": "nereon/melia/treasure/engine",
+      "games": 400,
+      "before": 0.41375,
+      "after": 0.40875
+    },
+    {
+      "key": "melia/doreios/treasure/worship",
+      "games": 400,
+      "before": 0.695,
+      "after": 0.58625
+    },
+    {
+      "key": "thaleia/melia/engine/treasure",
+      "games": 400,
+      "before": 0.67875,
+      "after": 0.735
+    },
+    {
+      "key": "nereon/melia/worship/treasure",
+      "games": 400,
+      "before": 0.415,
+      "after": 0.47625
+    },
+    {
+      "key": "thaleia/doreios/treasure/thin",
+      "games": 400,
+      "before": 0.74,
+      "after": 0.76625
+    },
+    {
+      "key": "nereon/doreios/treasure/race",
+      "games": 400,
+      "before": 0.72625,
+      "after": 0.735
+    },
+    {
+      "key": "thaleia/nereon/thin/treasure",
+      "games": 400,
+      "before": 0.4125,
+      "after": 0.41125
+    },
+    {
+      "key": "thaleia/doreios/race/treasure",
+      "games": 400,
+      "before": 0.2025,
+      "after": 0.23
+    },
+    {
+      "key": "melia/doreios/treasure/engine",
+      "games": 400,
+      "before": 0.5575,
+      "after": 0.48375
+    },
+    {
+      "key": "thaleia/melia/treasure/worship",
+      "games": 400,
+      "before": 0.425,
+      "after": 0.45875
+    },
+    {
+      "key": "nereon/melia/engine/treasure",
+      "games": 400,
+      "before": 0.40375,
+      "after": 0.46
+    },
+    {
+      "key": "melia/doreios/worship/treasure",
+      "games": 400,
+      "before": 0.4025,
+      "after": 0.3925
+    },
+    {
+      "key": "thaleia/doreios/treasure/treasure",
+      "games": 400,
+      "before": 0.46625,
+      "after": 0.5125
+    },
+    {
+      "key": "nereon/doreios/treasure/thin",
+      "games": 400,
+      "before": 0.825,
+      "after": 0.7925
+    },
+    {
+      "key": "thaleia/nereon/treasure/race",
+      "games": 400,
+      "before": 0.72125,
+      "after": 0.74
+    },
+    {
+      "key": "thaleia/doreios/thin/treasure",
+      "games": 400,
+      "before": 0.30625,
+      "after": 0.325
+    },
+    {
+      "key": "nereon/doreios/race/treasure",
+      "games": 400,
+      "before": 0.26375,
+      "after": 0.29625
+    },
+    {
+      "key": "thaleia/melia/treasure/engine",
+      "games": 400,
+      "before": 0.34,
+      "after": 0.3675
+    },
+    {
+      "key": "nereon/melia/treasure/worship",
+      "games": 400,
+      "before": 0.4875,
+      "after": 0.4625
+    },
+    {
+      "key": "melia/doreios/engine/treasure",
+      "games": 400,
+      "before": 0.485,
+      "after": 0.46875
+    },
+    {
+      "key": "thaleia/melia/worship/treasure",
+      "games": 400,
+      "before": 0.55125,
+      "after": 0.61875
+    },
+    {
+      "key": "nereon/doreios/treasure/treasure",
+      "games": 400,
+      "before": 0.565,
+      "after": 0.5825
+    },
+    {
+      "key": "thaleia/nereon/treasure/thin",
+      "games": 400,
+      "before": 0.68125,
+      "after": 0.70375
+    },
+    {
+      "key": "thaleia/doreios/treasure/race",
+      "games": 400,
+      "before": 0.81125,
+      "after": 0.85125
+    },
+    {
+      "key": "nereon/doreios/thin/treasure",
+      "games": 400,
+      "before": 0.13625,
+      "after": 0.14125
+    },
+    {
+      "key": "thaleia/nereon/race/treasure",
+      "games": 400,
+      "before": 0.3525,
+      "after": 0.405
+    },
+    {
+      "key": "thaleia/nereon/treasure/worship",
+      "games": 400,
+      "before": 0.445,
+      "after": 0.46875
+    },
+    {
+      "key": "thaleia/doreios/engine/treasure",
+      "games": 400,
+      "before": 0.65875,
+      "after": 0.6975
+    },
+    {
+      "key": "nereon/doreios/worship/treasure",
+      "games": 400,
+      "before": 0.45625,
+      "after": 0.50125
+    },
+    {
+      "key": "thaleia/melia/treasure/treasure",
+      "games": 400,
+      "before": 0.30875,
+      "after": 0.39
+    },
+    {
+      "key": "nereon/melia/treasure/thin",
+      "games": 400,
+      "before": 0.78375,
+      "after": 0.7525
+    },
+    {
+      "key": "melia/doreios/treasure/race",
+      "games": 400,
+      "before": 0.8575,
+      "after": 0.86375
+    },
+    {
+      "key": "thaleia/melia/thin/treasure",
+      "games": 400,
+      "before": 0.335,
+      "after": 0.39
+    },
+    {
+      "key": "nereon/melia/race/treasure",
+      "games": 400,
+      "before": 0.19375,
+      "after": 0.24125
+    },
+    {
+      "key": "thaleia/nereon/treasure/engine",
+      "games": 400,
+      "before": 0.5,
+      "after": 0.49625
+    },
+    {
+      "key": "thaleia/doreios/treasure/worship",
+      "games": 400,
+      "before": 0.515,
+      "after": 0.4975
+    },
+    {
+      "key": "nereon/doreios/engine/treasure",
+      "games": 400,
+      "before": 0.42625,
+      "after": 0.4325
+    },
+    {
+      "key": "thaleia/nereon/worship/treasure",
+      "games": 400,
+      "before": 0.63,
+      "after": 0.6375
+    },
+    {
+      "key": "nereon/melia/treasure/treasure",
+      "games": 400,
+      "before": 0.5,
+      "after": 0.485
+    },
+    {
+      "key": "melia/doreios/treasure/thin",
+      "games": 400,
+      "before": 0.8325,
+      "after": 0.81125
+    },
+    {
+      "key": "thaleia/melia/treasure/race",
+      "games": 400,
+      "before": 0.815,
+      "after": 0.8275
+    },
+    {
+      "key": "nereon/melia/thin/treasure",
+      "games": 400,
+      "before": 0.14625,
+      "after": 0.185
+    },
+    {
+      "key": "melia/doreios/race/treasure",
+      "games": 400,
+      "before": 0.1275,
+      "after": 0.12625
+    },
+    {
+      "key": "thaleia/doreios/treasure/engine",
+      "games": 400,
+      "before": 0.2775,
+      "after": 0.26375
+    },
+    {
+      "key": "nereon/doreios/treasure/worship",
+      "games": 400,
+      "before": 0.50375,
+      "after": 0.485
+    },
+    {
+      "key": "thaleia/nereon/engine/treasure",
+      "games": 400,
+      "before": 0.66,
+      "after": 0.6775
+    },
+    {
+      "key": "thaleia/doreios/worship/treasure",
+      "games": 400,
+      "before": 0.59625,
+      "after": 0.58875
+    },
+    {
+      "key": "melia/doreios/treasure/treasure",
+      "games": 400,
+      "before": 0.62125,
+      "after": 0.61
+    },
+    {
+      "key": "thaleia/melia/treasure/thin",
+      "games": 400,
+      "before": 0.67375,
+      "after": 0.66125
+    },
+    {
+      "key": "nereon/melia/treasure/race",
+      "games": 400,
+      "before": 0.695,
+      "after": 0.6675
+    },
+    {
+      "key": "melia/doreios/thin/treasure",
+      "games": 400,
+      "before": 0.21875,
+      "after": 0.27125
+    },
+    {
+      "key": "thaleia/melia/race/treasure",
+      "games": 400,
+      "before": 0.28,
+      "after": 0.31375
+    },
+    {
+      "key": "nereon/doreios/treasure/engine",
+      "games": 400,
+      "before": 0.45375,
+      "after": 0.43125
+    }
+  ],
+  "compositions": [
+    {
+      "leader": "thaleia",
+      "before": {
+        "decks": 6000,
+        "meanSupplyActions": 5.281833333333333,
+        "perCard": {
+          "obol": {
+            "meanCopies": 6.7175,
+            "fractionPresent": 1
+          },
+          "drachma": {
+            "meanCopies": 2.4118333333333335,
+            "fractionPresent": 0.9785
+          },
+          "talent": {
+            "meanCopies": 3.2523333333333335,
+            "fractionPresent": 0.9913333333333333
+          },
+          "oracles-acolyte": {
+            "meanCopies": 0.22183333333333333,
+            "fractionPresent": 0.18383333333333332
+          },
+          "council-of-sages": {
+            "meanCopies": 2.449666666666667,
+            "fractionPresent": 1
+          },
+          "sacred-academy": {
+            "meanCopies": 0.967,
+            "fractionPresent": 0.5818333333333333
+          },
+          "harbor-pilot": {
+            "meanCopies": 0.022833333333333334,
+            "fractionPresent": 0.022833333333333334
+          },
+          "sea-trade": {
+            "meanCopies": 0,
+            "fractionPresent": 0
+          },
+          "merchant-fleet": {
+            "meanCopies": 0.041166666666666664,
+            "fractionPresent": 0.033
+          },
+          "seed-keeper": {
+            "meanCopies": 0,
+            "fractionPresent": 0
+          },
+          "harvest-feast": {
+            "meanCopies": 0.5783333333333334,
+            "fractionPresent": 0.36666666666666664
+          },
+          "sacred-grove": {
+            "meanCopies": 0,
+            "fractionPresent": 0
+          },
+          "bronze-recruit": {
+            "meanCopies": 0.965,
+            "fractionPresent": 0.965
+          },
+          "forge-of-heroes": {
+            "meanCopies": 0,
+            "fractionPresent": 0
+          },
+          "victorious-procession": {
+            "meanCopies": 0.036,
+            "fractionPresent": 0.036
+          },
+          "temple-of-athena": {
+            "meanCopies": 1,
+            "fractionPresent": 1
+          },
+          "temple-of-poseidon": {
+            "meanCopies": 0,
+            "fractionPresent": 0
+          },
+          "temple-of-demeter": {
+            "meanCopies": 0,
+            "fractionPresent": 0
+          },
+          "temple-of-ares": {
+            "meanCopies": 0,
+            "fractionPresent": 0
+          }
+        }
+      },
+      "after": {
+        "decks": 6000,
+        "meanSupplyActions": 3.8908333333333336,
+        "perCard": {
+          "obol": {
+            "meanCopies": 6.7725,
+            "fractionPresent": 1
+          },
+          "drachma": {
+            "meanCopies": 3.745,
+            "fractionPresent": 1
+          },
+          "talent": {
+            "meanCopies": 3.179333333333333,
+            "fractionPresent": 0.9756666666666667
+          },
+          "oracles-acolyte": {
+            "meanCopies": 0.0345,
+            "fractionPresent": 0.031
+          },
+          "council-of-sages": {
+            "meanCopies": 3.1113333333333335,
+            "fractionPresent": 1
+          },
+          "sacred-academy": {
+            "meanCopies": 0.21283333333333335,
+            "fractionPresent": 0.17483333333333334
+          },
+          "harbor-pilot": {
+            "meanCopies": 0.001,
+            "fractionPresent": 0.001
+          },
+          "sea-trade": {
+            "meanCopies": 0,
+            "fractionPresent": 0
+          },
+          "merchant-fleet": {
+            "meanCopies": 0.00016666666666666666,
+            "fractionPresent": 0.00016666666666666666
+          },
+          "seed-keeper": {
+            "meanCopies": 0,
+            "fractionPresent": 0
+          },
+          "harvest-feast": {
+            "meanCopies": 0.196,
+            "fractionPresent": 0.154
+          },
+          "sacred-grove": {
+            "meanCopies": 0,
+            "fractionPresent": 0
+          },
+          "bronze-recruit": {
+            "meanCopies": 0,
+            "fractionPresent": 0
+          },
+          "forge-of-heroes": {
+            "meanCopies": 0,
+            "fractionPresent": 0
+          },
+          "victorious-procession": {
+            "meanCopies": 0.335,
+            "fractionPresent": 0.335
+          },
+          "temple-of-athena": {
+            "meanCopies": 1,
+            "fractionPresent": 1
+          },
+          "temple-of-poseidon": {
+            "meanCopies": 0,
+            "fractionPresent": 0
+          },
+          "temple-of-demeter": {
+            "meanCopies": 0,
+            "fractionPresent": 0
+          },
+          "temple-of-ares": {
+            "meanCopies": 0,
+            "fractionPresent": 0
+          }
+        }
+      }
+    },
+    {
+      "leader": "nereon",
+      "before": {
+        "decks": 6000,
+        "meanSupplyActions": 5.472666666666668,
+        "perCard": {
+          "obol": {
+            "meanCopies": 6.3901666666666666,
+            "fractionPresent": 1
+          },
+          "drachma": {
+            "meanCopies": 2.395,
+            "fractionPresent": 1
+          },
+          "talent": {
+            "meanCopies": 3.9211666666666667,
+            "fractionPresent": 0.9946666666666667
+          },
+          "oracles-acolyte": {
+            "meanCopies": 0.43266666666666664,
+            "fractionPresent": 0.34983333333333333
+          },
+          "council-of-sages": {
+            "meanCopies": 0.2215,
+            "fractionPresent": 0.21516666666666667
+          },
+          "sacred-academy": {
+            "meanCopies": 0.3775,
+            "fractionPresent": 0.1695
+          },
+          "harbor-pilot": {
+            "meanCopies": 0.09016666666666667,
+            "fractionPresent": 0.082
+          },
+          "sea-trade": {
+            "meanCopies": 0.6565,
+            "fractionPresent": 0.5483333333333333
+          },
+          "merchant-fleet": {
+            "meanCopies": 2.0625,
+            "fractionPresent": 0.9438333333333333
+          },
+          "seed-keeper": {
+            "meanCopies": 0,
+            "fractionPresent": 0
+          },
+          "harvest-feast": {
+            "meanCopies": 1.0375,
+            "fractionPresent": 0.6396666666666667
+          },
+          "sacred-grove": {
+            "meanCopies": 0,
+            "fractionPresent": 0
+          },
+          "bronze-recruit": {
+            "meanCopies": 0.43266666666666664,
+            "fractionPresent": 0.43266666666666664
+          },
+          "forge-of-heroes": {
+            "meanCopies": 0,
+            "fractionPresent": 0
+          },
+          "victorious-procession": {
+            "meanCopies": 0.16166666666666665,
+            "fractionPresent": 0.16166666666666665
+          },
+          "temple-of-athena": {
+            "meanCopies": 0,
+            "fractionPresent": 0
+          },
+          "temple-of-poseidon": {
+            "meanCopies": 1,
+            "fractionPresent": 1
+          },
+          "temple-of-demeter": {
+            "meanCopies": 0,
+            "fractionPresent": 0
+          },
+          "temple-of-ares": {
+            "meanCopies": 0,
+            "fractionPresent": 0
+          }
+        }
+      },
+      "after": {
+        "decks": 6000,
+        "meanSupplyActions": 4.021,
+        "perCard": {
+          "obol": {
+            "meanCopies": 6.5125,
+            "fractionPresent": 1
+          },
+          "drachma": {
+            "meanCopies": 3.083666666666667,
+            "fractionPresent": 1
+          },
+          "talent": {
+            "meanCopies": 4.537166666666667,
+            "fractionPresent": 0.9928333333333333
+          },
+          "oracles-acolyte": {
+            "meanCopies": 0.22983333333333333,
+            "fractionPresent": 0.2035
+          },
+          "council-of-sages": {
+            "meanCopies": 0.2823333333333333,
+            "fractionPresent": 0.2668333333333333
+          },
+          "sacred-academy": {
+            "meanCopies": 0.202,
+            "fractionPresent": 0.1305
+          },
+          "harbor-pilot": {
+            "meanCopies": 0,
+            "fractionPresent": 0
+          },
+          "sea-trade": {
+            "meanCopies": 0.84,
+            "fractionPresent": 0.84
+          },
+          "merchant-fleet": {
+            "meanCopies": 1.795,
+            "fractionPresent": 0.905
+          },
+          "seed-keeper": {
+            "meanCopies": 0,
+            "fractionPresent": 0
+          },
+          "harvest-feast": {
+            "meanCopies": 0.511,
+            "fractionPresent": 0.39966666666666667
+          },
+          "sacred-grove": {
+            "meanCopies": 0,
+            "fractionPresent": 0
+          },
+          "bronze-recruit": {
+            "meanCopies": 0,
+            "fractionPresent": 0
+          },
+          "forge-of-heroes": {
+            "meanCopies": 0,
+            "fractionPresent": 0
+          },
+          "victorious-procession": {
+            "meanCopies": 0.16083333333333333,
+            "fractionPresent": 0.16083333333333333
+          },
+          "temple-of-athena": {
+            "meanCopies": 0,
+            "fractionPresent": 0
+          },
+          "temple-of-poseidon": {
+            "meanCopies": 1,
+            "fractionPresent": 1
+          },
+          "temple-of-demeter": {
+            "meanCopies": 0,
+            "fractionPresent": 0
+          },
+          "temple-of-ares": {
+            "meanCopies": 0,
+            "fractionPresent": 0
+          }
+        }
+      }
+    },
+    {
+      "leader": "melia",
+      "before": {
+        "decks": 6000,
+        "meanSupplyActions": 5.345666666666666,
+        "perCard": {
+          "obol": {
+            "meanCopies": 6.3325,
+            "fractionPresent": 1
+          },
+          "drachma": {
+            "meanCopies": 1.7981666666666667,
+            "fractionPresent": 0.9703333333333334
+          },
+          "talent": {
+            "meanCopies": 3.301,
+            "fractionPresent": 0.9956666666666667
+          },
+          "oracles-acolyte": {
+            "meanCopies": 0.128,
+            "fractionPresent": 0.1095
+          },
+          "council-of-sages": {
+            "meanCopies": 0.0023333333333333335,
+            "fractionPresent": 0.0023333333333333335
+          },
+          "sacred-academy": {
+            "meanCopies": 0.9541666666666667,
+            "fractionPresent": 0.5443333333333333
+          },
+          "harbor-pilot": {
+            "meanCopies": 0,
+            "fractionPresent": 0
+          },
+          "sea-trade": {
+            "meanCopies": 0,
+            "fractionPresent": 0
+          },
+          "merchant-fleet": {
+            "meanCopies": 0.024833333333333332,
+            "fractionPresent": 0.0145
+          },
+          "seed-keeper": {
+            "meanCopies": 0,
+            "fractionPresent": 0
+          },
+          "harvest-feast": {
+            "meanCopies": 3.230166666666667,
+            "fractionPresent": 0.9983333333333333
+          },
+          "sacred-grove": {
+            "meanCopies": 0,
+            "fractionPresent": 0
+          },
+          "bronze-recruit": {
+            "meanCopies": 0.88,
+            "fractionPresent": 0.88
+          },
+          "forge-of-heroes": {
+            "meanCopies": 0,
+            "fractionPresent": 0
+          },
+          "victorious-procession": {
+            "meanCopies": 0.12616666666666668,
+            "fractionPresent": 0.12616666666666668
+          },
+          "temple-of-athena": {
+            "meanCopies": 0,
+            "fractionPresent": 0
+          },
+          "temple-of-poseidon": {
+            "meanCopies": 0,
+            "fractionPresent": 0
+          },
+          "temple-of-demeter": {
+            "meanCopies": 1,
+            "fractionPresent": 1
+          },
+          "temple-of-ares": {
+            "meanCopies": 0,
+            "fractionPresent": 0
+          }
+        }
+      },
+      "after": {
+        "decks": 6000,
+        "meanSupplyActions": 3.4378333333333337,
+        "perCard": {
+          "obol": {
+            "meanCopies": 6.3625,
+            "fractionPresent": 1
+          },
+          "drachma": {
+            "meanCopies": 3.6473333333333335,
+            "fractionPresent": 0.9986666666666667
+          },
+          "talent": {
+            "meanCopies": 3.947,
+            "fractionPresent": 0.9931666666666666
+          },
+          "oracles-acolyte": {
+            "meanCopies": 0.012833333333333334,
+            "fractionPresent": 0.012333333333333333
+          },
+          "council-of-sages": {
+            "meanCopies": 0.7126666666666667,
+            "fractionPresent": 0.5035
+          },
+          "sacred-academy": {
+            "meanCopies": 0.1595,
+            "fractionPresent": 0.10616666666666667
+          },
+          "harbor-pilot": {
+            "meanCopies": 0.0005,
+            "fractionPresent": 0.0003333333333333333
+          },
+          "sea-trade": {
+            "meanCopies": 0,
+            "fractionPresent": 0
+          },
+          "merchant-fleet": {
+            "meanCopies": 0.01,
+            "fractionPresent": 0.01
+          },
+          "seed-keeper": {
+            "meanCopies": 0,
+            "fractionPresent": 0
+          },
+          "harvest-feast": {
+            "meanCopies": 1.9673333333333334,
+            "fractionPresent": 0.8813333333333333
+          },
+          "sacred-grove": {
+            "meanCopies": 0,
+            "fractionPresent": 0
+          },
+          "bronze-recruit": {
+            "meanCopies": 0,
+            "fractionPresent": 0
+          },
+          "forge-of-heroes": {
+            "meanCopies": 0,
+            "fractionPresent": 0
+          },
+          "victorious-procession": {
+            "meanCopies": 0.575,
+            "fractionPresent": 0.575
+          },
+          "temple-of-athena": {
+            "meanCopies": 0,
+            "fractionPresent": 0
+          },
+          "temple-of-poseidon": {
+            "meanCopies": 0,
+            "fractionPresent": 0
+          },
+          "temple-of-demeter": {
+            "meanCopies": 1,
+            "fractionPresent": 1
+          },
+          "temple-of-ares": {
+            "meanCopies": 0,
+            "fractionPresent": 0
+          }
+        }
+      }
+    },
+    {
+      "leader": "doreios",
+      "before": {
+        "decks": 6000,
+        "meanSupplyActions": 3.603666666666667,
+        "perCard": {
+          "obol": {
+            "meanCopies": 3.504,
+            "fractionPresent": 0.9638333333333333
+          },
+          "drachma": {
+            "meanCopies": 2.769,
+            "fractionPresent": 0.9975
+          },
+          "talent": {
+            "meanCopies": 2.958,
+            "fractionPresent": 0.98
+          },
+          "oracles-acolyte": {
+            "meanCopies": 0.05266666666666667,
+            "fractionPresent": 0.052
+          },
+          "council-of-sages": {
+            "meanCopies": 0.7263333333333334,
+            "fractionPresent": 0.5866666666666667
+          },
+          "sacred-academy": {
+            "meanCopies": 1.3595,
+            "fractionPresent": 0.5778333333333333
+          },
+          "harbor-pilot": {
+            "meanCopies": 0.0115,
+            "fractionPresent": 0.0115
+          },
+          "sea-trade": {
+            "meanCopies": 0,
+            "fractionPresent": 0
+          },
+          "merchant-fleet": {
+            "meanCopies": 0.03783333333333333,
+            "fractionPresent": 0.034833333333333334
+          },
+          "seed-keeper": {
+            "meanCopies": 0,
+            "fractionPresent": 0
+          },
+          "harvest-feast": {
+            "meanCopies": 0.5933333333333334,
+            "fractionPresent": 0.409
+          },
+          "sacred-grove": {
+            "meanCopies": 0,
+            "fractionPresent": 0
+          },
+          "bronze-recruit": {
+            "meanCopies": 0.7875,
+            "fractionPresent": 0.7875
+          },
+          "forge-of-heroes": {
+            "meanCopies": 0,
+            "fractionPresent": 0
+          },
+          "victorious-procession": {
+            "meanCopies": 0.035,
+            "fractionPresent": 0.035
+          },
+          "temple-of-athena": {
+            "meanCopies": 0,
+            "fractionPresent": 0
+          },
+          "temple-of-poseidon": {
+            "meanCopies": 0,
+            "fractionPresent": 0
+          },
+          "temple-of-demeter": {
+            "meanCopies": 0,
+            "fractionPresent": 0
+          },
+          "temple-of-ares": {
+            "meanCopies": 1,
+            "fractionPresent": 1
+          }
+        }
+      },
+      "after": {
+        "decks": 6000,
+        "meanSupplyActions": 1.9461666666666666,
+        "perCard": {
+          "obol": {
+            "meanCopies": 4.8933333333333335,
+            "fractionPresent": 1
+          },
+          "drachma": {
+            "meanCopies": 4.037333333333334,
+            "fractionPresent": 1
+          },
+          "talent": {
+            "meanCopies": 3.745833333333333,
+            "fractionPresent": 0.9945
+          },
+          "oracles-acolyte": {
+            "meanCopies": 0.001,
+            "fractionPresent": 0.001
+          },
+          "council-of-sages": {
+            "meanCopies": 1.6511666666666667,
+            "fractionPresent": 0.9951666666666666
+          },
+          "sacred-academy": {
+            "meanCopies": 0.13533333333333333,
+            "fractionPresent": 0.11083333333333334
+          },
+          "harbor-pilot": {
+            "meanCopies": 0,
+            "fractionPresent": 0
+          },
+          "sea-trade": {
+            "meanCopies": 0,
+            "fractionPresent": 0
+          },
+          "merchant-fleet": {
+            "meanCopies": 0,
+            "fractionPresent": 0
+          },
+          "seed-keeper": {
+            "meanCopies": 0,
+            "fractionPresent": 0
+          },
+          "harvest-feast": {
+            "meanCopies": 0.09616666666666666,
+            "fractionPresent": 0.0775
+          },
+          "sacred-grove": {
+            "meanCopies": 0,
+            "fractionPresent": 0
+          },
+          "bronze-recruit": {
+            "meanCopies": 0,
+            "fractionPresent": 0
+          },
+          "forge-of-heroes": {
+            "meanCopies": 0,
+            "fractionPresent": 0
+          },
+          "victorious-procession": {
+            "meanCopies": 0.0625,
+            "fractionPresent": 0.0625
+          },
+          "temple-of-athena": {
+            "meanCopies": 0,
+            "fractionPresent": 0
+          },
+          "temple-of-poseidon": {
+            "meanCopies": 0,
+            "fractionPresent": 0
+          },
+          "temple-of-demeter": {
+            "meanCopies": 0,
+            "fractionPresent": 0
+          },
+          "temple-of-ares": {
+            "meanCopies": 1,
+            "fractionPresent": 1
+          }
+        }
+      }
+    }
+  ]
+}
