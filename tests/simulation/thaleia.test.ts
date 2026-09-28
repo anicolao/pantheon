@@ -172,3 +172,43 @@ test('buy variant keeps every other leader standard and completes replayable hea
     expect(standings(replayed).map(row => [row.uid, row.score, row.turns])).toEqual(run.result.players.map(row => [row.uid, row.score, row.turns]));
   }
 });
+
+
+test('two-Action trigger enables another terminal Action, adds no card/Buy, and resets once per turn', () => {
+  const { game, uid } = fixture();
+  game.decks[uid].hand = [0, 1, 2].map(i => ({ id: `council-${i}`, cardId: 'council-of-sages', copy: i + 1 }));
+  const baseline = structuredClone(game);
+  for (const [state, variant] of [[baseline, 'standard'], [game, 'thaleia-actions']] as const) {
+    applyPlayCommand(state, uid, { type: 'action/played', instanceId: 'council-0' }, 100, variant);
+    applyPlayCommand(state, uid, { type: 'action/played', instanceId: 'council-1' }, 101, variant);
+  }
+  expect(game.resources).toEqual({ ...baseline.resources, actions: baseline.resources.actions + 1 });
+  expect(game.decks).toEqual(baseline.decks);
+  expect(game.resources.actions).toBe(1); expect(game.resources.buys).toBe(1);
+  expect(() => applyPlayCommand(baseline, uid, { type: 'action/played', instanceId: 'council-2' }, 102)).toThrow();
+  applyPlayCommand(game, uid, { type: 'action/played', instanceId: 'council-2' }, 102, 'thaleia-actions');
+  expect(game.resources.actions).toBe(0);
+  applyPlayCommand(game, uid, { type: 'phase/advanced' }, 103, 'thaleia-actions');
+  applyPlayCommand(game, uid, { type: 'turn/ended' }, 104, 'thaleia-actions');
+  const other = activePlayer(game);
+  applyPlayCommand(game, other, { type: 'phase/advanced' }, 105, 'thaleia-actions');
+  applyPlayCommand(game, other, { type: 'turn/ended' }, 106, 'thaleia-actions');
+  expect(game.turn.leaderUsed).toBe(false);
+  game.decks[uid].hand = [{ id: 'again', cardId: 'council-of-sages', copy: 1 }];
+  applyPlayCommand(game, uid, { type: 'action/played', instanceId: 'again' }, 107, 'thaleia-actions');
+  expect(game.resources.actions).toBe(2); expect(game.resources.buys).toBe(1);
+});
+
+test('two-Action variant leaves other leaders standard and replays heads-up matches', () => {
+  const options = { seed: 'actions-other-leaders', block: 0, lineup: ['nereon', 'melia', 'doreios'], focal: 0,
+    profiles: Array.from({ length: 3 }, () => ({ family: 'engine' as const, parameters: candidates[1] })) };
+  const before = runExperiment(options), after = runExperiment({ ...options, variant: 'thaleia-actions' });
+  expect(after.events).toEqual(before.events); expect(after.result.players).toEqual(before.result.players);
+  for (const leader of ['nereon', 'melia', 'doreios']) {
+    const input = { seed: 'actions-replay', block: 0, lineup: ['thaleia', leader], focal: 0,
+      profiles: Array.from({ length: 2 }, () => ({ family: 'engine' as const, parameters: candidates[1] })), variant: 'thaleia-actions' as const };
+    const run = runExperiment(input), replayed = replayExperiment(run.events, input);
+    expect(run.result.status).toBe('completed');
+    expect(standings(replayed).map(row => [row.uid, row.score, row.turns])).toEqual(run.result.players.map(row => [row.uid, row.score, row.turns]));
+  }
+});
