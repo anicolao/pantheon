@@ -1,4 +1,4 @@
-# Bot strategy design reference — version 6
+# Bot strategy design reference — version 7
 
 This reference describes implemented behavior. The [defect ledger](BOT_DEFECTS.md) records the concrete corrections and regression coverage. Bots are deterministic public-information heuristics, not optimal players. Earlier studies remain reproducible at their recorded source commits; their outcomes do not describe this version.
 
@@ -119,3 +119,9 @@ Treasure now takes the highest printed VP tier in the complete supply whenever l
 The fixed-profile experiment uses the v5 profiles and all 200 original evaluation seeds, changes only this scoring rule, and reruns every cell involving Treasure. Non-Treasure profiles are not retrained. Results are exploratory because the seeds were examined previously.
 
 The [completed v6 scoring test](balance-results/treasure-scoring-v6/README.md) reruns all 21,600 Treasure games with frozen v5 profiles. Treasure gains 22–31 percentage points against Engine, scores sooner and finishes with lower income but more points. This supports the scoring exception against these fixed opponents; it is not a claim of optimal play.
+
+## Treasure EV tie tolerance (v7)
+
+After applying the unchanged v6 scoring rule, identify the highest estimated economic income. If any Treasure is within $0.10 (inclusive) of that maximum, choose the highest-EV such Treasure; otherwise retain the highest-EV card. Remaining ties use cost then card ID. Compare every candidate to the global maximum, avoiding a non-transitive pairwise epsilon sort. The existing rule still declines optional acquisitions that do not improve income; mandatory gains can accept dilution. This changes only buying/gaining selection, not EV estimation, Action execution, leader valuation or scoring. Study version is 7 and standalone Treasure version is 5.
+
+The isolated experiment freezes the same profiles and 200 seed blocks as v6, reruns all 21,600 Treasure games, and checks the same 192 non-Treasure controls. Primary comparisons are Treasure against fixed Engine opponents; all other strategy cells and ending composition are descriptive.
