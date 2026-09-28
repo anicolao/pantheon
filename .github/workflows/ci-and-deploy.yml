@@ -19,11 +19,6 @@ on:
 permissions:
   contents: read
 
-# Retained previews share one branch; serialize publishers to avoid lost updates.
-concurrency:
-  group: pages-publish
-  cancel-in-progress: false
-
 jobs:
   verify:
     runs-on: ubuntu-latest
@@ -86,6 +81,10 @@ jobs:
 
   deploy:
     needs: verify
+    # Verification is independent; only writes to the shared preview branch serialize.
+    concurrency:
+      group: pages-publish
+      cancel-in-progress: false
     if: inputs.update_snapshots != true && !inputs.story_filter && (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository)
     runs-on: ubuntu-latest
     permissions:
