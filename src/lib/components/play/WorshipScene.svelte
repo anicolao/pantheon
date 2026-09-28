@@ -1,4 +1,5 @@
 <script lang="ts">
+  import DialogFrame from "$lib/components/DialogFrame.svelte";
   import { tick, onMount } from 'svelte';
   import { base } from '$app/paths';
   import { definition, devotionCards, worshipReason, activePlayer } from '$lib/game/actions';
@@ -55,7 +56,7 @@
     {#if status !== 'synced'}<div class="reconnect"><p>Connection lost. Your place is kept.</p><GameButton onclick={retry}>Try again</GameButton></div>{/if}
   </div>
 </dialog>
-<dialog class="detail" bind:this={detail} aria-label="Card details" onclose={() => { inspected = undefined; returnFocus?.focus(); }} data-e2e-layout={inspected ? true : undefined}>
+<dialog class="detail framed-dialog" bind:this={detail} aria-label="Card details" onclose={() => { inspected = undefined; returnFocus?.focus(); }} data-e2e-layout={inspected ? true : undefined}><DialogFrame />
   {#if inspected}<h2>{definition(inspected.id).name}</h2><div class="detail-card" class:landscape={definition(inspected.id).type === 'Event'}><CardFace card={definition(inspected.id)} players={game.playerCount} copy={inspected.copy}/></div><button onclick={() => detail!.close()}>Return to altar</button>{/if}
 </dialog>
 

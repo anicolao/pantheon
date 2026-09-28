@@ -1,4 +1,5 @@
 <script lang="ts">
+  import DialogFrame from "$lib/components/DialogFrame.svelte";
   import { onMount, tick } from 'svelte';
   import { fly } from 'svelte/transition';
   import { base } from '$app/paths';
@@ -245,7 +246,8 @@
     {/if}
   </div>
 </main>
-<dialog bind:this={dialog} oncancel={event => { event.preventDefault(); closeModal(); }} data-e2e-layout={modal ? true : undefined} aria-labelledby="dialog-title">
+<dialog class="framed-dialog" bind:this={dialog} oncancel={event => { event.preventDefault(); closeModal(); }} data-e2e-layout={modal ? true : undefined} aria-labelledby="dialog-title">
+  <DialogFrame />
   <button class="close" aria-label="Close" onclick={closeModal}>×</button>
   {#if modal === 'join'}
     <h2 id="dialog-title">Join a game</h2>
