@@ -1,0 +1,242 @@
+[
+  {
+    "leader": "nereon",
+    "variant": "thaleia-draw",
+    "family": "treasure",
+    "counter": "treasure-0",
+    "trainingShare": 0.5,
+    "primary": false
+  },
+  {
+    "leader": "nereon",
+    "variant": "thaleia-draw",
+    "family": "engine",
+    "counter": "treasure-0",
+    "trainingShare": 0.725,
+    "primary": true
+  },
+  {
+    "leader": "nereon",
+    "variant": "thaleia-draw",
+    "family": "thin",
+    "counter": "treasure-0",
+    "trainingShare": 0.35625,
+    "primary": false
+  },
+  {
+    "leader": "nereon",
+    "variant": "thaleia-draw",
+    "family": "worship",
+    "counter": "treasure-0",
+    "trainingShare": 0.56875,
+    "primary": false
+  },
+  {
+    "leader": "nereon",
+    "variant": "thaleia-draw",
+    "family": "race",
+    "counter": "treasure-0",
+    "trainingShare": 0.6875,
+    "primary": false
+  },
+  {
+    "leader": "nereon",
+    "variant": "leader-buffs",
+    "family": "treasure",
+    "counter": "engine-1",
+    "trainingShare": 0.275,
+    "primary": false
+  },
+  {
+    "leader": "nereon",
+    "variant": "leader-buffs",
+    "family": "engine",
+    "counter": "engine-1",
+    "trainingShare": 0.275,
+    "primary": false
+  },
+  {
+    "leader": "nereon",
+    "variant": "leader-buffs",
+    "family": "thin",
+    "counter": "engine-1",
+    "trainingShare": 0.1,
+    "primary": false
+  },
+  {
+    "leader": "nereon",
+    "variant": "leader-buffs",
+    "family": "worship",
+    "counter": "engine-1",
+    "trainingShare": 0.225,
+    "primary": false
+  },
+  {
+    "leader": "nereon",
+    "variant": "leader-buffs",
+    "family": "race",
+    "counter": "engine-1",
+    "trainingShare": 0.35625,
+    "primary": true
+  },
+  {
+    "leader": "melia",
+    "variant": "thaleia-draw",
+    "family": "treasure",
+    "counter": "treasure-0",
+    "trainingShare": 0.5,
+    "primary": false
+  },
+  {
+    "leader": "melia",
+    "variant": "thaleia-draw",
+    "family": "engine",
+    "counter": "engine-1",
+    "trainingShare": 0.525,
+    "primary": false
+  },
+  {
+    "leader": "melia",
+    "variant": "thaleia-draw",
+    "family": "thin",
+    "counter": "engine-1",
+    "trainingShare": 0.33125,
+    "primary": false
+  },
+  {
+    "leader": "melia",
+    "variant": "thaleia-draw",
+    "family": "worship",
+    "counter": "engine-1",
+    "trainingShare": 0.725,
+    "primary": true
+  },
+  {
+    "leader": "melia",
+    "variant": "thaleia-draw",
+    "family": "race",
+    "counter": "engine-1",
+    "trainingShare": 0.70625,
+    "primary": false
+  },
+  {
+    "leader": "melia",
+    "variant": "leader-buffs",
+    "family": "treasure",
+    "counter": "engine-0",
+    "trainingShare": 0.1125,
+    "primary": false
+  },
+  {
+    "leader": "melia",
+    "variant": "leader-buffs",
+    "family": "engine",
+    "counter": "engine-1",
+    "trainingShare": 0.175,
+    "primary": false
+  },
+  {
+    "leader": "melia",
+    "variant": "leader-buffs",
+    "family": "thin",
+    "counter": "engine-1",
+    "trainingShare": 0.0875,
+    "primary": false
+  },
+  {
+    "leader": "melia",
+    "variant": "leader-buffs",
+    "family": "worship",
+    "counter": "engine-1",
+    "trainingShare": 0.2125,
+    "primary": false
+  },
+  {
+    "leader": "melia",
+    "variant": "leader-buffs",
+    "family": "race",
+    "counter": "engine-0",
+    "trainingShare": 0.25625,
+    "primary": true
+  },
+  {
+    "leader": "doreios",
+    "variant": "thaleia-draw",
+    "family": "treasure",
+    "counter": "treasure-0",
+    "trainingShare": 0.53125,
+    "primary": false
+  },
+  {
+    "leader": "doreios",
+    "variant": "thaleia-draw",
+    "family": "engine",
+    "counter": "treasure-0",
+    "trainingShare": 0.525,
+    "primary": false
+  },
+  {
+    "leader": "doreios",
+    "variant": "thaleia-draw",
+    "family": "thin",
+    "counter": "treasure-0",
+    "trainingShare": 0.4375,
+    "primary": false
+  },
+  {
+    "leader": "doreios",
+    "variant": "thaleia-draw",
+    "family": "worship",
+    "counter": "treasure-0",
+    "trainingShare": 0.34375,
+    "primary": false
+  },
+  {
+    "leader": "doreios",
+    "variant": "thaleia-draw",
+    "family": "race",
+    "counter": "treasure-0",
+    "trainingShare": 0.59375,
+    "primary": true
+  },
+  {
+    "leader": "doreios",
+    "variant": "leader-buffs",
+    "family": "treasure",
+    "counter": "treasure-0",
+    "trainingShare": 0.53125,
+    "primary": false
+  },
+  {
+    "leader": "doreios",
+    "variant": "leader-buffs",
+    "family": "engine",
+    "counter": "treasure-0",
+    "trainingShare": 0.525,
+    "primary": false
+  },
+  {
+    "leader": "doreios",
+    "variant": "leader-buffs",
+    "family": "thin",
+    "counter": "treasure-0",
+    "trainingShare": 0.4375,
+    "primary": false
+  },
+  {
+    "leader": "doreios",
+    "variant": "leader-buffs",
+    "family": "worship",
+    "counter": "treasure-0",
+    "trainingShare": 0.34375,
+    "primary": false
+  },
+  {
+    "leader": "doreios",
+    "variant": "leader-buffs",
+    "family": "race",
+    "counter": "treasure-0",
+    "trainingShare": 0.59375,
+    "primary": true
+  }
+]
