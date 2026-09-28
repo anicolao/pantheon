@@ -1,0 +1,74 @@
+[
+  {
+    "rival": "nereon",
+    "variant": "standard",
+    "games": 400,
+    "share": 0.65125,
+    "fullDeckPhases": 327,
+    "actionPhases": 5876,
+    "gamesWithFullDeck": 177,
+    "spareActionsWithUnseen": 3398,
+    "meanUnseen": 8.648230088495575,
+    "meanCouncil": 2.0
+  },
+  {
+    "rival": "nereon",
+    "variant": "thaleia-actions",
+    "games": 400,
+    "share": 0.70875,
+    "fullDeckPhases": 1032,
+    "actionPhases": 5287,
+    "gamesWithFullDeck": 374,
+    "spareActionsWithUnseen": 2815,
+    "meanUnseen": 5.532438055608095,
+    "meanCouncil": 3.0
+  },
+  {
+    "rival": "melia",
+    "variant": "standard",
+    "games": 400,
+    "share": 0.57,
+    "fullDeckPhases": 338,
+    "actionPhases": 5501,
+    "gamesWithFullDeck": 178,
+    "spareActionsWithUnseen": 3107,
+    "meanUnseen": 7.395200872568624,
+    "meanCouncil": 2.0
+  },
+  {
+    "rival": "melia",
+    "variant": "thaleia-actions",
+    "games": 400,
+    "share": 0.73,
+    "fullDeckPhases": 1031,
+    "actionPhases": 5021,
+    "gamesWithFullDeck": 367,
+    "spareActionsWithUnseen": 2678,
+    "meanUnseen": 5.133041226847242,
+    "meanCouncil": 3.0
+  },
+  {
+    "rival": "doreios",
+    "variant": "standard",
+    "games": 400,
+    "share": 0.5525,
+    "fullDeckPhases": 339,
+    "actionPhases": 5741,
+    "gamesWithFullDeck": 187,
+    "spareActionsWithUnseen": 3299,
+    "meanUnseen": 7.813969691691343,
+    "meanCouncil": 2.005
+  },
+  {
+    "rival": "doreios",
+    "variant": "thaleia-actions",
+    "games": 400,
+    "share": 0.795,
+    "fullDeckPhases": 1104,
+    "actionPhases": 5237,
+    "gamesWithFullDeck": 378,
+    "spareActionsWithUnseen": 2748,
+    "meanUnseen": 5.125453503914454,
+    "meanCouncil": 3.035
+  }
+]
