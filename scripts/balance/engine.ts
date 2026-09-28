@@ -1,3 +1,4 @@
+import { publicHorizon } from './planning';
 import { actionEffects, definition, type Effect } from '../../src/lib/game/actions';
 import type { CardInstance } from '../../src/lib/game/setup';
 import type { Profile, View } from './strategy';
@@ -58,16 +59,18 @@ export function engineActionValue(view: View, profile: Profile, id: string): num
   const junk = (view.owned.hamlet ?? 0) + Math.max(0, (view.owned.obol ?? 0) - 3);
   const existingTrash = Object.entries(view.owned).reduce((sum, [card, count]) => sum + cardFeatures(card).trash * count, 0);
   const thinning = Math.min(f.trash, Math.max(0, junk - existingTrash * 3)) * 6;
-  const payload = f.coins * 2 + f.gain + thinning + Math.min(f.discard, junk) * 0.5 + (before.playableDraw + 5 >= before.size ? f.buys : 0);
-  const end = view.supply.acropolis <= profile.parameters.scoringAt;
-  return (2 + coverage + unblocking + payload) * (end ? 0.35 : 1);
+  const terminalUse = f.actions >= 1 ? 1 : Math.min(1, after.actionBudget / Math.max(1, after.terminalDemand));
+  const payload = terminalUse * (f.coins * 2 + f.gain + thinning) + Math.min(f.discard, junk) * 0.5 + (before.playableDraw + 5 >= before.size ? f.buys : 0);
+  const end = publicHorizon(view) <= profile.parameters.scoringAt;
+  const reliability = 8 * (startReliability(view, { ...view.owned, [id]: (view.owned[id] ?? 0) + 1 }) - startReliability(view, view.owned));
+  return (2 + coverage + unblocking + payload + reliability) * (end ? 0.35 : 1);
 }
 /** Play draw while Actions suffice; avoid ending the chain when another Action can keep it alive. */
 export function enginePlayPriority(view: View, card: CardInstance): number {
   const printed = cardFeatures(card.cardId);
   const trigger = !view.leaderUsed && definition(card.cardId).god === definition(view.leader).god ? view.leaderBonus : { actions: 0, draw: 0, coins: 0 };
   const actions = printed.actions + trigger.actions, draw = printed.draw + trigger.draw;
-  const stranded = view.resources.actions - 1 + actions <= 0 && view.hand.some(other => other.id !== card.id && definition(other.cardId).type === 'Action');
+  const stranded = view.resources.actions - 1 + actions <= 0 && view.hand.some(other => other.id !== card.id && (cardFeatures(other.cardId).actions + (!view.leaderUsed && definition(other.cardId).god === definition(view.leader).god ? view.leaderBonus.actions : 0)) > 0);
   return 4 * Math.min(draw, view.unseenCount) + 2 * actions + printed.coins + trigger.coins + printed.trash * 0.5 - (stranded ? 20 : 0);
 }
 
@@ -81,4 +84,17 @@ export function engineKeepValue(view: View, profile: Profile, id: string): numbe
     cached.set(key, Math.max(1, engineActionValue(without, profile, id)));
   }
   return cached.get(key)!;
+}
+
+/** Probability of opening a draw card that can preserve Actions; no hidden order is sampled. */
+function startReliability(view: View, owned: Record<string, number>): number {
+  let total = 0, starters = 0;
+  for (const [id, n] of Object.entries(owned)) {
+    total += n;
+    const f = cardFeatures(id), bonus = definition(id).god === definition(view.leader).god ? view.leaderBonus : { actions: 0, draw: 0 };
+    if (f.draw + bonus.draw > 0 && f.actions + bonus.actions > 0) starters += n;
+  }
+  let miss = 1;
+  for (let i = 0; i < Math.min(5, total); i++) miss *= Math.max(0, total - starters - i) / (total - i);
+  return 1 - miss;
 }

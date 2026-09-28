@@ -1,3 +1,4 @@
+import { publicHorizon, gainOutcome, endingShare, immediateGainValue } from './planning';
 import { actionEffects, definition, type Choice } from '../../src/lib/game/actions';
 import type { CardInstance } from '../../src/lib/game/setup';
 import { cardFeatures, engineCapacity } from './engine';
@@ -17,11 +18,7 @@ function changed(owned: Inventory, remove: string[], gain?: string): Inventory {
   return next;
 }
 /** A public pile-pressure horizon, not an estimate learned from evaluation results. */
-export function thinHorizon(view: View): number {
-  const piles = Object.values(view.supply).sort((a, b) => a - b);
-  return Math.max(0, Math.min(6, view.supply.acropolis * 1.5 / view.playerCount,
-    piles.slice(0, 3).reduce((a, b) => a + b, 0) * 1.5 / view.playerCount));
-}
+export const thinHorizon = publicHorizon;
 /** Smooth income plus premiums for reaching useful purchase thresholds. */
 function spending(coins: number): number {
   const at = (n: number) => Math.max(0, Math.min(1, coins - n + 1));
@@ -79,15 +76,24 @@ export function thinEconomy(view: View, owned: Inventory = view.owned): ThinEcon
 function rawChange(view: View, remove: string[], gain?: string): number {
   const before = thinEconomy(view), after = thinEconomy(view, changed(view.owned, remove, gain));
   // Protect access to $3 while improving density; a VP-winning conversion is an exception.
-  const wins = gain && view.myScore + after.vp - before.vp > Math.max(...view.scores) &&
-    (gain === 'acropolis' && view.supply[gain] === 1 || view.supply[gain] === 1 && Object.values(view.supply).filter(n => n === 0).length >= 2);
+  const outcome = gain ? gainOutcome(view, gain, before.vp - thinEconomy(view, changed(view.owned, remove)).vp) : endingShare(view, after.vp - before.vp);
+  if (outcome === 0) return -1000;
+  const wins = outcome !== null && outcome > 0;
   if (remove.length && !wins && thinHorizon(view) > 1 && after.incomeChance + 0.05 < Math.min(0.8, before.incomeChance)) return -100;
   return thinHorizon(view) * (after.value - before.value) + after.vp - before.vp;
 }
 const workCache = new WeakMap<View, number[]>();
 function removalWork(view: View): number[] {
   const cached = workCache.get(view); if (cached) return cached;
-  const work = Object.entries(view.owned).filter(([id]) => !plainTrash(id) && !forge(id)).flatMap(([id, n]) => Array(n).fill(Math.max(0, rawChange(view, [id])))).filter(n => n > 0.1).sort((a, b) => b - a);
+  const work: number[] = [];
+  let current = view;
+  while (size(current.owned) > 1) {
+    const options = Object.entries(current.owned).filter(([id, n]) => n > 0 && !plainTrash(id) && !forge(id))
+      .map(([id]) => ({ id, value: rawChange(current, [id]) })).sort((a,b) => b.value-a.value || a.id.localeCompare(b.id));
+    if (!options[0] || options[0].value <= 0.1) break;
+    work.push(options[0].value);
+    current = { ...current, owned: changed(current.owned, [options[0].id]), myScore: current.myScore - (definition(options[0].id).vp ?? 0) };
+  }
   workCache.set(view, work); return work;
 }
 function trashCapacity(view: View, owned = view.owned): number {
@@ -98,7 +104,10 @@ function trashCapacity(view: View, owned = view.owned): number {
 const toolCache = new Map<string, number | undefined>();
 export function thinToolValue(view: View, id: string): number | undefined {
   if (!plainTrash(id) && !forge(id)) return undefined;
-  const key = JSON.stringify([id, view.owned, view.supply, view.bannedCards, view.leader, view.leaderBonus, view.playerCount, view.myScore, view.scores]);
+  const endingRisk = view.supply.acropolis <= 1 || Object.values(view.supply).filter(n => n === 0).length >= 2;
+  const inventory = Object.entries(view.owned).filter(([,n])=>n>0).sort(([a],[b])=>a.localeCompare(b));
+  const key = JSON.stringify([id, inventory, view.supply, view.bannedCards, view.leader, view.leaderBonus, view.playerCount, view.opponentIncome,
+    endingRisk ? [view.myScore, view.scores, view.myTurns, view.opposingTurns, view.resources, view.hand.map(c => c.cardId), view.phase] : null]);
   if (toolCache.has(key)) return toolCache.get(key);
   const value = computeToolValue(view, id);
   if (toolCache.size > 20_000) toolCache.clear();
@@ -141,7 +150,8 @@ function legalGains(view: View, limit: number, actionOnly = false): string[] {
   return Object.keys(view.supply).filter(id => view.supply[id] > 0 && !view.bannedCards.includes(id) && definition(id).cost !== null && definition(id).cost! <= limit && (!actionOnly || definition(id).type === 'Action')).sort();
 }
 export function thinGain(view: View, choice: Choice): string | undefined {
-  return legalGains(view, choice.limit!, choice.actionOnly).sort((a, b) => rawChange(view, [], b) - rawChange(view, [], a) || a.localeCompare(b))[0];
+  const value = (id: string) => rawChange(view, [], id) + (choice.topdeck ? immediateGainValue(view, id) : 0);
+  return legalGains(view, choice.limit!, choice.actionOnly).sort((a, b) => value(b) - value(a) || a.localeCompare(b))[0];
 }
 /** Enumerate legal subsets: current rules offer at most two cards. Evaluate each subset jointly. */
 export function thinTrashChoice(view: View, choice: Choice): { targets: string[]; value: number } {
