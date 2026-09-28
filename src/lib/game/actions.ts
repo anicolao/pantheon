@@ -73,7 +73,9 @@ export function departureReminder(game: SetupState, uid: string) {
   const card = highest(playable);
   if (card) return { verb: 'play' as const, card };
   const purchase = highest(cards.filter(card => !purchaseReason(game, uid, card.id)));
-  return purchase ? { verb: 'buy' as const, card: purchase } : null;
+  if(purchase)return {verb:'buy' as const,card:purchase};
+  const worship=game.turn.phase!=='actions'?highest(game.sharedEvents.filter(id=>!worshipReason(game,uid,id)).map(definition)):undefined;
+  return worship?{verb:'worship' as const,card:worship}:null;
 }
 export function standings(game: SetupState) {
   const rows = game.players.map(player => {
@@ -236,7 +238,7 @@ export function applyPlayCommand(game: SetupState, uid: string, command: ActionC
       zones.discard.push(...zones.hand, ...zones.play); zones.hand = []; zones.play = []; draw(5, game.leaders[uid]);
       game.turn.turns[uid] = (game.turn.turns[uid] ?? 0) + 1;
       game.resources = { actions: 1, coins: 0, buys: 1, worship: 1 }; game.turn.leaderUsed = false;
-      if (game.supply.acropolis === 0 || Object.values(game.supply).filter(count => count === 0).length >= 3) game.turn.phase = 'finished';
+      if (game.supply.acropolis === 0 || Object.values(game.supply).filter(count => count === 0).length >= 3) {game.turn.phase = 'finished';game.resources={actions:0,coins:0,buys:0,worship:0};}
       else { game.turn.index = (game.turn.index + 1) % game.turnOrder.length; game.turn.number++; game.turn.phase = 'actions'; }
       messages.push('ended the turn'); break;
     }

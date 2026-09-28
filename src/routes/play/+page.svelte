@@ -25,6 +25,7 @@
   let roomId = $state('');
   let reservedSeats = $state(0);
   let creationAttempt: CreationAttempt | undefined;
+  let rematchAttempt: CreationAttempt | undefined;
   let joinCode = $state('');
   let codeError = $state('');
   let capacityError = $state('');
@@ -111,6 +112,19 @@
     catch (cause) { playError = cause instanceof SetupError ? cause.message : 'We couldn’t save your choice. Try again.'; }
     finally { busy = false; }
   }
+  async function playAgain(){
+    if(!services||!setup||setup.turn.phase!=='finished'||busy||status!=='synced')return;
+    busy=true;playError='';
+    try{
+      const own=setup.players.find(player=>player.uid===services!.uid)!;
+      const id=await createRoom(services.db,services.uid,own.name,setup.playerCount,rematchAttempt??={token:crypto.randomUUID()});
+      if(!alive)return;
+      name=own.name;
+      await goto(`${base}/play/?room=${encodeURIComponent(id)}`);
+      rematchAttempt=undefined;
+    }catch{playError='The new table could not be opened. Choose Play again to retry.';}
+    finally{if(alive)busy=false;}
+  }
   function begin() { void sendCommand({ type: 'draft/started', seed: draftSeed ||= crypto.randomUUID() }); }
   async function showModal(kind: 'invite' | 'details' | 'join') {
     opener = document.activeElement as HTMLElement;
@@ -160,7 +174,7 @@
 
 <svelte:head><title>Gather at the Table — Pantheon: Bloodlines</title><link rel="preload" as="image" href={`${base}/assets/ui/sanctuary-button-secondary.png`} /></svelte:head>
 {#if setup && setup.phase !== 'gathering' && services}
-  <GameSession game={setup} uid={services.uid} {roomId} {status} {busy} error={playError} command={sendCommand} retry={connect} />
+  <GameSession game={setup} uid={services.uid} {roomId} {status} {busy} error={playError} command={sendCommand} retry={connect} again={playAgain} />
 {:else}
 <main class="gathering" class:unavailable data-status={status}>
   <picture class="environment" aria-hidden="true">

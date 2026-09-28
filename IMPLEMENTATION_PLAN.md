@@ -90,6 +90,8 @@ The sequence is a development/review sequence, not a succession of altered game 
 
 **Fidelity review:** calm readable confirmation, named turn handoff, laurel/portrait hierarchy, exact score arithmetic and responsive results that show every player.
 
+**Implementation evidence:** [Match stories and fidelity review](tests/e2e/007-match/FIDELITY.md). Finished tables show persistent standings, both tie rules, inspectable Territory arithmetic, and a separate Play again gathering. Ordinary browser stories verify cleanup and handoff; explicitly recorded final-turn histories cover both endings and 2/3/4-player results. Six complete games use real authenticated repository commands from creation through finish, independently replayed by every participant.
+
 ## 8. Read the whole public table
 
 **Visible result:** observer play **12**, Chronicle/public trays **13** and complete inspection make other players' decisions easy to follow without losing one's own context.
@@ -134,7 +136,7 @@ The sequence is a development/review sequence, not a succession of altered game 
 
 Each milestone adds a `FIDELITY.md` beside its E2E story: links to concept(s), actual phone/desktop/4K screenshots, a short visual comparison, and the named behavioral checks. A side-by-side human review answers “does this look like the accepted game?”; exact app snapshots answer “did it change after review?” Both are required.
 
-Do not mark a step accepted because snapshots were generated or CI passed. Implementation-complete means checks pass and the PR contains concrete fidelity evidence; visual acceptance remains the reviewer's decision. Steps 1–5 are implemented and merged. Step 6 is implemented and submitted for review with evidence in `tests/e2e/006-worship/FIDELITY.md`. Steps 7–11 remain planned; cleanup and the basic next-player handoff were brought forward in step 5.
+Do not mark a step accepted because snapshots were generated or CI passed. Implementation-complete means checks pass and the PR contains concrete fidelity evidence; visual acceptance remains the reviewer's decision. Steps 1–6 are implemented and merged. Step 7 is implemented and submitted for review with evidence in `tests/e2e/007-match/FIDELITY.md`. Steps 8–11 remain planned; basic finished-match Chronicle paging is included in step 7.
 
 ### Step 3 architecture clarification
 

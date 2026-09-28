@@ -255,3 +255,34 @@ test('Worship commands authenticate, serialize payment, and retry a topdeck choi
   }
   throw new Error('Expected enough Coins during the first two hands.');
 });
+
+for(const count of [2,3,4] as const)for(const goal of ['acropolis','actions'] as const)test(`${count} authenticated clients complete a whole ${goal} match with replayable cleanup and immutable results`,async()=>{
+  const {appendGameCommand}=await import('../../src/lib/backend/setup-repository');
+  const {activePlayer,applyPlayCommand,standings}=await import('../../src/lib/game/actions');
+  const {leaderIds}=await import('../../src/lib/game/setup');
+  const {matchCommand}=await import('../helpers/match-policy');
+  const id=`whole-${count}-${goal}`,uids=Array.from({length:count},(_,i)=>`${id}-${i}`),clients=new Map(uids.map(uid=>[uid,database(uid)]));
+  await enterRoom(clients.get(uids[0])!,id,uids[0],'Ariadne',count);
+  for(let i=1;i<count;i++)await enterRoom(clients.get(uids[i])!,id,uids[i],['Ariadne','Theseus','Iris','Leon'][i]);
+  await appendGameCommand(clients.get(uids[0])!,id,uids[0],'start',{type:'draft/started',seed:`whole-${count}-${goal}`});
+  let state=replaySetup(await history(clients.get(uids[0])!,id));
+  for(const [i,uid] of state.draftOrder.entries())await appendGameCommand(clients.get(uid)!,id,uid,`leader-${i}`,{type:'leader/chosen',leaderId:leaderIds[i]});
+  state=replaySetup(await history(clients.get(uids[0])!,id));
+  let last:{uid:string;id:string;command:import('../../src/lib/game/actions').ActionCommand}|undefined;
+  for(let i=0;i<4000&&state.turn.phase!=='finished';i++){
+    const uid=activePlayer(state),command=matchCommand(state,goal),commandId=`move-${i}`;
+    await appendGameCommand(clients.get(uid)!,id,uid,commandId,command);
+    const sequence=state.activity.length+1,message=applyPlayCommand(state,uid,command,sequence);state.activity.push({sequence,message});last={uid,id:commandId,command};
+  }
+  expect(state.turn.phase).toBe('finished');expect(state.decks[last!.uid].hand).toHaveLength(5);expect(state.resources).toEqual({actions:0,coins:0,buys:0,worship:0});
+  expect(goal==='acropolis'?state.supply.acropolis===0:Object.values(state.supply).filter(n=>n===0).length>=3).toBe(true);
+  const before=await history(clients.get(uids[0])!,id);
+  await appendGameCommand(clients.get(last!.uid)!,id,last!.uid,last!.id,last!.command);
+  for(const uid of uids){
+    expect(replaySetup(await history(clients.get(uid)!,id))).toEqual(state);
+    await expect(appendGameCommand(clients.get(uid)!,id,uid,`after-${uid}`,{type:'turn/ended'})).rejects.toThrow();
+    await expect(appendGameCommand(clients.get(uid)!,id,uid,`worship-after-${uid}`,{type:'god/worshipped',cardId:state.sharedEvents[0]})).rejects.toThrow();
+  }
+  expect(await history(clients.get(uids[0])!,id)).toHaveLength(before.length);
+  const rows=standings(state);expect(rows.filter(row=>row.winner).length).toBeGreaterThan(0);if(goal==='actions')expect(rows.every(row=>row.score===3)).toBe(true);
+},30000);

@@ -11,6 +11,7 @@ The shared fixture writes each passing story’s illustrated README. Every captu
 - [Buying, passing turns, drawing, and playing the purchased copy](005-economy/README.md)
 
 - [Worship, Devotion, offerings, and topdeck gains](006-worship/README.md)
+- [Cleanup, handoff, final scores, and playing again](007-match/README.md)
 
 Recorded-history integration scenarios are labeled in their documentation. They supplement the ordinary UI journeys. Backend tests verify the event reducer and authorization separately.
 

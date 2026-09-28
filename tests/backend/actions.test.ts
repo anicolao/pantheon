@@ -188,7 +188,10 @@ test('departure reminders choose the highest-cost legal card with stable ties, w
   state.supply['council-of-sages'] = 0;
   expect(departureReminder(state, 'a')?.card.id).toBe('forge-of-heroes');
   state.resources.buys = 0;
-  expect(departureReminder(state, 'a')).toBeNull();
+  expect(departureReminder(state, 'a')?.verb).toBe('worship');
+  expect(departureReminder(state, 'a')?.card.god).toBe('Athena');
+  state.resources.worship=0;
+  expect(departureReminder(state,'a')).toBeNull();
 });
 
 test('Worship checks shared gods, turn, resources and pending choices before payment, with no Buy or phase cost', () => {
@@ -256,4 +259,19 @@ test('Ares requires an actual trash and upgrades by one or three without trigger
     if(trash){expect(state.turn.choice?.limit).toBe(favored?5:3);expect(()=>choose(state,['talent'])).toThrow();choose(state,['obol']);}
     expect(state.turn.choice).toBeNull();expect(state.turn.leaderUsed).toBe(false);expect(state.resources.worship).toBe(0);
   }
+});
+
+
+test('finished tables clear every resource and reject every play command without mutation',()=>{
+  const state=game('thaleia',['temple-of-athena','hamlet','obol']);state.supply.acropolis=0;
+  run(state,{type:'phase/advanced'});run(state,{type:'turn/ended'});
+  expect(state.resources).toEqual({actions:0,coins:0,buys:0,worship:0});
+  const before=structuredClone(state);
+  for(const command of [{type:'turn/ended'},{type:'phase/advanced'},{type:'treasures/played'},{type:'card/bought',cardId:'obol'},{type:'god/worshipped',cardId:'counsel-of-olympus'},{type:'action/played',instanceId:'h-0'},{type:'treasure/played',instanceId:'h-2'},{type:'choice/resolved',choiceId:'old',targets:[]}] as ActionCommand[]){expect(()=>run(state,command)).toThrow();expect(state).toEqual(before);}
+});
+
+test('all owned zones score, starting Hamlets count, and trash and resources never score',()=>{
+  const state=game('thaleia',['hamlet','hamlet','hamlet'],['polis']);state.decks.a.discard=instances(['acropolis'],'discard');state.decks.a.play=instances(['polis','obol','temple-of-athena'],'play');state.trash=instances(['acropolis','hamlet'],'trash');state.resources={actions:99,coins:99,buys:99,worship:99};
+  expect(standings(state).find(row=>row.uid==='a')?.score).toBe(15);
+  expect(standings(state).find(row=>row.uid==='a')?.territories.map(t=>t.count)).toEqual([3,2,1]);
 });

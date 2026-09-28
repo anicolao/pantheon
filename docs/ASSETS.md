@@ -65,3 +65,9 @@ The player-count controls use `static/assets/ui/gather-seat-count.webp`, a 384px
 ## Worship altar
 
 `static/assets/ui/worship-desktop.webp` and `worship-mobile.webp` are clean environment plates generated with the built-in image generation tool from accepted painting 08. [Exact prompts and provenance](ux/worship-assets.json) document both outputs. WebP quality 90 conversion preserves the illustrations at their original generated dimensions. No card faces, words, counters, or buttons are baked into either background. The altar reuses approved catalog cards, resource icons, resource rail, and sculpted controls; Devotion threads and pips are live vector/CSS decoration. The common environment frames every shared god, with the selected god identified by its actual event card and contributing Actions.
+
+## Turn decisions and victory
+
+Four shipping layers use the built-in image generation tool with accepted paintings 14 and 21 as references: `static/assets/ui/victory-desktop.webp`, `victory-mobile.webp`, `victory-portrait-frame.webp`, and `decision-panel.webp`. [Exact prompts, references, and original paths](ux/match-assets.json) record their provenance. Delivery conversion uses WebP quality 90 at the original dimensions and preserves alpha. The portrait frame has a transparent central window and exterior; the decision panel has a transparent exterior. These assets share the repository’s GPL-3.0-only license.
+
+The victory scene layers approved leader art under the empty laurel frame. Names, scores, turns, tie explanations, actual Territory cards, arithmetic, and controls are live accessible content. The environments contain no counterfeit controls or text. Turn confirmations use the empty marble seal beneath live reminders and resource icons.

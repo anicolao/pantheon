@@ -28,6 +28,6 @@ export async function roomCodeFixture(page: Page, info: TestInfo, seed?: string)
   }
   const deleted = await fetch(root, { method: 'DELETE', headers, signal: AbortSignal.timeout(2000) });
   if (!deleted.ok) throw new Error('Cannot reset story table.');
-  await page.addInitScript(({uuid,seed}) => { let calls=0; Object.defineProperty(crypto, 'randomUUID', { value: () => calls++ < 2 ? uuid : seed ?? uuid }); }, {uuid,seed});
+  await page.addInitScript(({uuid,seed}) => { let calls=0; Object.defineProperty(crypto, 'randomUUID', { configurable:true, value: () => calls++ < 2 ? uuid : seed ?? uuid }); }, {uuid,seed});
   return code;
 }
