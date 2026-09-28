@@ -1,6 +1,6 @@
 # Basic balance simulator
 
-For trained policies, Worship, mixed opposition and paired confirmation studies, see [BALANCE_STUDIES.md](BALANCE_STUDIES.md). This page documents the preserved original baseline.
+For trained policies, Worship, mixed opposition and paired confirmation studies, see [BALANCE_STUDIES.md](BALANCE_STUDIES.md). This page documents the preserved original baseline. The [bot design review](BOT_STRATEGIES.md) distinguishes these original policies from the study families and records their limitations.
 
 Run the production setup replay and play-command reducer directly, without Firebase or a browser:
 
