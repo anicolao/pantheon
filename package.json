@@ -19,7 +19,8 @@
     "test:policy": "bun run check:e2e-policy && bun test tests/tooling",
     "dev:curve-editor": "node tools/curve-editor/server.mjs",
     "simulate:balance": "bun scripts/balance-simulation.ts",
-    "test:simulation": "bun test tests/simulation"
+    "test:simulation": "bun test tests/simulation",
+    "balance:study": "bun scripts/balance-study.ts"
   },
   "dependencies": {
     "@fontsource/atkinson-hyperlegible": "5.2.8",

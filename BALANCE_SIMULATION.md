@@ -1,5 +1,7 @@
 # Basic balance simulator
 
+For trained policies, Worship, mixed opposition and paired confirmation studies, see [BALANCE_STUDIES.md](BALANCE_STUDIES.md). This page documents the preserved original baseline.
+
 Run the production setup replay and play-command reducer directly, without Firebase or a browser:
 
 ```sh
