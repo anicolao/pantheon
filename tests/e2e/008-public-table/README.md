@@ -13,3 +13,5 @@ The ordinary two-client journey starts with gathering and the bloodline draft, t
 - [Keep reading when the match finishes](stories/keep-reading-the-chronicle-when-a-friend-completes-the-match/README.md)
 
 [Visual comparison and behavioral evidence](FIDELITY.md). [Mobile review and compact-phone captures](MOBILE_REVIEW.md). Existing Action stories also cover public trash and ordered trash → leader → draw movement through the shared motion cursor.
+
+[Shared dialog frames](stories/inspect-portrait-and-landscape-gallery-cards-in-the-shared-dialog-frame/README.md) shows portrait, event, and leader inspection, card backs, and keyboard return in the gallery. All popup dialogs use the same proportional frame. Full-screen painted scenes retain their own artwork.
