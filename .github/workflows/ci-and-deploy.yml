@@ -47,6 +47,7 @@ jobs:
           bun-version: 1.3.10
       - run: bun install --frozen-lockfile
       - run: bun run test:policy
+      - run: bun run test:simulation
       - uses: actions/setup-java@v4
         with:
           distribution: temurin

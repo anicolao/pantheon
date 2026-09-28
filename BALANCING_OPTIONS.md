@@ -1,6 +1,6 @@
 # Balance simulation options
 
-Design only. No simulator, bots, balance changes, or simulation results are included.
+This document is the design plan. A basic executable baseline is now described in [BALANCE_SIMULATION.md](BALANCE_SIMULATION.md); the broader experiments below remain future work.
 
 This plan targets the v0.1 rules in [MVP_CARDSET.md](MVP_CARDSET.md), starting from commit `bd78ae3`. Its purpose is to discover whether leader choices, Worship options, or individual cards create persistent advantages, and to distinguish those advantages from seating, luck, strategy, and bot weaknesses. Every suspected issue below is a hypothesis, not a finding.
 
