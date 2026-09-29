@@ -7,8 +7,8 @@ import {baseProfiles,v14BaseProfiles,v15BaseProfiles} from './balance/base-profi
 import {strategyVersion,type Profile} from './balance/strategy';
 import {rolloutTurns} from './balance/sampled';
 const out=resolve(process.argv[2]),blocks=Number(process.argv[3]??256),stage=process.argv[4]??'evaluation';
-if(!Number.isInteger(blocks)||blocks<1)throw Error('Usage: output blocks unique-stage');
-const selected=(process.argv[5]??'income,balanced,reliable').split(',') as ('income'|'balanced'|'reliable'|'late'|'coverage'|'raw')[];
+if(!Number.isInteger(blocks)||blocks<1)throw Error('Usage: output blocks unique-stage [comma-separated policies] [--v15]');
+const selected=(process.argv[5]??'raw').split(',') as ('income'|'balanced'|'reliable'|'late'|'coverage'|'raw')[];
 if(selected.some(p=>!['income','balanced','reliable','late','coverage','raw'].includes(p)))throw Error('Unknown metric policy');
 const includeV15=process.argv.includes('--v15');
 const profiles:Record<string,Profile>={},keys=Object.keys(baseProfiles);

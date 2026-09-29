@@ -1,4 +1,4 @@
-# Bot strategy design reference — version 15
+# Bot strategy design reference — version 18
 
 Current evaluation uses [explicit strategy-response matrices](BALANCE_OBJECTIVE.md), with no pooling across leader, strategy or turn order. The base-game experiment is an opt-in rule variant; standard-game policies retain their existing behavior.
 
@@ -8,13 +8,28 @@ The completed [standard-rule v4 matrix](balance-results/all-leaders-v4/README.md
 
 The [v14 Engine construction review](balance-results/engine-review-v14/README.md) documents a confirmed complementary-acquisition trap and near-zero realized full-deck draws against Money. The implemented capacity heuristic should not be interpreted as a successful whole-deck engine builder.
 
-## Current sampled acquisition policy (v15)
+## Current sampled acquisition policy (v18)
 
-Modern base profiles evaluate every candidate deck with 64 fresh paired initial shuffles and three consecutive production-rule turns. Money maximizes mean total coins; Engine maximizes mean total actual draws, including opening draws. The same bounded Action/discard/gain continuation is used for both. No additional purchases or Worship occur inside projections. All card types are sampled: there is no analytic Treasure branch, Engine capacity score or Treasure epsilon preference in acquisition.
+Every economic candidate still uses one shared production-rule sampler, including pure Treasure decks, draw cards and thinning tools. Eight shuffled orders are each evaluated at every cyclic rotation; each sample plays three consecutive turns. All card copies therefore receive equal opening exposure. Card effects, cleanup, gains and reshuffles remain real. The sampler never sees the game's hidden order and makes no future purchases or Worship.
 
-Thin independently enables projected trashing and actual removal/upgrade evaluation against the same sampled parent metric, with shared VP/current-cash costs and ending protections. The shared turn-2 scoring override remains above economic selection. Details, approximation limits, exact old-versus-new comparisons and the new 4×4 are in the [completed sampler study](balance-results/shuffle-three-v1/README.md).
+The selected raw objective scores all three turns. Let C be spendable Coins, P the highest printed point-card cost (normally 8), and R the fraction of distinct starting cards actually seen during a turn:
 
-The draw-only Engine greatly increases realized full-deck draws but fails to build useful spending power. Sampling the requested metric does not make that metric sufficient for winning. This implementation and its results remain explicit; v14BaseProfiles preserve the old controls. Historical policy sections below describe the retained controls, rather than the new sampler.
+- Money: total C across the three turns.
+- Engine: total [C + 8 × R × min(1, C / P)] across the three turns.
+
+Average over every sample. Money again uses the user's total-coin objective, with the cash-aware controller and stratified sampling repaired. Income above one immediate scoring purchase is retained as a reserve against later point-card dilution. Engine adds actual deck access backed by income, so raw draw volume alone cannot justify ignoring payload. Both use the same candidate path and continuation controller; only their objective differs.
+
+Capped-spending, scoring-threshold, last-turn and higher-coverage alternatives were tested. They did not establish a superior default. The longer-projection construction diagnostics were not promoted. These are fixed heuristic objectives, not estimates of win probability.
+
+The common Action controller preserves chains and prefers useful cash payload. Productive low-value thinning receives a bounded Action priority when Thin is enabled. In the neutral base game it skips draw/discard Actions when no cards remain available and the play has no compensating effect. Mandatory discards use current cash/playability. Projection gains retain a bounded effect score; projected optional trashing removes low-value points or inert cards, or weak money while retaining at least $8 of printed cycle money. Valuable points are preserved. These continuation approximations are shared, not exact forward search.
+
+Actual Thin removals and upgrades compare the same sampled parent objective before and after, including VP, current cash, public ending horizon and lost current scoring. Future metric gains are converted to point units by valuing one fully funded, full-deck turn at one top-tier scoring card; current Coins use the same point-card exchange rate. This prevents larger Engine metric weights from automatically licensing larger VP losses. This calibration remains a heuristic, not learned economic value. Equal-definition trash subsets are deduplicated without changing tie order. Thin remains independent of the parent. Safe endings, immediate top-tier scoring and the shared turn-2 ending trait remain above economic selection.
+
+After evaluating every candidate, a neutral-game dominance check rejects an equal-cost, equal-VP pure resource card if another candidate has at least its Coins, net Actions and Buys, and strictly more of one. This removes Bronze Recruit in favor of Drachma without a named-card exception or currency epsilon. The shortcut is disabled with leader powers. Draw, trash and other effects are never pruned this way.
+
+The [repair study](balance-results/effective-sampling-v1/README.md) retains all screens and independent confirmations, direct comparisons with v14 and v15, and separate 4×4 cells. Frozen v15 profiles and sampler preserve the failed raw-coins/raw-draw experiment exactly. v14 retains the stronger historical control. Cumulative income/balanced/reliable metrics, a last-turn metric and a stronger coverage candidate remain explicit experimental alternatives, not the modern default.
+
+This repair does not establish a strong whole-deck Engine: useful-income pressure often selects a money-and-draw hybrid, and the projection still cannot anticipate a later complementary purchase. Read construction diagnostics alongside win shares. No leader-balance conclusion follows from these neutral-game results.
 
 ## Shared endgame default (introduced in v14)
 

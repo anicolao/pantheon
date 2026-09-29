@@ -1,0 +1,7 @@
+import {mock} from 'bun:test';
+const sampler=await import('./funded-six-sampler');mock.module('../scripts/balance/sampled',()=>sampler);
+const {runExperiment}=await import('../scripts/balance/experiment');const {baseProfiles,v14BaseProfiles}=await import('../scripts/balance/base-profiles');
+const block=Number(process.argv[2]),key=process.argv[3],seat=Number(process.argv[4]),profile={...baseProfiles[key],samplingPolicy:'raw' as const};
+const profiles=seat?[v14BaseProfiles.treasure,profile]:[profile,v14BaseProfiles.treasure];
+const r=runExperiment({seed:'funded-six-probe:'+block,block,lineup:['thaleia','nereon'],profiles,focal:seat,variant:'base-game'});
+console.log(JSON.stringify({key,seat,result:r.result}));

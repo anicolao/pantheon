@@ -1,0 +1,658 @@
+[
+  {
+    "kind": "headToHead",
+    "policy": "balanced",
+    "key": "treasure",
+    "seat": 0,
+    "share": 0.484375,
+    "blocks": 32,
+    "pairs": 32,
+    "excludedBlocks": 0,
+    "exposureRate": 1,
+    "difference": -0.015625,
+    "interval": [
+      -0.1875,
+      0.15625
+    ],
+    "correctedInterval": [
+      -0.265625,
+      0.234375
+    ],
+    "label": "inconclusive"
+  },
+  {
+    "kind": "pairedChange",
+    "policy": "balanced",
+    "key": "treasure",
+    "seat": 0,
+    "blocks": 32,
+    "pairs": 32,
+    "excludedBlocks": 0,
+    "exposureRate": 1,
+    "difference": -0.03125,
+    "interval": [
+      -0.203125,
+      0.140625
+    ],
+    "correctedInterval": [
+      -0.296875,
+      0.21875
+    ],
+    "label": "inconclusive"
+  },
+  {
+    "kind": "headToHead",
+    "policy": "balanced",
+    "key": "treasure",
+    "seat": 1,
+    "share": 0.375,
+    "blocks": 32,
+    "pairs": 32,
+    "excludedBlocks": 0,
+    "exposureRate": 1,
+    "difference": -0.125,
+    "interval": [
+      -0.28125,
+      0.046875
+    ],
+    "correctedInterval": [
+      -0.359375,
+      0.125
+    ],
+    "label": "inconclusive"
+  },
+  {
+    "kind": "pairedChange",
+    "policy": "balanced",
+    "key": "treasure",
+    "seat": 1,
+    "blocks": 32,
+    "pairs": 32,
+    "excludedBlocks": 0,
+    "exposureRate": 1,
+    "difference": -0.109375,
+    "interval": [
+      -0.265625,
+      0.046875
+    ],
+    "correctedInterval": [
+      -0.359375,
+      0.109375
+    ],
+    "label": "inconclusive"
+  },
+  {
+    "kind": "headToHead",
+    "policy": "balanced",
+    "key": "treasure-thin",
+    "seat": 0,
+    "share": 0.515625,
+    "blocks": 32,
+    "pairs": 32,
+    "excludedBlocks": 0,
+    "exposureRate": 1,
+    "difference": 0.015625,
+    "interval": [
+      -0.15625,
+      0.1875
+    ],
+    "correctedInterval": [
+      -0.234375,
+      0.265625
+    ],
+    "label": "inconclusive"
+  },
+  {
+    "kind": "pairedChange",
+    "policy": "balanced",
+    "key": "treasure-thin",
+    "seat": 0,
+    "blocks": 32,
+    "pairs": 32,
+    "excludedBlocks": 0,
+    "exposureRate": 1,
+    "difference": -0.03125,
+    "interval": [
+      -0.203125,
+      0.140625
+    ],
+    "correctedInterval": [
+      -0.28125,
+      0.21875
+    ],
+    "label": "inconclusive"
+  },
+  {
+    "kind": "headToHead",
+    "policy": "balanced",
+    "key": "treasure-thin",
+    "seat": 1,
+    "share": 0.375,
+    "blocks": 32,
+    "pairs": 32,
+    "excludedBlocks": 0,
+    "exposureRate": 1,
+    "difference": -0.125,
+    "interval": [
+      -0.28125,
+      0.046875
+    ],
+    "correctedInterval": [
+      -0.359375,
+      0.125
+    ],
+    "label": "inconclusive"
+  },
+  {
+    "kind": "pairedChange",
+    "policy": "balanced",
+    "key": "treasure-thin",
+    "seat": 1,
+    "blocks": 32,
+    "pairs": 32,
+    "excludedBlocks": 0,
+    "exposureRate": 1,
+    "difference": -0.078125,
+    "interval": [
+      -0.265625,
+      0.109375
+    ],
+    "correctedInterval": [
+      -0.359375,
+      0.21875
+    ],
+    "label": "inconclusive"
+  },
+  {
+    "kind": "headToHead",
+    "policy": "balanced",
+    "key": "engine",
+    "seat": 0,
+    "share": 0.71875,
+    "blocks": 32,
+    "pairs": 32,
+    "excludedBlocks": 0,
+    "exposureRate": 1,
+    "difference": 0.21875,
+    "interval": [
+      0.0625,
+      0.359375
+    ],
+    "correctedInterval": [
+      -0.015625,
+      0.421875
+    ],
+    "label": "inconclusive"
+  },
+  {
+    "kind": "pairedChange",
+    "policy": "balanced",
+    "key": "engine",
+    "seat": 0,
+    "blocks": 32,
+    "pairs": 32,
+    "excludedBlocks": 0,
+    "exposureRate": 1,
+    "difference": 0.125,
+    "interval": [
+      -0.078125,
+      0.3125
+    ],
+    "correctedInterval": [
+      -0.171875,
+      0.40625
+    ],
+    "label": "inconclusive"
+  },
+  {
+    "kind": "headToHead",
+    "policy": "balanced",
+    "key": "engine",
+    "seat": 1,
+    "share": 0.5,
+    "blocks": 32,
+    "pairs": 32,
+    "excludedBlocks": 0,
+    "exposureRate": 1,
+    "difference": 0,
+    "interval": [
+      -0.171875,
+      0.171875
+    ],
+    "correctedInterval": [
+      -0.25,
+      0.25
+    ],
+    "label": "inconclusive"
+  },
+  {
+    "kind": "pairedChange",
+    "policy": "balanced",
+    "key": "engine",
+    "seat": 1,
+    "blocks": 32,
+    "pairs": 32,
+    "excludedBlocks": 0,
+    "exposureRate": 1,
+    "difference": 0.09375,
+    "interval": [
+      -0.125,
+      0.3125
+    ],
+    "correctedInterval": [
+      -0.234375,
+      0.421875
+    ],
+    "label": "inconclusive"
+  },
+  {
+    "kind": "headToHead",
+    "policy": "balanced",
+    "key": "engine-thin",
+    "seat": 0,
+    "share": 0.78125,
+    "blocks": 32,
+    "pairs": 32,
+    "excludedBlocks": 0,
+    "exposureRate": 1,
+    "difference": 0.28125,
+    "interval": [
+      0.140625,
+      0.40625
+    ],
+    "correctedInterval": [
+      0.046875,
+      0.453125
+    ],
+    "label": "signal; practical magnitude unresolved"
+  },
+  {
+    "kind": "pairedChange",
+    "policy": "balanced",
+    "key": "engine-thin",
+    "seat": 0,
+    "blocks": 32,
+    "pairs": 32,
+    "excludedBlocks": 0,
+    "exposureRate": 1,
+    "difference": 0.265625,
+    "interval": [
+      0.09375,
+      0.4375
+    ],
+    "correctedInterval": [
+      0,
+      0.515625
+    ],
+    "label": "inconclusive"
+  },
+  {
+    "kind": "headToHead",
+    "policy": "balanced",
+    "key": "engine-thin",
+    "seat": 1,
+    "share": 0.71875,
+    "blocks": 32,
+    "pairs": 32,
+    "excludedBlocks": 0,
+    "exposureRate": 1,
+    "difference": 0.21875,
+    "interval": [
+      0.0625,
+      0.359375
+    ],
+    "correctedInterval": [
+      -0.03125,
+      0.421875
+    ],
+    "label": "inconclusive"
+  },
+  {
+    "kind": "pairedChange",
+    "policy": "balanced",
+    "key": "engine-thin",
+    "seat": 1,
+    "blocks": 32,
+    "pairs": 32,
+    "excludedBlocks": 0,
+    "exposureRate": 1,
+    "difference": 0.234375,
+    "interval": [
+      0.09375,
+      0.390625
+    ],
+    "correctedInterval": [
+      0.03125,
+      0.46875
+    ],
+    "label": "signal; practical magnitude unresolved"
+  },
+  {
+    "kind": "headToHead",
+    "policy": "raw",
+    "key": "treasure",
+    "seat": 0,
+    "share": 0.484375,
+    "blocks": 32,
+    "pairs": 32,
+    "excludedBlocks": 0,
+    "exposureRate": 1,
+    "difference": -0.015625,
+    "interval": [
+      -0.171875,
+      0.15625
+    ],
+    "correctedInterval": [
+      -0.265625,
+      0.234375
+    ],
+    "label": "inconclusive"
+  },
+  {
+    "kind": "pairedChange",
+    "policy": "raw",
+    "key": "treasure",
+    "seat": 0,
+    "blocks": 32,
+    "pairs": 32,
+    "excludedBlocks": 0,
+    "exposureRate": 1,
+    "difference": -0.03125,
+    "interval": [
+      -0.171875,
+      0.109375
+    ],
+    "correctedInterval": [
+      -0.25,
+      0.1875
+    ],
+    "label": "inconclusive"
+  },
+  {
+    "kind": "headToHead",
+    "policy": "raw",
+    "key": "treasure",
+    "seat": 1,
+    "share": 0.546875,
+    "blocks": 32,
+    "pairs": 32,
+    "excludedBlocks": 0,
+    "exposureRate": 1,
+    "difference": 0.046875,
+    "interval": [
+      -0.125,
+      0.203125
+    ],
+    "correctedInterval": [
+      -0.203125,
+      0.28125
+    ],
+    "label": "inconclusive"
+  },
+  {
+    "kind": "pairedChange",
+    "policy": "raw",
+    "key": "treasure",
+    "seat": 1,
+    "blocks": 32,
+    "pairs": 32,
+    "excludedBlocks": 0,
+    "exposureRate": 1,
+    "difference": 0.0625,
+    "interval": [
+      -0.09375,
+      0.21875
+    ],
+    "correctedInterval": [
+      -0.15625,
+      0.3125
+    ],
+    "label": "inconclusive"
+  },
+  {
+    "kind": "headToHead",
+    "policy": "raw",
+    "key": "treasure-thin",
+    "seat": 0,
+    "share": 0.53125,
+    "blocks": 32,
+    "pairs": 32,
+    "excludedBlocks": 0,
+    "exposureRate": 1,
+    "difference": 0.03125,
+    "interval": [
+      -0.140625,
+      0.203125
+    ],
+    "correctedInterval": [
+      -0.21875,
+      0.28125
+    ],
+    "label": "inconclusive"
+  },
+  {
+    "kind": "pairedChange",
+    "policy": "raw",
+    "key": "treasure-thin",
+    "seat": 0,
+    "blocks": 32,
+    "pairs": 32,
+    "excludedBlocks": 0,
+    "exposureRate": 1,
+    "difference": -0.015625,
+    "interval": [
+      -0.203125,
+      0.1875
+    ],
+    "correctedInterval": [
+      -0.296875,
+      0.28125
+    ],
+    "label": "inconclusive"
+  },
+  {
+    "kind": "headToHead",
+    "policy": "raw",
+    "key": "treasure-thin",
+    "seat": 1,
+    "share": 0.4375,
+    "blocks": 32,
+    "pairs": 32,
+    "excludedBlocks": 0,
+    "exposureRate": 1,
+    "difference": -0.0625,
+    "interval": [
+      -0.21875,
+      0.09375
+    ],
+    "correctedInterval": [
+      -0.296875,
+      0.1875
+    ],
+    "label": "inconclusive"
+  },
+  {
+    "kind": "pairedChange",
+    "policy": "raw",
+    "key": "treasure-thin",
+    "seat": 1,
+    "blocks": 32,
+    "pairs": 32,
+    "excludedBlocks": 0,
+    "exposureRate": 1,
+    "difference": -0.015625,
+    "interval": [
+      -0.1875,
+      0.15625
+    ],
+    "correctedInterval": [
+      -0.28125,
+      0.234375
+    ],
+    "label": "inconclusive"
+  },
+  {
+    "kind": "headToHead",
+    "policy": "raw",
+    "key": "engine",
+    "seat": 0,
+    "share": 0.734375,
+    "blocks": 32,
+    "pairs": 32,
+    "excludedBlocks": 0,
+    "exposureRate": 1,
+    "difference": 0.234375,
+    "interval": [
+      0.09375,
+      0.359375
+    ],
+    "correctedInterval": [
+      0.015625,
+      0.421875
+    ],
+    "label": "signal; practical magnitude unresolved"
+  },
+  {
+    "kind": "pairedChange",
+    "policy": "raw",
+    "key": "engine",
+    "seat": 0,
+    "blocks": 32,
+    "pairs": 32,
+    "excludedBlocks": 0,
+    "exposureRate": 1,
+    "difference": 0.140625,
+    "interval": [
+      -0.046875,
+      0.328125
+    ],
+    "correctedInterval": [
+      -0.125,
+      0.421875
+    ],
+    "label": "inconclusive"
+  },
+  {
+    "kind": "headToHead",
+    "policy": "raw",
+    "key": "engine",
+    "seat": 1,
+    "share": 0.46875,
+    "blocks": 32,
+    "pairs": 32,
+    "excludedBlocks": 0,
+    "exposureRate": 1,
+    "difference": -0.03125,
+    "interval": [
+      -0.203125,
+      0.140625
+    ],
+    "correctedInterval": [
+      -0.28125,
+      0.234375
+    ],
+    "label": "inconclusive"
+  },
+  {
+    "kind": "pairedChange",
+    "policy": "raw",
+    "key": "engine",
+    "seat": 1,
+    "blocks": 32,
+    "pairs": 32,
+    "excludedBlocks": 0,
+    "exposureRate": 1,
+    "difference": 0.0625,
+    "interval": [
+      -0.15625,
+      0.28125
+    ],
+    "correctedInterval": [
+      -0.265625,
+      0.375
+    ],
+    "label": "inconclusive"
+  },
+  {
+    "kind": "headToHead",
+    "policy": "raw",
+    "key": "engine-thin",
+    "seat": 0,
+    "share": 0.71875,
+    "blocks": 32,
+    "pairs": 32,
+    "excludedBlocks": 0,
+    "exposureRate": 1,
+    "difference": 0.21875,
+    "interval": [
+      0.0625,
+      0.359375
+    ],
+    "correctedInterval": [
+      -0.015625,
+      0.421875
+    ],
+    "label": "inconclusive"
+  },
+  {
+    "kind": "pairedChange",
+    "policy": "raw",
+    "key": "engine-thin",
+    "seat": 0,
+    "blocks": 32,
+    "pairs": 32,
+    "excludedBlocks": 0,
+    "exposureRate": 1,
+    "difference": 0.203125,
+    "interval": [
+      0.015625,
+      0.390625
+    ],
+    "correctedInterval": [
+      -0.078125,
+      0.484375
+    ],
+    "label": "inconclusive"
+  },
+  {
+    "kind": "headToHead",
+    "policy": "raw",
+    "key": "engine-thin",
+    "seat": 1,
+    "share": 0.640625,
+    "blocks": 32,
+    "pairs": 32,
+    "excludedBlocks": 0,
+    "exposureRate": 1,
+    "difference": 0.140625,
+    "interval": [
+      -0.03125,
+      0.296875
+    ],
+    "correctedInterval": [
+      -0.109375,
+      0.359375
+    ],
+    "label": "inconclusive"
+  },
+  {
+    "kind": "pairedChange",
+    "policy": "raw",
+    "key": "engine-thin",
+    "seat": 1,
+    "blocks": 32,
+    "pairs": 32,
+    "excludedBlocks": 0,
+    "exposureRate": 1,
+    "difference": 0.15625,
+    "interval": [
+      0.015625,
+      0.296875
+    ],
+    "correctedInterval": [
+      -0.046875,
+      0.375
+    ],
+    "label": "inconclusive"
+  }
+]
