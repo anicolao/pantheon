@@ -82,7 +82,7 @@ const keepCache = new WeakMap<View, Map<string, number>>();
 /** Retaining an owned card is its marginal contribution, not the value of buying another copy. */
 export function engineKeepValue(view: View, profile: Profile, id: string): number {
   let cached = keepCache.get(view); if (!cached) { cached = new Map(); keepCache.set(view, cached); }
-  const key = `${profile.parameters.scoringAt}/${profile.thinning ?? 'legacy'}/${id}`;
+  const key = `${profile.endGamePolicy??'historical'}/${profile.parameters.scoringAt}/${profile.thinning ?? 'legacy'}/${id}`;
   if (!cached.has(key)) {
     const without = { ...view, owned: { ...view.owned, [id]: Math.max(0, (view.owned[id] ?? 0) - 1) } };
     cached.set(key, Math.max(1, engineActionValue(without, profile, id)));
