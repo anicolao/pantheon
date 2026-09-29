@@ -1,11 +1,13 @@
 import {readFileSync,writeFileSync} from 'node:fs';
 import {gzipSync} from 'node:zlib';
 import {runExperiment,replayExperiment,type ExperimentOptions} from './balance/experiment';
-import {candidates,type Family} from './balance/strategy';
+import {candidates,type Family,type Profile} from './balance/strategy';
 const task=JSON.parse(readFileSync(process.argv[2],'utf8'));const rows=[];
+const profiles:Record<string,Profile>=task.profiles??Object.fromEntries((['treasure','engine'] as Family[]).map(family=>[family,{family,parameters:candidates[0]}]));
+const keys=Object.keys(profiles),seed=task.seed??'base-game-v1:evaluation';
 for(const block of task.blocks){
- for(const first of ['treasure','engine'] as Family[])for(const second of ['treasure','engine'] as Family[]){
-  const options:ExperimentOptions={seed:`base-game-v1:evaluation:${block}`,block,lineup:['thaleia','nereon'],profiles:[first,second].map(family=>({family,parameters:candidates[0]})),focal:0,variant:'base-game'};
+ for(const first of keys)for(const second of keys){
+  const options:ExperimentOptions={seed:`${seed}:${block}`,block,lineup:['thaleia','nereon'],profiles:[profiles[first],profiles[second]],focal:0,variant:'base-game'};
   const {result,events}=runExperiment(options);
   if(result.status!=='completed')throw new Error(JSON.stringify(result));
   if(result.players.some(p=>p.telemetry.leaderTriggers||Object.keys(p.telemetry.worship).length))throw new Error('Forbidden leader/Worship effect');
@@ -19,7 +21,7 @@ for(const block of task.blocks){
    writeFileSync(`${task.out}/replays/${block}-${first}-${second}.json.gz`,gzipSync(JSON.stringify({options,result,events})));
   }
  }
- if(rows.length%100===0)console.log(`Worker ${task.worker}: ${rows.length}/${task.blocks.length*4}`);
+ if(rows.length%(keys.length**2*10)===0)console.log(`Worker ${task.worker}: ${rows.length}/${task.blocks.length*keys.length**2}`);
 }
 writeFileSync(`${task.out}/games-${task.worker}.jsonl.gz`,gzipSync(rows.map(r=>JSON.stringify(r)).join('\n')+'\n'));
 console.log(`Worker ${task.worker} completed ${rows.length} games`);

@@ -1,10 +1,26 @@
-# Bot strategy design reference — version 8
+# Bot strategy design reference — version 9
 
 Current evaluation uses [explicit strategy-response matrices](BALANCE_OBJECTIVE.md), with no pooling across leader, strategy or turn order. The base-game experiment is an opt-in rule variant; standard-game policies retain their existing behavior.
 
 This reference describes implemented behavior. The [defect ledger](BOT_DEFECTS.md) records the concrete corrections and regression coverage. Bots are deterministic public-information heuristics, not optimal players. Earlier studies remain reproducible at their recorded source commits; their outcomes do not describe this version.
 
 The completed [standard-rule v4 matrix](balance-results/all-leaders-v4/README.md) covers every leader pair and all five strategy families **at policy v4**. Treasure changed in v5; the [paired v4→v5 rerun](balance-results/all-leaders-v5/README.md) records its effect. Engine remains the highest-share family for all leaders, while Treasure loses share in every matchup against Engine.
+
+## Orthogonal thinning for Money and Engine (v9)
+
+A profile may explicitly set `thinning: false` or `thinning: true` while retaining `family: treasure` or `family: engine`. The [base-game 4×4 trial](balance-results/base-thinning-v1/README.md) uses all four combinations with identical fixed parameters. This is not a sixth family or a renamed legacy Thin bot.
+
+**Off** declines optional trash/upgrade choices and assigns no future-removal value to tools. Engine's legacy Thin tool score and generic trash payload bonus are bypassed; ordinary draw/Action/coin acquisition still uses Engine utility. Mandatory choices remain legal. **On** purchases and plays tools only with an objective-specific estimate of useful work; normal parent acquisitions and scoring remain in place. Profiles with the field omitted retain historical behavior for reproduction, including Engine's old shared Thin heuristic. Consequently, the explicit off Engine is not identical to the preceding 2×2 Engine.
+
+Money's composition objective is `moneyEstimate(deck).mean / 5`: expected spendable income per initial card drawn, including legal Action play and terminal collisions. For a removal/replacement it uses `H × change in hand income + change in VP`. Engine's composition objective is `−drawDeficit − strandedDraw / 3 + (4/3) × openingReliability`, the same coverage/reliability terms as Engine acquisition divided by six. It uses `H × change in this objective + change in VP + 0.1 × H × change in cycle payload`. Capacity is evaluated in a fresh composition-only context, without current-hand draw-shortfall feedback. Engine refuses to reduce executable cycle payload below `min(8, existing payload)`; this keeps the whole-deck objective from deleting the income needed to score. Terminal Action payload is discounted by available slots.
+
+Both enumerate joint legal hand subsets, protect known losing endings, favor known positive-share endings, charge unplayed Treasure Coins and an additional lost affordable top-tier VP opportunity, and protect owned VP when H≤1. Losing the last useful tool incurs its remaining-work cost. Forge/offering replacements and subsequent Forge gains use the same objective; gains obey supply and bans. Parent scoring still controls ordinary purchases, including Big Money's immediate top-tier scoring and $0.035 near-tie Treasure preference.
+
+Tool investment forecasts add the tool to the deck, charge its dilution/terminal cost through the parent's ordinary score, and project productive removals using only public composition. Expected uses are `(H−1) × reach × terminalSlotShare`, where reach is `min(1, 5 / max(5, N−playableDraw))`. Existing tools cover work first. Each successive removal/replacement is reevaluated; work with nonpositive value is rejected. Fractional uses are weighted, and the total benefit is divided by H to yield an income/coverage premium. Engine multiplies that premium by six for its acquisition scale. There is no named opening, fixed trash list, or unlimited value for redundant tools.
+
+Play ordering adds the value of legal work in the remaining hand after the Action leaves it; the parent still values draw, coin payload and Action continuity. Forecasts approximate tool accessibility, removal timing and terminal competition; Money's income model retains finite sampling. This is not exhaustive multi-turn search, and optimizing these objectives does not guarantee higher victory share.
+
+Implementation: [objective thinning](scripts/balance/objective-thin.ts). Tests cover independent toggles, objective disagreement, payload/draw retention, joint removals, ending and scoring protection, diminishing tools, legal upgrades/bans, inactive leader invariance, and all sixteen ordered combinations. The legacy Thin family and the descriptions below remain applicable to profiles without the explicit switch.
 
 ## The five families
 
