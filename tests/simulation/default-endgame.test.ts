@@ -1,7 +1,7 @@
 import {expect,test} from 'bun:test';
 import {readFileSync} from 'node:fs';
 import {gunzipSync} from 'node:zlib';
-import {baseProfiles,historicalBaseProfiles,raceProfiles,endGameProfiles} from '../../scripts/balance/base-profiles';
+import {v14BaseProfiles as baseProfiles,historicalBaseProfiles,raceProfiles,endGameProfiles} from '../../scripts/balance/base-profiles';
 import {withEndGame,defaultEndGamePolicy} from '../../scripts/balance/end-game';
 import {runExperiment} from '../../scripts/balance/experiment';
 test('modern defaults share one endgame policy while historical controls remain explicit',()=>{

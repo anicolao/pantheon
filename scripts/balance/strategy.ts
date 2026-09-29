@@ -1,3 +1,4 @@
+import {sampledCommand} from './sampled';
 import {tempoHorizon,endGamePurchase,endGameGain,legacyPointValue,policyCardValue,sharedPointPurchase,sharedPointGain,type EndGamePolicy} from './end-game';
 import {raceView,racePurchase,raceGain,racePointEligible} from './race';
 import {objectiveToolPremium, objectiveTrashChoice, objectiveGain, objectivePlayBonus, isThinningTool} from './objective-thin';
@@ -10,7 +11,7 @@ import { actionEffects, definition, leaderEffects, type PlayVariant, type Action
 import type { CardInstance, SetupState } from '../../src/lib/game/setup';
 import { chooseCommand, observe, type Observation } from './bot';
 
-export const strategyVersion = 14;
+export const strategyVersion = 15;
 export const families = ['treasure', 'engine', 'thin', 'worship', 'race'] as const;
 export type Family = typeof families[number];
 export type Parameters = { scoringAt: number; engineCopies: number; moneyFloor: number; worshipMargin: number };
@@ -19,7 +20,7 @@ export const candidates: Parameters[] = [
   { scoringAt: 5, engineCopies: 2, moneyFloor: 9, worshipMargin: 1 },
   { scoringAt: 2, engineCopies: 5, moneyFloor: 6, worshipMargin: 0 }
 ];
-export type Profile = { family: Family; parameters: Parameters; thinning?: boolean; race?: boolean; endGame?: boolean; endGamePolicy?: EndGamePolicy };
+export type Profile = { evaluation?: 'shuffle-3'; family: Family; parameters: Parameters; thinning?: boolean; race?: boolean; endGame?: boolean; endGamePolicy?: EndGamePolicy };
 export type Restriction = { kind: 'event' | 'card' | 'leader-trigger'; id: string; scope: 'focal' | 'table' };
 export type PublicInventory = Record<string, Record<string, number>>;
 export type View = Observation & {
@@ -182,6 +183,8 @@ function worshipValue(view: View, profile: Profile, event: string): number {
 export function strategyCommand(view: View, profile: Profile): ActionCommand {
   if(profile.endGamePolicy&&(profile.race||profile.endGame))throw new Error('Choose one endgame policy, not multiple overlays');
   if(profile.endGamePolicy){view={...view,endGamePolicy:profile.endGamePolicy};if(['redraw-tempo','payback'].includes(profile.endGamePolicy))view.horizonOverride=tempoHorizon(view);}
+
+  if(profile.evaluation==='shuffle-3')return sampledCommand(view,profile);
 
   if(profile.endGame!==undefined && profile.family!=='treasure' && profile.family!=='engine')throw new Error('End Game requires a Money or Engine objective');
   if(profile.endGame && profile.race)throw new Error('End Game replaces Race; do not combine them');
