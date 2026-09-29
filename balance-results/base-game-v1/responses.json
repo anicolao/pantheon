@@ -1,0 +1,184 @@
+{
+  "rows": [
+    {
+      "first": "treasure",
+      "second": "treasure",
+      "games": 1000,
+      "p1Share": 0.4585,
+      "p1Wins": 320,
+      "splitTies": 277,
+      "p2Wins": 403,
+      "equalVPScores": 277,
+      "interval": [
+        0.4325,
+        0.4845
+      ],
+      "adjustedInterval": [
+        0.4255,
+        0.492
+      ],
+      "p1": {
+        "meanVP": 20.976,
+        "meanTurns": 15.726,
+        "meanFirstPoints": 8.863,
+        "noPoints": 0,
+        "meanDeckSize": 25.588,
+        "meanAcquisitions": {
+          "drachma": 4.626999999999944,
+          "obol": 0.7900000000000006,
+          "council-of-sages": 1.8229999999999944,
+          "talent": 4.251999999999964,
+          "acropolis": 2.9319999999999675,
+          "harvest-feast": 0.35900000000000026,
+          "victorious-procession": 0.35000000000000026,
+          "merchant-fleet": 0.020000000000000004,
+          "polis": 0.11700000000000009,
+          "sacred-academy": 0.2770000000000002,
+          "hamlet": 0.03300000000000002,
+          "oracles-acolyte": 0.008
+        }
+      },
+      "p2": {
+        "meanVP": 21.619,
+        "meanTurns": 15.406,
+        "meanFirstPoints": 8.863,
+        "noPoints": 0,
+        "meanDeckSize": 25.304,
+        "meanAcquisitions": {
+          "drachma": 4.662999999999946,
+          "obol": 0.8340000000000006,
+          "victorious-procession": 0.3770000000000003,
+          "acropolis": 3.067999999999974,
+          "council-of-sages": 1.7819999999999923,
+          "talent": 3.9019999999999597,
+          "sacred-academy": 0.25500000000000017,
+          "harvest-feast": 0.2950000000000002,
+          "polis": 0.05800000000000004,
+          "hamlet": 0.037000000000000026,
+          "oracles-acolyte": 0.010000000000000002,
+          "merchant-fleet": 0.023000000000000007
+        }
+      }
+    },
+    {
+      "first": "engine",
+      "second": "treasure",
+      "games": 1000,
+      "p1Share": 0.4985,
+      "p1Wins": 476,
+      "splitTies": 45,
+      "p2Wins": 479,
+      "equalVPScores": 45,
+      "interval": [
+        0.4685,
+        0.5285
+      ],
+      "adjustedInterval": [
+        0.4605,
+        0.537
+      ],
+      "p1": {
+        "meanVP": 28.478,
+        "meanTurns": 18.946,
+        "meanFirstPoints": 9.465,
+        "noPoints": 0,
+        "meanDeckSize": 26.574,
+        "meanAcquisitions": {
+          "council-of-sages": 1.0000000000000007,
+          "seed-keeper": 0.8800000000000007,
+          "drachma": 5.6079999999999535,
+          "oracles-acolyte": 0.6310000000000004,
+          "sacred-academy": 2.7289999999999646,
+          "polis": 3.962999999999944,
+          "hamlet": 0.6920000000000005,
+          "acropolis": 2.351999999999969,
+          "talent": 0.7590000000000006,
+          "harvest-feast": 0.031000000000000014,
+          "forge-of-heroes": 0.012000000000000004
+        }
+      },
+      "p2": {
+        "meanVP": 25.674,
+        "meanTurns": 18.47,
+        "meanFirstPoints": 8.863,
+        "noPoints": 0,
+        "meanDeckSize": 28.399,
+        "meanAcquisitions": {
+          "drachma": 4.840999999999945,
+          "obol": 0.8340000000000006,
+          "victorious-procession": 0.3770000000000003,
+          "acropolis": 3.6339999999999653,
+          "council-of-sages": 1.8499999999999954,
+          "talent": 5.293999999999946,
+          "hamlet": 0.4020000000000003,
+          "sacred-academy": 0.45400000000000035,
+          "harvest-feast": 0.5170000000000003,
+          "polis": 0.1560000000000001,
+          "oracles-acolyte": 0.015000000000000006,
+          "merchant-fleet": 0.023000000000000007,
+          "harbor-pilot": 0.002
+        }
+      }
+    }
+  ],
+  "selected": {
+    "first": "engine",
+    "second": "treasure",
+    "games": 1000,
+    "p1Share": 0.4985,
+    "p1Wins": 476,
+    "splitTies": 45,
+    "p2Wins": 479,
+    "equalVPScores": 45,
+    "interval": [
+      0.4685,
+      0.5285
+    ],
+    "adjustedInterval": [
+      0.4605,
+      0.537
+    ],
+    "p1": {
+      "meanVP": 28.478,
+      "meanTurns": 18.946,
+      "meanFirstPoints": 9.465,
+      "noPoints": 0,
+      "meanDeckSize": 26.574,
+      "meanAcquisitions": {
+        "council-of-sages": 1.0000000000000007,
+        "seed-keeper": 0.8800000000000007,
+        "drachma": 5.6079999999999535,
+        "oracles-acolyte": 0.6310000000000004,
+        "sacred-academy": 2.7289999999999646,
+        "polis": 3.962999999999944,
+        "hamlet": 0.6920000000000005,
+        "acropolis": 2.351999999999969,
+        "talent": 0.7590000000000006,
+        "harvest-feast": 0.031000000000000014,
+        "forge-of-heroes": 0.012000000000000004
+      }
+    },
+    "p2": {
+      "meanVP": 25.674,
+      "meanTurns": 18.47,
+      "meanFirstPoints": 8.863,
+      "noPoints": 0,
+      "meanDeckSize": 28.399,
+      "meanAcquisitions": {
+        "drachma": 4.840999999999945,
+        "obol": 0.8340000000000006,
+        "victorious-procession": 0.3770000000000003,
+        "acropolis": 3.6339999999999653,
+        "council-of-sages": 1.8499999999999954,
+        "talent": 5.293999999999946,
+        "hamlet": 0.4020000000000003,
+        "sacred-academy": 0.45400000000000035,
+        "harvest-feast": 0.5170000000000003,
+        "polis": 0.1560000000000001,
+        "oracles-acolyte": 0.015000000000000006,
+        "merchant-fleet": 0.023000000000000007,
+        "harbor-pilot": 0.002
+      }
+    }
+  }
+}
