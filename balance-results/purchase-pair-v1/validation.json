@@ -1,0 +1,32 @@
+{
+  "sourceCommit": "67fa8a20c28ff9f2e3e3dc2f46a4195e484a600f",
+  "simulation": {
+    "command": "bun test tests/simulation",
+    "tests": 149,
+    "assertions": 10388,
+    "failures": 0
+  },
+  "tooling": {
+    "command": "bun run test:policy",
+    "tests": 34,
+    "assertions": 3418,
+    "failures": 0
+  },
+  "typescript": {
+    "command": "bunx tsc --noEmit --strict --skipLibCheck --target es2022 --module esnext --moduleResolution bundler --types bun scripts/balance-purchase-study.ts tests/simulation/purchase-planner.test.ts",
+    "errors": 0
+  },
+  "svelte": {
+    "command": "bun run check",
+    "errors": 0,
+    "warnings": 0
+  },
+  "environment": "All commands executed in pinned nix develop git+file worktree at flake revision 52479a00107f709f896694a324f93e7a13063705",
+  "publication": {
+    "focusedTests": 8,
+    "assertions": 28,
+    "failures": 0,
+    "strictTypeScriptErrors": 0,
+    "change": "Candidate factory renamed pairBaseProfiles, v18 default retained; decision algorithm unchanged."
+  }
+}

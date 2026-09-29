@@ -1,0 +1,49 @@
+$ bun run check:e2e-policy && bun test tests/tooling
+$ bun scripts/check-e2e-policy.ts
+E2E policy passed (29 files, 326 ms; working tree).
+bun test v1.3.13 (bf2e2cec)
+
+tests/tooling/e2e-policy.test.ts:
+(pass) repository satisfies the policy [189.90ms]
+(pass) weakening the policy fails before launching a browser > larger timeout [96.42ms]
+(pass) weakening the policy fails before launching a browser > disabled timeout [83.50ms]
+(pass) weakening the policy fails before launching a browser > unknown timeout [100.35ms]
+(pass) weakening the policy fails before launching a browser > shorthand timeout [54.99ms]
+(pass) weakening the policy fails before launching a browser > default timeout [71.65ms]
+(pass) weakening the policy fails before launching a browser > network timeout [71.30ms]
+(pass) weakening the policy fails before launching a browser > sleep [80.91ms]
+(pass) weakening the policy fails before launching a browser > timer sleep [73.43ms]
+(pass) weakening the policy fails before launching a browser > idle wait [96.74ms]
+(pass) weakening the policy fails before launching a browser > retry [88.78ms]
+(pass) weakening the policy fails before launching a browser > pixel tolerance [84.27ms]
+(pass) weakening the policy fails before launching a browser > screenshot bypass [91.67ms]
+(pass) weakening the policy fails before launching a browser > CDP bypass [54.86ms]
+(pass) weakening the policy fails before launching a browser > unbounded player [47.94ms]
+(pass) weakening the policy fails before launching a browser > mask [70.29ms]
+(pass) weakening the policy fails before launching a browser > slow mode [71.32ms]
+(pass) weakening the policy fails before launching a browser > shared budget [40.54ms]
+(pass) weakening the policy fails before launching a browser > readiness status bypass [57.88ms]
+(pass) weakening the policy fails before launching a browser > busy state bypass [66.64ms]
+(pass) weakening the policy fails before launching a browser > readiness budget bypass [61.85ms]
+(pass) weakening the policy fails before launching a browser > clipping removal [48.24ms]
+(pass) weakening the policy fails before launching a browser > commented clipping guard [60.89ms]
+(pass) weakening the policy fails before launching a browser > commented CI guard [54.15ms]
+(pass) weakening the policy fails before launching a browser > capture budget removal [62.61ms]
+(pass) weakening the policy fails before launching a browser > exact comparison removal [53.15ms]
+(pass) weakening the policy fails before launching a browser > elapsed deadline removal [50.33ms]
+(pass) weakening the policy fails before launching a browser > phone removal [49.35ms]
+(pass) weakening the policy fails before launching a browser > CI guard removal [65.89ms]
+(pass) weakening the policy fails before launching a browser > player default removal [45.35ms]
+(pass) a short explicit operation and aggregate journey budget are allowed [49.69ms]
+
+tests/tooling/policy-tree.test.ts:
+(pass) staged and push checks read the selected tree, not unstaged files [1538.00ms]
+
+tests/tooling/story-images.test.ts:
+(pass) step renders both views inline with full-size links and an expandable 4K view [0.31ms]
+(pass) every committed illustrated step has both inline views and valid screenshot links [22.46ms]
+
+ 34 pass
+ 0 fail
+ 3418 expect() calls
+Ran 34 tests across 3 files. [3.97s]
