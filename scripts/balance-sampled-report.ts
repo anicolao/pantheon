@@ -40,11 +40,22 @@ for(const key of keys)for(const seat of [0,1]){
 }
 for(const first of keys)for(const second of keys)jobs.push({kind:'matrix',first:first+'@new',second:second+'@new',pairs:pairs(groups.get(first+'@new|'+second+'@new')!,0),tests:16});
 const estimates=await parallelBootstrap(jobs.map(j=>({pairs:j.pairs,tests:j.tests,replicates:20_000})));
+// A nonparametric bootstrap is degenerate after unanimous outcomes. Use the
+// exact binomial boundary interval there instead of asserting zero uncertainty.
+for(let i=0;i<jobs.length;i++){
+ const j=jobs[i],xs=j.pairs.map((p:Pair)=>p.baselineShare);
+ if(j.kind==='pairedChange'||!xs.every((x:number)=>x===xs[0])||![0,1].includes(xs[0]))continue;
+ const bound=(tests:number)=>{const edge=Math.pow(0.05/(2*tests),1/xs.length);return (xs[0]===0?[0,1-edge]:[edge,1]).map(n=>n-0.5);};
+ estimates[i].interval=bound(1) as [number,number];
+ estimates[i].correctedInterval=bound(j.tests) as [number,number];
+}
 const results=jobs.map(({pairs,tests,...j},i)=>({...j,...estimates[i]}));
 const matrix=results.filter(r=>r.kind==='matrix').map(r=>({...cells.find(c=>c.first===r.first&&c.second===r.second)!,interval:r.interval.map((n:number)=>n+0.5),adjustedInterval:r.correctedInterval.map((n:number)=>n+0.5)}));
 const responses=keys.map(k=>matrix.filter(c=>c.first===k+'@new').sort((a,b)=>a.share-b.share)[0]);
 const selected=[...responses].sort((a,b)=>b.share-a.share)[0];
-for(const[name,value]of Object.entries({cells,comparisons:results.filter(r=>r.kind!=='matrix'),matrix,responses:{rows:responses,selected}}))writeFileSync(dir+'/'+name+'.json',JSON.stringify(value,null,2)+'\n');
+const coBestResponses=Object.fromEntries(responses.map(r=>[r.first,matrix.filter(c=>c.first===r.first&&c.share===r.share).map(c=>c.second)]));
+const coBestInitialChoices=responses.filter(r=>r.share===selected.share).map(r=>r.first);
+for(const[name,value]of Object.entries({cells,comparisons:results.filter(r=>r.kind!=='matrix'),matrix,responses:{rows:responses,selected,coBestResponses,coBestInitialChoices}}))writeFileSync(dir+'/'+name+'.json',JSON.stringify(value,null,2)+'\n');
 const pct=(n:number)=>(100*n).toFixed(2),label=(s:string)=>s.replace('treasure','Money').replace('engine','Engine').replace('-thin',' + Thin').replace('@new','').replace('@old',' old');
 const lines=['# Shared three-turn sampling: '+m.stage,'',m.games+' games; '+m.blocks+' seeds per ordered cell; '+m.workers+' CPUs. No powers or Worship; shared turn-2 endgame behavior. Ties split, no seat or strategy pooling.','',
 '## New versus old, direct heads-up','',
@@ -60,5 +71,5 @@ const lines=['# Shared three-turn sampling: '+m.stage,'',m.games+' games; '+m.bl
 '| P1 / P2 | '+keys.map(label).join(' | ')+' |','| --- | '+keys.map(()=>'---:').join(' | ')+' |',
 ...keys.map(a=>'| '+label(a)+' | '+keys.map(b=>pct(matrix.find(c=>c.first===a+'@new'&&c.second===b+'@new')!.share)+'%').join(' | ')+' |'),'',
 'Observed maximin response pair: '+label(selected.first)+' / '+label(selected.second)+', '+pct(selected.share)+'% / '+pct(1-selected.share)+'%. This is a fixed-bot comparison, not optimal play.','',
-'All ending inventories and complete seed coverage were audited. Bootstrap resamples whole seeds 20,000 times. Reproduce inside Nix using balance-sampled-study.ts and balance-sampled-report.ts; source and seed namespace are pinned in manifest.json.'];
+'All ending inventories and complete seed coverage were audited. Bootstrap resamples whole seeds 20,000 times; unanimous 0%/100% shares use exact binomial boundary intervals rather than degenerate bootstrap bounds. Reproduce inside Nix using balance-sampled-study.ts and balance-sampled-report.ts; source and seed namespace are pinned in manifest.json.'];
 writeFileSync(dir+'/report.md',lines.join('\n')+'\n');console.log(lines.join('\n'));

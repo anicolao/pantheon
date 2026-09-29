@@ -1,4 +1,4 @@
-# Bot strategy design reference — version 14
+# Bot strategy design reference — version 15
 
 Current evaluation uses [explicit strategy-response matrices](BALANCE_OBJECTIVE.md), with no pooling across leader, strategy or turn order. The base-game experiment is an opt-in rule variant; standard-game policies retain their existing behavior.
 
@@ -8,7 +8,15 @@ The completed [standard-rule v4 matrix](balance-results/all-leaders-v4/README.md
 
 The [v14 Engine construction review](balance-results/engine-review-v14/README.md) documents a confirmed complementary-acquisition trap and near-zero realized full-deck draws against Money. The implemented capacity heuristic should not be interpreted as a successful whole-deck engine builder.
 
-## Current shared endgame default (v14)
+## Current sampled acquisition policy (v15)
+
+Modern base profiles evaluate every candidate deck with 64 fresh paired initial shuffles and three consecutive production-rule turns. Money maximizes mean total coins; Engine maximizes mean total actual draws, including opening draws. The same bounded Action/discard/gain continuation is used for both. No additional purchases or Worship occur inside projections. All card types are sampled: there is no analytic Treasure branch, Engine capacity score or Treasure epsilon preference in acquisition.
+
+Thin independently enables projected trashing and actual removal/upgrade evaluation against the same sampled parent metric, with shared VP/current-cash costs and ending protections. The shared turn-2 scoring override remains above economic selection. Details, approximation limits, exact old-versus-new comparisons and the new 4×4 are in the [completed sampler study](balance-results/shuffle-three-v1/README.md).
+
+The draw-only Engine greatly increases realized full-deck draws but fails to build useful spending power. Sampling the requested metric does not make that metric sufficient for winning. This implementation and its results remain explicit; v14BaseProfiles preserve the old controls. Historical policy sections below describe the retained controls, rather than the new sampler.
+
+## Shared endgame default (introduced in v14)
 
 Modern Money/Engine balance profiles attach `withEndGame(profile)`, independently of Thin. The default `turn-2` trait prioritizes safe positive VP purchases and ordinary gains when the public ending horizon is at most two turns. Before activation each parent retains its economic objective and the common top-tier scoring opportunity. Engine's former discretionary late scoring and investment discount are removed from modern profiles and retained as the selectable `engine` endgame policy. Safe point planning lives in `scoring.ts`; policy selection and scoring live in `end-game.ts`.
 
