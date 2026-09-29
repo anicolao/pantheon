@@ -44,3 +44,11 @@ test('v15 controls exactly retain saved sampled behavior',()=>{
   expect(runExperiment(saved.options)).toEqual({result:saved.result,events:saved.events});
  }
 },180000);
+
+test('stratification samples every opening position, including pure Treasure candidates',()=>{
+ const v=view();v.owned={obol:6,hamlet:4};
+ const e=rolloutEstimate(v,v.owned,false,'stratified');
+ expect(e.samples).toBe(80);expect(e.perTurn[0].coins).toBe(3);expect(e.perTurn[0].draws).toBe(5);
+ const owned={...v.owned,drachma:1},next=rolloutEstimate(v,owned,false,'stratified');
+ expect(next.samples).toBe(88);expect(next.perTurn[0].coins).toBeCloseTo(40/11,10);
+});
