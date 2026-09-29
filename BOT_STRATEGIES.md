@@ -6,6 +6,8 @@ This reference describes implemented behavior. The [defect ledger](BOT_DEFECTS.m
 
 The completed [standard-rule v4 matrix](balance-results/all-leaders-v4/README.md) covers every leader pair and all five strategy families **at policy v4**. Treasure changed in v5; the [paired v4→v5 rerun](balance-results/all-leaders-v5/README.md) records its effect. Engine remains the highest-share family for all leaders, while Treasure loses share in every matchup against Engine.
 
+The [v14 Engine construction review](balance-results/engine-review-v14/README.md) documents a confirmed complementary-acquisition trap and near-zero realized full-deck draws against Money. The implemented capacity heuristic should not be interpreted as a successful whole-deck engine builder.
+
 ## Current shared endgame default (v14)
 
 Modern Money/Engine balance profiles attach `withEndGame(profile)`, independently of Thin. The default `turn-2` trait prioritizes safe positive VP purchases and ordinary gains when the public ending horizon is at most two turns. Before activation each parent retains its economic objective and the common top-tier scoring opportunity. Engine's former discretionary late scoring and investment discount are removed from modern profiles and retained as the selectable `engine` endgame policy. Safe point planning lives in `scoring.ts`; policy selection and scoring live in `end-game.ts`.
