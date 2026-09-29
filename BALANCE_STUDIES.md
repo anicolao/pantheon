@@ -2,9 +2,11 @@
 
 Current balance decisions follow [explicit strategy responses](BALANCE_OBJECTIVE.md): keep each leader/strategy/turn-order cell separate and evaluate available best responses. Historical pooled studies below remain provenance, not the current decision criterion.
 
-The current population is **strategy version 5**. See [bot designs](BOT_STRATEGIES.md) and the [defect correction ledger](BOT_DEFECTS.md). Earlier commands and results below are historical and reproduce their archived outcomes only at the recorded source commit.
+The current population is **strategy version 8**. See [bot designs](BOT_STRATEGIES.md) and the [defect correction ledger](BOT_DEFECTS.md).
 
-Treasure v5 now maximizes all-card expected hand income and gates points on post-purchase $8 EV. The [completed paired v4→v5 study](balance-results/all-leaders-v5/README.md) repeats training and evaluation on the same seeds. It leads with best-observed-strategy matchups and includes all 150 before/after cells.
+The [base-game 2×2 trial](balance-results/base-game-v1/report.md) disables leader powers and Worship and gives both players identical decks with inert Temples. It runs 1,000 fresh seeds per ordered strategy cell. Big Money is competitive: 61.75% when starting against Engine and 50.15% when responding to Engine. Player 2's observed strongest response is Big Money in either row; Player 1's observed strongest initial choice is Engine, yielding the concrete Engine / Big Money cell at 49.85% / 50.15%. These are frozen bot policies, not proven optimal play.
+
+Earlier commands and studies below are historical and reproduce their archived outcomes only at the recorded source commit. In particular, Treasure v5's post-purchase $8 scoring gate was superseded by the scoring correction and epsilon studies.
 
 ## Full leader/strategy matrix
 
