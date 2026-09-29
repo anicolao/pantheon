@@ -1,3 +1,4 @@
+import {endGameActive} from './end-game';
 import {racePointEligible} from './race';
 import { actionEffects, definition, type Choice } from '../../src/lib/game/actions';
 import type { CardInstance } from '../../src/lib/game/setup';
@@ -66,7 +67,7 @@ export function objectiveChange(view: View, objective: ThinObjective, remove: Ca
   value-=lost;
   // Losing an affordable top-tier scoring opportunity is more than a future-density gain.
   const top=Math.max(0,...Object.keys(view.supply).map(id=>definition(id).vp??0));
-  const scoring=Object.keys(view.supply).filter(id=>view.supply[id]>0&&!view.bannedCards.includes(id)&&(view.raceHorizon!==undefined?racePointEligible(view,id):(definition(id).vp??0)===top&&top>0));
+  const scoring=Object.keys(view.supply).filter(id=>view.supply[id]>0&&!view.bannedCards.includes(id)&&(view.endGame&&endGameActive(view)?(definition(id).vp??0)>0:view.raceHorizon!==undefined?racePointEligible(view,id):(definition(id).vp??0)===top&&top>0));
   value-=Math.max(0,...scoring.filter(id=>definition(id).cost!<=availableCoins(view)&&definition(id).cost!>availableCoins(view)-lost).map(id=>definition(id).vp??0));
  }
  return value;

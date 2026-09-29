@@ -8,8 +8,8 @@ import type {Profile} from './balance/strategy';
 const dir=process.argv[2];if(!dir)throw Error('Supply run directory');
 const manifest=JSON.parse(readFileSync(dir+'/manifest.json','utf8'));
 function check(ok:unknown,message:string):asserts ok{if(!ok)throw Error(message);}
-check(manifest.status==='completed'&&['thinning','race'].includes(manifest.mode),'Wrong/incomplete trial');
-const racing=manifest.mode==='race',study=racing?'base-race-v1':'base-thinning-v1';
+check(manifest.status==='completed'&&['thinning','race','endgame'].includes(manifest.mode),'Wrong/incomplete trial');
+const racing=manifest.mode==='race',study=manifest.mode==='endgame'?'base-endgame-v1':racing?'base-race-v1':'base-thinning-v1';
 const profiles:Record<string,Profile>=manifest.profiles,keys=Object.keys(profiles),tests=keys.length**2;
 type Row={first:string;second:string;result:StudyResult};
 const rows:Row[]=Array.from({length:manifest.workers},(_,i)=>gunzipSync(readFileSync(dir+'/games-'+i+'.jsonl.gz')).toString().trim().split('\n').map(s=>JSON.parse(s))).flat();
@@ -55,9 +55,10 @@ const coBestResponses=Object.fromEntries(responses.map(c=>[c.first,cells.filter(
 const coBestInitialChoices=responses.filter(c=>c.p1Share===selected.p1Share).map(c=>c.first);
 for(const[name,value]of Object.entries({cells,responses:{rows:responses,selected,coBestResponses,coBestInitialChoices}}))writeFileSync(dir+'/'+name+'.json',JSON.stringify(value,null,2)+'\n');
 const pct=(v:number)=>(v*100).toFixed(2)+'%',num=(v:number)=>v.toFixed(2);
-const lines=[racing?'# Base game: orthogonal thinning and Race matrix':'# Base game: orthogonal thinning matrix','',
+const lines=[manifest.mode==='endgame'?'# Base game: Big Money × Thin × End Game screening':racing?'# Base game: orthogonal thinning and Race matrix':'# Base game: orthogonal thinning matrix','',
 'No leader powers or Worship; identical starting decks of six Obols, three Hamlets and one inert Temple. Standard supply, ordinary Action effects and ending/tiebreak rules remain. All profiles use the same frozen default parameters, without retuning. Big Money retains the $0.035 near-tie preference and corrected scoring.','',
 'Thinning is an independent boolean on the parent strategy. Big Money + Thin evaluates expected income per initial draw (with legal Action play); Engine + Thin evaluates executable whole-deck coverage, stranded draw and opening reliability. Both account for remaining time, lost VP/current-turn income, tool capacity and known endings. Engine preserves existing cycle payload up to $8. Tool purchases include their deck/Action cost and a delayed, diminishing estimate of useful removals. These are public-information heuristics, not optimal multi-turn search.','',
+...(manifest.mode==='endgame'?['End Game replaces aggressive Race: when the uncapped public horizon is at most two turns, prioritize affordable positive VP, including Polis and Hamlet. Before that, retain normal parent behavior (including immediate affordable Acropolis). No artificial horizon cap. Safe endings and ordinary gains share the rule; thinning upgrades keep joint parent-objective evaluation and charge lost current scoring opportunities. This is a screening trial, not confirmation.','']:[]),
 ...(racing?['Race is a second independent boolean: buy affordable points worth at least half the top printed VP tier, admit cheaper points only at an imminent ending (H≤1), and cap investment time at three turns (or the preset scoring threshold, if smaller). Safe scoring baskets and ordinary gains share this policy; upgrades retain their parent-specific joint thinning objective with the shorter horizon. No-Race profiles retain v9 behavior. Race is a fixed heuristic, not a searched optimal stopping policy.','']:[]),
 'The explicit off profiles decline optional trashing and receive no thinning investment bonus. This is a new controlled comparison: the earlier 2×2 Engine profile already included legacy thinning heuristics. Omitted thinning settings still reproduce historical profiles.','',
 'Player 1 acts first. Each cell contains '+manifest.blocks+' fresh seeded games, with the same seeds reused across all cells. Entries are P1 victory shares, splitting ties. No strategies, presets or turn orders are pooled.','',
@@ -77,5 +78,5 @@ const lines=[racing?'# Base game: orthogonal thinning and Race matrix':'# Base g
 ...cells.map(c=>'| '+baseLabel(c.first)+' / '+baseLabel(c.second)+' | '+(['meanVP','meanTurns','meanFirstPoints','meanDeckSize','meanTrashed','meanFullDeckDraws'] as const).map(k=>num(c.p1[k])+' / '+num(c.p2[k])).join(' | ')+' |'),'',
 '## Reproduction and validation','',
 manifest.games+' completed games, zero failures; every ending inventory checked against final size and VP. No leader/Worship effects and no optional trashing by off profiles. Workers replayed '+manifest.replays+' saved traces. '+manifest.workers+' CPUs used inside nix develop. Source commit: '+manifest.sourceCommit+'.','',
-'Run from a clean committed tree inside nix develop: `bun scripts/balance-base.ts balance-runs/'+study+' 1000 '+manifest.mode+'`. Regenerate this report with `bun scripts/balance-base-report.ts balance-results/'+study+'`. The manifest records full profiles, seed namespace and worker count. The archived shards and replays preserve every result; task dispatch files are reconstructible.',''];
+'Run from a clean committed tree inside nix develop: `bun scripts/balance-base.ts balance-runs/'+study+' '+manifest.blocks+' '+manifest.mode+'`. Regenerate this report with `bun scripts/balance-base-report.ts balance-results/'+study+'`. The manifest records full profiles, seed namespace and worker count. The archived shards and replays preserve every result; task dispatch files are reconstructible.',''];
 writeFileSync(dir+'/report.md',lines.join('\n'));console.log(lines.join('\n'));
