@@ -59,9 +59,10 @@ test('tap to play and hold or right-click to inspect without committing', async 
   const treasure = game.decks[fixture.host].hand.find(card=>definition(card.cardId).type==='Treasure')!;
   await page.locator(`button[data-instance-id="${treasure.id}"]`).focus();
   await page.keyboard.press('Enter');
-  await steps.step('direct-treasure', 'Play a Treasure straight from Actions', [{spec:'Keyboard activation plays once and advances to Treasures in the same command.',check:async()=>{
+  await steps.step('direct-treasure', 'Play a Treasure after automatic advancement', [{spec:'Keyboard activation plays the Treasure once without a confirmation.',check:async()=>{
     await expect(page.locator('.turn-marker')).toContainText('Treasures');
     await expect(page.locator('dialog:modal')).toHaveCount(0);
+    await expect(page.locator(`button[data-instance-id="${treasure.id}"]`)).toHaveCount(0);
     const events = await readEvents(fixture.code);
     expect(events.slice(before.length).map(event=>event.type)).toEqual(['treasure/played']);
     expect(replaySetup(events).decks[fixture.host].play.at(-1)?.id).toBe(treasure.id);

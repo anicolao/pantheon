@@ -117,7 +117,7 @@ export async function resizeRoom(db: Firestore, id: string, uid: string, playerC
 export type DraftCommand = { type: 'draft/started'; seed: string } | { type: 'leader/chosen'; leaderId: string };
 /** Trusted clients validate and replay; the transaction serializes the shared stream. */
 export type GameCommand = DraftCommand | ActionCommand;
-export async function appendGameCommand(db: Firestore, id: string, uid: string, commandId: string, command: GameCommand) {
+export async function appendGameCommand(db: Firestore, id: string, uid: string, commandId: string, command: GameCommand, expectedRevision?: number) {
   const room = doc(db, 'games', id);
   await runTransaction(db, async transaction => {
     const previous = (await transaction.get(room)).data();
@@ -133,6 +133,8 @@ export async function appendGameCommand(db: Firestore, id: string, uid: string, 
         Object.entries(command).some(([key, value]) => JSON.stringify(acknowledged[key as keyof SetupEvent]) !== JSON.stringify(value))) throw new SetupError('choice', 'That choice has changed.');
       return;
     }
+    // Automatic UI progression must not apply to a later turn or phase.
+    if (expectedRevision !== undefined && previous.revision !== expectedRevision) return;
     const state = replaySetup(events);
     const event: SetupEvent = { schemaVersion: 1, reducerVersion: 1, sequence: previous.revision + 1, actorUid: uid,
       name: state.players.find(player => player.uid === uid)!.name, playerCount: state.playerCount, commandId, ...command };
@@ -141,6 +143,14 @@ export async function appendGameCommand(db: Firestore, id: string, uid: string, 
     catch (error) { throw new SetupError('choice', (error as Error).message); }
     transaction.update(room, { revision: event.sequence, phase: next.phase });
     transaction.set(doc(room, 'events', String(event.sequence)), { ...event, createdAt: serverTimestamp() });
+  }).catch(async error => {
+    // Append-only rules can reject a competing write before Firestore retries it.
+    // An automatic request for an older revision is already obsolete.
+    if (expectedRevision !== undefined) {
+      const current = await getDocFromServer(room);
+      if (current.exists() && current.data().revision !== expectedRevision) return;
+    }
+    throw error;
   });
 }
 

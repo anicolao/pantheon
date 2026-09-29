@@ -29,7 +29,7 @@ test('retain Treasures deliberately and spend multiple Buys including a zero-cos
 
 test('empty piles stay inspectable and turn departure can be cancelled',async({page},info)=>{
   test.setTimeout(120_000);const fixture=await actionTable(page,info,'temple-of-athena','thaleia',{empty:'obol'});
-  await advance(page,'To Treasures');await page.getByRole('button',{name:'Play all Treasures',exact:true}).click();await page.getByRole('button',{name:'Supply',exact:true}).click();await browseSupply(page,'Obol');
+  await advance(page,'To Treasures');await page.getByRole('button',{name:'Play all Treasures',exact:true}).click();await expect(page.locator('.hand [data-card-id="obol"],.hand [data-card-id="drachma"],.hand [data-card-id="talent"]')).toHaveCount(0);await page.getByRole('button',{name:'Supply',exact:true}).click();await browseSupply(page,'Obol');
   await new TestStepHelper(page,info,'Inspect exhausted supply').step('empty-pile','An empty pile remains visible',[{spec:'The card is inspectable but its Buy control explains that the pile is empty.',check:async()=>{await expect(page.getByLabel('Obol: 0 remaining',{exact:true})).toBeVisible();await expect(page.getByRole('button',{name:'Buy Obol',exact:true})).toBeDisabled();await page.getByRole('button',{name:'Buy Obol',exact:true}).focus();await expect(page.locator('.reason')).toHaveText('This pile is empty.');}}]);
   await inspectSupply(page,'Obol');await expect(page.getByRole('dialog',{name:'Obol',exact:true})).toBeVisible();await page.keyboard.press('Escape');await page.getByRole('button',{name:'‹ Table',exact:true}).click();
   await page.getByRole('button',{name:'End turn',exact:true}).click();await expect(page.getByRole('dialog')).toContainText('You can still buy');await page.getByRole('button',{name:'Keep playing',exact:true}).click();await expect(page.locator('.turn-marker')).toContainText('Treasures');
@@ -37,7 +37,7 @@ test('empty piles stay inspectable and turn departure can be cancelled',async({p
 
 test('a lost purchase acknowledgement does not duplicate the card or its animation',async({page},info)=>{
   const fixture=await actionTable(page,info,'temple-of-athena','thaleia');
-  await advance(page,'To Treasures');await page.getByRole('button',{name:'Play all Treasures',exact:true}).click();
+  await advance(page,'To Treasures');await page.getByRole('button',{name:'Play all Treasures',exact:true}).click();await expect(page.locator('.hand [data-card-id="obol"],.hand [data-card-id="drachma"],.hand [data-card-id="talent"]')).toHaveCount(0);
   await page.getByRole('button',{name:'Supply',exact:true}).click();await browseSupply(page,'Obol');
   const before=replaySetup(await readEvents(fixture.code)),steps=new TestStepHelper(page,info,'Recover a purchase');
   await steps.step('before-purchase','Choose a supply card',[{spec:'Obol can be bought with one remaining Buy.',check:async()=>expect(page.getByRole('button',{name:'Buy Obol',exact:true})).toBeEnabled()}]);
@@ -66,7 +66,7 @@ test('leaving Actions is immediate and ending the turn names the most valuable T
   await page.getByRole('button',{name:'End turn',exact:true}).click();
   await steps.step('valuable-treasure','The reminder names the most valuable unplayed Treasure',[{spec:'Drachma is offered before ending the turn.',check:async()=>expect(page.getByRole('dialog')).toContainText('You can still play Drachma.')}]);
   await page.getByRole('button',{name:'Keep playing',exact:true}).click();
-  await page.getByRole('button',{name:'Play all Treasures',exact:true}).click();
+  await page.getByRole('button',{name:'Play all Treasures',exact:true}).click();await expect(page.locator('.hand [data-card-id="obol"],.hand [data-card-id="drachma"],.hand [data-card-id="talent"]')).toHaveCount(0);
   await page.getByRole('button',{name:'Supply',exact:true}).click();await browseSupply(page,'Obol');
   await steps.step('direct-purchase','Treasure play leads directly to an available purchase',[{spec:'Buy is enabled without a separate phase transition.',check:async()=>expect(page.getByRole('button',{name:'Buy Obol',exact:true})).toBeEnabled()}]);
   await page.getByRole('button',{name:'Buy Obol',exact:true}).click();

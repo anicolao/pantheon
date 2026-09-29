@@ -81,6 +81,6 @@ test('follow a friend from the first Temple through Worship and cleanup while re
     await capture('first-move','The beginning of the table is retained alongside gameplay',async()=>expect(other.locator('.chronicle')).toContainText('created the table'),true);
     await other.getByRole('button',{name:'Trash',exact:true}).click();
     await capture('empty-trash','The shared trash is empty and never shows a private deck list',async()=>{await expect(other.locator('.pile')).toHaveText('No cards here.');await expect(other.locator('.public-table [data-card-id]')).toHaveCount(0);},true);
-    const state=replaySetup(await readEvents(code));expect(state.publicActivity.at(-1)?.command).toBe('turn/ended');expect(errors).toEqual([]);
+    const state=replaySetup(await readEvents(code));expect(state.publicActivity.findLast(entry=>entry.command!=='phase/advanced')?.command).toBe('turn/ended');expect(errors).toEqual([]);
   }finally{await context.close();}
 });

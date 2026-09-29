@@ -62,7 +62,7 @@ test('Forge gains a cheaper card before Doreios offers his separate choice',asyn
   await page.getByRole('button',{name:'Gain Obol',exact:true}).click();
   await steps.step('leader-choice','Finish Doreios’s blessing',[{spec:'The leader offers a separate optional trash only after the gain.',check:async()=>{await expect(page.locator('.heading h1')).toHaveText('Doreios');await expect(page.getByRole('button',{name:'Trash none',exact:true})).toBeEnabled();}}]);
   await page.getByRole('button',{name:'Trash none',exact:true}).click();await expect(page.locator('.choice-scene')).toHaveCount(0);
-  await steps.step('forge-finished','Return to the table with the replacement',[{spec:'Both choices are complete and the Action turn continues.',check:async()=>expect(page.locator('.turn-marker')).toContainText('Actions')}]);
+  await steps.step('forge-finished','Return to the table with the replacement',[{spec:'Both choices are complete and control returns to the table.',check:async()=>{await expect(page.locator('.choice-scene')).toHaveCount(0);await expect(page.locator('.turn-marker')).toContainText('Your turn');}}]);
   const result=replaySetup(await readEvents(fixture.code));expect(result.supply.obol).toBe(state.supply.obol-1);expect(result.resources.buys).toBe(state.resources.buys);expect(result.turn.leaderUsed).toBe(true);
 });
 

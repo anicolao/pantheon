@@ -293,3 +293,22 @@ for(const count of [2,3,4] as const)for(const goal of ['acropolis','actions'] as
   expect(await history(clients.get(uids[0])!,id)).toHaveLength(before.length);
   const rows=standings(state);expect(rows.filter(row=>row.winner).length).toBeGreaterThan(0);if(goal==='actions')expect(rows.every(row=>row.score===3)).toBe(true);
 },30000);
+
+
+test('concurrent and delayed automatic transitions cannot skip Treasure play', async () => {
+  const {appendGameCommand}=await import('../../src/lib/backend/setup-repository');
+  const {activePlayer}=await import('../../src/lib/game/actions');
+  const a=database('auto-a'),b=database('auto-b'),id='automatic-phase';
+  await enterRoom(a,id,'auto-a','Ariadne',2);await enterRoom(b,id,'auto-b','Theseus');
+  await appendGameCommand(a,id,'auto-a','draft',{type:'draft/started',seed:'automatic-phase'});
+  const history=async()=>(await getDocs(collection(a,`games/${id}/events`))).docs.map(doc=>doc.data() as SetupEvent);
+  let state=replaySetup(await history());
+  for(const uid of state.draftOrder)await appendGameCommand(uid==='auto-a'?a:b,id,uid,`leader-${uid}`,{type:'leader/chosen',leaderId:uid==='auto-a'?'thaleia':'nereon'});
+  state=replaySetup(await history());
+  const uid=activePlayer(state),db=uid==='auto-a'?a:b,revision=state.activity.length;
+  await Promise.all(['first-tab','second-tab'].map(key=>appendGameCommand(db,id,uid,key,{type:'phase/advanced'},revision)));
+  let events=await history();expect(events).toHaveLength(revision+1);expect(replaySetup(events).turn.phase).toBe('treasures');
+  await appendGameCommand(db,id,uid,'wealth',{type:'treasures/played'});
+  await appendGameCommand(db,id,uid,'delayed-tab',{type:'phase/advanced'},revision);
+  events=await history();expect(events).toHaveLength(revision+2);expect(replaySetup(events).turn.phase).toBe('treasures');
+});

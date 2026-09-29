@@ -23,7 +23,7 @@
 
   let { game, uid, roomId, status, busy, error, command, retry, again }: {
     game: SetupState; uid: string; roomId: string; status: string; busy: boolean; error: string;
-    command: (command: GameCommand) => Promise<void>; retry: () => void; again: () => void;
+    command: (command: GameCommand, expectedRevision?: number) => Promise<void>; retry: () => void; again: () => void;
   } = $props();
   const initialRevision = untrack(() => game.activity.length);
   const animatedHand = new Set<string>();
@@ -89,7 +89,7 @@
     if (automaticPhaseRevision === revision) return;
     automaticPhaseRevision = revision;
     // Persist the transition as an ordinary command, preserving old event streams.
-    void command({type:'phase/advanced'});
+    void command({type:'phase/advanced'}, revision);
   });
   $effect(() => { if (ownerOf(selected) && game.phase === 'draft') selected = leaderIds.find(id => !ownerOf(id)) ?? selected; });
   onMount(() => {

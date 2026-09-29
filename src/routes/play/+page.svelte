@@ -35,7 +35,7 @@
   let busy = $state(false);
   let playError = $state('');
   let draftSeed = '';
-  let pendingCommand: { id: string; command: GameCommand } | undefined;
+  let pendingCommand: { id: string; command: GameCommand; expectedRevision?: number } | undefined;
   let copied = $state(false);
   let manualInvitation = $state(false);
   let invitation = $state('');
@@ -105,11 +105,11 @@
     } catch (cause) { fail(cause); }
     finally { if (alive) busy = false; }
   }
-  async function sendCommand(command: GameCommand) {
+  async function sendCommand(command: GameCommand, expectedRevision?: number) {
     if (!services || !setup || busy || status !== 'synced') return;
     busy = true; playError = '';
-    if (!pendingCommand || JSON.stringify(pendingCommand.command) !== JSON.stringify(command)) pendingCommand = { id: `${crypto.randomUUID()}:${setup.activity.length + 1}`, command };
-    try { await appendGameCommand(services.db, roomId, services.uid, pendingCommand.id, pendingCommand.command); pendingCommand = undefined; }
+    if (!pendingCommand || pendingCommand.expectedRevision !== expectedRevision || JSON.stringify(pendingCommand.command) !== JSON.stringify(command)) pendingCommand = { id: expectedRevision === undefined ? `${crypto.randomUUID()}:${setup.activity.length + 1}` : `auto-treasures:${services.uid}:${expectedRevision}`, command, expectedRevision };
+    try { await appendGameCommand(services.db, roomId, services.uid, pendingCommand.id, pendingCommand.command, pendingCommand.expectedRevision); pendingCommand = undefined; }
     catch (cause) { playError = cause instanceof SetupError ? cause.message : 'We couldn’t save your choice. Try again.'; }
     finally { busy = false; }
   }
