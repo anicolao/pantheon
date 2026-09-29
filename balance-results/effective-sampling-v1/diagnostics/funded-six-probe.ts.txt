@@ -1,0 +1,4 @@
+import {writeFileSync} from 'node:fs';import {availableParallelism} from 'node:os';
+const keys=['treasure','treasure-thin','engine','engine-thin'],tasks=Array.from({length:32},(_,i)=>({block:Math.floor(i/8),key:keys[Math.floor(i/2)%4],seat:i%2})),rows=new Array<string>(tasks.length);let next=0;
+await Promise.all(Array.from({length:availableParallelism()},async()=>{while(next<tasks.length){const i=next++,t=tasks[i],p=Bun.spawn([process.execPath,'balance-runs/funded-six-worker.ts',String(t.block),t.key,String(t.seat)],{stdout:'pipe',stderr:'inherit'});rows[i]=await new Response(p.stdout).text();if(await p.exited)throw Error('Probe failed');}}));
+writeFileSync('balance-runs/funded-six-probe.jsonl',rows.join(''));

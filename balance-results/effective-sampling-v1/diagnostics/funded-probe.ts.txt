@@ -1,0 +1,10 @@
+import {mock} from 'bun:test';
+const sampler=await import('./funded-sampler');
+mock.module('../scripts/balance/sampled',()=>sampler);
+const {runExperiment}=await import('../scripts/balance/experiment');
+const {baseProfiles,v14BaseProfiles}=await import('../scripts/balance/base-profiles');
+for(let block=0;block<4;block++)for(const thin of [false,true]){
+ const profile={...baseProfiles.engine,thinning:thin};
+ const r=runExperiment({seed:'funded-construction-probe:'+block,block,lineup:['thaleia','nereon'],profiles:[profile,v14BaseProfiles.treasure],focal:0,variant:'base-game'});
+ console.log(JSON.stringify({thin,result:r.result}));
+}

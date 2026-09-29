@@ -1,56 +1,105 @@
-# Effective sampled strategies (v16)
+# Shared sampler repairs (v18)
 
-Status: candidate implementation tested; exploratory screening pending.
+Money recovers to roughly the observed strength of the pre-sampler Money controller. Engine improves clearly against the pre-sampler Engine, but it remains an income-and-draw hybrid: **whole-deck engine construction is not solved**. Thin is unused in the selected new 4×4. Do not interpret this as evidence that good thinning or fully developed engines are weak.
 
-Every economic candidate still receives the same 64 fresh-shuffle, three-turn production-rule evaluation. Both parent strategies share cash-aware Action/discard play. Income beyond what the available Buys can spend on top-tier scoring is not rewarded. The sampler records actual unique-card coverage and couples the Engine coverage bonus to usable income, so draw alone cannot justify ignoring payload.
+The selected implementation preserves one acquisition evaluator for all cards and both parents. The final independent confirmation contains **9,216 games: 256 fresh common seed blocks per ordered cell**, using all 16 available CPUs inside Nix. No leaders or Worship; identical six-Obol, three-Hamlet, inert-Temple starts; shared turn-2 endgame handling. Every game completed.
 
-Three frozen candidate metrics are screened:
-- income: usable coins; Engine adds 4 × income-backed coverage.
-- balanced: usable coins + half the top-point cost per affordable top-point purchase; Engine adds 8 × income-backed coverage.
-- reliable: usable coins + the full top-point cost per affordable top-point purchase; Engine adds 12 × income-backed coverage.
+## Final comparison with the stronger historical controls
 
-Income-backed coverage is the fraction of the starting deck's distinct cards actually drawn in a turn, multiplied by min(1, coins / top-point cost). These quantities are summed over three turns and averaged across samples. Opening draws count; repeated draws do not inflate coverage. Money uses only the spending metric; Engine adds the coverage metric.
+“Old” here means frozen v14, before the failed shared-sampler experiment. These are direct new-versus-old win shares, with ties split, not averages over strategies or seats.
 
-Resource-only cards receive a common effect-based dominance check after sampling, not a Treasure epsilon bonus. In the base game, a same-or-cheaper card with at least as much money, net Action capacity and Buys, and strictly more of one resource (or lower cost), dominates its alternative. Cards with draw, discard, gains, trashing or other effects are not pruned this way; standard leader games disable the shortcut because triggers can change the comparison.
+| New strategy | New as P1 | New as P2 |
+| --- | ---: | ---: |
+| Money | 50.78% | 46.48% |
+| Money + Thin | 53.12% | 50.39% |
+| Engine | 72.46% | 61.33% |
+| Engine + Thin | 70.70% | 60.55% |
 
-The previous v15 sampler and all v14 controls remain exact historical implementations. Shared endgame scoring remains unchanged. The three-turn projection still makes no further purchases: first test whether usable spending and reliable scoring metrics solve the observed failures before adding a bounded future-buy model.
+Paired changes against the same frozen old opponent, subtracting the old mirror control on the same seeds:
 
-Screen 16 fresh common seeds across all three policies: each complete new 4×4, each parent/Thin profile against its v14 counterpart in both seats, and Engine variants against old Money in both seats, plus shared old controls. Select provisionally, then validate on fresh seeds without metric retuning. No pooling of policies, parents, Thin, opponents or seats.
+| Strategy | Seat | Change pp | Multiplicity-adjusted interval pp |
+| --- | ---: | ---: | --- |
+| Money | 1 | -0.98 | -9.18 to +6.84 |
+| Money | 2 | -1.76 | -9.38 to +5.66 |
+| Money + Thin | 1 | -3.52 | -12.30 to +5.08 |
+| Money + Thin | 2 | +7.03 | -1.95 to +15.82 |
+| Engine | 1 | +18.16 | +8.01 to +28.12 |
+| Engine | 2 | +15.62 | +5.86 to +25.39 |
+| Engine + Thin | 1 | +10.74 | +0.98 to +20.31 |
+| Engine + Thin | 2 | +20.51 | +9.18 to +31.45 |
 
-## Screen 2: sampling coverage
+All four Engine paired intervals are above zero. Money changes remain inconclusive; this is not a noninferiority proof or a demonstrated Money improvement. Direct P1 shares alone must not be interpreted as skill gains because seat effects exist.
 
-The first 16-seed screen completes 1,472 games without failures. Engine's income-backed metrics recover strongly against old Engine, but Money's P2 shares remain concerning. The screen is too small to choose a policy.
+## New 4×4
 
-Keep balanced and reliable weights fixed and test stratified sampling on 32 fresh seeds per ordered cell. Every cyclic rotation of eight uniformly shuffled orders is played for three turns, so every card occupies every opening position. This remains sampling for all card types and changes sample coverage rather than switching to analytic Treasure evaluation. Pure-Treasure opening means are now exact through stratification, with later turns still played through production rules. Missing samplingMethod retains the original random sampler for source-pinned historical profiles.
+Entries are P1 win shares. Rows are P1 choices; columns are P2 choices. Thin remains an independent option.
 
-## Fresh confirmation
+| P1 / P2 | Money | Money + Thin | Engine | Engine + Thin |
+| --- | ---: | ---: | ---: | ---: |
+| Money | 50.59% | 50.59% | 54.49% | 54.49% |
+| Money + Thin | 50.59% | 50.59% | 54.49% | 54.49% |
+| Engine | 46.48% | 46.48% | 50.39% | 50.39% |
+| Engine + Thin | 46.48% | 46.48% | 50.39% | 50.39% |
 
-Screen 2 completes 2,048 games without failures. Stratified balanced is the provisional selection: both parents are competitive with old Money in both seats, while Engine improves against its old controller. Screening uncertainty is broad, and Thin is rarely selected.
+The observed strongest P2 response is Money / Money + Thin in every row; P1’s observed strongest response-aware choice is also Money / Money + Thin, giving the concrete 50.59% / 49.41% cell. These are point-estimate rankings within the tested bots, not proven optimal choices. The [per-cell adjusted intervals](../effective-validation-v3/matrix.json) preserve uncertainty.
 
-Validate balanced on 256 fresh seed blocks: 36 ordered cells, 9,216 games. The schedule includes the full new 4×4, both seats against each own v14 counterpart, Engine/Engine+Thin against old Money, and fixed old controls. Preserve every cell separately and evaluate paired changes against the same old opponents.
+Engine versus old Money is 48.24% as P1 and 44.73% as P2; Engine + Thin is identical. These are separate descriptive matchups, not a pooled headline.
 
-Before confirmation, narrow the resource-only dominance check to equal-cost cards. A more expensive card can have a different later upgrade value, so lower printed cost alone is not sufficient to prove deck-level dominance. A regression check covers this distinction. Objective weights, continuation play and sampling coverage remain frozen.
+## What the decks actually do
 
-## Continuation and timing screen
+Representative construction cells below keep opponent and seat fixed: each new strategy as P1 against new Money. Quantities are acquisitions per game, not a strategy-pooled deck.
 
-The 9,216-game confirmation is complete. The balanced sampler recovers against v14 Engine, but largely builds income decks with draw; Thin is inactive. Do not interpret this as a successful whole-deck construction policy.
+| Strategy | Whole-deck turns | Drachma | Talent | Council | Academy | Harbor Pilot | Trashes/game |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| Money | 0 / 4609 | 4.38 | 2.99 | 1.82 | 0.25 | 0.00 | 0.00 |
+| Money + Thin | 0 / 4609 | 4.38 | 2.99 | 1.82 | 0.25 | 0.00 | 0.00 |
+| Engine | 0 / 4702 | 3.41 | 2.32 | 1.52 | 1.59 | 0.04 | 0.00 |
+| Engine + Thin | 0 / 4702 | 3.41 | 2.32 | 1.52 | 1.59 | 0.04 | 0.00 |
 
-A second implementation fixes empty-deck mandatory discards and gives productive low-value thinning a terminal Action priority. Preserve valuable scoring cards in projected optional trashing. Compare balanced cumulative scoring with late (third-turn usable income and income-backed coverage) and coverage (the same third-turn metric with four times the coverage weight). Each still samples every candidate through three legal consecutive turns. The late alternatives value the deck after thinning has had a reshuffle to work. Screen on 16 fresh blocks before selecting and validating. Tiny diagnostic cycle-capacity prototypes were rejected; their synthetic whole-hand funding metric is not used in the production candidates.
+Neither parent selected thinning in any new 4×4 cell. Engine acquired more Academy and Harvest Feast, and less money, than Money, but did not realize whole-deck draws in these cells. Its improved win rate should not be presented as a successful pure whole-deck Engine.
 
-## Selected late policy: independent confirmation protocol
+The remaining structural limitation is that projected turns make no future purchases. A card’s value as support for a later complementary purchase is therefore absent from the evaluator. The continuation controller is also bounded. Adding stronger draw weights, synthetic full-cycle funding, maximum-income funding or longer projections did not establish a better construction policy; those diagnostics were not promoted.
 
-The 1,472-game timing screen completes with no failures. Late retains competitive Money and improves Engine against its old controller; stronger coverage weighting damages Engine, especially Thin, and is rejected. Select late provisionally for both parents and retain balanced as an explicit experimental alternative. This is a performance repair, not evidence that whole-deck engine construction is solved.
+## Selected policy and fixes
 
-Freeze late before 256 fresh blocks in all 44 ordered cells: new 4×4, both seats against each own v14 and v15 counterpart, Engine variants against old Money, and v14 controls. Total 11,264 games. The v15 comparison measures recovery from the failed sampler; v14 remains the stronger benchmark. No pooling. Deduplicate equivalent trash subsets by card definition, preserving first-target tie order and objective values.
+Every candidate deck receives eight shuffled orders, each played at every cyclic rotation, for three consecutive production-rule turns. This samples every card type while giving every card equal opening exposure. Effects, cleanup, gains and reshuffles are real; no hidden order, future buys or Worship are supplied.
 
-## Utility calibration and raw-income check
+Money maximizes mean total Coins across all three turns. Engine adds 8 times the sum of income-backed unique-card coverage: fraction of start-of-turn cards actually seen, multiplied by min(1, turn Coins / top point-card cost). Repeated draws do not inflate coverage. This is an explicitly funded-draw hybrid objective, not raw draw volume.
 
-The second confirmation completes 11,264 games without failures. Late Engine recovers against the failed v15 sampler but is weaker than the previously confirmed balanced candidate against strong controls. Do not promote late on the basis of its small screen. A six-turn construction diagnostic fails to produce a useful whole-deck Engine and reveals expensive point trashing.
+The shared cash-aware controller preserves chains, values productive thinning when enabled and skips uncompensated empty-deck draw/discard plays in the neutral game. Optional projected thinning preserves valuable points. Actual removal/upgrade utility is calibrated to VP using a fully funded, fully drawn scoring turn; current Coins use the top point-card exchange rate. Known losing endings, winning continuations and missed current scoring remain protected. This calibration is a heuristic, not a learned utility or win-probability model.
 
-Thinning had added arbitrary parent-objective units directly to real VP costs. Calibrate its future objective improvement to VP using one fully funded, full-deck turn as one top-tier scoring card: top VP divided by that turn's spending-plus-coverage utility. Existing cash and missed-scoring costs remain conservative. This does not change purchase ranking or the no-Thin controller.
+A common effect-based dominance rule eliminates an equal-cost, equal-VP pure resource card when another option has at least as many Coins, net Actions and Buys, and strictly more of one. Thus Drachma dominates Bronze Recruit in the neutral game without a named-card opening or Treasure epsilon. Leader games disable this shortcut.
 
-Screen balanced versus raw on 32 fresh seeds per ordered cell. Raw restores the user's total-coin Money objective with the corrected common cash controller and stratified sampling; Engine adds income-backed coverage. This tests whether hard spending caps suppressed the income buffer needed after buying points. The six-turn diagnostic is not promoted.
+See [full design](../../BOT_STRATEGIES.md) and [defect ledger](../../BOT_DEFECTS.md). v14 controls and the exact v15 sampler are preserved. Standard leader balance has not been re-evaluated.
 
-## Raw-income confirmation
+## Development and rejected alternatives
 
-The 2,048-game screen completes without failures. Select raw provisionally: it retains Money's requested total-coin objective and shows a more promising P2 comparison with strong old Money, while Engine remains competitive in the new matrix. The screen is too small to establish superiority. Freeze raw with calibrated thinning costs for 256 fresh blocks across the 36-cell schedule (9,216 games). Keep cumulative three-turn scoring; neither last-turn nor six-turn alternatives becomes the default. The earlier full v15 comparison remains an explicitly labeled intermediate result, not a direct raw-policy comparison.
+All formal stages are archived, including unhelpful results. Earlier confirmation data became development evidence once further changes were considered; final raw-policy confirmation uses a fresh namespace and was frozen before execution. The [recorded protocol](PROTOCOL.md) preserves those decisions.
+
+| Stage | Source | Policies | Seeds/cell | Games | Report |
+| --- | --- | --- | ---: | ---: | --- |
+| screen | 6cb086f | income, balanced, reliable | 16 | 1,472 | [report](../effective-screen-v1/report.md) |
+| screen-2 | b7b853e | balanced, reliable | 32 | 2,048 | [report](../effective-screen-v2/report.md) |
+| validation | 11923f4 | balanced | 256 | 9,216 | [report](../effective-validation-v1/report.md) |
+| screen-v3 | 6176d41 | balanced, late, coverage | 16 | 1,472 | [report](../effective-screen-v3/report.md) |
+| validation-v2 | 4cda19a | late | 256 | 11,264 | [report](../effective-validation-v2/report.md) |
+| screen-v4 | 637f737 | balanced, raw | 32 | 2,048 | [report](../effective-screen-v4/report.md) |
+| validation-v3 | fc91bca | raw | 256 | 9,216 | [report](../effective-validation-v3/report.md) |
+
+36,736 formal games, 428 saved traces, zero failed games. The [128 tiny diagnostic games](diagnostics/README.md) are separate exploratory construction checks and contribute no confidence intervals or balance claims.
+
+The intermediate late-policy confirmation directly tested v15, the failed raw-coins/raw-draw sampler: Engine shares were 99.80%/99.61% and Engine + Thin 100.00%/99.61% by seat. That is an intermediate-policy result, **not a direct raw-v18 versus v15 comparison**. The final policy is assessed against stronger v14 controls above.
+
+## Verification and reproduction
+
+141 simulation tests passed (10,360 assertions), plus 34 tooling/policy tests. Strict TypeScript and Svelte checks passed with zero errors/warnings. Exact historical fixtures remain reproducible. Every formal game’s ending inventory, score, winner share and seed schedule is audited; all 428 saved traces replay through the production rules. Each archive includes compressed game data, manifest, per-cell diagnostics, comparisons, replays, replay audit and compressed-artifact SHA-256 checksums.
+
+At the source commit recorded in each manifest, run inside nix develop from a clean tree. For the final confirmation:
+
+```sh
+bun scripts/balance-effective-study.ts balance-runs/reproduce-raw 256 validation-v3 raw
+bun scripts/balance-effective-report.ts balance-runs/reproduce-raw
+bun scripts/balance-audit-replays.ts balance-runs/reproduce-raw
+```
+
+Use a new stage namespace for new evidence. Reusing validation-v3 reproduces the same games and does not create independent confirmation. Reports use 20,000 seed bootstrap resamples, with multiplicity correction within each declared comparison family; unanimous 0/1 outcomes use exact binomial boundary bounds.
