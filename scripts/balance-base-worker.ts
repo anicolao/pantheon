@@ -14,6 +14,7 @@ for(const block of task.blocks){
   if(result.players.some(p=>p.telemetry.leaderTriggers||Object.keys(p.telemetry.worship).length))throw new Error('Forbidden leader/Worship effect');
   if(result.players.some(p=>options.profiles[p.position].thinning===false&&Object.keys(p.telemetry.trashes).length))throw new Error('Disabled thinning used');
   rows.push({first,second,result});
+  if(task.progress)console.log(`Worker ${task.worker}: game ${rows.length}/${task.blocks.length*cells.length} ${first} vs ${second}`);
   if(block<(task.replayBlocks??10)){
    const replay=replayExperiment(events,options);if(replay.turn.phase!=='finished')throw new Error('Replay failed');
    const ranks=standings(replay),winners=ranks.filter(r=>r.winner).length;
