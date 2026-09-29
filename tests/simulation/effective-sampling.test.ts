@@ -3,7 +3,7 @@ import {setupExperiment,runExperiment} from '../../scripts/balance/experiment';
 import {activePlayer} from '../../src/lib/game/actions';
 import {inventoryAtSetup,strategyView,strategyCommand} from '../../scripts/balance/strategy';
 import {baseProfiles,v15BaseProfiles} from '../../scripts/balance/base-profiles';
-import {rolloutEstimate,sampledValue,sampledAfter,resourceDominates,rolloutPlay} from '../../scripts/balance/sampled';
+import {rolloutEstimate,sampledValue,sampledAfter,resourceDominates,rolloutPlay,objectivePointScale} from '../../scripts/balance/sampled';
 import {readFileSync} from 'node:fs';
 import {gunzipSync} from 'node:zlib';
 function view(){
@@ -73,6 +73,16 @@ test('productive thinning can take a terminal slot and its payoff appears after 
 test('projected optional thinning preserves valuable points',()=>{
  const v=view();v.phase='actions';
  v.hand=[{id:'p',cardId:'acropolis',copy:0}];v.owned={acropolis:1};
- v.choice={id:'trash',kind:'trash',min:0,max:2};
+ v.choice={id:'trash',kind:'trash',source:'seed-keeper',min:0,max:2};
  expect(rolloutPlay(v,true)).toMatchObject({targets:[]});
+});
+
+test('point costs are calibrated for each objective rather than added to arbitrary units',()=>{
+ const v=view();
+ const money={...baseProfiles.treasure,samplingPolicy:'balanced' as const};
+ const engine={...baseProfiles.engine,samplingPolicy:'balanced' as const};
+ // The same fully funded turn has greater Engine utility, not more victory points.
+ expect(objectivePointScale(v,money)).toBe(0.5);
+ expect(objectivePointScale(v,engine)).toBe(0.3);
+ expect(objectivePointScale(v,{...engine,samplingPolicy:'coverage'})).toBeLessThan(objectivePointScale(v,engine));
 });
