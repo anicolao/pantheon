@@ -1,0 +1,116 @@
+{
+  "sourceCommit": "0c0bf0c522d7593d5a4f180ee986fc7b56b3ddb9",
+  "dirty": false,
+  "status": "completed",
+  "variant": "base-game",
+  "policyVersion": 10,
+  "blocks": 1000,
+  "workers": 16,
+  "plannedGames": 64000,
+  "seed": "base-race-v1:evaluation",
+  "profiles": {
+    "treasure": {
+      "family": "treasure",
+      "parameters": {
+        "scoringAt": 3,
+        "engineCopies": 3,
+        "moneyFloor": 7,
+        "worshipMargin": 0.5
+      },
+      "thinning": false,
+      "race": false
+    },
+    "treasure-race": {
+      "family": "treasure",
+      "parameters": {
+        "scoringAt": 3,
+        "engineCopies": 3,
+        "moneyFloor": 7,
+        "worshipMargin": 0.5
+      },
+      "thinning": false,
+      "race": true
+    },
+    "treasure-thin": {
+      "family": "treasure",
+      "parameters": {
+        "scoringAt": 3,
+        "engineCopies": 3,
+        "moneyFloor": 7,
+        "worshipMargin": 0.5
+      },
+      "thinning": true,
+      "race": false
+    },
+    "treasure-thin-race": {
+      "family": "treasure",
+      "parameters": {
+        "scoringAt": 3,
+        "engineCopies": 3,
+        "moneyFloor": 7,
+        "worshipMargin": 0.5
+      },
+      "thinning": true,
+      "race": true
+    },
+    "engine": {
+      "family": "engine",
+      "parameters": {
+        "scoringAt": 3,
+        "engineCopies": 3,
+        "moneyFloor": 7,
+        "worshipMargin": 0.5
+      },
+      "thinning": false,
+      "race": false
+    },
+    "engine-race": {
+      "family": "engine",
+      "parameters": {
+        "scoringAt": 3,
+        "engineCopies": 3,
+        "moneyFloor": 7,
+        "worshipMargin": 0.5
+      },
+      "thinning": false,
+      "race": true
+    },
+    "engine-thin": {
+      "family": "engine",
+      "parameters": {
+        "scoringAt": 3,
+        "engineCopies": 3,
+        "moneyFloor": 7,
+        "worshipMargin": 0.5
+      },
+      "thinning": true,
+      "race": false
+    },
+    "engine-thin-race": {
+      "family": "engine",
+      "parameters": {
+        "scoringAt": 3,
+        "engineCopies": 3,
+        "moneyFloor": 7,
+        "worshipMargin": 0.5
+      },
+      "thinning": true,
+      "race": true
+    }
+  },
+  "mode": "race",
+  "training": "None: fixed default preset, identical across seats",
+  "startingDeck": {
+    "obol": 6,
+    "hamlet": 3,
+    "temple-of-athena": 1
+  },
+  "rules": "No leader effects; Worship forbidden; Temples have no effects; standard supply and ending rules",
+  "orientation": "Player 1 = first in turn order. Rows P1 strategy, columns P2 strategy. Never pool cells or reverse turn order.",
+  "primary": "64 separate P1 victory shares, ties split; seed bootstrap intervals adjusted over 64 cells; row-wise P2 best responses",
+  "startedAt": "2026-09-29T07:34:13.895Z",
+  "games": 64000,
+  "failures": 0,
+  "replays": 640,
+  "elapsedSeconds": 1799.904755625
+}

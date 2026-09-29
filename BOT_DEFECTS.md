@@ -1,4 +1,4 @@
-# Bot defect correction ledger — version 9
+# Bot defect correction ledger — version 10
 
 This ledger distinguishes concrete decision defects from unavoidable uncertainty and deliberate benchmark restrictions. “Corrected” means implementation plus a targeted behavioral check or the specified shared regression coverage; it does not certify perfect play.
 
@@ -33,6 +33,12 @@ This ledger distinguishes concrete decision defects from unavoidable uncertainty
 Big Money and Engine now support an explicit independent thinning switch. Enabled thinning uses the parent's income-per-draw or executable whole-deck-draw objective; disabled thinning receives no removal investment bonus and declines optional trashing. Historical omitted-field profiles retain their previous behavior. See [the design](BOT_STRATEGIES.md#orthogonal-thinning-for-money-and-engine-v9) and [the sixteen-cell trial](balance-results/base-thinning-v1/README.md).
 
 During pre-result review, the new tool projection was found to reuse a guaranteed current-turn ending bonus in a speculative future state. Future projections now stop before such endings; actual winning conversions retain their priority. A regression checks both sides. The interrupted run was discarded and the full trial restarted from the corrected commit.
+
+## Orthogonal Race (v10)
+
+Race is now a separate profile modifier for early scoring and shorter investment time, compatible with either parent and thinning on/off. Race-off profiles reproduce saved games from every previous 4×4 matchup exactly. Tests cover all 64 combinations, mandatory/restricted gains, safe endings, complete multi-buy rescues, and the lost Race scoring opportunity during thinning. Declining cheap points preserves actual supply counts; it does not fabricate empty piles.
+
+The [64,000-game trial](balance-results/base-race-v1/README.md) shows that this fixed early-scoring policy is weak. Buying points earlier at the expense of income is not treated as a solved strategy or a demonstrated balance defect. No policy retuning followed this result.
 
 ## Deliberate limits retained
 
