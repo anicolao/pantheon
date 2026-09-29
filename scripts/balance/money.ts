@@ -6,7 +6,7 @@ import { cardFeatures, effectFeatures, type Features } from './engine';
 import { treasureValue, purchasePlan, gainOutcome } from './planning';
 import type { View } from './strategy';
 
-type MoneyView = Observation & { leaderBonus?: Features; play?: CardInstance[] };
+type MoneyView = Observation & { leaderBonus?: Features; play?: CardInstance[]; endGamePolicy?: string };
 export type MoneyEstimate = { mean: number; samples: number };
 const permutations = 16;
 const cache = new Map<string, MoneyEstimate>();
@@ -113,7 +113,7 @@ export function moneyBuy(view: MoneyView, legal?: string[], mandatory=false, pre
   // Use the whole supply, not just affordable/safe cards, so cheap points do not become
   // "top tier" merely because the actual top tier is unaffordable or a losing ending.
   const topVP=Math.max(0,...Object.keys(view.supply).map(id=>definition(id).vp??0));
-  const points=options.filter(c=>c.vp>0&&(c.vp===topVP||c.ev>=8));
+  const points=options.filter(c=>c.vp>0&&(c.vp===topVP||!view.endGamePolicy&&c.ev>=8));
   if(points.length)return points.sort((a,b)=>b.vp-a.vp||b.ev-a.ev||definition(a.id).cost!-definition(b.id).cost!||a.id.localeCompare(b.id))[0].id;
   const ranked=options.sort((a,b)=>(b.ev+b.bonus)-(a.ev+a.bonus)||definition(a.id).cost!-definition(b.id).cost!||a.id.localeCompare(b.id));
   const best=ranked[0];
