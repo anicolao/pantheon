@@ -3,7 +3,7 @@ import {readFileSync,writeFileSync,mkdirSync} from 'node:fs';
 import {gunzipSync} from 'node:zlib';
 import {availableParallelism} from 'node:os';
 import {resolve} from 'node:path';
-import {baseProfiles,v18BaseProfiles} from './balance/base-profiles';
+import {pairBaseProfiles as baseProfiles,v18BaseProfiles} from './balance/base-profiles';
 import {strategyVersion,type Profile} from './balance/strategy';
 import {rolloutTurns} from './balance/sampled';
 const out=resolve(process.argv[2]),blocks=Number(process.argv[3]??256),stage=process.argv[4]??'evaluation';

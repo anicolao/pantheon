@@ -1,4 +1,4 @@
-# Bot strategy design reference — version 18
+# Bot strategy design reference — version 19
 
 Current evaluation uses [explicit strategy-response matrices](BALANCE_OBJECTIVE.md), with no pooling across leader, strategy or turn order. The base-game experiment is an opt-in rule variant; standard-game policies retain their existing behavior.
 
@@ -8,7 +8,23 @@ The completed [standard-rule v4 matrix](balance-results/all-leaders-v4/README.md
 
 The [v14 Engine construction review](balance-results/engine-review-v14/README.md) documents a confirmed complementary-acquisition trap and near-zero realized full-deck draws against Money. The implemented capacity heuristic should not be interpreted as a successful whole-deck engine builder.
 
-## Current sampled acquisition policy (v18)
+## Two-purchase acquisition candidate (v19)
+
+The explicit `pairBaseProfiles` candidate gives Money and Engine the same [two-purchase planner](scripts/balance/purchase-planner.ts), with the v18 raw objectives below unchanged. The first 896-game comparison did not establish a benefit, so `baseProfiles` retains v18. This corrects the one-acquisition search boundary; it does not retune either objective. `v18BaseProfiles` retains the previous bots for exact comparisons.
+
+At an economic Buy decision, exhaustively evaluate every legal first purchase plus passing against every supply-card follow-up plus no follow-up. No first purchase is discarded for a negative standalone value. Each continuation commits to a target across the sample bank and buys it at its first legal affordable opportunity: this turn if Coins and a Buy remain, otherwise during the next two turns. Passing ends the current turn. The production reducer applies costs, Buy consumption, gains, trashes, supply depletion, cleanup and reshuffles. It never inserts a hypothetical complementary card for free.
+
+Preserve known hand, play and discard zones; independently shuffle the inferred unknown draw composition. Eight common search shuffles select the best fixed target for each first purchase. Eight disjoint investment validation shuffles compare those plans. Selection averages outcomes across shuffles rather than choosing a different best target with knowledge of each hidden order. Only the first purchase is executed; the actual bot replans at its next economic Buy decision. The v18 pure-resource dominance check runs after all pairs are evaluated, with every first-purchase row retained for diagnostics.
+
+A plan's score is its two future investment turns under the existing per-turn objective, plus the resulting deck's existing stratified three-turn score. Investment Coins are measured before payment, as in v18; payment still constrains legal follow-ups. Current-turn income is common to first choices and excluded. Terminal evaluation freshly shuffles composition, independent of the investment sample's remaining order. Completed projected games receive no terminal income. The terminal sample bank remains v18's fixed bank, so only investment samples have a separate validation bank.
+
+The common scoring/endgame layer still precedes economic purchase search. Action-effect gains, trash/upgrade selection, the shared play controller and Thin switch retain v18 behavior. Two-purchase planning currently supports the selected raw Money and Engine objectives; requesting it with an experimental alternative metric fails explicitly. Historical effective-sampling studies pin v18 profiles.
+
+Bounds remain deliberate: one fixed follow-up target, two investment turns, two purchases, no simulated opponent purchases or Worship, and no adaptive fallback buy in a continuation. A freshly shuffled terminal deck approximates eventual performance rather than exact post-horizon access time. Eight investment samples and the fixed terminal bank can misrank close choices. Engine's objective is still income plus funded coverage, not pure full-deck draw or win probability. Successful pair recognition does not establish a strong engine or game balance.
+
+The [first comparison](balance-results/purchase-pair-v1/README.md) keeps all 28 ordered cells separate: 16 new strategy matchups, eight direct v18 comparisons and four old mirrors, with identical seeds. See the [focused tests](tests/simulation/purchase-planner.test.ts) for weak-alone complements, real affordability and Buy use, exhausted supply, redundant Actions, hidden-order independence, known discard timing, post-evaluation dominance and exact historical replay.
+
+## Default sampled acquisition policy (v18)
 
 Every economic candidate still uses one shared production-rule sampler, including pure Treasure decks, draw cards and thinning tools. Eight shuffled orders are each evaluated at every cyclic rotation; each sample plays three consecutive turns. All card copies therefore receive equal opening exposure. Card effects, cleanup, gains and reshuffles remain real. The sampler never sees the game's hidden order and makes no future purchases or Worship.
 

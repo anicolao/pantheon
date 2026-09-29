@@ -1,0 +1,193 @@
+bun test v1.3.13 (bf2e2cec)
+
+tests/simulation/study.test.ts:
+(pass) new strategies complete 2-player family matchups using legal commands [8584.56ms]
+(pass) new strategies complete 3-player family matchups using legal commands [10638.40ms]
+(pass) new strategies complete 4-player family matchups using legal commands [13623.01ms]
+(pass) leader, event and card restrictions apply only at the declared scope and replay exactly [2812.28ms]
+(pass) expanded observations are invariant to hidden state and contain public score memory [0.30ms]
+(pass) Worship preserves offerings, handles Favored gains, and can run after buying [2.33ms]
+(pass) public inventory tracker agrees with full final inventory after gains, topdecks and trashes [511.42ms]
+(pass) paired evidence excludes whole failed blocks, respects exposure and corrects the primary family [106.93ms]
+(pass) study validates targets, disjoint seeds, frozen profiles and independent policy rotations [3.42ms]
+(pass) confirmation refuses source drift, profile drift, failed discovery, and reused seeds [0.10ms]
+
+tests/simulation/base-game.test.ts:
+(pass) base setup retains ten cards with identical inert Temples and no Worship access [1.02ms]
+(pass) base reducer disables leader effects, Temple payload and Worship; bots do not play blank Temples [0.72ms]
+(pass) all four seat-specific strategy cells complete and replay without leader or Worship events [1020.31ms]
+(pass) inert leader labels do not alter base-game decisions or results [171.71ms]
+(pass) standard-rule archived Treasure games retain identical results [1179.48ms]
+
+tests/simulation/shared-endgame.test.ts:
+(pass) redraw timing distinguishes remaining deck, shuffle pool and throughput [0.62ms]
+(pass) every policy uses identical activation for any base objective; no mutation [8.56ms]
+(pass) Engine heuristic is an explicit reusable policy, not baked into base economics [0.07ms]
+(pass) new policies preserve known losing-ending protection and independent Thin [2.56ms]
+(pass) every candidate works for both parents and Thin settings, with exact legal replays [25712.73ms]
+(pass) supply tempo and economic payback react to observable time and shuffle delay [0.37ms]
+
+tests/simulation/counter.test.ts:
+(pass) counter search minimizes Thaleia share, then chooses her maximum minimum independently by rule [10.03ms]
+(pass) counter selection rejects missing candidates and unequal budgets [0.33ms]
+(pass) held-out report uses frozen selections, pairs seats, and excludes failed blocks [536.01ms]
+(pass) same-seed rival-buff comparison selects its declared arms without changing original defaults [0.39ms]
+(pass) buy comparison uses the unbuffed baseline and no draw or rival-buff arm [0.23ms]
+(pass) two-Action comparison declares only the standard and two-Action arms [0.37ms]
+
+tests/simulation/matrix.test.ts:
+(pass) full matrix covers every distinct leader pair, strategy pairing and both seats exactly once [3.33ms]
+(pass) matrix report rejects incomplete, duplicate or failed schedules instead of scoring failures [1.21ms]
+
+tests/simulation/deck-audit.test.ts:
+(pass) 100 independent audit hands measure exact all-money income and threshold hits [2.05ms]
+(pass) Action draws contribute spendable Coins but cannot reuse played cards [0.48ms]
+(pass) matched versions use the same fresh deals and audit seeds are deterministic [1.60ms]
+(pass) ending inventories and supply reconstructed from telemetry match production replay [354.10ms]
+
+tests/simulation/thin.test.ts:
+(pass) Thin removes early dead weight but protects irreplaceable starting income [4.28ms]
+(pass) Thin can remove a weak Treasure after replacement income is established [0.22ms]
+(pass) Thin evaluates multi-card removals jointly rather than trusting individual eligibility [0.35ms]
+(pass) Thin preserves points near an ending and considers third-pile pressure [0.46ms]
+(pass) Thin does not stop useful thinning solely at the old scoring threshold [0.18ms]
+(pass) Thin values useful trashing capacity and declines tools with no remaining work [0.37ms]
+(pass) Thin retires exhausted tools but retains essential draw and the last useful trasher [0.29ms]
+(pass) Thin evaluates a Forge replacement together with its loss of income [0.23ms]
+(pass) Thin economy sees income reliability, is inventory-order invariant and uses public trigger effects
+(pass) Thin spends its terminal Action on useful thinning before an ordinary coin payload [0.39ms]
+(pass) Thin can make a winning late Forge conversion and honors gain bans [0.53ms]
+
+tests/simulation/objective-thin.test.ts:
+(pass) thinning is an explicit independent switch for both families [0.58ms]
+(pass) Money removal optimizes income per initial draw including playable draw Actions [0.13ms]
+(pass) Engine preserves whole-deck draw and enough payload to buy points
+(pass) objectives can disagree: Engine can remove a coin to complete coverage while Money preserves income [6.73ms]
+(pass) tools compete for purchases, decline redundant capacity, and retain parent scoring [9.98ms]
+(pass) joint removals retain income and points near an ending [0.13ms]
+(pass) Forge considers replacement jointly and permits a known winning point conversion [2.47ms]
+(pass) all sixteen explicit profiles complete, replay, and disabled thinning never trashes [5914.49ms]
+(pass) thinning gains respect bans and inactive leader labels cannot change enabled play [2126.62ms]
+
+tests/simulation/race.test.ts:
+(pass) eight profiles form the full parent × thinning × Race product [0.32ms]
+(pass) both parents race for middle-tier points earlier with thinning independently on or off [1.55ms]
+(pass) Race preserves economic openings and avoids low-tier points until an imminent ending [0.43ms]
+(pass) Race shortens investment time without changing the thinning objective or caller observation [0.62ms]
+(pass) Race keeps safe-ending, gain restriction and complete multi-buy safeguards [6.89ms]
+(pass) Race does not enable optional thinning when Thin is off [0.14ms]
+(pass) Race off reproduces every prior ordered thinning matchup exactly [7752.37ms]
+(pass) all 64 combinations finish legally, replay, and retain the chosen modifiers [17159.19ms]
+(pass) Race thinning charges the lost middle-tier scoring opportunity this turn [0.36ms]
+(pass) declining early cheap points does not fabricate an empty supply pile [0.14ms]
+
+tests/simulation/thaleia.test.ts:
+(pass) Thaleia gets exactly one extra draw after her first matching Action, with standard rules unchanged [1.63ms]
+(pass) Council resolves its own draw before the bonus, which uses the production reshuffle [7.57ms]
+(pass) the variant leaves other leaders byte-for-byte unchanged [130.22ms]
+(pass) variant games complete and replay; multi-effect triggers are counted once [758.79ms]
+(pass) the schedule balances every subset and seat and covers opponent orders over blocks [5.31ms]
+(pass) reports orient the effect toward the proposed rule and exclude failed pairs [583.67ms]
+(pass) leader buffs add one coin/card beyond existing triggers, once per turn with reset [0.39ms]
+(pass) leader buffs preserve Thaleia versus Doreios exactly and replay each buffed rival [315.85ms]
+(pass) Thaleia buy variant adds one Buy without an extra card, once per turn with reset [0.36ms]
+(pass) buy variant keeps every other leader standard and completes replayable heads-up games [843.93ms]
+(pass) two-Action trigger enables another terminal Action, adds no card/Buy, and resets once per turn [0.55ms]
+(pass) two-Action variant leaves other leaders standard and replays heads-up matches [687.52ms]
+
+tests/simulation/engine.test.ts:
+(pass) engine buys draw over redundant support and increases support only when draw is action-blocked [1.29ms]
+(pass) draw demand grows with deck size and has no hard-coded copy cap [0.27ms]
+(pass) all leaders use actual public trigger effects without exposing hidden deck order [2.53ms]
+(pass) Engine play ordering avoids stranding Actions and prefers productive draw with spare capacity [0.17ms]
+(pass) full-deck telemetry distinguishes unused Actions after completion from unused Actions with unseen cards [97.20ms]
+(pass) spare Actions with unseen cards increase draw demand even when nominal capacity covers the deck [0.24ms]
+(pass) retention protects draw that completes the deck even when another copy has no value [0.13ms]
+(pass) mandatory discards are not valued as free net draw
+(pass) public draw-progress accounting agrees with turn-start card identities through full games [1854.14ms]
+
+tests/simulation/money.test.ts:
+(pass) plain money EV is exact and points dilute the deck [0.23ms]
+(pass) Treasures win near ties, while sufficiently better draw still wins [0.73ms]
+(pass) top-value points cash in an affordable scoring opportunity despite income dilution [0.41ms]
+(pass) terminal collisions reduce draw value; support can improve it [17.04ms]
+(pass) estimates use public composition, respect leader variants, and ignore current hidden-order proxies [1.39ms]
+(pass) each buy recomputes dilution, banned cards are excluded, and known wins override EV [1.55ms]
+(pass) EV Treasure completes a game and replays through production rules [245.13ms]
+(pass) cash play does not prefer low-value terminal draw to a larger coin payload [0.22ms]
+(pass) mandatory gains choose the least harmful EV when every gain dilutes income [0.08ms]
+(pass) unaffordable or unsafe top points do not promote smaller points to top tier [0.54ms]
+(pass) starting Bronze Recruit tie or sampled edge prefers Drachma for every leader [0.23ms]
+(pass) the 3.5-cent band is inclusive and anchored to the maximum [0.38ms]
+
+tests/simulation/end-game.test.ts:
+(pass) End Game waits for the uncapped two-turn horizon for either parent and Thin setting [8.76ms]
+(pass) pressure and three-pile depletion can activate End Game; actual threshold is inclusive [0.33ms]
+(pass) safe endings, restricted gains and multi-buy rescue apply to End Game [0.27ms]
+(pass) End Game off reproduces all previous parent/thinning matchups [274.02ms]
+(pass) all parent × Thin × End Game combinations finish and replay; screening selects Money only [16688.35ms]
+
+tests/simulation/purchase-planner.test.ts:
+(pass) weak-alone support and draw survive evaluation and can be selected together [53.22ms]
+(pass) unaffordable or exhausted follow-ups add no imaginary value [1.78ms]
+(pass) redundant Actions lose to productive income without a named-card rule [911.80ms]
+(pass) a second purchase pays real remaining cash and consumes a Buy [2.65ms]
+(pass) no retained plan crosses decisions [109.59ms]
+(pass) v18 controls exactly replay pre-planner Money and Engine [3953.08ms]
+(pass) hidden draw order cannot influence a plan; visible discard is retained [4.34ms]
+(pass) dominance is applied only after both first purchases receive pair evaluation [9.42ms]
+
+tests/simulation/effective-sampling.test.ts:
+(pass) all card types still sample; excess income is capped by actual scoring capacity [2.25ms]
+(pass) Engine rewards funding a working draw chain rather than more empty draw [102.12ms]
+(pass) resource dominance is effect-based and disabled where leader triggers matter [0.64ms]
+(pass) shared play takes usable income over a weaker terminal draw while preserving chains [0.13ms]
+(pass) v15 controls exactly retain saved sampled behavior [4532.07ms]
+(pass) stratification samples every opening position, including pure Treasure candidates [3.67ms]
+(pass) skip mandatory discard for an empty draw without suppressing possible leader triggers [0.22ms]
+(pass) productive thinning can take a terminal slot and its payoff appears after reshuffling [3.10ms]
+(pass) projected optional thinning preserves valuable points [0.15ms]
+(pass) a funded full-deck turn has the same point value under every objective [0.91ms]
+
+tests/simulation/planning.test.ts:
+(pass) ending evaluation implements fewer-turn wins and split ties [0.23ms]
+(pass) all study strategies avoid a losing last Acropolis when they can continue [17.34ms]
+(pass) purchase planning finds a winning multi-buy ending and recognizes losing third piles [0.50ms]
+(pass) multiple buys compare complete affordable baskets and declining marginal copy values [0.15ms]
+(pass) optional gains decline a known losing ending and mandatory gains choose a safe alternative [2.53ms]
+(pass) Worship can establish Favored through two known matching Actions before spending [0.26ms]
+(pass) Devotion purchases value total matching-card access, not a per-card two-copy bonus [0.07ms]
+(pass) all non-Treasure families use actual leader Action capacity for draw purchases [0.21ms]
+(pass) benchmark multi-trash preserves its income floor across the entire choice [0.09ms]
+(pass) late-game horizon reacts to third-pile pressure and public opponent income [1.52ms]
+(pass) forced discards preserve current spending instead of unplayable Actions [8.41ms]
+(pass) topdeck gains receive immediate value only when known draw and Action capacity can use them [0.14ms]
+(pass) Thin play ordering includes Nereon bonus Coins and Doreios actual trash opportunities [0.25ms]
+(pass) conditional reveal payload is valued from public Territory density [0.03ms]
+
+tests/simulation/balance.test.ts:
+(pass) schedules cover every ordered distinct leader assignment and legal reverse draft [5.03ms]
+(pass) bots cannot observe seed, draw order, opposing hands, or private history [0.35ms]
+(pass) both policies finish every lineup; saved events replay to the same scores and tiebreaks [17843.89ms]
+(pass) seeded runs are deterministic, and guards/errors never become scored losses [2.72ms]
+(pass) required gains are resolved and Doreios preserves starting income [0.19ms]
+(pass) uncertainty uses blocks and failed blocks are excluded explicitly [569.03ms]
+
+tests/simulation/default-endgame.test.ts:
+(pass) modern defaults share one endgame policy while historical controls remain explicit
+(pass) default profiles exactly reproduce every validated ordered parent/Thin matchup [2919.72ms]
+
+tests/simulation/sampled.test.ts:
+(pass) pure Treasure and inert decks are sampled across three sequential turns [3.95ms]
+(pass) draw metric counts actual draws rather than printed draw capacity [2.71ms]
+(pass) parents differ only in which metric they read from the same samples [3.97ms]
+(pass) samples use public composition and preserve the caller state [0.19ms]
+(pass) Thin is optional in samples and its changes persist into later turns [3.13ms]
+(pass) new policies preserve known losing-ending and safe top-point choices [0.44ms]
+(pass) sampled policies complete and preserve optional-thinning semantics [5655.25ms]
+(pass) candidate insertion ranks pair equivalent opening effects across card types [0.22ms]
+
+ 149 pass
+ 0 fail
+ 10388 expect() calls
+Ran 149 tests across 19 files. [157.78s]

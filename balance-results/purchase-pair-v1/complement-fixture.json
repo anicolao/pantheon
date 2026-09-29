@@ -1,0 +1,183 @@
+{
+  "view": {
+    "hand": [],
+    "owned": {
+      "drachma": 3,
+      "hamlet": 6,
+      "council-of-sages": 1
+    },
+    "supply": {
+      "obol": 40,
+      "drachma": 30,
+      "talent": 20,
+      "hamlet": 6,
+      "polis": 6,
+      "acropolis": 6,
+      "oracles-acolyte": 8,
+      "council-of-sages": 8,
+      "sacred-academy": 8,
+      "harbor-pilot": 8,
+      "sea-trade": 8,
+      "merchant-fleet": 8,
+      "seed-keeper": 8,
+      "harvest-feast": 8,
+      "sacred-grove": 8,
+      "bronze-recruit": 8,
+      "forge-of-heroes": 8,
+      "victorious-procession": 8
+    },
+    "resources": {
+      "actions": 0,
+      "coins": 4,
+      "buys": 1,
+      "worship": 0
+    },
+    "phase": "buys",
+    "choice": null,
+    "leader": "thaleia",
+    "leaderUsed": false,
+    "drawPileCount": 5,
+    "variant": "base-game",
+    "leaderBonus": {
+      "draw": 0,
+      "discard": 0,
+      "reveal": 0,
+      "actions": 0,
+      "coins": 0,
+      "buys": 0,
+      "trash": 0,
+      "gain": 0
+    },
+    "unseenCount": 5,
+    "discard": [],
+    "play": [],
+    "events": [],
+    "playerCount": 2,
+    "turn": 1,
+    "myTurns": 0,
+    "opposingTurns": [
+      0
+    ],
+    "opponentIncome": [
+      3
+    ],
+    "scores": [
+      3
+    ],
+    "myScore": 3,
+    "bannedCards": [
+      "obol",
+      "drachma",
+      "talent",
+      "hamlet",
+      "polis",
+      "acropolis",
+      "oracles-acolyte",
+      "sacred-academy",
+      "sea-trade",
+      "merchant-fleet",
+      "seed-keeper",
+      "harvest-feast",
+      "sacred-grove",
+      "bronze-recruit",
+      "forge-of-heroes",
+      "victorious-procession"
+    ],
+    "bannedEvents": []
+  },
+  "profile": {
+    "family": "engine",
+    "parameters": {
+      "scoringAt": 3,
+      "engineCopies": 3,
+      "moneyFloor": 7,
+      "worshipMargin": 0.5
+    },
+    "thinning": false,
+    "endGamePolicy": "turn-2",
+    "evaluation": "shuffle-effective",
+    "samplingPolicy": "raw",
+    "samplingMethod": "stratified",
+    "purchasePlanner": "pair"
+  },
+  "single": {
+    "base": 21.082500000000003,
+    "support": 19.762396694214875,
+    "draw": 20.458677685950427
+  },
+  "search": [
+    {
+      "value": 34.432500000000005,
+      "investment": 13.35,
+      "terminal": 21.082500000000007,
+      "followupRate": 0,
+      "meanFollowupTurn": null
+    },
+    {
+      "first": "harbor-pilot",
+      "value": 33.55785123966942,
+      "investment": 13.363636363636362,
+      "terminal": 20.194214876033055,
+      "followupRate": 0,
+      "meanFollowupTurn": null
+    },
+    {
+      "first": "council-of-sages",
+      "value": 34.1611570247934,
+      "investment": 13.977272727272725,
+      "terminal": 20.183884297520674,
+      "followupRate": 0,
+      "meanFollowupTurn": null
+    },
+    {
+      "first": "harbor-pilot",
+      "second": "council-of-sages",
+      "value": 36.37705176767676,
+      "investment": 13.253787878787877,
+      "terminal": 23.123263888888886,
+      "followupRate": 1,
+      "meanFollowupTurn": 1.375
+    },
+    {
+      "first": "council-of-sages",
+      "second": "harbor-pilot",
+      "value": 36.9603851010101,
+      "investment": 13.837121212121211,
+      "terminal": 23.123263888888886,
+      "followupRate": 1,
+      "meanFollowupTurn": 1.375
+    }
+  ],
+  "plan": {
+    "first": "council-of-sages",
+    "options": [
+      {
+        "first": "council-of-sages",
+        "second": "harbor-pilot",
+        "value": 36.94523358585858,
+        "investment": 13.821969696969695,
+        "terminal": 23.123263888888886,
+        "followupRate": 1,
+        "meanFollowupTurn": 1.125
+      },
+      {
+        "first": "harbor-pilot",
+        "second": "council-of-sages",
+        "value": 36.38273358585858,
+        "investment": 13.259469696969695,
+        "terminal": 23.123263888888886,
+        "followupRate": 1,
+        "meanFollowupTurn": 1.125
+      },
+      {
+        "second": "council-of-sages",
+        "value": 35.31797520661158,
+        "investment": 15.134090909090908,
+        "terminal": 20.183884297520674,
+        "followupRate": 1,
+        "meanFollowupTurn": 1.125
+      }
+    ],
+    "evaluatedPairs": 9
+  }
+}

@@ -9,7 +9,9 @@ export const historicalBaseProfiles: Record<string,Profile> = {
 export const v14BaseProfiles:Record<string,Profile>=Object.fromEntries(Object.entries(historicalBaseProfiles).map(([key,p])=>[key,withEndGame(p)]));
 export const v15BaseProfiles:Record<string,Profile>=Object.fromEntries(Object.entries(v14BaseProfiles).map(([key,p])=>[key,{...p,evaluation:'shuffle-3'}]));
 export const v18BaseProfiles:Record<string,Profile>=Object.fromEntries(Object.entries(v14BaseProfiles).map(([key,p])=>[key,{...p,evaluation:'shuffle-effective',samplingPolicy:'raw',samplingMethod:'stratified'}]));
-export const baseProfiles:Record<string,Profile>=Object.fromEntries(Object.entries(v18BaseProfiles).map(([key,p])=>[key,{...p,purchasePlanner:'pair'}]));
+export const pairBaseProfiles:Record<string,Profile>=Object.fromEntries(Object.entries(v18BaseProfiles).map(([key,p])=>[key,{...p,purchasePlanner:'pair'}]));
+// The bounded planner is an explicit candidate; its first trial did not establish a benefit.
+export const baseProfiles=v18BaseProfiles;
 export const raceProfiles:Record<string,Profile>=Object.fromEntries(
  Object.entries(historicalBaseProfiles).flatMap(([key,p])=>[[key,{...p,race:false}],[key+'-race',{...p,race:true}]]));
 export const endGameProfiles:Record<string,Profile>=Object.fromEntries(
