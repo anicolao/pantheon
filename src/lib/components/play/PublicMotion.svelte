@@ -41,7 +41,8 @@
       await tick();
       while (queue.length && token === generation) {
         const entry = queue.shift()!;
-        const duration = Math.min(320, 1200 / Math.max(1,entry.steps.length));
+        // Keep ordinary multi-card sequences brisk, including a full hand of Treasures.
+        const duration = Math.min(240, 800 / Math.max(1,entry.steps.length));
         actor = entry.actor.name; sequence = entry.sequence;
         for (const movement of entry.steps) {
           if (token !== generation) break;

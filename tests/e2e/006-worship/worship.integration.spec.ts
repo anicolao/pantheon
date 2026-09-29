@@ -76,7 +76,7 @@ for(const gain of [true,false])test(`Demeter allows no trash and ${gain?'a zero-
   }
   await step(steps,'zero-limit','Trashing nothing still offers an optional cost-zero gain',async()=>{await expect(page.locator('.choice-scene .heading')).toContainText('Gain a card costing up to 0');await expect(page.getByRole('button',{name:'Gain none',exact:true})).toBeEnabled();});
   if(gain){await page.getByRole('button',{name:/^Select Obol, copy /}).click();await step(steps,'selected','Ariadne chooses the free Obol',async()=>expect(page.getByRole('button',{name:'Gain Obol',exact:true})).toBeEnabled());await page.getByRole('button',{name:'Gain Obol',exact:true}).click();}else await page.getByRole('button',{name:'Gain none',exact:true}).click();
-  await step(steps,'buy-granted','Demeter grants the extra Buy after the optional choices',async()=>expect(page.locator('.worship-wallet [data-resource=buys]')).toHaveAttribute('data-value','2'));
+  await step(steps,'buy-granted','Demeter grants the extra Buy after the optional choices',async()=>{await expect(page.locator('.choice-scene')).toHaveCount(0);await expect(page.locator('.worship-wallet [data-resource=buys]')).toHaveAttribute('data-value','2');});
   const state=replaySetup(await readEvents(fixture.code));expect(state.turn.choice).toBeNull();expect(state.trash).toHaveLength(0);expect(state.resources.buys).toBe(2);
 });
 
@@ -92,7 +92,7 @@ for(const favored of [false,true])test(`Ares ${favored?'Favored':'Standard'} upg
   await page.getByRole('button',{name:/^Select Hamlet, copy /}).first().click();await step(steps,'selected','Ariadne selects her Hamlet as the offering',async()=>expect(page.getByRole('button',{name:'Trash 1',exact:true})).toBeEnabled());await page.getByRole('button',{name:'Trash 1',exact:true}).click();
   await step(steps,'upgrade','The trashed Hamlet sets the gain limit',async()=>expect(page.locator('.choice-scene .heading')).toContainText(`Gain a card costing up to ${favored?5:3}`));
   await page.getByRole('button',{name:/^Select Obol, copy /}).click();await step(steps,'cheaper','Ariadne can choose a cheaper card than the limit',async()=>expect(page.getByRole('button',{name:'Gain Obol',exact:true})).toBeEnabled());await page.getByRole('button',{name:'Gain Obol',exact:true}).click();
-  await step(steps,'resolved','The event finishes without triggering Doreios again',async()=>expect(page.locator('.worship-wallet [data-resource=worship]')).toHaveAttribute('data-value','1'));
+  await step(steps,'resolved','The event finishes without triggering Doreios again',async()=>{await expect(page.locator('.choice-scene')).toHaveCount(0);await expect(page.locator('.worship-wallet [data-resource=worship]')).toHaveAttribute('data-value','1');});
   const state=replaySetup(await readEvents(fixture.code));expect(state.trash.at(-1)?.cardId).toBe('hamlet');expect(state.turn.choice).toBeNull();
 });
 
@@ -112,7 +112,7 @@ test('Demeter combines the costs of two offerings to gain a Territory',async({pa
   await step(steps,'combined','Two plus three permits any available card costing up to five',async()=>expect(page.locator('.choice-scene .heading')).toContainText('Gain a card costing up to 5'));
   await page.getByRole('button',{name:'Next choices',exact:true}).click();await step(steps,'territory','The next choices include a Territory, not just Actions',async()=>expect(page.getByRole('button',{name:/^Select Polis, copy /})).toBeVisible());
   await page.getByRole('button',{name:/^Select Polis, copy /}).click();await step(steps,'polis','Ariadne selects a Polis',async()=>expect(page.getByRole('button',{name:'Gain Polis',exact:true})).toBeEnabled());await page.getByRole('button',{name:'Gain Polis',exact:true}).click();
-  await step(steps,'gift','The Polis enters discard and the bonus Buy is granted',async()=>expect(page.locator('.worship-wallet [data-resource=buys]')).toHaveAttribute('data-value','2'));
+  await step(steps,'gift','The Polis enters discard and the bonus Buy is granted',async()=>{await expect(page.locator('.choice-scene')).toHaveCount(0);await expect(page.locator('.worship-wallet [data-resource=buys]')).toHaveAttribute('data-value','2');});
   const state=replaySetup(await readEvents(fixture.code));expect(state.trash.map(card=>card.cardId).sort()).toEqual(['drachma','hamlet']);expect(state.decks[fixture.host].discard.at(-1)?.cardId).toBe('polis');
 });
 
