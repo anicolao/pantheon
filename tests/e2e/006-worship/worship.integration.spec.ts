@@ -28,7 +28,7 @@ test('Athena rewards two matching Actions with a five-cost topdeck gain',async({
   await page.getByRole('button',{name:'Worship Athena',exact:true}).click();
   await step(steps,'gain','Athena offers only Actions costing up to five',async()=>{await expect(page.locator('.choice-scene .heading')).toContainText('Gain an Action costing up to 5');await expect(page.locator('.choice-scene .destination')).toHaveText('Onto your deck');});
   await page.getByRole('button',{name:'Select Sacred Academy, copy 1',exact:true}).click();await step(steps,'selected','Ariadne selects the five-cost Sacred Academy',async()=>expect(page.getByRole('button',{name:'Gain Sacred Academy',exact:true})).toBeEnabled());
-  await page.getByRole('button',{name:'Gain Sacred Academy',exact:true}).click();await step(steps,'paid','Ariadne returns to the altar with one Worship remaining',async()=>{await expect(page.locator('.worship-wallet [data-resource=worship]')).toHaveAttribute('data-value','1');await expect(page.locator('.worship-wallet [data-resource=buys]')).toHaveAttribute('data-value','1');});
+  await page.getByRole('button',{name:'Gain Sacred Academy',exact:true}).click();await step(steps,'paid','Ariadne returns to the altar with one Worship remaining',async()=>{await expect(page.locator('.choice-scene')).toHaveCount(0);await expect(page.locator('.worship-wallet [data-resource=worship]')).toHaveAttribute('data-value','1');await expect(page.locator('.worship-wallet [data-resource=buys]')).toHaveAttribute('data-value','1');});
   const state=replaySetup(await readEvents(fixture.code));expect(state.decks[fixture.host].deck[0].cardId).toBe('sacred-academy');expect(state.turn.phase).toBe('treasures');
 });
 
