@@ -89,7 +89,8 @@ export function standings(game: SetupState) {
   return rows.map(row => ({ ...row, winner: row.score === rows[0].score && row.turns === rows[0].turns }));
 }
 function resource(source: string, key: 'actions' | 'coins' | 'buys' | 'worship', amount: number): Effect { return { kind: 'resource', source, resource: key, amount }; }
-export function actionEffects(id: string): Effect[] {
+export function actionEffects(id: string, variant: PlayVariant = 'standard'): Effect[] {
+  if (variant === 'base-game' && definition(id).uniqueStartingCard) return [];
   const draw = (amount: number): Effect => ({ kind: 'draw', source: id, amount });
   const add = (key: 'actions' | 'coins' | 'buys' | 'worship', amount: number) => resource(id, key, amount);
   if (definition(id).uniqueStartingCard) return [add('worship', 1), add('actions', 1)];
@@ -110,9 +111,10 @@ export function actionEffects(id: string): Effect[] {
   }
 }
 /** Explicit opt-in experiment; ordinary games and replay retain the standard rules. */
-export type PlayVariant = 'standard' | 'thaleia-draw' | 'leader-buffs' | 'thaleia-buy' | 'thaleia-actions';
+export type PlayVariant = 'standard' | 'thaleia-draw' | 'leader-buffs' | 'thaleia-buy' | 'thaleia-actions' | 'base-game';
 /** Public trigger definition shared by the reducer and simulation observations. */
 export function leaderEffects(id: string, variant: PlayVariant = 'standard'): Effect[] {
+  if (variant === 'base-game') return [];
   if (id === 'thaleia') return [resource(id, 'actions', variant === 'thaleia-actions' ? 2 : 1),
     ...(variant === 'thaleia-buy' ? [resource(id, 'buys', 1)] : []),
     ...(variant === 'thaleia-draw' || variant === 'leader-buffs' ? [{ kind: 'draw' as const, source: id, amount: 1 }] : [])];
@@ -193,15 +195,16 @@ export function applyPlayCommand(game: SetupState, uid: string, command: ActionC
       if (!canPlayAction(game, uid, command.instanceId)) throw new Error('Choose an Action in your hand while you have an Action remaining.');
       const index = zones.hand.findIndex(card => card.id === command.instanceId), card = zones.hand.splice(index, 1)[0];
       zones.play.push(card); game.resources.actions--; move('play', card.cardId, card); messages.push(`played ${definition(card.cardId).name}`);
-      game.turn.queue = actionEffects(card.cardId);
+      game.turn.queue = actionEffects(card.cardId, variant);
       const leader = definition(game.leaders[uid]);
-      if (!game.turn.leaderUsed && leader.god === definition(card.cardId).god) {
+      if (variant !== 'base-game' && !game.turn.leaderUsed && leader.god === definition(card.cardId).god) {
         game.turn.leaderUsed = true;
         game.turn.queue.push(...leaderEffects(leader.id, variant));
       }
       resolve(); break;
     }
     case 'god/worshipped': {
+      if (variant === 'base-game') throw new Error('Worship is disabled in the base-game trial.');
       const reason = worshipReason(game, uid, command.cardId);
       if (reason) throw new Error(reason);
       const event = definition(command.cardId), devotion = devotionCards(game, uid, event.id).length;
@@ -261,7 +264,7 @@ export function applyPlayCommand(game: SetupState, uid: string, command: ActionC
       if (!['treasures', 'buys'].includes(game.turn.phase)) throw new Error('Finish the Action phase first.');
       zones.discard.push(...zones.hand, ...zones.play); zones.hand = []; zones.play = []; draw(5, game.leaders[uid]);
       game.turn.turns[uid] = (game.turn.turns[uid] ?? 0) + 1;
-      game.resources = { actions: 1, coins: 0, buys: 1, worship: 1 }; game.turn.leaderUsed = false;
+      game.resources = { actions: 1, coins: 0, buys: 1, worship: variant === 'base-game' ? 0 : 1 }; game.turn.leaderUsed = false;
       if (game.supply.acropolis === 0 || Object.values(game.supply).filter(count => count === 0).length >= 3) {game.turn.phase = 'finished';game.resources={actions:0,coins:0,buys:0,worship:0};}
       else { game.turn.index = (game.turn.index + 1) % game.turnOrder.length; game.turn.number++; game.turn.phase = 'actions'; }
       messages.push('ended the turn'); break;

@@ -1,5 +1,5 @@
 import { moneyBuy, moneyAction, moneyDiscard } from './money';
-import { actionEffects, definition, leaderEffects, type ActionCommand, type Choice } from '../../src/lib/game/actions';
+import { actionEffects, definition, leaderEffects, type PlayVariant, type ActionCommand, type Choice } from '../../src/lib/game/actions';
 import type { CardInstance, SetupState } from '../../src/lib/game/setup';
 
 export const policies = ['treasure', 'draw'] as const;
@@ -7,6 +7,7 @@ export type Policy = typeof policies[number];
 export const policyVersion = 6;
 /** No seed, draw order, opposing hands, or private movement log crosses this boundary. */
 export type Observation = {
+  variant?: PlayVariant;
   hand: CardInstance[];
   owned: Record<string, number>;
   supply: Record<string, number>;

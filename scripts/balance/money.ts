@@ -1,4 +1,4 @@
-import { applyPlayCommand, definition, initialTurn, leaderEffects, type ActionCommand, type PlayVariant } from '../../src/lib/game/actions';
+import { applyPlayCommand, definition, initialTurn, leaderEffects, actionEffects, type ActionCommand, type PlayVariant } from '../../src/lib/game/actions';
 import { createPrng } from '../../src/lib/game/random';
 import type { CardInstance, SetupState } from '../../src/lib/game/setup';
 import type { Observation } from './bot';
@@ -11,7 +11,7 @@ export type MoneyEstimate = { mean: number; samples: number };
 const permutations = 16;
 const cache = new Map<string, MoneyEstimate>();
 const ranks = new Map<string, number[]>();
-const bonus = (view: MoneyView) => view.leaderBonus ?? effectFeatures(leaderEffects(view.leader));
+const bonus = (view: MoneyView) => view.leaderBonus ?? effectFeatures(leaderEffects(view.leader, view.variant));
 const expanded = (owned: Record<string, number>): CardInstance[] => Object.entries(owned).sort(([a],[b])=>a.localeCompare(b)).flatMap(([cardId,n])=>Array.from({length:n},(_,copy)=>({cardId,copy,id:`ev-${cardId}-${copy}`})));
 function rank(id: string, sample: number): number {
   if (!ranks.has(id)) { const random=createPrng(`money-ev-v1:${id}`); ranks.set(id,Array.from({length:permutations},()=>random())); }
@@ -24,14 +24,14 @@ function actionValue(view: MoneyView, card: CardInstance): number {
   const n=Object.values(remaining).reduce((a,b)=>a+b,0);
   const density=Object.entries(remaining).reduce((sum,[id,count])=>sum+count*treasureValue(id),0)/Math.max(1,n);
   const territories=Object.entries(remaining).reduce((sum,[id,count])=>sum+count*Number(definition(id).type==='Territory'),0)/Math.max(1,n);
-  const f=cardFeatures(card.cardId),trigger=!view.leaderUsed&&definition(card.cardId).god===definition(view.leader).god?bonus(view):effectFeatures([]);
+  const f=cardFeatures(card.cardId, view.variant),trigger=!view.leaderUsed&&definition(card.cardId).god===definition(view.leader).god?bonus(view):effectFeatures([]);
   const preserves=view.resources.actions-1+f.actions+trigger.actions>0;
   const otherActions=view.hand.some(c=>c.id!==card.id&&definition(c.cardId).type==='Action');
   return f.coins+trigger.coins+Math.min(n,f.draw+trigger.draw)*density+2*f.reveal*territories
     +(preserves&&otherActions&&(f.actions+trigger.actions)>0?100:0);
 }
 export function moneyAction(view: MoneyView): CardInstance | undefined {
-  return view.hand.filter(c=>definition(c.cardId).type==='Action').sort((a,b)=>actionValue(view,b)-actionValue(view,a)||a.id.localeCompare(b.id))[0];
+  return view.hand.filter(c=>definition(c.cardId).type==='Action'&&actionEffects(c.cardId,view.variant).length>0).sort((a,b)=>actionValue(view,b)-actionValue(view,a)||a.id.localeCompare(b.id))[0];
 }
 export function moneyDiscard(view: MoneyView): string[] {
   const value=(c:CardInstance)=>treasureValue(c.cardId) || (definition(c.cardId).type==='Action'&&view.resources.actions>0 ? Math.max(0,actionValue(view,c)) : 0);
@@ -43,8 +43,8 @@ export function moneyDiscard(view: MoneyView): string[] {
  */
 export function moneyEstimate(view: MoneyView, owned=view.owned): MoneyEstimate {
   const entries=Object.entries(owned).filter(([,n])=>n>0).sort(([a],[b])=>a.localeCompare(b));
-  const canGain=entries.some(([id])=>cardFeatures(id).gain>0);
-  const key=JSON.stringify([entries,view.leader,bonus(view),canGain?view.supply:null]);
+  const canGain=entries.some(([id])=>cardFeatures(id, view.variant).gain>0);
+  const key=JSON.stringify([view.variant??'standard',entries,view.leader,bonus(view),canGain?view.supply:null]);
   const cached=cache.get(key);if(cached)return cached;
   const cards=expanded(Object.fromEntries(entries));
   const noActions=cards.every(c=>definition(c.cardId).type!=='Action');
@@ -52,7 +52,7 @@ export function moneyEstimate(view: MoneyView, owned=view.owned): MoneyEstimate 
   // Exact mean for a single simple income/draw Action: no terminal collisions or choices.
   const actions=cards.filter(c=>definition(c.cardId).type==='Action');
   if(actions.length===1) {
-    const f=cardFeatures(actions[0].cardId), trigger=definition(actions[0].cardId).god===definition(view.leader).god?bonus(view):effectFeatures([]);
+    const f=cardFeatures(actions[0].cardId, view.variant), trigger=definition(actions[0].cardId).god===definition(view.leader).god?bonus(view):effectFeatures([]);
     if(!f.discard&&!f.reveal&&!f.gain) {
       const total=cards.reduce((s,c)=>s+treasureValue(c.cardId),0), n=cards.length, opened=Math.min(5,n)/Math.max(1,n);
       mean=opened*total+opened*(f.coins+trigger.coins+Math.min(f.draw+trigger.draw,Math.max(0,n-5))*total/Math.max(1,n-1));
@@ -61,7 +61,7 @@ export function moneyEstimate(view: MoneyView, owned=view.owned): MoneyEstimate 
   if(mean!==undefined) { const exact={mean,samples:0}; if(cache.size>10000)cache.clear();cache.set(key,exact);return exact; }
   const variants:PlayVariant[]=['standard','thaleia-draw','leader-buffs','thaleia-buy','thaleia-actions'];
   const disabled=Object.values(bonus(view)).every(n=>n===0);
-  const variant=variants.find(v=>JSON.stringify(effectFeatures(leaderEffects(view.leader,v)))===JSON.stringify(bonus(view))) ?? 'standard';
+  const variant=view.variant==='base-game'?'base-game':variants.find(v=>JSON.stringify(effectFeatures(leaderEffects(view.leader,v)))===JSON.stringify(bonus(view))) ?? 'standard';
   let sum=0;
   const samples=permutations*Math.max(1,cards.length);
   for(let permutation=0;permutation<permutations;permutation++) {
@@ -84,7 +84,7 @@ export function moneyEstimate(view: MoneyView, owned=view.owned): MoneyEstimate 
           // Discard gains do not add coins to this hand unless a later draw reshuffles them.
           const legal=Object.keys(game.supply).filter(id=>game.supply[id]>0&&definition(id).cost!==null&&definition(id).cost!<=c.limit!&&(!c.actionOnly||definition(id).type==='Action'));
           const density=cards.reduce((s,c)=>s+treasureValue(c.cardId),0)/Math.max(1,cards.length);
-          const payload=(id:string)=>treasureValue(id)+cardFeatures(id).coins+cardFeatures(id).draw*density;
+          const payload=(id:string)=>treasureValue(id)+cardFeatures(id, view.variant).coins+cardFeatures(id, view.variant).draw*density;
           legal.sort((a,b)=>payload(b)-payload(a)||a.localeCompare(b));targets=legal.slice(0,1);
         }
         // Optional trash/upgrade has no future-turn premium in a one-hand coin objective.
