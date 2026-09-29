@@ -31,7 +31,7 @@ const baseEconomy = new WeakMap<View, ThinEconomy>();
 export function thinEconomy(view: View, owned: Inventory = view.owned): ThinEconomy {
   if (owned === view.owned && baseEconomy.has(view)) return baseEconomy.get(view)!;
   const entries = Object.entries(owned).filter(([, n]) => n > 0).sort(([a], [b]) => a.localeCompare(b));
-  const key = JSON.stringify([view.leader, view.leaderBonus, entries]);
+  const key = JSON.stringify([view.variant, view.leader, view.leaderBonus, entries]);
   const cached = economyCache.get(key); if (cached) { if (owned === view.owned) baseEconomy.set(view, cached); return cached; }
   const count = size(owned);
   if (!count) return { value: 0, incomeChance: 0, seen: 0, vp: 0 };
@@ -42,11 +42,11 @@ export function thinEconomy(view: View, owned: Inventory = view.owned): ThinEcon
   const terminalShare = Math.min(1, capacity.actionBudget / Math.max(1, capacity.terminalDemand));
   const coinCards: number[] = [];
   for (const [id, n] of entries) {
-    const f = cardFeatures(id), def = definition(id);
+    const f = cardFeatures(id, view.variant), def = definition(id);
     vp += (def.vp ?? 0) * n;
     actionCoins += (f.coins + revealCoins({ owned }, f.reveal)) * n * reach * (f.actions ? 1 : terminalShare);
     if (def.type === 'Action' && def.god === definition(view.leader).god) matching += n;
-    worship += effects(id).reduce((sum, e) => sum + (e.kind === 'resource' && e.resource === 'worship' ? e.amount : 0), 0) * n;
+    worship += (view.variant === 'base-game' ? [] : effects(id)).reduce((sum, e) => sum + (e.kind === 'resource' && e.resource === 'worship' ? e.amount : 0), 0) * n;
     for (let i = 0; i < n; i++) coinCards.push(treasureCoins(id));
   }
   actionCoins += view.leaderBonus.coins * Math.min(1, matching * reach);
@@ -183,7 +183,7 @@ export function thinKeepValue(view: View, card: CardInstance): number {
 }
 
 export function thinPlayPriority(view: View, card: CardInstance): number {
-  const f = cardFeatures(card.cardId), triggers = !view.leaderUsed && definition(card.cardId).god === definition(view.leader).god;
+  const f = cardFeatures(card.cardId, view.variant), triggers = !view.leaderUsed && definition(card.cardId).god === definition(view.leader).god;
   const bonus = triggers ? view.leaderBonus : { actions: 0, draw: 0, coins: 0, buys: 0, trash: 0 };
   const actions = f.actions + bonus.actions;
   const afterPlay = { ...view, leaderUsed: view.leaderUsed || triggers, hand: view.hand.filter(c => c.id !== card.id),
