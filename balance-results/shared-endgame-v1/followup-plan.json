@@ -1,0 +1,111 @@
+{
+  "selectionSource": "shared-endgame-validation-v1, conservative 100000-resample analysis with family multiplier 2",
+  "selectionRule": "Every turn-2 primary comparison with adjusted lower bound below -0.05; no other comparisons selected",
+  "blocks": 4096,
+  "seed": "shared-endgame-v1:validation-2",
+  "familyMultiplier": 2,
+  "comparisons": [
+    {
+      "candidate": "engine@turn-2",
+      "baseline": "engine@historical",
+      "opponent": "treasure@overlay",
+      "seat": 0
+    },
+    {
+      "candidate": "engine@turn-2",
+      "baseline": "engine@historical",
+      "opponent": "treasure@turn-2",
+      "seat": 0
+    },
+    {
+      "candidate": "engine@turn-2",
+      "baseline": "engine@historical",
+      "opponent": "treasure-thin@turn-2",
+      "seat": 0
+    },
+    {
+      "candidate": "engine@turn-2",
+      "baseline": "engine@historical",
+      "opponent": "engine@historical",
+      "seat": 0
+    },
+    {
+      "candidate": "engine@turn-2",
+      "baseline": "engine@historical",
+      "opponent": "engine@historical",
+      "seat": 1
+    },
+    {
+      "candidate": "engine@turn-2",
+      "baseline": "engine@historical",
+      "opponent": "engine@overlay",
+      "seat": 0
+    },
+    {
+      "candidate": "engine@turn-2",
+      "baseline": "engine@historical",
+      "opponent": "engine@overlay",
+      "seat": 1
+    },
+    {
+      "candidate": "engine@turn-2",
+      "baseline": "engine@historical",
+      "opponent": "engine@turn-2",
+      "seat": 0
+    },
+    {
+      "candidate": "engine@turn-2",
+      "baseline": "engine@historical",
+      "opponent": "engine-thin@historical",
+      "seat": 0
+    },
+    {
+      "candidate": "engine@turn-2",
+      "baseline": "engine@historical",
+      "opponent": "engine-thin@overlay",
+      "seat": 0
+    },
+    {
+      "candidate": "engine@turn-2",
+      "baseline": "engine@historical",
+      "opponent": "engine-thin@turn-2",
+      "seat": 0
+    },
+    {
+      "candidate": "engine-thin@turn-2",
+      "baseline": "engine-thin@historical",
+      "opponent": "treasure@overlay",
+      "seat": 0
+    },
+    {
+      "candidate": "engine-thin@turn-2",
+      "baseline": "engine-thin@historical",
+      "opponent": "treasure@turn-2",
+      "seat": 0
+    },
+    {
+      "candidate": "engine-thin@turn-2",
+      "baseline": "engine-thin@historical",
+      "opponent": "treasure-thin@turn-2",
+      "seat": 0
+    },
+    {
+      "candidate": "engine-thin@turn-2",
+      "baseline": "engine-thin@historical",
+      "opponent": "engine@overlay",
+      "seat": 1
+    },
+    {
+      "candidate": "engine-thin@turn-2",
+      "baseline": "engine-thin@historical",
+      "opponent": "engine@turn-2",
+      "seat": 1
+    },
+    {
+      "candidate": "engine-thin@turn-2",
+      "baseline": "engine-thin@historical",
+      "opponent": "engine-thin@overlay",
+      "seat": 0
+    }
+  ]
+}
