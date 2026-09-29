@@ -53,3 +53,26 @@ test('stratification samples every opening position, including pure Treasure can
  const owned={...v.owned,drachma:1},next=rolloutEstimate(v,owned,false,'stratified');
  expect(next.samples).toBe(88);expect(next.perTurn[0].coins).toBeCloseTo(40/11,10);
 });
+
+test('skip mandatory discard for an empty draw without suppressing possible leader triggers',()=>{
+ const v=view();v.phase='actions';v.resources.actions=1;
+ v.owned={obol:2,'harvest-feast':1};v.play=[];
+ v.hand=[{id:'a',cardId:'harvest-feast',copy:0},{id:'b',cardId:'obol',copy:0},{id:'c',cardId:'obol',copy:1}];
+ expect(rolloutPlay(v,false)).toEqual({type:'phase/advanced'});
+ expect(rolloutPlay({...v,variant:'standard'},false)).toMatchObject({type:'action/played'});
+});
+test('productive thinning can take a terminal slot and its payoff appears after reshuffling',()=>{
+ const v=view();v.phase='actions';v.resources.actions=1;
+ v.owned={...v.owned,'seed-keeper':1,'council-of-sages':1};
+ v.hand=[{id:'t',cardId:'seed-keeper',copy:0},{id:'d',cardId:'council-of-sages',copy:0},{id:'j',cardId:'hamlet',copy:0}];
+ expect(rolloutPlay(v,true)).toMatchObject({instanceId:'t'});
+ expect(rolloutPlay(v,false)).toMatchObject({instanceId:'d'});
+ const r=rolloutEstimate(v,{obol:6,hamlet:3,'temple-of-athena':1,'seed-keeper':1},true,'stratified');
+ expect(r.lateBalanced).toBeGreaterThan(r.balanced);
+});
+test('projected optional thinning preserves valuable points',()=>{
+ const v=view();v.phase='actions';
+ v.hand=[{id:'p',cardId:'acropolis',copy:0}];v.owned={acropolis:1};
+ v.choice={id:'trash',kind:'trash',min:0,max:2};
+ expect(rolloutPlay(v,true)).toMatchObject({targets:[]});
+});
