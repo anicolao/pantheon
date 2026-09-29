@@ -1,9 +1,10 @@
-# Bot defect correction ledger — version 18
+# Bot defect correction ledger — version 19
 
 This ledger distinguishes concrete decision defects from unavoidable uncertainty and deliberate benchmark restrictions. “Corrected” means implementation plus a targeted behavioral check or the specified shared regression coverage; it does not certify perfect play.
 
 | Previously identified defect | Correction | Evidence |
 | --- | --- | --- |
+| One-card acquisition search rejected weak-alone complementary investments | Exhaustive first/follow-up planning with real payments, turns, supply and reshuffles; select across hidden-state samples | `purchase-planner.test.ts`; [896-game comparison](balance-results/purchase-pair-v1/README.md). Pair recognition works; competitive improvement is unproven, so the planner remains opt-in |
 | Raw draw volume built engines with no spending power | Shared usable-spending objective plus income-backed unique-card coverage | Effective sampler tests and repair study; whole-deck engine construction remains unresolved |
 | 64 ordinary samples introduced avoidable pure-Treasure opening noise | Every cyclic rotation of eight shuffled orders, still sampling every card type | Exact opening-mean regression |
 | Empty draw/discard Actions could discard a useful card for no benefit | Neutral-game controller skips uncompensated empty draw/discard play | Empty-draw and leader-scope regression |
