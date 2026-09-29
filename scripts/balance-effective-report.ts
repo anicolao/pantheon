@@ -24,9 +24,10 @@ const cells=[...groups].map(([key,rs])=>{
  rs.sort((a,b)=>a.result.block-b.result.block);
  if(rs.length!==m.blocks||rs.some((r,i)=>r.result.block!==i))throw Error('Duplicate/missing seed');
  const diagnostic=(seat:number)=>{
-  const ps=rs.map(r=>player(r,seat)),turns=ps.reduce((s,p)=>s+p.turns,0),acquisitions:Record<string,number>={};
+  const ps=rs.map(r=>player(r,seat)),turns=ps.reduce((s,p)=>s+p.turns,0),acquisitions:Record<string,number>={},trashes:Record<string,number>={};
   for(const p of ps)for(const[id,n]of Object.entries(p.telemetry.acquisitions))acquisitions[id]=(acquisitions[id]??0)+Number(n)/ps.length;
-  return {vp:mean(ps.map(p=>p.score)),turns:turns/ps.length,deckSize:mean(ps.map(p=>p.telemetry.finalDeckSize)),fullDeckDraws:ps.reduce((s,p)=>s+p.telemetry.fullDeckDraws,0),totalTurns:turns,fullDeckRate:ps.reduce((s,p)=>s+p.telemetry.fullDeckDraws,0)/turns,spareActionsWithUnseen:ps.reduce((s,p)=>s+p.telemetry.spareActionsWithUnseen,0)/turns,acquisitions};
+  for(const p of ps)for(const[id,n]of Object.entries(p.telemetry.trashes))trashes[id]=(trashes[id]??0)+Number(n)/ps.length;
+  return {trashes,vp:mean(ps.map(p=>p.score)),turns:turns/ps.length,deckSize:mean(ps.map(p=>p.telemetry.finalDeckSize)),fullDeckDraws:ps.reduce((s,p)=>s+p.telemetry.fullDeckDraws,0),totalTurns:turns,fullDeckRate:ps.reduce((s,p)=>s+p.telemetry.fullDeckDraws,0)/turns,spareActionsWithUnseen:ps.reduce((s,p)=>s+p.telemetry.spareActionsWithUnseen,0)/turns,acquisitions};
  };
  return {first:rs[0].first,second:rs[0].second,n:rs.length,share:mean(rs.map(r=>player(r,0).share)),p1:diagnostic(0),p2:diagnostic(1)};
 });
@@ -37,6 +38,10 @@ for(const policy of m.selected)for(const key of keys)for(const seat of [0,1]){
  jobs.push({kind:'headToHead',policy,key,seat,share:mean(rs.map(r=>player(r,seat).share)),pairs:pairs(rs,seat),tests:8*m.selected.length});
  const old=groups.get(key+'@old|'+key+'@old')!;
  jobs.push({kind:'pairedChange',policy,key,seat,pairs:pairs(rs,seat,old),tests:8*m.selected.length});
+}
+if(m.includeV15)for(const policy of m.selected)for(const key of keys)for(const seat of [0,1]){
+ const rs=groups.get((seat?key+'@v15':key+'@'+policy)+'|'+(seat?key+'@'+policy:key+'@v15'))!;
+ jobs.push({kind:'v15HeadToHead',policy,key,seat,share:mean(rs.map(r=>player(r,seat).share)),pairs:pairs(rs,seat),tests:8*m.selected.length});
 }
 for(const policy of m.selected)for(const first of keys)for(const second of keys)jobs.push({kind:'matrix',policy,first:first+'@'+policy,second:second+'@'+policy,pairs:pairs(groups.get(first+'@'+policy+'|'+second+'@'+policy)!,0),tests:16*m.selected.length});
 const estimates=await parallelBootstrap(jobs.map(j=>({pairs:j.pairs,tests:j.tests,replicates:20_000})));
@@ -60,6 +65,9 @@ const lines=['# Effective sampling: '+m.stage,'',m.games+' games; '+m.blocks+' s
 '## Paired change against the same old opponent','',
 '| Policy | Strategy | Seat | Change pp | Adjusted interval pp |','| --- | --- | ---: | ---: | --- |',
 ...results.filter(r=>r.kind==='pairedChange').map(r=>'| '+r.policy+' | '+label(r.key)+' | '+(r.seat+1)+' | '+pct(r.difference)+' | '+r.correctedInterval.map(pct).join(' to ')+' |'),''];
+if(m.includeV15)lines.push('## Direct comparison with the failed v15 sampler','',
+ '| Strategy | New seat | New share | Adjusted interval |','| --- | ---: | ---: | --- |',
+ ...results.filter(r=>r.kind==='v15HeadToHead').map(r=>'| '+label(r.key)+' | '+(r.seat+1)+' | '+pct(r.share)+'% | '+r.correctedInterval.map((n:number)=>pct(n+0.5)+'%').join(' to ')+' |'),'');
 for(const policy of m.selected){
  lines.push('## '+policy+' new 4×4 (P1 shares)','',
  '| P1 / P2 | '+keys.map(label).join(' | ')+' |','| --- | '+keys.map(()=>'---:').join(' | ')+' |',
@@ -71,5 +79,5 @@ for(const policy of m.selected){
  }
  lines.push('');
 }
-lines.push('All ending inventories and seed schedules audited. Intervals use 20,000 paired seed bootstrap resamples, adjusted across selected policies within each comparison family. Unanimous rate outcomes use exact binomial boundary bounds. Screening rankings are provisional; fresh evaluation is required.');
+lines.push('All ending inventories and seed schedules audited. Intervals use 20,000 paired seed bootstrap resamples, adjusted across selected policies within each comparison family. Unanimous rate outcomes use exact binomial boundary bounds. Screening rankings are provisional. A separately seeded confirmation applies only to its frozen policies; it does not establish optimal play.');
 writeFileSync(dir+'/report.md',lines.join('\n')+'\n');console.log(lines.join('\n'));

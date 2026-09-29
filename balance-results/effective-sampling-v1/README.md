@@ -36,3 +36,9 @@ Before confirmation, narrow the resource-only dominance check to equal-cost card
 The 9,216-game confirmation is complete. The balanced sampler recovers against v14 Engine, but largely builds income decks with draw; Thin is inactive. Do not interpret this as a successful whole-deck construction policy.
 
 A second implementation fixes empty-deck mandatory discards and gives productive low-value thinning a terminal Action priority. Preserve valuable scoring cards in projected optional trashing. Compare balanced cumulative scoring with late (third-turn usable income and income-backed coverage) and coverage (the same third-turn metric with four times the coverage weight). Each still samples every candidate through three legal consecutive turns. The late alternatives value the deck after thinning has had a reshuffle to work. Screen on 16 fresh blocks before selecting and validating. Tiny diagnostic cycle-capacity prototypes were rejected; their synthetic whole-hand funding metric is not used in the production candidates.
+
+## Selected late policy: independent confirmation protocol
+
+The 1,472-game timing screen completes with no failures. Late retains competitive Money and improves Engine against its old controller; stronger coverage weighting damages Engine, especially Thin, and is rejected. Select late provisionally for both parents and retain balanced as an explicit experimental alternative. This is a performance repair, not evidence that whole-deck engine construction is solved.
+
+Freeze late before 256 fresh blocks in all 44 ordered cells: new 4×4, both seats against each own v14 and v15 counterpart, Engine variants against old Money, and v14 controls. Total 11,264 games. The v15 comparison measures recovery from the failed sampler; v14 remains the stronger benchmark. No pooling. Deduplicate equivalent trash subsets by card definition, preserving first-target tie order and objective values.
