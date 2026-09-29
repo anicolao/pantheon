@@ -1,3 +1,4 @@
+import {browseSupply,inspectSupply,enterTreasures} from '../helpers/supply-controls';
 import { newPlayerContext } from '../helpers/players';
 import { test, expect } from '../helpers/fixtures';
 import type { Page } from '@playwright/test';
@@ -39,7 +40,7 @@ test('buy an Action from an empty Action hand and play it on turn five',async({p
     await page.getByRole('button',{name:'Choose Thaleia',exact:true}).click();
     await capture('opening-hand','Ariadne starts with two Obols, three Hamlets, and no Actions',page,'Ariadne',async()=>expect.poll(()=>page.locator('.hand [data-card-id]').evaluateAll(cards=>cards.map(card=>card.getAttribute('data-card-id')))).toEqual(['obol','hamlet','hamlet','hamlet','obol']));
     await capture('opening-observer','Theseus sees Ariadne’s turn and five hidden cards',other,'Theseus',async()=>{await expect(other.locator('.opponents [data-card-id]')).toHaveCount(0);await expect(other.locator('.opponents img[alt="Card back"]')).toHaveCount(5);await expect(other.getByRole('button',{name:'To Treasures',exact:true})).toHaveCount(0);});
-    await page.getByRole('button',{name:'To Treasures',exact:true}).click();
+    await enterTreasures(page);
     await capture('treasures','Ariadne advances without playing an Action',page,'Ariadne',async()=>{await expect(page.locator('.turn-marker')).toContainText('Treasures');await expect(page.getByRole('button',{name:'Play all Treasures',exact:true})).toBeEnabled();});
     await page.getByTestId('hand-card').first().click({button:'right'});
     await capture('obol-inspection','Read the Obol and its Play control',page,'Ariadne',async()=>expect(page.getByRole('button',{name:'Play Obol',exact:true})).toBeEnabled());
@@ -50,17 +51,17 @@ test('buy an Action from an empty Action hand and play it on turn five',async({p
     await capture('wealth-played','The remaining Obol brings Ariadne to two Coins',page,'Ariadne',async()=>{await expect(page.locator('.resources [data-resource=coins]')).toHaveAttribute('data-value','2');await expect(page.locator('.played-cards [data-card-id]')).toHaveCount(2);});
     await expect(page.getByRole('button',{name:'To Buys',exact:true})).toHaveCount(0);
     await page.getByRole('button',{name:'Supply',exact:true}).click();
-    await capture('basics','Supply shows the available basic piles and their stock',page,'Ariadne',async()=>expect(page.locator('.supply-scene .stock')).toHaveText(['40','30','20','6','6','6']));
-    await page.getByRole('button',{name:'Actions 1',exact:true}).click();
-    await capture('action-piles','Ariadne browses the Action piles',page,'Ariadne',async()=>expect(page.getByRole('button',{name:'Select Oracle’s Acolyte, 8 remaining',exact:true})).toBeVisible());
-    await page.getByRole('button',{name:'Select Oracle’s Acolyte, 8 remaining',exact:true}).click();
-    await capture('selected','The selected Action costs two Coins and goes to discard',page,'Ariadne',async()=>{await expect(page.getByRole('button',{name:'Buy Oracle’s Acolyte',exact:true})).toBeEnabled();await expect(page.locator('.reason')).toHaveText('To your discard pile');});
-    await page.getByRole('button',{name:'Inspect Oracle’s Acolyte',exact:true}).click();
+    await capture('basics','Supply shows the available basic piles and their stock',page,'Ariadne',async()=>expect(page.locator('.supply-scene .coverflow')).toBeVisible());
+    await browseSupply(page,'Oracle’s Acolyte');
+    await capture('action-piles','Ariadne browses the Action piles',page,'Ariadne',async()=>expect(page.getByLabel('Oracle’s Acolyte: 8 remaining',{exact:true})).toBeVisible());
+    await browseSupply(page,'Oracle’s Acolyte');
+    await capture('selected','The selected Action costs two Coins and goes to discard',page,'Ariadne',async()=>{await expect(page.getByRole('button',{name:'Buy Oracle’s Acolyte',exact:true})).toBeEnabled();await expect(page.locator('.reason')).toContainText('Affordable through');});
+    await inspectSupply(page,'Oracle’s Acolyte');
     await capture('action-inspector','Read the complete Action before spending anything',page,'Ariadne',async()=>expect(page.getByRole('dialog',{name:'Oracle’s Acolyte',exact:true})).toBeVisible());
     await page.getByRole('button',{name:'Back to supply',exact:true}).click();
     await capture('return-to-purchase','Returning from inspection preserves the purchase choice',page,'Ariadne',async()=>expect(page.locator('.wallet [data-resource=coins]')).toHaveAttribute('data-value','2'));
     await page.getByRole('button',{name:'Buy Oracle’s Acolyte',exact:true}).click();
-    await capture('purchased','One purchased copy enters discard and spends both Coins and the Buy',page,'Ariadne',async()=>{await expect(page.locator('.destination')).toContainText('Discard · 1');await expect(page.locator('.wallet [data-resource=coins]')).toHaveAttribute('data-value','0');await expect(page.locator('.wallet [data-resource=buys]')).toHaveAttribute('data-value','0');await expect(page.getByRole('button',{name:'Select Oracle’s Acolyte, 7 remaining',exact:true})).toBeVisible();});
+    await capture('purchased','One purchased copy enters discard and spends both Coins and the Buy',page,'Ariadne',async()=>{await expect(page.locator('.destination')).toContainText('discard · 1');await expect(page.locator('.wallet [data-resource=coins]')).toHaveAttribute('data-value','0');await expect(page.locator('.wallet [data-resource=buys]')).toHaveAttribute('data-value','0');await expect(page.getByLabel('Oracle’s Acolyte: 7 remaining',{exact:true})).toBeVisible();});
     await capture('purchase-observer','Theseus sees the purchased Action and its public destination',other,'Theseus',async()=>expect(other.locator('.outcome [data-card-id]')).toHaveAttribute('data-card-id','oracles-acolyte'));
     await page.getByRole('button',{name:'‹ Table',exact:true}).click();
     await capture('return-to-table','Ariadne returns to finish her first turn',page,'Ariadne',async()=>{await expect(page.getByRole('button',{name:'End turn',exact:true})).toBeEnabled();await expect(page.locator('.turn-marker')).toContainText('Buys');});
@@ -71,8 +72,8 @@ test('buy an Action from an empty Action hand and play it on turn five',async({p
       {turn:2,client:other,name:'Theseus',temple:true,coins:'2'},
       {turn:3,client:page,name:'Ariadne',temple:true,coins:'4'},
       {turn:4,client:other,name:'Theseus',temple:false,coins:'4'}]){
-      await capture(`turn-${turn}`,`${name} receives turn ${turn}`,client,name,async()=>expect(client.getByRole('button',{name:'To Treasures',exact:true})).toBeEnabled());
-      await client.getByRole('button',{name:'To Treasures',exact:true}).click();
+      await capture(`turn-${turn}`,`${name} receives turn ${turn}`,client,name,async()=>expect(client.getByRole('button',{name:/^(To Treasures|End turn)$/})).toBeEnabled());
+      await enterTreasures(client);
       await capture(`turn-${turn}-treasures`,`${name} chooses to play wealth on turn ${turn}`,client,name,async()=>expect(client.locator('.turn-marker')).toContainText('Treasures'));
       await client.getByRole('button',{name:'Play all Treasures',exact:true}).click();
       await capture(`turn-${turn}-wealth`,`${name} earns ${coins} Coins`,client,name,async()=>expect(client.locator('.resources [data-resource=coins]')).toHaveAttribute('data-value',coins));

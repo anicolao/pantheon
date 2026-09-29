@@ -85,7 +85,7 @@ test('Harvest Feast requires a discard after drawing and fits the expanded hand 
 
 for(const reveal of ['Territory','other'] as const)test(`Procession reveals ${reveal} and preserves its proper destination`,async({page},info)=>{
   test.setTimeout(120_000);const fixture=await actionTable(page,info,'victorious-procession','thaleia',{reveal});const steps=new TestStepHelper(page,info,`Reveal ${reveal}`);
-  await playCard(page,'victorious-procession');const state=replaySetup(await readEvents(fixture.code));const card=fixture.game.decks[fixture.host].deck[0];
+  await playCard(page,'victorious-procession');await expect(page.locator('.turn-marker')).toContainText('Treasures');const state=replaySetup(await readEvents(fixture.code));const card=fixture.game.decks[fixture.host].deck[0];
   await steps.step(`reveal-${reveal.toLowerCase()}`,'Read the revealed card and its destination',[{spec:'A Territory goes to discard for +2 Coins; another card returns to the top.',check:async()=>{await expect(page.getByRole('button',{name:`Inspect revealed ${definition(card.cardId).name}`,exact:true})).toBeVisible();expect(state.resources.coins).toBe(reveal==='Territory'?4:2);if(reveal==='other')expect(state.decks[fixture.host].deck[0]).toEqual(card);else expect(state.decks[fixture.host].discard.at(-1)).toEqual(card);}}]);
   await page.reload();await expect(page.locator('[data-status]')).toHaveAttribute('data-status','synced');expect(replaySetup(await readEvents(fixture.code))).toEqual(state);
 });

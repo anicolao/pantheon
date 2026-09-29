@@ -1,3 +1,4 @@
+import {enterTreasures} from '../helpers/supply-controls';
 import {test,expect} from '../helpers/fixtures';
 import {newPlayerContext} from '../helpers/players';
 import {roomCodeFixture} from '../helpers/room-code-fixture';
@@ -29,7 +30,7 @@ test('raise a Temple, worship another bloodline’s god, and keep the gained Act
     await page.getByRole('button',{name:'Inspect Tribute of the Tides',exact:true}).click();
     await capture('one-devotion','One matching Action gives one Devotion and the Standard effect',async()=>{await expect(page.getByLabel('1 Devotion to Poseidon',{exact:true})).toBeVisible();await expect(page.getByRole('button',{name:'Worship Poseidon',exact:true})).toBeDisabled();await expect(page.locator('.worship-scene .reason')).toHaveText('You need 2 more Coins.');});
     await page.keyboard.press('Escape');await expect(page.getByRole('button',{name:'Inspect Tribute of the Tides',exact:true})).toBeFocused();
-    await page.getByRole('button',{name:'To Treasures',exact:true}).click();await page.getByRole('button',{name:'Play all Treasures',exact:true}).click();
+    await enterTreasures(page);await page.getByRole('button',{name:'Play all Treasures',exact:true}).click();
     await capture('wealth','Four Obols bring the shared turn counters to five Coins',async()=>expect(page.locator('.resources [data-resource=coins]')).toHaveAttribute('data-value','5'));
     await page.getByRole('button',{name:'Inspect Counsel of Olympus',exact:true}).click();
     await capture('shared-athena','Ariadne can Worship Athena with zero Devotion despite following Poseidon',async()=>{await expect(page.getByLabel('0 Devotion to Athena',{exact:true})).toBeVisible();await expect(page.getByRole('button',{name:'Worship Athena',exact:true})).toBeEnabled();await expect(page.locator('.worship-scene .active-effect')).toContainText('Standard');});

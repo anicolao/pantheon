@@ -1,3 +1,4 @@
+import {browseSupply,enterTreasures} from '../helpers/supply-controls';
 import {test,expect} from '../helpers/fixtures';
 import {newPlayerContext} from '../helpers/players';
 import {roomCodeFixture} from '../helpers/room-code-fixture';
@@ -27,7 +28,7 @@ test('follow a friend from the first Temple through Worship and cleanup while re
     await page.getByTestId('hand-card').first().click({button:'right'});
     await capture('temple','Ariadne reads her Temple before playing it',async()=>expect(page.getByRole('button',{name:'Play Temple of Poseidon',exact:true})).toBeEnabled());
     await page.getByRole('button',{name:'Play Temple of Poseidon',exact:true}).click();
-    await capture('played','Theseus sees the Temple, Nereon’s blessing, and the resulting Coin',async()=>{await expect(other.locator('.played-cards [data-card-id]')).toHaveAttribute('data-card-id','temple-of-poseidon');await expect(other.locator('.resources [data-resource=coins]')).toHaveAttribute('data-value','1');},true);
+    await capture('played','Theseus sees the Temple, Nereon’s blessing, and the resulting Coin',async()=>{await expect(other.locator('.played-cards [data-card-id]')).toHaveAttribute('data-card-id','temple-of-poseidon');await expect(other.locator('.resources [data-resource=coins]')).toHaveAttribute('data-value','1');await expect(other.locator('.turn-marker')).toContainText('Treasures');},true);
     await other.getByRole('button',{name:'Chronicle',exact:true}).click();
     await capture('chronicle','The Chronicle keeps the played Temple before the leader’s blessing',async()=>{await expect(other.locator('.move')).toHaveCount(2);await expect(other.locator('.move').first()).toHaveAttribute('data-movement','play');await expect(other.locator('.move').last()).toHaveAttribute('data-movement','leader');await expect(other.locator('.result [data-resource=worship]')).toHaveAttribute('data-value','+1');},true);
     await other.getByRole('button',{name:'Inspect Temple of Poseidon, copy 1',exact:true}).click();
@@ -35,17 +36,17 @@ test('follow a friend from the first Temple through Worship and cleanup while re
     await other.keyboard.press('Escape');
     await capture('return-history','Escape returns to the same move and restores card focus',async()=>expect(other.getByRole('button',{name:'Inspect Temple of Poseidon, copy 1',exact:true})).toBeFocused(),true);
     const reading=await other.locator('.chronicle').innerText();
-    await page.getByRole('button',{name:'To Treasures',exact:true}).click();
-    await capture('new-move','Ariadne advances while Theseus keeps his reading position',async()=>{await expect(other.getByRole('button',{name:'New moves · 1 · Refresh',exact:true})).toBeVisible();await expect(other.locator('.chronicle')).toHaveText(reading,{useInnerText:true});},true);
+    await enterTreasures(page);
     await page.getByRole('button',{name:'Play all Treasures',exact:true}).click();
+    await capture('new-move','Ariadne plays Treasures while Theseus keeps his reading position',async()=>{await expect(other.getByRole('button',{name:'New moves · 1 · Refresh',exact:true})).toBeVisible();await expect(other.locator('.chronicle')).toHaveText(reading,{useInnerText:true});},true);
     await capture('wealth','Ariadne plays four Obols and reaches five Coins',async()=>expect(page.locator('.resources [data-resource=coins]')).toHaveAttribute('data-value','5'));
-    await other.getByRole('button',{name:'New moves · 2 · Refresh',exact:true}).click();
+    await other.getByRole('button',{name:'New moves · 1 · Refresh',exact:true}).click();
     await capture('wealth-history','Theseus explicitly catches up to the played Treasures',async()=>{await expect(other.locator('.move')).toHaveCount(3);await expect(other.getByRole('button',{name:'Next effects',exact:true})).toBeEnabled();},true);
     await other.getByRole('button',{name:'Next effects',exact:true}).click();
     await capture('last-effect','Every Treasure remains reachable at the end of the move',async()=>{await expect(other.locator('.move')).toHaveCount(1);await expect(other.getByRole('button',{name:'Next effects',exact:true})).toBeDisabled();},true);
     await other.getByRole('button',{name:'Discard',exact:true}).click();await other.getByLabel('Player',{exact:true}).selectOption({label:'Ariadne'});
     await capture('empty-pile','Ariadne’s empty discard and hidden deck count are explicit',async()=>{await expect(other.locator('.pile')).toHaveText('No cards here.');await expect(other.locator('.deck-count')).toHaveText('Deck · 5 cards');},true);
-    await page.getByRole('button',{name:'Supply',exact:true}).click();await page.getByRole('button',{name:'Select Hamlet, 6 remaining',exact:true}).click();
+    await page.getByRole('button',{name:'Supply',exact:true}).click();await browseSupply(page,'Hamlet');
     await capture('purchase','Ariadne chooses a Hamlet for two Coins',async()=>expect(page.getByRole('button',{name:'Buy Hamlet',exact:true})).toBeEnabled());
     await page.getByRole('button',{name:'Buy Hamlet',exact:true}).click();
     await capture('bought','Ariadne’s purchase goes to discard and leaves three Coins',async()=>expect(page.locator('.wallet [data-resource=coins]')).toHaveAttribute('data-value','3'));

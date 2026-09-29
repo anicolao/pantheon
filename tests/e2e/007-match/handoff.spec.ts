@@ -1,3 +1,4 @@
+import {enterTreasures,browseSupply} from '../helpers/supply-controls';
 import {test,expect} from '../helpers/fixtures';
 import {TestStepHelper} from '../helpers/test-step-helper';
 import {roomCodeFixture} from '../helpers/room-code-fixture';
@@ -29,15 +30,14 @@ test('keep playing a Temple, spend the last Buy, and hand the turn to a friend e
     await capture('temple','The Temple can be read before it is played',page,'Ariadne',async()=>expect(page.getByRole('button',{name:'Play Temple of Athena',exact:true})).toBeEnabled());
     await page.getByRole('button',{name:'Play Temple of Athena',exact:true}).click();
     await capture('played','The Temple and Thaleia leave two Actions and two Worship',page,'Ariadne',async()=>{await expect(page.locator('.resources [data-resource=actions]')).toHaveAttribute('data-value','2');await expect(page.locator('.resources [data-resource=worship]')).toHaveAttribute('data-value','2');});
-    await page.getByRole('button',{name:'To Treasures',exact:true}).click();
+    await enterTreasures(page);
     await capture('treasures','Ariadne can now play her wealth',page,'Ariadne',async()=>expect(page.getByRole('button',{name:'Play all Treasures',exact:true})).toBeEnabled());
     await page.getByRole('button',{name:'Play all Treasures',exact:true}).click();
     await capture('wealth','Four Obols provide four Coins',page,'Ariadne',async()=>expect(page.locator('.resources [data-resource=coins]')).toHaveAttribute('data-value','4'));
     await page.getByRole('button',{name:'Supply',exact:true}).click();
-    await capture('supply','The supply offers both Basics and Actions',page,'Ariadne',async()=>expect(page.getByRole('button',{name:'Actions 1',exact:true})).toBeVisible());
-    await page.getByRole('button',{name:'Actions 1',exact:true}).click();
-    await capture('actions','Ariadne explores Action cards',page,'Ariadne',async()=>expect(page.getByRole('button',{name:/^Select Council of Sages, /})).toBeVisible());
-    await page.getByRole('button',{name:/^Select Council of Sages, /}).click();
+    await capture('supply','The supply offers both Basics and Actions',page,'Ariadne',async()=>expect(page.locator('.coverflow')).toBeVisible());
+    await browseSupply(page,'Council of Sages');
+    await capture('actions','Ariadne explores Action cards',page,'Ariadne',async()=>expect(page.getByRole('button',{name:'Buy Council of Sages',exact:true})).toBeVisible());
     await capture('council','Council of Sages costs all four Coins',page,'Ariadne',async()=>expect(page.getByRole('button',{name:'Buy Council of Sages',exact:true})).toBeEnabled());
     await page.getByRole('button',{name:'Buy Council of Sages',exact:true}).click();
     await capture('last-buy','Spending the last Buy does not end the turn',page,'Ariadne',async()=>expect(page.locator('.wallet [data-resource=buys]')).toHaveAttribute('data-value','0'));
@@ -46,7 +46,7 @@ test('keep playing a Temple, spend the last Buy, and hand the turn to a friend e
     await page.emulateMedia({reducedMotion:'no-preference'});await other.emulateMedia({reducedMotion:'no-preference'});
     let dropped=false;await page.context().route(url=>url.pathname.endsWith('/documents:commit'),async route=>{if(dropped){await route.continue();return;}const response=await route.fetch({timeout:2000});expect(response.ok()).toBe(true);dropped=true;await route.abort('connectionreset');});
     await page.getByRole('button',{name:'End turn',exact:true}).click();
-    await capture('handoff','Theseus receives fresh counters after public cleanup finishes',other,'Theseus',async()=>{await expect(other.locator('.turn-marker')).toContainText('Your turn');await expect(other.locator('.resources [data-resource=actions]')).toHaveAttribute('data-value','1');await expect(other.locator('.resources [data-resource=coins]')).toHaveAttribute('data-value','0');await expect(other.locator('.resources [data-resource=worship]')).toHaveAttribute('data-value','1');await expect(other.getByRole('button',{name:'To Treasures',exact:true})).toBeEnabled();await other.waitForFunction(()=>!document.querySelector('.public-flight'),undefined,{polling:20,timeout:2000});});
+    await capture('handoff','Theseus receives fresh counters after public cleanup finishes',other,'Theseus',async()=>{await expect(other.locator('.turn-marker')).toContainText('Your turn');await expect(other.locator('.resources [data-resource=actions]')).toHaveAttribute('data-value','1');await expect(other.locator('.resources [data-resource=coins]')).toHaveAttribute('data-value','0');await expect(other.locator('.resources [data-resource=worship]')).toHaveAttribute('data-value','1');await expect(other.getByRole('button',{name:'End turn',exact:true})).toBeEnabled();await other.waitForFunction(()=>!document.querySelector('.public-flight'),undefined,{polling:20,timeout:2000});});
     await capture('waiting-hand','Ariadne receives five private cards and waits for Theseus',page,'Ariadne',async()=>{await expect(page.locator('.turn-marker')).toContainText('Theseus');await expect(page.getByTestId('hand-card')).toHaveCount(5);await expect(page.locator('.opponents [data-card-id]')).toHaveCount(0);await expect(page.getByRole('button',{name:'End turn',exact:true})).toHaveCount(0);});
     const events=await readEvents(code),state=replaySetup(events),host=events[0].actorUid;expect(dropped).toBe(true);expect(events.filter(e=>e.type==='turn/ended')).toHaveLength(1);expect(state.turn.turns[host]).toBe(1);expect(state.decks[host].play).toHaveLength(0);expect(state.decks[host].discard).toHaveLength(6);expect(state.decks[host].hand.filter(c=>c.cardId==='hamlet')).toHaveLength(3);
     await page.reload();

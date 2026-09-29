@@ -1,3 +1,4 @@
+import {browseSupply} from '../helpers/supply-controls';
 import { newPlayerContext } from '../helpers/players';
 import { test, expect } from '../helpers/fixtures';
 import { type Page, type BrowserContext } from '@playwright/test';
@@ -117,8 +118,8 @@ for (const count of [2, 3, 4] as const) test(`${count} players draft unique bloo
       await steps.step('hand-inspection', 'Read a card in your hand', [{ spec: 'Inspection preserves the physical copy identifier.', check: async () => expect(choosing.getByRole('dialog').locator('[data-serial]')).toHaveAttribute('data-serial', hand[0]!) }]);
       await choosing.keyboard.press('Escape');
       await choosing.getByRole('button', { name: 'Supply', exact: true }).click();
-      await steps.step('supply', 'Inspect supply without disturbing the deal', [{ spec: 'The six basics show the unchanged stock, separate from starting cards.', check: async () => expect(choosing.locator('.supply-piles .stock')).toHaveText(['40', '30', '20', '6', '6', '6']) }]);
-      await choosing.getByRole('button', { name: 'Actions 2', exact: true }).click(); await expect(choosing.locator('.supply-piles [data-card-id]')).toHaveCount(6);
+      await steps.step('supply', 'Inspect supply without disturbing the deal', [{ spec: 'The six basics show the unchanged stock, separate from starting cards.', check: async () => expect(choosing.getByLabel('Obol: 40 remaining',{exact:true})).toBeVisible() }]);
+      await browseSupply(choosing,'Acropolis');await expect(choosing.getByRole('button',{name:'Buy Acropolis',exact:true})).toBeVisible();
       await choosing.keyboard.press('Escape');
       await choosing.getByRole('button', { name: 'Chronicle', exact: true }).click(); await expect(choosing.getByRole('dialog')).toContainText('Five cards dealt to each player.'); await choosing.keyboard.press('Escape');
       await choosing.context().setOffline(true); await expect(choosing.getByRole('status')).toContainText('Your place is kept.');

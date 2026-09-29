@@ -145,8 +145,8 @@ test('both endings occur only after cleanup; scoring excludes trash and uses few
 
 test('first purchase atomically closes Treasure play; rejected purchases leave the phase intact', () => {
   const state = game('thaleia', ['obol', 'talent', 'hamlet']);
-  expect(purchaseReason(state, 'a', 'obol')).not.toBe('');
-  expect(() => run(state, {type:'card/bought',cardId:'obol'})).toThrow();
+  expect(purchaseReason(state, 'a', 'acropolis')).not.toBe('');
+  expect(() => run(state, {type:'card/bought',cardId:'acropolis'})).toThrow();
   run(state, {type:'phase/advanced'});
   run(state, {type:'treasure/played',instanceId:'h-1'});
   const before = structuredClone(state);
@@ -300,4 +300,19 @@ test('Treasure shortcuts validate before leaving Actions and cannot reopen play 
   expect(canPlayTreasure(state,'a','h-2')).toBe(false);
   expect(()=>run(state,{type:'treasure/played',instanceId:'h-2'})).toThrow();
   expect(()=>run(state,{type:'treasures/played'})).toThrow();expect(state).toEqual(before);
+});
+
+
+test('buying directly from Actions closes both play phases atomically', () => {
+  const state=game();
+  expect(purchaseReason(state,'a','obol')).toBe('');
+  const before=structuredClone(state);
+  expect(()=>applyPlayCommand(state,'b',{type:'card/bought',cardId:'obol'},state.activity.length+1)).toThrow();
+  expect(state).toEqual(before);
+  run(state,{type:'card/bought',cardId:'obol'});
+  expect(state.turn.phase).toBe('buys');
+  expect(state.resources.buys).toBe(0);
+  expect(state.decks.a.discard.at(-1)?.cardId).toBe('obol');
+  expect(()=>run(state,{type:'action/played',instanceId:'h-0'})).toThrow();
+  expect(()=>run(state,{type:'treasures/played'})).toThrow();
 });

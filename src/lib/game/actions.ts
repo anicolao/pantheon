@@ -58,7 +58,7 @@ export function purchaseReason(game: SetupState, uid: string, id: string): strin
   if (game.turn.phase === 'finished') return 'The game is over.';
   if (activePlayer(game) !== uid) return 'Wait for your turn.';
   if (game.turn.choice) return 'Finish your current choice.';
-  if (!['treasures', 'buys'].includes(game.turn.phase)) return 'Finish playing Actions before buying cards.';
+  if (game.phase !== 'playing' || game.turn.queue.length) return 'Finish your current choice.';
   if (!game.supply[id]) return 'This pile is empty.';
   if (game.resources.buys < 1) return 'No Buys remaining.';
   const cost = definition(id).cost;
@@ -72,9 +72,10 @@ export function departureReminder(game: SetupState, uid: string) {
   const playable = game.decks[uid].hand.filter(card => canPlayAction(game, uid, card.id) || (game.turn.phase !== 'actions' && canPlayTreasure(game, uid, card.id))).map(card => definition(card.cardId));
   const card = highest(playable);
   if (card) return { verb: 'play' as const, card };
+  if (game.turn.phase === 'actions') return null;
   const purchase = highest(cards.filter(card => !purchaseReason(game, uid, card.id)));
   if(purchase)return {verb:'buy' as const,card:purchase};
-  const worship=game.turn.phase!=='actions'?highest(game.sharedEvents.filter(id=>!worshipReason(game,uid,id)).map(definition)):undefined;
+  const worship=highest(game.sharedEvents.filter(id=>!worshipReason(game,uid,id)).map(definition));
   return worship?{verb:'worship' as const,card:worship}:null;
 }
 export function standings(game: SetupState) {

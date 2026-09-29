@@ -1,5 +1,6 @@
 <script lang="ts">
   import { cardGesture } from './card-gesture';
+  import { latestMoveIndex } from '$lib/game/public-table';
   import DialogFrame from "$lib/components/DialogFrame.svelte";
   import { onMount, tick, untrack } from 'svelte';
   import { fly } from 'svelte/transition';
@@ -37,7 +38,8 @@
   const turnUid = $derived(activePlayer(game));
   const choice = $derived(game.turn.choice);
   const ownChoice = $derived(choice && turnUid === uid ? choice : null);
-  const latestMoves = $derived(game.movements.filter(move => move.sequence === game.activity.at(-1)?.sequence));
+  const latestActivity = $derived(game.activity[latestMoveIndex(game)]);
+  const latestMoves = $derived(game.movements.filter(move => move.sequence === latestActivity?.sequence));
   const revealed = $derived(latestMoves.find(move => move.kind === 'reveal'));
   const lastPublic = $derived([...latestMoves].reverse().find(move => ['trash', 'gain', 'discard', 'topdeck'].includes(move.kind) && move.card));
   const own = $derived(game.decks[uid]);
@@ -79,6 +81,16 @@
   $effect(()=>{if(game.turn.phase==='finished')untrack(()=>{resultsOpen=!modal;});});
   async function leaveResults(chronicle=false){resultsOpen=false;await tick();document.querySelector<HTMLButtonElement>('.final-control button')?.focus();if(chronicle)await open('chronicle');}
   const ready = $derived(status === 'synced' && !busy);
+  let automaticPhaseRevision = -1;
+  $effect(() => {
+    if (game.phase !== 'playing' || turnUid !== uid || !ready || game.turn.phase !== 'actions' || choice || game.turn.queue.length) return;
+    if (own.hand.some(card => canPlayAction(game, uid, card.id))) return;
+    const revision = game.activity.length;
+    if (automaticPhaseRevision === revision) return;
+    automaticPhaseRevision = revision;
+    // Persist the transition as an ordinary command, preserving old event streams.
+    void command({type:'phase/advanced'});
+  });
   $effect(() => { if (ownerOf(selected) && game.phase === 'draft') selected = leaderIds.find(id => !ownerOf(id)) ?? selected; });
   onMount(() => {
     const media = matchMedia('(prefers-reduced-motion: reduce)');
@@ -174,7 +186,7 @@
       </div>
       {#if game.decks[turnUid].play.length && !(turnUid === uid && ['actions','treasures'].includes(game.turn.phase) && treasures.length)}<button class="all-played" onclick={() => inspectZone(turnUid, 'play', `${nameOf(turnUid)}’s play area`)}>In play · {game.decks[turnUid].play.length}</button>{/if}
       {#if revealed || lastPublic}{#key game.activity.length}<button class="outcome" aria-label={`Inspect ${revealed ? 'revealed' : lastPublic!.kind === 'trash' ? 'trashed' : 'gained'} ${definition((revealed ?? lastPublic)!.card!.cardId).name}`} onclick={() => inspect((revealed ?? lastPublic)!.card!.cardId, (revealed ?? lastPublic)!.card!.copy)}><div class="outcome-card"><CardFace card={definition((revealed ?? lastPublic)!.card!.cardId)} players={game.playerCount} copy={(revealed ?? lastPublic)!.card!.copy} /></div><ResourceIcon resource={lastPublic?.kind === 'topdeck' ? 'topdeck' : lastPublic?.kind === 'trash' ? 'trash' : 'discard'} />{#if revealed && lastPublic?.kind === 'discard'}<ResourceIcon resource="coins" value="+2" />{/if}</button>{/key}{/if}
-      {#if game.movements.length}<p class="action-message" role="status">{choice && turnUid !== uid ? `${nameOf(turnUid)} chooses cards for ${definition(choice.source).name.split(',')[0]}.` : game.activity.at(-1)?.message.split(';').slice(0, 2).join(';')}</p>{/if}
+      {#if game.movements.length}<p class="action-message" role="status">{choice && turnUid !== uid ? `${nameOf(turnUid)} chooses cards for ${definition(choice.source).name.split(',')[0]}.` : latestActivity?.message.split(';').slice(0, 2).join(';')}</p>{/if}
       <div data-public-zone="supply" class="supply-control"><GameButton onclick={() => open('supply')}>Supply</GameButton></div>
       {#if turnUid === uid && game.turn.phase !== 'finished'}<div class="chronicle-control"><GameButton primary onclick={advance} disabled={!ready || !!choice}>{advanceLabel}</GameButton></div>{/if}
       {#if turnUid === uid && ['actions','treasures'].includes(game.turn.phase) && treasures.length}<div class="treasures-control"><GameButton primary disabled={!ready} onclick={()=>command({type:'treasures/played'})}>Play all Treasures</GameButton></div>{/if}

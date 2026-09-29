@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { latestMoveIndex } from '$lib/game/public-table';
   import DialogFrame from "$lib/components/DialogFrame.svelte";
   import { onMount, tick, untrack } from 'svelte';
   import type { CardInstance, SetupState } from '$lib/game/setup';
@@ -18,7 +19,7 @@
   let history = $state(untrack(() => [...game.activity]));
   let entries = $state(untrack(() => [...game.publicActivity]));
   let through = $state(untrack(() => game.activity.length));
-  let movePage = $state(untrack(() => Math.max(0, game.activity.length - 1)));
+  let movePage = $state(untrack(() => latestMoveIndex(game)));
   let pile = $state<CardInstance[]>(untrack(() => initialTab === 'chronicle' ? [] : publicPile(game, owner, initialTab)));
   let pilePage = $state(0), stepPage = $state(0);
   let inspected = $state<{card: CardInstance; source: string} | null>(null);
@@ -44,7 +45,7 @@
   function changeOwner() { if (tab !== 'chronicle') { pile = publicPile(game, player, tab); pilePage = 0; } }
   function refresh() {
     history = [...game.activity]; entries = [...game.publicActivity]; through = game.activity.length;
-    movePage = Math.max(0, history.length - 1); stepPage = 0;
+    movePage = latestMoveIndex(game); stepPage = 0;
     if (tab !== 'chronicle') { pile = publicPile(game, player, tab); pilePage = Math.min(pilePage, Math.max(0, Math.ceil(pile.length / 3) - 1)); }
   }
   function moveTo(index: number) { movePage = index; stepPage = 0; }

@@ -51,8 +51,9 @@ test('tap to play and hold or right-click to inspect without committing', async 
   await steps.step('tap-action', 'A quick tap plays the Action immediately', [{spec:'The card enters play once with no confirmation dialog.',check:async()=>{
     await expect(page.locator('.played-cards [data-card-id="temple-of-athena"]')).toBeVisible();
     await expect(page.locator('dialog:modal')).toHaveCount(0);
+    await expect(page.locator('.turn-marker')).toContainText('Treasures');
     const events = await readEvents(fixture.code);
-    expect(events.slice(fixture.events.length).map(event=>event.type)).toEqual(['action/played']);
+    expect(events.slice(fixture.events.length).map(event=>event.type)).toEqual(['action/played','phase/advanced']);
   }}]);
   const before = await readEvents(fixture.code), game = replaySetup(before);
   const treasure = game.decks[fixture.host].hand.find(card=>definition(card.cardId).type==='Treasure')!;

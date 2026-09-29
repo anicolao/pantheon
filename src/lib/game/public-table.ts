@@ -127,3 +127,10 @@ export class PublicReadingCursor {
   unseen(entries: readonly PublicActivity[]) { return entries.filter(entry => entry.sequence > this.through).length; }
   acknowledge(sequence: number) { this.through = Math.max(this.through, sequence); }
 }
+
+/** Keep a bookkeeping phase transition from hiding the card effect it follows. */
+export function latestMoveIndex(game: SetupState): number {
+  let index=game.activity.length-1;
+  while(index>0 && game.publicActivity.find(entry=>entry.sequence===game.activity[index].sequence)?.command==='phase/advanced') index--;
+  return Math.max(0,index);
+}

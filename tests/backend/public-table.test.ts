@@ -1,7 +1,7 @@
 import {expect,test} from 'bun:test';
 import {replaySetup,type SetupEvent,type SetupState} from '../../src/lib/game/setup';
 import {activePlayer,applyPlayCommand,type ActionCommand} from '../../src/lib/game/actions';
-import {publicCommandContext,describePublicCommand,publicPile,publicDeckCount,PublicMotionCursor,PublicReadingCursor,type PublicActivity} from '../../src/lib/game/public-table';
+import {latestMoveIndex,publicCommandContext,describePublicCommand,publicPile,publicDeckCount,PublicMotionCursor,PublicReadingCursor,type PublicActivity} from '../../src/lib/game/public-table';
 
 function openingEvents(){
   const events:SetupEvent[]=[
@@ -122,4 +122,16 @@ test('committed replay retains public history in order without private draws or 
   game.resources.coins = 99;
   for (const move of game.movements) if (move.card) move.card.copy = 99;
   expect(game.publicActivity).toEqual(snapshot);
+});
+
+
+test('automatic phase bookkeeping preserves the last card result without removing history',()=>{
+  const game=table();hand(game,['victorious-procession']);
+  game.publicActivity.push(command(game,{type:'action/played',instanceId:'held-0'}));
+  const played=game.activity.length-1;
+  game.publicActivity.push(command(game,{type:'phase/advanced'}));
+  expect(latestMoveIndex(game)).toBe(played);
+  expect(game.publicActivity.at(-1)?.command).toBe('phase/advanced');
+  game.publicActivity.push(command(game,{type:'card/bought',cardId:'obol'}));
+  expect(latestMoveIndex(game)).toBe(game.activity.length-1);
 });
