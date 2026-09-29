@@ -59,6 +59,7 @@ export function gainOutcome(view: View, id: string, vpLoss = 0): number | null {
   return purchasePlan(future, card => (definition(card).vp ?? 0) * 2, availableCoins(view)).share;
 }
 export function publicHorizon(view: View): number {
+  if(view.horizonOverride!==undefined)return view.horizonOverride;
   const smallest = Object.values(view.supply).sort((a,b) => a-b).slice(0,3).reduce((a,b) => a+b, 0);
   const pressure = 1 + (view.opponentIncome ?? []).reduce((n, x) => n + x / 8, 0);
   return Math.max(0, Math.min(6, view.raceHorizon ?? 6, view.supply.acropolis * 1.5 / view.playerCount, smallest * 1.5 / view.playerCount, view.supply.acropolis / pressure));
