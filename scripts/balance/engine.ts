@@ -1,3 +1,4 @@
+import {investmentFactor} from './end-game';
 import { publicHorizon } from './planning';
 import { actionEffects, definition, type Effect, type PlayVariant } from '../../src/lib/game/actions';
 import type { CardInstance } from '../../src/lib/game/setup';
@@ -65,9 +66,8 @@ export function engineActionValue(view: View, profile: Profile, id: string): num
   const thinning = profile.thinning !== undefined ? 0 : Math.min(f.trash, Math.max(0, junk - existingTrash * 3)) * 6;
   const terminalUse = f.actions >= 1 ? 1 : Math.min(1, after.actionBudget / Math.max(1, after.terminalDemand));
   const payload = terminalUse * ((f.coins + revealCoins(view, f.reveal)) * 2 + f.gain + thinning) + Math.min(f.discard, junk) * 0.5 + (before.playableDraw + 5 >= before.size ? f.buys : 0);
-  const end = publicHorizon(view) <= profile.parameters.scoringAt;
   const reliability = 8 * (startReliability(view, { ...view.owned, [id]: (view.owned[id] ?? 0) + 1 }) - startReliability(view, view.owned));
-  return (2 + coverage + unblocking + payload + reliability) * (end ? 0.35 : 1);
+  return (2 + coverage + unblocking + payload + reliability) * investmentFactor(view,profile);
 }
 /** Play draw while Actions suffice; avoid ending the chain when another Action can keep it alive. */
 export function enginePlayPriority(view: View, card: CardInstance): number {

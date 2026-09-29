@@ -1,7 +1,7 @@
-import {endGamePurchase,endGameGain} from './end-game';
+import {endGamePurchase,endGameGain,legacyPointValue,policyCardValue,sharedPointPurchase,sharedPointGain,type EndGamePolicy} from './end-game';
 import {raceView,racePurchase,raceGain,racePointEligible} from './race';
 import {objectiveToolPremium, objectiveTrashChoice, objectiveGain, objectivePlayBonus, isThinningTool} from './objective-thin';
-import { moneyPurchase, moneyBuy, moneyDiscard, moneyAction } from './money';
+import { moneyAfter, moneyPurchase, moneyBuy, moneyDiscard, moneyAction } from './money';
 import { devotionValue, favoredPaths } from './worship';
 import { purchasePlan, endingShare, gainOutcome, availableCoins, publicHorizon, treasureValue, immediateGainValue } from './planning';
 import { thinToolValue, thinTrashChoice, thinKeepValue, thinGain, thinChangeValue, thinPlayPriority } from './thin';
@@ -10,7 +10,7 @@ import { actionEffects, definition, leaderEffects, type PlayVariant, type Action
 import type { CardInstance, SetupState } from '../../src/lib/game/setup';
 import { chooseCommand, observe, type Observation } from './bot';
 
-export const strategyVersion = 11;
+export const strategyVersion = 12;
 export const families = ['treasure', 'engine', 'thin', 'worship', 'race'] as const;
 export type Family = typeof families[number];
 export type Parameters = { scoringAt: number; engineCopies: number; moneyFloor: number; worshipMargin: number };
@@ -19,13 +19,14 @@ export const candidates: Parameters[] = [
   { scoringAt: 5, engineCopies: 2, moneyFloor: 9, worshipMargin: 1 },
   { scoringAt: 2, engineCopies: 5, moneyFloor: 6, worshipMargin: 0 }
 ];
-export type Profile = { family: Family; parameters: Parameters; thinning?: boolean; race?: boolean; endGame?: boolean };
+export type Profile = { family: Family; parameters: Parameters; thinning?: boolean; race?: boolean; endGame?: boolean; endGamePolicy?: EndGamePolicy };
 export type Restriction = { kind: 'event' | 'card' | 'leader-trigger'; id: string; scope: 'focal' | 'table' };
 export type PublicInventory = Record<string, Record<string, number>>;
 export type View = Observation & {
   leaderBonus: Features; unseenCount: number;
   raceHorizon?: number;
-  endGame?: boolean;
+  endGame?: boolean; endGamePolicy?: EndGamePolicy;
+  drawPileCount?: number; drawsPerTurn?: number;
   play: CardInstance[]; events: string[]; playerCount: number; turn: number;
   opponentIncome: number[];
   scores: number[]; myScore: number; myTurns: number; opposingTurns: number[];
@@ -47,7 +48,7 @@ export function updateInventory(inventory: PublicInventory, game: SetupState, st
 }
 export function strategyView(game: SetupState, uid: string, inventory: PublicInventory, restriction?: Restriction, variant: PlayVariant = 'standard', unseenCount?: number): View {
   const score = (player: string) => Object.entries(inventory[player]).reduce((sum, [id, count]) => sum + (definition(id).vp ?? 0) * count, 0);
-  return { ...observe(game, uid), variant, leaderBonus: effectFeatures(restriction?.kind === 'leader-trigger' && restriction.id === game.leaders[uid] ? [] : leaderEffects(game.leaders[uid], variant)), unseenCount: unseenCount ?? game.decks[uid].deck.length + game.decks[uid].discard.length, play: structuredClone(game.decks[uid].play), events: variant === 'base-game' ? [] : [...game.sharedEvents],
+  return { ...observe(game, uid), drawPileCount:game.decks[uid].deck.length, variant, leaderBonus: effectFeatures(restriction?.kind === 'leader-trigger' && restriction.id === game.leaders[uid] ? [] : leaderEffects(game.leaders[uid], variant)), unseenCount: unseenCount ?? game.decks[uid].deck.length + game.decks[uid].discard.length, play: structuredClone(game.decks[uid].play), events: variant === 'base-game' ? [] : [...game.sharedEvents],
     playerCount: game.playerCount, turn: game.turn.number, myTurns: game.turn.turns[uid] ?? 0,
     opposingTurns: game.players.filter(player => player.uid !== uid).map(player => game.turn.turns[player.uid] ?? 0),
     opponentIncome: game.players.filter(player => player.uid !== uid).map(player => { const cards = inventory[player.uid]; return 5 * Object.entries(cards).reduce((sum, [id, n]) => sum + n * (treasureValue(id) + cardFeatures(id, variant).coins), 0) / Math.max(5, Object.values(cards).reduce((a,b) => a+b, 0)); }),
@@ -75,11 +76,10 @@ function scoreCard(view: View, profile: Profile, id: string): number {
   const card = definition(id), owned = view.owned[id] ?? 0, end = late(view, profile), size = Object.values(view.owned).reduce((a, b) => a + b, 0);
   if (view.bannedCards.includes(id)) return -1000;
   if (profile.race && (card.vp ?? 0) > 0 && !racePointEligible(view, id)) return -1;
-  if (id === 'acropolis') return 14;
-  if (id === 'polis') return end || profile.family === 'race' ? 9 : 0.4;
-  if (id === 'hamlet') return end ? 2.5 : -1;
+  const scoring=profile.endGamePolicy?policyCardValue(view,profile.endGamePolicy,id):legacyPointValue(view,id,end||profile.family==='race'&&id==='polis');
+  if(scoring!==undefined)return scoring;
   if (id === 'obol') return money(view) < 5 ? 1 : -2;
-  if (id === 'talent') return end ? 6 : 9;
+  if (id === 'talent') return 9;
   if (id === 'drachma') return Math.max(1, 6.5 - Math.max(0, money(view) - 10) * 0.35);
   if (card.uniqueStartingCard) return 1;
   if (profile.family === 'engine' && profile.thinning !== undefined) {
@@ -180,6 +180,9 @@ function worshipValue(view: View, profile: Profile, event: string): number {
   }
 }
 export function strategyCommand(view: View, profile: Profile): ActionCommand {
+  if(profile.endGamePolicy&&(profile.race||profile.endGame))throw new Error('Choose one endgame policy, not multiple overlays');
+  if(profile.endGamePolicy)view={...view,endGamePolicy:profile.endGamePolicy};
+
   if(profile.endGame!==undefined && profile.family!=='treasure' && profile.family!=='engine')throw new Error('End Game requires a Money or Engine objective');
   if(profile.endGame && profile.race)throw new Error('End Game replaces Race; do not combine them');
   if(profile.endGame)view={...view,endGame:true};
@@ -196,6 +199,18 @@ export function strategyCommand(view: View, profile: Profile): ActionCommand {
   if (view.choice?.kind === 'gain' && objective && isThinningTool(view, view.choice.source)) {
     const id=objectiveGain(view,objective,view.choice);
     return {type:'choice/resolved',choiceId:view.choice.id,targets:id?[id]:[]};
+  }
+  if(profile.endGamePolicy){
+    // Money income is expressed on the existing Engine investment scale: $8 = 9.
+    // The parent still selects all non-point purchases by its own objective.
+    const economic=(id:string)=>profile.family==='treasure'?moneyAfter(view,id).mean*9/8:cardValue(view,profile,id);
+    if(view.choice?.kind==='gain'){
+      const id=sharedPointGain(view,profile.endGamePolicy,gains(view,view.choice.limit!,view.choice.actionOnly),economic);
+      if(id)return {type:'choice/resolved',choiceId:view.choice.id,targets:[id]};
+    }
+    if(!view.choice&&(view.phase==='buys'||view.phase==='treasures'&&!view.hand.some(c=>definition(c.cardId).type==='Treasure'))){
+      const points=sharedPointPurchase(view,profile.endGamePolicy,economic);if(points)return points;
+    }
   }
   if(profile.endGame && view.choice?.kind==='gain'){
     const id=endGameGain(view,gains(view,view.choice.limit!,view.choice.actionOnly));
