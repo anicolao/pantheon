@@ -59,21 +59,21 @@ Recorded-history integration scenario. A legal event history prepares the starti
 
 - [x] The card enters play once with no confirmation dialog.
 
-## Play a Treasure straight from Actions
+## Play a Treasure after automatic advancement
 
 <table>
 <tr><th>Desktop · 1440 × 1000</th><th>Phone · 393 × 852</th></tr>
 <tr>
-<td valign="top"><a href="../../screenshots/tap-to-play-and-hold-or-right-click-to-inspect-without-committing/003-direct-treasure-desktop-darwin.png"><img src="../../screenshots/tap-to-play-and-hold-or-right-click-to-inspect-without-committing/003-direct-treasure-desktop-darwin.png" alt="Play a Treasure straight from Actions — desktop" width="720"></a></td>
-<td valign="top"><a href="../../screenshots/tap-to-play-and-hold-or-right-click-to-inspect-without-committing/003-direct-treasure-phone-darwin.png"><img src="../../screenshots/tap-to-play-and-hold-or-right-click-to-inspect-without-committing/003-direct-treasure-phone-darwin.png" alt="Play a Treasure straight from Actions — phone" width="240"></a></td>
+<td valign="top"><a href="../../screenshots/tap-to-play-and-hold-or-right-click-to-inspect-without-committing/003-direct-treasure-desktop-darwin.png"><img src="../../screenshots/tap-to-play-and-hold-or-right-click-to-inspect-without-committing/003-direct-treasure-desktop-darwin.png" alt="Play a Treasure after automatic advancement — desktop" width="720"></a></td>
+<td valign="top"><a href="../../screenshots/tap-to-play-and-hold-or-right-click-to-inspect-without-committing/003-direct-treasure-phone-darwin.png"><img src="../../screenshots/tap-to-play-and-hold-or-right-click-to-inspect-without-committing/003-direct-treasure-phone-darwin.png" alt="Play a Treasure after automatic advancement — phone" width="240"></a></td>
 </tr>
 </table>
 
 <details>
 <summary>Tabletop · 3840 × 2160 — expand screenshot</summary>
 
-<a href="../../screenshots/tap-to-play-and-hold-or-right-click-to-inspect-without-committing/003-direct-treasure-tabletop-4k-darwin.png"><img src="../../screenshots/tap-to-play-and-hold-or-right-click-to-inspect-without-committing/003-direct-treasure-tabletop-4k-darwin.png" alt="Play a Treasure straight from Actions — tabletop-4k" width="960"></a>
+<a href="../../screenshots/tap-to-play-and-hold-or-right-click-to-inspect-without-committing/003-direct-treasure-tabletop-4k-darwin.png"><img src="../../screenshots/tap-to-play-and-hold-or-right-click-to-inspect-without-committing/003-direct-treasure-tabletop-4k-darwin.png" alt="Play a Treasure after automatic advancement — tabletop-4k" width="960"></a>
 
 </details>
 
-- [x] Keyboard activation plays once and advances to Treasures in the same command.
+- [x] Keyboard activation plays the Treasure once without a confirmation.
