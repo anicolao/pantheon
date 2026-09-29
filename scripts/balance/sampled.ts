@@ -1,6 +1,7 @@
 import {applyPlayCommand,definition,initialTurn,actionEffects,type ActionCommand,type Choice} from '../../src/lib/game/actions';
 import {createPrng} from '../../src/lib/game/random';
 import type {CardInstance,SetupState} from '../../src/lib/game/setup';
+import {twoPurchasePlan} from './purchase-planner';
 import {moneyAction,moneyDiscard} from './money';
 import {cardFeatures,enginePlayPriority} from './engine';
 import {treasureValue,publicHorizon,purchasePlan,gainOutcome,endingShare,availableCoins} from './planning';
@@ -223,6 +224,6 @@ export function sampledCommand(view:View,profile:Profile):ActionCommand{
  if(points)return points;
  const safe=legal(view,view.resources.coins).filter(id=>gainOutcome({...view,resources:{...view.resources,coins:view.resources.coins-definition(id).cost!,buys:view.resources.buys-1}},id)!==0);
  const top=Math.max(0,...Object.keys(view.supply).map(id=>definition(id).vp??0));
- const id=safe.find(id=>definition(id).vp===top&&top>0)??sampledGain(view,profile,safe);
+ const id=safe.find(id=>definition(id).vp===top&&top>0)??(profile.purchasePlanner==='pair'?twoPurchasePlan(view,profile,safe).first:sampledGain(view,profile,safe));
  return id?{type:'card/bought',cardId:id}:{type:'turn/ended'};
 }
