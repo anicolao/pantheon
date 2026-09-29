@@ -1,0 +1,1101 @@
+{
+  "sourceCommit": "de1ca788d71b26fe67b7c9dbc0b6afeaae78e358",
+  "policyVersion": 13,
+  "status": "completed",
+  "blocks": 512,
+  "workers": 16,
+  "shards": 128,
+  "batchSize": 4,
+  "seed": "shared-endgame-v1:validation-1",
+  "stage": "validation-1",
+  "selected": [
+    "turn-2",
+    "redraw-25"
+  ],
+  "profiles": {
+    "treasure@historical": {
+      "family": "treasure",
+      "parameters": {
+        "scoringAt": 3,
+        "engineCopies": 3,
+        "moneyFloor": 7,
+        "worshipMargin": 0.5
+      },
+      "thinning": false,
+      "endGame": false
+    },
+    "treasure@overlay": {
+      "family": "treasure",
+      "parameters": {
+        "scoringAt": 3,
+        "engineCopies": 3,
+        "moneyFloor": 7,
+        "worshipMargin": 0.5
+      },
+      "thinning": false,
+      "endGame": true
+    },
+    "treasure@turn-2": {
+      "family": "treasure",
+      "parameters": {
+        "scoringAt": 3,
+        "engineCopies": 3,
+        "moneyFloor": 7,
+        "worshipMargin": 0.5
+      },
+      "thinning": false,
+      "endGamePolicy": "turn-2"
+    },
+    "treasure@redraw-25": {
+      "family": "treasure",
+      "parameters": {
+        "scoringAt": 3,
+        "engineCopies": 3,
+        "moneyFloor": 7,
+        "worshipMargin": 0.5
+      },
+      "thinning": false,
+      "endGamePolicy": "redraw-25"
+    },
+    "treasure-thin@historical": {
+      "family": "treasure",
+      "parameters": {
+        "scoringAt": 3,
+        "engineCopies": 3,
+        "moneyFloor": 7,
+        "worshipMargin": 0.5
+      },
+      "thinning": true,
+      "endGame": false
+    },
+    "treasure-thin@overlay": {
+      "family": "treasure",
+      "parameters": {
+        "scoringAt": 3,
+        "engineCopies": 3,
+        "moneyFloor": 7,
+        "worshipMargin": 0.5
+      },
+      "thinning": true,
+      "endGame": true
+    },
+    "treasure-thin@turn-2": {
+      "family": "treasure",
+      "parameters": {
+        "scoringAt": 3,
+        "engineCopies": 3,
+        "moneyFloor": 7,
+        "worshipMargin": 0.5
+      },
+      "thinning": true,
+      "endGamePolicy": "turn-2"
+    },
+    "treasure-thin@redraw-25": {
+      "family": "treasure",
+      "parameters": {
+        "scoringAt": 3,
+        "engineCopies": 3,
+        "moneyFloor": 7,
+        "worshipMargin": 0.5
+      },
+      "thinning": true,
+      "endGamePolicy": "redraw-25"
+    },
+    "engine@historical": {
+      "family": "engine",
+      "parameters": {
+        "scoringAt": 3,
+        "engineCopies": 3,
+        "moneyFloor": 7,
+        "worshipMargin": 0.5
+      },
+      "thinning": false,
+      "endGame": false
+    },
+    "engine@overlay": {
+      "family": "engine",
+      "parameters": {
+        "scoringAt": 3,
+        "engineCopies": 3,
+        "moneyFloor": 7,
+        "worshipMargin": 0.5
+      },
+      "thinning": false,
+      "endGame": true
+    },
+    "engine@turn-2": {
+      "family": "engine",
+      "parameters": {
+        "scoringAt": 3,
+        "engineCopies": 3,
+        "moneyFloor": 7,
+        "worshipMargin": 0.5
+      },
+      "thinning": false,
+      "endGamePolicy": "turn-2"
+    },
+    "engine@redraw-25": {
+      "family": "engine",
+      "parameters": {
+        "scoringAt": 3,
+        "engineCopies": 3,
+        "moneyFloor": 7,
+        "worshipMargin": 0.5
+      },
+      "thinning": false,
+      "endGamePolicy": "redraw-25"
+    },
+    "engine-thin@historical": {
+      "family": "engine",
+      "parameters": {
+        "scoringAt": 3,
+        "engineCopies": 3,
+        "moneyFloor": 7,
+        "worshipMargin": 0.5
+      },
+      "thinning": true,
+      "endGame": false
+    },
+    "engine-thin@overlay": {
+      "family": "engine",
+      "parameters": {
+        "scoringAt": 3,
+        "engineCopies": 3,
+        "moneyFloor": 7,
+        "worshipMargin": 0.5
+      },
+      "thinning": true,
+      "endGame": true
+    },
+    "engine-thin@turn-2": {
+      "family": "engine",
+      "parameters": {
+        "scoringAt": 3,
+        "engineCopies": 3,
+        "moneyFloor": 7,
+        "worshipMargin": 0.5
+      },
+      "thinning": true,
+      "endGamePolicy": "turn-2"
+    },
+    "engine-thin@redraw-25": {
+      "family": "engine",
+      "parameters": {
+        "scoringAt": 3,
+        "engineCopies": 3,
+        "moneyFloor": 7,
+        "worshipMargin": 0.5
+      },
+      "thinning": true,
+      "endGamePolicy": "redraw-25"
+    }
+  },
+  "cells": [
+    [
+      "treasure@historical",
+      "treasure@historical"
+    ],
+    [
+      "treasure@historical",
+      "treasure@overlay"
+    ],
+    [
+      "treasure@historical",
+      "treasure-thin@historical"
+    ],
+    [
+      "treasure@historical",
+      "treasure-thin@overlay"
+    ],
+    [
+      "treasure@historical",
+      "engine@historical"
+    ],
+    [
+      "treasure@historical",
+      "engine@overlay"
+    ],
+    [
+      "treasure@historical",
+      "engine-thin@historical"
+    ],
+    [
+      "treasure@historical",
+      "engine-thin@overlay"
+    ],
+    [
+      "treasure@overlay",
+      "treasure@historical"
+    ],
+    [
+      "treasure@overlay",
+      "treasure@overlay"
+    ],
+    [
+      "treasure@overlay",
+      "treasure-thin@historical"
+    ],
+    [
+      "treasure@overlay",
+      "treasure-thin@overlay"
+    ],
+    [
+      "treasure@overlay",
+      "engine@historical"
+    ],
+    [
+      "treasure@overlay",
+      "engine@overlay"
+    ],
+    [
+      "treasure@overlay",
+      "engine-thin@historical"
+    ],
+    [
+      "treasure@overlay",
+      "engine-thin@overlay"
+    ],
+    [
+      "treasure-thin@historical",
+      "treasure@historical"
+    ],
+    [
+      "treasure-thin@historical",
+      "treasure@overlay"
+    ],
+    [
+      "treasure-thin@historical",
+      "treasure-thin@historical"
+    ],
+    [
+      "treasure-thin@historical",
+      "treasure-thin@overlay"
+    ],
+    [
+      "treasure-thin@historical",
+      "engine@historical"
+    ],
+    [
+      "treasure-thin@historical",
+      "engine@overlay"
+    ],
+    [
+      "treasure-thin@historical",
+      "engine-thin@historical"
+    ],
+    [
+      "treasure-thin@historical",
+      "engine-thin@overlay"
+    ],
+    [
+      "treasure-thin@overlay",
+      "treasure@historical"
+    ],
+    [
+      "treasure-thin@overlay",
+      "treasure@overlay"
+    ],
+    [
+      "treasure-thin@overlay",
+      "treasure-thin@historical"
+    ],
+    [
+      "treasure-thin@overlay",
+      "treasure-thin@overlay"
+    ],
+    [
+      "treasure-thin@overlay",
+      "engine@historical"
+    ],
+    [
+      "treasure-thin@overlay",
+      "engine@overlay"
+    ],
+    [
+      "treasure-thin@overlay",
+      "engine-thin@historical"
+    ],
+    [
+      "treasure-thin@overlay",
+      "engine-thin@overlay"
+    ],
+    [
+      "engine@historical",
+      "treasure@historical"
+    ],
+    [
+      "engine@historical",
+      "treasure@overlay"
+    ],
+    [
+      "engine@historical",
+      "treasure-thin@historical"
+    ],
+    [
+      "engine@historical",
+      "treasure-thin@overlay"
+    ],
+    [
+      "engine@historical",
+      "engine@historical"
+    ],
+    [
+      "engine@historical",
+      "engine@overlay"
+    ],
+    [
+      "engine@historical",
+      "engine-thin@historical"
+    ],
+    [
+      "engine@historical",
+      "engine-thin@overlay"
+    ],
+    [
+      "engine@overlay",
+      "treasure@historical"
+    ],
+    [
+      "engine@overlay",
+      "treasure@overlay"
+    ],
+    [
+      "engine@overlay",
+      "treasure-thin@historical"
+    ],
+    [
+      "engine@overlay",
+      "treasure-thin@overlay"
+    ],
+    [
+      "engine@overlay",
+      "engine@historical"
+    ],
+    [
+      "engine@overlay",
+      "engine@overlay"
+    ],
+    [
+      "engine@overlay",
+      "engine-thin@historical"
+    ],
+    [
+      "engine@overlay",
+      "engine-thin@overlay"
+    ],
+    [
+      "engine-thin@historical",
+      "treasure@historical"
+    ],
+    [
+      "engine-thin@historical",
+      "treasure@overlay"
+    ],
+    [
+      "engine-thin@historical",
+      "treasure-thin@historical"
+    ],
+    [
+      "engine-thin@historical",
+      "treasure-thin@overlay"
+    ],
+    [
+      "engine-thin@historical",
+      "engine@historical"
+    ],
+    [
+      "engine-thin@historical",
+      "engine@overlay"
+    ],
+    [
+      "engine-thin@historical",
+      "engine-thin@historical"
+    ],
+    [
+      "engine-thin@historical",
+      "engine-thin@overlay"
+    ],
+    [
+      "engine-thin@overlay",
+      "treasure@historical"
+    ],
+    [
+      "engine-thin@overlay",
+      "treasure@overlay"
+    ],
+    [
+      "engine-thin@overlay",
+      "treasure-thin@historical"
+    ],
+    [
+      "engine-thin@overlay",
+      "treasure-thin@overlay"
+    ],
+    [
+      "engine-thin@overlay",
+      "engine@historical"
+    ],
+    [
+      "engine-thin@overlay",
+      "engine@overlay"
+    ],
+    [
+      "engine-thin@overlay",
+      "engine-thin@historical"
+    ],
+    [
+      "engine-thin@overlay",
+      "engine-thin@overlay"
+    ],
+    [
+      "treasure@turn-2",
+      "treasure@historical"
+    ],
+    [
+      "treasure@historical",
+      "treasure@turn-2"
+    ],
+    [
+      "treasure@turn-2",
+      "treasure@overlay"
+    ],
+    [
+      "treasure@overlay",
+      "treasure@turn-2"
+    ],
+    [
+      "treasure@turn-2",
+      "treasure-thin@historical"
+    ],
+    [
+      "treasure-thin@historical",
+      "treasure@turn-2"
+    ],
+    [
+      "treasure@turn-2",
+      "treasure-thin@overlay"
+    ],
+    [
+      "treasure-thin@overlay",
+      "treasure@turn-2"
+    ],
+    [
+      "treasure@turn-2",
+      "engine@historical"
+    ],
+    [
+      "engine@historical",
+      "treasure@turn-2"
+    ],
+    [
+      "treasure@turn-2",
+      "engine@overlay"
+    ],
+    [
+      "engine@overlay",
+      "treasure@turn-2"
+    ],
+    [
+      "treasure@turn-2",
+      "engine-thin@historical"
+    ],
+    [
+      "engine-thin@historical",
+      "treasure@turn-2"
+    ],
+    [
+      "treasure@turn-2",
+      "engine-thin@overlay"
+    ],
+    [
+      "engine-thin@overlay",
+      "treasure@turn-2"
+    ],
+    [
+      "treasure@redraw-25",
+      "treasure@historical"
+    ],
+    [
+      "treasure@historical",
+      "treasure@redraw-25"
+    ],
+    [
+      "treasure@redraw-25",
+      "treasure@overlay"
+    ],
+    [
+      "treasure@overlay",
+      "treasure@redraw-25"
+    ],
+    [
+      "treasure@redraw-25",
+      "treasure-thin@historical"
+    ],
+    [
+      "treasure-thin@historical",
+      "treasure@redraw-25"
+    ],
+    [
+      "treasure@redraw-25",
+      "treasure-thin@overlay"
+    ],
+    [
+      "treasure-thin@overlay",
+      "treasure@redraw-25"
+    ],
+    [
+      "treasure@redraw-25",
+      "engine@historical"
+    ],
+    [
+      "engine@historical",
+      "treasure@redraw-25"
+    ],
+    [
+      "treasure@redraw-25",
+      "engine@overlay"
+    ],
+    [
+      "engine@overlay",
+      "treasure@redraw-25"
+    ],
+    [
+      "treasure@redraw-25",
+      "engine-thin@historical"
+    ],
+    [
+      "engine-thin@historical",
+      "treasure@redraw-25"
+    ],
+    [
+      "treasure@redraw-25",
+      "engine-thin@overlay"
+    ],
+    [
+      "engine-thin@overlay",
+      "treasure@redraw-25"
+    ],
+    [
+      "treasure-thin@turn-2",
+      "treasure@historical"
+    ],
+    [
+      "treasure@historical",
+      "treasure-thin@turn-2"
+    ],
+    [
+      "treasure-thin@turn-2",
+      "treasure@overlay"
+    ],
+    [
+      "treasure@overlay",
+      "treasure-thin@turn-2"
+    ],
+    [
+      "treasure-thin@turn-2",
+      "treasure-thin@historical"
+    ],
+    [
+      "treasure-thin@historical",
+      "treasure-thin@turn-2"
+    ],
+    [
+      "treasure-thin@turn-2",
+      "treasure-thin@overlay"
+    ],
+    [
+      "treasure-thin@overlay",
+      "treasure-thin@turn-2"
+    ],
+    [
+      "treasure-thin@turn-2",
+      "engine@historical"
+    ],
+    [
+      "engine@historical",
+      "treasure-thin@turn-2"
+    ],
+    [
+      "treasure-thin@turn-2",
+      "engine@overlay"
+    ],
+    [
+      "engine@overlay",
+      "treasure-thin@turn-2"
+    ],
+    [
+      "treasure-thin@turn-2",
+      "engine-thin@historical"
+    ],
+    [
+      "engine-thin@historical",
+      "treasure-thin@turn-2"
+    ],
+    [
+      "treasure-thin@turn-2",
+      "engine-thin@overlay"
+    ],
+    [
+      "engine-thin@overlay",
+      "treasure-thin@turn-2"
+    ],
+    [
+      "treasure-thin@redraw-25",
+      "treasure@historical"
+    ],
+    [
+      "treasure@historical",
+      "treasure-thin@redraw-25"
+    ],
+    [
+      "treasure-thin@redraw-25",
+      "treasure@overlay"
+    ],
+    [
+      "treasure@overlay",
+      "treasure-thin@redraw-25"
+    ],
+    [
+      "treasure-thin@redraw-25",
+      "treasure-thin@historical"
+    ],
+    [
+      "treasure-thin@historical",
+      "treasure-thin@redraw-25"
+    ],
+    [
+      "treasure-thin@redraw-25",
+      "treasure-thin@overlay"
+    ],
+    [
+      "treasure-thin@overlay",
+      "treasure-thin@redraw-25"
+    ],
+    [
+      "treasure-thin@redraw-25",
+      "engine@historical"
+    ],
+    [
+      "engine@historical",
+      "treasure-thin@redraw-25"
+    ],
+    [
+      "treasure-thin@redraw-25",
+      "engine@overlay"
+    ],
+    [
+      "engine@overlay",
+      "treasure-thin@redraw-25"
+    ],
+    [
+      "treasure-thin@redraw-25",
+      "engine-thin@historical"
+    ],
+    [
+      "engine-thin@historical",
+      "treasure-thin@redraw-25"
+    ],
+    [
+      "treasure-thin@redraw-25",
+      "engine-thin@overlay"
+    ],
+    [
+      "engine-thin@overlay",
+      "treasure-thin@redraw-25"
+    ],
+    [
+      "engine@turn-2",
+      "treasure@historical"
+    ],
+    [
+      "treasure@historical",
+      "engine@turn-2"
+    ],
+    [
+      "engine@turn-2",
+      "treasure@overlay"
+    ],
+    [
+      "treasure@overlay",
+      "engine@turn-2"
+    ],
+    [
+      "engine@turn-2",
+      "treasure-thin@historical"
+    ],
+    [
+      "treasure-thin@historical",
+      "engine@turn-2"
+    ],
+    [
+      "engine@turn-2",
+      "treasure-thin@overlay"
+    ],
+    [
+      "treasure-thin@overlay",
+      "engine@turn-2"
+    ],
+    [
+      "engine@turn-2",
+      "engine@historical"
+    ],
+    [
+      "engine@historical",
+      "engine@turn-2"
+    ],
+    [
+      "engine@turn-2",
+      "engine@overlay"
+    ],
+    [
+      "engine@overlay",
+      "engine@turn-2"
+    ],
+    [
+      "engine@turn-2",
+      "engine-thin@historical"
+    ],
+    [
+      "engine-thin@historical",
+      "engine@turn-2"
+    ],
+    [
+      "engine@turn-2",
+      "engine-thin@overlay"
+    ],
+    [
+      "engine-thin@overlay",
+      "engine@turn-2"
+    ],
+    [
+      "engine@redraw-25",
+      "treasure@historical"
+    ],
+    [
+      "treasure@historical",
+      "engine@redraw-25"
+    ],
+    [
+      "engine@redraw-25",
+      "treasure@overlay"
+    ],
+    [
+      "treasure@overlay",
+      "engine@redraw-25"
+    ],
+    [
+      "engine@redraw-25",
+      "treasure-thin@historical"
+    ],
+    [
+      "treasure-thin@historical",
+      "engine@redraw-25"
+    ],
+    [
+      "engine@redraw-25",
+      "treasure-thin@overlay"
+    ],
+    [
+      "treasure-thin@overlay",
+      "engine@redraw-25"
+    ],
+    [
+      "engine@redraw-25",
+      "engine@historical"
+    ],
+    [
+      "engine@historical",
+      "engine@redraw-25"
+    ],
+    [
+      "engine@redraw-25",
+      "engine@overlay"
+    ],
+    [
+      "engine@overlay",
+      "engine@redraw-25"
+    ],
+    [
+      "engine@redraw-25",
+      "engine-thin@historical"
+    ],
+    [
+      "engine-thin@historical",
+      "engine@redraw-25"
+    ],
+    [
+      "engine@redraw-25",
+      "engine-thin@overlay"
+    ],
+    [
+      "engine-thin@overlay",
+      "engine@redraw-25"
+    ],
+    [
+      "engine-thin@turn-2",
+      "treasure@historical"
+    ],
+    [
+      "treasure@historical",
+      "engine-thin@turn-2"
+    ],
+    [
+      "engine-thin@turn-2",
+      "treasure@overlay"
+    ],
+    [
+      "treasure@overlay",
+      "engine-thin@turn-2"
+    ],
+    [
+      "engine-thin@turn-2",
+      "treasure-thin@historical"
+    ],
+    [
+      "treasure-thin@historical",
+      "engine-thin@turn-2"
+    ],
+    [
+      "engine-thin@turn-2",
+      "treasure-thin@overlay"
+    ],
+    [
+      "treasure-thin@overlay",
+      "engine-thin@turn-2"
+    ],
+    [
+      "engine-thin@turn-2",
+      "engine@historical"
+    ],
+    [
+      "engine@historical",
+      "engine-thin@turn-2"
+    ],
+    [
+      "engine-thin@turn-2",
+      "engine@overlay"
+    ],
+    [
+      "engine@overlay",
+      "engine-thin@turn-2"
+    ],
+    [
+      "engine-thin@turn-2",
+      "engine-thin@historical"
+    ],
+    [
+      "engine-thin@historical",
+      "engine-thin@turn-2"
+    ],
+    [
+      "engine-thin@turn-2",
+      "engine-thin@overlay"
+    ],
+    [
+      "engine-thin@overlay",
+      "engine-thin@turn-2"
+    ],
+    [
+      "engine-thin@redraw-25",
+      "treasure@historical"
+    ],
+    [
+      "treasure@historical",
+      "engine-thin@redraw-25"
+    ],
+    [
+      "engine-thin@redraw-25",
+      "treasure@overlay"
+    ],
+    [
+      "treasure@overlay",
+      "engine-thin@redraw-25"
+    ],
+    [
+      "engine-thin@redraw-25",
+      "treasure-thin@historical"
+    ],
+    [
+      "treasure-thin@historical",
+      "engine-thin@redraw-25"
+    ],
+    [
+      "engine-thin@redraw-25",
+      "treasure-thin@overlay"
+    ],
+    [
+      "treasure-thin@overlay",
+      "engine-thin@redraw-25"
+    ],
+    [
+      "engine-thin@redraw-25",
+      "engine@historical"
+    ],
+    [
+      "engine@historical",
+      "engine-thin@redraw-25"
+    ],
+    [
+      "engine-thin@redraw-25",
+      "engine@overlay"
+    ],
+    [
+      "engine@overlay",
+      "engine-thin@redraw-25"
+    ],
+    [
+      "engine-thin@redraw-25",
+      "engine-thin@historical"
+    ],
+    [
+      "engine-thin@historical",
+      "engine-thin@redraw-25"
+    ],
+    [
+      "engine-thin@redraw-25",
+      "engine-thin@overlay"
+    ],
+    [
+      "engine-thin@overlay",
+      "engine-thin@redraw-25"
+    ],
+    [
+      "treasure@turn-2",
+      "treasure@turn-2"
+    ],
+    [
+      "treasure@turn-2",
+      "treasure-thin@turn-2"
+    ],
+    [
+      "treasure@turn-2",
+      "engine@turn-2"
+    ],
+    [
+      "treasure@turn-2",
+      "engine-thin@turn-2"
+    ],
+    [
+      "treasure-thin@turn-2",
+      "treasure@turn-2"
+    ],
+    [
+      "treasure-thin@turn-2",
+      "treasure-thin@turn-2"
+    ],
+    [
+      "treasure-thin@turn-2",
+      "engine@turn-2"
+    ],
+    [
+      "treasure-thin@turn-2",
+      "engine-thin@turn-2"
+    ],
+    [
+      "engine@turn-2",
+      "treasure@turn-2"
+    ],
+    [
+      "engine@turn-2",
+      "treasure-thin@turn-2"
+    ],
+    [
+      "engine@turn-2",
+      "engine@turn-2"
+    ],
+    [
+      "engine@turn-2",
+      "engine-thin@turn-2"
+    ],
+    [
+      "engine-thin@turn-2",
+      "treasure@turn-2"
+    ],
+    [
+      "engine-thin@turn-2",
+      "treasure-thin@turn-2"
+    ],
+    [
+      "engine-thin@turn-2",
+      "engine@turn-2"
+    ],
+    [
+      "engine-thin@turn-2",
+      "engine-thin@turn-2"
+    ],
+    [
+      "treasure@redraw-25",
+      "treasure@redraw-25"
+    ],
+    [
+      "treasure@redraw-25",
+      "treasure-thin@redraw-25"
+    ],
+    [
+      "treasure@redraw-25",
+      "engine@redraw-25"
+    ],
+    [
+      "treasure@redraw-25",
+      "engine-thin@redraw-25"
+    ],
+    [
+      "treasure-thin@redraw-25",
+      "treasure@redraw-25"
+    ],
+    [
+      "treasure-thin@redraw-25",
+      "treasure-thin@redraw-25"
+    ],
+    [
+      "treasure-thin@redraw-25",
+      "engine@redraw-25"
+    ],
+    [
+      "treasure-thin@redraw-25",
+      "engine-thin@redraw-25"
+    ],
+    [
+      "engine@redraw-25",
+      "treasure@redraw-25"
+    ],
+    [
+      "engine@redraw-25",
+      "treasure-thin@redraw-25"
+    ],
+    [
+      "engine@redraw-25",
+      "engine@redraw-25"
+    ],
+    [
+      "engine@redraw-25",
+      "engine-thin@redraw-25"
+    ],
+    [
+      "engine-thin@redraw-25",
+      "treasure@redraw-25"
+    ],
+    [
+      "engine-thin@redraw-25",
+      "treasure-thin@redraw-25"
+    ],
+    [
+      "engine-thin@redraw-25",
+      "engine@redraw-25"
+    ],
+    [
+      "engine-thin@redraw-25",
+      "engine-thin@redraw-25"
+    ]
+  ],
+  "variant": "base-game",
+  "plannedGames": 114688,
+  "replayBlocks": 1,
+  "startedAt": "2026-09-29T09:19:02.178Z",
+  "rules": "No powers or Worship; identical 6 Obol, 3 Hamlet, inert Temple starts. Fixed default parameters. No pooling of parents, Thin settings, opponents or seats.",
+  "selection": "Screen candidate changes separately against both historical and old two-turn controls; confirm chosen policy on fresh seeds. Require no material regression across every parent/Thin/seat/fixed-opponent cell, not merely a positive average.",
+  "games": 114688,
+  "failures": 0,
+  "replays": 224,
+  "elapsedSeconds": 666.601127208
+}
