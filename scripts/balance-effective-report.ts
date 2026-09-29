@@ -9,6 +9,10 @@ const rows:any[]=Array.from({length:m.shards},(_,i)=>gunzipSync(readFileSync(dir
 const groups=new Map<string,any[]>(),player=(r:any,p:number)=>r.result.players.find((x:any)=>x.position===p);
 for(const r of rows){
  if(r.result.status!=='completed'||r.result.seed!==m.seed+':'+r.result.block||JSON.stringify(r.result.profiles)!==JSON.stringify([m.profiles[r.first],m.profiles[r.second]]))throw Error('Result mismatch');
+ const bestScore=Math.max(...r.result.players.map((p:any)=>p.score));
+ const fewest=Math.min(...r.result.players.filter((p:any)=>p.score===bestScore).map((p:any)=>p.turns));
+ const wins=r.result.players.filter((p:any)=>p.score===bestScore&&p.turns===fewest).length;
+ if(r.result.players.some((p:any)=>p.share!==(p.score===bestScore&&p.turns===fewest?1/wins:0)))throw Error('Winner share mismatch');
  for(const p of r.result.players){
   if(p.telemetry.leaderTriggers||Object.keys(p.telemetry.worship).length||!r.result.profiles[p.position].thinning&&Object.keys(p.telemetry.trashes).length)throw Error('Forbidden effect');
   const owned:Record<string,number>={obol:6,hamlet:3,'temple-of-athena':1};

@@ -1,0 +1,601 @@
+{
+  "sourceCommit": "6cb086fd4649ad24f72b6b98f3712a5aebfcab16",
+  "selected": [
+    "income",
+    "balanced",
+    "reliable"
+  ],
+  "policyVersion": 16,
+  "status": "completed",
+  "blocks": 16,
+  "workers": 16,
+  "shards": 16,
+  "batchSize": 1,
+  "seed": "effective-sampling-v1:screen",
+  "stage": "screen",
+  "profiles": {
+    "treasure@old": {
+      "family": "treasure",
+      "parameters": {
+        "scoringAt": 3,
+        "engineCopies": 3,
+        "moneyFloor": 7,
+        "worshipMargin": 0.5
+      },
+      "thinning": false,
+      "endGamePolicy": "turn-2"
+    },
+    "treasure@income": {
+      "family": "treasure",
+      "parameters": {
+        "scoringAt": 3,
+        "engineCopies": 3,
+        "moneyFloor": 7,
+        "worshipMargin": 0.5
+      },
+      "thinning": false,
+      "endGamePolicy": "turn-2",
+      "evaluation": "shuffle-effective",
+      "samplingPolicy": "income"
+    },
+    "treasure@balanced": {
+      "family": "treasure",
+      "parameters": {
+        "scoringAt": 3,
+        "engineCopies": 3,
+        "moneyFloor": 7,
+        "worshipMargin": 0.5
+      },
+      "thinning": false,
+      "endGamePolicy": "turn-2",
+      "evaluation": "shuffle-effective",
+      "samplingPolicy": "balanced"
+    },
+    "treasure@reliable": {
+      "family": "treasure",
+      "parameters": {
+        "scoringAt": 3,
+        "engineCopies": 3,
+        "moneyFloor": 7,
+        "worshipMargin": 0.5
+      },
+      "thinning": false,
+      "endGamePolicy": "turn-2",
+      "evaluation": "shuffle-effective",
+      "samplingPolicy": "reliable"
+    },
+    "treasure-thin@old": {
+      "family": "treasure",
+      "parameters": {
+        "scoringAt": 3,
+        "engineCopies": 3,
+        "moneyFloor": 7,
+        "worshipMargin": 0.5
+      },
+      "thinning": true,
+      "endGamePolicy": "turn-2"
+    },
+    "treasure-thin@income": {
+      "family": "treasure",
+      "parameters": {
+        "scoringAt": 3,
+        "engineCopies": 3,
+        "moneyFloor": 7,
+        "worshipMargin": 0.5
+      },
+      "thinning": true,
+      "endGamePolicy": "turn-2",
+      "evaluation": "shuffle-effective",
+      "samplingPolicy": "income"
+    },
+    "treasure-thin@balanced": {
+      "family": "treasure",
+      "parameters": {
+        "scoringAt": 3,
+        "engineCopies": 3,
+        "moneyFloor": 7,
+        "worshipMargin": 0.5
+      },
+      "thinning": true,
+      "endGamePolicy": "turn-2",
+      "evaluation": "shuffle-effective",
+      "samplingPolicy": "balanced"
+    },
+    "treasure-thin@reliable": {
+      "family": "treasure",
+      "parameters": {
+        "scoringAt": 3,
+        "engineCopies": 3,
+        "moneyFloor": 7,
+        "worshipMargin": 0.5
+      },
+      "thinning": true,
+      "endGamePolicy": "turn-2",
+      "evaluation": "shuffle-effective",
+      "samplingPolicy": "reliable"
+    },
+    "engine@old": {
+      "family": "engine",
+      "parameters": {
+        "scoringAt": 3,
+        "engineCopies": 3,
+        "moneyFloor": 7,
+        "worshipMargin": 0.5
+      },
+      "thinning": false,
+      "endGamePolicy": "turn-2"
+    },
+    "engine@income": {
+      "family": "engine",
+      "parameters": {
+        "scoringAt": 3,
+        "engineCopies": 3,
+        "moneyFloor": 7,
+        "worshipMargin": 0.5
+      },
+      "thinning": false,
+      "endGamePolicy": "turn-2",
+      "evaluation": "shuffle-effective",
+      "samplingPolicy": "income"
+    },
+    "engine@balanced": {
+      "family": "engine",
+      "parameters": {
+        "scoringAt": 3,
+        "engineCopies": 3,
+        "moneyFloor": 7,
+        "worshipMargin": 0.5
+      },
+      "thinning": false,
+      "endGamePolicy": "turn-2",
+      "evaluation": "shuffle-effective",
+      "samplingPolicy": "balanced"
+    },
+    "engine@reliable": {
+      "family": "engine",
+      "parameters": {
+        "scoringAt": 3,
+        "engineCopies": 3,
+        "moneyFloor": 7,
+        "worshipMargin": 0.5
+      },
+      "thinning": false,
+      "endGamePolicy": "turn-2",
+      "evaluation": "shuffle-effective",
+      "samplingPolicy": "reliable"
+    },
+    "engine-thin@old": {
+      "family": "engine",
+      "parameters": {
+        "scoringAt": 3,
+        "engineCopies": 3,
+        "moneyFloor": 7,
+        "worshipMargin": 0.5
+      },
+      "thinning": true,
+      "endGamePolicy": "turn-2"
+    },
+    "engine-thin@income": {
+      "family": "engine",
+      "parameters": {
+        "scoringAt": 3,
+        "engineCopies": 3,
+        "moneyFloor": 7,
+        "worshipMargin": 0.5
+      },
+      "thinning": true,
+      "endGamePolicy": "turn-2",
+      "evaluation": "shuffle-effective",
+      "samplingPolicy": "income"
+    },
+    "engine-thin@balanced": {
+      "family": "engine",
+      "parameters": {
+        "scoringAt": 3,
+        "engineCopies": 3,
+        "moneyFloor": 7,
+        "worshipMargin": 0.5
+      },
+      "thinning": true,
+      "endGamePolicy": "turn-2",
+      "evaluation": "shuffle-effective",
+      "samplingPolicy": "balanced"
+    },
+    "engine-thin@reliable": {
+      "family": "engine",
+      "parameters": {
+        "scoringAt": 3,
+        "engineCopies": 3,
+        "moneyFloor": 7,
+        "worshipMargin": 0.5
+      },
+      "thinning": true,
+      "endGamePolicy": "turn-2",
+      "evaluation": "shuffle-effective",
+      "samplingPolicy": "reliable"
+    }
+  },
+  "cells": [
+    [
+      "treasure@income",
+      "treasure@income"
+    ],
+    [
+      "treasure@income",
+      "treasure-thin@income"
+    ],
+    [
+      "treasure@income",
+      "engine@income"
+    ],
+    [
+      "treasure@income",
+      "engine-thin@income"
+    ],
+    [
+      "treasure-thin@income",
+      "treasure@income"
+    ],
+    [
+      "treasure-thin@income",
+      "treasure-thin@income"
+    ],
+    [
+      "treasure-thin@income",
+      "engine@income"
+    ],
+    [
+      "treasure-thin@income",
+      "engine-thin@income"
+    ],
+    [
+      "engine@income",
+      "treasure@income"
+    ],
+    [
+      "engine@income",
+      "treasure-thin@income"
+    ],
+    [
+      "engine@income",
+      "engine@income"
+    ],
+    [
+      "engine@income",
+      "engine-thin@income"
+    ],
+    [
+      "engine-thin@income",
+      "treasure@income"
+    ],
+    [
+      "engine-thin@income",
+      "treasure-thin@income"
+    ],
+    [
+      "engine-thin@income",
+      "engine@income"
+    ],
+    [
+      "engine-thin@income",
+      "engine-thin@income"
+    ],
+    [
+      "treasure@income",
+      "treasure@old"
+    ],
+    [
+      "treasure@old",
+      "treasure@income"
+    ],
+    [
+      "treasure-thin@income",
+      "treasure-thin@old"
+    ],
+    [
+      "treasure-thin@old",
+      "treasure-thin@income"
+    ],
+    [
+      "engine@income",
+      "engine@old"
+    ],
+    [
+      "engine@old",
+      "engine@income"
+    ],
+    [
+      "engine-thin@income",
+      "engine-thin@old"
+    ],
+    [
+      "engine-thin@old",
+      "engine-thin@income"
+    ],
+    [
+      "engine@income",
+      "treasure@old"
+    ],
+    [
+      "treasure@old",
+      "engine@income"
+    ],
+    [
+      "engine-thin@income",
+      "treasure@old"
+    ],
+    [
+      "treasure@old",
+      "engine-thin@income"
+    ],
+    [
+      "treasure@balanced",
+      "treasure@balanced"
+    ],
+    [
+      "treasure@balanced",
+      "treasure-thin@balanced"
+    ],
+    [
+      "treasure@balanced",
+      "engine@balanced"
+    ],
+    [
+      "treasure@balanced",
+      "engine-thin@balanced"
+    ],
+    [
+      "treasure-thin@balanced",
+      "treasure@balanced"
+    ],
+    [
+      "treasure-thin@balanced",
+      "treasure-thin@balanced"
+    ],
+    [
+      "treasure-thin@balanced",
+      "engine@balanced"
+    ],
+    [
+      "treasure-thin@balanced",
+      "engine-thin@balanced"
+    ],
+    [
+      "engine@balanced",
+      "treasure@balanced"
+    ],
+    [
+      "engine@balanced",
+      "treasure-thin@balanced"
+    ],
+    [
+      "engine@balanced",
+      "engine@balanced"
+    ],
+    [
+      "engine@balanced",
+      "engine-thin@balanced"
+    ],
+    [
+      "engine-thin@balanced",
+      "treasure@balanced"
+    ],
+    [
+      "engine-thin@balanced",
+      "treasure-thin@balanced"
+    ],
+    [
+      "engine-thin@balanced",
+      "engine@balanced"
+    ],
+    [
+      "engine-thin@balanced",
+      "engine-thin@balanced"
+    ],
+    [
+      "treasure@balanced",
+      "treasure@old"
+    ],
+    [
+      "treasure@old",
+      "treasure@balanced"
+    ],
+    [
+      "treasure-thin@balanced",
+      "treasure-thin@old"
+    ],
+    [
+      "treasure-thin@old",
+      "treasure-thin@balanced"
+    ],
+    [
+      "engine@balanced",
+      "engine@old"
+    ],
+    [
+      "engine@old",
+      "engine@balanced"
+    ],
+    [
+      "engine-thin@balanced",
+      "engine-thin@old"
+    ],
+    [
+      "engine-thin@old",
+      "engine-thin@balanced"
+    ],
+    [
+      "engine@balanced",
+      "treasure@old"
+    ],
+    [
+      "treasure@old",
+      "engine@balanced"
+    ],
+    [
+      "engine-thin@balanced",
+      "treasure@old"
+    ],
+    [
+      "treasure@old",
+      "engine-thin@balanced"
+    ],
+    [
+      "treasure@reliable",
+      "treasure@reliable"
+    ],
+    [
+      "treasure@reliable",
+      "treasure-thin@reliable"
+    ],
+    [
+      "treasure@reliable",
+      "engine@reliable"
+    ],
+    [
+      "treasure@reliable",
+      "engine-thin@reliable"
+    ],
+    [
+      "treasure-thin@reliable",
+      "treasure@reliable"
+    ],
+    [
+      "treasure-thin@reliable",
+      "treasure-thin@reliable"
+    ],
+    [
+      "treasure-thin@reliable",
+      "engine@reliable"
+    ],
+    [
+      "treasure-thin@reliable",
+      "engine-thin@reliable"
+    ],
+    [
+      "engine@reliable",
+      "treasure@reliable"
+    ],
+    [
+      "engine@reliable",
+      "treasure-thin@reliable"
+    ],
+    [
+      "engine@reliable",
+      "engine@reliable"
+    ],
+    [
+      "engine@reliable",
+      "engine-thin@reliable"
+    ],
+    [
+      "engine-thin@reliable",
+      "treasure@reliable"
+    ],
+    [
+      "engine-thin@reliable",
+      "treasure-thin@reliable"
+    ],
+    [
+      "engine-thin@reliable",
+      "engine@reliable"
+    ],
+    [
+      "engine-thin@reliable",
+      "engine-thin@reliable"
+    ],
+    [
+      "treasure@reliable",
+      "treasure@old"
+    ],
+    [
+      "treasure@old",
+      "treasure@reliable"
+    ],
+    [
+      "treasure-thin@reliable",
+      "treasure-thin@old"
+    ],
+    [
+      "treasure-thin@old",
+      "treasure-thin@reliable"
+    ],
+    [
+      "engine@reliable",
+      "engine@old"
+    ],
+    [
+      "engine@old",
+      "engine@reliable"
+    ],
+    [
+      "engine-thin@reliable",
+      "engine-thin@old"
+    ],
+    [
+      "engine-thin@old",
+      "engine-thin@reliable"
+    ],
+    [
+      "engine@reliable",
+      "treasure@old"
+    ],
+    [
+      "treasure@old",
+      "engine@reliable"
+    ],
+    [
+      "engine-thin@reliable",
+      "treasure@old"
+    ],
+    [
+      "treasure@old",
+      "engine-thin@reliable"
+    ],
+    [
+      "treasure@old",
+      "treasure@old"
+    ],
+    [
+      "treasure-thin@old",
+      "treasure-thin@old"
+    ],
+    [
+      "engine@old",
+      "engine@old"
+    ],
+    [
+      "engine-thin@old",
+      "engine-thin@old"
+    ],
+    [
+      "engine@old",
+      "treasure@old"
+    ],
+    [
+      "treasure@old",
+      "engine@old"
+    ],
+    [
+      "engine-thin@old",
+      "treasure@old"
+    ],
+    [
+      "treasure@old",
+      "engine-thin@old"
+    ]
+  ],
+  "variant": "base-game",
+  "plannedGames": 1472,
+  "replayBlocks": 1,
+  "rolloutSamples": 64,
+  "rolloutTurns": 3,
+  "startedAt": "2026-09-29T17:59:53.723Z",
+  "rules": "No powers or Worship. Identical six Obol, three Hamlet, inert Temple starts. Shared turn-2 ending policy. No pooling of parent, Thin, opponent or seat.",
+  "metrics": "Shared 64-sample three-turn rollout with usable spending, scoring thresholds and funded unique-card coverage. Common cash-aware legal play and effect-based resource dominance.",
+  "primary": "Four new-v-old head-to-head comparisons in each seat, plus eight paired effects versus the fixed same-family old opponent, and the new four-by-four response matrix.",
+  "games": 1472,
+  "failures": 0,
+  "elapsedSeconds": 31.488579417,
+  "replays": 92
+}

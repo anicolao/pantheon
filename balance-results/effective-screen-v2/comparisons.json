@@ -1,0 +1,658 @@
+[
+  {
+    "kind": "headToHead",
+    "policy": "balanced",
+    "key": "treasure",
+    "seat": 0,
+    "share": 0.578125,
+    "blocks": 32,
+    "pairs": 32,
+    "excludedBlocks": 0,
+    "exposureRate": 1,
+    "difference": 0.078125,
+    "interval": [
+      -0.09375,
+      0.234375
+    ],
+    "correctedInterval": [
+      -0.171875,
+      0.3125
+    ],
+    "label": "inconclusive"
+  },
+  {
+    "kind": "pairedChange",
+    "policy": "balanced",
+    "key": "treasure",
+    "seat": 0,
+    "blocks": 32,
+    "pairs": 32,
+    "excludedBlocks": 0,
+    "exposureRate": 1,
+    "difference": 0.15625,
+    "interval": [
+      -0.03125,
+      0.34375
+    ],
+    "correctedInterval": [
+      -0.140625,
+      0.4375
+    ],
+    "label": "inconclusive"
+  },
+  {
+    "kind": "headToHead",
+    "policy": "balanced",
+    "key": "treasure",
+    "seat": 1,
+    "share": 0.609375,
+    "blocks": 32,
+    "pairs": 32,
+    "excludedBlocks": 0,
+    "exposureRate": 1,
+    "difference": 0.109375,
+    "interval": [
+      -0.0625,
+      0.265625
+    ],
+    "correctedInterval": [
+      -0.15625,
+      0.34375
+    ],
+    "label": "inconclusive"
+  },
+  {
+    "kind": "pairedChange",
+    "policy": "balanced",
+    "key": "treasure",
+    "seat": 1,
+    "blocks": 32,
+    "pairs": 32,
+    "excludedBlocks": 0,
+    "exposureRate": 1,
+    "difference": 0.03125,
+    "interval": [
+      -0.125,
+      0.1875
+    ],
+    "correctedInterval": [
+      -0.203125,
+      0.265625
+    ],
+    "label": "inconclusive"
+  },
+  {
+    "kind": "headToHead",
+    "policy": "balanced",
+    "key": "treasure-thin",
+    "seat": 0,
+    "share": 0.40625,
+    "blocks": 32,
+    "pairs": 32,
+    "excludedBlocks": 0,
+    "exposureRate": 1,
+    "difference": -0.09375,
+    "interval": [
+      -0.25,
+      0.0625
+    ],
+    "correctedInterval": [
+      -0.34375,
+      0.15625
+    ],
+    "label": "inconclusive"
+  },
+  {
+    "kind": "pairedChange",
+    "policy": "balanced",
+    "key": "treasure-thin",
+    "seat": 0,
+    "blocks": 32,
+    "pairs": 32,
+    "excludedBlocks": 0,
+    "exposureRate": 1,
+    "difference": -0.09375,
+    "interval": [
+      -0.34375,
+      0.15625
+    ],
+    "correctedInterval": [
+      -0.4375,
+      0.25
+    ],
+    "label": "inconclusive"
+  },
+  {
+    "kind": "headToHead",
+    "policy": "balanced",
+    "key": "treasure-thin",
+    "seat": 1,
+    "share": 0.453125,
+    "blocks": 32,
+    "pairs": 32,
+    "excludedBlocks": 0,
+    "exposureRate": 1,
+    "difference": -0.046875,
+    "interval": [
+      -0.21875,
+      0.125
+    ],
+    "correctedInterval": [
+      -0.296875,
+      0.203125
+    ],
+    "label": "inconclusive"
+  },
+  {
+    "kind": "pairedChange",
+    "policy": "balanced",
+    "key": "treasure-thin",
+    "seat": 1,
+    "blocks": 32,
+    "pairs": 32,
+    "excludedBlocks": 0,
+    "exposureRate": 1,
+    "difference": -0.046875,
+    "interval": [
+      -0.21875,
+      0.125
+    ],
+    "correctedInterval": [
+      -0.3125,
+      0.203125
+    ],
+    "label": "inconclusive"
+  },
+  {
+    "kind": "headToHead",
+    "policy": "balanced",
+    "key": "engine",
+    "seat": 0,
+    "share": 0.828125,
+    "blocks": 32,
+    "pairs": 32,
+    "excludedBlocks": 0,
+    "exposureRate": 1,
+    "difference": 0.328125,
+    "interval": [
+      0.1875,
+      0.4375
+    ],
+    "correctedInterval": [
+      0.125,
+      0.484375
+    ],
+    "label": "discovery signal"
+  },
+  {
+    "kind": "pairedChange",
+    "policy": "balanced",
+    "key": "engine",
+    "seat": 0,
+    "blocks": 32,
+    "pairs": 32,
+    "excludedBlocks": 0,
+    "exposureRate": 1,
+    "difference": 0.171875,
+    "interval": [
+      -0.015625,
+      0.359375
+    ],
+    "correctedInterval": [
+      -0.09375,
+      0.453125
+    ],
+    "label": "inconclusive"
+  },
+  {
+    "kind": "headToHead",
+    "policy": "balanced",
+    "key": "engine",
+    "seat": 1,
+    "share": 0.609375,
+    "blocks": 32,
+    "pairs": 32,
+    "excludedBlocks": 0,
+    "exposureRate": 1,
+    "difference": 0.109375,
+    "interval": [
+      -0.0625,
+      0.265625
+    ],
+    "correctedInterval": [
+      -0.140625,
+      0.34375
+    ],
+    "label": "inconclusive"
+  },
+  {
+    "kind": "pairedChange",
+    "policy": "balanced",
+    "key": "engine",
+    "seat": 1,
+    "blocks": 32,
+    "pairs": 32,
+    "excludedBlocks": 0,
+    "exposureRate": 1,
+    "difference": 0.265625,
+    "interval": [
+      0.0625,
+      0.46875
+    ],
+    "correctedInterval": [
+      -0.0625,
+      0.5625
+    ],
+    "label": "inconclusive"
+  },
+  {
+    "kind": "headToHead",
+    "policy": "balanced",
+    "key": "engine-thin",
+    "seat": 0,
+    "share": 0.890625,
+    "blocks": 32,
+    "pairs": 32,
+    "excludedBlocks": 0,
+    "exposureRate": 1,
+    "difference": 0.390625,
+    "interval": [
+      0.28125,
+      0.484375
+    ],
+    "correctedInterval": [
+      0.203125,
+      0.5
+    ],
+    "label": "discovery signal"
+  },
+  {
+    "kind": "pairedChange",
+    "policy": "balanced",
+    "key": "engine-thin",
+    "seat": 0,
+    "blocks": 32,
+    "pairs": 32,
+    "excludedBlocks": 0,
+    "exposureRate": 1,
+    "difference": 0.375,
+    "interval": [
+      0.171875,
+      0.578125
+    ],
+    "correctedInterval": [
+      0.046875,
+      0.671875
+    ],
+    "label": "signal; practical magnitude unresolved"
+  },
+  {
+    "kind": "headToHead",
+    "policy": "balanced",
+    "key": "engine-thin",
+    "seat": 1,
+    "share": 0.59375,
+    "blocks": 32,
+    "pairs": 32,
+    "excludedBlocks": 0,
+    "exposureRate": 1,
+    "difference": 0.09375,
+    "interval": [
+      -0.0625,
+      0.25
+    ],
+    "correctedInterval": [
+      -0.15625,
+      0.34375
+    ],
+    "label": "inconclusive"
+  },
+  {
+    "kind": "pairedChange",
+    "policy": "balanced",
+    "key": "engine-thin",
+    "seat": 1,
+    "blocks": 32,
+    "pairs": 32,
+    "excludedBlocks": 0,
+    "exposureRate": 1,
+    "difference": 0.109375,
+    "interval": [
+      -0.046875,
+      0.265625
+    ],
+    "correctedInterval": [
+      -0.140625,
+      0.359375
+    ],
+    "label": "inconclusive"
+  },
+  {
+    "kind": "headToHead",
+    "policy": "reliable",
+    "key": "treasure",
+    "seat": 0,
+    "share": 0.5625,
+    "blocks": 32,
+    "pairs": 32,
+    "excludedBlocks": 0,
+    "exposureRate": 1,
+    "difference": 0.0625,
+    "interval": [
+      -0.109375,
+      0.234375
+    ],
+    "correctedInterval": [
+      -0.1875,
+      0.296875
+    ],
+    "label": "inconclusive"
+  },
+  {
+    "kind": "pairedChange",
+    "policy": "reliable",
+    "key": "treasure",
+    "seat": 0,
+    "blocks": 32,
+    "pairs": 32,
+    "excludedBlocks": 0,
+    "exposureRate": 1,
+    "difference": 0.140625,
+    "interval": [
+      -0.0625,
+      0.34375
+    ],
+    "correctedInterval": [
+      -0.171875,
+      0.4375
+    ],
+    "label": "inconclusive"
+  },
+  {
+    "kind": "headToHead",
+    "policy": "reliable",
+    "key": "treasure",
+    "seat": 1,
+    "share": 0.5625,
+    "blocks": 32,
+    "pairs": 32,
+    "excludedBlocks": 0,
+    "exposureRate": 1,
+    "difference": 0.0625,
+    "interval": [
+      -0.109375,
+      0.21875
+    ],
+    "correctedInterval": [
+      -0.1875,
+      0.296875
+    ],
+    "label": "inconclusive"
+  },
+  {
+    "kind": "pairedChange",
+    "policy": "reliable",
+    "key": "treasure",
+    "seat": 1,
+    "blocks": 32,
+    "pairs": 32,
+    "excludedBlocks": 0,
+    "exposureRate": 1,
+    "difference": -0.015625,
+    "interval": [
+      -0.1875,
+      0.171875
+    ],
+    "correctedInterval": [
+      -0.296875,
+      0.25
+    ],
+    "label": "inconclusive"
+  },
+  {
+    "kind": "headToHead",
+    "policy": "reliable",
+    "key": "treasure-thin",
+    "seat": 0,
+    "share": 0.4375,
+    "blocks": 32,
+    "pairs": 32,
+    "excludedBlocks": 0,
+    "exposureRate": 1,
+    "difference": -0.0625,
+    "interval": [
+      -0.21875,
+      0.125
+    ],
+    "correctedInterval": [
+      -0.3125,
+      0.1875
+    ],
+    "label": "inconclusive"
+  },
+  {
+    "kind": "pairedChange",
+    "policy": "reliable",
+    "key": "treasure-thin",
+    "seat": 0,
+    "blocks": 32,
+    "pairs": 32,
+    "excludedBlocks": 0,
+    "exposureRate": 1,
+    "difference": -0.0625,
+    "interval": [
+      -0.28125,
+      0.15625
+    ],
+    "correctedInterval": [
+      -0.375,
+      0.25
+    ],
+    "label": "inconclusive"
+  },
+  {
+    "kind": "headToHead",
+    "policy": "reliable",
+    "key": "treasure-thin",
+    "seat": 1,
+    "share": 0.375,
+    "blocks": 32,
+    "pairs": 32,
+    "excludedBlocks": 0,
+    "exposureRate": 1,
+    "difference": -0.125,
+    "interval": [
+      -0.28125,
+      0.03125
+    ],
+    "correctedInterval": [
+      -0.359375,
+      0.125
+    ],
+    "label": "inconclusive"
+  },
+  {
+    "kind": "pairedChange",
+    "policy": "reliable",
+    "key": "treasure-thin",
+    "seat": 1,
+    "blocks": 32,
+    "pairs": 32,
+    "excludedBlocks": 0,
+    "exposureRate": 1,
+    "difference": -0.125,
+    "interval": [
+      -0.34375,
+      0.09375
+    ],
+    "correctedInterval": [
+      -0.4375,
+      0.1875
+    ],
+    "label": "inconclusive"
+  },
+  {
+    "kind": "headToHead",
+    "policy": "reliable",
+    "key": "engine",
+    "seat": 0,
+    "share": 0.84375,
+    "blocks": 32,
+    "pairs": 32,
+    "excludedBlocks": 0,
+    "exposureRate": 1,
+    "difference": 0.34375,
+    "interval": [
+      0.21875,
+      0.453125
+    ],
+    "correctedInterval": [
+      0.140625,
+      0.484375
+    ],
+    "label": "discovery signal"
+  },
+  {
+    "kind": "pairedChange",
+    "policy": "reliable",
+    "key": "engine",
+    "seat": 0,
+    "blocks": 32,
+    "pairs": 32,
+    "excludedBlocks": 0,
+    "exposureRate": 1,
+    "difference": 0.1875,
+    "interval": [
+      0.03125,
+      0.359375
+    ],
+    "correctedInterval": [
+      -0.0625,
+      0.453125
+    ],
+    "label": "inconclusive"
+  },
+  {
+    "kind": "headToHead",
+    "policy": "reliable",
+    "key": "engine",
+    "seat": 1,
+    "share": 0.53125,
+    "blocks": 32,
+    "pairs": 32,
+    "excludedBlocks": 0,
+    "exposureRate": 1,
+    "difference": 0.03125,
+    "interval": [
+      -0.15625,
+      0.21875
+    ],
+    "correctedInterval": [
+      -0.21875,
+      0.28125
+    ],
+    "label": "inconclusive"
+  },
+  {
+    "kind": "pairedChange",
+    "policy": "reliable",
+    "key": "engine",
+    "seat": 1,
+    "blocks": 32,
+    "pairs": 32,
+    "excludedBlocks": 0,
+    "exposureRate": 1,
+    "difference": 0.1875,
+    "interval": [
+      -0.03125,
+      0.40625
+    ],
+    "correctedInterval": [
+      -0.15625,
+      0.5
+    ],
+    "label": "inconclusive"
+  },
+  {
+    "kind": "headToHead",
+    "policy": "reliable",
+    "key": "engine-thin",
+    "seat": 0,
+    "share": 0.953125,
+    "blocks": 32,
+    "pairs": 32,
+    "excludedBlocks": 0,
+    "exposureRate": 1,
+    "difference": 0.453125,
+    "interval": [
+      0.375,
+      0.5
+    ],
+    "correctedInterval": [
+      0.328125,
+      0.5
+    ],
+    "label": "discovery signal"
+  },
+  {
+    "kind": "pairedChange",
+    "policy": "reliable",
+    "key": "engine-thin",
+    "seat": 0,
+    "blocks": 32,
+    "pairs": 32,
+    "excludedBlocks": 0,
+    "exposureRate": 1,
+    "difference": 0.4375,
+    "interval": [
+      0.25,
+      0.625
+    ],
+    "correctedInterval": [
+      0.140625,
+      0.71875
+    ],
+    "label": "discovery signal"
+  },
+  {
+    "kind": "headToHead",
+    "policy": "reliable",
+    "key": "engine-thin",
+    "seat": 1,
+    "share": 0.546875,
+    "blocks": 32,
+    "pairs": 32,
+    "excludedBlocks": 0,
+    "exposureRate": 1,
+    "difference": 0.046875,
+    "interval": [
+      -0.125,
+      0.21875
+    ],
+    "correctedInterval": [
+      -0.21875,
+      0.296875
+    ],
+    "label": "inconclusive"
+  },
+  {
+    "kind": "pairedChange",
+    "policy": "reliable",
+    "key": "engine-thin",
+    "seat": 1,
+    "blocks": 32,
+    "pairs": 32,
+    "excludedBlocks": 0,
+    "exposureRate": 1,
+    "difference": 0.0625,
+    "interval": [
+      -0.125,
+      0.25
+    ],
+    "correctedInterval": [
+      -0.21875,
+      0.34375
+    ],
+    "label": "inconclusive"
+  }
+]
