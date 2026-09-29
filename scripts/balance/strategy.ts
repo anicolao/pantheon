@@ -12,7 +12,7 @@ import { actionEffects, definition, leaderEffects, type PlayVariant, type Action
 import type { CardInstance, SetupState } from '../../src/lib/game/setup';
 import { chooseCommand, observe, type Observation } from './bot';
 
-export const strategyVersion = 18;
+export const strategyVersion = 19;
 export const families = ['treasure', 'engine', 'thin', 'worship', 'race'] as const;
 export type Family = typeof families[number];
 export type Parameters = { scoringAt: number; engineCopies: number; moneyFloor: number; worshipMargin: number };
@@ -21,7 +21,7 @@ export const candidates: Parameters[] = [
   { scoringAt: 5, engineCopies: 2, moneyFloor: 9, worshipMargin: 1 },
   { scoringAt: 2, engineCopies: 5, moneyFloor: 6, worshipMargin: 0 }
 ];
-export type Profile = { evaluation?: 'shuffle-3'|'shuffle-effective'; samplingPolicy?: SamplingPolicy; samplingMethod?: SamplingMethod; family: Family; parameters: Parameters; thinning?: boolean; race?: boolean; endGame?: boolean; endGamePolicy?: EndGamePolicy };
+export type Profile = { purchasePlanner?: 'pair'; evaluation?: 'shuffle-3'|'shuffle-effective'; samplingPolicy?: SamplingPolicy; samplingMethod?: SamplingMethod; family: Family; parameters: Parameters; thinning?: boolean; race?: boolean; endGame?: boolean; endGamePolicy?: EndGamePolicy };
 export type Restriction = { kind: 'event' | 'card' | 'leader-trigger'; id: string; scope: 'focal' | 'table' };
 export type PublicInventory = Record<string, Record<string, number>>;
 export type View = Observation & {
@@ -29,6 +29,7 @@ export type View = Observation & {
   raceHorizon?: number;
   endGame?: boolean; endGamePolicy?: EndGamePolicy;
   drawPileCount?: number; drawsPerTurn?: number; supplyRates?: Record<string,number>; horizonOverride?: number;
+  discard?: CardInstance[];
   play: CardInstance[]; events: string[]; playerCount: number; turn: number;
   opponentIncome: number[];
   scores: number[]; myScore: number; myTurns: number; opposingTurns: number[];
@@ -50,7 +51,7 @@ export function updateInventory(inventory: PublicInventory, game: SetupState, st
 }
 export function strategyView(game: SetupState, uid: string, inventory: PublicInventory, restriction?: Restriction, variant: PlayVariant = 'standard', unseenCount?: number): View {
   const score = (player: string) => Object.entries(inventory[player]).reduce((sum, [id, count]) => sum + (definition(id).vp ?? 0) * count, 0);
-  return { ...observe(game, uid), drawPileCount:game.decks[uid].deck.length, variant, leaderBonus: effectFeatures(restriction?.kind === 'leader-trigger' && restriction.id === game.leaders[uid] ? [] : leaderEffects(game.leaders[uid], variant)), unseenCount: unseenCount ?? game.decks[uid].deck.length + game.decks[uid].discard.length, play: structuredClone(game.decks[uid].play), events: variant === 'base-game' ? [] : [...game.sharedEvents],
+  return { ...observe(game, uid), drawPileCount:game.decks[uid].deck.length, variant, leaderBonus: effectFeatures(restriction?.kind === 'leader-trigger' && restriction.id === game.leaders[uid] ? [] : leaderEffects(game.leaders[uid], variant)), unseenCount: unseenCount ?? game.decks[uid].deck.length + game.decks[uid].discard.length, discard: structuredClone(game.decks[uid].discard), play: structuredClone(game.decks[uid].play), events: variant === 'base-game' ? [] : [...game.sharedEvents],
     playerCount: game.playerCount, turn: game.turn.number, myTurns: game.turn.turns[uid] ?? 0,
     opposingTurns: game.players.filter(player => player.uid !== uid).map(player => game.turn.turns[player.uid] ?? 0),
     opponentIncome: game.players.filter(player => player.uid !== uid).map(player => { const cards = inventory[player.uid]; return 5 * Object.entries(cards).reduce((sum, [id, n]) => sum + n * (treasureValue(id) + cardFeatures(id, variant).coins), 0) / Math.max(5, Object.values(cards).reduce((a,b) => a+b, 0)); }),
