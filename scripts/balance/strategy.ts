@@ -1,3 +1,4 @@
+import {endGamePurchase,endGameGain} from './end-game';
 import {raceView,racePurchase,raceGain,racePointEligible} from './race';
 import {objectiveToolPremium, objectiveTrashChoice, objectiveGain, objectivePlayBonus, isThinningTool} from './objective-thin';
 import { moneyPurchase, moneyBuy, moneyDiscard, moneyAction } from './money';
@@ -9,7 +10,7 @@ import { actionEffects, definition, leaderEffects, type PlayVariant, type Action
 import type { CardInstance, SetupState } from '../../src/lib/game/setup';
 import { chooseCommand, observe, type Observation } from './bot';
 
-export const strategyVersion = 10;
+export const strategyVersion = 11;
 export const families = ['treasure', 'engine', 'thin', 'worship', 'race'] as const;
 export type Family = typeof families[number];
 export type Parameters = { scoringAt: number; engineCopies: number; moneyFloor: number; worshipMargin: number };
@@ -18,12 +19,13 @@ export const candidates: Parameters[] = [
   { scoringAt: 5, engineCopies: 2, moneyFloor: 9, worshipMargin: 1 },
   { scoringAt: 2, engineCopies: 5, moneyFloor: 6, worshipMargin: 0 }
 ];
-export type Profile = { family: Family; parameters: Parameters; thinning?: boolean; race?: boolean };
+export type Profile = { family: Family; parameters: Parameters; thinning?: boolean; race?: boolean; endGame?: boolean };
 export type Restriction = { kind: 'event' | 'card' | 'leader-trigger'; id: string; scope: 'focal' | 'table' };
 export type PublicInventory = Record<string, Record<string, number>>;
 export type View = Observation & {
   leaderBonus: Features; unseenCount: number;
   raceHorizon?: number;
+  endGame?: boolean;
   play: CardInstance[]; events: string[]; playerCount: number; turn: number;
   opponentIncome: number[];
   scores: number[]; myScore: number; myTurns: number; opposingTurns: number[];
@@ -178,6 +180,10 @@ function worshipValue(view: View, profile: Profile, event: string): number {
   }
 }
 export function strategyCommand(view: View, profile: Profile): ActionCommand {
+  if(profile.endGame!==undefined && profile.family!=='treasure' && profile.family!=='engine')throw new Error('End Game requires a Money or Engine objective');
+  if(profile.endGame && profile.race)throw new Error('End Game replaces Race; do not combine them');
+  if(profile.endGame)view={...view,endGame:true};
+
   if (profile.race !== undefined && profile.family !== 'engine' && profile.family !== 'treasure') throw new Error('Orthogonal Race requires a Money or Engine objective');
   view = raceView(view, profile);
   if (profile.thinning !== undefined && profile.family !== 'engine' && profile.family !== 'treasure') throw new Error('Orthogonal thinning requires a Money or Engine objective');
@@ -190,6 +196,13 @@ export function strategyCommand(view: View, profile: Profile): ActionCommand {
   if (view.choice?.kind === 'gain' && objective && isThinningTool(view, view.choice.source)) {
     const id=objectiveGain(view,objective,view.choice);
     return {type:'choice/resolved',choiceId:view.choice.id,targets:id?[id]:[]};
+  }
+  if(profile.endGame && view.choice?.kind==='gain'){
+    const id=endGameGain(view,gains(view,view.choice.limit!,view.choice.actionOnly));
+    if(id)return {type:'choice/resolved',choiceId:view.choice.id,targets:[id]};
+  }
+  if(profile.endGame && !view.choice && (view.phase==='buys'||view.phase==='treasures'&&!view.hand.some(c=>definition(c.cardId).type==='Treasure'))){
+    const points=endGamePurchase(view);if(points)return points;
   }
   if (profile.race && view.choice?.kind === 'gain') {
     const id=raceGain(view,gains(view,view.choice.limit!,view.choice.actionOnly));
