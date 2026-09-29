@@ -588,27 +588,6 @@ Viewpoint: **Theseus**.
 
 - [x] Theseus receives turn 2
 
-## Theseus is asked before leaving a playable Temple
-
-Viewpoint: **Theseus**.
-
-<table>
-<tr><th>Desktop · 1440 × 1000</th><th>Phone · 393 × 852</th></tr>
-<tr>
-<td valign="top"><a href="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/028-turn-2-leave-action-desktop-darwin.png"><img src="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/028-turn-2-leave-action-desktop-darwin.png" alt="Theseus is asked before leaving a playable Temple — desktop" width="720"></a></td>
-<td valign="top"><a href="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/028-turn-2-leave-action-phone-darwin.png"><img src="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/028-turn-2-leave-action-phone-darwin.png" alt="Theseus is asked before leaving a playable Temple — phone" width="240"></a></td>
-</tr>
-</table>
-
-<details>
-<summary>Tabletop · 3840 × 2160 — expand screenshot</summary>
-
-<a href="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/028-turn-2-leave-action-tabletop-4k-darwin.png"><img src="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/028-turn-2-leave-action-tabletop-4k-darwin.png" alt="Theseus is asked before leaving a playable Temple — tabletop-4k" width="960"></a>
-
-</details>
-
-- [x] Theseus is asked before leaving a playable Temple
-
 ## Theseus chooses to play wealth on turn 2
 
 Viewpoint: **Theseus**.
@@ -616,15 +595,15 @@ Viewpoint: **Theseus**.
 <table>
 <tr><th>Desktop · 1440 × 1000</th><th>Phone · 393 × 852</th></tr>
 <tr>
-<td valign="top"><a href="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/029-turn-2-treasures-desktop-darwin.png"><img src="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/029-turn-2-treasures-desktop-darwin.png" alt="Theseus chooses to play wealth on turn 2 — desktop" width="720"></a></td>
-<td valign="top"><a href="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/029-turn-2-treasures-phone-darwin.png"><img src="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/029-turn-2-treasures-phone-darwin.png" alt="Theseus chooses to play wealth on turn 2 — phone" width="240"></a></td>
+<td valign="top"><a href="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/028-turn-2-treasures-desktop-darwin.png"><img src="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/028-turn-2-treasures-desktop-darwin.png" alt="Theseus chooses to play wealth on turn 2 — desktop" width="720"></a></td>
+<td valign="top"><a href="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/028-turn-2-treasures-phone-darwin.png"><img src="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/028-turn-2-treasures-phone-darwin.png" alt="Theseus chooses to play wealth on turn 2 — phone" width="240"></a></td>
 </tr>
 </table>
 
 <details>
 <summary>Tabletop · 3840 × 2160 — expand screenshot</summary>
 
-<a href="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/029-turn-2-treasures-tabletop-4k-darwin.png"><img src="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/029-turn-2-treasures-tabletop-4k-darwin.png" alt="Theseus chooses to play wealth on turn 2 — tabletop-4k" width="960"></a>
+<a href="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/028-turn-2-treasures-tabletop-4k-darwin.png"><img src="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/028-turn-2-treasures-tabletop-4k-darwin.png" alt="Theseus chooses to play wealth on turn 2 — tabletop-4k" width="960"></a>
 
 </details>
 
@@ -637,15 +616,15 @@ Viewpoint: **Theseus**.
 <table>
 <tr><th>Desktop · 1440 × 1000</th><th>Phone · 393 × 852</th></tr>
 <tr>
-<td valign="top"><a href="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/030-turn-2-wealth-desktop-darwin.png"><img src="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/030-turn-2-wealth-desktop-darwin.png" alt="Theseus earns 2 Coins — desktop" width="720"></a></td>
-<td valign="top"><a href="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/030-turn-2-wealth-phone-darwin.png"><img src="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/030-turn-2-wealth-phone-darwin.png" alt="Theseus earns 2 Coins — phone" width="240"></a></td>
+<td valign="top"><a href="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/029-turn-2-wealth-desktop-darwin.png"><img src="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/029-turn-2-wealth-desktop-darwin.png" alt="Theseus earns 2 Coins — desktop" width="720"></a></td>
+<td valign="top"><a href="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/029-turn-2-wealth-phone-darwin.png"><img src="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/029-turn-2-wealth-phone-darwin.png" alt="Theseus earns 2 Coins — phone" width="240"></a></td>
 </tr>
 </table>
 
 <details>
 <summary>Tabletop · 3840 × 2160 — expand screenshot</summary>
 
-<a href="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/030-turn-2-wealth-tabletop-4k-darwin.png"><img src="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/030-turn-2-wealth-tabletop-4k-darwin.png" alt="Theseus earns 2 Coins — tabletop-4k" width="960"></a>
+<a href="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/029-turn-2-wealth-tabletop-4k-darwin.png"><img src="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/029-turn-2-wealth-tabletop-4k-darwin.png" alt="Theseus earns 2 Coins — tabletop-4k" width="960"></a>
 
 </details>
 
@@ -658,15 +637,15 @@ Viewpoint: **Theseus**.
 <table>
 <tr><th>Desktop · 1440 × 1000</th><th>Phone · 393 × 852</th></tr>
 <tr>
-<td valign="top"><a href="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/031-turn-2-confirm-desktop-darwin.png"><img src="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/031-turn-2-confirm-desktop-darwin.png" alt="Theseus confirms leaving the available purchases — desktop" width="720"></a></td>
-<td valign="top"><a href="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/031-turn-2-confirm-phone-darwin.png"><img src="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/031-turn-2-confirm-phone-darwin.png" alt="Theseus confirms leaving the available purchases — phone" width="240"></a></td>
+<td valign="top"><a href="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/030-turn-2-confirm-desktop-darwin.png"><img src="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/030-turn-2-confirm-desktop-darwin.png" alt="Theseus confirms leaving the available purchases — desktop" width="720"></a></td>
+<td valign="top"><a href="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/030-turn-2-confirm-phone-darwin.png"><img src="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/030-turn-2-confirm-phone-darwin.png" alt="Theseus confirms leaving the available purchases — phone" width="240"></a></td>
 </tr>
 </table>
 
 <details>
 <summary>Tabletop · 3840 × 2160 — expand screenshot</summary>
 
-<a href="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/031-turn-2-confirm-tabletop-4k-darwin.png"><img src="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/031-turn-2-confirm-tabletop-4k-darwin.png" alt="Theseus confirms leaving the available purchases — tabletop-4k" width="960"></a>
+<a href="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/030-turn-2-confirm-tabletop-4k-darwin.png"><img src="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/030-turn-2-confirm-tabletop-4k-darwin.png" alt="Theseus confirms leaving the available purchases — tabletop-4k" width="960"></a>
 
 </details>
 
@@ -679,15 +658,15 @@ Viewpoint: **Theseus**.
 <table>
 <tr><th>Desktop · 1440 × 1000</th><th>Phone · 393 × 852</th></tr>
 <tr>
-<td valign="top"><a href="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/032-turn-2-finished-desktop-darwin.png"><img src="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/032-turn-2-finished-desktop-darwin.png" alt="Theseus draws five and hands off the turn — desktop" width="720"></a></td>
-<td valign="top"><a href="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/032-turn-2-finished-phone-darwin.png"><img src="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/032-turn-2-finished-phone-darwin.png" alt="Theseus draws five and hands off the turn — phone" width="240"></a></td>
+<td valign="top"><a href="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/031-turn-2-finished-desktop-darwin.png"><img src="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/031-turn-2-finished-desktop-darwin.png" alt="Theseus draws five and hands off the turn — desktop" width="720"></a></td>
+<td valign="top"><a href="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/031-turn-2-finished-phone-darwin.png"><img src="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/031-turn-2-finished-phone-darwin.png" alt="Theseus draws five and hands off the turn — phone" width="240"></a></td>
 </tr>
 </table>
 
 <details>
 <summary>Tabletop · 3840 × 2160 — expand screenshot</summary>
 
-<a href="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/032-turn-2-finished-tabletop-4k-darwin.png"><img src="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/032-turn-2-finished-tabletop-4k-darwin.png" alt="Theseus draws five and hands off the turn — tabletop-4k" width="960"></a>
+<a href="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/031-turn-2-finished-tabletop-4k-darwin.png"><img src="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/031-turn-2-finished-tabletop-4k-darwin.png" alt="Theseus draws five and hands off the turn — tabletop-4k" width="960"></a>
 
 </details>
 
@@ -700,40 +679,19 @@ Viewpoint: **Ariadne**.
 <table>
 <tr><th>Desktop · 1440 × 1000</th><th>Phone · 393 × 852</th></tr>
 <tr>
-<td valign="top"><a href="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/033-turn-3-desktop-darwin.png"><img src="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/033-turn-3-desktop-darwin.png" alt="Ariadne receives turn 3 — desktop" width="720"></a></td>
-<td valign="top"><a href="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/033-turn-3-phone-darwin.png"><img src="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/033-turn-3-phone-darwin.png" alt="Ariadne receives turn 3 — phone" width="240"></a></td>
+<td valign="top"><a href="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/032-turn-3-desktop-darwin.png"><img src="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/032-turn-3-desktop-darwin.png" alt="Ariadne receives turn 3 — desktop" width="720"></a></td>
+<td valign="top"><a href="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/032-turn-3-phone-darwin.png"><img src="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/032-turn-3-phone-darwin.png" alt="Ariadne receives turn 3 — phone" width="240"></a></td>
 </tr>
 </table>
 
 <details>
 <summary>Tabletop · 3840 × 2160 — expand screenshot</summary>
 
-<a href="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/033-turn-3-tabletop-4k-darwin.png"><img src="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/033-turn-3-tabletop-4k-darwin.png" alt="Ariadne receives turn 3 — tabletop-4k" width="960"></a>
+<a href="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/032-turn-3-tabletop-4k-darwin.png"><img src="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/032-turn-3-tabletop-4k-darwin.png" alt="Ariadne receives turn 3 — tabletop-4k" width="960"></a>
 
 </details>
 
 - [x] Ariadne receives turn 3
-
-## Ariadne is asked before leaving a playable Temple
-
-Viewpoint: **Ariadne**.
-
-<table>
-<tr><th>Desktop · 1440 × 1000</th><th>Phone · 393 × 852</th></tr>
-<tr>
-<td valign="top"><a href="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/034-turn-3-leave-action-desktop-darwin.png"><img src="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/034-turn-3-leave-action-desktop-darwin.png" alt="Ariadne is asked before leaving a playable Temple — desktop" width="720"></a></td>
-<td valign="top"><a href="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/034-turn-3-leave-action-phone-darwin.png"><img src="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/034-turn-3-leave-action-phone-darwin.png" alt="Ariadne is asked before leaving a playable Temple — phone" width="240"></a></td>
-</tr>
-</table>
-
-<details>
-<summary>Tabletop · 3840 × 2160 — expand screenshot</summary>
-
-<a href="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/034-turn-3-leave-action-tabletop-4k-darwin.png"><img src="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/034-turn-3-leave-action-tabletop-4k-darwin.png" alt="Ariadne is asked before leaving a playable Temple — tabletop-4k" width="960"></a>
-
-</details>
-
-- [x] Ariadne is asked before leaving a playable Temple
 
 ## Ariadne chooses to play wealth on turn 3
 
@@ -742,15 +700,15 @@ Viewpoint: **Ariadne**.
 <table>
 <tr><th>Desktop · 1440 × 1000</th><th>Phone · 393 × 852</th></tr>
 <tr>
-<td valign="top"><a href="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/035-turn-3-treasures-desktop-darwin.png"><img src="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/035-turn-3-treasures-desktop-darwin.png" alt="Ariadne chooses to play wealth on turn 3 — desktop" width="720"></a></td>
-<td valign="top"><a href="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/035-turn-3-treasures-phone-darwin.png"><img src="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/035-turn-3-treasures-phone-darwin.png" alt="Ariadne chooses to play wealth on turn 3 — phone" width="240"></a></td>
+<td valign="top"><a href="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/033-turn-3-treasures-desktop-darwin.png"><img src="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/033-turn-3-treasures-desktop-darwin.png" alt="Ariadne chooses to play wealth on turn 3 — desktop" width="720"></a></td>
+<td valign="top"><a href="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/033-turn-3-treasures-phone-darwin.png"><img src="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/033-turn-3-treasures-phone-darwin.png" alt="Ariadne chooses to play wealth on turn 3 — phone" width="240"></a></td>
 </tr>
 </table>
 
 <details>
 <summary>Tabletop · 3840 × 2160 — expand screenshot</summary>
 
-<a href="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/035-turn-3-treasures-tabletop-4k-darwin.png"><img src="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/035-turn-3-treasures-tabletop-4k-darwin.png" alt="Ariadne chooses to play wealth on turn 3 — tabletop-4k" width="960"></a>
+<a href="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/033-turn-3-treasures-tabletop-4k-darwin.png"><img src="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/033-turn-3-treasures-tabletop-4k-darwin.png" alt="Ariadne chooses to play wealth on turn 3 — tabletop-4k" width="960"></a>
 
 </details>
 
@@ -763,15 +721,15 @@ Viewpoint: **Ariadne**.
 <table>
 <tr><th>Desktop · 1440 × 1000</th><th>Phone · 393 × 852</th></tr>
 <tr>
-<td valign="top"><a href="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/036-turn-3-wealth-desktop-darwin.png"><img src="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/036-turn-3-wealth-desktop-darwin.png" alt="Ariadne earns 4 Coins — desktop" width="720"></a></td>
-<td valign="top"><a href="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/036-turn-3-wealth-phone-darwin.png"><img src="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/036-turn-3-wealth-phone-darwin.png" alt="Ariadne earns 4 Coins — phone" width="240"></a></td>
+<td valign="top"><a href="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/034-turn-3-wealth-desktop-darwin.png"><img src="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/034-turn-3-wealth-desktop-darwin.png" alt="Ariadne earns 4 Coins — desktop" width="720"></a></td>
+<td valign="top"><a href="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/034-turn-3-wealth-phone-darwin.png"><img src="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/034-turn-3-wealth-phone-darwin.png" alt="Ariadne earns 4 Coins — phone" width="240"></a></td>
 </tr>
 </table>
 
 <details>
 <summary>Tabletop · 3840 × 2160 — expand screenshot</summary>
 
-<a href="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/036-turn-3-wealth-tabletop-4k-darwin.png"><img src="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/036-turn-3-wealth-tabletop-4k-darwin.png" alt="Ariadne earns 4 Coins — tabletop-4k" width="960"></a>
+<a href="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/034-turn-3-wealth-tabletop-4k-darwin.png"><img src="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/034-turn-3-wealth-tabletop-4k-darwin.png" alt="Ariadne earns 4 Coins — tabletop-4k" width="960"></a>
 
 </details>
 
@@ -784,15 +742,15 @@ Viewpoint: **Ariadne**.
 <table>
 <tr><th>Desktop · 1440 × 1000</th><th>Phone · 393 × 852</th></tr>
 <tr>
-<td valign="top"><a href="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/037-turn-3-confirm-desktop-darwin.png"><img src="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/037-turn-3-confirm-desktop-darwin.png" alt="Ariadne confirms leaving the available purchases — desktop" width="720"></a></td>
-<td valign="top"><a href="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/037-turn-3-confirm-phone-darwin.png"><img src="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/037-turn-3-confirm-phone-darwin.png" alt="Ariadne confirms leaving the available purchases — phone" width="240"></a></td>
+<td valign="top"><a href="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/035-turn-3-confirm-desktop-darwin.png"><img src="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/035-turn-3-confirm-desktop-darwin.png" alt="Ariadne confirms leaving the available purchases — desktop" width="720"></a></td>
+<td valign="top"><a href="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/035-turn-3-confirm-phone-darwin.png"><img src="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/035-turn-3-confirm-phone-darwin.png" alt="Ariadne confirms leaving the available purchases — phone" width="240"></a></td>
 </tr>
 </table>
 
 <details>
 <summary>Tabletop · 3840 × 2160 — expand screenshot</summary>
 
-<a href="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/037-turn-3-confirm-tabletop-4k-darwin.png"><img src="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/037-turn-3-confirm-tabletop-4k-darwin.png" alt="Ariadne confirms leaving the available purchases — tabletop-4k" width="960"></a>
+<a href="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/035-turn-3-confirm-tabletop-4k-darwin.png"><img src="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/035-turn-3-confirm-tabletop-4k-darwin.png" alt="Ariadne confirms leaving the available purchases — tabletop-4k" width="960"></a>
 
 </details>
 
@@ -805,15 +763,15 @@ Viewpoint: **Ariadne**.
 <table>
 <tr><th>Desktop · 1440 × 1000</th><th>Phone · 393 × 852</th></tr>
 <tr>
-<td valign="top"><a href="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/038-turn-3-finished-desktop-darwin.png"><img src="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/038-turn-3-finished-desktop-darwin.png" alt="Ariadne draws five and hands off the turn — desktop" width="720"></a></td>
-<td valign="top"><a href="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/038-turn-3-finished-phone-darwin.png"><img src="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/038-turn-3-finished-phone-darwin.png" alt="Ariadne draws five and hands off the turn — phone" width="240"></a></td>
+<td valign="top"><a href="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/036-turn-3-finished-desktop-darwin.png"><img src="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/036-turn-3-finished-desktop-darwin.png" alt="Ariadne draws five and hands off the turn — desktop" width="720"></a></td>
+<td valign="top"><a href="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/036-turn-3-finished-phone-darwin.png"><img src="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/036-turn-3-finished-phone-darwin.png" alt="Ariadne draws five and hands off the turn — phone" width="240"></a></td>
 </tr>
 </table>
 
 <details>
 <summary>Tabletop · 3840 × 2160 — expand screenshot</summary>
 
-<a href="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/038-turn-3-finished-tabletop-4k-darwin.png"><img src="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/038-turn-3-finished-tabletop-4k-darwin.png" alt="Ariadne draws five and hands off the turn — tabletop-4k" width="960"></a>
+<a href="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/036-turn-3-finished-tabletop-4k-darwin.png"><img src="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/036-turn-3-finished-tabletop-4k-darwin.png" alt="Ariadne draws five and hands off the turn — tabletop-4k" width="960"></a>
 
 </details>
 
@@ -826,15 +784,15 @@ Viewpoint: **Theseus**.
 <table>
 <tr><th>Desktop · 1440 × 1000</th><th>Phone · 393 × 852</th></tr>
 <tr>
-<td valign="top"><a href="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/039-turn-4-desktop-darwin.png"><img src="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/039-turn-4-desktop-darwin.png" alt="Theseus receives turn 4 — desktop" width="720"></a></td>
-<td valign="top"><a href="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/039-turn-4-phone-darwin.png"><img src="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/039-turn-4-phone-darwin.png" alt="Theseus receives turn 4 — phone" width="240"></a></td>
+<td valign="top"><a href="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/037-turn-4-desktop-darwin.png"><img src="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/037-turn-4-desktop-darwin.png" alt="Theseus receives turn 4 — desktop" width="720"></a></td>
+<td valign="top"><a href="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/037-turn-4-phone-darwin.png"><img src="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/037-turn-4-phone-darwin.png" alt="Theseus receives turn 4 — phone" width="240"></a></td>
 </tr>
 </table>
 
 <details>
 <summary>Tabletop · 3840 × 2160 — expand screenshot</summary>
 
-<a href="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/039-turn-4-tabletop-4k-darwin.png"><img src="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/039-turn-4-tabletop-4k-darwin.png" alt="Theseus receives turn 4 — tabletop-4k" width="960"></a>
+<a href="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/037-turn-4-tabletop-4k-darwin.png"><img src="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/037-turn-4-tabletop-4k-darwin.png" alt="Theseus receives turn 4 — tabletop-4k" width="960"></a>
 
 </details>
 
@@ -847,15 +805,15 @@ Viewpoint: **Theseus**.
 <table>
 <tr><th>Desktop · 1440 × 1000</th><th>Phone · 393 × 852</th></tr>
 <tr>
-<td valign="top"><a href="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/040-turn-4-treasures-desktop-darwin.png"><img src="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/040-turn-4-treasures-desktop-darwin.png" alt="Theseus chooses to play wealth on turn 4 — desktop" width="720"></a></td>
-<td valign="top"><a href="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/040-turn-4-treasures-phone-darwin.png"><img src="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/040-turn-4-treasures-phone-darwin.png" alt="Theseus chooses to play wealth on turn 4 — phone" width="240"></a></td>
+<td valign="top"><a href="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/038-turn-4-treasures-desktop-darwin.png"><img src="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/038-turn-4-treasures-desktop-darwin.png" alt="Theseus chooses to play wealth on turn 4 — desktop" width="720"></a></td>
+<td valign="top"><a href="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/038-turn-4-treasures-phone-darwin.png"><img src="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/038-turn-4-treasures-phone-darwin.png" alt="Theseus chooses to play wealth on turn 4 — phone" width="240"></a></td>
 </tr>
 </table>
 
 <details>
 <summary>Tabletop · 3840 × 2160 — expand screenshot</summary>
 
-<a href="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/040-turn-4-treasures-tabletop-4k-darwin.png"><img src="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/040-turn-4-treasures-tabletop-4k-darwin.png" alt="Theseus chooses to play wealth on turn 4 — tabletop-4k" width="960"></a>
+<a href="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/038-turn-4-treasures-tabletop-4k-darwin.png"><img src="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/038-turn-4-treasures-tabletop-4k-darwin.png" alt="Theseus chooses to play wealth on turn 4 — tabletop-4k" width="960"></a>
 
 </details>
 
@@ -868,15 +826,15 @@ Viewpoint: **Theseus**.
 <table>
 <tr><th>Desktop · 1440 × 1000</th><th>Phone · 393 × 852</th></tr>
 <tr>
-<td valign="top"><a href="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/041-turn-4-wealth-desktop-darwin.png"><img src="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/041-turn-4-wealth-desktop-darwin.png" alt="Theseus earns 4 Coins — desktop" width="720"></a></td>
-<td valign="top"><a href="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/041-turn-4-wealth-phone-darwin.png"><img src="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/041-turn-4-wealth-phone-darwin.png" alt="Theseus earns 4 Coins — phone" width="240"></a></td>
+<td valign="top"><a href="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/039-turn-4-wealth-desktop-darwin.png"><img src="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/039-turn-4-wealth-desktop-darwin.png" alt="Theseus earns 4 Coins — desktop" width="720"></a></td>
+<td valign="top"><a href="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/039-turn-4-wealth-phone-darwin.png"><img src="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/039-turn-4-wealth-phone-darwin.png" alt="Theseus earns 4 Coins — phone" width="240"></a></td>
 </tr>
 </table>
 
 <details>
 <summary>Tabletop · 3840 × 2160 — expand screenshot</summary>
 
-<a href="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/041-turn-4-wealth-tabletop-4k-darwin.png"><img src="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/041-turn-4-wealth-tabletop-4k-darwin.png" alt="Theseus earns 4 Coins — tabletop-4k" width="960"></a>
+<a href="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/039-turn-4-wealth-tabletop-4k-darwin.png"><img src="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/039-turn-4-wealth-tabletop-4k-darwin.png" alt="Theseus earns 4 Coins — tabletop-4k" width="960"></a>
 
 </details>
 
@@ -889,15 +847,15 @@ Viewpoint: **Theseus**.
 <table>
 <tr><th>Desktop · 1440 × 1000</th><th>Phone · 393 × 852</th></tr>
 <tr>
-<td valign="top"><a href="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/042-turn-4-confirm-desktop-darwin.png"><img src="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/042-turn-4-confirm-desktop-darwin.png" alt="Theseus confirms leaving the available purchases — desktop" width="720"></a></td>
-<td valign="top"><a href="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/042-turn-4-confirm-phone-darwin.png"><img src="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/042-turn-4-confirm-phone-darwin.png" alt="Theseus confirms leaving the available purchases — phone" width="240"></a></td>
+<td valign="top"><a href="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/040-turn-4-confirm-desktop-darwin.png"><img src="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/040-turn-4-confirm-desktop-darwin.png" alt="Theseus confirms leaving the available purchases — desktop" width="720"></a></td>
+<td valign="top"><a href="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/040-turn-4-confirm-phone-darwin.png"><img src="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/040-turn-4-confirm-phone-darwin.png" alt="Theseus confirms leaving the available purchases — phone" width="240"></a></td>
 </tr>
 </table>
 
 <details>
 <summary>Tabletop · 3840 × 2160 — expand screenshot</summary>
 
-<a href="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/042-turn-4-confirm-tabletop-4k-darwin.png"><img src="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/042-turn-4-confirm-tabletop-4k-darwin.png" alt="Theseus confirms leaving the available purchases — tabletop-4k" width="960"></a>
+<a href="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/040-turn-4-confirm-tabletop-4k-darwin.png"><img src="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/040-turn-4-confirm-tabletop-4k-darwin.png" alt="Theseus confirms leaving the available purchases — tabletop-4k" width="960"></a>
 
 </details>
 
@@ -910,15 +868,15 @@ Viewpoint: **Theseus**.
 <table>
 <tr><th>Desktop · 1440 × 1000</th><th>Phone · 393 × 852</th></tr>
 <tr>
-<td valign="top"><a href="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/043-turn-4-finished-desktop-darwin.png"><img src="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/043-turn-4-finished-desktop-darwin.png" alt="Theseus draws five and hands off the turn — desktop" width="720"></a></td>
-<td valign="top"><a href="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/043-turn-4-finished-phone-darwin.png"><img src="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/043-turn-4-finished-phone-darwin.png" alt="Theseus draws five and hands off the turn — phone" width="240"></a></td>
+<td valign="top"><a href="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/041-turn-4-finished-desktop-darwin.png"><img src="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/041-turn-4-finished-desktop-darwin.png" alt="Theseus draws five and hands off the turn — desktop" width="720"></a></td>
+<td valign="top"><a href="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/041-turn-4-finished-phone-darwin.png"><img src="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/041-turn-4-finished-phone-darwin.png" alt="Theseus draws five and hands off the turn — phone" width="240"></a></td>
 </tr>
 </table>
 
 <details>
 <summary>Tabletop · 3840 × 2160 — expand screenshot</summary>
 
-<a href="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/043-turn-4-finished-tabletop-4k-darwin.png"><img src="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/043-turn-4-finished-tabletop-4k-darwin.png" alt="Theseus draws five and hands off the turn — tabletop-4k" width="960"></a>
+<a href="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/041-turn-4-finished-tabletop-4k-darwin.png"><img src="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/041-turn-4-finished-tabletop-4k-darwin.png" alt="Theseus draws five and hands off the turn — tabletop-4k" width="960"></a>
 
 </details>
 
@@ -931,15 +889,15 @@ Viewpoint: **Ariadne**.
 <table>
 <tr><th>Desktop · 1440 × 1000</th><th>Phone · 393 × 852</th></tr>
 <tr>
-<td valign="top"><a href="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/044-purchased-in-hand-desktop-darwin.png"><img src="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/044-purchased-in-hand-desktop-darwin.png" alt="On turn five Ariadne holds the Action she bought — desktop" width="720"></a></td>
-<td valign="top"><a href="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/044-purchased-in-hand-phone-darwin.png"><img src="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/044-purchased-in-hand-phone-darwin.png" alt="On turn five Ariadne holds the Action she bought — phone" width="240"></a></td>
+<td valign="top"><a href="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/042-purchased-in-hand-desktop-darwin.png"><img src="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/042-purchased-in-hand-desktop-darwin.png" alt="On turn five Ariadne holds the Action she bought — desktop" width="720"></a></td>
+<td valign="top"><a href="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/042-purchased-in-hand-phone-darwin.png"><img src="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/042-purchased-in-hand-phone-darwin.png" alt="On turn five Ariadne holds the Action she bought — phone" width="240"></a></td>
 </tr>
 </table>
 
 <details>
 <summary>Tabletop · 3840 × 2160 — expand screenshot</summary>
 
-<a href="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/044-purchased-in-hand-tabletop-4k-darwin.png"><img src="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/044-purchased-in-hand-tabletop-4k-darwin.png" alt="On turn five Ariadne holds the Action she bought — tabletop-4k" width="960"></a>
+<a href="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/042-purchased-in-hand-tabletop-4k-darwin.png"><img src="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/042-purchased-in-hand-tabletop-4k-darwin.png" alt="On turn five Ariadne holds the Action she bought — tabletop-4k" width="960"></a>
 
 </details>
 
@@ -952,15 +910,15 @@ Viewpoint: **Ariadne**.
 <table>
 <tr><th>Desktop · 1440 × 1000</th><th>Phone · 393 × 852</th></tr>
 <tr>
-<td valign="top"><a href="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/045-purchased-inspector-desktop-darwin.png"><img src="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/045-purchased-inspector-desktop-darwin.png" alt="Ariadne inspects the purchased physical copy — desktop" width="720"></a></td>
-<td valign="top"><a href="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/045-purchased-inspector-phone-darwin.png"><img src="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/045-purchased-inspector-phone-darwin.png" alt="Ariadne inspects the purchased physical copy — phone" width="240"></a></td>
+<td valign="top"><a href="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/043-purchased-inspector-desktop-darwin.png"><img src="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/043-purchased-inspector-desktop-darwin.png" alt="Ariadne inspects the purchased physical copy — desktop" width="720"></a></td>
+<td valign="top"><a href="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/043-purchased-inspector-phone-darwin.png"><img src="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/043-purchased-inspector-phone-darwin.png" alt="Ariadne inspects the purchased physical copy — phone" width="240"></a></td>
 </tr>
 </table>
 
 <details>
 <summary>Tabletop · 3840 × 2160 — expand screenshot</summary>
 
-<a href="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/045-purchased-inspector-tabletop-4k-darwin.png"><img src="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/045-purchased-inspector-tabletop-4k-darwin.png" alt="Ariadne inspects the purchased physical copy — tabletop-4k" width="960"></a>
+<a href="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/043-purchased-inspector-tabletop-4k-darwin.png"><img src="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/043-purchased-inspector-tabletop-4k-darwin.png" alt="Ariadne inspects the purchased physical copy — tabletop-4k" width="960"></a>
 
 </details>
 
@@ -973,15 +931,15 @@ Viewpoint: **Ariadne**.
 <table>
 <tr><th>Desktop · 1440 × 1000</th><th>Phone · 393 × 852</th></tr>
 <tr>
-<td valign="top"><a href="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/046-purchased-played-desktop-darwin.png"><img src="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/046-purchased-played-desktop-darwin.png" alt="The Action draws a card and Thaleia adds her Action reward — desktop" width="720"></a></td>
-<td valign="top"><a href="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/046-purchased-played-phone-darwin.png"><img src="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/046-purchased-played-phone-darwin.png" alt="The Action draws a card and Thaleia adds her Action reward — phone" width="240"></a></td>
+<td valign="top"><a href="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/044-purchased-played-desktop-darwin.png"><img src="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/044-purchased-played-desktop-darwin.png" alt="The Action draws a card and Thaleia adds her Action reward — desktop" width="720"></a></td>
+<td valign="top"><a href="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/044-purchased-played-phone-darwin.png"><img src="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/044-purchased-played-phone-darwin.png" alt="The Action draws a card and Thaleia adds her Action reward — phone" width="240"></a></td>
 </tr>
 </table>
 
 <details>
 <summary>Tabletop · 3840 × 2160 — expand screenshot</summary>
 
-<a href="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/046-purchased-played-tabletop-4k-darwin.png"><img src="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/046-purchased-played-tabletop-4k-darwin.png" alt="The Action draws a card and Thaleia adds her Action reward — tabletop-4k" width="960"></a>
+<a href="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/044-purchased-played-tabletop-4k-darwin.png"><img src="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/044-purchased-played-tabletop-4k-darwin.png" alt="The Action draws a card and Thaleia adds her Action reward — tabletop-4k" width="960"></a>
 
 </details>
 
@@ -994,15 +952,15 @@ Viewpoint: **Theseus**.
 <table>
 <tr><th>Desktop · 1440 × 1000</th><th>Phone · 393 × 852</th></tr>
 <tr>
-<td valign="top"><a href="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/047-played-observer-desktop-darwin.png"><img src="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/047-played-observer-desktop-darwin.png" alt="Theseus sees the Action and reward without seeing the private draw — desktop" width="720"></a></td>
-<td valign="top"><a href="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/047-played-observer-phone-darwin.png"><img src="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/047-played-observer-phone-darwin.png" alt="Theseus sees the Action and reward without seeing the private draw — phone" width="240"></a></td>
+<td valign="top"><a href="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/045-played-observer-desktop-darwin.png"><img src="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/045-played-observer-desktop-darwin.png" alt="Theseus sees the Action and reward without seeing the private draw — desktop" width="720"></a></td>
+<td valign="top"><a href="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/045-played-observer-phone-darwin.png"><img src="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/045-played-observer-phone-darwin.png" alt="Theseus sees the Action and reward without seeing the private draw — phone" width="240"></a></td>
 </tr>
 </table>
 
 <details>
 <summary>Tabletop · 3840 × 2160 — expand screenshot</summary>
 
-<a href="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/047-played-observer-tabletop-4k-darwin.png"><img src="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/047-played-observer-tabletop-4k-darwin.png" alt="Theseus sees the Action and reward without seeing the private draw — tabletop-4k" width="960"></a>
+<a href="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/045-played-observer-tabletop-4k-darwin.png"><img src="../../screenshots/buy-an-action-from-an-empty-action-hand-and-play-it-on-turn-five/045-played-observer-tabletop-4k-darwin.png" alt="Theseus sees the Action and reward without seeing the private draw — tabletop-4k" width="960"></a>
 
 </details>
 
