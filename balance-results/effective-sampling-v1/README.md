@@ -42,3 +42,11 @@ A second implementation fixes empty-deck mandatory discards and gives productive
 The 1,472-game timing screen completes with no failures. Late retains competitive Money and improves Engine against its old controller; stronger coverage weighting damages Engine, especially Thin, and is rejected. Select late provisionally for both parents and retain balanced as an explicit experimental alternative. This is a performance repair, not evidence that whole-deck engine construction is solved.
 
 Freeze late before 256 fresh blocks in all 44 ordered cells: new 4×4, both seats against each own v14 and v15 counterpart, Engine variants against old Money, and v14 controls. Total 11,264 games. The v15 comparison measures recovery from the failed sampler; v14 remains the stronger benchmark. No pooling. Deduplicate equivalent trash subsets by card definition, preserving first-target tie order and objective values.
+
+## Utility calibration and raw-income check
+
+The second confirmation completes 11,264 games without failures. Late Engine recovers against the failed v15 sampler but is weaker than the previously confirmed balanced candidate against strong controls. Do not promote late on the basis of its small screen. A six-turn construction diagnostic fails to produce a useful whole-deck Engine and reveals expensive point trashing.
+
+Thinning had added arbitrary parent-objective units directly to real VP costs. Calibrate its future objective improvement to VP using one fully funded, full-deck turn as one top-tier scoring card: top VP divided by that turn's spending-plus-coverage utility. Existing cash and missed-scoring costs remain conservative. This does not change purchase ranking or the no-Thin controller.
+
+Screen balanced versus raw on 32 fresh seeds per ordered cell. Raw restores the user's total-coin Money objective with the corrected common cash controller and stratified sampling; Engine adds income-backed coverage. This tests whether hard spending caps suppressed the income buffer needed after buying points. The six-turn diagnostic is not promoted.
