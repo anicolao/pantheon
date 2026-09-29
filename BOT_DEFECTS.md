@@ -1,9 +1,10 @@
-# Bot defect correction ledger — version 14
+# Bot defect correction ledger — version 15
 
 This ledger distinguishes concrete decision defects from unavoidable uncertainty and deliberate benchmark restrictions. “Corrected” means implementation plus a targeted behavioral check or the specified shared regression coverage; it does not certify perfect play.
 
 | Previously identified defect | Correction | Evidence |
 | --- | --- | --- |
+| Engine assessed immediate nominal capacity and separate Treasure utility | Shared three-turn production-rule sampling for all acquisitions; only Money/Engine metric differs | `sampled.test.ts`; [7,168-game evaluation](balance-results/shuffle-three-v1/README.md). Draw chains improve, but raw draw volume is an inadequate winning objective |
 | Engine had embedded ending rules while Money used a separate overlay | Reusable shared endgame trait, selectable historical Engine rule, common validated turn-2 default for modern profiles | `shared-endgame.test.ts`, `default-endgame.test.ts`; [310,784-game study](balance-results/shared-endgame-v1/README.md) |
 | Treasure used a fixed money/points list, excluded Actions and ignored scoring dilution | All-card expected hand-income evaluation, post-purchase $8 scoring gate, per-buy recomputation and cash-oriented Action play | `money.test.ts`; policy v5 |
 | The v5 income floor repeatedly rejected affordable top-value points | Exempt the highest printed VP tier from the $8 income floor while retaining safe endings and all-card EV investment | `money.test.ts`; [21,600-game fixed-profile test](balance-results/treasure-scoring-v6/README.md) |
