@@ -20,6 +20,16 @@ export type ExperimentOptions = {
   seed: string; block: number; lineup: string[]; profiles: Profile[]; focal: number; restriction?: Restriction; variant?: PlayVariant;
   maxTurns?: number; maxCommands?: number;
 };
+/** Base trial uses one identical inert Temple definition in both starting decks. */
+export function setupExperiment(seed: string, lineup: string[], variant: PlayVariant = 'standard') {
+  const setup=setupMatch(seed,lineup);
+  if(variant==='base-game'){
+    setup.game.sharedEvents=[];setup.game.resources.worship=0;
+    for(const zones of Object.values(setup.game.decks))for(const card of Object.values(zones).flat())
+      if(definition(card.cardId).uniqueStartingCard)card.cardId='temple-of-athena';
+  }
+  return setup;
+}
 export function applicable(restriction: Restriction | undefined, position: number, focal: number): Restriction | undefined {
   return restriction && (restriction.scope === 'table' || position === focal) ? restriction : undefined;
 }
@@ -31,7 +41,7 @@ function applyVariant(game: SetupState, uid: string, command: ActionCommand, seq
 }
 /** Attribution variants must replay through this wrapper, not vanilla replaySetup. */
 export function replayExperiment(events: SetupEvent[], options: Pick<ExperimentOptions, 'lineup' | 'seed' | 'restriction' | 'focal' | 'variant'>): SetupState {
-  const { game, events: setup } = setupMatch(options.seed, options.lineup);
+  const { game, events: setup } = setupExperiment(options.seed, options.lineup, options.variant);
   if (JSON.stringify(events.slice(0, setup.length)) !== JSON.stringify(setup)) throw new Error('Replay setup does not match manifest.');
   for (const event of events.slice(setup.length)) {
     if (event.sequence !== game.activity.length + 1) throw new Error('Invalid replay sequence.');
@@ -45,7 +55,7 @@ export function runExperiment(options: ExperimentOptions): { result: StudyResult
   const { seed, block, lineup, profiles, focal, restriction, variant = 'standard', maxTurns = 200, maxCommands = 10_000 } = options;
   if (profiles.length !== lineup.length || !Number.isInteger(focal) || focal < 0 || focal >= lineup.length) throw new Error('Profiles and focal position must match the lineup.');
   if (![maxTurns, maxCommands].every(value => Number.isSafeInteger(value) && value > 0)) throw new Error('Invalid guards.');
-  const { game, events } = setupMatch(seed, lineup), inventory = inventoryAtSetup(game), acquired = new Set<string>();
+  const { game, events } = setupExperiment(seed, lineup, variant), inventory = inventoryAtSetup(game, variant), acquired = new Set<string>();
   const metrics = Object.fromEntries(game.turnOrder.map(uid => [uid, { worship: {}, acquisitions: {}, trashes: {}, leaderTriggers: 0,
     unusedCoins: 0, unusedActions: 0, unusedBuys: 0, actionPhases: 0, fullDeckDraws: 0, unseenAtActionEnd: 0, spareActionsWithUnseen: 0, firstScoreTurn: null, finalDeckSize: 0, scoreMargin: 0 } as Telemetry]));
   let progressKey = '', targetCards = 0, seen = new Set<string>(), gainedThisTurn = new Set<string>();
