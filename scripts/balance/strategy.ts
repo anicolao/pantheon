@@ -1,4 +1,4 @@
-import {endGamePurchase,endGameGain,legacyPointValue,policyCardValue,sharedPointPurchase,sharedPointGain,type EndGamePolicy} from './end-game';
+import {tempoHorizon,endGamePurchase,endGameGain,legacyPointValue,policyCardValue,sharedPointPurchase,sharedPointGain,type EndGamePolicy} from './end-game';
 import {raceView,racePurchase,raceGain,racePointEligible} from './race';
 import {objectiveToolPremium, objectiveTrashChoice, objectiveGain, objectivePlayBonus, isThinningTool} from './objective-thin';
 import { moneyAfter, moneyPurchase, moneyBuy, moneyDiscard, moneyAction } from './money';
@@ -10,7 +10,7 @@ import { actionEffects, definition, leaderEffects, type PlayVariant, type Action
 import type { CardInstance, SetupState } from '../../src/lib/game/setup';
 import { chooseCommand, observe, type Observation } from './bot';
 
-export const strategyVersion = 12;
+export const strategyVersion = 13;
 export const families = ['treasure', 'engine', 'thin', 'worship', 'race'] as const;
 export type Family = typeof families[number];
 export type Parameters = { scoringAt: number; engineCopies: number; moneyFloor: number; worshipMargin: number };
@@ -26,7 +26,7 @@ export type View = Observation & {
   leaderBonus: Features; unseenCount: number;
   raceHorizon?: number;
   endGame?: boolean; endGamePolicy?: EndGamePolicy;
-  drawPileCount?: number; drawsPerTurn?: number;
+  drawPileCount?: number; drawsPerTurn?: number; supplyRates?: Record<string,number>; horizonOverride?: number;
   play: CardInstance[]; events: string[]; playerCount: number; turn: number;
   opponentIncome: number[];
   scores: number[]; myScore: number; myTurns: number; opposingTurns: number[];
@@ -181,7 +181,7 @@ function worshipValue(view: View, profile: Profile, event: string): number {
 }
 export function strategyCommand(view: View, profile: Profile): ActionCommand {
   if(profile.endGamePolicy&&(profile.race||profile.endGame))throw new Error('Choose one endgame policy, not multiple overlays');
-  if(profile.endGamePolicy)view={...view,endGamePolicy:profile.endGamePolicy};
+  if(profile.endGamePolicy){view={...view,endGamePolicy:profile.endGamePolicy};if(['redraw-tempo','payback'].includes(profile.endGamePolicy))view.horizonOverride=tempoHorizon(view);}
 
   if(profile.endGame!==undefined && profile.family!=='treasure' && profile.family!=='engine')throw new Error('End Game requires a Money or Engine objective');
   if(profile.endGame && profile.race)throw new Error('End Game replaces Race; do not combine them');
