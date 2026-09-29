@@ -58,19 +58,24 @@ export function runExperiment(options: ExperimentOptions): { result: StudyResult
   const { game, events } = setupExperiment(seed, lineup, variant), inventory = inventoryAtSetup(game, variant), acquired = new Set<string>();
   const metrics = Object.fromEntries(game.turnOrder.map(uid => [uid, { worship: {}, acquisitions: {}, trashes: {}, leaderTriggers: 0,
     unusedCoins: 0, unusedActions: 0, unusedBuys: 0, actionPhases: 0, fullDeckDraws: 0, unseenAtActionEnd: 0, spareActionsWithUnseen: 0, firstScoreTurn: null, finalDeckSize: 0, scoreMargin: 0 } as Telemetry]));
+  const drawHistory:Record<string,number[]> = Object.fromEntries(game.turnOrder.map(uid=>[uid,[]]));
+  let drawsThisTurn=0;
   let progressKey = '', targetCards = 0, seen = new Set<string>(), gainedThisTurn = new Set<string>();
   let status: StudyResult['status'] = 'completed', error: string | undefined, commands = 0, inTurn = 0;
   while (game.turn.phase !== 'finished') {
     const uid = activePlayer(game), position = game.turnOrder.indexOf(uid), activeRestriction = applicable(restriction, position, focal), telemetry = metrics[uid];
     if (progressKey !== `${uid}/${game.turn.number}`) {
       progressKey = `${uid}/${game.turn.number}`; targetCards = Object.values(inventory[uid]).reduce((sum, count) => sum + count, 0);
+      drawsThisTurn=game.decks[uid].hand.length;
       seen = new Set(game.decks[uid].hand.map(card => card.id)); gainedThisTurn = new Set();
     }
     if ((game.turn.turns[uid] ?? 0) >= maxTurns) { status = 'turn-limit'; break; }
     if (inTurn >= maxCommands) { status = 'command-limit'; break; }
     try {
       if (activeRestriction?.kind === 'leader-trigger' && game.leaders[uid] === activeRestriction.id) game.turn.leaderUsed = true;
-      const view = strategyView(game, uid, inventory, activeRestriction, variant, Math.max(0, targetCards - seen.size)), command = strategyCommand(view, profiles[position]);
+      const view = strategyView(game, uid, inventory, activeRestriction, variant, Math.max(0, targetCards - seen.size));
+      if(profiles[position].endGamePolicy){const draws=[...drawHistory[uid].slice(-3),drawsThisTurn];view.drawsPerTurn=draws.reduce((a,b)=>a+b,0)/draws.length;}
+      const command = strategyCommand(view, profiles[position]);
       const sequence = events.length + 1, start = game.movements.length;
       const event: SetupEvent = { schemaVersion: 1, sequence, actorUid: uid, name: uid, playerCount: game.playerCount, reducerVersion: 1, commandId: `play-${sequence}`, ...command };
       events.push(event);
@@ -97,6 +102,7 @@ export function runExperiment(options: ExperimentOptions): { result: StudyResult
       for (const move of game.movements.slice(start)) {
         // Own draws and gains are observed events; never inspect hidden card order. Cleanup belongs to the next turn.
         if (move.uid === uid && move.card && command.type !== 'turn/ended') {
+          if(move.kind==='draw')drawsThisTurn++;
           if (move.kind === 'draw' && !gainedThisTurn.has(move.card.id)) seen.add(move.card.id);
         }
         if (move.kind === 'leader') triggeredLeaders.add(move.source);
@@ -110,7 +116,7 @@ export function runExperiment(options: ExperimentOptions): { result: StudyResult
       }
       telemetry.leaderTriggers += triggeredLeaders.size;
       commands++; inTurn++;
-      if (command.type === 'turn/ended') inTurn = 0;
+      if (command.type === 'turn/ended') {inTurn = 0;drawHistory[uid].push(drawsThisTurn);}
     } catch (cause) { status = 'error'; error = String(cause); break; }
   }
   const rows = standings(game), winners = rows.filter(row => row.winner).length;
