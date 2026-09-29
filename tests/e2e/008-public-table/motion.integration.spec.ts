@@ -4,7 +4,7 @@ import {newPlayerContext} from '../helpers/players';
 import {actionTable,playCard,readEvents} from '../helpers/action-history';
 import {TestStepHelper} from '../helpers/test-step-helper';
 import {replaySetup} from '../../../src/lib/game/setup';
-import {definition} from '../../../src/lib/game/actions';
+import {definition,canPlayAction} from '../../../src/lib/game/actions';
 import type {Page} from '@playwright/test';
 
 async function observe(page:Page){
@@ -125,12 +125,15 @@ test('keep a private hand inspection open while another player moves',async({pag
   const context=await newPlayerContext(browser,{viewport:info.project.use.viewport,baseURL:info.project.use.baseURL}),other=await context.newPage();
   const steps=new TestStepHelper(page,info,'Keep your place while a friend plays');
   try{
-    await actionTable(page,info,'oracles-acolyte','thaleia',{other});
+    const fixture=await actionTable(page,info,'oracles-acolyte','thaleia',{other});
     await steps.step('waiting','Theseus can inspect his own hand while Ariadne takes her turn',[{spec:'The observer has five private hand cards and cannot play out of turn.',check:async()=>{await expect(other.getByTestId('hand-card')).toHaveCount(5);await expect(other.getByRole('button',{name:'To Treasures',exact:true})).toHaveCount(0);}}],{page:other,player:'Theseus'});
     await observe(other);await other.getByTestId('hand-card').first().click({button:'right'});
     const reading=await other.locator('.inspection [data-card-id]').getAttribute('data-card-id');
     await steps.step('private-card','Theseus reads his own card without exposing Ariadne’s hand',[{spec:'Inspection is read-only during the other player’s turn.',check:async()=>{await expect(other.locator('.inspection[open]')).toBeVisible();await expect(other.locator('.opponents [data-card-id]')).toHaveCount(0);}}],{page:other,player:'Theseus'});
     await playCard(page,'oracles-acolyte');
+    const played=replaySetup(await readEvents(fixture.code));
+    const phase=played.decks[fixture.host].hand.some(card=>canPlayAction(played,fixture.host,card.id))?'Actions':'Treasures';
+    await expect(other.locator('.turn-marker')).toContainText(phase);
     await steps.step('kept','Ariadne’s Action updates the table without interrupting Theseus’s reading',[{spec:'The same private card remains open and no travel runs over it.',check:async()=>{await expect(other.locator('.action-message')).toContainText('Oracle’s Acolyte');await expect(other.locator('.inspection [data-card-id]')).toHaveAttribute('data-card-id',reading!);expect(await flights(other)).toEqual([]);}}],{page:other,player:'Theseus'});
     await other.keyboard.press('Escape');
     await steps.step('returned','Theseus returns to the same hand position',[{spec:'Focus returns to the inspected card and old travel is not replayed.',check:async()=>{await expect(other.getByTestId('hand-card').first()).toBeFocused();await expect(other.locator('.public-flight')).toHaveCount(0);expect(await flights(other)).toEqual([]);}}],{page:other,player:'Theseus'});

@@ -26,6 +26,14 @@ test('buy from one cost-sorted coverflow and warn before skipping playable Actio
   await page.getByRole('button',{name:'Buy Obol',exact:true}).click();
   await page.getByRole('button',{name:'Buy Obol now',exact:true}).click();
   await steps.step('bought','Confirming buys once and closes Action play',[{spec:'One purchase enters Buys and leaves the unplayed Action in hand.',check:async()=>{await expect(page.locator('.wallet [data-resource=buys]')).toHaveAttribute('data-value','0');const events=await readEvents(fixture.code);expect(events.slice(fixture.events.length).map(event=>event.type)).toEqual(['card/bought']);expect(replaySetup(events).turn.phase).toBe('buys');}}]);
+  if(info.project.name==='phone'){
+    await page.setViewportSize({width:852,height:393});
+    await page.getByRole('button',{name:'More expensive cards',exact:true}).click();
+    await page.getByRole('button',{name:'More expensive cards',exact:true}).click();
+    await steps.step('landscape','Browse the supply on a short landscape phone',[{spec:'Three face-up cards and their stock fit above navigation, status, and discard.',check:async()=>{await expect(page.locator('.slot:not(.wing)')).toHaveCount(3);await expect(page.getByRole('button',{name:'‹ Table',exact:true})).toBeVisible();}}]);
+    await page.setViewportSize({width:568,height:320});
+    await steps.step('small-landscape','Browse the supply on the shortest phone',[{spec:'Cards, navigation and help remain readable at 568 by 320.',check:async()=>{await expect(page.locator('.slot:not(.wing)')).toHaveCount(3);const help=(await page.locator('.help').boundingBox())!,discard=(await page.locator('.destination').boundingBox())!,wallet=(await page.locator('.wallet').boundingBox())!,back=(await page.locator('.supply-scene .back').boundingBox())!;expect(discard.y).toBeGreaterThanOrEqual(help.y+help.height);expect(wallet.y).toBeGreaterThanOrEqual(back.y+back.height);}}]);
+  }
 });
 
 test('finish choices before automatically entering Treasures and browse every supply cost',async({page},info)=>{
