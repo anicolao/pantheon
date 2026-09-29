@@ -1,0 +1,39 @@
+{
+  "sourceCommit": "1217cc1fc0d398ce28045efa2efbb25c21462a9e",
+  "dirty": false,
+  "status": "completed",
+  "variant": "base-game",
+  "policyVersion": 8,
+  "blocks": 1000,
+  "workers": 16,
+  "plannedGames": 4000,
+  "seed": "base-game-v1:evaluation",
+  "profiles": {
+    "treasure": {
+      "scoringAt": 3,
+      "engineCopies": 3,
+      "moneyFloor": 7,
+      "worshipMargin": 0.5
+    },
+    "engine": {
+      "scoringAt": 3,
+      "engineCopies": 3,
+      "moneyFloor": 7,
+      "worshipMargin": 0.5
+    }
+  },
+  "training": "None: fixed default preset, identical across seats",
+  "startingDeck": {
+    "obol": 6,
+    "hamlet": 3,
+    "temple-of-athena": 1
+  },
+  "rules": "No leader effects; Worship forbidden; Temples have no effects; standard supply and ending rules",
+  "orientation": "Player 1 = first in turn order. Rows P1 strategy, columns P2 strategy. Never pool cells or reverse turn order.",
+  "primary": "Four separate P1 victory shares, ties split; seed bootstrap intervals adjusted over four cells; row-wise P2 best responses",
+  "startedAt": "2026-09-29T05:37:08.437Z",
+  "games": 4000,
+  "failures": 0,
+  "replays": 40,
+  "elapsedSeconds": 54.152291708999996
+}
