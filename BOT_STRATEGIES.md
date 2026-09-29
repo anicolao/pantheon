@@ -167,3 +167,11 @@ The economic near-tie threshold is now $0.035 instead of $0.10. All other v7 beh
 The experiment runs only the 21,600 games involving Treasure, on the same 200 seed blocks and frozen profiles. It compares with both v6 (no epsilon) and v7 ($0.10); eight primary leader-by-baseline comparisons against Engine share a Bonferroni-adjusted family. No non-Treasure control games are rerun. Results remain exploratory because the seeds were previously examined.
 
 The [completed v8 test](balance-results/treasure-epsilon-v8/README.md) uses only the 21,600 Treasure-involving games. Its observed Engine matchup shares exceed v7 for every leader, but all eight adjusted comparisons with v6/v7 include zero. Bronze Recruit remains in 1.25% of Melia decks and none of the others. The smaller band recovers some draw-card purchases; it is not yet a demonstrated win-rate improvement.
+
+## End Game modifier (v11)
+
+End Game replaces aggressive orthogonal Race for new experiments. `endGame` is independent of `thinning` and parent objective. Historical Race profiles remain available to reproduce archived results. End Game does not cap investment time: it activates only when the existing public horizon is ≤2 turns. That estimate is the minimum of six turns, Acropolis supply depletion, three-pile depletion, and Acropolis pressure inferred from public opponent income; it is a heuristic, not a calibrated forecast.
+
+While active, safe purchase baskets and ordinary gains maximize immediate positive VP, including Polis and Hamlet. Known losing endings are rejected and winning continuations retain priority. Before activation the parent policy is unchanged, including Big Money's immediate affordable Acropolis rule. Objective thinning and upgrades keep their joint evaluation, with the loss of affordable current-turn scoring charged while End Game is active. End Game off reproduces previous behavior; it cannot be combined with aggressive Race.
+
+The initial screening crosses Big Money with Thin and End Game booleans: 16 ordered cells ×200 common seed blocks, no leader powers or Worship, identical starting decks. No pooling of strategies or seats; compare concrete responses and treat rankings as provisional.
