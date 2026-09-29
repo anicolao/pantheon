@@ -1,19 +1,18 @@
 import {applyPlayCommand,definition,initialTurn,actionEffects,type ActionCommand,type Choice} from '../../src/lib/game/actions';
 import {createPrng} from '../../src/lib/game/random';
 import type {CardInstance,SetupState} from '../../src/lib/game/setup';
-import {moneyAction,moneyDiscard} from './money';
 import {cardFeatures,enginePlayPriority} from './engine';
 import {treasureValue,publicHorizon,purchasePlan,gainOutcome,endingShare,availableCoins} from './planning';
 import {endGameActive,sharedPointPurchase,sharedPointGain} from './end-game';
 import type {View,Profile} from './strategy';
 
 export const rolloutSamples=64,rolloutTurns=3;
-export type SamplingPolicy='income'|'balanced'|'reliable';
-export type RolloutEstimate={coins:number;draws:number;income:number;balanced:number;reliable:number;fundedCoverage:number;fullDeckRate:number;samples:number;turns:number;perTurn:{coins:number;draws:number}[]};
+export type RolloutMetric='coins'|'draws';
+export type RolloutEstimate={coins:number;draws:number;samples:number;turns:number;perTurn:{coins:number;draws:number}[]};
 const cache=new Map<string,RolloutEstimate>();
 const ranks=new Map<string,number[]>();
 function rank(id:string,sample:number):number{
- let values=ranks.get(id);if(!values){const random=createPrng('shuffle-effective-v1:'+id);values=Array.from({length:rolloutSamples},()=>random());ranks.set(id,values);}
+ let values=ranks.get(id);if(!values){const random=createPrng('shuffle-3-v1:'+id);values=Array.from({length:rolloutSamples},()=>random());ranks.set(id,values);}
  return values[sample];
 }
 const inventory=(cards:CardInstance[])=>{const owned:Record<string,number>={};for(const c of cards)owned[c.cardId]=(owned[c.cardId]??0)+1;return owned;};
@@ -29,7 +28,7 @@ export function rolloutPlay(view:View,thinning:boolean):ActionCommand{
  };
  if(choice){
   let targets:string[]=[];
-  if(choice.kind==='discard')targets=moneyDiscard(view);
+  if(choice.kind==='discard')targets=[...view.hand].sort((a,b)=>keep(a)-keep(b)||a.id.localeCompare(b.id)).slice(0,choice.max).map(c=>c.id);
   if(choice.kind==='gain'){
    // Bounded continuation for effects inside a sample. Identical for both metrics.
    const value=(id:string)=>{const f=cardFeatures(id,view.variant);return treasureValue(id)+f.coins+Math.max(0,f.draw-f.discard)+0.25*f.actions;};
@@ -48,8 +47,9 @@ export function rolloutPlay(view:View,thinning:boolean):ActionCommand{
   return {type:'choice/resolved',choiceId:choice.id,targets};
  }
  if(view.phase==='actions'){
-  const action=view.resources.actions>0?moneyAction(view):undefined;
-  return action?{type:'action/played',instanceId:action.id}:{type:'phase/advanced'};
+  const actions=view.resources.actions>0?view.hand.filter(c=>definition(c.cardId).type==='Action'&&actionEffects(c.cardId,view.variant).length):[];
+  actions.sort((a,b)=>enginePlayPriority(view,b)-enginePlayPriority(view,a)||a.id.localeCompare(b.id));
+  return actions[0]?{type:'action/played',instanceId:actions[0].id}:{type:'phase/advanced'};
  }
  if(view.phase==='treasures'&&view.hand.some(c=>definition(c.cardId).type==='Treasure'))return {type:'treasures/played'};
  return {type:'turn/ended'};
@@ -57,68 +57,43 @@ export function rolloutPlay(view:View,thinning:boolean):ActionCommand{
 /** Sample every composition, including pure Treasure decks. Each sample starts
  * with a fresh shuffle and plays three consecutive production-rule turns.
  * No future buys or Worship; effects, cleanup and reshuffles remain real.
- * The same public-state sample bank and controller produce all objective metrics. */
+ * The same public-state sample bank and controller produce both metrics. */
 export function rolloutEstimate(view:View,owned=view.owned,thinning=false):RolloutEstimate{
  const entries=Object.entries(owned).filter(([,n])=>n>0).sort(([a],[b])=>a.localeCompare(b));
  const disabled=Object.values(view.leaderBonus).every(n=>n===0);
  const canGain=entries.some(([id])=>definition(id).type==='Action'&&actionEffects(id,view.variant).some(e=>e.kind==='gain'||e.kind==='trash'&&(e.forge||e.offering)));
  const cards=cardsOf(Object.fromEntries(entries));
  let added=0;for(const c of cards)if(c.copy>=(view.owned[c.cardId]??0))c.id='sample-candidate-'+added++;
- const key=JSON.stringify([entries,cards.map(c=>c.id),view.variant??'standard',disabled?null:view.leader,view.leaderBonus,canGain?view.supply:null,canGain?view.bannedCards:null,thinning,view.supply.acropolis===0||Object.values(view.supply).filter(n=>n===0).length>=3]);
+ const key=JSON.stringify([entries,cards.map(c=>c.id),view.variant??'standard',disabled?null:view.leader,view.leaderBonus,canGain?view.supply:null,canGain?view.bannedCards:null,thinning]);
  const saved=cache.get(key);if(saved)return saved;
- const topCost=Math.max(1,...Object.keys(view.supply).filter(id=>(definition(id).vp??0)>0).map(id=>definition(id).cost??0));
- let income=0,balanced=0,reliable=0,fundedCoverage=0,fullDeckRate=0;
  const perTurn=Array.from({length:rolloutTurns},()=>({coins:0,draws:0}));
  for(let sample=0;sample<rolloutSamples;sample++){
   const deck=[...cards].sort((a,b)=>rank(a.id,sample)-rank(b.id,sample)||a.id.localeCompare(b.id));
-  const game:SetupState={phase:'playing',seed:'shuffle-effective-v1:sample:'+sample,turn:{...initialTurn(),leaderUsed:disabled},supply:{...view.supply},trash:[],movements:[],turnOrder:['sample'],draftOrder:[],leaders:{sample:view.leader},decks:{sample:{hand:deck.splice(0,5),deck,discard:[],play:[]}},sharedEvents:[],dealtAtSequence:null,resources:{actions:1,buys:1,coins:0,worship:0},playerCount:2,players:[{uid:'sample',name:'Sample'}],activity:[]};
+  const game:SetupState={phase:'playing',seed:'shuffle-3-v1:sample:'+sample,turn:{...initialTurn(),leaderUsed:disabled},supply:{...view.supply},trash:[],movements:[],turnOrder:['sample'],draftOrder:[],leaders:{sample:view.leader},decks:{sample:{hand:deck.splice(0,5),deck,discard:[],play:[]}},sharedEvents:[],dealtAtSequence:null,resources:{actions:1,buys:1,coins:0,worship:0},playerCount:2,players:[{uid:'sample',name:'Sample'}],activity:[]};
   let commands=0;
   for(let turn=0;turn<rolloutTurns&&game.turn.phase!=='finished';turn++){
    game.turn.leaderUsed=disabled;
    let draws=game.decks.sample.hand.length;
-   const targets=new Set(Object.values(game.decks.sample).flat().map(c=>c.id)),seen=new Set(game.decks.sample.hand.map(c=>c.id));
    while(true){
     if(++commands>3000)throw Error('Three-turn rollout command guard');
     const zones=game.decks.sample,ownedNow=inventory(Object.values(zones).flat());
     const seenSize=Object.values(ownedNow).reduce((s,n)=>s+n,0);
     const observed:View={...view,owned:ownedNow,hand:zones.hand,play:zones.play,supply:game.supply,resources:game.resources,phase:game.turn.phase,choice:game.turn.choice,leaderUsed:game.turn.leaderUsed,unseenCount:Math.max(0,seenSize-draws),bannedEvents:[],events:[]};
     const command=rolloutPlay(observed,thinning);
-    if(command.type==='turn/ended'){
-     const coins=game.resources.coins,buys=game.resources.buys,coverage=seen.size/Math.max(1,targets.size);
-     const useful=Math.min(coins,topCost*buys),opportunities=Math.min(buys,Math.floor(coins/topCost));
-     income+=useful;balanced+=useful+topCost*0.5*opportunities;reliable+=useful+topCost*opportunities;
-     fundedCoverage+=coverage*Math.min(1,coins/topCost);fullDeckRate+=Number(seen.size===targets.size);
-     perTurn[turn].coins+=coins;perTurn[turn].draws+=draws;
-    }
+    if(command.type==='turn/ended'){perTurn[turn].coins+=game.resources.coins;perTurn[turn].draws+=draws;}
     const start=game.movements.length;
     applyPlayCommand(game,'sample',command,commands,view.variant);
     if(command.type==='turn/ended')break;
-    for(const m of game.movements.slice(start))if(m.kind==='draw'){draws++;if(m.card&&targets.has(m.card.id))seen.add(m.card.id);}
+    for(const m of game.movements.slice(start))if(m.kind==='draw')draws++;
    }
   }
  }
  for(const t of perTurn){t.coins/=rolloutSamples;t.draws/=rolloutSamples;}
- const result={coins:perTurn.reduce((s,t)=>s+t.coins,0),draws:perTurn.reduce((s,t)=>s+t.draws,0),income:income/rolloutSamples,balanced:balanced/rolloutSamples,reliable:reliable/rolloutSamples,fundedCoverage:fundedCoverage/rolloutSamples,fullDeckRate:fullDeckRate/(rolloutSamples*rolloutTurns),samples:rolloutSamples,turns:rolloutTurns,perTurn};
+ const result={coins:perTurn.reduce((s,t)=>s+t.coins,0),draws:perTurn.reduce((s,t)=>s+t.draws,0),samples:rolloutSamples,turns:rolloutTurns,perTurn};
  if(cache.size>=12000)cache.delete(cache.keys().next().value!);cache.set(key,result);return result;
 }
-export function sampledValue(view:View,profile:Profile,owned=view.owned):number{
- const result=rolloutEstimate(view,owned,!!profile.thinning),policy=profile.samplingPolicy??'balanced';
- // Both metrics value usable spending; Engine also values actual unique-card
- // reach in proportion to the income that the resulting turn can support.
- return result[policy]+(profile.family==='engine'?{income:4,balanced:8,reliable:12}[policy]*result.fundedCoverage:0);
-}
-export function resourceDominates(view:View,a:string,b:string):boolean{
- if(view.variant!=='base-game'||a===b||definition(a).cost!>definition(b).cost!||(definition(a).vp??0)!==(definition(b).vp??0))return false;
- const features=(id:string)=>{
-  if(definition(id).type==='Treasure')return [treasureValue(id),0,0];
-  if(definition(id).type!=='Action')return;
-  const effects=actionEffects(id,view.variant);
-  if(effects.some(e=>e.kind!=='resource'))return;
-  const f=cardFeatures(id,view.variant);return [f.coins,f.actions-1,f.buys];
- };
- const x=features(a),y=features(b);
- return !!x&&!!y&&x.every((n,i)=>n>=y[i])&&(x.some((n,i)=>n>y[i])||definition(a).cost!<definition(b).cost!);
-}
+export function rolloutMetric(profile:Profile):RolloutMetric{return profile.family==='treasure'?'coins':'draws';}
+export function sampledValue(view:View,profile:Profile,owned=view.owned):number{return rolloutEstimate(view,owned,!!profile.thinning)[rolloutMetric(profile)];}
 export function sampledAfter(view:View,profile:Profile,id:string):number{
  return sampledValue({...view,supply:{...view.supply,[id]:Math.max(0,view.supply[id]-1)}},profile,{...view.owned,[id]:(view.owned[id]??0)+1});
 }
@@ -126,7 +101,7 @@ export function sampledAfter(view:View,profile:Profile,id:string):number{
 export function sampledGain(view:View,profile:Profile,ids:string[],mandatory=false):string|undefined{
  const safe=ids.filter(id=>gainOutcome(view,id)!==0);
  const options=(safe.length||!mandatory?safe:ids).map(id=>({id,value:sampledAfter(view,profile,id)})).sort((a,b)=>b.value-a.value||definition(a.id).cost!-definition(b.id).cost!||a.id.localeCompare(b.id));
- const best=options.find(c=>!options.some(other=>resourceDominates(view,other.id,c.id)));
+ const best=options[0];
  return best&&(mandatory||best.value>sampledValue(view,profile)+1e-9)?best.id:undefined;
 }
 function sampledTrash(view:View,profile:Profile,choice:Choice):ActionCommand{

@@ -7,7 +7,8 @@ export const historicalBaseProfiles: Record<string,Profile> = {
  'engine-thin':{family:'engine',parameters:candidates[0],thinning:true}
 };
 export const v14BaseProfiles:Record<string,Profile>=Object.fromEntries(Object.entries(historicalBaseProfiles).map(([key,p])=>[key,withEndGame(p)]));
-export const baseProfiles:Record<string,Profile>=Object.fromEntries(Object.entries(v14BaseProfiles).map(([key,p])=>[key,{...p,evaluation:'shuffle-3'}]));
+export const v15BaseProfiles:Record<string,Profile>=Object.fromEntries(Object.entries(v14BaseProfiles).map(([key,p])=>[key,{...p,evaluation:'shuffle-3'}]));
+export const baseProfiles:Record<string,Profile>=Object.fromEntries(Object.entries(v14BaseProfiles).map(([key,p])=>[key,{...p,evaluation:'shuffle-effective',samplingPolicy:'balanced'}]));
 export const raceProfiles:Record<string,Profile>=Object.fromEntries(
  Object.entries(historicalBaseProfiles).flatMap(([key,p])=>[[key,{...p,race:false}],[key+'-race',{...p,race:true}]]));
 export const endGameProfiles:Record<string,Profile>=Object.fromEntries(
