@@ -7,4 +7,6 @@ export const baseProfiles: Record<string,Profile> = {
 };
 export const raceProfiles:Record<string,Profile>=Object.fromEntries(
  Object.entries(baseProfiles).flatMap(([key,p])=>[[key,{...p,race:false}],[key+'-race',{...p,race:true}]]));
-export const baseLabel=(key:string)=>({treasure:'Big Money','treasure-thin':'Big Money + Thin',engine:'Engine','engine-thin':'Engine + Thin'}[key.replace(/-race$/,'')]??key)+(key.endsWith('-race')?' + Race':'');
+export const endGameProfiles:Record<string,Profile>=Object.fromEntries(
+ Object.entries(baseProfiles).filter(([,p])=>p.family==='treasure').flatMap(([key,p])=>[[key,{...p,endGame:false}],[key+'-endgame',{...p,endGame:true}]]));
+export const baseLabel=(key:string)=>({treasure:'Big Money','treasure-thin':'Big Money + Thin',engine:'Engine','engine-thin':'Engine + Thin'}[key.replace(/-(race|endgame)$/,'')]??key)+(key.endsWith('-race')?' + Race':key.endsWith('-endgame')?' + End Game':'');
