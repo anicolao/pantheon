@@ -59,6 +59,7 @@ export function runExperiment(options: ExperimentOptions): { result: StudyResult
   const metrics = Object.fromEntries(game.turnOrder.map(uid => [uid, { worship: {}, acquisitions: {}, trashes: {}, leaderTriggers: 0,
     unusedCoins: 0, unusedActions: 0, unusedBuys: 0, actionPhases: 0, fullDeckDraws: 0, unseenAtActionEnd: 0, spareActionsWithUnseen: 0, firstScoreTurn: null, finalDeckSize: 0, scoreMargin: 0 } as Telemetry]));
   const drawHistory:Record<string,number[]> = Object.fromEntries(game.turnOrder.map(uid=>[uid,[]]));
+  const supplyHistory:Record<string,{turn:number;supply:Record<string,number>}[]> = Object.fromEntries(game.turnOrder.map(uid=>[uid,[]]));
   let drawsThisTurn=0;
   let progressKey = '', targetCards = 0, seen = new Set<string>(), gainedThisTurn = new Set<string>();
   let status: StudyResult['status'] = 'completed', error: string | undefined, commands = 0, inTurn = 0;
@@ -67,6 +68,7 @@ export function runExperiment(options: ExperimentOptions): { result: StudyResult
     if (progressKey !== `${uid}/${game.turn.number}`) {
       progressKey = `${uid}/${game.turn.number}`; targetCards = Object.values(inventory[uid]).reduce((sum, count) => sum + count, 0);
       drawsThisTurn=game.decks[uid].hand.length;
+      supplyHistory[uid].push({turn:game.turn.turns[uid]??0,supply:{...game.supply}});
       seen = new Set(game.decks[uid].hand.map(card => card.id)); gainedThisTurn = new Set();
     }
     if ((game.turn.turns[uid] ?? 0) >= maxTurns) { status = 'turn-limit'; break; }
@@ -74,7 +76,10 @@ export function runExperiment(options: ExperimentOptions): { result: StudyResult
     try {
       if (activeRestriction?.kind === 'leader-trigger' && game.leaders[uid] === activeRestriction.id) game.turn.leaderUsed = true;
       const view = strategyView(game, uid, inventory, activeRestriction, variant, Math.max(0, targetCards - seen.size));
-      if(profiles[position].endGamePolicy){const draws=[...drawHistory[uid].slice(-3),drawsThisTurn];view.drawsPerTurn=draws.reduce((a,b)=>a+b,0)/draws.length;}
+      if(profiles[position].endGamePolicy){const draws=[...drawHistory[uid].slice(-3),drawsThisTurn];view.drawsPerTurn=draws.reduce((a,b)=>a+b,0)/draws.length;
+       const old=supplyHistory[uid].slice(-4)[0],rounds=Math.max(1,(game.turn.turns[uid]??0)-old.turn);
+       view.supplyRates=Object.fromEntries(Object.entries(game.supply).map(([id,n])=>[id,Math.max(0,(old.supply[id]-n)/rounds)]));
+      }
       const command = strategyCommand(view, profiles[position]);
       const sequence = events.length + 1, start = game.movements.length;
       const event: SetupEvent = { schemaVersion: 1, sequence, actorUid: uid, name: uid, playerCount: game.playerCount, reducerVersion: 1, commandId: `play-${sequence}`, ...command };
