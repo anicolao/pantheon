@@ -2,7 +2,7 @@ import {expect,test} from 'bun:test';
 import {setupExperiment,runExperiment,replayExperiment} from '../../scripts/balance/experiment';
 import {activePlayer,standings} from '../../src/lib/game/actions';
 import {inventoryAtSetup,strategyView,strategyCommand,candidates,type Profile,type View} from '../../scripts/balance/strategy';
-import {endGamePolicies,acquisitionRedraw,scoringActive,investmentFactor,legacyPointValue} from '../../scripts/balance/end-game';
+import {endGamePolicies,acquisitionRedraw,scoringActive,investmentFactor,legacyPointValue,tempoHorizon,paybackValue} from '../../scripts/balance/end-game';
 function view():View{
  const {game}=setupExperiment('shared-ending',['thaleia','nereon'],'base-game');
  const v=strategyView(game,activePlayer(game),inventoryAtSetup(game,'base-game'),undefined,'base-game');
@@ -22,7 +22,7 @@ test('redraw timing distinguishes remaining deck, shuffle pool and throughput',(
 test('every policy uses identical activation for any base objective; no mutation',()=>{
  for(const policy of endGamePolicies)for(const family of ['treasure','engine'] as const)for(const thinning of [false,true]){
   const v=view(),before=structuredClone(v),p:Profile={family,thinning,endGamePolicy:policy,parameters:candidates[0]};
-  v.supply.acropolis=1;
+  v.supply.acropolis=1;v.supplyRates={acropolis:2};
   const original=structuredClone(v);
   expect(strategyCommand(v,p)).toMatchObject({cardId:'polis'});
   expect(v).toEqual(original);
@@ -58,3 +58,13 @@ test('every candidate works for both parents and Thin settings, with exact legal
   for(const p of result.players)expect(standings(replay).find(r=>r.uid===p.uid)!.score).toBe(p.score);
  }
 },180000);
+
+test('supply tempo and economic payback react to observable time and shuffle delay',()=>{
+ const v=view();v.supply.acropolis=4;v.supplyRates={acropolis:1};
+ expect(tempoHorizon(v)).toBe(4);
+ v.supplyRates.acropolis=2;expect(tempoHorizon(v)).toBe(2);
+ v.owned={obol:40};v.drawPileCount=40;v.drawsPerTurn=8;v.horizonOverride=5;
+ expect(paybackValue(v,'polis')).toBe(3);expect(paybackValue(v,'talent')).toBe(0);
+ v.drawPileCount=0;expect(paybackValue(v,'talent')).toBeGreaterThan(0);
+ expect(paybackValue(v,'polis')).toBeLessThan(3);
+});
