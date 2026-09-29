@@ -174,7 +174,15 @@ function sampledTrash(view:View,profile:Profile,choice:Choice):ActionCommand{
    value-=Math.max(0,...scoring.filter(id=>definition(id).cost!<=availableCoins(view)&&definition(id).cost!>availableCoins(view)-cash).map(id=>definition(id).vp??0));
    if(value>best.value+1e-9)best={targets:removed.map(c=>c.id),value};
   }
-  if(removed.length<choice.max)for(let i=start;i<view.hand.length;i++)visit(i+1,[...removed,view.hand[i]]);
+  if(removed.length<choice.max){
+   // Copies of one definition yield the same inventory, cost and VP. Keep
+   // the earliest representative, preserving tie order without duplicate work.
+   const seen=new Set<string>();
+   for(let i=start;i<view.hand.length;i++){
+    if(seen.has(view.hand[i].cardId))continue;
+    seen.add(view.hand[i].cardId);visit(i+1,[...removed,view.hand[i]]);
+   }
+  }
  };
  visit(0,[]);
  if(best.targets.length<choice.min)return rolloutPlay(view,!!profile.thinning);
