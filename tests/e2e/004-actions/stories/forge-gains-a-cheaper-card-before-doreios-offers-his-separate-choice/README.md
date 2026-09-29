@@ -114,4 +114,4 @@ Recorded-history integration scenario. A legal event history prepares the starti
 
 </details>
 
-- [x] Both choices are complete and the Action turn continues.
+- [x] Both choices are complete and control returns to the table.
