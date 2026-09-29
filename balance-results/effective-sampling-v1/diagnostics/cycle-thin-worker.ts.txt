@@ -1,0 +1,9 @@
+import {mock} from 'bun:test';
+const sampler=await import('./cycle-thin-sampler');
+mock.module('../scripts/balance/sampled',()=>sampler);
+const {runExperiment}=await import('../scripts/balance/experiment');
+const {baseProfiles,v14BaseProfiles}=await import('../scripts/balance/base-profiles');
+const block=Number(process.argv[2]),thin=process.argv[3]==='true';
+ const profile={...baseProfiles.engine,thinning:thin};
+ const r=runExperiment({seed:'cycle-thin-probe:'+block,block,lineup:['thaleia','nereon'],profiles:[profile,v14BaseProfiles.treasure],focal:0,variant:'base-game'});
+ console.log(JSON.stringify({thin,result:r.result}));
