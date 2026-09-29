@@ -1,0 +1,232 @@
+{
+  "sourceCommit": "ba5f716ad9106dba9ac773896b0257f0e6628f2d",
+  "policyVersion": 15,
+  "status": "completed",
+  "blocks": 256,
+  "workers": 16,
+  "shards": 128,
+  "batchSize": 2,
+  "seed": "shuffle-three-v1:evaluation",
+  "stage": "evaluation",
+  "profiles": {
+    "treasure@old": {
+      "family": "treasure",
+      "parameters": {
+        "scoringAt": 3,
+        "engineCopies": 3,
+        "moneyFloor": 7,
+        "worshipMargin": 0.5
+      },
+      "thinning": false,
+      "endGamePolicy": "turn-2"
+    },
+    "treasure@new": {
+      "family": "treasure",
+      "parameters": {
+        "scoringAt": 3,
+        "engineCopies": 3,
+        "moneyFloor": 7,
+        "worshipMargin": 0.5
+      },
+      "thinning": false,
+      "endGamePolicy": "turn-2",
+      "evaluation": "shuffle-3"
+    },
+    "treasure-thin@old": {
+      "family": "treasure",
+      "parameters": {
+        "scoringAt": 3,
+        "engineCopies": 3,
+        "moneyFloor": 7,
+        "worshipMargin": 0.5
+      },
+      "thinning": true,
+      "endGamePolicy": "turn-2"
+    },
+    "treasure-thin@new": {
+      "family": "treasure",
+      "parameters": {
+        "scoringAt": 3,
+        "engineCopies": 3,
+        "moneyFloor": 7,
+        "worshipMargin": 0.5
+      },
+      "thinning": true,
+      "endGamePolicy": "turn-2",
+      "evaluation": "shuffle-3"
+    },
+    "engine@old": {
+      "family": "engine",
+      "parameters": {
+        "scoringAt": 3,
+        "engineCopies": 3,
+        "moneyFloor": 7,
+        "worshipMargin": 0.5
+      },
+      "thinning": false,
+      "endGamePolicy": "turn-2"
+    },
+    "engine@new": {
+      "family": "engine",
+      "parameters": {
+        "scoringAt": 3,
+        "engineCopies": 3,
+        "moneyFloor": 7,
+        "worshipMargin": 0.5
+      },
+      "thinning": false,
+      "endGamePolicy": "turn-2",
+      "evaluation": "shuffle-3"
+    },
+    "engine-thin@old": {
+      "family": "engine",
+      "parameters": {
+        "scoringAt": 3,
+        "engineCopies": 3,
+        "moneyFloor": 7,
+        "worshipMargin": 0.5
+      },
+      "thinning": true,
+      "endGamePolicy": "turn-2"
+    },
+    "engine-thin@new": {
+      "family": "engine",
+      "parameters": {
+        "scoringAt": 3,
+        "engineCopies": 3,
+        "moneyFloor": 7,
+        "worshipMargin": 0.5
+      },
+      "thinning": true,
+      "endGamePolicy": "turn-2",
+      "evaluation": "shuffle-3"
+    }
+  },
+  "cells": [
+    [
+      "treasure@new",
+      "treasure@new"
+    ],
+    [
+      "treasure@new",
+      "treasure-thin@new"
+    ],
+    [
+      "treasure@new",
+      "engine@new"
+    ],
+    [
+      "treasure@new",
+      "engine-thin@new"
+    ],
+    [
+      "treasure-thin@new",
+      "treasure@new"
+    ],
+    [
+      "treasure-thin@new",
+      "treasure-thin@new"
+    ],
+    [
+      "treasure-thin@new",
+      "engine@new"
+    ],
+    [
+      "treasure-thin@new",
+      "engine-thin@new"
+    ],
+    [
+      "engine@new",
+      "treasure@new"
+    ],
+    [
+      "engine@new",
+      "treasure-thin@new"
+    ],
+    [
+      "engine@new",
+      "engine@new"
+    ],
+    [
+      "engine@new",
+      "engine-thin@new"
+    ],
+    [
+      "engine-thin@new",
+      "treasure@new"
+    ],
+    [
+      "engine-thin@new",
+      "treasure-thin@new"
+    ],
+    [
+      "engine-thin@new",
+      "engine@new"
+    ],
+    [
+      "engine-thin@new",
+      "engine-thin@new"
+    ],
+    [
+      "treasure@old",
+      "treasure@old"
+    ],
+    [
+      "treasure@new",
+      "treasure@old"
+    ],
+    [
+      "treasure@old",
+      "treasure@new"
+    ],
+    [
+      "treasure-thin@old",
+      "treasure-thin@old"
+    ],
+    [
+      "treasure-thin@new",
+      "treasure-thin@old"
+    ],
+    [
+      "treasure-thin@old",
+      "treasure-thin@new"
+    ],
+    [
+      "engine@old",
+      "engine@old"
+    ],
+    [
+      "engine@new",
+      "engine@old"
+    ],
+    [
+      "engine@old",
+      "engine@new"
+    ],
+    [
+      "engine-thin@old",
+      "engine-thin@old"
+    ],
+    [
+      "engine-thin@new",
+      "engine-thin@old"
+    ],
+    [
+      "engine-thin@old",
+      "engine-thin@new"
+    ]
+  ],
+  "variant": "base-game",
+  "plannedGames": 7168,
+  "replayBlocks": 1,
+  "rolloutSamples": 64,
+  "rolloutTurns": 3,
+  "startedAt": "2026-09-29T12:54:00.660Z",
+  "rules": "No powers or Worship. Identical six Obol, three Hamlet, inert Temple starts. Shared turn-2 ending policy. No pooling of parent, Thin, opponent or seat.",
+  "metrics": "Mean total coins for Money; mean total actual draws for Engine; 64 common initial shuffles and three consecutive production-rule turns, no future buys. Same rollout controller.",
+  "primary": "Four new-v-old head-to-head comparisons in each seat, plus eight paired effects versus the fixed same-family old opponent, and the new four-by-four response matrix.",
+  "games": 7168,
+  "failures": 0,
+  "elapsedSeconds": 722.6372693330001,
+  "replays": 28
+}

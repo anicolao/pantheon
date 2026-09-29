@@ -1,0 +1,397 @@
+[
+  {
+    "owned": {
+      "hamlet": 3,
+      "obol": 6,
+      "temple-of-athena": 1
+    },
+    "baseline": {
+      "coins": 9,
+      "draws": 15,
+      "samples": 64,
+      "turns": 3,
+      "perTurn": [
+        {
+          "coins": 2.84375,
+          "draws": 5
+        },
+        {
+          "coins": 3.15625,
+          "draws": 5
+        },
+        {
+          "coins": 3,
+          "draws": 5
+        }
+      ]
+    },
+    "candidates": [
+      {
+        "id": "obol",
+        "cost": 0,
+        "coins": 9.40625,
+        "draws": 15
+      },
+      {
+        "id": "drachma",
+        "cost": 3,
+        "coins": 10.765625,
+        "draws": 15
+      },
+      {
+        "id": "talent",
+        "cost": 6,
+        "coins": 12.125,
+        "draws": 15
+      },
+      {
+        "id": "hamlet",
+        "cost": 2,
+        "coins": 8.125,
+        "draws": 15
+      },
+      {
+        "id": "polis",
+        "cost": 5,
+        "coins": 8.125,
+        "draws": 15
+      },
+      {
+        "id": "oracles-acolyte",
+        "cost": 2,
+        "coins": 9.0625,
+        "draws": 16.484375
+      },
+      {
+        "id": "council-of-sages",
+        "cost": 4,
+        "coins": 10.65625,
+        "draws": 19.546875
+      },
+      {
+        "id": "sacred-academy",
+        "cost": 5,
+        "coins": 9.703125,
+        "draws": 18
+      },
+      {
+        "id": "harbor-pilot",
+        "cost": 3,
+        "coins": 9.0625,
+        "draws": 16.484375
+      },
+      {
+        "id": "sea-trade",
+        "cost": 4,
+        "coins": 10.6875,
+        "draws": 15
+      },
+      {
+        "id": "merchant-fleet",
+        "cost": 5,
+        "coins": 10.546875,
+        "draws": 16.484375
+      },
+      {
+        "id": "seed-keeper",
+        "cost": 2,
+        "coins": 8.125,
+        "draws": 15
+      },
+      {
+        "id": "harvest-feast",
+        "cost": 4,
+        "coins": 9.703125,
+        "draws": 18
+      },
+      {
+        "id": "sacred-grove",
+        "cost": 5,
+        "coins": 8.53125,
+        "draws": 15.890625
+      },
+      {
+        "id": "bronze-recruit",
+        "cost": 3,
+        "coins": 10.6875,
+        "draws": 15
+      },
+      {
+        "id": "forge-of-heroes",
+        "cost": 4,
+        "coins": 8.125,
+        "draws": 15
+      },
+      {
+        "id": "victorious-procession",
+        "cost": 5,
+        "coins": 11.8125,
+        "draws": 15
+      }
+    ]
+  },
+  {
+    "owned": {
+      "hamlet": 3,
+      "obol": 6,
+      "temple-of-athena": 1,
+      "council-of-sages": 1
+    },
+    "baseline": {
+      "coins": 10.5625,
+      "draws": 19.21875,
+      "samples": 64,
+      "turns": 3,
+      "perTurn": [
+        {
+          "coins": 3.296875,
+          "draws": 6.171875
+        },
+        {
+          "coins": 3.796875,
+          "draws": 6.734375
+        },
+        {
+          "coins": 3.46875,
+          "draws": 6.3125
+        }
+      ]
+    },
+    "candidates": [
+      {
+        "id": "obol",
+        "cost": 0,
+        "coins": 10.9375,
+        "draws": 18.984375
+      },
+      {
+        "id": "drachma",
+        "cost": 3,
+        "coins": 12.546875,
+        "draws": 18.984375
+      },
+      {
+        "id": "talent",
+        "cost": 6,
+        "coins": 14.15625,
+        "draws": 18.984375
+      },
+      {
+        "id": "hamlet",
+        "cost": 2,
+        "coins": 9.40625,
+        "draws": 18.984375
+      },
+      {
+        "id": "polis",
+        "cost": 5,
+        "coins": 9.40625,
+        "draws": 18.984375
+      },
+      {
+        "id": "oracles-acolyte",
+        "cost": 2,
+        "coins": 10.3125,
+        "draws": 20.5
+      },
+      {
+        "id": "council-of-sages",
+        "cost": 4,
+        "coins": 10.21875,
+        "draws": 20.8125
+      },
+      {
+        "id": "sacred-academy",
+        "cost": 5,
+        "coins": 11.34375,
+        "draws": 22.484375
+      },
+      {
+        "id": "harbor-pilot",
+        "cost": 3,
+        "coins": 10.3125,
+        "draws": 20.5
+      },
+      {
+        "id": "sea-trade",
+        "cost": 4,
+        "coins": 10.8125,
+        "draws": 18.984375
+      },
+      {
+        "id": "merchant-fleet",
+        "cost": 5,
+        "coins": 11.640625,
+        "draws": 20.5
+      },
+      {
+        "id": "seed-keeper",
+        "cost": 2,
+        "coins": 9.40625,
+        "draws": 18.984375
+      },
+      {
+        "id": "harvest-feast",
+        "cost": 4,
+        "coins": 11.09375,
+        "draws": 22.359375
+      },
+      {
+        "id": "sacred-grove",
+        "cost": 5,
+        "coins": 9.5625,
+        "draws": 20.015625
+      },
+      {
+        "id": "bronze-recruit",
+        "cost": 3,
+        "coins": 10.8125,
+        "draws": 18.984375
+      },
+      {
+        "id": "forge-of-heroes",
+        "cost": 4,
+        "coins": 9.40625,
+        "draws": 18.984375
+      },
+      {
+        "id": "victorious-procession",
+        "cost": 5,
+        "coins": 11.546875,
+        "draws": 19.03125
+      }
+    ]
+  },
+  {
+    "owned": {
+      "hamlet": 3,
+      "obol": 6,
+      "temple-of-athena": 1,
+      "harbor-pilot": 1
+    },
+    "baseline": {
+      "coins": 8.953125,
+      "draws": 16.359375,
+      "samples": 64,
+      "turns": 3,
+      "perTurn": [
+        {
+          "coins": 2.84375,
+          "draws": 5.484375
+        },
+        {
+          "coins": 3.15625,
+          "draws": 5.421875
+        },
+        {
+          "coins": 2.953125,
+          "draws": 5.453125
+        }
+      ]
+    },
+    "candidates": [
+      {
+        "id": "obol",
+        "cost": 0,
+        "coins": 9.4375,
+        "draws": 16.28125
+      },
+      {
+        "id": "drachma",
+        "cost": 3,
+        "coins": 10.78125,
+        "draws": 16.28125
+      },
+      {
+        "id": "talent",
+        "cost": 6,
+        "coins": 12.125,
+        "draws": 16.28125
+      },
+      {
+        "id": "hamlet",
+        "cost": 2,
+        "coins": 8.125,
+        "draws": 16.25
+      },
+      {
+        "id": "polis",
+        "cost": 5,
+        "coins": 8.125,
+        "draws": 16.25
+      },
+      {
+        "id": "oracles-acolyte",
+        "cost": 2,
+        "coins": 8.84375,
+        "draws": 17.828125
+      },
+      {
+        "id": "council-of-sages",
+        "cost": 4,
+        "coins": 10.421875,
+        "draws": 20.84375
+      },
+      {
+        "id": "sacred-academy",
+        "cost": 5,
+        "coins": 9.6875,
+        "draws": 19.625
+      },
+      {
+        "id": "harbor-pilot",
+        "cost": 3,
+        "coins": 8.84375,
+        "draws": 17.828125
+      },
+      {
+        "id": "sea-trade",
+        "cost": 4,
+        "coins": 10.703125,
+        "draws": 16.28125
+      },
+      {
+        "id": "merchant-fleet",
+        "cost": 5,
+        "coins": 10.328125,
+        "draws": 17.828125
+      },
+      {
+        "id": "seed-keeper",
+        "cost": 2,
+        "coins": 8.171875,
+        "draws": 16.28125
+      },
+      {
+        "id": "harvest-feast",
+        "cost": 4,
+        "coins": 9.625,
+        "draws": 19.59375
+      },
+      {
+        "id": "sacred-grove",
+        "cost": 5,
+        "coins": 8.390625,
+        "draws": 17.125
+      },
+      {
+        "id": "bronze-recruit",
+        "cost": 3,
+        "coins": 10.703125,
+        "draws": 16.28125
+      },
+      {
+        "id": "forge-of-heroes",
+        "cost": 4,
+        "coins": 8.171875,
+        "draws": 16.28125
+      },
+      {
+        "id": "victorious-procession",
+        "cost": 5,
+        "coins": 11.5625,
+        "draws": 16.296875
+      }
+    ]
+  }
+]

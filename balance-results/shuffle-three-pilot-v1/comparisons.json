@@ -1,0 +1,314 @@
+[
+  {
+    "kind": "headToHead",
+    "key": "treasure",
+    "seat": 0,
+    "share": 0.375,
+    "blocks": 16,
+    "pairs": 16,
+    "excludedBlocks": 0,
+    "exposureRate": 1,
+    "difference": -0.125,
+    "interval": [
+      -0.375,
+      0.125
+    ],
+    "correctedInterval": [
+      -0.4375,
+      0.1875
+    ],
+    "label": "inconclusive"
+  },
+  {
+    "kind": "pairedChange",
+    "key": "treasure",
+    "seat": 0,
+    "blocks": 16,
+    "pairs": 16,
+    "excludedBlocks": 0,
+    "exposureRate": 1,
+    "difference": -0.125,
+    "interval": [
+      -0.3125,
+      0.03125
+    ],
+    "correctedInterval": [
+      -0.40625,
+      0.09375
+    ],
+    "label": "inconclusive"
+  },
+  {
+    "kind": "headToHead",
+    "key": "treasure",
+    "seat": 1,
+    "share": 0.3125,
+    "blocks": 16,
+    "pairs": 16,
+    "excludedBlocks": 0,
+    "exposureRate": 1,
+    "difference": -0.1875,
+    "interval": [
+      -0.375,
+      0.03125
+    ],
+    "correctedInterval": [
+      -0.4375,
+      0.125
+    ],
+    "label": "inconclusive"
+  },
+  {
+    "kind": "pairedChange",
+    "key": "treasure",
+    "seat": 1,
+    "blocks": 16,
+    "pairs": 16,
+    "excludedBlocks": 0,
+    "exposureRate": 1,
+    "difference": -0.1875,
+    "interval": [
+      -0.4375,
+      0.0625
+    ],
+    "correctedInterval": [
+      -0.53125,
+      0.15625
+    ],
+    "label": "inconclusive"
+  },
+  {
+    "kind": "headToHead",
+    "key": "treasure-thin",
+    "seat": 0,
+    "share": 0.46875,
+    "blocks": 16,
+    "pairs": 16,
+    "excludedBlocks": 0,
+    "exposureRate": 1,
+    "difference": -0.03125,
+    "interval": [
+      -0.25,
+      0.21875
+    ],
+    "correctedInterval": [
+      -0.34375,
+      0.28125
+    ],
+    "label": "inconclusive"
+  },
+  {
+    "kind": "pairedChange",
+    "key": "treasure-thin",
+    "seat": 0,
+    "blocks": 16,
+    "pairs": 16,
+    "excludedBlocks": 0,
+    "exposureRate": 1,
+    "difference": -0.09375,
+    "interval": [
+      -0.375,
+      0.21875
+    ],
+    "correctedInterval": [
+      -0.5,
+      0.3125
+    ],
+    "label": "inconclusive"
+  },
+  {
+    "kind": "headToHead",
+    "key": "treasure-thin",
+    "seat": 1,
+    "share": 0.34375,
+    "blocks": 16,
+    "pairs": 16,
+    "excludedBlocks": 0,
+    "exposureRate": 1,
+    "difference": -0.15625,
+    "interval": [
+      -0.375,
+      0.0625
+    ],
+    "correctedInterval": [
+      -0.4375,
+      0.15625
+    ],
+    "label": "inconclusive"
+  },
+  {
+    "kind": "pairedChange",
+    "key": "treasure-thin",
+    "seat": 1,
+    "blocks": 16,
+    "pairs": 16,
+    "excludedBlocks": 0,
+    "exposureRate": 1,
+    "difference": -0.09375,
+    "interval": [
+      -0.34375,
+      0.15625
+    ],
+    "correctedInterval": [
+      -0.4375,
+      0.25
+    ],
+    "label": "inconclusive"
+  },
+  {
+    "kind": "headToHead",
+    "key": "engine",
+    "seat": 0,
+    "share": 0,
+    "blocks": 16,
+    "pairs": 16,
+    "excludedBlocks": 0,
+    "exposureRate": 1,
+    "difference": -0.5,
+    "interval": [
+      -0.5,
+      -0.29409278579217724
+    ],
+    "correctedInterval": [
+      -0.5,
+      -0.19731358529218157
+    ],
+    "label": "inconclusive"
+  },
+  {
+    "kind": "pairedChange",
+    "key": "engine",
+    "seat": 0,
+    "blocks": 16,
+    "pairs": 16,
+    "excludedBlocks": 0,
+    "exposureRate": 1,
+    "difference": -0.4375,
+    "interval": [
+      -0.6875,
+      -0.1875
+    ],
+    "correctedInterval": [
+      -0.75,
+      -0.125
+    ],
+    "label": "inconclusive"
+  },
+  {
+    "kind": "headToHead",
+    "key": "engine",
+    "seat": 1,
+    "share": 0,
+    "blocks": 16,
+    "pairs": 16,
+    "excludedBlocks": 0,
+    "exposureRate": 1,
+    "difference": -0.5,
+    "interval": [
+      -0.5,
+      -0.29409278579217724
+    ],
+    "correctedInterval": [
+      -0.5,
+      -0.19731358529218157
+    ],
+    "label": "inconclusive"
+  },
+  {
+    "kind": "pairedChange",
+    "key": "engine",
+    "seat": 1,
+    "blocks": 16,
+    "pairs": 16,
+    "excludedBlocks": 0,
+    "exposureRate": 1,
+    "difference": -0.5625,
+    "interval": [
+      -0.8125,
+      -0.3125
+    ],
+    "correctedInterval": [
+      -0.875,
+      -0.25
+    ],
+    "label": "inconclusive"
+  },
+  {
+    "kind": "headToHead",
+    "key": "engine-thin",
+    "seat": 0,
+    "share": 0,
+    "blocks": 16,
+    "pairs": 16,
+    "excludedBlocks": 0,
+    "exposureRate": 1,
+    "difference": -0.5,
+    "interval": [
+      -0.5,
+      -0.29409278579217724
+    ],
+    "correctedInterval": [
+      -0.5,
+      -0.19731358529218157
+    ],
+    "label": "inconclusive"
+  },
+  {
+    "kind": "pairedChange",
+    "key": "engine-thin",
+    "seat": 0,
+    "blocks": 16,
+    "pairs": 16,
+    "excludedBlocks": 0,
+    "exposureRate": 1,
+    "difference": -0.53125,
+    "interval": [
+      -0.75,
+      -0.3125
+    ],
+    "correctedInterval": [
+      -0.84375,
+      -0.21875
+    ],
+    "label": "inconclusive"
+  },
+  {
+    "kind": "headToHead",
+    "key": "engine-thin",
+    "seat": 1,
+    "share": 0,
+    "blocks": 16,
+    "pairs": 16,
+    "excludedBlocks": 0,
+    "exposureRate": 1,
+    "difference": -0.5,
+    "interval": [
+      -0.5,
+      -0.29409278579217724
+    ],
+    "correctedInterval": [
+      -0.5,
+      -0.19731358529218157
+    ],
+    "label": "inconclusive"
+  },
+  {
+    "kind": "pairedChange",
+    "key": "engine-thin",
+    "seat": 1,
+    "blocks": 16,
+    "pairs": 16,
+    "excludedBlocks": 0,
+    "exposureRate": 1,
+    "difference": -0.46875,
+    "interval": [
+      -0.6875,
+      -0.25
+    ],
+    "correctedInterval": [
+      -0.78125,
+      -0.1875
+    ],
+    "label": "inconclusive"
+  }
+]
