@@ -23,13 +23,21 @@ for(const a of controls)for(const b of controls)add(a,b);
 for(const a of candidates)for(const b of controls){add(a,b);add(b,a);}
 // Candidate mirrors and cross-parent/thinning opposition are essential validation.
 for(const policy of selected){const ks=candidates.filter(k=>k.endsWith('@'+policy));for(const a of ks)for(const b of ks)add(a,b);}
+const focus=process.argv[6]?JSON.parse(readFileSync(process.argv[6],'utf8')):undefined;
+if(focus){
+ cellSet.clear();
+ for(const c of focus.comparisons){
+  if(!profiles[c.candidate]||!profiles[c.baseline]||!profiles[c.opponent]||![0,1].includes(c.seat))throw Error('Invalid focused comparison');
+  for(const arm of [c.candidate,c.baseline])c.seat?add(c.opponent,arm):add(arm,c.opponent);
+ }
+}
 const cells=[...cellSet].map(s=>s.split('|')),workers=availableParallelism(),batchSize=Math.max(1,Math.min(4,Math.floor(blocks/workers))),shards=Math.ceil(blocks/batchSize),seed='shared-endgame-v1:'+stage;
 const git=(...args:string[])=>execFileSync('git',args,{encoding:'utf8'}).trim();
 if(git('status','--porcelain'))throw Error('Commit source first');
 const sourceCommit=git('rev-parse','HEAD');
 mkdirSync(out);mkdirSync(out+'/replays');
 const write=(n:string,v:unknown)=>writeFileSync(out+'/'+n,JSON.stringify(v,null,2)+'\n');
-const manifest={sourceCommit,policyVersion:strategyVersion,status:'running',blocks,workers,shards,batchSize,seed,stage,selected,profiles,cells,variant:'base-game',plannedGames:blocks*cells.length,replayBlocks:1,startedAt:new Date().toISOString(),rules:'No powers or Worship; identical 6 Obol, 3 Hamlet, inert Temple starts. Fixed default parameters. No pooling of parents, Thin settings, opponents or seats.',selection:'Screen candidate changes separately against both historical and old two-turn controls; confirm chosen policy on fresh seeds. Require no material regression across every parent/Thin/seat/fixed-opponent cell, not merely a positive average.'};write('manifest.json',manifest);
+const manifest={...(focus?{focusedComparisons:focus.comparisons,selectionSource:focus.selectionSource}:{}),sourceCommit,policyVersion:strategyVersion,status:'running',blocks,workers,shards,batchSize,seed,stage,selected,profiles,cells,variant:'base-game',plannedGames:blocks*cells.length,replayBlocks:1,startedAt:new Date().toISOString(),rules:'No powers or Worship; identical 6 Obol, 3 Hamlet, inert Temple starts. Fixed default parameters. No pooling of parents, Thin settings, opponents or seats.',selection:'Screen candidate changes separately against both historical and old two-turn controls; confirm chosen policy on fresh seeds. Require no material regression across every parent/Thin/seat/fixed-opponent cell, not merely a positive average.'};write('manifest.json',manifest);
 const start=performance.now();
 const active=new Set<ReturnType<typeof Bun.spawn>>();let nextJob=0,failed=false;
 try{

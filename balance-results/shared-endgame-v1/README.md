@@ -50,3 +50,11 @@ A loss of five percentage points is considered materially important. Examine eac
 All available CPUs run inside Nix. Queued batches of at most four seed blocks reduce idle tails. Memoization changes preserve the income calculation and avoid clearing the whole cache at capacity. Candidate definitions remain frozen during validation.
 
 Reproduce inside Nix: bun scripts/balance-endgame-study.ts balance-runs/shared-endgame-validation-v1 512 validation-1 turn-2,redraw-25. Regenerate per-cell evidence: bun scripts/balance-endgame-report.ts balance-results/shared-endgame-validation-v1.
+
+## Focused follow-up, frozen before play
+
+Validation 1 completed all 114,688 games with zero failures. Turn-2 remains the strongest common candidate. The redraw candidate has a concerning second-seat Money mirror comparison (−5.66 pp relative to the old overlay), so it is not promoted.
+
+We tightened the initial intervals to reserve half the error budget, using 100,000 resamples and multiplier two (384 effective primary tests). The 17 turn-2 comparisons whose lower bound remains below −5 pp are listed in followup-plan.json. Test each on 4,096 fresh seeds in validation-2, with the candidate unchanged. This requires 30 distinct ordered cells and 122880 games. The new intervals also reserve half the error budget (twice the focused comparison count). This independent, conditional family and the initial conservative family allow a combined nominal 95% guard, subject to bootstrap approximation. The aim is to rule out losses larger than five percentage points in every tested context, not claim strict improvement in every game or optimality against arbitrary opponents.
+
+Reproduce inside Nix: bun scripts/balance-endgame-study.ts balance-runs/shared-endgame-validation-v2 4096 validation-2 turn-2 balance-results/shared-endgame-v1/followup-plan.json. Analyze with bun scripts/balance-endgame-report.ts balance-results/shared-endgame-validation-v2 2.
