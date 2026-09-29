@@ -1,0 +1,8 @@
+import {candidates,type Profile} from './strategy';
+export const baseProfiles: Record<string,Profile> = {
+ treasure:{family:'treasure',parameters:candidates[0],thinning:false},
+ 'treasure-thin':{family:'treasure',parameters:candidates[0],thinning:true},
+ engine:{family:'engine',parameters:candidates[0],thinning:false},
+ 'engine-thin':{family:'engine',parameters:candidates[0],thinning:true}
+};
+export const baseLabel=(key:string)=>({treasure:'Big Money','treasure-thin':'Big Money + Thin',engine:'Engine','engine-thin':'Engine + Thin'}[key]??key);

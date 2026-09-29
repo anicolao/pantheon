@@ -1,3 +1,4 @@
+import {objectiveToolPremium, objectiveTrashChoice, objectiveGain, objectivePlayBonus, isThinningTool} from './objective-thin';
 import { moneyPurchase, moneyBuy, moneyDiscard, moneyAction } from './money';
 import { devotionValue, favoredPaths } from './worship';
 import { purchasePlan, endingShare, gainOutcome, availableCoins, publicHorizon, treasureValue, immediateGainValue } from './planning';
@@ -7,7 +8,7 @@ import { actionEffects, definition, leaderEffects, type PlayVariant, type Action
 import type { CardInstance, SetupState } from '../../src/lib/game/setup';
 import { chooseCommand, observe, type Observation } from './bot';
 
-export const strategyVersion = 8;
+export const strategyVersion = 9;
 export const families = ['treasure', 'engine', 'thin', 'worship', 'race'] as const;
 export type Family = typeof families[number];
 export type Parameters = { scoringAt: number; engineCopies: number; moneyFloor: number; worshipMargin: number };
@@ -16,7 +17,7 @@ export const candidates: Parameters[] = [
   { scoringAt: 5, engineCopies: 2, moneyFloor: 9, worshipMargin: 1 },
   { scoringAt: 2, engineCopies: 5, moneyFloor: 6, worshipMargin: 0 }
 ];
-export type Profile = { family: Family; parameters: Parameters };
+export type Profile = { family: Family; parameters: Parameters; thinning?: boolean };
 export type Restriction = { kind: 'event' | 'card' | 'leader-trigger'; id: string; scope: 'focal' | 'table' };
 export type PublicInventory = Record<string, Record<string, number>>;
 export type View = Observation & {
@@ -75,6 +76,9 @@ function scoreCard(view: View, profile: Profile, id: string): number {
   if (id === 'talent') return end ? 6 : 9;
   if (id === 'drachma') return Math.max(1, 6.5 - Math.max(0, money(view) - 10) * 0.35);
   if (card.uniqueStartingCard) return 1;
+  if (profile.family === 'engine' && profile.thinning !== undefined) {
+    return engineActionValue(view, profile, id) + (profile.thinning ? 6 * objectiveToolPremium(view, 'engine', id) : 0);
+  }
   const tool = thinToolValue(view, id);
   if (tool !== undefined) return tool * (profile.family === 'thin' ? 1 : 0.35) + (profile.family === 'worship' ? devotionValue(view, id) : 0);
   if (profile.family === 'engine') return engineActionValue(view, profile, id);
@@ -102,6 +106,8 @@ function loss(view: View, profile: Profile, card: CardInstance): number {
   return Math.max(1, cardValue(without, profile, card.cardId));
 }
 function offering(view: View, profile: Profile, choice: Choice): { targets: string[]; value: number } {
+  if (profile.thinning === false && choice.min === 0) return {targets: [], value: 0};
+  if (profile.thinning && (profile.family === 'engine' || profile.family === 'treasure')) return objectiveTrashChoice(view, profile.family, choice);
   if (profile.family === 'thin') return thinTrashChoice(view, choice);
   const subsets: CardInstance[][] = [[], ...view.hand.map(card => [card])];
   if (choice.max > 1) for (let i = 0; i < view.hand.length; i++) for (let j = i + 1; j < view.hand.length; j++) subsets.push([view.hand[i], view.hand[j]]);
@@ -159,12 +165,27 @@ function worshipValue(view: View, profile: Profile, event: string): number {
       return gain && gainOutcome(view, gain) !== 0 ? cardValue(view, profile, gain) + immediateGainValue(view, gain) : -1000;
     }
     case 'tribute-of-the-tides': if (view.supply.drachma > 0 && gainOutcome(view, 'drachma') === 0) return -1000; return (view.supply.drachma > 0 ? cardValue(view, profile, 'drachma') + (favored ? immediateGainValue(view, 'drachma') : 0) : 0) + (favored && view.resources.buys === 0 ? 1 : 0);
-    case 'blessing-of-the-fields': return favored ? offering(view, profile, { id: '', kind: 'trash', source: event, min: 0, max: 2, offering: 'sum' }).value : thinTrashChoice(view, { id: '', kind: 'trash', source: event, min: 0, max: 2 }).value * (profile.family === 'thin' ? 1 : 2);
+    case 'blessing-of-the-fields':
+      if (profile.thinning === false) return 0;
+      if (profile.thinning && (profile.family === 'engine' || profile.family === 'treasure')) return objectiveTrashChoice(view, profile.family, {id:'',kind:'trash',source:event,min:0,max:2,...(favored?{offering:'sum' as const}:{})}).value;
+      return favored ? offering(view, profile, { id: '', kind: 'trash', source: event, min: 0, max: 2, offering: 'sum' }).value : thinTrashChoice(view, { id: '', kind: 'trash', source: event, min: 0, max: 2 }).value * (profile.family === 'thin' ? 1 : 2);
     case 'trial-of-the-spear': return offering(view, profile, { id: '', kind: 'trash', source: event, min: 0, max: 1, offering: favored ? 3 : 1 }).value;
     default: return -1000;
   }
 }
 export function strategyCommand(view: View, profile: Profile): ActionCommand {
+  if (profile.thinning !== undefined && profile.family !== 'engine' && profile.family !== 'treasure') throw new Error('Orthogonal thinning requires a Money or Engine objective');
+  const objective = profile.thinning && (profile.family === 'engine' || profile.family === 'treasure') ? profile.family : undefined;
+  if (view.choice?.kind === 'trash' && profile.thinning !== undefined) {
+    const targets = objective ? objectiveTrashChoice(view, objective, view.choice).targets
+      : view.choice.min === 0 ? [] : thinTrashChoice(view, view.choice).targets;
+    return {type:'choice/resolved',choiceId:view.choice.id,targets};
+  }
+  if (view.choice?.kind === 'gain' && objective && isThinningTool(view, view.choice.source)) {
+    const id=objectiveGain(view,objective,view.choice);
+    return {type:'choice/resolved',choiceId:view.choice.id,targets:id?[id]:[]};
+  }
+  const premium = (id: string) => objective ? objectiveToolPremium(view, objective, id) : 0;
   if (profile.family === 'treasure') {
     if (view.choice?.kind === 'discard') return { type: 'choice/resolved', choiceId: view.choice.id, targets: moneyDiscard(view) };
     const filtered = structuredClone(view);
@@ -176,15 +197,15 @@ export function strategyCommand(view: View, profile: Profile): ActionCommand {
     if (view.choice?.kind === 'gain') {
       const eligible = gains(filtered, view.choice.limit!, view.choice.actionOnly);
       const winning = eligible.filter(id => (gainOutcome(view, id) ?? 0) > 0).sort((a,b)=>(definition(b).vp??0)-(definition(a).vp??0));
-      const id = winning[0] ?? moneyBuy(filtered, eligible, view.choice.min > 0);
+      const id = winning[0] ?? moneyBuy(filtered, eligible, view.choice.min > 0, premium);
       return { type: 'choice/resolved', choiceId: view.choice.id, targets: id ? [id] : [] };
     }
     if (!view.choice && view.phase === 'actions' && view.resources.actions > 0) {
-      const action = moneyAction(view);
+      const action = moneyAction(view, card => objective ? objectivePlayBonus(view, objective, card) : 0);
       if (action) return { type: 'action/played', instanceId: action.id };
     }
     if (!view.choice && (view.phase === 'buys' || view.phase === 'treasures' && !view.hand.some(c=>definition(c.cardId).type==='Treasure'))) {
-      return moneyPurchase(filtered);
+      return moneyPurchase(filtered, premium);
     }
     return chooseCommand(filtered, 'treasure');
   }
@@ -207,7 +228,7 @@ export function strategyCommand(view: View, profile: Profile): ActionCommand {
   if (view.phase === 'actions') {
     const actions = view.hand.filter(card => definition(card.cardId).type === 'Action' && actionEffects(card.cardId, view.variant).length > 0);
     const priority = (card: CardInstance) => {
-      if (profile.family === 'engine') return enginePlayPriority(view, card);
+      if (profile.family === 'engine') return enginePlayPriority(view, card) + (objective ? objectivePlayBonus(view, objective, card) : 0);
       if (profile.family === 'thin') return thinPlayPriority(view, card);
       return enginePlayPriority(view, card);
     };
