@@ -1,3 +1,4 @@
+import {moneyPointEligible} from './end-game';
 import { applyPlayCommand, definition, initialTurn, leaderEffects, actionEffects, type ActionCommand, type PlayVariant } from '../../src/lib/game/actions';
 import { createPrng } from '../../src/lib/game/random';
 import type { CardInstance, SetupState } from '../../src/lib/game/setup';
@@ -10,6 +11,10 @@ type MoneyView = Observation & { leaderBonus?: Features; play?: CardInstance[]; 
 export type MoneyEstimate = { mean: number; samples: number };
 const permutations = 16;
 const cache = new Map<string, MoneyEstimate>();
+const remember=(key:string,value:MoneyEstimate)=>{
+ if(cache.size>=50000)cache.delete(cache.keys().next().value!);
+ cache.set(key,value);return value;
+};
 const ranks = new Map<string, number[]>();
 const bonus = (view: MoneyView) => view.leaderBonus ?? effectFeatures(leaderEffects(view.leader, view.variant));
 const expanded = (owned: Record<string, number>): CardInstance[] => Object.entries(owned).sort(([a],[b])=>a.localeCompare(b)).flatMap(([cardId,n])=>Array.from({length:n},(_,copy)=>({cardId,copy,id:`ev-${cardId}-${copy}`})));
@@ -44,7 +49,8 @@ export function moneyDiscard(view: MoneyView): string[] {
 export function moneyEstimate(view: MoneyView, owned=view.owned): MoneyEstimate {
   const entries=Object.entries(owned).filter(([,n])=>n>0).sort(([a],[b])=>a.localeCompare(b));
   const canGain=entries.some(([id])=>cardFeatures(id, view.variant).gain>0);
-  const key=JSON.stringify([view.variant??'standard',entries,view.leader,bonus(view),canGain?view.supply:null]);
+  const features=bonus(view),disabled=Object.values(features).every(n=>n===0);
+  const key=JSON.stringify([view.variant??'standard',entries,disabled?null:view.leader,features,canGain?view.supply:null]);
   const cached=cache.get(key);if(cached)return cached;
   const cards=expanded(Object.fromEntries(entries));
   const noActions=cards.every(c=>definition(c.cardId).type!=='Action');
@@ -58,9 +64,8 @@ export function moneyEstimate(view: MoneyView, owned=view.owned): MoneyEstimate 
       mean=opened*total+opened*(f.coins+trigger.coins+Math.min(f.draw+trigger.draw,Math.max(0,n-5))*total/Math.max(1,n-1));
     }
   }
-  if(mean!==undefined) { const exact={mean,samples:0}; if(cache.size>10000)cache.clear();cache.set(key,exact);return exact; }
+  if(mean!==undefined) { const exact={mean,samples:0}; return remember(key,exact); }
   const variants:PlayVariant[]=['standard','thaleia-draw','leader-buffs','thaleia-buy','thaleia-actions'];
-  const disabled=Object.values(bonus(view)).every(n=>n===0);
   const variant=view.variant==='base-game'?'base-game':variants.find(v=>JSON.stringify(effectFeatures(leaderEffects(view.leader,v)))===JSON.stringify(bonus(view))) ?? 'standard';
   let sum=0;
   const samples=permutations*Math.max(1,cards.length);
@@ -100,7 +105,7 @@ export function moneyEstimate(view: MoneyView, owned=view.owned): MoneyEstimate 
    }
   }
   const result={mean:sum/samples,samples};
-  if(cache.size>10000)cache.clear();cache.set(key,result);return result;
+  return remember(key,result);
 }
 export function moneyAfter(view: MoneyView, id: string): MoneyEstimate {
   return moneyEstimate(view,{...view.owned,[id]:(view.owned[id]??0)+1});
@@ -113,7 +118,7 @@ export function moneyBuy(view: MoneyView, legal?: string[], mandatory=false, pre
   // Use the whole supply, not just affordable/safe cards, so cheap points do not become
   // "top tier" merely because the actual top tier is unaffordable or a losing ending.
   const topVP=Math.max(0,...Object.keys(view.supply).map(id=>definition(id).vp??0));
-  const points=options.filter(c=>c.vp>0&&(c.vp===topVP||!view.endGamePolicy&&c.ev>=8));
+  const points=options.filter(c=>moneyPointEligible(c.vp,topVP,c.ev,!!view.endGamePolicy));
   if(points.length)return points.sort((a,b)=>b.vp-a.vp||b.ev-a.ev||definition(a.id).cost!-definition(b.id).cost!||a.id.localeCompare(b.id))[0].id;
   const ranked=options.sort((a,b)=>(b.ev+b.bonus)-(a.ev+a.bonus)||definition(a.id).cost!-definition(b.id).cost!||a.id.localeCompare(b.id));
   const best=ranked[0];

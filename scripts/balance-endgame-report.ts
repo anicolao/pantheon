@@ -4,7 +4,7 @@ import {definition} from '../src/lib/game/actions';
 import {pairedEstimate,type Pair} from './balance/evidence';
 const dir=process.argv[2],m=JSON.parse(readFileSync(dir+'/manifest.json','utf8'));
 if(m.status!=='completed')throw Error('Incomplete run');
-const rows:any[]=Array.from({length:m.workers},(_,i)=>gunzipSync(readFileSync(dir+'/games-'+i+'.jsonl.gz')).toString().trim().split('\n').filter(Boolean).map(s=>JSON.parse(s))).flat();
+const rows:any[]=Array.from({length:m.shards??m.workers},(_,i)=>gunzipSync(readFileSync(dir+'/games-'+i+'.jsonl.gz')).toString().trim().split('\n').filter(Boolean).map(s=>JSON.parse(s))).flat();
 const grouped=new Map<string,any[]>();
 for(const r of rows){
  if(r.result.status!=='completed'||r.result.seed!==m.seed+':'+r.result.block)throw Error('Bad result/seed');
@@ -41,10 +41,10 @@ for(const candidate of Object.keys(m.profiles).filter(k=>!/@(historical|overlay)
  }
 }
 const counts=Object.fromEntries(m.selected.map((p:string)=>[p,comparisons.filter(c=>c.primary&&c.candidate.endsWith('@'+p)).length]));
-const estimates=comparisons.map(({pairs,...c})=>({...c,...pairedEstimate(pairs,counts[c.candidate.split('@')[1]],false)}));
+const estimates=comparisons.map(({pairs,...c})=>({...c,...pairedEstimate(pairs,counts[c.candidate.split('@')[1]]*(m.stage.startsWith('validation')?m.selected.length:1),false)}));
 for(const[n,v]of Object.entries({cells,comparisons:estimates}))writeFileSync(dir+'/'+n+'.json',JSON.stringify(v,null,2)+'\n');
 const pct=(n:number)=>(100*n).toFixed(2);
-const lines=['# Shared endgame policy trial: '+m.stage,'',m.games+' games, '+m.blocks+' common seeds per ordered cell, '+m.workers+' workers. No pooling. Primary comparator: Money with the old two-turn overlay; Engine with historical scoring. Other controls are supplementary. Each policy has '+Object.values(counts).join('/')+' separate primary comparisons. Paired bootstrap intervals adjust within each policy; screening multiple policies is exploratory. Positive changes favor the candidate.','','| Candidate | Baseline | Fixed opponent | Seat | Change pp | Adjusted interval pp |','| --- | --- | --- | ---: | ---: | --- |',...estimates.filter(c=>c.primary).map(c=>'| '+c.candidate+' | '+c.baseline+' | '+c.opponent+' | '+(c.seat+1)+' | '+pct(c.difference)+' | '+c.correctedInterval.map(pct).join(' to ')+' |'),''];
+const lines=['# Shared endgame policy trial: '+m.stage,'',m.games+' games, '+m.blocks+' common seeds per ordered cell, '+m.workers+' workers. No pooling. Primary comparator: Money with the old two-turn overlay; Engine with historical scoring. Other controls are supplementary. Each policy has '+Object.values(counts).join('/')+' separate primary comparisons. Paired bootstrap intervals adjust within each policy for exploratory screens, and across all selected policies for validation stages. Positive changes favor the candidate.','','| Candidate | Baseline | Fixed opponent | Seat | Change pp | Adjusted interval pp |','| --- | --- | --- | ---: | ---: | --- |',...estimates.filter(c=>c.primary).map(c=>'| '+c.candidate+' | '+c.baseline+' | '+c.opponent+' | '+(c.seat+1)+' | '+pct(c.difference)+' | '+c.correctedInterval.map(pct).join(' to ')+' |'),''];
 writeFileSync(dir+'/report.md',lines.join('\n'));
 for(const policy of m.selected){
  const cs=estimates.filter(c=>c.primary&&c.candidate.endsWith('@'+policy)),worst=[...cs].sort((a,b)=>a.difference-b.difference)[0];
