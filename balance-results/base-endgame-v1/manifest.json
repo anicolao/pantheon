@@ -1,0 +1,72 @@
+{
+  "sourceCommit": "621bb90fa7592085c3024ad52f3d87abe0c451b5",
+  "dirty": false,
+  "status": "completed",
+  "variant": "base-game",
+  "policyVersion": 11,
+  "blocks": 200,
+  "workers": 16,
+  "plannedGames": 3200,
+  "seed": "base-endgame-v1:screening",
+  "profiles": {
+    "treasure": {
+      "family": "treasure",
+      "parameters": {
+        "scoringAt": 3,
+        "engineCopies": 3,
+        "moneyFloor": 7,
+        "worshipMargin": 0.5
+      },
+      "thinning": false,
+      "endGame": false
+    },
+    "treasure-endgame": {
+      "family": "treasure",
+      "parameters": {
+        "scoringAt": 3,
+        "engineCopies": 3,
+        "moneyFloor": 7,
+        "worshipMargin": 0.5
+      },
+      "thinning": false,
+      "endGame": true
+    },
+    "treasure-thin": {
+      "family": "treasure",
+      "parameters": {
+        "scoringAt": 3,
+        "engineCopies": 3,
+        "moneyFloor": 7,
+        "worshipMargin": 0.5
+      },
+      "thinning": true,
+      "endGame": false
+    },
+    "treasure-thin-endgame": {
+      "family": "treasure",
+      "parameters": {
+        "scoringAt": 3,
+        "engineCopies": 3,
+        "moneyFloor": 7,
+        "worshipMargin": 0.5
+      },
+      "thinning": true,
+      "endGame": true
+    }
+  },
+  "mode": "endgame",
+  "training": "None: fixed default preset, identical across seats",
+  "startingDeck": {
+    "obol": 6,
+    "hamlet": 3,
+    "temple-of-athena": 1
+  },
+  "rules": "No leader effects; Worship forbidden; Temples have no effects; standard supply and ending rules",
+  "orientation": "Player 1 = first in turn order. Rows P1 strategy, columns P2 strategy. Never pool cells or reverse turn order.",
+  "primary": "16 separate P1 victory shares, ties split; seed bootstrap intervals adjusted over 16 cells; row-wise P2 best responses",
+  "startedAt": "2026-09-29T08:21:21.689Z",
+  "games": 3200,
+  "failures": 0,
+  "replays": 160,
+  "elapsedSeconds": 79.319068625
+}
