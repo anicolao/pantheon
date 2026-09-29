@@ -28,6 +28,7 @@ test('resource dominance is effect-based and disabled where leader triggers matt
  const v=view();expect(resourceDominates(v,'drachma','bronze-recruit')).toBe(true);
  expect(resourceDominates(v,'bronze-recruit','drachma')).toBe(false);
  expect(resourceDominates(v,'drachma','council-of-sages')).toBe(false);
+ expect(resourceDominates(v,'drachma','sea-trade')).toBe(false); // Different costs can matter to upgrades.
  expect(resourceDominates({...v,variant:'standard'},'drachma','bronze-recruit')).toBe(false);
 });
 test('shared play takes usable income over a weaker terminal draw while preserving chains',()=>{
