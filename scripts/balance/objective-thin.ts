@@ -46,6 +46,8 @@ export function objectiveChange(view: View, objective: ThinObjective, remove: Ca
  if(Object.values(owned).some(n=>n<0)||!size(owned))return -1000;
  const deltaVP=vp(owned)-vp(view.owned);
  const outcome=gain?gainOutcome(view,gain,remove.reduce((s,c)=>s+(definition(c.cardId).vp??0),0)):endingShare(view,deltaVP);
+ // A future projection cannot claim a guaranteed current-turn ending.
+ if(!currentTurn && outcome!==null)return -1000;
  if(outcome===0)return -1000;
  if(outcome!==null&&outcome>0)return 1000*outcome+deltaVP;
  const horizon=publicHorizon(view);
