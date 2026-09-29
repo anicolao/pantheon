@@ -10,6 +10,18 @@ test('tap to play and hold or right-click to inspect without committing', async 
   const steps = new TestStepHelper(page, info, 'Play directly or inspect deliberately');
   const action = fixture.game.decks[fixture.host].hand.find(card => card.cardId === 'temple-of-athena')!;
   const card = page.locator(`button[data-instance-id="${action.id}"]`);
+  // Pointer targeting wins over retained keyboard focus; exactly one face is lit.
+  await page.keyboard.press('Tab');
+  await card.focus();
+  const targets = page.getByTestId('hand-card');
+  const lit = () => page.locator('.hand-slot').evaluateAll(nodes=>nodes.filter(node=>getComputedStyle(node).filter!=='none').map(node=>(node as HTMLElement).dataset.instanceId));
+  for (let index=0; index<await targets.count(); index++) {
+    const target=targets.nth(index);
+    await target.hover();
+    expect(await lit()).toEqual([await target.getAttribute('data-instance-id')]);
+  }
+  await page.mouse.move(0,0);
+  expect(await lit()).toEqual([action.id]);
   await card.click({button:'right'});
   await steps.step('right-click', 'Right-click to inspect before deciding', [{spec:'Inspection offers Play and leaves the recorded game untouched.', check:async()=>{
     await expect(page.getByRole('button',{name:'Play Temple of Athena',exact:true})).toBeEnabled();

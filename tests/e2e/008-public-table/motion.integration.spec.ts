@@ -10,14 +10,14 @@ async function observe(page:Page){
   await page.emulateMedia({reducedMotion:'no-preference'});
   await page.evaluate(()=>{
     const animate=Element.prototype.animate;
-    const owner=window as unknown as {flights:{id:string;kind:string;faces:number;end:string}[]};owner.flights=[];
+    const owner=window as unknown as {flights:{id:string;kind:string;faces:number;end:string;duration:number;delay:number}[]};owner.flights=[];
     Element.prototype.animate=function(frames,options){
-      if(this.matches('.public-flight'))owner.flights.push({id:this.getAttribute('data-motion-step')!,kind:this.getAttribute('data-motion-kind')!,faces:this.querySelectorAll('[data-card-id]').length,end:Array.isArray(frames)?String(frames.at(-2)?.transform):''});
+      if(this.matches('.public-flight'))owner.flights.push({id:this.getAttribute('data-motion-step')!,kind:this.getAttribute('data-motion-kind')!,faces:this.querySelectorAll('[data-card-id]').length,duration:typeof options==='number'?options:Number(options?.duration),delay:typeof options==='number'?0:Number(options?.delay??0),end:Array.isArray(frames)?String(frames.at(-2)?.transform):''});
       return animate.call(this,frames,options);
     };
   });
 }
-async function flights(page:Page){return page.evaluate(()=>(window as unknown as {flights:{id:string;kind:string;faces:number;end:string}[]}).flights);}
+async function flights(page:Page){return page.evaluate(()=>(window as unknown as {flights:{id:string;kind:string;faces:number;end:string;duration:number;delay:number}[]}).flights);}
 
 for(const scenario of [
   {card:'oracles-acolyte',leader:'thaleia',title:'an Action draw followed by a bloodline blessing'},
@@ -62,7 +62,7 @@ for(const scenario of [
     const moves=state.publicActivity.filter(entry=>entry.sequence>fixture.events.length).flatMap(entry=>entry.steps);
     await expect.poll(async()=>(await flights(other)).map(move=>move.id)).toEqual(moves.map(move=>move.id));
     await expect(other.locator('.public-flight')).toHaveCount(0);
-    const observed=await flights(other);expect(new Set(observed.map(move=>move.id)).size).toBe(observed.length);
+    const observed=await flights(other);expect(observed.every(move=>move.duration>=450)).toBe(true);expect(observed.every(move=>move.delay<=280)).toBe(true);expect(new Set(observed.map(move=>move.id)).size).toBe(observed.length);
     expect(observed.filter(move=>['draw','shuffle','cleanup'].includes(move.kind)).every(move=>move.faces===0)).toBe(true);
     if(scenario.cleanup)expect(observed.some(move=>move.kind==='shuffle')).toBe(true);
     if(scenario.reveal){
