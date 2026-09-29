@@ -1,0 +1,4 @@
+import {writeFileSync} from 'node:fs';
+const jobs=Array.from({length:16},(_,i)=>Bun.spawn([process.execPath,'balance-runs/last-balanced-worker.ts',String(Math.floor(i/4)),String(i%2===1),i%4<2?'engine':'treasure'],{stdout:'pipe',stderr:'inherit'}));
+const rows=await Promise.all(jobs.map(async p=>{const text=await new Response(p.stdout).text();if(await p.exited)throw Error('Probe failed');return text;}));
+writeFileSync('balance-runs/last-balanced-probe.jsonl',rows.join(''));

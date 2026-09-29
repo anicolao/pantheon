@@ -1,9 +1,16 @@
-# Bot defect correction ledger — version 15
+# Bot defect correction ledger — version 18
 
 This ledger distinguishes concrete decision defects from unavoidable uncertainty and deliberate benchmark restrictions. “Corrected” means implementation plus a targeted behavioral check or the specified shared regression coverage; it does not certify perfect play.
 
 | Previously identified defect | Correction | Evidence |
 | --- | --- | --- |
+| Raw draw volume built engines with no spending power | Shared usable-spending objective plus income-backed unique-card coverage | Effective sampler tests and repair study; whole-deck engine construction remains unresolved |
+| 64 ordinary samples introduced avoidable pure-Treasure opening noise | Every cyclic rotation of eight shuffled orders, still sampling every card type | Exact opening-mean regression |
+| Empty draw/discard Actions could discard a useful card for no benefit | Neutral-game controller skips uncompensated empty draw/discard play | Empty-draw and leader-scope regression |
+| Terminal tools had no future-removal priority | Bounded productive-thinning priority shared by both parents | Timing/Action tests; third-turn and longer-horizon objectives were tested but not promoted |
+| Thinning directly compared arbitrary parent-objective units with real VP losses | Convert future utility and current cash to common point units using a funded scoring turn | Cross-objective funded-turn calibration regression; it remains a conservative heuristic |
+| Projection could trash high-value points as generic junk | Preserve valuable points in projected optional trashing | Acropolis-retention regression |
+
 | Engine assessed immediate nominal capacity and separate Treasure utility | Shared three-turn production-rule sampling for all acquisitions; only Money/Engine metric differs | `sampled.test.ts`; [7,168-game evaluation](balance-results/shuffle-three-v1/README.md). Draw chains improve, but raw draw volume is an inadequate winning objective |
 | Engine had embedded ending rules while Money used a separate overlay | Reusable shared endgame trait, selectable historical Engine rule, common validated turn-2 default for modern profiles | `shared-endgame.test.ts`, `default-endgame.test.ts`; [310,784-game study](balance-results/shared-endgame-v1/README.md) |
 | Treasure used a fixed money/points list, excluded Actions and ignored scoring dilution | All-card expected hand-income evaluation, post-purchase $8 scoring gate, per-buy recomputation and cash-oriented Action play | `money.test.ts`; policy v5 |

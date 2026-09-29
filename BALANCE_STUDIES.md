@@ -1,10 +1,10 @@
 # Balance decision studies
 
-Latest: [shared three-turn sampling (v15)](balance-results/shuffle-three-v1/README.md). 7,168 fresh-seed evaluation games, plus a separate 448-game pilot. Every economic candidate uses the same sampler; Money scores total coins and Engine scores total draws. The draw-only Engine builds draw chains but lacks spending power and loses heavily. Exact old/new comparisons and the new 4×4 remain separate by seat.
+Latest: [sampled-strategy repair (v18)](balance-results/effective-sampling-v1/README.md). The shared sampler scores total Coins for Money and total Coins plus income-backed draw coverage for Engine. It uses stratified fresh shuffles and three consecutive production-rule turns, with calibrated thinning costs. All screens, historical controls and independent confirmation cells are retained. Stronger coverage weighting was tested and rejected; a competitive income/draw hybrid is not proof of successful whole-deck engine building.
 
 Current balance decisions follow [explicit strategy responses](BALANCE_OBJECTIVE.md): keep each leader/strategy/turn-order cell separate and evaluate available best responses. Historical pooled studies below remain provenance, not the current decision criterion.
 
-The current population is **strategy version 15**. See [bot designs](BOT_STRATEGIES.md) and the [defect correction ledger](BOT_DEFECTS.md).
+The current population is **strategy version 18**. See [bot designs](BOT_STRATEGIES.md) and the [defect correction ledger](BOT_DEFECTS.md).
 
 The [orthogonal-Race 8×8 trial](balance-results/base-race-v1/README.md) crosses both parents with thinning and Race independently off/on, across 1,000 fresh seeds per ordered cell (64,000 games). The observed response pairing is Engine / Big Money + Thin at 53.60% / 46.40% (adjusted P1 interval 48.40%–58.70%). This fixed Race overlay performs poorly: it scores earlier but invests too little in income. Every ordered result and scoring diagnostic is retained separately, with no outcome-driven tuning.
 
