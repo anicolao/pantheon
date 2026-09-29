@@ -102,3 +102,8 @@ export function sharedPointGain(view:View,policy:EndGamePolicy,legal:string[],ec
  const best=(wins.length?wins:safe).sort((a,b)=>(gainOutcome(view,b)??0)-(gainOutcome(view,a)??0)||score(b)-score(a)||a.localeCompare(b))[0];
  return best&&points(best)&&score(best)>0?best:undefined;
 }
+
+/** Historical Money scoring remains an explicit control, not a base objective. */
+export function moneyPointEligible(vp:number,topVP:number,income:number,sharedPolicy:boolean):boolean {
+ return vp>0&&(vp===topVP||!sharedPolicy&&income>=8);
+}
