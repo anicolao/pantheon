@@ -1,0 +1,314 @@
+[
+  {
+    "kind": "headToHead",
+    "key": "treasure",
+    "seat": 0,
+    "share": 0.470703125,
+    "blocks": 256,
+    "pairs": 256,
+    "excludedBlocks": 0,
+    "exposureRate": 1,
+    "difference": -0.029296875,
+    "interval": [
+      -0.087890625,
+      0.029296875
+    ],
+    "correctedInterval": [
+      -0.111328125,
+      0.0546875
+    ],
+    "label": "inconclusive"
+  },
+  {
+    "kind": "pairedChange",
+    "key": "treasure",
+    "seat": 0,
+    "blocks": 256,
+    "pairs": 256,
+    "excludedBlocks": 0,
+    "exposureRate": 1,
+    "difference": -0.033203125,
+    "interval": [
+      -0.10546875,
+      0.0390625
+    ],
+    "correctedInterval": [
+      -0.1328125,
+      0.0703125
+    ],
+    "label": "inconclusive"
+  },
+  {
+    "kind": "headToHead",
+    "key": "treasure",
+    "seat": 1,
+    "share": 0.359375,
+    "blocks": 256,
+    "pairs": 256,
+    "excludedBlocks": 0,
+    "exposureRate": 1,
+    "difference": -0.140625,
+    "interval": [
+      -0.197265625,
+      -0.083984375
+    ],
+    "correctedInterval": [
+      -0.21875,
+      -0.060546875
+    ],
+    "label": "discovery signal (negative)"
+  },
+  {
+    "kind": "pairedChange",
+    "key": "treasure",
+    "seat": 1,
+    "blocks": 256,
+    "pairs": 256,
+    "excludedBlocks": 0,
+    "exposureRate": 1,
+    "difference": -0.13671875,
+    "interval": [
+      -0.201171875,
+      -0.072265625
+    ],
+    "correctedInterval": [
+      -0.228515625,
+      -0.048828125
+    ],
+    "label": "signal; practical magnitude unresolved"
+  },
+  {
+    "kind": "headToHead",
+    "key": "treasure-thin",
+    "seat": 0,
+    "share": 0.474609375,
+    "blocks": 256,
+    "pairs": 256,
+    "excludedBlocks": 0,
+    "exposureRate": 1,
+    "difference": -0.025390625,
+    "interval": [
+      -0.0859375,
+      0.03515625
+    ],
+    "correctedInterval": [
+      -0.109375,
+      0.05859375
+    ],
+    "label": "inconclusive"
+  },
+  {
+    "kind": "pairedChange",
+    "key": "treasure-thin",
+    "seat": 0,
+    "blocks": 256,
+    "pairs": 256,
+    "excludedBlocks": 0,
+    "exposureRate": 1,
+    "difference": -0.0625,
+    "interval": [
+      -0.140625,
+      0.015625
+    ],
+    "correctedInterval": [
+      -0.171875,
+      0.044921875
+    ],
+    "label": "inconclusive"
+  },
+  {
+    "kind": "headToHead",
+    "key": "treasure-thin",
+    "seat": 1,
+    "share": 0.345703125,
+    "blocks": 256,
+    "pairs": 256,
+    "excludedBlocks": 0,
+    "exposureRate": 1,
+    "difference": -0.154296875,
+    "interval": [
+      -0.2109375,
+      -0.09765625
+    ],
+    "correctedInterval": [
+      -0.234375,
+      -0.076171875
+    ],
+    "label": "discovery signal (negative)"
+  },
+  {
+    "kind": "pairedChange",
+    "key": "treasure-thin",
+    "seat": 1,
+    "blocks": 256,
+    "pairs": 256,
+    "excludedBlocks": 0,
+    "exposureRate": 1,
+    "difference": -0.1171875,
+    "interval": [
+      -0.185546875,
+      -0.048828125
+    ],
+    "correctedInterval": [
+      -0.212890625,
+      -0.0234375
+    ],
+    "label": "signal; practical magnitude unresolved"
+  },
+  {
+    "kind": "headToHead",
+    "key": "engine",
+    "seat": 0,
+    "share": 0,
+    "blocks": 256,
+    "pairs": 256,
+    "excludedBlocks": 0,
+    "exposureRate": 1,
+    "difference": -0.5,
+    "interval": [
+      -0.5,
+      -0.4856936372709606
+    ],
+    "correctedInterval": [
+      -0.5,
+      -0.47771945699134477
+    ],
+    "label": "discovery signal (negative)"
+  },
+  {
+    "kind": "pairedChange",
+    "key": "engine",
+    "seat": 0,
+    "blocks": 256,
+    "pairs": 256,
+    "excludedBlocks": 0,
+    "exposureRate": 1,
+    "difference": -0.5859375,
+    "interval": [
+      -0.642578125,
+      -0.52734375
+    ],
+    "correctedInterval": [
+      -0.666015625,
+      -0.505859375
+    ],
+    "label": "discovery signal (negative)"
+  },
+  {
+    "kind": "headToHead",
+    "key": "engine",
+    "seat": 1,
+    "share": 0,
+    "blocks": 256,
+    "pairs": 256,
+    "excludedBlocks": 0,
+    "exposureRate": 1,
+    "difference": -0.5,
+    "interval": [
+      -0.5,
+      -0.4856936372709606
+    ],
+    "correctedInterval": [
+      -0.5,
+      -0.47771945699134477
+    ],
+    "label": "discovery signal (negative)"
+  },
+  {
+    "kind": "pairedChange",
+    "key": "engine",
+    "seat": 1,
+    "blocks": 256,
+    "pairs": 256,
+    "excludedBlocks": 0,
+    "exposureRate": 1,
+    "difference": -0.4140625,
+    "interval": [
+      -0.47265625,
+      -0.357421875
+    ],
+    "correctedInterval": [
+      -0.494140625,
+      -0.333984375
+    ],
+    "label": "discovery signal (negative)"
+  },
+  {
+    "kind": "headToHead",
+    "key": "engine-thin",
+    "seat": 0,
+    "share": 0,
+    "blocks": 256,
+    "pairs": 256,
+    "excludedBlocks": 0,
+    "exposureRate": 1,
+    "difference": -0.5,
+    "interval": [
+      -0.5,
+      -0.4856936372709606
+    ],
+    "correctedInterval": [
+      -0.5,
+      -0.47771945699134477
+    ],
+    "label": "discovery signal (negative)"
+  },
+  {
+    "kind": "pairedChange",
+    "key": "engine-thin",
+    "seat": 0,
+    "blocks": 256,
+    "pairs": 256,
+    "excludedBlocks": 0,
+    "exposureRate": 1,
+    "difference": -0.58203125,
+    "interval": [
+      -0.640625,
+      -0.5234375
+    ],
+    "correctedInterval": [
+      -0.662109375,
+      -0.5
+    ],
+    "label": "discovery signal (negative)"
+  },
+  {
+    "kind": "headToHead",
+    "key": "engine-thin",
+    "seat": 1,
+    "share": 0,
+    "blocks": 256,
+    "pairs": 256,
+    "excludedBlocks": 0,
+    "exposureRate": 1,
+    "difference": -0.5,
+    "interval": [
+      -0.5,
+      -0.4856936372709606
+    ],
+    "correctedInterval": [
+      -0.5,
+      -0.47771945699134477
+    ],
+    "label": "discovery signal (negative)"
+  },
+  {
+    "kind": "pairedChange",
+    "key": "engine-thin",
+    "seat": 1,
+    "blocks": 256,
+    "pairs": 256,
+    "excludedBlocks": 0,
+    "exposureRate": 1,
+    "difference": -0.41796875,
+    "interval": [
+      -0.4765625,
+      -0.359375
+    ],
+    "correctedInterval": [
+      -0.5,
+      -0.337890625
+    ],
+    "label": "discovery signal (negative)"
+  }
+]
