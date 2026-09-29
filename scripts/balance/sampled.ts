@@ -113,7 +113,7 @@ export function sampledValue(view:View,profile:Profile,owned=view.owned):number{
  return result[policy]+(profile.family==='engine'?{income:4,balanced:8,reliable:12}[policy]*result.fundedCoverage:0);
 }
 export function resourceDominates(view:View,a:string,b:string):boolean{
- if(view.variant!=='base-game'||a===b||definition(a).cost!>definition(b).cost!||(definition(a).vp??0)!==(definition(b).vp??0))return false;
+ if(view.variant!=='base-game'||a===b||definition(a).cost!==definition(b).cost||(definition(a).vp??0)!==(definition(b).vp??0))return false;
  const features=(id:string)=>{
   if(definition(id).type==='Treasure')return [treasureValue(id),0,0];
   if(definition(id).type!=='Action')return;
@@ -122,7 +122,7 @@ export function resourceDominates(view:View,a:string,b:string):boolean{
   const f=cardFeatures(id,view.variant);return [f.coins,f.actions-1,f.buys];
  };
  const x=features(a),y=features(b);
- return !!x&&!!y&&x.every((n,i)=>n>=y[i])&&(x.some((n,i)=>n>y[i])||definition(a).cost!<definition(b).cost!);
+ return !!x&&!!y&&x.every((n,i)=>n>=y[i])&&x.some((n,i)=>n>y[i]);
 }
 export function sampledAfter(view:View,profile:Profile,id:string):number{
  return sampledValue({...view,supply:{...view.supply,[id]:Math.max(0,view.supply[id]-1)}},profile,{...view.owned,[id]:(view.owned[id]??0)+1});

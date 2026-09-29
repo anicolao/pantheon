@@ -22,3 +22,11 @@ Screen 16 fresh common seeds across all three policies: each complete new 4×4, 
 The first 16-seed screen completes 1,472 games without failures. Engine's income-backed metrics recover strongly against old Engine, but Money's P2 shares remain concerning. The screen is too small to choose a policy.
 
 Keep balanced and reliable weights fixed and test stratified sampling on 32 fresh seeds per ordered cell. Every cyclic rotation of eight uniformly shuffled orders is played for three turns, so every card occupies every opening position. This remains sampling for all card types and changes sample coverage rather than switching to analytic Treasure evaluation. Pure-Treasure opening means are now exact through stratification, with later turns still played through production rules. Missing samplingMethod retains the original random sampler for source-pinned historical profiles.
+
+## Fresh confirmation
+
+Screen 2 completes 2,048 games without failures. Stratified balanced is the provisional selection: both parents are competitive with old Money in both seats, while Engine improves against its old controller. Screening uncertainty is broad, and Thin is rarely selected.
+
+Validate balanced on 256 fresh seed blocks: 36 ordered cells, 9,216 games. The schedule includes the full new 4×4, both seats against each own v14 counterpart, Engine/Engine+Thin against old Money, and fixed old controls. Preserve every cell separately and evaluate paired changes against the same old opponents.
+
+Before confirmation, narrow the resource-only dominance check to equal-cost cards. A more expensive card can have a different later upgrade value, so lower printed cost alone is not sufficient to prove deck-level dominance. A regression check covers this distinction. Objective weights, continuation play and sampling coverage remain frozen.
