@@ -9,7 +9,7 @@ import type {View,Profile} from './strategy';
 
 export const rolloutSamples=64,rolloutTurns=3;
 export type SamplingMethod='random'|'stratified';
-export type SamplingPolicy='income'|'balanced'|'reliable'|'late'|'coverage';
+export type SamplingPolicy='income'|'balanced'|'reliable'|'late'|'coverage'|'raw';
 export type RolloutEstimate={coins:number;draws:number;income:number;balanced:number;reliable:number;fundedCoverage:number;lateBalanced:number;lateCoverage:number;fullDeckRate:number;samples:number;turns:number;perTurn:{coins:number;draws:number}[]};
 const cache=new Map<string,RolloutEstimate>();
 const ranks=new Map<string,number[]>();
@@ -124,6 +124,7 @@ export function sampledValue(view:View,profile:Profile,owned=view.owned):number{
  const result=rolloutEstimate(view,owned,!!profile.thinning,profile.samplingMethod??'random'),policy=profile.samplingPolicy??'balanced';
  // Both metrics value usable spending; Engine also values actual unique-card
  // reach in proportion to the income that the resulting turn can support.
+ if(policy==='raw')return result.coins+(profile.family==='engine'?8*result.fundedCoverage:0);
  if(policy==='late'||policy==='coverage')return result.lateBalanced+(profile.family==='engine'?(policy==='coverage'?32:8)*result.lateCoverage:0);
  return result[policy]+(profile.family==='engine'?{income:4,balanced:8,reliable:12}[policy]*result.fundedCoverage:0);
 }
@@ -149,6 +150,16 @@ export function sampledGain(view:View,profile:Profile,ids:string[],mandatory=fal
  const best=options.find(c=>!options.some(other=>resourceDominates(view,other.id,c.id)));
  return best&&(mandatory||best.value>sampledValue(view,profile)+1e-9)?best.id:undefined;
 }
+export function objectivePointScale(view:View,profile:Profile):number{
+ const points=Object.keys(view.supply).filter(id=>(definition(id).vp??0)>0);
+ const cost=Math.max(1,...points.map(id=>definition(id).cost??0));
+ const vp=Math.max(0,...points.map(id=>definition(id).vp??0)),policy=profile.samplingPolicy??'balanced';
+ const spending=cost*(policy==='income'||policy==='raw'?1:policy==='reliable'?2:1.5);
+ const draw=profile.family==='engine'?({income:4,balanced:8,reliable:12,late:8,coverage:32,raw:8}[policy]):0;
+ // A funded full-deck turn is worth one top scoring card. This is a
+ // conservative utility calibration, not a learned conversion to win chance.
+ return vp/(spending+draw);
+}
 function sampledTrash(view:View,profile:Profile,choice:Choice):ActionCommand{
  let best={targets:[] as string[],value:choice.min?-Infinity:0};
  const base=sampledValue(view,profile),horizon=publicHorizon(view);
@@ -166,7 +177,7 @@ function sampledTrash(view:View,profile:Profile,choice:Choice):ActionCommand{
     if(gain){next=sampledAfter(future,profile,gain);gainedVP=definition(gain).vp??0;ending=gainOutcome(future,gain);}
     else if(choice.offering!=='sum')next=-Infinity;
    }
-   let value=(next-base)*Math.max(0,horizon)/rolloutTurns+gainedVP-vp-cash;
+   let value=(next-base)*objectivePointScale(view,profile)*Math.max(0,horizon)/rolloutTurns+gainedVP-vp-cash;
    if(ending===0)value=-Infinity;
    else if(ending!==null)value=1000*ending+gainedVP-vp;
    const top=Math.max(0,...Object.keys(view.supply).map(id=>definition(id).vp??0));
