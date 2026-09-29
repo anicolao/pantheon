@@ -77,12 +77,11 @@ test('projected optional thinning preserves valuable points',()=>{
  expect(rolloutPlay(v,true)).toMatchObject({targets:[]});
 });
 
-test('point costs are calibrated for each objective rather than added to arbitrary units',()=>{
- const v=view();
- const money={...baseProfiles.treasure,samplingPolicy:'balanced' as const};
- const engine={...baseProfiles.engine,samplingPolicy:'balanced' as const};
- // The same fully funded turn has greater Engine utility, not more victory points.
- expect(objectivePointScale(v,money)).toBe(0.5);
- expect(objectivePointScale(v,engine)).toBe(0.3);
- expect(objectivePointScale(v,{...engine,samplingPolicy:'coverage'})).toBeLessThan(objectivePointScale(v,engine));
+
+test('a funded full-deck turn has the same point value under every objective',()=>{
+ const v=view();v.owned={talent:2,drachma:1};
+ for(const family of ['treasure','engine'] as const)for(const samplingPolicy of ['income','balanced','reliable','late','coverage','raw'] as const){
+  const p={...baseProfiles[family],samplingPolicy};
+  expect(sampledValue(v,p)*objectivePointScale(v,p)/3).toBeCloseTo(6,10);
+ }
 });
