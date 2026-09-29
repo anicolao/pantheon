@@ -1,3 +1,4 @@
+import {raceView,racePurchase,raceGain,racePointEligible} from './race';
 import {objectiveToolPremium, objectiveTrashChoice, objectiveGain, objectivePlayBonus, isThinningTool} from './objective-thin';
 import { moneyPurchase, moneyBuy, moneyDiscard, moneyAction } from './money';
 import { devotionValue, favoredPaths } from './worship';
@@ -8,7 +9,7 @@ import { actionEffects, definition, leaderEffects, type PlayVariant, type Action
 import type { CardInstance, SetupState } from '../../src/lib/game/setup';
 import { chooseCommand, observe, type Observation } from './bot';
 
-export const strategyVersion = 9;
+export const strategyVersion = 10;
 export const families = ['treasure', 'engine', 'thin', 'worship', 'race'] as const;
 export type Family = typeof families[number];
 export type Parameters = { scoringAt: number; engineCopies: number; moneyFloor: number; worshipMargin: number };
@@ -17,11 +18,12 @@ export const candidates: Parameters[] = [
   { scoringAt: 5, engineCopies: 2, moneyFloor: 9, worshipMargin: 1 },
   { scoringAt: 2, engineCopies: 5, moneyFloor: 6, worshipMargin: 0 }
 ];
-export type Profile = { family: Family; parameters: Parameters; thinning?: boolean };
+export type Profile = { family: Family; parameters: Parameters; thinning?: boolean; race?: boolean };
 export type Restriction = { kind: 'event' | 'card' | 'leader-trigger'; id: string; scope: 'focal' | 'table' };
 export type PublicInventory = Record<string, Record<string, number>>;
 export type View = Observation & {
   leaderBonus: Features; unseenCount: number;
+  raceHorizon?: number;
   play: CardInstance[]; events: string[]; playerCount: number; turn: number;
   opponentIncome: number[];
   scores: number[]; myScore: number; myTurns: number; opposingTurns: number[];
@@ -58,6 +60,7 @@ function disposable(view: View, profile: Profile, card: CardInstance): boolean {
 const valueCache = new WeakMap<View, Map<Profile, Map<string, number>>>();
 /** Heuristic utility, not an estimate of VP or victory probability. */
 export function cardValue(view: View, profile: Profile, id: string): number {
+  view = raceView(view, profile);
   let profiles = valueCache.get(view);
   if (!profiles) { profiles = new Map(); valueCache.set(view, profiles); }
   let values = profiles.get(profile);
@@ -69,6 +72,7 @@ export function cardValue(view: View, profile: Profile, id: string): number {
 function scoreCard(view: View, profile: Profile, id: string): number {
   const card = definition(id), owned = view.owned[id] ?? 0, end = late(view, profile), size = Object.values(view.owned).reduce((a, b) => a + b, 0);
   if (view.bannedCards.includes(id)) return -1000;
+  if (profile.race && (card.vp ?? 0) > 0 && !racePointEligible(view, id)) return -1;
   if (id === 'acropolis') return 14;
   if (id === 'polis') return end || profile.family === 'race' ? 9 : 0.4;
   if (id === 'hamlet') return end ? 2.5 : -1;
@@ -174,6 +178,8 @@ function worshipValue(view: View, profile: Profile, event: string): number {
   }
 }
 export function strategyCommand(view: View, profile: Profile): ActionCommand {
+  if (profile.race !== undefined && profile.family !== 'engine' && profile.family !== 'treasure') throw new Error('Orthogonal Race requires a Money or Engine objective');
+  view = raceView(view, profile);
   if (profile.thinning !== undefined && profile.family !== 'engine' && profile.family !== 'treasure') throw new Error('Orthogonal thinning requires a Money or Engine objective');
   const objective = profile.thinning && (profile.family === 'engine' || profile.family === 'treasure') ? profile.family : undefined;
   if (view.choice?.kind === 'trash' && profile.thinning !== undefined) {
@@ -184,6 +190,13 @@ export function strategyCommand(view: View, profile: Profile): ActionCommand {
   if (view.choice?.kind === 'gain' && objective && isThinningTool(view, view.choice.source)) {
     const id=objectiveGain(view,objective,view.choice);
     return {type:'choice/resolved',choiceId:view.choice.id,targets:id?[id]:[]};
+  }
+  if (profile.race && view.choice?.kind === 'gain') {
+    const id=raceGain(view,gains(view,view.choice.limit!,view.choice.actionOnly));
+    if(id)return {type:'choice/resolved',choiceId:view.choice.id,targets:[id]};
+  }
+  if(profile.race && !view.choice && (view.phase==='buys'||view.phase==='treasures'&&!view.hand.some(c=>definition(c.cardId).type==='Treasure'))) {
+    const points=racePurchase(view);if(points)return points;
   }
   const premium = (id: string) => objective ? objectiveToolPremium(view, objective, id) : 0;
   if (profile.family === 'treasure') {
@@ -205,6 +218,7 @@ export function strategyCommand(view: View, profile: Profile): ActionCommand {
       if (action) return { type: 'action/played', instanceId: action.id };
     }
     if (!view.choice && (view.phase === 'buys' || view.phase === 'treasures' && !view.hand.some(c=>definition(c.cardId).type==='Treasure'))) {
+      if(profile.race)for(const id of Object.keys(filtered.supply))if((definition(id).vp??0)>0&&!racePointEligible(view,id))filtered.bannedCards.push(id);
       return moneyPurchase(filtered, premium);
     }
     return chooseCommand(filtered, 'treasure');
