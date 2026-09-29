@@ -1,4 +1,4 @@
-# Bot strategy design reference — version 11
+# Bot strategy design reference — version 14
 
 Current evaluation uses [explicit strategy-response matrices](BALANCE_OBJECTIVE.md), with no pooling across leader, strategy or turn order. The base-game experiment is an opt-in rule variant; standard-game policies retain their existing behavior.
 
@@ -6,7 +6,15 @@ This reference describes implemented behavior. The [defect ledger](BOT_DEFECTS.m
 
 The completed [standard-rule v4 matrix](balance-results/all-leaders-v4/README.md) covers every leader pair and all five strategy families **at policy v4**. Treasure changed in v5; the [paired v4→v5 rerun](balance-results/all-leaders-v5/README.md) records its effect. Engine remains the highest-share family for all leaders, while Treasure loses share in every matchup against Engine.
 
-## End Game modifier (v11)
+## Current shared endgame default (v14)
+
+Modern Money/Engine balance profiles attach `withEndGame(profile)`, independently of Thin. The default `turn-2` trait prioritizes safe positive VP purchases and ordinary gains when the public ending horizon is at most two turns. Before activation each parent retains its economic objective and the common top-tier scoring opportunity. Engine's former discretionary late scoring and investment discount are removed from modern profiles and retained as the selectable `engine` endgame policy. Safe point planning lives in `scoring.ts`; policy selection and scoring live in `end-game.ts`.
+
+The [completed shared-policy study](balance-results/shared-endgame-v1/README.md) explores ten choices over 310,784 games. All 96 selected-policy contexts pass a five-percentage-point regression guard using independent, multiplicity-adjusted validation. This supports a robust common default within the tested base-game population, not universal optimality. Redraw-aware alternatives remain experimental. The default base runner produces the four Money/Engine × Thin profiles; explicit historical factories and modes preserve earlier behavior for reproducing archived experiments.
+
+The sections below retain the design history and historical control semantics; v11's boolean overlay is not the modern default API.
+
+## Historical End Game modifier (v11)
 
 End Game replaces aggressive orthogonal Race for new experiments. `endGame` is independent of `thinning` and parent objective. Historical Race profiles remain available to reproduce archived results. End Game does not cap investment time: it activates only when the existing public horizon is ≤2 turns. That estimate is the minimum of six turns, Acropolis supply depletion, three-pile depletion, and Acropolis pressure inferred from public opponent income; it is a heuristic, not a calibrated forecast.
 
@@ -190,4 +198,4 @@ The second screen retains `turn-2` and `redraw-25` and adds `redraw-value`: inte
 
 The third screen adds `redraw-tempo` (25% reuse trigger) and `payback`. Both forecast the ending from observed supply loss over the last three own-turn intervals: Acropolis depletion or the third-fastest pile exhaustion, capped at 12 turns. Weak rate floors of 0.25 Acropolis or 0.1 other cards per round avoid infinite estimates. This horizon is passed to the parent's investment/thinning evaluation too.
 
-Payback compares immediate VP plus marginal expected hand income times remaining post-shuffle opportunities times the top-point VP/Coin ratio. It uses the same all-card income model for either parent, with no family-specific switch, and triggers a points purchase only when it beats available economic alternatives. It is an approximation: it does not simulate future opponent adaptation or threshold-crossing income distributions. The unchanged top-point exception and exact ending safety remain available. No default is selected until fresh-seed validation.
+Payback compares immediate VP plus marginal expected hand income times remaining post-shuffle opportunities times the top-point VP/Coin ratio. It uses the same all-card income model for either parent, with no family-specific switch, and triggers a points purchase only when it beats available economic alternatives. It is an approximation: it does not simulate future opponent adaptation or threshold-crossing income distributions. The unchanged top-point exception and exact ending safety remain available. Fresh-seed validation subsequently selected turn-2; see the v14 section above.

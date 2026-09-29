@@ -1,0 +1,385 @@
+{
+  "focusedComparisons": [
+    {
+      "candidate": "engine@turn-2",
+      "baseline": "engine@historical",
+      "opponent": "treasure@overlay",
+      "seat": 0
+    },
+    {
+      "candidate": "engine@turn-2",
+      "baseline": "engine@historical",
+      "opponent": "treasure@turn-2",
+      "seat": 0
+    },
+    {
+      "candidate": "engine@turn-2",
+      "baseline": "engine@historical",
+      "opponent": "treasure-thin@turn-2",
+      "seat": 0
+    },
+    {
+      "candidate": "engine@turn-2",
+      "baseline": "engine@historical",
+      "opponent": "engine@historical",
+      "seat": 0
+    },
+    {
+      "candidate": "engine@turn-2",
+      "baseline": "engine@historical",
+      "opponent": "engine@historical",
+      "seat": 1
+    },
+    {
+      "candidate": "engine@turn-2",
+      "baseline": "engine@historical",
+      "opponent": "engine@overlay",
+      "seat": 0
+    },
+    {
+      "candidate": "engine@turn-2",
+      "baseline": "engine@historical",
+      "opponent": "engine@overlay",
+      "seat": 1
+    },
+    {
+      "candidate": "engine@turn-2",
+      "baseline": "engine@historical",
+      "opponent": "engine@turn-2",
+      "seat": 0
+    },
+    {
+      "candidate": "engine@turn-2",
+      "baseline": "engine@historical",
+      "opponent": "engine-thin@historical",
+      "seat": 0
+    },
+    {
+      "candidate": "engine@turn-2",
+      "baseline": "engine@historical",
+      "opponent": "engine-thin@overlay",
+      "seat": 0
+    },
+    {
+      "candidate": "engine@turn-2",
+      "baseline": "engine@historical",
+      "opponent": "engine-thin@turn-2",
+      "seat": 0
+    },
+    {
+      "candidate": "engine-thin@turn-2",
+      "baseline": "engine-thin@historical",
+      "opponent": "treasure@overlay",
+      "seat": 0
+    },
+    {
+      "candidate": "engine-thin@turn-2",
+      "baseline": "engine-thin@historical",
+      "opponent": "treasure@turn-2",
+      "seat": 0
+    },
+    {
+      "candidate": "engine-thin@turn-2",
+      "baseline": "engine-thin@historical",
+      "opponent": "treasure-thin@turn-2",
+      "seat": 0
+    },
+    {
+      "candidate": "engine-thin@turn-2",
+      "baseline": "engine-thin@historical",
+      "opponent": "engine@overlay",
+      "seat": 1
+    },
+    {
+      "candidate": "engine-thin@turn-2",
+      "baseline": "engine-thin@historical",
+      "opponent": "engine@turn-2",
+      "seat": 1
+    },
+    {
+      "candidate": "engine-thin@turn-2",
+      "baseline": "engine-thin@historical",
+      "opponent": "engine-thin@overlay",
+      "seat": 0
+    }
+  ],
+  "selectionSource": "shared-endgame-validation-v1, conservative 100000-resample analysis with family multiplier 2",
+  "sourceCommit": "b6c9c277efa9fd0cf35a89d446162b4c97a4de52",
+  "policyVersion": 13,
+  "status": "completed",
+  "blocks": 4096,
+  "workers": 16,
+  "shards": 1024,
+  "batchSize": 4,
+  "seed": "shared-endgame-v1:validation-2",
+  "stage": "validation-2",
+  "selected": [
+    "turn-2"
+  ],
+  "profiles": {
+    "treasure@historical": {
+      "family": "treasure",
+      "parameters": {
+        "scoringAt": 3,
+        "engineCopies": 3,
+        "moneyFloor": 7,
+        "worshipMargin": 0.5
+      },
+      "thinning": false,
+      "endGame": false
+    },
+    "treasure@overlay": {
+      "family": "treasure",
+      "parameters": {
+        "scoringAt": 3,
+        "engineCopies": 3,
+        "moneyFloor": 7,
+        "worshipMargin": 0.5
+      },
+      "thinning": false,
+      "endGame": true
+    },
+    "treasure@turn-2": {
+      "family": "treasure",
+      "parameters": {
+        "scoringAt": 3,
+        "engineCopies": 3,
+        "moneyFloor": 7,
+        "worshipMargin": 0.5
+      },
+      "thinning": false,
+      "endGamePolicy": "turn-2"
+    },
+    "treasure-thin@historical": {
+      "family": "treasure",
+      "parameters": {
+        "scoringAt": 3,
+        "engineCopies": 3,
+        "moneyFloor": 7,
+        "worshipMargin": 0.5
+      },
+      "thinning": true,
+      "endGame": false
+    },
+    "treasure-thin@overlay": {
+      "family": "treasure",
+      "parameters": {
+        "scoringAt": 3,
+        "engineCopies": 3,
+        "moneyFloor": 7,
+        "worshipMargin": 0.5
+      },
+      "thinning": true,
+      "endGame": true
+    },
+    "treasure-thin@turn-2": {
+      "family": "treasure",
+      "parameters": {
+        "scoringAt": 3,
+        "engineCopies": 3,
+        "moneyFloor": 7,
+        "worshipMargin": 0.5
+      },
+      "thinning": true,
+      "endGamePolicy": "turn-2"
+    },
+    "engine@historical": {
+      "family": "engine",
+      "parameters": {
+        "scoringAt": 3,
+        "engineCopies": 3,
+        "moneyFloor": 7,
+        "worshipMargin": 0.5
+      },
+      "thinning": false,
+      "endGame": false
+    },
+    "engine@overlay": {
+      "family": "engine",
+      "parameters": {
+        "scoringAt": 3,
+        "engineCopies": 3,
+        "moneyFloor": 7,
+        "worshipMargin": 0.5
+      },
+      "thinning": false,
+      "endGame": true
+    },
+    "engine@turn-2": {
+      "family": "engine",
+      "parameters": {
+        "scoringAt": 3,
+        "engineCopies": 3,
+        "moneyFloor": 7,
+        "worshipMargin": 0.5
+      },
+      "thinning": false,
+      "endGamePolicy": "turn-2"
+    },
+    "engine-thin@historical": {
+      "family": "engine",
+      "parameters": {
+        "scoringAt": 3,
+        "engineCopies": 3,
+        "moneyFloor": 7,
+        "worshipMargin": 0.5
+      },
+      "thinning": true,
+      "endGame": false
+    },
+    "engine-thin@overlay": {
+      "family": "engine",
+      "parameters": {
+        "scoringAt": 3,
+        "engineCopies": 3,
+        "moneyFloor": 7,
+        "worshipMargin": 0.5
+      },
+      "thinning": true,
+      "endGame": true
+    },
+    "engine-thin@turn-2": {
+      "family": "engine",
+      "parameters": {
+        "scoringAt": 3,
+        "engineCopies": 3,
+        "moneyFloor": 7,
+        "worshipMargin": 0.5
+      },
+      "thinning": true,
+      "endGamePolicy": "turn-2"
+    }
+  },
+  "cells": [
+    [
+      "engine@turn-2",
+      "treasure@overlay"
+    ],
+    [
+      "engine@historical",
+      "treasure@overlay"
+    ],
+    [
+      "engine@turn-2",
+      "treasure@turn-2"
+    ],
+    [
+      "engine@historical",
+      "treasure@turn-2"
+    ],
+    [
+      "engine@turn-2",
+      "treasure-thin@turn-2"
+    ],
+    [
+      "engine@historical",
+      "treasure-thin@turn-2"
+    ],
+    [
+      "engine@turn-2",
+      "engine@historical"
+    ],
+    [
+      "engine@historical",
+      "engine@historical"
+    ],
+    [
+      "engine@historical",
+      "engine@turn-2"
+    ],
+    [
+      "engine@turn-2",
+      "engine@overlay"
+    ],
+    [
+      "engine@historical",
+      "engine@overlay"
+    ],
+    [
+      "engine@overlay",
+      "engine@turn-2"
+    ],
+    [
+      "engine@overlay",
+      "engine@historical"
+    ],
+    [
+      "engine@turn-2",
+      "engine@turn-2"
+    ],
+    [
+      "engine@turn-2",
+      "engine-thin@historical"
+    ],
+    [
+      "engine@historical",
+      "engine-thin@historical"
+    ],
+    [
+      "engine@turn-2",
+      "engine-thin@overlay"
+    ],
+    [
+      "engine@historical",
+      "engine-thin@overlay"
+    ],
+    [
+      "engine@turn-2",
+      "engine-thin@turn-2"
+    ],
+    [
+      "engine@historical",
+      "engine-thin@turn-2"
+    ],
+    [
+      "engine-thin@turn-2",
+      "treasure@overlay"
+    ],
+    [
+      "engine-thin@historical",
+      "treasure@overlay"
+    ],
+    [
+      "engine-thin@turn-2",
+      "treasure@turn-2"
+    ],
+    [
+      "engine-thin@historical",
+      "treasure@turn-2"
+    ],
+    [
+      "engine-thin@turn-2",
+      "treasure-thin@turn-2"
+    ],
+    [
+      "engine-thin@historical",
+      "treasure-thin@turn-2"
+    ],
+    [
+      "engine@overlay",
+      "engine-thin@turn-2"
+    ],
+    [
+      "engine@overlay",
+      "engine-thin@historical"
+    ],
+    [
+      "engine-thin@turn-2",
+      "engine-thin@overlay"
+    ],
+    [
+      "engine-thin@historical",
+      "engine-thin@overlay"
+    ]
+  ],
+  "variant": "base-game",
+  "plannedGames": 122880,
+  "replayBlocks": 1,
+  "startedAt": "2026-09-29T09:38:06.868Z",
+  "rules": "No powers or Worship; identical 6 Obol, 3 Hamlet, inert Temple starts. Fixed default parameters. No pooling of parents, Thin settings, opponents or seats.",
+  "selection": "Screen candidate changes separately against both historical and old two-turn controls; confirm chosen policy on fresh seeds. Require no material regression across every parent/Thin/seat/fixed-opponent cell, not merely a positive average.",
+  "games": 122880,
+  "failures": 0,
+  "replays": 30,
+  "elapsedSeconds": 770.781473
+}

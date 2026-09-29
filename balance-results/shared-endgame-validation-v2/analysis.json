@@ -1,0 +1,7 @@
+{
+  "familyMultiplier": 2,
+  "replicates": 100000,
+  "primaryComparisonCounts": {
+    "turn-2": 17
+  }
+}

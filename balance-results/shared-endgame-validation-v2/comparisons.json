@@ -1,0 +1,359 @@
+[
+  {
+    "candidate": "engine@turn-2",
+    "baseline": "engine@historical",
+    "opponent": "treasure@overlay",
+    "seat": 0,
+    "primary": true,
+    "blocks": 4096,
+    "pairs": 4096,
+    "excludedBlocks": 0,
+    "exposureRate": 1,
+    "difference": 0.0491943359375,
+    "interval": [
+      0.033935546875,
+      0.064453125
+    ],
+    "correctedInterval": [
+      0.0242919921875,
+      0.0740966796875
+    ],
+    "label": "inconclusive"
+  },
+  {
+    "candidate": "engine@turn-2",
+    "baseline": "engine@historical",
+    "opponent": "treasure@turn-2",
+    "seat": 0,
+    "primary": true,
+    "blocks": 4096,
+    "pairs": 4096,
+    "excludedBlocks": 0,
+    "exposureRate": 1,
+    "difference": 0.048583984375,
+    "interval": [
+      0.0333251953125,
+      0.0638427734375
+    ],
+    "correctedInterval": [
+      0.0240478515625,
+      0.073486328125
+    ],
+    "label": "inconclusive"
+  },
+  {
+    "candidate": "engine@turn-2",
+    "baseline": "engine@historical",
+    "opponent": "treasure-thin@turn-2",
+    "seat": 0,
+    "primary": true,
+    "blocks": 4096,
+    "pairs": 4096,
+    "excludedBlocks": 0,
+    "exposureRate": 1,
+    "difference": 0.0682373046875,
+    "interval": [
+      0.05322265625,
+      0.083251953125
+    ],
+    "correctedInterval": [
+      0.0443115234375,
+      0.0926513671875
+    ],
+    "label": "signal; practical magnitude unresolved"
+  },
+  {
+    "candidate": "engine@turn-2",
+    "baseline": "engine@historical",
+    "opponent": "engine@historical",
+    "seat": 0,
+    "primary": true,
+    "blocks": 4096,
+    "pairs": 4096,
+    "excludedBlocks": 0,
+    "exposureRate": 1,
+    "difference": 0.0509033203125,
+    "interval": [
+      0.0360107421875,
+      0.065673828125
+    ],
+    "correctedInterval": [
+      0.0269775390625,
+      0.0748291015625
+    ],
+    "label": "signal; practical magnitude unresolved"
+  },
+  {
+    "candidate": "engine@turn-2",
+    "baseline": "engine@historical",
+    "opponent": "engine@historical",
+    "seat": 1,
+    "primary": true,
+    "blocks": 4096,
+    "pairs": 4096,
+    "excludedBlocks": 0,
+    "exposureRate": 1,
+    "difference": 0.020751953125,
+    "interval": [
+      0.0054931640625,
+      0.0360107421875
+    ],
+    "correctedInterval": [
+      -0.0040283203125,
+      0.0450439453125
+    ],
+    "label": "inconclusive"
+  },
+  {
+    "candidate": "engine@turn-2",
+    "baseline": "engine@historical",
+    "opponent": "engine@overlay",
+    "seat": 0,
+    "primary": true,
+    "blocks": 4096,
+    "pairs": 4096,
+    "excludedBlocks": 0,
+    "exposureRate": 1,
+    "difference": -0.0155029296875,
+    "interval": [
+      -0.030029296875,
+      -0.0009765625
+    ],
+    "correctedInterval": [
+      -0.038818359375,
+      0.0078125
+    ],
+    "label": "inconclusive"
+  },
+  {
+    "candidate": "engine@turn-2",
+    "baseline": "engine@historical",
+    "opponent": "engine@overlay",
+    "seat": 1,
+    "primary": true,
+    "blocks": 4096,
+    "pairs": 4096,
+    "excludedBlocks": 0,
+    "exposureRate": 1,
+    "difference": -0.0089111328125,
+    "interval": [
+      -0.02392578125,
+      0.006103515625
+    ],
+    "correctedInterval": [
+      -0.032958984375,
+      0.015380859375
+    ],
+    "label": "inconclusive"
+  },
+  {
+    "candidate": "engine@turn-2",
+    "baseline": "engine@historical",
+    "opponent": "engine@turn-2",
+    "seat": 0,
+    "primary": true,
+    "blocks": 4096,
+    "pairs": 4096,
+    "excludedBlocks": 0,
+    "exposureRate": 1,
+    "difference": 0.028076171875,
+    "interval": [
+      0.013427734375,
+      0.0428466796875
+    ],
+    "correctedInterval": [
+      0.004638671875,
+      0.052001953125
+    ],
+    "label": "inconclusive"
+  },
+  {
+    "candidate": "engine@turn-2",
+    "baseline": "engine@historical",
+    "opponent": "engine-thin@historical",
+    "seat": 0,
+    "primary": true,
+    "blocks": 4096,
+    "pairs": 4096,
+    "excludedBlocks": 0,
+    "exposureRate": 1,
+    "difference": 0.0406494140625,
+    "interval": [
+      0.0257568359375,
+      0.0555419921875
+    ],
+    "correctedInterval": [
+      0.0166015625,
+      0.064697265625
+    ],
+    "label": "inconclusive"
+  },
+  {
+    "candidate": "engine@turn-2",
+    "baseline": "engine@historical",
+    "opponent": "engine-thin@overlay",
+    "seat": 0,
+    "primary": true,
+    "blocks": 4096,
+    "pairs": 4096,
+    "excludedBlocks": 0,
+    "exposureRate": 1,
+    "difference": -0.0030517578125,
+    "interval": [
+      -0.017333984375,
+      0.0111083984375
+    ],
+    "correctedInterval": [
+      -0.02587890625,
+      0.020263671875
+    ],
+    "label": "inconclusive"
+  },
+  {
+    "candidate": "engine@turn-2",
+    "baseline": "engine@historical",
+    "opponent": "engine-thin@turn-2",
+    "seat": 0,
+    "primary": true,
+    "blocks": 4096,
+    "pairs": 4096,
+    "excludedBlocks": 0,
+    "exposureRate": 1,
+    "difference": 0.032958984375,
+    "interval": [
+      0.0184326171875,
+      0.0474853515625
+    ],
+    "correctedInterval": [
+      0.0091552734375,
+      0.057373046875
+    ],
+    "label": "inconclusive"
+  },
+  {
+    "candidate": "engine-thin@turn-2",
+    "baseline": "engine-thin@historical",
+    "opponent": "treasure@overlay",
+    "seat": 0,
+    "primary": true,
+    "blocks": 4096,
+    "pairs": 4096,
+    "excludedBlocks": 0,
+    "exposureRate": 1,
+    "difference": 0.0482177734375,
+    "interval": [
+      0.033203125,
+      0.06298828125
+    ],
+    "correctedInterval": [
+      0.023681640625,
+      0.072265625
+    ],
+    "label": "inconclusive"
+  },
+  {
+    "candidate": "engine-thin@turn-2",
+    "baseline": "engine-thin@historical",
+    "opponent": "treasure@turn-2",
+    "seat": 0,
+    "primary": true,
+    "blocks": 4096,
+    "pairs": 4096,
+    "excludedBlocks": 0,
+    "exposureRate": 1,
+    "difference": 0.0465087890625,
+    "interval": [
+      0.031494140625,
+      0.061279296875
+    ],
+    "correctedInterval": [
+      0.022216796875,
+      0.0706787109375
+    ],
+    "label": "inconclusive"
+  },
+  {
+    "candidate": "engine-thin@turn-2",
+    "baseline": "engine-thin@historical",
+    "opponent": "treasure-thin@turn-2",
+    "seat": 0,
+    "primary": true,
+    "blocks": 4096,
+    "pairs": 4096,
+    "excludedBlocks": 0,
+    "exposureRate": 1,
+    "difference": 0.0411376953125,
+    "interval": [
+      0.0269775390625,
+      0.055419921875
+    ],
+    "correctedInterval": [
+      0.0174560546875,
+      0.0638427734375
+    ],
+    "label": "inconclusive"
+  },
+  {
+    "candidate": "engine-thin@turn-2",
+    "baseline": "engine-thin@historical",
+    "opponent": "engine@overlay",
+    "seat": 1,
+    "primary": true,
+    "blocks": 4096,
+    "pairs": 4096,
+    "excludedBlocks": 0,
+    "exposureRate": 1,
+    "difference": 0.008544921875,
+    "interval": [
+      -0.0052490234375,
+      0.022216796875
+    ],
+    "correctedInterval": [
+      -0.0140380859375,
+      0.031005859375
+    ],
+    "label": "inconclusive"
+  },
+  {
+    "candidate": "engine-thin@turn-2",
+    "baseline": "engine-thin@historical",
+    "opponent": "engine@turn-2",
+    "seat": 1,
+    "primary": true,
+    "blocks": 4096,
+    "pairs": 4096,
+    "excludedBlocks": 0,
+    "exposureRate": 1,
+    "difference": 0.0367431640625,
+    "interval": [
+      0.022705078125,
+      0.0509033203125
+    ],
+    "correctedInterval": [
+      0.013427734375,
+      0.0596923828125
+    ],
+    "label": "inconclusive"
+  },
+  {
+    "candidate": "engine-thin@turn-2",
+    "baseline": "engine-thin@historical",
+    "opponent": "engine-thin@overlay",
+    "seat": 0,
+    "primary": true,
+    "blocks": 4096,
+    "pairs": 4096,
+    "excludedBlocks": 0,
+    "exposureRate": 1,
+    "difference": 0.0196533203125,
+    "interval": [
+      0.005859375,
+      0.0335693359375
+    ],
+    "correctedInterval": [
+      -0.0032958984375,
+      0.0419921875
+    ],
+    "label": "inconclusive"
+  }
+]

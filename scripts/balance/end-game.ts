@@ -1,16 +1,25 @@
 import {definition,type ActionCommand} from '../../src/lib/game/actions';
 import {publicHorizon,purchasePlan,gainOutcome} from './planning';
 import {moneyEstimate,moneyAfter} from './money';
-import {racePurchase,raceGain} from './race';
+import {pointPurchase,pointGain} from './scoring';
 import type {View,Profile} from './strategy';
 
 export const endGamePolicies=['engine','turn-1','turn-2','turn-3','redraw-25','redraw-50','redraw-75','redraw-value','redraw-tempo','payback'] as const;
 export type EndGamePolicy=typeof endGamePolicies[number];
+export const defaultEndGamePolicy:EndGamePolicy='turn-2';
+/** Attach the validated default (or an explicit experimental policy) to any
+ * parent. Historical Race/boolean overlays are replaced, never stacked. */
+export function withEndGame(profile:Profile,policy:EndGamePolicy=defaultEndGamePolicy):Profile {
+ const result={...profile,endGamePolicy:policy};
+ delete result.endGame;delete result.race;
+ return result;
+}
+
 /** Historical boolean overlay is retained solely for recorded experiments. */
 export const endGameActive=(view:View)=>view.endGamePolicy?scoringActive(view,view.endGamePolicy):publicHorizon(view)<=2;
 const points=(id:string)=>(definition(id).vp??0)>0;
-export const endGamePurchase=(view:View)=>endGameActive(view)?racePurchase(view,points):undefined;
-export const endGameGain=(view:View,legal:string[])=>endGameActive(view)?raceGain(view,legal,points):undefined;
+export const endGamePurchase=(view:View)=>endGameActive(view)?pointPurchase(view,points):undefined;
+export const endGameGain=(view:View,legal:string[])=>endGameActive(view)?pointGain(view,legal,points):undefined;
 
 /** Probability that a discard acquisition is drawn at least once before the
  * forecast ending. Counts and observed throughput only; never inspect order.
@@ -85,7 +94,7 @@ export function sharedPointPurchase(view:View,policy:EndGamePolicy,economic:(id:
   if(plan.cards[0]&&points(plan.cards[0]))return {type:'card/bought',cardId:plan.cards[0]};
   return;
  }
- if(policy!=='engine'&&policy!=='redraw-value')return scoringActive(view,policy)?racePurchase(view,points):undefined;
+ if(policy!=='engine'&&policy!=='redraw-value')return scoringActive(view,policy)?pointPurchase(view,points):undefined;
  const plan=purchasePlan(view,id=>policyCardValue(view,policy,id)??economic(id));
  if(plan.cards[0]&&points(plan.cards[0]))return {type:'card/bought',cardId:plan.cards[0]};
 }
@@ -95,7 +104,7 @@ export function sharedPointGain(view:View,policy:EndGamePolicy,legal:string[],ec
   const best=safe.sort((a,b)=>(gainOutcome(view,b)??0)-(gainOutcome(view,a)??0)||paybackValue(view,b)-paybackValue(view,a)||a.localeCompare(b))[0];
   return best&&points(best)&&paybackValue(view,best)>0?best:undefined;
  }
- if(policy!=='engine'&&policy!=='redraw-value')return scoringActive(view,policy)?raceGain(view,legal,points):undefined;
+ if(policy!=='engine'&&policy!=='redraw-value')return scoringActive(view,policy)?pointGain(view,legal,points):undefined;
  const safe=legal.filter(id=>view.supply[id]>0&&!view.bannedCards.includes(id)&&gainOutcome(view,id)!==0);
  const wins=safe.filter(id=>(gainOutcome(view,id)??0)>0);
  const score=(id:string)=>policyCardValue(view,policy,id)??economic(id);

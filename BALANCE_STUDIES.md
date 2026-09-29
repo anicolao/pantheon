@@ -1,10 +1,10 @@
 # Balance decision studies
 
-Latest: [End Game screening (v11)](balance-results/base-endgame-v1/README.md), Big Money × Thin × End Game, 200 seeds per ordered cell (3,200 games). End Game works with either parent; this screen measures only Big Money. All eight separate paired P1 modifier comparisons improve, supporting a fuller Engine-inclusive test.
+Latest: [shared endgame validation (v14)](balance-results/shared-endgame-v1/README.md). Ten candidate policies, 310,784 games, zero failures. A reusable two-turn trait is now the modern Money/Engine default; all 96 tested contexts pass the five-percentage-point regression guard. The separate 4×4 default matrix still shows Money substantially ahead of Engine.
 
 Current balance decisions follow [explicit strategy responses](BALANCE_OBJECTIVE.md): keep each leader/strategy/turn-order cell separate and evaluate available best responses. Historical pooled studies below remain provenance, not the current decision criterion.
 
-The current population is **strategy version 10**. See [bot designs](BOT_STRATEGIES.md) and the [defect correction ledger](BOT_DEFECTS.md).
+The current population is **strategy version 14**. See [bot designs](BOT_STRATEGIES.md) and the [defect correction ledger](BOT_DEFECTS.md).
 
 The [orthogonal-Race 8×8 trial](balance-results/base-race-v1/README.md) crosses both parents with thinning and Race independently off/on, across 1,000 fresh seeds per ordered cell (64,000 games). The observed response pairing is Engine / Big Money + Thin at 53.60% / 46.40% (adjusted P1 interval 48.40%–58.70%). This fixed Race overlay performs poorly: it scores earlier but invests too little in income. Every ordered result and scoring diagnostic is retained separately, with no outcome-driven tuning.
 
