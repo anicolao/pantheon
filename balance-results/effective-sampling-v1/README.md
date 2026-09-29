@@ -50,3 +50,7 @@ The second confirmation completes 11,264 games without failures. Late Engine rec
 Thinning had added arbitrary parent-objective units directly to real VP costs. Calibrate its future objective improvement to VP using one fully funded, full-deck turn as one top-tier scoring card: top VP divided by that turn's spending-plus-coverage utility. Existing cash and missed-scoring costs remain conservative. This does not change purchase ranking or the no-Thin controller.
 
 Screen balanced versus raw on 32 fresh seeds per ordered cell. Raw restores the user's total-coin Money objective with the corrected common cash controller and stratified sampling; Engine adds income-backed coverage. This tests whether hard spending caps suppressed the income buffer needed after buying points. The six-turn diagnostic is not promoted.
+
+## Raw-income confirmation
+
+The 2,048-game screen completes without failures. Select raw provisionally: it retains Money's requested total-coin objective and shows a more promising P2 comparison with strong old Money, while Engine remains competitive in the new matrix. The screen is too small to establish superiority. Freeze raw with calibrated thinning costs for 256 fresh blocks across the 36-cell schedule (9,216 games). Keep cumulative three-turn scoring; neither last-turn nor six-turn alternatives becomes the default. The earlier full v15 comparison remains an explicitly labeled intermediate result, not a direct raw-policy comparison.
