@@ -19,7 +19,7 @@ Recorded-history integration scenario. A legal event history prepares the starti
 
 </details>
 
-- [x] Your hand marks playable Actions and keeps the counters in view.
+- [x] Your hand exposes playable Actions and keeps the counters in view.
 
 ## Inspect before playing
 
