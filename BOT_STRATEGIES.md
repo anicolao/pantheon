@@ -1,4 +1,4 @@
-# Bot strategy design reference — version 10
+# Bot strategy design reference — version 11
 
 Current evaluation uses [explicit strategy-response matrices](BALANCE_OBJECTIVE.md), with no pooling across leader, strategy or turn order. The base-game experiment is an opt-in rule variant; standard-game policies retain their existing behavior.
 
@@ -6,9 +6,19 @@ This reference describes implemented behavior. The [defect ledger](BOT_DEFECTS.m
 
 The completed [standard-rule v4 matrix](balance-results/all-leaders-v4/README.md) covers every leader pair and all five strategy families **at policy v4**. Treasure changed in v5; the [paired v4→v5 rerun](balance-results/all-leaders-v5/README.md) records its effect. Engine remains the highest-share family for all leaders, while Treasure loses share in every matchup against Engine.
 
-## Orthogonal Race (v10)
+## End Game modifier (v11)
 
-Race is now an independent `race: boolean` profile option for either parent, with thinning independently off/on. The [8×8 trial](balance-results/base-race-v1/README.md) contains every combination. The legacy standalone Race family remains available for reproducing historical studies; it is not one of these eight profiles.
+End Game replaces aggressive orthogonal Race for new experiments. `endGame` is independent of `thinning` and parent objective. Historical Race profiles remain available to reproduce archived results. End Game does not cap investment time: it activates only when the existing public horizon is ≤2 turns. That estimate is the minimum of six turns, Acropolis supply depletion, three-pile depletion, and Acropolis pressure inferred from public opponent income; it is a heuristic, not a calibrated forecast.
+
+While active, safe purchase baskets and ordinary gains maximize immediate positive VP, including Polis and Hamlet. Known losing endings are rejected and winning continuations retain priority. Before activation the parent policy is unchanged, including Big Money's immediate affordable Acropolis rule. Objective thinning and upgrades keep their joint evaluation, with the loss of affordable current-turn scoring charged while End Game is active. End Game off reproduces previous behavior; it cannot be combined with aggressive Race.
+
+The initial screening crosses Big Money with Thin and End Game booleans: 16 ordered cells ×200 common seed blocks, no leader powers or Worship, identical starting decks. No pooling of strategies or seats; compare concrete responses and treat rankings as provisional.
+
+Results: the [3,200-game Big Money screening](balance-results/base-endgame-v1/README.md) supports a fuller test; all eight separate on-minus-off comparisons improve. Engine compatibility is tested, but Engine performance is not measured in this screen.
+
+## Historical orthogonal Race (v10)
+
+Race was introduced as an independent `race: boolean` profile option for either parent, with thinning independently off/on. The [8×8 trial](balance-results/base-race-v1/README.md) contains every combination. The legacy standalone Race family remains available for reproducing historical studies; it is not one of these eight profiles.
 
 Race prioritizes safe scoring baskets containing points worth at least half the highest printed VP tier in the supply. With the standard cards, that means Polis or Acropolis; Hamlet joins only when the public horizon is at most one turn. This threshold derives from VP values, not a named card list. Positive-share known endings take precedence and known losing endings remain protected, including multi-buy rescues. Choices are recomputed after each purchase. Ordinary gains follow the same scoring preference; Action-only gains, restrictions and mandatory choices remain legal.
 
@@ -167,11 +177,3 @@ The economic near-tie threshold is now $0.035 instead of $0.10. All other v7 beh
 The experiment runs only the 21,600 games involving Treasure, on the same 200 seed blocks and frozen profiles. It compares with both v6 (no epsilon) and v7 ($0.10); eight primary leader-by-baseline comparisons against Engine share a Bonferroni-adjusted family. No non-Treasure control games are rerun. Results remain exploratory because the seeds were previously examined.
 
 The [completed v8 test](balance-results/treasure-epsilon-v8/README.md) uses only the 21,600 Treasure-involving games. Its observed Engine matchup shares exceed v7 for every leader, but all eight adjusted comparisons with v6/v7 include zero. Bronze Recruit remains in 1.25% of Melia decks and none of the others. The smaller band recovers some draw-card purchases; it is not yet a demonstrated win-rate improvement.
-
-## End Game modifier (v11)
-
-End Game replaces aggressive orthogonal Race for new experiments. `endGame` is independent of `thinning` and parent objective. Historical Race profiles remain available to reproduce archived results. End Game does not cap investment time: it activates only when the existing public horizon is ≤2 turns. That estimate is the minimum of six turns, Acropolis supply depletion, three-pile depletion, and Acropolis pressure inferred from public opponent income; it is a heuristic, not a calibrated forecast.
-
-While active, safe purchase baskets and ordinary gains maximize immediate positive VP, including Polis and Hamlet. Known losing endings are rejected and winning continuations retain priority. Before activation the parent policy is unchanged, including Big Money's immediate affordable Acropolis rule. Objective thinning and upgrades keep their joint evaluation, with the loss of affordable current-turn scoring charged while End Game is active. End Game off reproduces previous behavior; it cannot be combined with aggressive Race.
-
-The initial screening crosses Big Money with Thin and End Game booleans: 16 ordered cells ×200 common seed blocks, no leader powers or Worship, identical starting decks. No pooling of strategies or seats; compare concrete responses and treat rankings as provisional.

@@ -1,5 +1,7 @@
 # Balance decision studies
 
+Latest: [End Game screening (v11)](balance-results/base-endgame-v1/README.md), Big Money × Thin × End Game, 200 seeds per ordered cell (3,200 games). End Game works with either parent; this screen measures only Big Money. All eight separate paired P1 modifier comparisons improve, supporting a fuller Engine-inclusive test.
+
 Current balance decisions follow [explicit strategy responses](BALANCE_OBJECTIVE.md): keep each leader/strategy/turn-order cell separate and evaluate available best responses. Historical pooled studies below remain provenance, not the current decision criterion.
 
 The current population is **strategy version 10**. See [bot designs](BOT_STRATEGIES.md) and the [defect correction ledger](BOT_DEFECTS.md).
