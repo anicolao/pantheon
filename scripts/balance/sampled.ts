@@ -150,10 +150,13 @@ export function sampledGain(view:View,profile:Profile,ids:string[],mandatory=fal
  const best=options.find(c=>!options.some(other=>resourceDominates(view,other.id,c.id)));
  return best&&(mandatory||best.value>sampledValue(view,profile)+1e-9)?best.id:undefined;
 }
-export function objectivePointScale(view:View,profile:Profile):number{
+function scoringTarget(view:View){
  const points=Object.keys(view.supply).filter(id=>(definition(id).vp??0)>0);
  const cost=Math.max(1,...points.map(id=>definition(id).cost??0));
- const vp=Math.max(0,...points.map(id=>definition(id).vp??0)),policy=profile.samplingPolicy??'balanced';
+ return {cost,vp:Math.max(0,...points.map(id=>definition(id).vp??0))};
+}
+export function objectivePointScale(view:View,profile:Profile):number{
+ const {cost,vp}=scoringTarget(view),policy=profile.samplingPolicy??'balanced';
  const spending=cost*(policy==='income'||policy==='raw'?1:policy==='reliable'?2:1.5);
  const draw=profile.family==='engine'?({income:4,balanced:8,reliable:12,late:8,coverage:32,raw:8}[policy]):0;
  // A funded full-deck turn is worth one top scoring card. This is a
@@ -162,7 +165,7 @@ export function objectivePointScale(view:View,profile:Profile):number{
 }
 function sampledTrash(view:View,profile:Profile,choice:Choice):ActionCommand{
  let best={targets:[] as string[],value:choice.min?-Infinity:0};
- const base=sampledValue(view,profile),horizon=publicHorizon(view);
+ const base=sampledValue(view,profile),horizon=publicHorizon(view),target=scoringTarget(view);
  const visit=(start:number,removed:CardInstance[])=>{
   if(removed.length>=choice.min){
    const owned={...view.owned};for(const c of removed)owned[c.cardId]--;
@@ -177,7 +180,7 @@ function sampledTrash(view:View,profile:Profile,choice:Choice):ActionCommand{
     if(gain){next=sampledAfter(future,profile,gain);gainedVP=definition(gain).vp??0;ending=gainOutcome(future,gain);}
     else if(choice.offering!=='sum')next=-Infinity;
    }
-   let value=(next-base)*objectivePointScale(view,profile)*Math.max(0,horizon)/rolloutTurns+gainedVP-vp-cash;
+   let value=(next-base)*objectivePointScale(view,profile)*Math.max(0,horizon)/rolloutTurns+gainedVP-vp-cash*target.vp/target.cost;
    if(ending===0)value=-Infinity;
    else if(ending!==null)value=1000*ending+gainedVP-vp;
    const top=Math.max(0,...Object.keys(view.supply).map(id=>definition(id).vp??0));
