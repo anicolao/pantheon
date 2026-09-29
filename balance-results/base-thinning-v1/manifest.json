@@ -1,0 +1,68 @@
+{
+  "sourceCommit": "2f8ba68ec18d8de994307cb6ff4c92582b8c5053",
+  "dirty": false,
+  "status": "completed",
+  "variant": "base-game",
+  "policyVersion": 9,
+  "blocks": 1000,
+  "workers": 16,
+  "plannedGames": 16000,
+  "seed": "base-thinning-v1:evaluation",
+  "profiles": {
+    "treasure": {
+      "family": "treasure",
+      "parameters": {
+        "scoringAt": 3,
+        "engineCopies": 3,
+        "moneyFloor": 7,
+        "worshipMargin": 0.5
+      },
+      "thinning": false
+    },
+    "treasure-thin": {
+      "family": "treasure",
+      "parameters": {
+        "scoringAt": 3,
+        "engineCopies": 3,
+        "moneyFloor": 7,
+        "worshipMargin": 0.5
+      },
+      "thinning": true
+    },
+    "engine": {
+      "family": "engine",
+      "parameters": {
+        "scoringAt": 3,
+        "engineCopies": 3,
+        "moneyFloor": 7,
+        "worshipMargin": 0.5
+      },
+      "thinning": false
+    },
+    "engine-thin": {
+      "family": "engine",
+      "parameters": {
+        "scoringAt": 3,
+        "engineCopies": 3,
+        "moneyFloor": 7,
+        "worshipMargin": 0.5
+      },
+      "thinning": true
+    }
+  },
+  "mode": "thinning",
+  "training": "None: fixed default preset, identical across seats",
+  "startingDeck": {
+    "obol": 6,
+    "hamlet": 3,
+    "temple-of-athena": 1
+  },
+  "rules": "No leader effects; Worship forbidden; Temples have no effects; standard supply and ending rules",
+  "orientation": "Player 1 = first in turn order. Rows P1 strategy, columns P2 strategy. Never pool cells or reverse turn order.",
+  "primary": "16 separate P1 victory shares, ties split; seed bootstrap intervals adjusted over 16 cells; row-wise P2 best responses",
+  "startedAt": "2026-09-29T07:09:23.575Z",
+  "games": 16000,
+  "failures": 0,
+  "replays": 160,
+  "elapsedSeconds": 552.9385124169999
+}
