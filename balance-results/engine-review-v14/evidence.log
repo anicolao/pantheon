@@ -1,0 +1,168 @@
+SCORES start {
+  size: 10,
+  actionBudget: 1,
+  terminalDemand: 0,
+  playableDraw: 0,
+  strandedDraw: 0,
+  drawDeficit: 7,
+} [
+  {
+    id: "drachma",
+    cost: 3,
+    features: {
+      draw: 0,
+      discard: 0,
+      reveal: 0,
+      actions: 0,
+      coins: 0,
+      buys: 0,
+      trash: 0,
+      gain: 0,
+    },
+    value: 6.5,
+  }, {
+    id: "council-of-sages",
+    cost: 4,
+    features: {
+      draw: 3,
+      discard: 0,
+      reveal: 0,
+      actions: 0,
+      coins: 0,
+      buys: 0,
+      trash: 0,
+      gain: 0,
+    },
+    value: 14,
+  }, {
+    id: "harbor-pilot",
+    cost: 3,
+    features: {
+      draw: 1,
+      discard: 0,
+      reveal: 0,
+      actions: 2,
+      coins: 0,
+      buys: 0,
+      trash: 0,
+      gain: 0,
+    },
+    value: 5.636363636363638,
+  }, {
+    id: "sacred-academy",
+    cost: 5,
+    features: {
+      draw: 2,
+      discard: 0,
+      reveal: 0,
+      actions: 1,
+      coins: 0,
+      buys: 0,
+      trash: 0,
+      gain: 0,
+    },
+    value: 11.636363636363637,
+  }, {
+    id: "talent",
+    cost: 6,
+    features: {
+      draw: 0,
+      discard: 0,
+      reveal: 0,
+      actions: 0,
+      coins: 0,
+      buys: 0,
+      trash: 0,
+      gain: 0,
+    },
+    value: 9,
+  }
+]
+SCORES council-of-sages {
+  size: 11,
+  actionBudget: 1,
+  terminalDemand: 1,
+  playableDraw: 3,
+  strandedDraw: 0,
+  drawDeficit: 5,
+} [
+  {
+    id: "drachma",
+    cost: 3,
+    features: {
+      draw: 0,
+      discard: 0,
+      reveal: 0,
+      actions: 0,
+      coins: 0,
+      buys: 0,
+      trash: 0,
+      gain: 0,
+    },
+    value: 6.5,
+  }, {
+    id: "council-of-sages",
+    cost: 4,
+    features: {
+      draw: 3,
+      discard: 0,
+      reveal: 0,
+      actions: 0,
+      coins: 0,
+      buys: 0,
+      trash: 0,
+      gain: 0,
+    },
+    value: -10,
+  }, {
+    id: "harbor-pilot",
+    cost: 3,
+    features: {
+      draw: 1,
+      discard: 0,
+      reveal: 0,
+      actions: 2,
+      coins: 0,
+      buys: 0,
+      trash: 0,
+      gain: 0,
+    },
+    value: 5.333333333333334,
+  }, {
+    id: "sacred-academy",
+    cost: 5,
+    features: {
+      draw: 2,
+      discard: 0,
+      reveal: 0,
+      actions: 1,
+      coins: 0,
+      buys: 0,
+      trash: 0,
+      gain: 0,
+    },
+    value: 11.333333333333334,
+  }, {
+    id: "talent",
+    cost: 6,
+    features: {
+      draw: 0,
+      discard: 0,
+      reveal: 0,
+      actions: 0,
+      coins: 0,
+      buys: 0,
+      trash: 0,
+      gain: 0,
+    },
+    value: 9,
+  }
+]
+METRICS treasure@turn-2/1 {"n":512,"turns":17.779296875,"full":0,"spare":0.7186641766450621,"unseen":13.14489728660881,"size":27.82421875,"first":8.75390625,"vp":28.830078125,"acq":{"obol":1.001953125,"victorious-procession":0.3515625,"drachma":4.755859375,"talent":3.01171875,"council-of-sages":1.638671875,"acropolis":2.947265625,"polis":2.1484375,"hamlet":1.701171875,"sacred-academy":0.0859375,"harvest-feast":0.1484375,"oracles-acolyte":0.009765625,"merchant-fleet":0.0234375},"trash":{}}
+METRICS treasure@turn-2/0 {"n":512,"turns":18.25,"full":0,"spare":0.7100813356164384,"unseen":13.324486301369863,"size":28.2421875,"first":8.890625,"vp":29.486328125,"acq":{"drachma":4.86328125,"talent":3.162109375,"council-of-sages":1.640625,"acropolis":3.052734375,"polis":2.16796875,"hamlet":1.666015625,"obol":0.958984375,"victorious-procession":0.421875,"oracles-acolyte":0.005859375,"harvest-feast":0.15625,"sacred-academy":0.12890625,"merchant-fleet":0.017578125},"trash":{}}
+METRICS engine@turn-2/1 {"n":512,"turns":17.869140625,"full":0,"spare":0.7095857470761832,"unseen":13.078478522242868,"size":27.896484375,"first":8.76953125,"vp":29.431640625,"acq":{"obol":0.90234375,"victorious-procession":0.337890625,"drachma":4.787109375,"talent":3.404296875,"council-of-sages":1.716796875,"acropolis":3.365234375,"polis":1.638671875,"hamlet":1.32421875,"harvest-feast":0.197265625,"sacred-academy":0.185546875,"oracles-acolyte":0.01171875,"merchant-fleet":0.025390625},"trash":{}}
+METRICS engine@turn-2/0 {"n":512,"turns":18.193359375,"full":0.00010735373054213633,"spare":0.6775093934514225,"unseen":11.327106816961889,"size":27.91015625,"first":9.537109375,"vp":27.216796875,"acq":{"drachma":4.2109375,"council-of-sages":1,"oracles-acolyte":1.080078125,"sacred-academy":4.11328125,"acropolis":2.583984375,"talent":0.783203125,"hamlet":1.751953125,"polis":2.3203125,"harvest-feast":0.06640625},"trash":{}}
+METRICS engine-thin@turn-2/1 {"n":512,"turns":17.67578125,"full":0,"spare":0.7114917127071824,"unseen":12.957458563535912,"size":27.669921875,"first":8.771484375,"vp":29.1484375,"acq":{"obol":0.93359375,"victorious-procession":0.33984375,"drachma":4.736328125,"talent":3.232421875,"council-of-sages":1.693359375,"acropolis":3.248046875,"polis":1.771484375,"hamlet":1.345703125,"sacred-academy":0.154296875,"harvest-feast":0.181640625,"oracles-acolyte":0.009765625,"merchant-fleet":0.0234375},"trash":{}}
+METRICS engine-thin@turn-2/0 {"n":512,"turns":17.974609375,"full":0.005215690535694882,"spare":0.47451917852874065,"unseen":9.12017820275997,"size":23.806640625,"first":9.681640625,"vp":25.966796875,"acq":{"seed-keeper":0.763671875,"drachma":4.05859375,"council-of-sages":1,"oracles-acolyte":1.072265625,"sacred-academy":3.27734375,"acropolis":2.732421875,"talent":0.806640625,"polis":2.1953125,"hamlet":1.703125,"harvest-feast":0.0390625,"merchant-fleet":0.001953125},"trash":{"hamlet":1.716796875,"obol":1.50390625,"temple-of-athena":0.587890625,"drachma":0.033203125,"seed-keeper":0.001953125}}
+TRACE engine [{"turn":1,"coins":3,"buy":"drachma","capacity":{"size":10,"actionBudget":1,"terminalDemand":0,"playableDraw":0,"strandedDraw":0,"drawDeficit":9.5},"ranks":[{"id":"drachma","value":6.5},{"id":"oracles-acolyte","value":5.636363636363638},{"id":"harbor-pilot","value":5.636363636363638},{"id":"hamlet","value":-1}]},{"turn":2,"coins":3,"buy":"drachma","capacity":{"size":11,"actionBudget":1,"terminalDemand":0,"playableDraw":0,"strandedDraw":0,"drawDeficit":11},"ranks":[{"id":"drachma","value":6.5},{"id":"oracles-acolyte","value":5.333333333333334},{"id":"harbor-pilot","value":5.333333333333334},{"id":"hamlet","value":-1}]},{"turn":3,"coins":4,"buy":"council-of-sages","capacity":{"size":12,"actionBudget":1,"terminalDemand":0,"playableDraw":0,"strandedDraw":0,"drawDeficit":12},"ranks":[{"id":"council-of-sages","value":17},{"id":"drachma","value":6.5},{"id":"harvest-feast","value":5.5769230769230775},{"id":"oracles-acolyte","value":5.0769230769230775}]},{"turn":4,"coins":4,"buy":"drachma","capacity":{"size":13,"actionBudget":1,"terminalDemand":1,"playableDraw":3,"strandedDraw":0,"drawDeficit":10},"ranks":[{"id":"drachma","value":6.5},{"id":"harvest-feast","value":5.357142857142857},{"id":"oracles-acolyte","value":4.857142857142857},{"id":"harbor-pilot","value":4.857142857142857}]},{"turn":5,"coins":7,"buy":"sacred-academy","capacity":{"size":14,"actionBudget":1,"terminalDemand":1,"playableDraw":3,"strandedDraw":0,"drawDeficit":8},"ranks":[{"id":"sacred-academy","value":10.666666666666666},{"id":"talent","value":9},{"id":"merchant-fleet","value":6.666666666666666},{"id":"drachma","value":5.8}]},{"turn":6,"coins":5,"buy":"sacred-academy","capacity":{"size":15,"actionBudget":1,"terminalDemand":1,"playableDraw":5,"strandedDraw":0,"drawDeficit":10},"ranks":[{"id":"sacred-academy","value":11.166666666666668},{"id":"drachma","value":5.8},{"id":"merchant-fleet","value":5.666666666666668},{"id":"harvest-feast","value":4.166666666666668}]},{"turn":7,"coins":6,"buy":"sacred-academy","capacity":{"size":16,"actionBudget":1,"terminalDemand":1,"playableDraw":7,"strandedDraw":0,"drawDeficit":9},"ranks":[{"id":"sacred-academy","value":10.57843137254902},{"id":"talent","value":9},{"id":"drachma","value":5.8},{"id":"merchant-fleet","value":5.078431372549019}]},{"turn":8,"coins":6,"buy":"talent","capacity":{"size":17,"actionBudget":1,"terminalDemand":1,"playableDraw":9,"strandedDraw":0,"drawDeficit":5},"ranks":[{"id":"talent","value":9},{"id":"sacred-academy","value":8.718954248366014},{"id":"drachma","value":5.8},{"id":"merchant-fleet","value":4.718954248366013}]},{"turn":9,"coins":6,"buy":"sacred-academy","capacity":{"size":18,"actionBudget":1,"terminalDemand":1,"playableDraw":9,"strandedDraw":0,"drawDeficit":9},"ranks":[{"id":"sacred-academy","value":10.237874097007225},{"id":"talent","value":9},{"id":"drachma","value":4.75},{"id":"merchant-fleet","value":4.737874097007225}]},{"turn":10,"coins":7,"buy":"sacred-academy","capacity":{"size":19,"actionBudget":1,"terminalDemand":1,"playableDraw":11,"strandedDraw":0,"drawDeficit":8},"ranks":[{"id":"sacred-academy","value":10.016511867905056},{"id":"talent","value":9},{"id":"drachma","value":4.75},{"id":"merchant-fleet","value":4.516511867905057}]},{"turn":11,"coins":9,"buy":"acropolis","capacity":{"size":20,"actionBudget":1,"terminalDemand":1,"playableDraw":13,"strandedDraw":0,"drawDeficit":4},"ranks":[{"id":"acropolis","value":14},{"id":"talent","value":9},{"id":"sacred-academy","value":8.36893704850361},{"id":"drachma","value":4.75}]},{"turn":12,"coins":6,"buy":"sacred-academy","capacity":{"size":21,"actionBudget":1,"terminalDemand":1,"playableDraw":13,"strandedDraw":0,"drawDeficit":8},"ranks":[{"id":"sacred-academy","value":9.890280514119523},{"id":"talent","value":9},{"id":"drachma","value":4.75},{"id":"merchant-fleet","value":4.390280514119523}]},{"turn":13,"coins":9,"buy":"acropolis","capacity":{"size":22,"actionBudget":1,"terminalDemand":1,"playableDraw":15,"strandedDraw":0,"drawDeficit":4},"ranks":[{"id":"acropolis","value":14},{"id":"talent","value":9},{"id":"sacred-academy","value":8.288468206088343},{"id":"drachma","value":4.75}]},{"turn":14,"coins":7,"buy":"polis","capacity":{"size":23,"actionBudget":1,"terminalDemand":1,"playableDraw":15,"strandedDraw":0,"drawDeficit":5},"ranks":[{"id":"talent","value":9},{"id":"polis","value":9},{"id":"sacred-academy","value":8.306497468968864},{"id":"drachma","value":4.75}]},{"turn":15,"coins":8,"buy":"acropolis","capacity":{"size":24,"actionBudget":1,"terminalDemand":1,"playableDraw":15,"strandedDraw":0,"drawDeficit":9},"ranks":[{"id":"acropolis","value":14},{"id":"sacred-academy","value":9.822529644268775},{"id":"talent","value":9},{"id":"polis","value":9}]},{"turn":16,"coins":6,"buy":"polis","capacity":{"size":25,"actionBudget":1,"terminalDemand":1,"playableDraw":15,"strandedDraw":0,"drawDeficit":10},"ranks":[{"id":"sacred-academy","value":9.83670677148938},{"id":"talent","value":9},{"id":"polis","value":9},{"id":"drachma","value":4.75}]},{"turn":17,"coins":4,"buy":"hamlet","capacity":{"size":26,"actionBudget":1,"terminalDemand":1,"playableDraw":15,"strandedDraw":0,"drawDeficit":11},"ranks":[{"id":"drachma","value":4.75},{"id":"hamlet","value":3},{"id":"harvest-feast","value":2.8491773926556547},{"id":"oracles-acolyte","value":2.3491773926556547}]},{"turn":18,"coins":8,"buy":"acropolis","capacity":{"size":27,"actionBudget":1,"terminalDemand":1,"playableDraw":15,"strandedDraw":0,"drawDeficit":9},"ranks":[{"id":"acropolis","value":14},{"id":"talent","value":9},{"id":"polis","value":9},{"id":"sacred-academy","value":8.360089186176143}]}]
+TRACE engine-thin [{"turn":1,"coins":3,"buy":"seed-keeper","capacity":{"size":10,"actionBudget":1,"terminalDemand":0,"playableDraw":0,"strandedDraw":0,"drawDeficit":9.5},"ranks":[{"id":"seed-keeper","value":10.017561983471072},{"id":"drachma","value":6.5},{"id":"oracles-acolyte","value":5.636363636363638},{"id":"harbor-pilot","value":5.636363636363638}]},{"turn":2,"coins":3,"buy":"drachma","capacity":{"size":11,"actionBudget":1,"terminalDemand":1,"playableDraw":0,"strandedDraw":0,"drawDeficit":11},"ranks":[{"id":"drachma","value":6.5},{"id":"oracles-acolyte","value":5.333333333333334},{"id":"harbor-pilot","value":5.333333333333334},{"id":"seed-keeper","value":0.4185606060606064}]},{"turn":3,"coins":4,"buy":"council-of-sages","capacity":{"size":12,"actionBudget":1,"terminalDemand":1,"playableDraw":0,"strandedDraw":0,"drawDeficit":12},"ranks":[{"id":"council-of-sages","value":17},{"id":"drachma","value":6.5},{"id":"harvest-feast","value":5.5769230769230775},{"id":"oracles-acolyte","value":5.0769230769230775}]},{"turn":4,"coins":2,"buy":"oracles-acolyte","capacity":{"size":11,"actionBudget":1,"terminalDemand":2,"playableDraw":3,"strandedDraw":0,"drawDeficit":5},"ranks":[{"id":"oracles-acolyte","value":5.333333333333334},{"id":"seed-keeper","value":0.42307692307692335},{"id":"hamlet","value":-1},{"id":"obol","value":-2}]},{"turn":5,"coins":6,"buy":"sacred-academy","capacity":{"size":12,"actionBudget":1,"terminalDemand":2,"playableDraw":4,"strandedDraw":0,"drawDeficit":5},"ranks":[{"id":"sacred-academy","value":9.794871794871794},{"id":"talent","value":9},{"id":"drachma","value":6.5},{"id":"merchant-fleet","value":5.794871794871794}]},{"turn":6,"coins":4,"buy":"drachma","capacity":{"size":13,"actionBudget":1,"terminalDemand":2,"playableDraw":6,"strandedDraw":0,"drawDeficit":7},"ranks":[{"id":"drachma","value":6.5},{"id":"harvest-feast","value":3.5256410256410255},{"id":"oracles-acolyte","value":3.0256410256410255},{"id":"harbor-pilot","value":3.0256410256410255}]},{"turn":7,"coins":7,"buy":"sacred-academy","capacity":{"size":14,"actionBudget":1,"terminalDemand":2,"playableDraw":6,"strandedDraw":0,"drawDeficit":5},"ranks":[{"id":"sacred-academy","value":9.054945054945055},{"id":"talent","value":9},{"id":"drachma","value":6.5},{"id":"merchant-fleet","value":5.054945054945056}]},{"turn":8,"coins":6,"buy":"sacred-academy","capacity":{"size":15,"actionBudget":1,"terminalDemand":2,"playableDraw":8,"strandedDraw":0,"drawDeficit":7},"ranks":[{"id":"sacred-academy","value":10.15934065934066},{"id":"talent","value":9},{"id":"drachma","value":6.5},{"id":"merchant-fleet","value":4.65934065934066}]},{"turn":9,"coins":5,"buy":"sacred-academy","capacity":{"size":16,"actionBudget":1,"terminalDemand":2,"playableDraw":10,"strandedDraw":0,"drawDeficit":3},"ranks":[{"id":"sacred-academy","value":8.426632191338072},{"id":"drachma","value":6.5},{"id":"merchant-fleet","value":4.426632191338073},{"id":"harvest-feast","value":2.926632191338073}]},{"turn":10,"coins":4,"buy":"drachma","capacity":{"size":15,"actionBudget":1,"terminalDemand":2,"playableDraw":12,"strandedDraw":0,"drawDeficit":0},"ranks":[{"id":"drachma","value":6.5},{"id":"harvest-feast","value":2.70979020979021},{"id":"oracles-acolyte","value":2.20979020979021},{"id":"harbor-pilot","value":2.20979020979021}]},{"turn":11,"coins":9,"buy":"acropolis","capacity":{"size":16,"actionBudget":1,"terminalDemand":2,"playableDraw":12,"strandedDraw":0,"drawDeficit":1},"ranks":[{"id":"acropolis","value":14},{"id":"talent","value":9},{"id":"sacred-academy","value":8.248868778280544},{"id":"drachma","value":6.15}]},{"turn":12,"coins":4,"buy":"drachma","capacity":{"size":17,"actionBudget":1,"terminalDemand":2,"playableDraw":12,"strandedDraw":0,"drawDeficit":5},"ranks":[{"id":"drachma","value":6.15},{"id":"harvest-feast","value":2.784421460892049},{"id":"oracles-acolyte","value":2.284421460892049},{"id":"harbor-pilot","value":2.284421460892049}]},{"turn":13,"coins":10,"buy":"acropolis","capacity":{"size":18,"actionBudget":1,"terminalDemand":2,"playableDraw":12,"strandedDraw":0,"drawDeficit":3},"ranks":[{"id":"acropolis","value":14},{"id":"talent","value":9},{"id":"sacred-academy","value":8.31623175586024},{"id":"drachma","value":5.45}]},{"turn":14,"coins":3,"buy":"hamlet","capacity":{"size":19,"actionBudget":1,"terminalDemand":2,"playableDraw":12,"strandedDraw":0,"drawDeficit":7},"ranks":[{"id":"drachma","value":5.45},{"id":"hamlet","value":3},{"id":"oracles-acolyte","value":2.344341245270038},{"id":"harbor-pilot","value":2.344341245270038}]},{"turn":15,"coins":10,"buy":"acropolis","capacity":{"size":20,"actionBudget":1,"terminalDemand":2,"playableDraw":12,"strandedDraw":0,"drawDeficit":5},"ranks":[{"id":"acropolis","value":14},{"id":"talent","value":9},{"id":"polis","value":9},{"id":"sacred-academy","value":8.36893704850361}]},{"turn":16,"coins":11,"buy":"acropolis","capacity":{"size":21,"actionBudget":1,"terminalDemand":2,"playableDraw":12,"strandedDraw":0,"drawDeficit":6},"ranks":[{"id":"acropolis","value":14},{"id":"talent","value":9},{"id":"polis","value":9},{"id":"sacred-academy","value":8.390280514119523}]},{"turn":17,"coins":2,"buy":"hamlet","capacity":{"size":22,"actionBudget":1,"terminalDemand":2,"playableDraw":12,"strandedDraw":0,"drawDeficit":7},"ranks":[{"id":"hamlet","value":3},{"id":"oracles-acolyte","value":2.4086632919584856},{"id":"obol","value":-2},{"id":"seed-keeper","value":-4.157178189214803}]},{"turn":18,"coins":7,"buy":"polis","capacity":{"size":23,"actionBudget":1,"terminalDemand":2,"playableDraw":12,"strandedDraw":0,"drawDeficit":8},"ranks":[{"id":"talent","value":9},{"id":"polis","value":9},{"id":"sacred-academy","value":8.424381110879967},{"id":"drachma","value":5.45}]},{"turn":19,"coins":8,"buy":"acropolis","capacity":{"size":24,"actionBudget":1,"terminalDemand":2,"playableDraw":12,"strandedDraw":0,"drawDeficit":9},"ranks":[{"id":"acropolis","value":14},{"id":"talent","value":9},{"id":"polis","value":9},{"id":"sacred-academy","value":8.437718802936194}]}]
