@@ -1,10 +1,24 @@
-# Bot strategy design reference — version 9
+# Bot strategy design reference — version 10
 
 Current evaluation uses [explicit strategy-response matrices](BALANCE_OBJECTIVE.md), with no pooling across leader, strategy or turn order. The base-game experiment is an opt-in rule variant; standard-game policies retain their existing behavior.
 
 This reference describes implemented behavior. The [defect ledger](BOT_DEFECTS.md) records the concrete corrections and regression coverage. Bots are deterministic public-information heuristics, not optimal players. Earlier studies remain reproducible at their recorded source commits; their outcomes do not describe this version.
 
 The completed [standard-rule v4 matrix](balance-results/all-leaders-v4/README.md) covers every leader pair and all five strategy families **at policy v4**. Treasure changed in v5; the [paired v4→v5 rerun](balance-results/all-leaders-v5/README.md) records its effect. Engine remains the highest-share family for all leaders, while Treasure loses share in every matchup against Engine.
+
+## Orthogonal Race (v10)
+
+Race is now an independent `race: boolean` profile option for either parent, with thinning independently off/on. The [8×8 trial](balance-results/base-race-v1/README.md) contains every combination. The legacy standalone Race family remains available for reproducing historical studies; it is not one of these eight profiles.
+
+Race prioritizes safe scoring baskets containing points worth at least half the highest printed VP tier in the supply. With the standard cards, that means Polis or Acropolis; Hamlet joins only when the public horizon is at most one turn. This threshold derives from VP values, not a named card list. Positive-share known endings take precedence and known losing endings remain protected, including multi-buy rescues. Choices are recomputed after each purchase. Ordinary gains follow the same scoring preference; Action-only gains, restrictions and mandatory choices remain legal.
+
+Race caps the investment horizon at `min(3, scoringAt)`, using the same default parameters (three turns) for all eight profiles. The parent's usual economic acquisition policy handles turns without a scoring purchase. Engine therefore discounts long-term draw investments earlier; Big Money retains its all-card EV and $0.035 Treasure preference. The low-VP point tier receives no discretionary early-buy value. Race does not change Action effects, income estimates, draw-capacity calculations, or the parent's Action/discard policy.
+
+When combined with thinning, the parent-specific income-per-draw or whole-deck-draw objective is unchanged, but its projected benefits have fewer turns to repay. Removal costs include any Race scoring opportunity lost this turn. Forge/offering upgrades retain joint before/after parent-objective evaluation and gain selection, rather than switching objectives halfway through the conversion. Race alone does not enable optional trashing.
+
+The race horizon exists only on the bot's derived view; it changes no game state and exposes no hidden information. `race: false` and omission retain v9 decisions, including all sixteen archived 4×4 matchup regression fixtures. Race is a deliberately fixed early-scoring heuristic, not an optimal stopping policy or an opponent-search algorithm. No thresholds are tuned against the evaluation matrix.
+
+Implementation: [Race overlay](scripts/balance/race.ts). Coverage: [Race tests](tests/simulation/race.test.ts), including all 64 ordered combinations, exact historical controls, legal gains and safe endings, modifier independence, shorter-horizon thinning, and lost scoring opportunity.
 
 ## Orthogonal thinning for Money and Engine (v9)
 

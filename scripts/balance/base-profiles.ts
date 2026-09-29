@@ -5,4 +5,6 @@ export const baseProfiles: Record<string,Profile> = {
  engine:{family:'engine',parameters:candidates[0],thinning:false},
  'engine-thin':{family:'engine',parameters:candidates[0],thinning:true}
 };
-export const baseLabel=(key:string)=>({treasure:'Big Money','treasure-thin':'Big Money + Thin',engine:'Engine','engine-thin':'Engine + Thin'}[key]??key);
+export const raceProfiles:Record<string,Profile>=Object.fromEntries(
+ Object.entries(baseProfiles).flatMap(([key,p])=>[[key,{...p,race:false}],[key+'-race',{...p,race:true}]]));
+export const baseLabel=(key:string)=>({treasure:'Big Money','treasure-thin':'Big Money + Thin',engine:'Engine','engine-thin':'Engine + Thin'}[key.replace(/-race$/,'')]??key)+(key.endsWith('-race')?' + Race':'');
