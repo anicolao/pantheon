@@ -62,7 +62,7 @@ export function engineActionValue(view: View, profile: Profile, id: string): num
   const unblocking = (before.strandedDraw - after.strandedDraw) * 2;
   const junk = (view.owned.hamlet ?? 0) + Math.max(0, (view.owned.obol ?? 0) - 3);
   const existingTrash = Object.entries(view.owned).reduce((sum, [card, count]) => sum + cardFeatures(card, view.variant).trash * count, 0);
-  const thinning = Math.min(f.trash, Math.max(0, junk - existingTrash * 3)) * 6;
+  const thinning = profile.thinning !== undefined ? 0 : Math.min(f.trash, Math.max(0, junk - existingTrash * 3)) * 6;
   const terminalUse = f.actions >= 1 ? 1 : Math.min(1, after.actionBudget / Math.max(1, after.terminalDemand));
   const payload = terminalUse * ((f.coins + revealCoins(view, f.reveal)) * 2 + f.gain + thinning) + Math.min(f.discard, junk) * 0.5 + (before.playableDraw + 5 >= before.size ? f.buys : 0);
   const end = publicHorizon(view) <= profile.parameters.scoringAt;
@@ -82,7 +82,7 @@ const keepCache = new WeakMap<View, Map<string, number>>();
 /** Retaining an owned card is its marginal contribution, not the value of buying another copy. */
 export function engineKeepValue(view: View, profile: Profile, id: string): number {
   let cached = keepCache.get(view); if (!cached) { cached = new Map(); keepCache.set(view, cached); }
-  const key = `${profile.parameters.scoringAt}/${id}`;
+  const key = `${profile.parameters.scoringAt}/${profile.thinning ?? 'legacy'}/${id}`;
   if (!cached.has(key)) {
     const without = { ...view, owned: { ...view.owned, [id]: Math.max(0, (view.owned[id] ?? 0) - 1) } };
     cached.set(key, Math.max(1, engineActionValue(without, profile, id)));
@@ -91,7 +91,7 @@ export function engineKeepValue(view: View, profile: Profile, id: string): numbe
 }
 
 /** Probability of opening a draw card that can preserve Actions; no hidden order is sampled. */
-function startReliability(view: View, owned: Record<string, number>): number {
+export function startReliability(view: View, owned: Record<string, number>): number {
   let total = 0, starters = 0;
   for (const [id, n] of Object.entries(owned)) {
     total += n;

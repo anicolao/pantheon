@@ -30,8 +30,8 @@ function actionValue(view: MoneyView, card: CardInstance): number {
   return f.coins+trigger.coins+Math.min(n,f.draw+trigger.draw)*density+2*f.reveal*territories
     +(preserves&&otherActions&&(f.actions+trigger.actions)>0?100:0);
 }
-export function moneyAction(view: MoneyView): CardInstance | undefined {
-  return view.hand.filter(c=>definition(c.cardId).type==='Action'&&actionEffects(c.cardId,view.variant).length>0).sort((a,b)=>actionValue(view,b)-actionValue(view,a)||a.id.localeCompare(b.id))[0];
+export function moneyAction(view: MoneyView, extra: (card: CardInstance) => number = () => 0): CardInstance | undefined {
+  return view.hand.filter(c=>definition(c.cardId).type==='Action'&&actionEffects(c.cardId,view.variant).length>0).sort((a,b)=>actionValue(view,b)+extra(b)-actionValue(view,a)-extra(a)||a.id.localeCompare(b.id))[0];
 }
 export function moneyDiscard(view: MoneyView): string[] {
   const value=(c:CardInstance)=>treasureValue(c.cardId) || (definition(c.cardId).type==='Action'&&view.resources.actions>0 ? Math.max(0,actionValue(view,c)) : 0);
@@ -106,23 +106,23 @@ export function moneyAfter(view: MoneyView, id: string): MoneyEstimate {
   return moneyEstimate(view,{...view.owned,[id]:(view.owned[id]??0)+1});
 }
 /** Cash in top-value points now; other acquisitions retain the whole-deck EV rule. */
-export function moneyBuy(view: MoneyView, legal?: string[], mandatory=false): string | undefined {
+export function moneyBuy(view: MoneyView, legal?: string[], mandatory=false, premium: (id: string) => number = () => 0): string | undefined {
   const ids=legal??Object.keys(view.supply).filter(id=>view.supply[id]>0&&definition(id).cost!==null&&definition(id).cost!<=view.resources.coins);
-  const options=ids.map(id=>({id,ev:moneyAfter(view,id).mean,vp:definition(id).vp??0}));
+  const options=ids.map(id=>({id,ev:moneyAfter(view,id).mean,bonus:premium(id),vp:definition(id).vp??0}));
   // A future-income floor must not veto the best scoring opportunity already in hand.
   // Use the whole supply, not just affordable/safe cards, so cheap points do not become
   // "top tier" merely because the actual top tier is unaffordable or a losing ending.
   const topVP=Math.max(0,...Object.keys(view.supply).map(id=>definition(id).vp??0));
   const points=options.filter(c=>c.vp>0&&(c.vp===topVP||c.ev>=8));
   if(points.length)return points.sort((a,b)=>b.vp-a.vp||b.ev-a.ev||definition(a.id).cost!-definition(b.id).cost!||a.id.localeCompare(b.id))[0].id;
-  const ranked=options.sort((a,b)=>b.ev-a.ev||definition(a.id).cost!-definition(b.id).cost!||a.id.localeCompare(b.id));
+  const ranked=options.sort((a,b)=>(b.ev+b.bonus)-(a.ev+a.bonus)||definition(a.id).cost!-definition(b.id).cost!||a.id.localeCompare(b.id));
   const best=ranked[0];
   // Compare to the global maximum: pairwise epsilon comparators are not transitive.
-  const chosen=best&&(ranked.find(c=>definition(c.id).type==='Treasure'&&c.ev>=best.ev-0.035-1e-9)??best);
-  return chosen&&(mandatory||chosen.ev>moneyEstimate(view).mean+1e-9)?chosen.id:undefined;
+  const chosen=best&&(ranked.find(c=>definition(c.id).type==='Treasure'&&c.ev+c.bonus>=best.ev+best.bonus-0.035-1e-9)??best);
+  return chosen&&(mandatory||chosen.ev+chosen.bonus>moneyEstimate(view).mean+1e-9)?chosen.id:undefined;
 }
 /** Retain exact ending protection, including winning multi-buy sequences. Recompute EV after each buy. */
-export function moneyPurchase(view: View): ActionCommand {
+export function moneyPurchase(view: View, premium: (id: string) => number = () => 0): ActionCommand {
   if(view.resources.buys<=0)return {type:'turn/ended'};
   const finish=purchasePlan(view,id=>(definition(id).vp??0));
   if(finish.share!==null&&finish.share>0&&finish.cards[0])return {type:'card/bought',cardId:finish.cards[0]};
@@ -131,6 +131,6 @@ export function moneyPurchase(view: View): ActionCommand {
     const after={...view,resources:{...view.resources,coins:view.resources.coins-definition(id).cost!,buys:view.resources.buys-1}};
     return gainOutcome(after,id)!==0;
   });
-  const id=moneyBuy(view,safe);
+  const id=moneyBuy(view,safe,false,premium);
   return id?{type:'card/bought',cardId:id}:{type:'turn/ended'};
 }
