@@ -1,4 +1,4 @@
-# Bot defect correction ledger — version 10
+# Bot defect correction ledger — version 11
 
 This ledger distinguishes concrete decision defects from unavoidable uncertainty and deliberate benchmark restrictions. “Corrected” means implementation plus a targeted behavioral check or the specified shared regression coverage; it does not certify perfect play.
 
@@ -47,3 +47,7 @@ Plain Treasure retains the all-card economy model, corrected scoring and $0.035 
 Unknown draws, approximate income/Devotion/accessibility, fixed utility weights, finite known-hand search, separable basket utilities and a heuristic game horizon remain disclosed model assumptions. We have improved the concrete failure modes they caused, not solved optimal hidden-information play. The bots do not perform arbitrary multi-turn opponent search, strategic drafting or mixed-strategy equilibrium search. Mandatory losing choices can be unavoidable. These limits must remain visible when interpreting the matrix.
 
 Behavioral regression sources: [planning](tests/simulation/planning.test.ts), [Engine](tests/simulation/engine.test.ts), [Thin](tests/simulation/thin.test.ts), [shared study behavior](tests/simulation/study.test.ts), [matrix schedule](tests/simulation/matrix.test.ts). The full design and constants are in [BOT_STRATEGIES.md](BOT_STRATEGIES.md).
+
+## End Game replaces aggressive Race (v11)
+
+The v10 modifier prioritized Polis from the opening and shortened all investment horizons. Its archived matrix performed poorly. The new independent End Game modifier waits until the uncapped public horizon is ≤2 before prioritizing all affordable positive VP, retaining safe endings and objective-specific thinning. Both parents are covered by threshold, historical-control and 64-combination replay tests. The [Big Money screening](balance-results/base-endgame-v1/README.md) improves every separate P1 on-minus-off comparison. The horizon remains an uncalibrated heuristic; Engine performance requires a later trial.
