@@ -2,8 +2,8 @@ import {expect,test} from 'bun:test';
 import {setupExperiment,runExperiment} from '../../scripts/balance/experiment';
 import {activePlayer} from '../../src/lib/game/actions';
 import {strategyView,inventoryAtSetup,strategyCommand} from '../../scripts/balance/strategy';
-import {baseProfiles,v14BaseProfiles} from '../../scripts/balance/base-profiles';
-import {rolloutEstimate,sampledAfter,sampledValue,rolloutSamples,rolloutTurns} from '../../scripts/balance/sampled';
+import {v15BaseProfiles as baseProfiles,v14BaseProfiles} from '../../scripts/balance/base-profiles';
+import {rolloutEstimate,sampledAfter,sampledValue,rolloutSamples,rolloutTurns} from '../../scripts/balance/sampled-v15';
 function view(){
  const {game}=setupExperiment('sample-test',['thaleia','nereon'],'base-game');
  const v=strategyView(game,activePlayer(game),inventoryAtSetup(game,'base-game'),undefined,'base-game');
