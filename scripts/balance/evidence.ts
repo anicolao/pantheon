@@ -9,7 +9,7 @@ export type Pair = {
 export type Estimate = { blocks: number; pairs: number; excludedBlocks: number; exposureRate: number; difference: number | null;
   interval: [number, number] | null; correctedInterval: [number, number] | null; label: string };
 const mean = (values: number[]) => values.reduce((sum, value) => sum + value, 0) / values.length;
-export function pairedEstimate(pairs: Pair[], tests: number, confirmation: boolean, threshold = 0.05): Estimate {
+export function pairedEstimate(pairs: Pair[], tests: number, confirmation: boolean, threshold = 0.05, replicates = 20_000): Estimate {
   if (!Number.isSafeInteger(tests) || tests < 1) throw new Error('The comparison family must be declared.');
   const grouped = new Map<number, Pair[]>();
   for (const pair of pairs) { const rows = grouped.get(pair.block) ?? []; rows.push(pair); grouped.set(pair.block, rows); }
@@ -20,7 +20,7 @@ export function pairedEstimate(pairs: Pair[], tests: number, confirmation: boole
     exposureRate: eligible.length ? mean(eligible.map(row => Number(row.exposure > 0))) : 0, difference,
     interval: null, correctedInterval: null, label: 'inconclusive' };
   if (blocks.length < 2) return result;
-  const random = createPrng('paired-bootstrap-v1'), samples: number[] = [], replicates = 20_000;
+  const random = createPrng('paired-bootstrap-v1'), samples: number[] = [];
   for (let i = 0; i < replicates; i++) {
     let sum = 0;
     for (let j = 0; j < blocks.length; j++) sum += blocks[Math.floor(random() * blocks.length)];
