@@ -70,6 +70,7 @@ test('Forge considers replacement jointly and permits a known winning point conv
  for(const family of ['treasure','engine'] as const){
   const v=view({talent:2,hamlet:3});v.hand=[card('talent')];v.supply.acropolis=1;v.myScore=3;v.scores=[8];v.choice={...trash,max:1,forge:true};
   expect(strategyCommand(v,profile(family,true))).toMatchObject({targets:['talent-0']});
+  expect(objectiveChange(v,family,[card('talent')],'acropolis',false)).toBeLessThan(0);
   const gained={...v,owned:{talent:1,hamlet:3},hand:[],choice:{id:'gain',kind:'gain' as const,source:'forge-of-heroes',min:1,max:1,limit:8}};
   expect(strategyCommand(gained,profile(family,true))).toMatchObject({targets:['acropolis']});
  }
