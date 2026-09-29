@@ -147,48 +147,6 @@ Viewpoint: **Ariadne**.
 
 - [x] Ariadne receives a Temple and four Obols
 
-## Leaving Actions would leave the Temple unplayed
-
-Viewpoint: **Ariadne**.
-
-<table>
-<tr><th>Desktop · 1440 × 1000</th><th>Phone · 393 × 852</th></tr>
-<tr>
-<td valign="top"><a href="../../screenshots/keep-playing-a-temple-spend-the-last-buy-and-hand-the-turn-to-a-friend-exactly-once/007-decision-desktop-darwin.png"><img src="../../screenshots/keep-playing-a-temple-spend-the-last-buy-and-hand-the-turn-to-a-friend-exactly-once/007-decision-desktop-darwin.png" alt="Leaving Actions would leave the Temple unplayed — desktop" width="720"></a></td>
-<td valign="top"><a href="../../screenshots/keep-playing-a-temple-spend-the-last-buy-and-hand-the-turn-to-a-friend-exactly-once/007-decision-phone-darwin.png"><img src="../../screenshots/keep-playing-a-temple-spend-the-last-buy-and-hand-the-turn-to-a-friend-exactly-once/007-decision-phone-darwin.png" alt="Leaving Actions would leave the Temple unplayed — phone" width="240"></a></td>
-</tr>
-</table>
-
-<details>
-<summary>Tabletop · 3840 × 2160 — expand screenshot</summary>
-
-<a href="../../screenshots/keep-playing-a-temple-spend-the-last-buy-and-hand-the-turn-to-a-friend-exactly-once/007-decision-tabletop-4k-darwin.png"><img src="../../screenshots/keep-playing-a-temple-spend-the-last-buy-and-hand-the-turn-to-a-friend-exactly-once/007-decision-tabletop-4k-darwin.png" alt="Leaving Actions would leave the Temple unplayed — tabletop-4k" width="960"></a>
-
-</details>
-
-- [x] Leaving Actions would leave the Temple unplayed
-
-## Ariadne keeps playing without spending anything
-
-Viewpoint: **Ariadne**.
-
-<table>
-<tr><th>Desktop · 1440 × 1000</th><th>Phone · 393 × 852</th></tr>
-<tr>
-<td valign="top"><a href="../../screenshots/keep-playing-a-temple-spend-the-last-buy-and-hand-the-turn-to-a-friend-exactly-once/008-keep-desktop-darwin.png"><img src="../../screenshots/keep-playing-a-temple-spend-the-last-buy-and-hand-the-turn-to-a-friend-exactly-once/008-keep-desktop-darwin.png" alt="Ariadne keeps playing without spending anything — desktop" width="720"></a></td>
-<td valign="top"><a href="../../screenshots/keep-playing-a-temple-spend-the-last-buy-and-hand-the-turn-to-a-friend-exactly-once/008-keep-phone-darwin.png"><img src="../../screenshots/keep-playing-a-temple-spend-the-last-buy-and-hand-the-turn-to-a-friend-exactly-once/008-keep-phone-darwin.png" alt="Ariadne keeps playing without spending anything — phone" width="240"></a></td>
-</tr>
-</table>
-
-<details>
-<summary>Tabletop · 3840 × 2160 — expand screenshot</summary>
-
-<a href="../../screenshots/keep-playing-a-temple-spend-the-last-buy-and-hand-the-turn-to-a-friend-exactly-once/008-keep-tabletop-4k-darwin.png"><img src="../../screenshots/keep-playing-a-temple-spend-the-last-buy-and-hand-the-turn-to-a-friend-exactly-once/008-keep-tabletop-4k-darwin.png" alt="Ariadne keeps playing without spending anything — tabletop-4k" width="960"></a>
-
-</details>
-
-- [x] Ariadne keeps playing without spending anything
-
 ## The Temple can be read before it is played
 
 Viewpoint: **Ariadne**.
@@ -196,15 +154,15 @@ Viewpoint: **Ariadne**.
 <table>
 <tr><th>Desktop · 1440 × 1000</th><th>Phone · 393 × 852</th></tr>
 <tr>
-<td valign="top"><a href="../../screenshots/keep-playing-a-temple-spend-the-last-buy-and-hand-the-turn-to-a-friend-exactly-once/009-temple-desktop-darwin.png"><img src="../../screenshots/keep-playing-a-temple-spend-the-last-buy-and-hand-the-turn-to-a-friend-exactly-once/009-temple-desktop-darwin.png" alt="The Temple can be read before it is played — desktop" width="720"></a></td>
-<td valign="top"><a href="../../screenshots/keep-playing-a-temple-spend-the-last-buy-and-hand-the-turn-to-a-friend-exactly-once/009-temple-phone-darwin.png"><img src="../../screenshots/keep-playing-a-temple-spend-the-last-buy-and-hand-the-turn-to-a-friend-exactly-once/009-temple-phone-darwin.png" alt="The Temple can be read before it is played — phone" width="240"></a></td>
+<td valign="top"><a href="../../screenshots/keep-playing-a-temple-spend-the-last-buy-and-hand-the-turn-to-a-friend-exactly-once/007-temple-desktop-darwin.png"><img src="../../screenshots/keep-playing-a-temple-spend-the-last-buy-and-hand-the-turn-to-a-friend-exactly-once/007-temple-desktop-darwin.png" alt="The Temple can be read before it is played — desktop" width="720"></a></td>
+<td valign="top"><a href="../../screenshots/keep-playing-a-temple-spend-the-last-buy-and-hand-the-turn-to-a-friend-exactly-once/007-temple-phone-darwin.png"><img src="../../screenshots/keep-playing-a-temple-spend-the-last-buy-and-hand-the-turn-to-a-friend-exactly-once/007-temple-phone-darwin.png" alt="The Temple can be read before it is played — phone" width="240"></a></td>
 </tr>
 </table>
 
 <details>
 <summary>Tabletop · 3840 × 2160 — expand screenshot</summary>
 
-<a href="../../screenshots/keep-playing-a-temple-spend-the-last-buy-and-hand-the-turn-to-a-friend-exactly-once/009-temple-tabletop-4k-darwin.png"><img src="../../screenshots/keep-playing-a-temple-spend-the-last-buy-and-hand-the-turn-to-a-friend-exactly-once/009-temple-tabletop-4k-darwin.png" alt="The Temple can be read before it is played — tabletop-4k" width="960"></a>
+<a href="../../screenshots/keep-playing-a-temple-spend-the-last-buy-and-hand-the-turn-to-a-friend-exactly-once/007-temple-tabletop-4k-darwin.png"><img src="../../screenshots/keep-playing-a-temple-spend-the-last-buy-and-hand-the-turn-to-a-friend-exactly-once/007-temple-tabletop-4k-darwin.png" alt="The Temple can be read before it is played — tabletop-4k" width="960"></a>
 
 </details>
 
@@ -217,15 +175,15 @@ Viewpoint: **Ariadne**.
 <table>
 <tr><th>Desktop · 1440 × 1000</th><th>Phone · 393 × 852</th></tr>
 <tr>
-<td valign="top"><a href="../../screenshots/keep-playing-a-temple-spend-the-last-buy-and-hand-the-turn-to-a-friend-exactly-once/010-played-desktop-darwin.png"><img src="../../screenshots/keep-playing-a-temple-spend-the-last-buy-and-hand-the-turn-to-a-friend-exactly-once/010-played-desktop-darwin.png" alt="The Temple and Thaleia leave two Actions and two Worship — desktop" width="720"></a></td>
-<td valign="top"><a href="../../screenshots/keep-playing-a-temple-spend-the-last-buy-and-hand-the-turn-to-a-friend-exactly-once/010-played-phone-darwin.png"><img src="../../screenshots/keep-playing-a-temple-spend-the-last-buy-and-hand-the-turn-to-a-friend-exactly-once/010-played-phone-darwin.png" alt="The Temple and Thaleia leave two Actions and two Worship — phone" width="240"></a></td>
+<td valign="top"><a href="../../screenshots/keep-playing-a-temple-spend-the-last-buy-and-hand-the-turn-to-a-friend-exactly-once/008-played-desktop-darwin.png"><img src="../../screenshots/keep-playing-a-temple-spend-the-last-buy-and-hand-the-turn-to-a-friend-exactly-once/008-played-desktop-darwin.png" alt="The Temple and Thaleia leave two Actions and two Worship — desktop" width="720"></a></td>
+<td valign="top"><a href="../../screenshots/keep-playing-a-temple-spend-the-last-buy-and-hand-the-turn-to-a-friend-exactly-once/008-played-phone-darwin.png"><img src="../../screenshots/keep-playing-a-temple-spend-the-last-buy-and-hand-the-turn-to-a-friend-exactly-once/008-played-phone-darwin.png" alt="The Temple and Thaleia leave two Actions and two Worship — phone" width="240"></a></td>
 </tr>
 </table>
 
 <details>
 <summary>Tabletop · 3840 × 2160 — expand screenshot</summary>
 
-<a href="../../screenshots/keep-playing-a-temple-spend-the-last-buy-and-hand-the-turn-to-a-friend-exactly-once/010-played-tabletop-4k-darwin.png"><img src="../../screenshots/keep-playing-a-temple-spend-the-last-buy-and-hand-the-turn-to-a-friend-exactly-once/010-played-tabletop-4k-darwin.png" alt="The Temple and Thaleia leave two Actions and two Worship — tabletop-4k" width="960"></a>
+<a href="../../screenshots/keep-playing-a-temple-spend-the-last-buy-and-hand-the-turn-to-a-friend-exactly-once/008-played-tabletop-4k-darwin.png"><img src="../../screenshots/keep-playing-a-temple-spend-the-last-buy-and-hand-the-turn-to-a-friend-exactly-once/008-played-tabletop-4k-darwin.png" alt="The Temple and Thaleia leave two Actions and two Worship — tabletop-4k" width="960"></a>
 
 </details>
 
@@ -238,15 +196,15 @@ Viewpoint: **Ariadne**.
 <table>
 <tr><th>Desktop · 1440 × 1000</th><th>Phone · 393 × 852</th></tr>
 <tr>
-<td valign="top"><a href="../../screenshots/keep-playing-a-temple-spend-the-last-buy-and-hand-the-turn-to-a-friend-exactly-once/011-treasures-desktop-darwin.png"><img src="../../screenshots/keep-playing-a-temple-spend-the-last-buy-and-hand-the-turn-to-a-friend-exactly-once/011-treasures-desktop-darwin.png" alt="Ariadne can now play her wealth — desktop" width="720"></a></td>
-<td valign="top"><a href="../../screenshots/keep-playing-a-temple-spend-the-last-buy-and-hand-the-turn-to-a-friend-exactly-once/011-treasures-phone-darwin.png"><img src="../../screenshots/keep-playing-a-temple-spend-the-last-buy-and-hand-the-turn-to-a-friend-exactly-once/011-treasures-phone-darwin.png" alt="Ariadne can now play her wealth — phone" width="240"></a></td>
+<td valign="top"><a href="../../screenshots/keep-playing-a-temple-spend-the-last-buy-and-hand-the-turn-to-a-friend-exactly-once/009-treasures-desktop-darwin.png"><img src="../../screenshots/keep-playing-a-temple-spend-the-last-buy-and-hand-the-turn-to-a-friend-exactly-once/009-treasures-desktop-darwin.png" alt="Ariadne can now play her wealth — desktop" width="720"></a></td>
+<td valign="top"><a href="../../screenshots/keep-playing-a-temple-spend-the-last-buy-and-hand-the-turn-to-a-friend-exactly-once/009-treasures-phone-darwin.png"><img src="../../screenshots/keep-playing-a-temple-spend-the-last-buy-and-hand-the-turn-to-a-friend-exactly-once/009-treasures-phone-darwin.png" alt="Ariadne can now play her wealth — phone" width="240"></a></td>
 </tr>
 </table>
 
 <details>
 <summary>Tabletop · 3840 × 2160 — expand screenshot</summary>
 
-<a href="../../screenshots/keep-playing-a-temple-spend-the-last-buy-and-hand-the-turn-to-a-friend-exactly-once/011-treasures-tabletop-4k-darwin.png"><img src="../../screenshots/keep-playing-a-temple-spend-the-last-buy-and-hand-the-turn-to-a-friend-exactly-once/011-treasures-tabletop-4k-darwin.png" alt="Ariadne can now play her wealth — tabletop-4k" width="960"></a>
+<a href="../../screenshots/keep-playing-a-temple-spend-the-last-buy-and-hand-the-turn-to-a-friend-exactly-once/009-treasures-tabletop-4k-darwin.png"><img src="../../screenshots/keep-playing-a-temple-spend-the-last-buy-and-hand-the-turn-to-a-friend-exactly-once/009-treasures-tabletop-4k-darwin.png" alt="Ariadne can now play her wealth — tabletop-4k" width="960"></a>
 
 </details>
 
@@ -259,15 +217,15 @@ Viewpoint: **Ariadne**.
 <table>
 <tr><th>Desktop · 1440 × 1000</th><th>Phone · 393 × 852</th></tr>
 <tr>
-<td valign="top"><a href="../../screenshots/keep-playing-a-temple-spend-the-last-buy-and-hand-the-turn-to-a-friend-exactly-once/012-wealth-desktop-darwin.png"><img src="../../screenshots/keep-playing-a-temple-spend-the-last-buy-and-hand-the-turn-to-a-friend-exactly-once/012-wealth-desktop-darwin.png" alt="Four Obols provide four Coins — desktop" width="720"></a></td>
-<td valign="top"><a href="../../screenshots/keep-playing-a-temple-spend-the-last-buy-and-hand-the-turn-to-a-friend-exactly-once/012-wealth-phone-darwin.png"><img src="../../screenshots/keep-playing-a-temple-spend-the-last-buy-and-hand-the-turn-to-a-friend-exactly-once/012-wealth-phone-darwin.png" alt="Four Obols provide four Coins — phone" width="240"></a></td>
+<td valign="top"><a href="../../screenshots/keep-playing-a-temple-spend-the-last-buy-and-hand-the-turn-to-a-friend-exactly-once/010-wealth-desktop-darwin.png"><img src="../../screenshots/keep-playing-a-temple-spend-the-last-buy-and-hand-the-turn-to-a-friend-exactly-once/010-wealth-desktop-darwin.png" alt="Four Obols provide four Coins — desktop" width="720"></a></td>
+<td valign="top"><a href="../../screenshots/keep-playing-a-temple-spend-the-last-buy-and-hand-the-turn-to-a-friend-exactly-once/010-wealth-phone-darwin.png"><img src="../../screenshots/keep-playing-a-temple-spend-the-last-buy-and-hand-the-turn-to-a-friend-exactly-once/010-wealth-phone-darwin.png" alt="Four Obols provide four Coins — phone" width="240"></a></td>
 </tr>
 </table>
 
 <details>
 <summary>Tabletop · 3840 × 2160 — expand screenshot</summary>
 
-<a href="../../screenshots/keep-playing-a-temple-spend-the-last-buy-and-hand-the-turn-to-a-friend-exactly-once/012-wealth-tabletop-4k-darwin.png"><img src="../../screenshots/keep-playing-a-temple-spend-the-last-buy-and-hand-the-turn-to-a-friend-exactly-once/012-wealth-tabletop-4k-darwin.png" alt="Four Obols provide four Coins — tabletop-4k" width="960"></a>
+<a href="../../screenshots/keep-playing-a-temple-spend-the-last-buy-and-hand-the-turn-to-a-friend-exactly-once/010-wealth-tabletop-4k-darwin.png"><img src="../../screenshots/keep-playing-a-temple-spend-the-last-buy-and-hand-the-turn-to-a-friend-exactly-once/010-wealth-tabletop-4k-darwin.png" alt="Four Obols provide four Coins — tabletop-4k" width="960"></a>
 
 </details>
 
@@ -280,15 +238,15 @@ Viewpoint: **Ariadne**.
 <table>
 <tr><th>Desktop · 1440 × 1000</th><th>Phone · 393 × 852</th></tr>
 <tr>
-<td valign="top"><a href="../../screenshots/keep-playing-a-temple-spend-the-last-buy-and-hand-the-turn-to-a-friend-exactly-once/013-supply-desktop-darwin.png"><img src="../../screenshots/keep-playing-a-temple-spend-the-last-buy-and-hand-the-turn-to-a-friend-exactly-once/013-supply-desktop-darwin.png" alt="The supply offers both Basics and Actions — desktop" width="720"></a></td>
-<td valign="top"><a href="../../screenshots/keep-playing-a-temple-spend-the-last-buy-and-hand-the-turn-to-a-friend-exactly-once/013-supply-phone-darwin.png"><img src="../../screenshots/keep-playing-a-temple-spend-the-last-buy-and-hand-the-turn-to-a-friend-exactly-once/013-supply-phone-darwin.png" alt="The supply offers both Basics and Actions — phone" width="240"></a></td>
+<td valign="top"><a href="../../screenshots/keep-playing-a-temple-spend-the-last-buy-and-hand-the-turn-to-a-friend-exactly-once/011-supply-desktop-darwin.png"><img src="../../screenshots/keep-playing-a-temple-spend-the-last-buy-and-hand-the-turn-to-a-friend-exactly-once/011-supply-desktop-darwin.png" alt="The supply offers both Basics and Actions — desktop" width="720"></a></td>
+<td valign="top"><a href="../../screenshots/keep-playing-a-temple-spend-the-last-buy-and-hand-the-turn-to-a-friend-exactly-once/011-supply-phone-darwin.png"><img src="../../screenshots/keep-playing-a-temple-spend-the-last-buy-and-hand-the-turn-to-a-friend-exactly-once/011-supply-phone-darwin.png" alt="The supply offers both Basics and Actions — phone" width="240"></a></td>
 </tr>
 </table>
 
 <details>
 <summary>Tabletop · 3840 × 2160 — expand screenshot</summary>
 
-<a href="../../screenshots/keep-playing-a-temple-spend-the-last-buy-and-hand-the-turn-to-a-friend-exactly-once/013-supply-tabletop-4k-darwin.png"><img src="../../screenshots/keep-playing-a-temple-spend-the-last-buy-and-hand-the-turn-to-a-friend-exactly-once/013-supply-tabletop-4k-darwin.png" alt="The supply offers both Basics and Actions — tabletop-4k" width="960"></a>
+<a href="../../screenshots/keep-playing-a-temple-spend-the-last-buy-and-hand-the-turn-to-a-friend-exactly-once/011-supply-tabletop-4k-darwin.png"><img src="../../screenshots/keep-playing-a-temple-spend-the-last-buy-and-hand-the-turn-to-a-friend-exactly-once/011-supply-tabletop-4k-darwin.png" alt="The supply offers both Basics and Actions — tabletop-4k" width="960"></a>
 
 </details>
 
@@ -301,15 +259,15 @@ Viewpoint: **Ariadne**.
 <table>
 <tr><th>Desktop · 1440 × 1000</th><th>Phone · 393 × 852</th></tr>
 <tr>
-<td valign="top"><a href="../../screenshots/keep-playing-a-temple-spend-the-last-buy-and-hand-the-turn-to-a-friend-exactly-once/014-actions-desktop-darwin.png"><img src="../../screenshots/keep-playing-a-temple-spend-the-last-buy-and-hand-the-turn-to-a-friend-exactly-once/014-actions-desktop-darwin.png" alt="Ariadne explores Action cards — desktop" width="720"></a></td>
-<td valign="top"><a href="../../screenshots/keep-playing-a-temple-spend-the-last-buy-and-hand-the-turn-to-a-friend-exactly-once/014-actions-phone-darwin.png"><img src="../../screenshots/keep-playing-a-temple-spend-the-last-buy-and-hand-the-turn-to-a-friend-exactly-once/014-actions-phone-darwin.png" alt="Ariadne explores Action cards — phone" width="240"></a></td>
+<td valign="top"><a href="../../screenshots/keep-playing-a-temple-spend-the-last-buy-and-hand-the-turn-to-a-friend-exactly-once/012-actions-desktop-darwin.png"><img src="../../screenshots/keep-playing-a-temple-spend-the-last-buy-and-hand-the-turn-to-a-friend-exactly-once/012-actions-desktop-darwin.png" alt="Ariadne explores Action cards — desktop" width="720"></a></td>
+<td valign="top"><a href="../../screenshots/keep-playing-a-temple-spend-the-last-buy-and-hand-the-turn-to-a-friend-exactly-once/012-actions-phone-darwin.png"><img src="../../screenshots/keep-playing-a-temple-spend-the-last-buy-and-hand-the-turn-to-a-friend-exactly-once/012-actions-phone-darwin.png" alt="Ariadne explores Action cards — phone" width="240"></a></td>
 </tr>
 </table>
 
 <details>
 <summary>Tabletop · 3840 × 2160 — expand screenshot</summary>
 
-<a href="../../screenshots/keep-playing-a-temple-spend-the-last-buy-and-hand-the-turn-to-a-friend-exactly-once/014-actions-tabletop-4k-darwin.png"><img src="../../screenshots/keep-playing-a-temple-spend-the-last-buy-and-hand-the-turn-to-a-friend-exactly-once/014-actions-tabletop-4k-darwin.png" alt="Ariadne explores Action cards — tabletop-4k" width="960"></a>
+<a href="../../screenshots/keep-playing-a-temple-spend-the-last-buy-and-hand-the-turn-to-a-friend-exactly-once/012-actions-tabletop-4k-darwin.png"><img src="../../screenshots/keep-playing-a-temple-spend-the-last-buy-and-hand-the-turn-to-a-friend-exactly-once/012-actions-tabletop-4k-darwin.png" alt="Ariadne explores Action cards — tabletop-4k" width="960"></a>
 
 </details>
 
@@ -322,15 +280,15 @@ Viewpoint: **Ariadne**.
 <table>
 <tr><th>Desktop · 1440 × 1000</th><th>Phone · 393 × 852</th></tr>
 <tr>
-<td valign="top"><a href="../../screenshots/keep-playing-a-temple-spend-the-last-buy-and-hand-the-turn-to-a-friend-exactly-once/015-council-desktop-darwin.png"><img src="../../screenshots/keep-playing-a-temple-spend-the-last-buy-and-hand-the-turn-to-a-friend-exactly-once/015-council-desktop-darwin.png" alt="Council of Sages costs all four Coins — desktop" width="720"></a></td>
-<td valign="top"><a href="../../screenshots/keep-playing-a-temple-spend-the-last-buy-and-hand-the-turn-to-a-friend-exactly-once/015-council-phone-darwin.png"><img src="../../screenshots/keep-playing-a-temple-spend-the-last-buy-and-hand-the-turn-to-a-friend-exactly-once/015-council-phone-darwin.png" alt="Council of Sages costs all four Coins — phone" width="240"></a></td>
+<td valign="top"><a href="../../screenshots/keep-playing-a-temple-spend-the-last-buy-and-hand-the-turn-to-a-friend-exactly-once/013-council-desktop-darwin.png"><img src="../../screenshots/keep-playing-a-temple-spend-the-last-buy-and-hand-the-turn-to-a-friend-exactly-once/013-council-desktop-darwin.png" alt="Council of Sages costs all four Coins — desktop" width="720"></a></td>
+<td valign="top"><a href="../../screenshots/keep-playing-a-temple-spend-the-last-buy-and-hand-the-turn-to-a-friend-exactly-once/013-council-phone-darwin.png"><img src="../../screenshots/keep-playing-a-temple-spend-the-last-buy-and-hand-the-turn-to-a-friend-exactly-once/013-council-phone-darwin.png" alt="Council of Sages costs all four Coins — phone" width="240"></a></td>
 </tr>
 </table>
 
 <details>
 <summary>Tabletop · 3840 × 2160 — expand screenshot</summary>
 
-<a href="../../screenshots/keep-playing-a-temple-spend-the-last-buy-and-hand-the-turn-to-a-friend-exactly-once/015-council-tabletop-4k-darwin.png"><img src="../../screenshots/keep-playing-a-temple-spend-the-last-buy-and-hand-the-turn-to-a-friend-exactly-once/015-council-tabletop-4k-darwin.png" alt="Council of Sages costs all four Coins — tabletop-4k" width="960"></a>
+<a href="../../screenshots/keep-playing-a-temple-spend-the-last-buy-and-hand-the-turn-to-a-friend-exactly-once/013-council-tabletop-4k-darwin.png"><img src="../../screenshots/keep-playing-a-temple-spend-the-last-buy-and-hand-the-turn-to-a-friend-exactly-once/013-council-tabletop-4k-darwin.png" alt="Council of Sages costs all four Coins — tabletop-4k" width="960"></a>
 
 </details>
 
@@ -343,15 +301,15 @@ Viewpoint: **Ariadne**.
 <table>
 <tr><th>Desktop · 1440 × 1000</th><th>Phone · 393 × 852</th></tr>
 <tr>
-<td valign="top"><a href="../../screenshots/keep-playing-a-temple-spend-the-last-buy-and-hand-the-turn-to-a-friend-exactly-once/016-last-buy-desktop-darwin.png"><img src="../../screenshots/keep-playing-a-temple-spend-the-last-buy-and-hand-the-turn-to-a-friend-exactly-once/016-last-buy-desktop-darwin.png" alt="Spending the last Buy does not end the turn — desktop" width="720"></a></td>
-<td valign="top"><a href="../../screenshots/keep-playing-a-temple-spend-the-last-buy-and-hand-the-turn-to-a-friend-exactly-once/016-last-buy-phone-darwin.png"><img src="../../screenshots/keep-playing-a-temple-spend-the-last-buy-and-hand-the-turn-to-a-friend-exactly-once/016-last-buy-phone-darwin.png" alt="Spending the last Buy does not end the turn — phone" width="240"></a></td>
+<td valign="top"><a href="../../screenshots/keep-playing-a-temple-spend-the-last-buy-and-hand-the-turn-to-a-friend-exactly-once/014-last-buy-desktop-darwin.png"><img src="../../screenshots/keep-playing-a-temple-spend-the-last-buy-and-hand-the-turn-to-a-friend-exactly-once/014-last-buy-desktop-darwin.png" alt="Spending the last Buy does not end the turn — desktop" width="720"></a></td>
+<td valign="top"><a href="../../screenshots/keep-playing-a-temple-spend-the-last-buy-and-hand-the-turn-to-a-friend-exactly-once/014-last-buy-phone-darwin.png"><img src="../../screenshots/keep-playing-a-temple-spend-the-last-buy-and-hand-the-turn-to-a-friend-exactly-once/014-last-buy-phone-darwin.png" alt="Spending the last Buy does not end the turn — phone" width="240"></a></td>
 </tr>
 </table>
 
 <details>
 <summary>Tabletop · 3840 × 2160 — expand screenshot</summary>
 
-<a href="../../screenshots/keep-playing-a-temple-spend-the-last-buy-and-hand-the-turn-to-a-friend-exactly-once/016-last-buy-tabletop-4k-darwin.png"><img src="../../screenshots/keep-playing-a-temple-spend-the-last-buy-and-hand-the-turn-to-a-friend-exactly-once/016-last-buy-tabletop-4k-darwin.png" alt="Spending the last Buy does not end the turn — tabletop-4k" width="960"></a>
+<a href="../../screenshots/keep-playing-a-temple-spend-the-last-buy-and-hand-the-turn-to-a-friend-exactly-once/014-last-buy-tabletop-4k-darwin.png"><img src="../../screenshots/keep-playing-a-temple-spend-the-last-buy-and-hand-the-turn-to-a-friend-exactly-once/014-last-buy-tabletop-4k-darwin.png" alt="Spending the last Buy does not end the turn — tabletop-4k" width="960"></a>
 
 </details>
 
@@ -364,15 +322,15 @@ Viewpoint: **Ariadne**.
 <table>
 <tr><th>Desktop · 1440 × 1000</th><th>Phone · 393 × 852</th></tr>
 <tr>
-<td valign="top"><a href="../../screenshots/keep-playing-a-temple-spend-the-last-buy-and-hand-the-turn-to-a-friend-exactly-once/017-finish-desktop-darwin.png"><img src="../../screenshots/keep-playing-a-temple-spend-the-last-buy-and-hand-the-turn-to-a-friend-exactly-once/017-finish-desktop-darwin.png" alt="Ariadne chooses when to finish her turn — desktop" width="720"></a></td>
-<td valign="top"><a href="../../screenshots/keep-playing-a-temple-spend-the-last-buy-and-hand-the-turn-to-a-friend-exactly-once/017-finish-phone-darwin.png"><img src="../../screenshots/keep-playing-a-temple-spend-the-last-buy-and-hand-the-turn-to-a-friend-exactly-once/017-finish-phone-darwin.png" alt="Ariadne chooses when to finish her turn — phone" width="240"></a></td>
+<td valign="top"><a href="../../screenshots/keep-playing-a-temple-spend-the-last-buy-and-hand-the-turn-to-a-friend-exactly-once/015-finish-desktop-darwin.png"><img src="../../screenshots/keep-playing-a-temple-spend-the-last-buy-and-hand-the-turn-to-a-friend-exactly-once/015-finish-desktop-darwin.png" alt="Ariadne chooses when to finish her turn — desktop" width="720"></a></td>
+<td valign="top"><a href="../../screenshots/keep-playing-a-temple-spend-the-last-buy-and-hand-the-turn-to-a-friend-exactly-once/015-finish-phone-darwin.png"><img src="../../screenshots/keep-playing-a-temple-spend-the-last-buy-and-hand-the-turn-to-a-friend-exactly-once/015-finish-phone-darwin.png" alt="Ariadne chooses when to finish her turn — phone" width="240"></a></td>
 </tr>
 </table>
 
 <details>
 <summary>Tabletop · 3840 × 2160 — expand screenshot</summary>
 
-<a href="../../screenshots/keep-playing-a-temple-spend-the-last-buy-and-hand-the-turn-to-a-friend-exactly-once/017-finish-tabletop-4k-darwin.png"><img src="../../screenshots/keep-playing-a-temple-spend-the-last-buy-and-hand-the-turn-to-a-friend-exactly-once/017-finish-tabletop-4k-darwin.png" alt="Ariadne chooses when to finish her turn — tabletop-4k" width="960"></a>
+<a href="../../screenshots/keep-playing-a-temple-spend-the-last-buy-and-hand-the-turn-to-a-friend-exactly-once/015-finish-tabletop-4k-darwin.png"><img src="../../screenshots/keep-playing-a-temple-spend-the-last-buy-and-hand-the-turn-to-a-friend-exactly-once/015-finish-tabletop-4k-darwin.png" alt="Ariadne chooses when to finish her turn — tabletop-4k" width="960"></a>
 
 </details>
 
@@ -385,15 +343,15 @@ Viewpoint: **Theseus**.
 <table>
 <tr><th>Desktop · 1440 × 1000</th><th>Phone · 393 × 852</th></tr>
 <tr>
-<td valign="top"><a href="../../screenshots/keep-playing-a-temple-spend-the-last-buy-and-hand-the-turn-to-a-friend-exactly-once/018-handoff-desktop-darwin.png"><img src="../../screenshots/keep-playing-a-temple-spend-the-last-buy-and-hand-the-turn-to-a-friend-exactly-once/018-handoff-desktop-darwin.png" alt="Theseus receives fresh counters after public cleanup finishes — desktop" width="720"></a></td>
-<td valign="top"><a href="../../screenshots/keep-playing-a-temple-spend-the-last-buy-and-hand-the-turn-to-a-friend-exactly-once/018-handoff-phone-darwin.png"><img src="../../screenshots/keep-playing-a-temple-spend-the-last-buy-and-hand-the-turn-to-a-friend-exactly-once/018-handoff-phone-darwin.png" alt="Theseus receives fresh counters after public cleanup finishes — phone" width="240"></a></td>
+<td valign="top"><a href="../../screenshots/keep-playing-a-temple-spend-the-last-buy-and-hand-the-turn-to-a-friend-exactly-once/016-handoff-desktop-darwin.png"><img src="../../screenshots/keep-playing-a-temple-spend-the-last-buy-and-hand-the-turn-to-a-friend-exactly-once/016-handoff-desktop-darwin.png" alt="Theseus receives fresh counters after public cleanup finishes — desktop" width="720"></a></td>
+<td valign="top"><a href="../../screenshots/keep-playing-a-temple-spend-the-last-buy-and-hand-the-turn-to-a-friend-exactly-once/016-handoff-phone-darwin.png"><img src="../../screenshots/keep-playing-a-temple-spend-the-last-buy-and-hand-the-turn-to-a-friend-exactly-once/016-handoff-phone-darwin.png" alt="Theseus receives fresh counters after public cleanup finishes — phone" width="240"></a></td>
 </tr>
 </table>
 
 <details>
 <summary>Tabletop · 3840 × 2160 — expand screenshot</summary>
 
-<a href="../../screenshots/keep-playing-a-temple-spend-the-last-buy-and-hand-the-turn-to-a-friend-exactly-once/018-handoff-tabletop-4k-darwin.png"><img src="../../screenshots/keep-playing-a-temple-spend-the-last-buy-and-hand-the-turn-to-a-friend-exactly-once/018-handoff-tabletop-4k-darwin.png" alt="Theseus receives fresh counters after public cleanup finishes — tabletop-4k" width="960"></a>
+<a href="../../screenshots/keep-playing-a-temple-spend-the-last-buy-and-hand-the-turn-to-a-friend-exactly-once/016-handoff-tabletop-4k-darwin.png"><img src="../../screenshots/keep-playing-a-temple-spend-the-last-buy-and-hand-the-turn-to-a-friend-exactly-once/016-handoff-tabletop-4k-darwin.png" alt="Theseus receives fresh counters after public cleanup finishes — tabletop-4k" width="960"></a>
 
 </details>
 
@@ -406,15 +364,15 @@ Viewpoint: **Ariadne**.
 <table>
 <tr><th>Desktop · 1440 × 1000</th><th>Phone · 393 × 852</th></tr>
 <tr>
-<td valign="top"><a href="../../screenshots/keep-playing-a-temple-spend-the-last-buy-and-hand-the-turn-to-a-friend-exactly-once/019-waiting-hand-desktop-darwin.png"><img src="../../screenshots/keep-playing-a-temple-spend-the-last-buy-and-hand-the-turn-to-a-friend-exactly-once/019-waiting-hand-desktop-darwin.png" alt="Ariadne receives five private cards and waits for Theseus — desktop" width="720"></a></td>
-<td valign="top"><a href="../../screenshots/keep-playing-a-temple-spend-the-last-buy-and-hand-the-turn-to-a-friend-exactly-once/019-waiting-hand-phone-darwin.png"><img src="../../screenshots/keep-playing-a-temple-spend-the-last-buy-and-hand-the-turn-to-a-friend-exactly-once/019-waiting-hand-phone-darwin.png" alt="Ariadne receives five private cards and waits for Theseus — phone" width="240"></a></td>
+<td valign="top"><a href="../../screenshots/keep-playing-a-temple-spend-the-last-buy-and-hand-the-turn-to-a-friend-exactly-once/017-waiting-hand-desktop-darwin.png"><img src="../../screenshots/keep-playing-a-temple-spend-the-last-buy-and-hand-the-turn-to-a-friend-exactly-once/017-waiting-hand-desktop-darwin.png" alt="Ariadne receives five private cards and waits for Theseus — desktop" width="720"></a></td>
+<td valign="top"><a href="../../screenshots/keep-playing-a-temple-spend-the-last-buy-and-hand-the-turn-to-a-friend-exactly-once/017-waiting-hand-phone-darwin.png"><img src="../../screenshots/keep-playing-a-temple-spend-the-last-buy-and-hand-the-turn-to-a-friend-exactly-once/017-waiting-hand-phone-darwin.png" alt="Ariadne receives five private cards and waits for Theseus — phone" width="240"></a></td>
 </tr>
 </table>
 
 <details>
 <summary>Tabletop · 3840 × 2160 — expand screenshot</summary>
 
-<a href="../../screenshots/keep-playing-a-temple-spend-the-last-buy-and-hand-the-turn-to-a-friend-exactly-once/019-waiting-hand-tabletop-4k-darwin.png"><img src="../../screenshots/keep-playing-a-temple-spend-the-last-buy-and-hand-the-turn-to-a-friend-exactly-once/019-waiting-hand-tabletop-4k-darwin.png" alt="Ariadne receives five private cards and waits for Theseus — tabletop-4k" width="960"></a>
+<a href="../../screenshots/keep-playing-a-temple-spend-the-last-buy-and-hand-the-turn-to-a-friend-exactly-once/017-waiting-hand-tabletop-4k-darwin.png"><img src="../../screenshots/keep-playing-a-temple-spend-the-last-buy-and-hand-the-turn-to-a-friend-exactly-once/017-waiting-hand-tabletop-4k-darwin.png" alt="Ariadne receives five private cards and waits for Theseus — tabletop-4k" width="960"></a>
 
 </details>
 
@@ -427,15 +385,15 @@ Viewpoint: **Ariadne**.
 <table>
 <tr><th>Desktop · 1440 × 1000</th><th>Phone · 393 × 852</th></tr>
 <tr>
-<td valign="top"><a href="../../screenshots/keep-playing-a-temple-spend-the-last-buy-and-hand-the-turn-to-a-friend-exactly-once/020-return-desktop-darwin.png"><img src="../../screenshots/keep-playing-a-temple-spend-the-last-buy-and-hand-the-turn-to-a-friend-exactly-once/020-return-desktop-darwin.png" alt="Returning does not repeat cleanup or draw another hand — desktop" width="720"></a></td>
-<td valign="top"><a href="../../screenshots/keep-playing-a-temple-spend-the-last-buy-and-hand-the-turn-to-a-friend-exactly-once/020-return-phone-darwin.png"><img src="../../screenshots/keep-playing-a-temple-spend-the-last-buy-and-hand-the-turn-to-a-friend-exactly-once/020-return-phone-darwin.png" alt="Returning does not repeat cleanup or draw another hand — phone" width="240"></a></td>
+<td valign="top"><a href="../../screenshots/keep-playing-a-temple-spend-the-last-buy-and-hand-the-turn-to-a-friend-exactly-once/018-return-desktop-darwin.png"><img src="../../screenshots/keep-playing-a-temple-spend-the-last-buy-and-hand-the-turn-to-a-friend-exactly-once/018-return-desktop-darwin.png" alt="Returning does not repeat cleanup or draw another hand — desktop" width="720"></a></td>
+<td valign="top"><a href="../../screenshots/keep-playing-a-temple-spend-the-last-buy-and-hand-the-turn-to-a-friend-exactly-once/018-return-phone-darwin.png"><img src="../../screenshots/keep-playing-a-temple-spend-the-last-buy-and-hand-the-turn-to-a-friend-exactly-once/018-return-phone-darwin.png" alt="Returning does not repeat cleanup or draw another hand — phone" width="240"></a></td>
 </tr>
 </table>
 
 <details>
 <summary>Tabletop · 3840 × 2160 — expand screenshot</summary>
 
-<a href="../../screenshots/keep-playing-a-temple-spend-the-last-buy-and-hand-the-turn-to-a-friend-exactly-once/020-return-tabletop-4k-darwin.png"><img src="../../screenshots/keep-playing-a-temple-spend-the-last-buy-and-hand-the-turn-to-a-friend-exactly-once/020-return-tabletop-4k-darwin.png" alt="Returning does not repeat cleanup or draw another hand — tabletop-4k" width="960"></a>
+<a href="../../screenshots/keep-playing-a-temple-spend-the-last-buy-and-hand-the-turn-to-a-friend-exactly-once/018-return-tabletop-4k-darwin.png"><img src="../../screenshots/keep-playing-a-temple-spend-the-last-buy-and-hand-the-turn-to-a-friend-exactly-once/018-return-tabletop-4k-darwin.png" alt="Returning does not repeat cleanup or draw another hand — tabletop-4k" width="960"></a>
 
 </details>
 
