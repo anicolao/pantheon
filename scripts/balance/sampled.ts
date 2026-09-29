@@ -9,8 +9,8 @@ import type {View,Profile} from './strategy';
 
 export const rolloutSamples=64,rolloutTurns=3;
 export type SamplingMethod='random'|'stratified';
-export type SamplingPolicy='income'|'balanced'|'reliable';
-export type RolloutEstimate={coins:number;draws:number;income:number;balanced:number;reliable:number;fundedCoverage:number;fullDeckRate:number;samples:number;turns:number;perTurn:{coins:number;draws:number}[]};
+export type SamplingPolicy='income'|'balanced'|'reliable'|'late'|'coverage';
+export type RolloutEstimate={coins:number;draws:number;income:number;balanced:number;reliable:number;fundedCoverage:number;lateBalanced:number;lateCoverage:number;fullDeckRate:number;samples:number;turns:number;perTurn:{coins:number;draws:number}[]};
 const cache=new Map<string,RolloutEstimate>();
 const ranks=new Map<string,number[]>();
 function rank(id:string,sample:number):number{
@@ -42,14 +42,27 @@ export function rolloutPlay(view:View,thinning:boolean):ActionCommand{
    const sorted=[...view.hand].sort((a,b)=>keep(a)-keep(b)||a.id.localeCompare(b.id));
    for(const c of sorted){
     const f=cardFeatures(c.cardId,view.variant),coin=treasureValue(c.cardId);
-    const inert=definition(c.cardId).type==='Territory'||definition(c.cardId).type==='Action'&&Object.values(f).every(n=>n===0);
+    const inert=definition(c.cardId).type==='Territory'&&(definition(c.cardId).vp??0)<=1||definition(c.cardId).type==='Action'&&Object.values(f).every(n=>n===0);
     if(targets.length<choice.max&&(targets.length<choice.min||thinning&&(inert||coin===1&&cash-coin>=8))){targets.push(c.id);cash-=coin;}
    }
   }
   return {type:'choice/resolved',choiceId:choice.id,targets};
  }
  if(view.phase==='actions'){
-  const action=view.resources.actions>0?moneyAction(view):undefined;
+  const available=Math.max(0,Object.values(view.owned).reduce((s,n)=>s+n,0)-view.hand.length-view.play.length);
+  // Do not pay a mandatory discard for an empty draw. Restrict this shortcut
+  // to the neutral game, where no leader trigger can make the play useful.
+  const harmful=(c:CardInstance)=>{
+   const f=cardFeatures(c.cardId,view.variant);
+   return view.variant==='base-game'&&available===0&&f.discard>0&&f.actions<=1&&!f.coins&&!f.gain&&!f.trash&&!f.reveal;
+  };
+  const bonus=(c:CardInstance)=>{
+   if(harmful(c))return -1e9;
+   const junk=view.hand.filter(x=>x.id!==c.id&&(definition(x.cardId).type==='Territory'&&(definition(x.cardId).vp??0)<=1||definition(x.cardId).type==='Action'&&Object.values(cardFeatures(x.cardId,view.variant)).every(n=>n===0))).length;
+   return thinning?6*Math.min(cardFeatures(c.cardId,view.variant).trash,junk):0;
+  };
+  const selected=view.resources.actions>0?moneyAction(view,bonus):undefined;
+  const action=selected&&!harmful(selected)?selected:undefined;
   return action?{type:'action/played',instanceId:action.id}:{type:'phase/advanced'};
  }
  if(view.phase==='treasures'&&view.hand.some(c=>definition(c.cardId).type==='Treasure'))return {type:'treasures/played'};
@@ -68,7 +81,7 @@ export function rolloutEstimate(view:View,owned=view.owned,thinning=false,method
  const key=JSON.stringify([entries,cards.map(c=>c.id),view.variant??'standard',disabled?null:view.leader,view.leaderBonus,canGain?view.supply:null,canGain?view.bannedCards:null,thinning,method,view.supply.acropolis===0||Object.values(view.supply).filter(n=>n===0).length>=3]);
  const saved=cache.get(key);if(saved)return saved;
  const topCost=Math.max(1,...Object.keys(view.supply).filter(id=>(definition(id).vp??0)>0).map(id=>definition(id).cost??0));
- let income=0,balanced=0,reliable=0,fundedCoverage=0,fullDeckRate=0;
+ let income=0,balanced=0,reliable=0,fundedCoverage=0,lateBalanced=0,lateCoverage=0,fullDeckRate=0;
  const perTurn=Array.from({length:rolloutTurns},()=>({coins:0,draws:0}));
  const samples=method==='random'?rolloutSamples:8*Math.max(1,cards.length);
  for(let sample=0;sample<samples;sample++){
@@ -92,6 +105,7 @@ export function rolloutEstimate(view:View,owned=view.owned,thinning=false,method
      const coins=game.resources.coins,buys=game.resources.buys,coverage=seen.size/Math.max(1,targets.size);
      const useful=Math.min(coins,topCost*buys),opportunities=Math.min(buys,Math.floor(coins/topCost));
      income+=useful;balanced+=useful+topCost*0.5*opportunities;reliable+=useful+topCost*opportunities;
+     if(turn===rolloutTurns-1){lateBalanced+=rolloutTurns*(useful+topCost*0.5*opportunities);lateCoverage+=rolloutTurns*coverage*Math.min(1,coins/topCost);}
      fundedCoverage+=coverage*Math.min(1,coins/topCost);fullDeckRate+=Number(seen.size===targets.size);
      perTurn[turn].coins+=coins;perTurn[turn].draws+=draws;
     }
@@ -103,13 +117,14 @@ export function rolloutEstimate(view:View,owned=view.owned,thinning=false,method
   }
  }
  for(const t of perTurn){t.coins/=samples;t.draws/=samples;}
- const result={coins:perTurn.reduce((s,t)=>s+t.coins,0),draws:perTurn.reduce((s,t)=>s+t.draws,0),income:income/samples,balanced:balanced/samples,reliable:reliable/samples,fundedCoverage:fundedCoverage/samples,fullDeckRate:fullDeckRate/(samples*rolloutTurns),samples,turns:rolloutTurns,perTurn};
+ const result={coins:perTurn.reduce((s,t)=>s+t.coins,0),draws:perTurn.reduce((s,t)=>s+t.draws,0),income:income/samples,balanced:balanced/samples,reliable:reliable/samples,fundedCoverage:fundedCoverage/samples,lateBalanced:lateBalanced/samples,lateCoverage:lateCoverage/samples,fullDeckRate:fullDeckRate/(samples*rolloutTurns),samples,turns:rolloutTurns,perTurn};
  if(cache.size>=12000)cache.delete(cache.keys().next().value!);cache.set(key,result);return result;
 }
 export function sampledValue(view:View,profile:Profile,owned=view.owned):number{
  const result=rolloutEstimate(view,owned,!!profile.thinning,profile.samplingMethod??'random'),policy=profile.samplingPolicy??'balanced';
  // Both metrics value usable spending; Engine also values actual unique-card
  // reach in proportion to the income that the resulting turn can support.
+ if(policy==='late'||policy==='coverage')return result.lateBalanced+(profile.family==='engine'?(policy==='coverage'?32:8)*result.lateCoverage:0);
  return result[policy]+(profile.family==='engine'?{income:4,balanced:8,reliable:12}[policy]*result.fundedCoverage:0);
 }
 export function resourceDominates(view:View,a:string,b:string):boolean{

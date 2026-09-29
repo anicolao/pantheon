@@ -30,3 +30,9 @@ Screen 2 completes 2,048 games without failures. Stratified balanced is the prov
 Validate balanced on 256 fresh seed blocks: 36 ordered cells, 9,216 games. The schedule includes the full new 4×4, both seats against each own v14 counterpart, Engine/Engine+Thin against old Money, and fixed old controls. Preserve every cell separately and evaluate paired changes against the same old opponents.
 
 Before confirmation, narrow the resource-only dominance check to equal-cost cards. A more expensive card can have a different later upgrade value, so lower printed cost alone is not sufficient to prove deck-level dominance. A regression check covers this distinction. Objective weights, continuation play and sampling coverage remain frozen.
+
+## Continuation and timing screen
+
+The 9,216-game confirmation is complete. The balanced sampler recovers against v14 Engine, but largely builds income decks with draw; Thin is inactive. Do not interpret this as a successful whole-deck construction policy.
+
+A second implementation fixes empty-deck mandatory discards and gives productive low-value thinning a terminal Action priority. Preserve valuable scoring cards in projected optional trashing. Compare balanced cumulative scoring with late (third-turn usable income and income-backed coverage) and coverage (the same third-turn metric with four times the coverage weight). Each still samples every candidate through three legal consecutive turns. The late alternatives value the deck after thinning has had a reshuffle to work. Screen on 16 fresh blocks before selecting and validating. Tiny diagnostic cycle-capacity prototypes were rejected; their synthetic whole-hand funding metric is not used in the production candidates.
