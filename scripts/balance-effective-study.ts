@@ -3,20 +3,23 @@ import {readFileSync,writeFileSync,mkdirSync} from 'node:fs';
 import {gunzipSync} from 'node:zlib';
 import {availableParallelism} from 'node:os';
 import {resolve} from 'node:path';
-import {baseProfiles,v14BaseProfiles} from './balance/base-profiles';
+import {baseProfiles,v14BaseProfiles,v15BaseProfiles} from './balance/base-profiles';
 import {strategyVersion,type Profile} from './balance/strategy';
-import {rolloutSamples,rolloutTurns} from './balance/sampled';
+import {rolloutTurns} from './balance/sampled';
 const out=resolve(process.argv[2]),blocks=Number(process.argv[3]??256),stage=process.argv[4]??'evaluation';
 if(!Number.isInteger(blocks)||blocks<1)throw Error('Usage: output blocks unique-stage');
 const selected=(process.argv[5]??'income,balanced,reliable').split(',') as ('income'|'balanced'|'reliable'|'late'|'coverage')[];
 if(selected.some(p=>!['income','balanced','reliable','late','coverage'].includes(p)))throw Error('Unknown metric policy');
+const includeV15=process.argv.includes('--v15');
 const profiles:Record<string,Profile>={},keys=Object.keys(baseProfiles);
 for(const k of keys){
  profiles[k+'@old']=v14BaseProfiles[k];
+ if(includeV15)profiles[k+'@v15']=v15BaseProfiles[k];
  for(const policy of selected)profiles[k+'@'+policy]={...baseProfiles[k],samplingPolicy:policy};
 }
 const set=new Set<string>(),add=(a:string,b:string)=>set.add(a+'|'+b);
 for(const policy of selected){
+ if(includeV15)for(const k of keys){add(k+'@'+policy,k+'@v15');add(k+'@v15',k+'@'+policy);}
  for(const a of keys)for(const b of keys)add(a+'@'+policy,b+'@'+policy);
  for(const k of keys){add(k+'@'+policy,k+'@old');add(k+'@old',k+'@'+policy);}
  for(const k of ['engine','engine-thin']){add(k+'@'+policy,'treasure@old');add('treasure@old',k+'@'+policy);}
@@ -29,7 +32,7 @@ if(git('status','--porcelain'))throw Error('Commit source first');
 const sourceCommit=git('rev-parse','HEAD');
 mkdirSync(out);mkdirSync(out+'/replays');
 const write=(n:string,v:unknown)=>writeFileSync(out+'/'+n,JSON.stringify(v,null,2)+'\n');
-const manifest={sourceCommit,selected,policyVersion:strategyVersion,status:'running',blocks,workers,shards,batchSize,seed,stage,profiles,cells,variant:'base-game',plannedGames:blocks*cells.length,replayBlocks:1,rolloutSamples:'8 times deck size (stratified)',rolloutTurns,startedAt:new Date().toISOString(),rules:'No powers or Worship. Identical six Obol, three Hamlet, inert Temple starts. Shared turn-2 ending policy. No pooling of parent, Thin, opponent or seat.',metrics:'Shared stratified three-turn rollout with usable spending, scoring thresholds and funded unique-card coverage. Common cash-aware legal play and effect-based resource dominance.',primary:'Four new-v-old head-to-head comparisons in each seat, plus eight paired effects versus the fixed same-family old opponent, and the new four-by-four response matrix.'};
+const manifest={sourceCommit,selected,includeV15,policyVersion:strategyVersion,status:'running',blocks,workers,shards,batchSize,seed,stage,profiles,cells,variant:'base-game',plannedGames:blocks*cells.length,replayBlocks:1,rolloutSamples:'8 times deck size (stratified)',rolloutTurns,startedAt:new Date().toISOString(),rules:'No powers or Worship. Identical six Obol, three Hamlet, inert Temple starts. Shared turn-2 ending policy. No pooling of parent, Thin, opponent or seat.',metrics:'Shared stratified three-turn rollout with usable spending, scoring thresholds and funded unique-card coverage. Common cash-aware legal play and effect-based resource dominance.',primary:'Four new-v-old head-to-head comparisons in each seat, plus eight paired effects versus the fixed same-family old opponent, and the new four-by-four response matrix.'};
 write('manifest.json',manifest);const start=performance.now();
 const active=new Set<ReturnType<typeof Bun.spawn>>();let next=0,failed=false;
 try{
