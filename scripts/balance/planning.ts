@@ -61,7 +61,7 @@ export function gainOutcome(view: View, id: string, vpLoss = 0): number | null {
 export function publicHorizon(view: View): number {
   const smallest = Object.values(view.supply).sort((a,b) => a-b).slice(0,3).reduce((a,b) => a+b, 0);
   const pressure = 1 + (view.opponentIncome ?? []).reduce((n, x) => n + x / 8, 0);
-  return Math.max(0, Math.min(6, view.supply.acropolis * 1.5 / view.playerCount, smallest * 1.5 / view.playerCount, view.supply.acropolis / pressure));
+  return Math.max(0, Math.min(6, view.raceHorizon ?? 6, view.supply.acropolis * 1.5 / view.playerCount, smallest * 1.5 / view.playerCount, view.supply.acropolis / pressure));
 }
 
 /** A topdeck gain can contribute this turn only if a known legal draw remains. */
