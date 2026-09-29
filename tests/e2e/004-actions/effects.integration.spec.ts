@@ -12,7 +12,7 @@ test('play, choose optional trash, reconnect, and show the public result', async
   try {
     const fixture=await actionTable(page,info,'seed-keeper','melia',{other});
     const steps=new TestStepHelper(page,info,'Play Actions and shape your deck');
-    await steps.step('action-table','Find a playable Action in your hand',[{spec:'Your hand marks playable Actions and keeps the counters in view.',check:async()=>{await expect(page.locator('.hand-slot.playable')).not.toHaveCount(0);await expect(page.locator('.turn-marker')).toContainText('Your turn');}}]);
+    await steps.step('action-table','Find a playable Action in your hand',[{spec:'Your hand exposes playable Actions and keeps the counters in view.',check:async()=>{await expect(page.getByRole('button',{name:/^Play hand card .*: Seed Keeper$/})).not.toHaveCount(0);await expect(page.locator('.turn-marker')).toContainText('Your turn');}}]);
     const actionIndex=await page.locator('.hand [data-card-id]').evaluateAll(cards=>cards.findIndex(card=>card.getAttribute('data-card-id')==='seed-keeper'));
     await page.getByTestId('hand-card').nth(actionIndex).click({button:'right'});
     await new TestStepHelper(page,info,'Inspect an Action').step('play-action','Inspect before playing',[{spec:'The actual card has a working Play control, with its physical copy preserved.',check:async()=>expect(page.getByRole('button',{name:'Play Seed Keeper',exact:true})).toBeEnabled()}]);
