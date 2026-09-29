@@ -1,0 +1,321 @@
+{
+  "rows": [
+    {
+      "first": "treasure@new",
+      "second": "treasure@new",
+      "n": 16,
+      "share": 0.46875,
+      "p1": {
+        "vp": 28.125,
+        "turns": 17.25,
+        "deckSize": 27.625,
+        "fullDeckDraws": 0,
+        "totalTurns": 276,
+        "fullDeckRate": 0,
+        "spareActionsWithUnseen": 0.6304347826086957,
+        "acquisitions": {
+          "drachma": 3.5,
+          "obol": 1.125,
+          "victorious-procession": 0.375,
+          "harvest-feast": 0.6875,
+          "sacred-academy": 1.1875,
+          "talent": 2.6875,
+          "acropolis": 3.0625,
+          "hamlet": 1.5,
+          "polis": 1.75,
+          "bronze-recruit": 0.75,
+          "council-of-sages": 0.6875,
+          "merchant-fleet": 0.25,
+          "oracles-acolyte": 0.0625
+        }
+      },
+      "p2": {
+        "vp": 27.4375,
+        "turns": 16.8125,
+        "deckSize": 27.0625,
+        "fullDeckDraws": 0,
+        "totalTurns": 269,
+        "fullDeckRate": 0,
+        "spareActionsWithUnseen": 0.6059479553903345,
+        "acquisitions": {
+          "drachma": 3.125,
+          "obol": 1,
+          "bronze-recruit": 0.9375,
+          "council-of-sages": 0.5625,
+          "talent": 2.875,
+          "acropolis": 2.9375,
+          "hamlet": 1.1875,
+          "polis": 1.875,
+          "sacred-academy": 1.5625,
+          "merchant-fleet": 0.375,
+          "harvest-feast": 0.25,
+          "victorious-procession": 0.375
+        }
+      },
+      "interval": [
+        0.25,
+        0.6875
+      ],
+      "adjustedInterval": [
+        0.125,
+        0.8125
+      ]
+    },
+    {
+      "first": "treasure-thin@new",
+      "second": "treasure@new",
+      "n": 16,
+      "share": 0.46875,
+      "p1": {
+        "vp": 28.125,
+        "turns": 17.25,
+        "deckSize": 27.625,
+        "fullDeckDraws": 0,
+        "totalTurns": 276,
+        "fullDeckRate": 0,
+        "spareActionsWithUnseen": 0.6304347826086957,
+        "acquisitions": {
+          "drachma": 3.5,
+          "obol": 1.125,
+          "victorious-procession": 0.375,
+          "harvest-feast": 0.6875,
+          "sacred-academy": 1.1875,
+          "talent": 2.6875,
+          "acropolis": 3.0625,
+          "hamlet": 1.5,
+          "polis": 1.75,
+          "bronze-recruit": 0.75,
+          "council-of-sages": 0.6875,
+          "merchant-fleet": 0.25,
+          "oracles-acolyte": 0.0625
+        }
+      },
+      "p2": {
+        "vp": 27.4375,
+        "turns": 16.8125,
+        "deckSize": 27.0625,
+        "fullDeckDraws": 0,
+        "totalTurns": 269,
+        "fullDeckRate": 0,
+        "spareActionsWithUnseen": 0.6059479553903345,
+        "acquisitions": {
+          "drachma": 3.125,
+          "obol": 1,
+          "bronze-recruit": 0.9375,
+          "council-of-sages": 0.5625,
+          "talent": 2.875,
+          "acropolis": 2.9375,
+          "hamlet": 1.1875,
+          "polis": 1.875,
+          "sacred-academy": 1.5625,
+          "merchant-fleet": 0.375,
+          "harvest-feast": 0.25,
+          "victorious-procession": 0.375
+        }
+      },
+      "interval": [
+        0.25,
+        0.6875
+      ],
+      "adjustedInterval": [
+        0.125,
+        0.8125
+      ]
+    },
+    {
+      "first": "engine@new",
+      "second": "treasure@new",
+      "n": 16,
+      "share": 0,
+      "p1": {
+        "vp": 16.5625,
+        "turns": 22.3125,
+        "deckSize": 31.6875,
+        "fullDeckDraws": 91,
+        "totalTurns": 357,
+        "fullDeckRate": 0.2549019607843137,
+        "spareActionsWithUnseen": 0.5350140056022409,
+        "acquisitions": {
+          "council-of-sages": 2,
+          "oracles-acolyte": 3.625,
+          "sacred-academy": 3.9375,
+          "harvest-feast": 2.625,
+          "harbor-pilot": 3,
+          "polis": 3.5625,
+          "hamlet": 2.875,
+          "sacred-grove": 0.0625
+        }
+      },
+      "p2": {
+        "vp": 43,
+        "turns": 22.3125,
+        "deckSize": 32.5,
+        "fullDeckDraws": 0,
+        "totalTurns": 357,
+        "fullDeckRate": 0,
+        "spareActionsWithUnseen": 0.5994397759103641,
+        "acquisitions": {
+          "drachma": 3.625,
+          "obol": 1.0625,
+          "bronze-recruit": 0.9375,
+          "council-of-sages": 0.8125,
+          "talent": 4.125,
+          "acropolis": 5.75,
+          "polis": 1.3125,
+          "hamlet": 1.5625,
+          "sacred-academy": 1.875,
+          "merchant-fleet": 0.375,
+          "harvest-feast": 0.6875,
+          "victorious-procession": 0.375
+        }
+      },
+      "interval": [
+        0,
+        0.20590721420782276
+      ],
+      "adjustedInterval": [
+        0,
+        0.33225022304852236
+      ]
+    },
+    {
+      "first": "engine-thin@new",
+      "second": "treasure@new",
+      "n": 16,
+      "share": 0,
+      "p1": {
+        "vp": 16.5625,
+        "turns": 22.3125,
+        "deckSize": 31.6875,
+        "fullDeckDraws": 91,
+        "totalTurns": 357,
+        "fullDeckRate": 0.2549019607843137,
+        "spareActionsWithUnseen": 0.5350140056022409,
+        "acquisitions": {
+          "council-of-sages": 2,
+          "oracles-acolyte": 3.625,
+          "sacred-academy": 3.9375,
+          "harvest-feast": 2.625,
+          "harbor-pilot": 3,
+          "polis": 3.5625,
+          "hamlet": 2.875,
+          "sacred-grove": 0.0625
+        }
+      },
+      "p2": {
+        "vp": 43,
+        "turns": 22.3125,
+        "deckSize": 32.5,
+        "fullDeckDraws": 0,
+        "totalTurns": 357,
+        "fullDeckRate": 0,
+        "spareActionsWithUnseen": 0.5994397759103641,
+        "acquisitions": {
+          "drachma": 3.625,
+          "obol": 1.0625,
+          "bronze-recruit": 0.9375,
+          "council-of-sages": 0.8125,
+          "talent": 4.125,
+          "acropolis": 5.75,
+          "polis": 1.3125,
+          "hamlet": 1.5625,
+          "sacred-academy": 1.875,
+          "merchant-fleet": 0.375,
+          "harvest-feast": 0.6875,
+          "victorious-procession": 0.375
+        }
+      },
+      "interval": [
+        0,
+        0.20590721420782276
+      ],
+      "adjustedInterval": [
+        0,
+        0.33225022304852236
+      ]
+    }
+  ],
+  "selected": {
+    "first": "treasure@new",
+    "second": "treasure@new",
+    "n": 16,
+    "share": 0.46875,
+    "p1": {
+      "vp": 28.125,
+      "turns": 17.25,
+      "deckSize": 27.625,
+      "fullDeckDraws": 0,
+      "totalTurns": 276,
+      "fullDeckRate": 0,
+      "spareActionsWithUnseen": 0.6304347826086957,
+      "acquisitions": {
+        "drachma": 3.5,
+        "obol": 1.125,
+        "victorious-procession": 0.375,
+        "harvest-feast": 0.6875,
+        "sacred-academy": 1.1875,
+        "talent": 2.6875,
+        "acropolis": 3.0625,
+        "hamlet": 1.5,
+        "polis": 1.75,
+        "bronze-recruit": 0.75,
+        "council-of-sages": 0.6875,
+        "merchant-fleet": 0.25,
+        "oracles-acolyte": 0.0625
+      }
+    },
+    "p2": {
+      "vp": 27.4375,
+      "turns": 16.8125,
+      "deckSize": 27.0625,
+      "fullDeckDraws": 0,
+      "totalTurns": 269,
+      "fullDeckRate": 0,
+      "spareActionsWithUnseen": 0.6059479553903345,
+      "acquisitions": {
+        "drachma": 3.125,
+        "obol": 1,
+        "bronze-recruit": 0.9375,
+        "council-of-sages": 0.5625,
+        "talent": 2.875,
+        "acropolis": 2.9375,
+        "hamlet": 1.1875,
+        "polis": 1.875,
+        "sacred-academy": 1.5625,
+        "merchant-fleet": 0.375,
+        "harvest-feast": 0.25,
+        "victorious-procession": 0.375
+      }
+    },
+    "interval": [
+      0.25,
+      0.6875
+    ],
+    "adjustedInterval": [
+      0.125,
+      0.8125
+    ]
+  },
+  "coBestResponses": {
+    "treasure@new": [
+      "treasure@new",
+      "treasure-thin@new"
+    ],
+    "treasure-thin@new": [
+      "treasure@new",
+      "treasure-thin@new"
+    ],
+    "engine@new": [
+      "treasure@new",
+      "treasure-thin@new"
+    ],
+    "engine-thin@new": [
+      "treasure@new",
+      "treasure-thin@new"
+    ]
+  },
+  "coBestInitialChoices": [
+    "treasure@new",
+    "treasure-thin@new"
+  ]
+}
