@@ -78,3 +78,12 @@ test('hidden draw order cannot influence a plan; visible discard is retained',()
  // cleanup and a genuine reshuffle can expose the Drachmas.
  expect(r.meanFollowupTurn===null||r.meanFollowupTurn===2).toBe(true);
 });
+
+test('dominance is applied only after both first purchases receive pair evaluation',()=>{
+ const v=view({obol:6,hamlet:4});
+ v.bannedCards=Object.keys(v.supply).filter(id=>!['drachma','bronze-recruit'].includes(id));
+ const plan=twoPurchasePlan(v,baseProfiles.treasure,['bronze-recruit','drachma']);
+ expect(plan.evaluatedPairs).toBe(9);
+ expect(plan.options.map(o=>o.first)).toContain('bronze-recruit');
+ expect(plan.first).toBe('drachma');
+});
