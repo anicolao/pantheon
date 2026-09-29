@@ -16,3 +16,9 @@ Resource-only cards receive a common effect-based dominance check after sampling
 The previous v15 sampler and all v14 controls remain exact historical implementations. Shared endgame scoring remains unchanged. The three-turn projection still makes no further purchases: first test whether usable spending and reliable scoring metrics solve the observed failures before adding a bounded future-buy model.
 
 Screen 16 fresh common seeds across all three policies: each complete new 4×4, each parent/Thin profile against its v14 counterpart in both seats, and Engine variants against old Money in both seats, plus shared old controls. Select provisionally, then validate on fresh seeds without metric retuning. No pooling of policies, parents, Thin, opponents or seats.
+
+## Screen 2: sampling coverage
+
+The first 16-seed screen completes 1,472 games without failures. Engine's income-backed metrics recover strongly against old Engine, but Money's P2 shares remain concerning. The screen is too small to choose a policy.
+
+Keep balanced and reliable weights fixed and test stratified sampling on 32 fresh seeds per ordered cell. Every cyclic rotation of eight uniformly shuffled orders is played for three turns, so every card occupies every opening position. This remains sampling for all card types and changes sample coverage rather than switching to analytic Treasure evaluation. Pure-Treasure opening means are now exact through stratification, with later turns still played through production rules. Missing samplingMethod retains the original random sampler for source-pinned historical profiles.

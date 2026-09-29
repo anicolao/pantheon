@@ -1,4 +1,4 @@
-import {sampledCommand,type SamplingPolicy} from './sampled';
+import {sampledCommand,type SamplingPolicy,type SamplingMethod} from './sampled';
 import {sampledCommand as sampledV15Command} from './sampled-v15';
 import {tempoHorizon,endGamePurchase,endGameGain,legacyPointValue,policyCardValue,sharedPointPurchase,sharedPointGain,type EndGamePolicy} from './end-game';
 import {raceView,racePurchase,raceGain,racePointEligible} from './race';
@@ -21,7 +21,7 @@ export const candidates: Parameters[] = [
   { scoringAt: 5, engineCopies: 2, moneyFloor: 9, worshipMargin: 1 },
   { scoringAt: 2, engineCopies: 5, moneyFloor: 6, worshipMargin: 0 }
 ];
-export type Profile = { evaluation?: 'shuffle-3'|'shuffle-effective'; samplingPolicy?: SamplingPolicy; family: Family; parameters: Parameters; thinning?: boolean; race?: boolean; endGame?: boolean; endGamePolicy?: EndGamePolicy };
+export type Profile = { evaluation?: 'shuffle-3'|'shuffle-effective'; samplingPolicy?: SamplingPolicy; samplingMethod?: SamplingMethod; family: Family; parameters: Parameters; thinning?: boolean; race?: boolean; endGame?: boolean; endGamePolicy?: EndGamePolicy };
 export type Restriction = { kind: 'event' | 'card' | 'leader-trigger'; id: string; scope: 'focal' | 'table' };
 export type PublicInventory = Record<string, Record<string, number>>;
 export type View = Observation & {
