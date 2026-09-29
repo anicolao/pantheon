@@ -2,7 +2,7 @@ import {applyPlayCommand,definition,initialTurn,purchaseReason,type ActionComman
 import {shuffle} from '../../src/lib/game/random';
 import type {CardInstance,SetupState} from '../../src/lib/game/setup';
 import type {Profile,View} from './strategy';
-import {rolloutPlay,sampledValue} from './sampled';
+import {rolloutPlay,sampledValue,resourceDominates} from './sampled';
 
 export const plannerSamples=8,investmentTurns=2;
 export type PairEstimate={first?:string;second?:string;value:number;investment:number;terminal:number;followupRate:number;meanFollowupTurn:number|null};
@@ -74,5 +74,9 @@ export function twoPurchasePlan(view:View,profile:Profile,ids:string[]):{first?:
   const pairs=seconds.map(second=>{evaluatedPairs++;return evaluatePurchasePair(view,profile,first,second);}).sort(tie);
   const best=pairs[0];options.push(evaluatePurchasePair(view,profile,first,best.second,'validation'));
  }
- options.sort(tie);return {first:options[0]?.first,options,evaluatedPairs};
+ options.sort(tie);
+ // Preserve v18's effect-based tie protection, but only AFTER every first has
+ // received full pair evaluation. Keep all rows for diagnostics.
+ const best=options.find(a=>!a.first||!options.some(b=>b.first&&resourceDominates(view,b.first,a.first!)));
+ return {first:best?.first,options,evaluatedPairs};
 }
