@@ -12,7 +12,7 @@ import { actionEffects, definition, leaderEffects, type PlayVariant, type Action
 import type { CardInstance, SetupState } from '../../src/lib/game/setup';
 import { chooseCommand, observe, type Observation } from './bot';
 
-export const strategyVersion = 17;
+export const strategyVersion = 18;
 export const families = ['treasure', 'engine', 'thin', 'worship', 'race'] as const;
 export type Family = typeof families[number];
 export type Parameters = { scoringAt: number; engineCopies: number; moneyFloor: number; worshipMargin: number };
