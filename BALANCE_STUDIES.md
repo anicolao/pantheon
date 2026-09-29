@@ -2,7 +2,9 @@
 
 Current balance decisions follow [explicit strategy responses](BALANCE_OBJECTIVE.md): keep each leader/strategy/turn-order cell separate and evaluate available best responses. Historical pooled studies below remain provenance, not the current decision criterion.
 
-The current population is **strategy version 8**. See [bot designs](BOT_STRATEGIES.md) and the [defect correction ledger](BOT_DEFECTS.md).
+The current population is **strategy version 9**. See [bot designs](BOT_STRATEGIES.md) and the [defect correction ledger](BOT_DEFECTS.md).
+
+The [orthogonal-thinning 4×4 trial](balance-results/base-thinning-v1/README.md) evaluates Big Money and Engine with thinning explicitly off/on, across 1,000 fresh seeds per ordered cell. The observed response pairing is Engine / Engine at 51.35% / 48.65% (adjusted P1 interval 46.85%–55.75%). Thinning does not consistently improve outcomes; Engine + Thin removes cards but full-deck draws remain rare. No strategies or turn orders are pooled. The explicit off Engine differs from the preceding trial's legacy Engine, which already contained thinning heuristics.
 
 The [base-game 2×2 trial](balance-results/base-game-v1/report.md) disables leader powers and Worship and gives both players identical decks with inert Temples. It runs 1,000 fresh seeds per ordered strategy cell. Big Money is competitive: 61.75% when starting against Engine and 50.15% when responding to Engine. Player 2's observed strongest response is Big Money in either row; Player 1's observed strongest initial choice is Engine, yielding the concrete Engine / Big Money cell at 49.85% / 50.15%. These are frozen bot policies, not proven optimal play.
 

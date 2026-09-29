@@ -1,4 +1,4 @@
-# Bot defect correction ledger — version 8
+# Bot defect correction ledger — version 9
 
 This ledger distinguishes concrete decision defects from unavoidable uncertainty and deliberate benchmark restrictions. “Corrected” means implementation plus a targeted behavioral check or the specified shared regression coverage; it does not certify perfect play.
 
@@ -28,9 +28,15 @@ This ledger distinguishes concrete decision defects from unavoidable uncertainty
 | Scoring transition ignored third-pile danger and opposing income | Public horizon includes both | Horizon test |
 | Profiles trained against too narrow a population for an all-strategy claim | Matrix training crosses all five reference families, all rivals and both seats | Matrix schedule/budget checks |
 
+## Orthogonal thinning (v9)
+
+Big Money and Engine now support an explicit independent thinning switch. Enabled thinning uses the parent's income-per-draw or executable whole-deck-draw objective; disabled thinning receives no removal investment bonus and declines optional trashing. Historical omitted-field profiles retain their previous behavior. See [the design](BOT_STRATEGIES.md#orthogonal-thinning-for-money-and-engine-v9) and [the sixteen-cell trial](balance-results/base-thinning-v1/README.md).
+
+During pre-result review, the new tool projection was found to reuse a guaranteed current-turn ending bonus in a speculative future state. Future projections now stop before such endings; actual winning conversions retain their priority. A regression checks both sides. The interrupted run was discarded and the full trial restarted from the corrected commit.
+
 ## Deliberate limits retained
 
-Treasure v6 retains v5’s all-card economy model and replaces the previous restricted baseline with the requested all-card big-money objective. It still skips Worship and uses a one-hand income horizon; future benefits from pure trash/gain tools are not projected. Its sampled EV and greedy Action order are approximations. Legacy Draw remains a fixed-list historical baseline and is not one of the five study families.
+Plain Treasure retains the all-card economy model, corrected scoring and $0.035 near-tie preference. It still skips Worship and uses a one-hand income horizon. The v9 thinning option adds a bounded, approximate future-removal forecast; it does not add general multi-turn search. Its sampled EV and greedy Action order are approximations. Legacy Draw remains a fixed-list historical baseline and is not one of the five study families.
 
 Unknown draws, approximate income/Devotion/accessibility, fixed utility weights, finite known-hand search, separable basket utilities and a heuristic game horizon remain disclosed model assumptions. We have improved the concrete failure modes they caused, not solved optimal hidden-information play. The bots do not perform arbitrary multi-turn opponent search, strategic drafting or mixed-strategy equilibrium search. Mandatory losing choices can be unavoidable. These limits must remain visible when interpreting the matrix.
 
