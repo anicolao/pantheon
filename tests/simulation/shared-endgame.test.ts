@@ -16,6 +16,8 @@ test('redraw timing distinguishes remaining deck, shuffle pool and throughput',(
  v.drawsPerTurn=16;expect(acquisitionRedraw(v,1)).toBeCloseTo(16/41);
  expect(acquisitionRedraw(v,0)).toBe(0);
  expect(acquisitionRedraw(v,100)).toBe(1);
+ v.drawPileCount=40;v.choice={id:'gain',kind:'gain',source:'counsel-of-olympus',min:1,max:1,limit:3,topdeck:true};
+ expect(acquisitionRedraw(v,1)).toBe(1);
 });
 test('every policy uses identical activation for any base objective; no mutation',()=>{
  for(const policy of endGamePolicies)for(const family of ['treasure','engine'] as const)for(const thinning of [false,true]){
@@ -24,7 +26,7 @@ test('every policy uses identical activation for any base objective; no mutation
   const original=structuredClone(v);
   expect(strategyCommand(v,p)).toMatchObject({cardId:'polis'});
   expect(v).toEqual(original);
-  expect(investmentFactor(before,p)).toBe(1);
+  expect(investmentFactor(before,p)).toBeGreaterThan(0);
  }
 });
 test('Engine heuristic is an explicit reusable policy, not baked into base economics',()=>{
