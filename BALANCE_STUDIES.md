@@ -182,3 +182,7 @@ The [frozen-profile scoring test](balance-results/treasure-scoring-v6/README.md)
 ## Treasure epsilon v7
 
 The [isolated $0.10 tolerance test](balance-results/treasure-epsilon-v7/README.md) freezes v6 profiles, seeds and scoring, rerunning all 21,600 affected games. Bronze Recruit disappears from all ending decks. Melia regresses against Engine; other leader changes are inconclusive. The report records the requested change without tuning another parameter or attributing the regression to a particular card.
+
+## Treasure epsilon v8
+
+The [isolated $0.035 test](balance-results/treasure-epsilon-v8/README.md) runs only 21,600 Treasure-involving games. It compares the same profiles and seeds with both no epsilon and $0.10. Observed Engine matchup shares improve over $0.10, but all eight adjusted intervals include zero. Bronze remains in 1.25% of Melia ending decks and none of the other leaders.
