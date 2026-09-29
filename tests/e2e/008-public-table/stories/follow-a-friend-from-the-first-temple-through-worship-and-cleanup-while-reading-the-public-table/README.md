@@ -231,26 +231,26 @@ Viewpoint: **Theseus**.
 
 - [x] Escape returns to the same move and restores card focus
 
-## Ariadne advances while Theseus keeps his reading position
+## Ariadne plays Treasures while Theseus keeps his reading position
 
 Viewpoint: **Theseus**.
 
 <table>
 <tr><th>Desktop · 1440 × 1000</th><th>Phone · 393 × 852</th></tr>
 <tr>
-<td valign="top"><a href="../../screenshots/follow-a-friend-from-the-first-temple-through-worship-and-cleanup-while-reading-the-public-table/011-new-move-desktop-darwin.png"><img src="../../screenshots/follow-a-friend-from-the-first-temple-through-worship-and-cleanup-while-reading-the-public-table/011-new-move-desktop-darwin.png" alt="Ariadne advances while Theseus keeps his reading position — desktop" width="720"></a></td>
-<td valign="top"><a href="../../screenshots/follow-a-friend-from-the-first-temple-through-worship-and-cleanup-while-reading-the-public-table/011-new-move-phone-darwin.png"><img src="../../screenshots/follow-a-friend-from-the-first-temple-through-worship-and-cleanup-while-reading-the-public-table/011-new-move-phone-darwin.png" alt="Ariadne advances while Theseus keeps his reading position — phone" width="240"></a></td>
+<td valign="top"><a href="../../screenshots/follow-a-friend-from-the-first-temple-through-worship-and-cleanup-while-reading-the-public-table/011-new-move-desktop-darwin.png"><img src="../../screenshots/follow-a-friend-from-the-first-temple-through-worship-and-cleanup-while-reading-the-public-table/011-new-move-desktop-darwin.png" alt="Ariadne plays Treasures while Theseus keeps his reading position — desktop" width="720"></a></td>
+<td valign="top"><a href="../../screenshots/follow-a-friend-from-the-first-temple-through-worship-and-cleanup-while-reading-the-public-table/011-new-move-phone-darwin.png"><img src="../../screenshots/follow-a-friend-from-the-first-temple-through-worship-and-cleanup-while-reading-the-public-table/011-new-move-phone-darwin.png" alt="Ariadne plays Treasures while Theseus keeps his reading position — phone" width="240"></a></td>
 </tr>
 </table>
 
 <details>
 <summary>Tabletop · 3840 × 2160 — expand screenshot</summary>
 
-<a href="../../screenshots/follow-a-friend-from-the-first-temple-through-worship-and-cleanup-while-reading-the-public-table/011-new-move-tabletop-4k-darwin.png"><img src="../../screenshots/follow-a-friend-from-the-first-temple-through-worship-and-cleanup-while-reading-the-public-table/011-new-move-tabletop-4k-darwin.png" alt="Ariadne advances while Theseus keeps his reading position — tabletop-4k" width="960"></a>
+<a href="../../screenshots/follow-a-friend-from-the-first-temple-through-worship-and-cleanup-while-reading-the-public-table/011-new-move-tabletop-4k-darwin.png"><img src="../../screenshots/follow-a-friend-from-the-first-temple-through-worship-and-cleanup-while-reading-the-public-table/011-new-move-tabletop-4k-darwin.png" alt="Ariadne plays Treasures while Theseus keeps his reading position — tabletop-4k" width="960"></a>
 
 </details>
 
-- [x] Ariadne advances while Theseus keeps his reading position
+- [x] Ariadne plays Treasures while Theseus keeps his reading position
 
 ## Ariadne plays four Obols and reaches five Coins
 

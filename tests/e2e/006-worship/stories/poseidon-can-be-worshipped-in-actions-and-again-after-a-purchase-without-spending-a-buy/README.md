@@ -118,24 +118,24 @@ Viewpoint: **Theseus**.
 
 - [x] The gained face is public while the remaining hand stays hidden.
 
-## Worship leaves the Action phase open
+## The completed Actions have automatically entered Treasures
 
 <table>
 <tr><th>Desktop · 1440 × 1000</th><th>Phone · 393 × 852</th></tr>
 <tr>
-<td valign="top"><a href="../../screenshots/poseidon-can-be-worshipped-in-actions-and-again-after-a-purchase-without-spending-a-buy/006-same-phase-desktop-darwin.png"><img src="../../screenshots/poseidon-can-be-worshipped-in-actions-and-again-after-a-purchase-without-spending-a-buy/006-same-phase-desktop-darwin.png" alt="Worship leaves the Action phase open — desktop" width="720"></a></td>
-<td valign="top"><a href="../../screenshots/poseidon-can-be-worshipped-in-actions-and-again-after-a-purchase-without-spending-a-buy/006-same-phase-phone-darwin.png"><img src="../../screenshots/poseidon-can-be-worshipped-in-actions-and-again-after-a-purchase-without-spending-a-buy/006-same-phase-phone-darwin.png" alt="Worship leaves the Action phase open — phone" width="240"></a></td>
+<td valign="top"><a href="../../screenshots/poseidon-can-be-worshipped-in-actions-and-again-after-a-purchase-without-spending-a-buy/006-same-phase-desktop-darwin.png"><img src="../../screenshots/poseidon-can-be-worshipped-in-actions-and-again-after-a-purchase-without-spending-a-buy/006-same-phase-desktop-darwin.png" alt="The completed Actions have automatically entered Treasures — desktop" width="720"></a></td>
+<td valign="top"><a href="../../screenshots/poseidon-can-be-worshipped-in-actions-and-again-after-a-purchase-without-spending-a-buy/006-same-phase-phone-darwin.png"><img src="../../screenshots/poseidon-can-be-worshipped-in-actions-and-again-after-a-purchase-without-spending-a-buy/006-same-phase-phone-darwin.png" alt="The completed Actions have automatically entered Treasures — phone" width="240"></a></td>
 </tr>
 </table>
 
 <details>
 <summary>Tabletop · 3840 × 2160 — expand screenshot</summary>
 
-<a href="../../screenshots/poseidon-can-be-worshipped-in-actions-and-again-after-a-purchase-without-spending-a-buy/006-same-phase-tabletop-4k-darwin.png"><img src="../../screenshots/poseidon-can-be-worshipped-in-actions-and-again-after-a-purchase-without-spending-a-buy/006-same-phase-tabletop-4k-darwin.png" alt="Worship leaves the Action phase open — tabletop-4k" width="960"></a>
+<a href="../../screenshots/poseidon-can-be-worshipped-in-actions-and-again-after-a-purchase-without-spending-a-buy/006-same-phase-tabletop-4k-darwin.png"><img src="../../screenshots/poseidon-can-be-worshipped-in-actions-and-again-after-a-purchase-without-spending-a-buy/006-same-phase-tabletop-4k-darwin.png" alt="The completed Actions have automatically entered Treasures — tabletop-4k" width="960"></a>
 
 </details>
 
-- [x] Worship leaves the Action phase open
+- [x] The completed Actions have automatically entered Treasures
 
 ## Ariadne plays the Treasures she kept
 
