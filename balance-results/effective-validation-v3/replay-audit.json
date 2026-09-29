@@ -1,0 +1,12 @@
+{
+  "traces": 36,
+  "failures": 0,
+  "checks": [
+    "legal event replay",
+    "finished state",
+    "scores",
+    "completed turns",
+    "winner shares",
+    "every final inventory"
+  ]
+}

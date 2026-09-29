@@ -1,0 +1,50 @@
+[
+  {
+    "name": "funded",
+    "sourceCommit": "11923f4022410e340416781742b5e5e732f00f86",
+    "games": 8,
+    "data": "funded-probe.jsonl.gz"
+  },
+  {
+    "name": "cycle",
+    "sourceCommit": "11923f4022410e340416781742b5e5e732f00f86",
+    "games": 8,
+    "data": "cycle-probe.jsonl.gz"
+  },
+  {
+    "name": "cycle-thin",
+    "sourceCommit": "11923f4022410e340416781742b5e5e732f00f86",
+    "games": 8,
+    "data": "cycle-thin-probe.jsonl.gz"
+  },
+  {
+    "name": "last",
+    "sourceCommit": "11923f4022410e340416781742b5e5e732f00f86",
+    "games": 8,
+    "data": "last-probe.jsonl.gz"
+  },
+  {
+    "name": "last-balanced",
+    "sourceCommit": "11923f4022410e340416781742b5e5e732f00f86",
+    "games": 16,
+    "data": "last-balanced-probe.jsonl.gz"
+  },
+  {
+    "name": "coverage",
+    "sourceCommit": "11923f4022410e340416781742b5e5e732f00f86",
+    "games": 16,
+    "data": "coverage-probe.jsonl.gz"
+  },
+  {
+    "name": "six-turn",
+    "sourceCommit": "4cda19a050b018c18398d2b54e8bca66817d4989",
+    "games": 32,
+    "data": "six-turn-probe.jsonl.gz"
+  },
+  {
+    "name": "funded-six",
+    "sourceCommit": "637f73704a011ebda7716e9d282da82413e74a24",
+    "games": 32,
+    "data": "funded-six-probe.jsonl.gz"
+  }
+]

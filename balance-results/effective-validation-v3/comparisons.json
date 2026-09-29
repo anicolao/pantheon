@@ -1,0 +1,330 @@
+[
+  {
+    "kind": "headToHead",
+    "policy": "raw",
+    "key": "treasure",
+    "seat": 0,
+    "share": 0.5078125,
+    "blocks": 256,
+    "pairs": 256,
+    "excludedBlocks": 0,
+    "exposureRate": 1,
+    "difference": 0.0078125,
+    "interval": [
+      -0.048828125,
+      0.064453125
+    ],
+    "correctedInterval": [
+      -0.0703125,
+      0.087890625
+    ],
+    "label": "inconclusive"
+  },
+  {
+    "kind": "pairedChange",
+    "policy": "raw",
+    "key": "treasure",
+    "seat": 0,
+    "blocks": 256,
+    "pairs": 256,
+    "excludedBlocks": 0,
+    "exposureRate": 1,
+    "difference": -0.009765625,
+    "interval": [
+      -0.06640625,
+      0.048828125
+    ],
+    "correctedInterval": [
+      -0.091796875,
+      0.068359375
+    ],
+    "label": "inconclusive"
+  },
+  {
+    "kind": "headToHead",
+    "policy": "raw",
+    "key": "treasure",
+    "seat": 1,
+    "share": 0.46484375,
+    "blocks": 256,
+    "pairs": 256,
+    "excludedBlocks": 0,
+    "exposureRate": 1,
+    "difference": -0.03515625,
+    "interval": [
+      -0.091796875,
+      0.021484375
+    ],
+    "correctedInterval": [
+      -0.115234375,
+      0.044921875
+    ],
+    "label": "inconclusive"
+  },
+  {
+    "kind": "pairedChange",
+    "policy": "raw",
+    "key": "treasure",
+    "seat": 1,
+    "blocks": 256,
+    "pairs": 256,
+    "excludedBlocks": 0,
+    "exposureRate": 1,
+    "difference": -0.017578125,
+    "interval": [
+      -0.072265625,
+      0.037109375
+    ],
+    "correctedInterval": [
+      -0.09375,
+      0.056640625
+    ],
+    "label": "inconclusive"
+  },
+  {
+    "kind": "headToHead",
+    "policy": "raw",
+    "key": "treasure-thin",
+    "seat": 0,
+    "share": 0.53125,
+    "blocks": 256,
+    "pairs": 256,
+    "excludedBlocks": 0,
+    "exposureRate": 1,
+    "difference": 0.03125,
+    "interval": [
+      -0.02734375,
+      0.091796875
+    ],
+    "correctedInterval": [
+      -0.0546875,
+      0.11328125
+    ],
+    "label": "inconclusive"
+  },
+  {
+    "kind": "pairedChange",
+    "policy": "raw",
+    "key": "treasure-thin",
+    "seat": 0,
+    "blocks": 256,
+    "pairs": 256,
+    "excludedBlocks": 0,
+    "exposureRate": 1,
+    "difference": -0.03515625,
+    "interval": [
+      -0.09765625,
+      0.02734375
+    ],
+    "correctedInterval": [
+      -0.123046875,
+      0.05078125
+    ],
+    "label": "inconclusive"
+  },
+  {
+    "kind": "headToHead",
+    "policy": "raw",
+    "key": "treasure-thin",
+    "seat": 1,
+    "share": 0.50390625,
+    "blocks": 256,
+    "pairs": 256,
+    "excludedBlocks": 0,
+    "exposureRate": 1,
+    "difference": 0.00390625,
+    "interval": [
+      -0.056640625,
+      0.064453125
+    ],
+    "correctedInterval": [
+      -0.078125,
+      0.08984375
+    ],
+    "label": "inconclusive"
+  },
+  {
+    "kind": "pairedChange",
+    "policy": "raw",
+    "key": "treasure-thin",
+    "seat": 1,
+    "blocks": 256,
+    "pairs": 256,
+    "excludedBlocks": 0,
+    "exposureRate": 1,
+    "difference": 0.0703125,
+    "interval": [
+      0.005859375,
+      0.1328125
+    ],
+    "correctedInterval": [
+      -0.01953125,
+      0.158203125
+    ],
+    "label": "inconclusive"
+  },
+  {
+    "kind": "headToHead",
+    "policy": "raw",
+    "key": "engine",
+    "seat": 0,
+    "share": 0.724609375,
+    "blocks": 256,
+    "pairs": 256,
+    "excludedBlocks": 0,
+    "exposureRate": 1,
+    "difference": 0.224609375,
+    "interval": [
+      0.171875,
+      0.275390625
+    ],
+    "correctedInterval": [
+      0.1484375,
+      0.296875
+    ],
+    "label": "discovery signal"
+  },
+  {
+    "kind": "pairedChange",
+    "policy": "raw",
+    "key": "engine",
+    "seat": 0,
+    "blocks": 256,
+    "pairs": 256,
+    "excludedBlocks": 0,
+    "exposureRate": 1,
+    "difference": 0.181640625,
+    "interval": [
+      0.109375,
+      0.25390625
+    ],
+    "correctedInterval": [
+      0.080078125,
+      0.28125
+    ],
+    "label": "discovery signal"
+  },
+  {
+    "kind": "headToHead",
+    "policy": "raw",
+    "key": "engine",
+    "seat": 1,
+    "share": 0.61328125,
+    "blocks": 256,
+    "pairs": 256,
+    "excludedBlocks": 0,
+    "exposureRate": 1,
+    "difference": 0.11328125,
+    "interval": [
+      0.0546875,
+      0.169921875
+    ],
+    "correctedInterval": [
+      0.03125,
+      0.193359375
+    ],
+    "label": "signal; practical magnitude unresolved"
+  },
+  {
+    "kind": "pairedChange",
+    "policy": "raw",
+    "key": "engine",
+    "seat": 1,
+    "blocks": 256,
+    "pairs": 256,
+    "excludedBlocks": 0,
+    "exposureRate": 1,
+    "difference": 0.15625,
+    "interval": [
+      0.087890625,
+      0.224609375
+    ],
+    "correctedInterval": [
+      0.05859375,
+      0.25390625
+    ],
+    "label": "discovery signal"
+  },
+  {
+    "kind": "headToHead",
+    "policy": "raw",
+    "key": "engine-thin",
+    "seat": 0,
+    "share": 0.70703125,
+    "blocks": 256,
+    "pairs": 256,
+    "excludedBlocks": 0,
+    "exposureRate": 1,
+    "difference": 0.20703125,
+    "interval": [
+      0.15234375,
+      0.259765625
+    ],
+    "correctedInterval": [
+      0.1328125,
+      0.279296875
+    ],
+    "label": "discovery signal"
+  },
+  {
+    "kind": "pairedChange",
+    "policy": "raw",
+    "key": "engine-thin",
+    "seat": 0,
+    "blocks": 256,
+    "pairs": 256,
+    "excludedBlocks": 0,
+    "exposureRate": 1,
+    "difference": 0.107421875,
+    "interval": [
+      0.0390625,
+      0.177734375
+    ],
+    "correctedInterval": [
+      0.009765625,
+      0.203125
+    ],
+    "label": "signal; practical magnitude unresolved"
+  },
+  {
+    "kind": "headToHead",
+    "policy": "raw",
+    "key": "engine-thin",
+    "seat": 1,
+    "share": 0.60546875,
+    "blocks": 256,
+    "pairs": 256,
+    "excludedBlocks": 0,
+    "exposureRate": 1,
+    "difference": 0.10546875,
+    "interval": [
+      0.046875,
+      0.1640625
+    ],
+    "correctedInterval": [
+      0.021484375,
+      0.1875
+    ],
+    "label": "signal; practical magnitude unresolved"
+  },
+  {
+    "kind": "pairedChange",
+    "policy": "raw",
+    "key": "engine-thin",
+    "seat": 1,
+    "blocks": 256,
+    "pairs": 256,
+    "excludedBlocks": 0,
+    "exposureRate": 1,
+    "difference": 0.205078125,
+    "interval": [
+      0.125,
+      0.283203125
+    ],
+    "correctedInterval": [
+      0.091796875,
+      0.314453125
+    ],
+    "label": "discovery signal"
+  }
+]
