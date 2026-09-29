@@ -2,7 +2,7 @@ import {test,expect} from 'bun:test';
 import {setupExperiment,runExperiment} from '../../scripts/balance/experiment';
 import {activePlayer} from '../../src/lib/game/actions';
 import {inventoryAtSetup,strategyView,type View} from '../../scripts/balance/strategy';
-import {baseProfiles,v18BaseProfiles} from '../../scripts/balance/base-profiles';
+import {pairBaseProfiles as baseProfiles,v18BaseProfiles} from '../../scripts/balance/base-profiles';
 import {sampledAfter,sampledValue} from '../../scripts/balance/sampled';
 import {evaluatePurchasePair,twoPurchasePlan} from '../../scripts/balance/purchase-planner';
 import {readFileSync} from 'node:fs';
