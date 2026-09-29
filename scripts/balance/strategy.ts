@@ -26,9 +26,9 @@ export type View = Observation & {
   scores: number[]; myScore: number; myTurns: number; opposingTurns: number[];
   bannedCards: string[]; bannedEvents: string[];
 };
-export function inventoryAtSetup(game: SetupState): PublicInventory {
+export function inventoryAtSetup(game: SetupState, variant: PlayVariant = 'standard'): PublicInventory {
   return Object.fromEntries(game.players.map(({ uid }) => [uid, { obol: 6, hamlet: 3,
-    [`temple-of-${definition(game.leaders[uid]).god.toLowerCase()}`]: 1 }]));
+    [variant === 'base-game' ? 'temple-of-athena' : `temple-of-${definition(game.leaders[uid]).god.toLowerCase()}`]: 1 }]));
 }
 /** Track public acquisitions/trashes, never scan opposing private zones. */
 export function updateInventory(inventory: PublicInventory, game: SetupState, start: number, acquired: Set<string>) {
@@ -42,10 +42,10 @@ export function updateInventory(inventory: PublicInventory, game: SetupState, st
 }
 export function strategyView(game: SetupState, uid: string, inventory: PublicInventory, restriction?: Restriction, variant: PlayVariant = 'standard', unseenCount?: number): View {
   const score = (player: string) => Object.entries(inventory[player]).reduce((sum, [id, count]) => sum + (definition(id).vp ?? 0) * count, 0);
-  return { ...observe(game, uid), leaderBonus: effectFeatures(restriction?.kind === 'leader-trigger' && restriction.id === game.leaders[uid] ? [] : leaderEffects(game.leaders[uid], variant)), unseenCount: unseenCount ?? game.decks[uid].deck.length + game.decks[uid].discard.length, play: structuredClone(game.decks[uid].play), events: [...game.sharedEvents],
+  return { ...observe(game, uid), variant, leaderBonus: effectFeatures(restriction?.kind === 'leader-trigger' && restriction.id === game.leaders[uid] ? [] : leaderEffects(game.leaders[uid], variant)), unseenCount: unseenCount ?? game.decks[uid].deck.length + game.decks[uid].discard.length, play: structuredClone(game.decks[uid].play), events: variant === 'base-game' ? [] : [...game.sharedEvents],
     playerCount: game.playerCount, turn: game.turn.number, myTurns: game.turn.turns[uid] ?? 0,
     opposingTurns: game.players.filter(player => player.uid !== uid).map(player => game.turn.turns[player.uid] ?? 0),
-    opponentIncome: game.players.filter(player => player.uid !== uid).map(player => { const cards = inventory[player.uid]; return 5 * Object.entries(cards).reduce((sum, [id, n]) => sum + n * (treasureValue(id) + cardFeatures(id).coins), 0) / Math.max(5, Object.values(cards).reduce((a,b) => a+b, 0)); }),
+    opponentIncome: game.players.filter(player => player.uid !== uid).map(player => { const cards = inventory[player.uid]; return 5 * Object.entries(cards).reduce((sum, [id, n]) => sum + n * (treasureValue(id) + cardFeatures(id, variant).coins), 0) / Math.max(5, Object.values(cards).reduce((a,b) => a+b, 0)); }),
     scores: game.players.filter(player => player.uid !== uid).map(player => score(player.uid)), myScore: score(uid),
     bannedCards: restriction?.kind === 'card' ? [restriction.id] : [], bannedEvents: restriction?.kind === 'event' ? [restriction.id] : [] };
 }
@@ -78,7 +78,7 @@ function scoreCard(view: View, profile: Profile, id: string): number {
   const tool = thinToolValue(view, id);
   if (tool !== undefined) return tool * (profile.family === 'thin' ? 1 : 0.35) + (profile.family === 'worship' ? devotionValue(view, id) : 0);
   if (profile.family === 'engine') return engineActionValue(view, profile, id);
-  const base = engineActionValue(view, profile, id), f = cardFeatures(id);
+  const base = engineActionValue(view, profile, id), f = cardFeatures(id, view.variant);
   if (profile.family === 'worship') return base * 0.8 + devotionValue(view, id) * (end ? 0.35 : 1);
   if (profile.family === 'race') return base * 0.45 + (f.coins + f.gain) * Math.min(1, publicHorizon(view) / 3);
   return base * 0.8;
@@ -205,7 +205,7 @@ export function strategyCommand(view: View, profile: Profile): ActionCommand {
   if (future[0]) return { type: 'action/played', instanceId: future[0].first };
   if (current && current.value > profile.parameters.worshipMargin) return { type: 'god/worshipped', cardId: current.id };
   if (view.phase === 'actions') {
-    const actions = view.hand.filter(card => definition(card.cardId).type === 'Action');
+    const actions = view.hand.filter(card => definition(card.cardId).type === 'Action' && actionEffects(card.cardId, view.variant).length > 0);
     const priority = (card: CardInstance) => {
       if (profile.family === 'engine') return enginePlayPriority(view, card);
       if (profile.family === 'thin') return thinPlayPriority(view, card);
