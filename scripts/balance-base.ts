@@ -1,4 +1,4 @@
-import {baseProfiles} from './balance/base-profiles';
+import {baseProfiles,raceProfiles} from './balance/base-profiles';
 import {execFileSync} from 'node:child_process';
 import {readFileSync,writeFileSync,mkdirSync} from 'node:fs';
 import {gunzipSync} from 'node:zlib';
@@ -7,9 +7,9 @@ import {resolve} from 'node:path';
 import {candidates,strategyVersion} from './balance/strategy';
 const out=resolve(process.argv[2]??'balance-runs/base-game-v1'),blocks=Number(process.argv[3]??1000),workers=availableParallelism();
 const mode=process.argv[4]??'legacy';
-if(!['legacy','thinning'].includes(mode))throw new Error('Mode must be legacy or thinning');
-const profiles=mode==='thinning'?baseProfiles:{treasure:{family:'treasure',parameters:candidates[0]},engine:{family:'engine',parameters:candidates[0]}};
-const cells=Object.keys(profiles).length**2,seed=mode==='thinning'?'base-thinning-v1:evaluation':'base-game-v1:evaluation';
+if(!['legacy','thinning','race'].includes(mode))throw new Error('Mode must be legacy, thinning or race');
+const profiles=mode==='race'?raceProfiles:mode==='thinning'?baseProfiles:{treasure:{family:'treasure',parameters:candidates[0]},engine:{family:'engine',parameters:candidates[0]}};
+const cells=Object.keys(profiles).length**2,seed=mode==='race'?'base-race-v1:evaluation':mode==='thinning'?'base-thinning-v1:evaluation':'base-game-v1:evaluation';
 if(!Number.isInteger(blocks)||blocks<10)throw new Error('At least ten seed blocks required');
 const git=(...args:string[])=>execFileSync('git',args,{encoding:'utf8'}).trim();
 if(git('status','--porcelain'))throw new Error('Commit source first');const sourceCommit=git('rev-parse','HEAD');
