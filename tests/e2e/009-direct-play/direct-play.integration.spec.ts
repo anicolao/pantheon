@@ -72,15 +72,19 @@ test('tap to play and hold or right-click to inspect without committing', async 
 
 test('an expanded fan fits without paging and narrow-screen paging stays clear of Treasures', async ({page}, info) => {
   test.setTimeout(120_000);
-  const fixture = await actionTable(page, info, 'sacred-academy', 'thaleia', {extra:['harbor-pilot','council-of-sages'],seed:'expanded-fan'});
+  const fixture = await actionTable(page, info, 'sacred-academy', 'melia', {extra:['harbor-pilot','council-of-sages','harvest-feast'],seed:'expanded-fan-0'});
   const steps = new TestStepHelper(page, info, 'Keep the whole hand in reach');
   await playCard(page,'sacred-academy');
   await playCard(page,'harbor-pilot');
   await playCard(page,'council-of-sages');
+  await playCard(page,'harvest-feast');
+  await page.getByRole('button',{name:/^Select /}).first().click();
+  await page.getByRole('button',{name:'Discard 1',exact:true}).click();
+  await expect(page.locator('.choice-scene')).toHaveCount(0);
   const state = replaySetup(await readEvents(fixture.code));
-  expect(state.decks[fixture.host].hand.length).toBe(8);
-  await steps.step('expanded-fan','Draw into an overlapping hand', [{spec:'Eight cards remain in one fan at the standard viewport.',check:async()=>{
-    await expect(page.getByTestId('hand-card')).toHaveCount(8);
+  expect(state.decks[fixture.host].hand.length).toBe(9);
+  await steps.step('expanded-fan','Draw into an overlapping hand', [{spec:'Nine cards remain in one fan at the standard viewport.',check:async()=>{
+    await expect(page.getByTestId('hand-card')).toHaveCount(9);
     await expect(page.getByRole('navigation',{name:'Hand pages'})).toHaveCount(0);
     const bounds = await page.locator('.hand-slot').evaluateAll(nodes=>nodes.map(node=>node.getBoundingClientRect().toJSON()));
     expect(bounds[1].x).toBeLessThan(bounds[0].x+bounds[0].width);
@@ -92,7 +96,7 @@ test('an expanded fan fits without paging and narrow-screen paging stays clear o
   }}]);
   await page.setViewportSize({width:375,height:568});
   await expect(page.getByRole('navigation',{name:'Hand pages'})).toHaveCount(0);
-  await expect(page.getByTestId('hand-card')).toHaveCount(8);
+  await expect(page.getByTestId('hand-card')).toHaveCount(9);
   await page.setViewportSize({width:320,height:568});
   await page.getByRole('button',{name:'Next hand cards',exact:true}).click();
   const last = state.decks[fixture.host].hand.at(-1)!;

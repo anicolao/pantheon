@@ -113,10 +113,10 @@
     animatedHand.add(animation);
     if (reduced || revision <= initialRevision || revision !== game.dealtAtSequence) return { duration: 0 };
     const source = document.querySelector('.deck-pile')!.getBoundingClientRect(), target = node.getBoundingClientRect();
-    return fly(node, { x: source.left - target.left, y: source.top - target.top, duration: 550, delay: index * 85 });
+    return fly(node, { x: source.left - target.left, y: source.top - target.top, duration: 450, delay: index * 60 });
   }
   function dealBack(node: Element, index: number) {
-    return reduced || !game.dealtAtSequence || game.dealtAtSequence <= initialRevision || game.activity.length !== game.dealtAtSequence ? { duration: 0 } : fly(node, { y: 40, duration: 550, delay: index * 85 });
+    return reduced || !game.dealtAtSequence || game.dealtAtSequence <= initialRevision || game.activity.length !== game.dealtAtSequence ? { duration: 0 } : fly(node, { y: 40, duration: 450, delay: index * 60 });
   }
   async function open(kind: 'card' | 'chronicle' | 'zone' | 'advance' | 'worship') { opener = document.activeElement as HTMLElement; modal = kind; await tick(); if (!['worship','chronicle','zone'].includes(kind)) dialog!.showModal(); }
   function inspect(id: string, copy = 1, instanceId?: string) { inspected = { card: definition(id), copy, instanceId }; void open('card'); }
@@ -134,7 +134,7 @@
 
 <main class="session" class:drafting={game.phase === 'draft'} data-status={status} aria-busy={busy || (status === 'synced' && automaticTreasures)}>
   <picture class="environment" aria-hidden="true"><source media="(max-aspect-ratio:3/4)" srcset={`${base}/assets/ui/table-mobile.webp`} /><img src={`${base}/assets/ui/table-desktop.webp`} alt="" draggable="false" /></picture>
-  <div class="composition" inert={status !== 'synced' || modal === 'chronicle' || modal === 'zone'} data-e2e-layout={modal || supplyWarning || ownChoice || showResults || status !== 'synced' ? undefined : true}>
+  <div class="composition" class:covered={!!ownChoice || showResults || modal === 'worship'} inert={status !== 'synced' || modal === 'chronicle' || modal === 'zone'} data-e2e-layout={modal || supplyWarning || ownChoice || showResults || status !== 'synced' ? undefined : true}>
     <header><a href={`${base}/`} aria-label="Back to sanctuary">‹ Sanctuary</a>{#if /^[A-Z]{4,5}$/.test(roomId)}<span>Game code <strong>{roomId}</strong></span>{:else}<span>{game.playerCount} players</span>{/if}</header>
     {#if game.phase === 'playing'}<button data-public-zone="trash" class="trash-control" onclick={() => inspectZone(uid, 'trash', 'Shared trash')} aria-label={`Inspect shared trash, ${game.trash.length} cards`}><ResourceIcon resource="trash" value={game.trash.length} label={`${game.trash.length} cards in shared trash`} /></button>{/if}
     {#if game.phase === 'draft'}
@@ -173,7 +173,7 @@
           </div>
         {/each}
       </section>
-      <div class="table-supply"><SupplyCoverflow {game} {uid} {ready} {command} inspect={id=>inspect(id)} onDialog={open=>supplyWarning=open}/></div>
+      <div class="table-supply"><SupplyCoverflow {game} {uid} {ready} {command} visible={!modal && !supplyWarning && !ownChoice && !showResults} inspect={id=>inspect(id)} onDialog={open=>supplyWarning=open}/></div>
       <section class="altars" aria-label="Shared god events" class:four={game.sharedEvents.length > 2}>
         {#each game.sharedEvents as id, index}<button data-public-zone="altar" data-public-card={id} data-god-event={id} style:--altar-index={index} aria-label={`Inspect ${cards.find(card => card.id === id)!.name}`} onclick={() => worship(id)} in:arrive><CardFace card={cards.find(card => card.id === id)!} players={game.playerCount} /></button>{/each}
       </section>
@@ -230,6 +230,7 @@
   .blessed{filter:drop-shadow(0 0 9px #ffe091);}
   .hand-count{position:absolute;right:0;bottom:0;min-width:24px;background:#071321;border:1px solid #b99a51;border-radius:50%;text-align:center;}
   .trash-control{position:absolute;left:46%;top:1%;width:8%;height:44px;background:#071321c9;border:1px solid #aa8e52;border-radius:12px;--icon-size:20px;z-index:6;}.opponent-discard{border:0;padding:0 4px;background:#07132199;min-height:44px;font:inherit;color:inherit;border-radius:6px;}.opponent p{display:flex;align-items:center;justify-content:center;gap:3px;}.played-cards{display:flex;gap:12px;height:100%;justify-content:center;}.played-cards button{height:100%;aspect-ratio:5/7;padding:0;border:0;background:none;}.all-played{position:absolute;left:24%;top:46%;width:10%;min-height:44px;background:#071321bb;border:1px solid #ad8e50;border-radius:8px;color:#edd7a8;font-size:clamp(12px,1.6svh,32px);}.play-area:has(.played-cards){left:31%;width:38%;}.play-area:has(.played-cards) .played-cards{margin-left:25%;}.outcome{position:absolute;left:4%;top:7%;width:13%;height:23%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;padding:0;border:0;background:none;--icon-size:clamp(18px,2svh,42px);}.outcome-card{width:70%;}.action-message{position:absolute;left:25%;width:50%;top:19%;margin:0;text-align:center;background:#071321da;border:1px solid #ae9151;border-radius:8px;padding:4px 8px;font-size:clamp(11px,1.4svh,28px);line-height:1.2;pointer-events:none;z-index:3;}.hand-pages{position:absolute;left:1%;bottom:22%;width:18%;display:flex;justify-content:center;gap:8px;align-items:center;font-size:clamp(12px,1.6svh,32px);}.hand-pages button{min-width:44px;min-height:44px;border:1px solid #b99653;background:#071321;border-radius:8px;color:#f2d694;font-size:24px;}.discard-pile{border:0;padding:0;background:none;color:inherit;}.play-command{max-width:440px;margin:16px auto 0;--control-height:52px;--control-font:24px;}.play-command p{margin:8px 0 0;color:#edca8d;font-size:15px;}.inspection:has(.play-command) .inspected{width:min(260px,35svh);}
+  .composition.covered{visibility:hidden;}
   .session{height:100svh;min-height:600px;position:relative;isolation:isolate;overflow:clip;background:#071321;}.environment{position:absolute;inset:0;z-index:-2;}.environment img{height:100%;width:100%;object-fit:cover;}.composition{height:100%;position:relative;--control-height:clamp(50px,6.5svh,128px);--control-font:clamp(22px,3svh,58px);}
   header{position:absolute;top:1.2%;left:2%;right:2%;display:flex;justify-content:space-between;align-items:center;z-index:6;font-size:clamp(12px,1.6svh,30px);}header a,header>span{padding:8px 14px;background:#071522d9;border:1px solid #ae91516b;border-radius:24px;color:#ecd5a1;text-decoration:none;}header a{min-height:44px;display:flex;align-items:center;}header strong{letter-spacing:.12em;}
   button{color:inherit;}button.draft-card,.leaders button,.altars button,.own-leader,.hand button{position:relative;border:0;background:none;padding:0;}button:focus-visible{outline:3px solid #ffdf8e;outline-offset:3px;border-radius:8px;}.draft-card:hover,.altars button:hover{filter:brightness(1.13);}
@@ -278,7 +279,7 @@
     .trash-control{left:42%;top:1%;width:16%;--icon-size:18px;}
     .played-cards button:first-child:nth-last-child(3){display:none;}.play-area:has(.played-cards) .played-cards{margin:0;gap:6px;}
     .composition:has(.hand-pages) .hand{left:48px;width:calc(100% - 96px);}
-    .hand-pages{left:0;width:100%;z-index:4;justify-content:space-between;pointer-events:none;}.hand-pages span{position:absolute;left:0;bottom:-18px;width:100%;text-align:center;font-size:11px;}.hand-pages button{pointer-events:auto;min-width:44px;min-height:44px;}
+    .hand-pages{left:0;width:100%;z-index:4;justify-content:space-between;pointer-events:none;}.hand-pages span{position:absolute;left:0;bottom:-18px;width:44px;text-align:center;font-size:11px;}.hand-pages button{pointer-events:auto;min-width:44px;min-height:44px;}
     .inspection:has(.play-command) .inspected{width:min(56vw,35svh);}.play-command{--control-font:22px;}
     .composition .all-played{left:3%;top:53%;width:17%;font-size:10px;min-height:40px;}
 
@@ -301,6 +302,9 @@
     .composition .own-leader{left:44%!important;bottom:.5%!important;width:6svh!important;}
     .composition .deck-pile{left:12%;bottom:.5%;width:calc(6svh * 5 / 7);}
     .composition .discard-pile{right:6%;bottom:.5%;height:6%;width:23%;font-size:10px;}.composition .discard-pile img{max-height:3svh;height:55%;}.composition .discard-pile span{padding:0;}
+  }
+  @media(max-height:600px) and (max-aspect-ratio:3/4){
+    .composition .turn-marker{font-size:14px;}
   }
   @media(max-height:500px) and (min-aspect-ratio:3/4){
     .session{min-height:0;}header{font-size:9px;}header a{min-height:26px;padding:3px 8px;}header>span{padding:3px 8px;}.trash-control{height:26px;min-height:26px;--icon-size:10px;}

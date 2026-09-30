@@ -19,7 +19,7 @@ Recorded-history integration scenario. A legal event history prepares the starti
 
 </details>
 
-- [x] Eight cards remain in one fan at the standard viewport.
+- [x] Nine cards remain in one fan at the standard viewport.
 
 ## Keep paging separate on the smallest phone
 
