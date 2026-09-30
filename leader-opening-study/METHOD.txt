@@ -1,0 +1,44 @@
+Leader-specific opening books and fresh heads-up matrix
+======================================================
+Engine is the restored historical v4 policy; Money is the unchanged accepted sampler with the standard Worship adapter.
+Manual practice exposes both this Engine and the previous accepted Engine, plus Money.
+The search changes only the first market-purchase decision on each of the first two own turns.
+Historical action play, choices, Worship timing and later purchases are retained.
+An entry is keyed by own turn and observed coins after any Worship; it never reads a future hand.
+If the selected card is unavailable or unaffordable, the historical policy remains the fallback.
+If no entry was learned for a budget, the historical policy also remains the fallback.
+
+Search
+------
+For each leader and observed first-turn budget, evaluate pass and every affordable supply card, including Obol and Hamlet, plus the historical baseline.
+Collect seeds that actually reach the observation independently for each opponent and seat.
+Screen on two seeds per opponent/seat (six separate groups).
+Refine the best three candidates plus baseline on eight different seeds per opponent/seat.
+Select the maximum worst-group half-point total; break ties by total half-points, then stable candidate index (baseline first).
+Freeze all first-turn entries, recollect observed second-turn budgets under that book, and repeat.
+Only budgets with ten available samples in every opponent/seat group are calibrated. Other observations keep the historical fallback.
+This is a conditional, sequential search, not exhaustive optimization of all two-turn decision trees or all complementary pairs.
+Selections use small samples and can overfit. Per-opponent/seat refinement results remain separate in selection.json.
+Training/refinement seeds are leader-matrix-v1:310000–310799 for turn one and :320000–320799 for turn two.
+Money has no forced opening book; its sampler remains active from turn one.
+
+Validation
+----------
+The full 8×8 matrix omits illegal same-leader cells: 48 cells × 200 games = 9,600.
+Every cell uses fresh, matched leader-matrix-v1:400000–400199 seeds, disjoint from this opening search.
+Each cell retains P1/P2 orientation; ties count one half. No leader or strategy averages are used as balance summaries.
+Both sides use standard leader powers, shared Worship, and equal completed turns.
+Every game replays to the identical complete reducer state; failures abort instead of becoming losses.
+Results include all final decks, opening decisions, command counts and trace hashes, with a saved trace per cell.
+Best-response summaries choose P2's stronger observed strategy separately for each fixed P1 strategy and opponent leader.
+
+Execution
+---------
+All commands run in nix develop, using os.cpu_count() workers.
+Persistent Bun workers retain the sampler's existing bounded deterministic caches across jobs.
+The cache upgrade is checked against previously completed isolated-process results and complete trace hashes, including reverse-order repeated jobs.
+Resume checks the job definition and recorded seed set, and executes only missing seeds; completed data is not overwritten.
+Screening was interrupted once by sparse-checkout removal of a dependency and once to change worker execution. Valid completed records were retained.
+The versioned policy source was restored byte-for-byte; these interruptions did not alter policies or seed schedules.
+Run train.py, install selected-books.json into src/lib/bots/opening-books.ts, then run matrix.py and analyze-matrix.py.
+The matrix passes its frozen books explicitly and checks a source manifest on resume.
