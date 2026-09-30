@@ -103,10 +103,27 @@ jobs:
           case "$TARGET_BRANCH" in validate/inline-supply-reviewed*) ;; *) echo 'Unexpected target branch'; exit 1;; esac
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add -- 'tests/e2e/**/*.png'
-          git diff --cached --stat > /tmp/baseline-review/change-stat.txt
-          git commit -m 'Prepare inline supply screenshot baselines for visual review'
-          git push origin "HEAD:refs/heads/$TARGET_BRANCH"
+          git config pack.window 0
+          git config pack.compression 1
+          python3 - <<'PYTHON'
+          import json, os, subprocess
+          from pathlib import Path
+          names=json.loads(Path('/tmp/baseline-review/changed.json').read_text())
+          batch=[];size=0;number=0
+          def save():
+              global batch,size,number
+              if not batch:return
+              number+=1
+              subprocess.run(['git','add','--',*batch],check=True)
+              subprocess.run(['git','commit','-m',f'Prepare inline supply screenshot review batch {number}'],check=True)
+              subprocess.run(['git','push','origin',f"HEAD:refs/heads/{os.environ['TARGET_BRANCH']}"],check=True)
+              batch=[];size=0
+          for name in names:
+              length=Path(name).stat().st_size
+              if size+length>300*1024*1024:save()
+              batch.append(name);size+=length
+          save()
+          PYTHON
           git rev-parse HEAD > /tmp/baseline-review/commit.txt
       - uses: actions/upload-artifact@v4
         if: always()
