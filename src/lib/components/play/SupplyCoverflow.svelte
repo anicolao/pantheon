@@ -8,7 +8,7 @@
   import type { GameCommand } from '$lib/backend/setup-repository';
   import { cardGesture } from './card-gesture';
   import { coverflowLayout } from './coverflow-layout';
-  let {game,uid,ready,inspect,onDialog,command}:{game:SetupState;uid:string;ready:boolean;inspect:(id:string)=>void;onDialog:(open:boolean)=>void;command:(command:GameCommand)=>Promise<void>}=$props();
+  let {game,uid,ready,visible,inspect,onDialog,command}:{game:SetupState;uid:string;ready:boolean;visible:boolean;inspect:(id:string)=>void;onDialog:(open:boolean)=>void;command:(command:GameCommand)=>Promise<void>}=$props();
   const piles=$derived(setupSupply(game.playerCount).slice().sort((a,b)=>(definition(a.id).cost??0)-(definition(b.id).cost??0)||a.id.localeCompare(b.id)));
   const affordable=$derived(piles.findLastIndex(pile=>!purchaseReason(game,uid,pile.id)));
   let target=$state(untrack(()=>Math.max(0,affordable))),position=$state(untrack(()=>target));
@@ -22,7 +22,7 @@
   const moving=$derived(position!==target || dragging);
   $effect(()=>{if(affordable>=0){target=affordable;notice='';}});
   $effect(()=>{
-    const end=target, snap=reduced;
+    const end=target, snap=reduced||!visible;
     if(dragging)return;
     if(snap){position=end;return;}
     let frame=0,last=performance.now();
@@ -64,7 +64,7 @@
 <style>
   .supply-coverflow{width:100%;height:100%;position:relative;color:#f4dfb2;isolation:isolate;}
   .coverflow{position:absolute;inset:0 0 var(--nav-height);perspective:1400px;touch-action:pan-y;user-select:none;}
-  .supply-face{position:absolute;top:0;left:calc(50% - var(--card-width)/2);width:var(--card-width);pointer-events:none;backface-visibility:hidden;filter:drop-shadow(0 3px 3px #0009);}
+  .supply-face{position:absolute;top:0;left:calc(50% - var(--card-width)/2);width:var(--card-width);pointer-events:none;will-change:transform;backface-visibility:hidden;filter:drop-shadow(0 3px 3px #0009);}
   .unavailable{filter:saturate(.7) brightness(.83) drop-shadow(0 3px 3px #0009);}
   .buy-card{position:absolute;top:calc(var(--card-width)*.18);height:calc(var(--card-width)*1.02);border:0;padding:0;background:none;cursor:pointer;min-width:0;}
   .supply-coverflow:has(.buy-card:hover) .buy-card:focus-visible{outline:none;}
