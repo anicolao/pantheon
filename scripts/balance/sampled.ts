@@ -90,7 +90,7 @@ export function rolloutEstimate(view:View,owned=view.owned,thinning=false,method
   const offset=method==='random'?0:sample%Math.max(1,cards.length);
   const order=[...cards].sort((a,b)=>rank(a.id,permutation)-rank(b.id,permutation)||a.id.localeCompare(b.id));
   const deck=[...order.slice(offset),...order.slice(0,offset)];
-  const game:SetupState={phase:'playing',seed:'shuffle-effective-v1:sample:'+sample,turn:{...initialTurn(),leaderUsed:disabled},supply:{...view.supply},trash:[],movements:[],turnOrder:['sample'],draftOrder:[],leaders:{sample:view.leader},decks:{sample:{hand:deck.splice(0,5),deck,discard:[],play:[]}},sharedEvents:[],dealtAtSequence:null,resources:{actions:1,buys:1,coins:0,worship:0},playerCount:2,players:[{uid:'sample',name:'Sample'}],activity:[]};
+  const game:SetupState={phase:'playing',seed:'shuffle-effective-v1:sample:'+sample,turn:{...initialTurn(),leaderUsed:disabled},supply:{...view.supply},trash:[],publicActivity:[],movements:[],turnOrder:['sample'],draftOrder:[],leaders:{sample:view.leader},decks:{sample:{hand:deck.splice(0,5),deck,discard:[],play:[]}},sharedEvents:[],dealtAtSequence:null,resources:{actions:1,buys:1,coins:0,worship:0},playerCount:2,players:[{uid:'sample',name:'Sample'}],activity:[]};
   let commands=0;
   for(let turn=0;turn<rolloutTurns&&game.turn.phase!=='finished';turn++){
    game.turn.leaderUsed=disabled;
