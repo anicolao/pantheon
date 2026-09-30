@@ -17,3 +17,9 @@ action priorities, devotion acquisition, or repeated-worship plans. These are
 measurements of these adapted bots, not optimal-play claims about game balance.
 Use all available CPUs via batch.py. Store compact per-game outcomes and hashes,
 plus one full replay per 25-game chunk. Preserve unfinished games as errors.
+
+Update: Thaleia now has a leader-specific default book in leader-books.ts.
+The archived full/ matrix predates that change and remains unchanged. To use
+its historical engine control, pass openingBook:null in the Engine Spec, or
+check out its recorded harness commit. The Thaleia opening study lives in
+../thaleia-opening/; its validation covers P1 only.

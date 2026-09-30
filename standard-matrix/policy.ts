@@ -1,3 +1,4 @@
+import {leaderBooks,type LeaderOpeningBook,type OpeningSplit} from './leader-books';
 import {evaluateDiscards} from './discard';
 import {selectedConfig} from '../balance-checkpoint/accepted-engine/selected-policy';
 import {policy as enginePolicy,type Memory} from '../balance-checkpoint/engine-p2-search/policy';
@@ -10,7 +11,7 @@ import {definition,initialTurn,applyPlayCommand,type Effect,type ActionCommand} 
 import type {SetupState,CardInstance} from '../balance-checkpoint/equal-turns/source/src/lib/game/setup';
 export type StandardView=View & {effectQueue?:Effect[]};
 export type Name='engine'|'money';
-export type StandardMemory=Memory & {bookTurns?:number[]};
+export type StandardMemory=Memory & {bookTurns?:number[];openingBook?:LeaderOpeningBook|null};
 const accepted=enginePolicy(selectedConfig),outsideBook=enginePolicy({...selectedConfig,openingBook:undefined});
 const events=new Set(['counsel-of-olympus','tribute-of-the-tides','blessing-of-the-fields','trial-of-the-spear']);
 export function score(v:View,name:Name,origin:View):number{
@@ -61,6 +62,23 @@ export function base(v:StandardView,m:StandardMemory,name:Name):ActionCommand{
  if(m.turn<=2&&!v.choice&&v.phase!=='actions'&&!v.hand.some(c=>definition(c.cardId).type==='Treasure')){
   if((m.bookTurns??[]).includes(m.turn))return {type:'turn/ended'};
   const coins=v.resources.coins;
+  const custom=m.openingBook===undefined?leaderBooks[v.leader]:m.openingBook;
+  if(custom){
+   if(v.leader!=='thaleia')throw Error('Only Thaleia has a calibrated split-based book');
+   if(m.turn===1)m.openingFirstCoins??=coins;
+   const first=m.openingFirstCoins;
+   if(first===undefined)throw Error('Missing observed opening budget');
+   const high=Math.max(first,6-first),split=(high===5?'5/1':high===4?'4/2':'3/3') as OpeningSplit;
+   const pair=custom[split];
+   if(pair){
+    const index=split==='3/3'?m.turn-1:coins===high?0:1;
+    const card=pair[index];
+    if(card!==null&&(v.resources.buys<1||!v.supply[card]||v.bannedCards.includes(card)||definition(card).cost===null||definition(card).cost!>coins))throw Error('Illegal leader-book purchase: '+card);
+    (m.bookTurns??=[]).push(m.turn);
+    (m.openingActions??=[]).push({turn:m.turn,coins,card});
+    return card===null?{type:'turn/ended'}:{type:'card/bought',cardId:card};
+   }
+  }
   // Use the accepted book by OBSERVED budget. Standard leaders invalidate the
   // old assumption that the two hands sum to six; never inspect the next hand.
   const card=coins===5?'merchant-fleet':coins===4?'harvest-feast':coins===3?(m.openingActions?.some(x=>x.card==='drachma')?'seed-keeper':'drachma'):coins===2?'seed-keeper':null;
