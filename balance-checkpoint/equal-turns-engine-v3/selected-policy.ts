@@ -1,0 +1,37 @@
+// Frozen after confirmation on fresh seeds 33000–33999.
+import {policy,type Config} from './policy';
+export const selectedConfig:Config={
+  "draw": 2.25,
+  "action": 6,
+  "cash": 2,
+  "buy": 1,
+  "payload": 4,
+  "thin": 0,
+  "floor": 4,
+  "obols": 0,
+  "ready": 0.9,
+  "moneyTarget": 16,
+  "buffer": 2,
+  "playableIncome": true,
+  "earlyThin": true,
+  "trashRule": true,
+  "joint": 1,
+  "reliability": 4,
+  "earlyAcropolis": true,
+  "late": 1,
+  "spare": 0,
+  "thinPlay": 3,
+  "stopLateTrash": true,
+  "ignoreTools": false,
+  "toolOverpay": 1,
+  "toolDeadline": 4,
+  "polisHorizon": 1.5,
+  "hamletHorizon": 1,
+  "fundedBuys": true,
+  "chainPayload": true,
+  "toolIncome": 0,
+  "payloadIncome": 12,
+  "equalTurns": true,
+  "replyMargin": 1
+};
+export const selectedEngine=policy(selectedConfig);

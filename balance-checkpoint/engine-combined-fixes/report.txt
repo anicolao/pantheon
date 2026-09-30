@@ -1,0 +1,38 @@
+Combined discard lookahead and coin/Buy-bonus removal
+
+Fixed factorial comparison: unchanged baseline, discarded lookahead alone, bonus removal alone, both. Opening book, equal-turn rules, one-point P1 closing margin, extra Talent off and Money held fixed. Base game with no powers/worship. Seeds 160000-162999, 3000 games per arm per seat, 24000 games. All results are win shares counting ties as half.
+
+Neither component retuned. Combining them uses payload=0 consistently inside the discard rollout controller and its final deck utility. This is an explicit combination test, not reinstatement of the retired standalone discard heuristic.
+
+Primary: combined minus baseline, separately by seat. Broad improvement requires positive paired 95% lower bounds in both seats. Secondary component and interaction contrasts are exploratory, with unadjusted 95% intervals; no pooling across seats. Fixed sample size; no optional extension.
+
+P1
+baseline: 48.817%, W/T/L 1384/161/1455
+discard: 48.750%, W/T/L 1380/165/1455
+bonus: 49.717%, W/T/L 1407/169/1424
+both: 50.317%, W/T/L 1418/183/1399
+both minus baseline: +1.500 pp; paired 95% [-0.092, +3.092] pp
+both minus bonus: +0.600 pp; paired 95% [-0.594, +1.794] pp
+both minus discard: +1.567 pp; paired 95% [+0.272, +2.861] pp
+bonus minus baseline: +0.900 pp; paired 95% [-0.302, +2.102] pp
+discard minus baseline: -0.067 pp; paired 95% [-1.282, +1.149] pp
+interaction: +0.667 pp; paired 95% [-0.307, +1.640] pp
+
+P2
+baseline: 43.333%, W/T/L 1171/258/1571
+discard: 43.217%, W/T/L 1165/263/1572
+bonus: 44.383%, W/T/L 1205/253/1542
+both: 44.800%, W/T/L 1221/246/1533
+both minus baseline: +1.467 pp; paired 95% [-0.015, +2.949] pp
+both minus bonus: +0.417 pp; paired 95% [-0.713, +1.546] pp
+both minus discard: +1.583 pp; paired 95% [+0.375, +2.792] pp
+bonus minus baseline: +1.050 pp; paired 95% [-0.072, +2.172] pp
+discard minus baseline: -0.117 pp; paired 95% [-1.228, +0.995] pp
+interaction: +0.533 pp; paired 95% [-0.374, +1.441] pp
+
+Combined improvement supported in both seats: False
+Interaction is the within-seed difference-in-differences: both - bonus - discard + baseline. Positive values mean the combination outperforms the sum of the individual changes on the win-share scale.
+
+Validation: every game completed, full command replay equalled its final state exactly, equal completed turns held, and all matched first-two opening purchases were identical. Frozen component hashes unchanged; strict TypeScript check passed for the new runner orchestration. Prior component test results are preserved. All CPU work used 16 workers inside nix develop.
+
+No production/default policy or PR changed. Retired standalone results remain preserved. Limits: one Money opponent, base game only, finite-seed sampling and normal approximate paired intervals. Neither draw evaluator nor deck objective is a calibrated win-probability model.
