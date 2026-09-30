@@ -1,0 +1,173 @@
+{
+  "book": {
+    "5/1": [
+      "forge-of-heroes",
+      null
+    ],
+    "4/2": [
+      "council-of-sages",
+      "seed-keeper"
+    ],
+    "3/3": [
+      "drachma",
+      "seed-keeper"
+    ]
+  },
+  "validation": [
+    {
+      "opponent": "nereon",
+      "baseline": {
+        "share": 0.26,
+        "ci95": [
+          0.18404578126986462,
+          0.35371172631861636
+        ],
+        "wins": 24,
+        "ties": 4,
+        "losses": 72,
+        "n": 100
+      },
+      "thaleiaBook": {
+        "share": 0.35,
+        "ci95": [
+          0.2636410465347802,
+          0.4474573957080203
+        ],
+        "wins": 33,
+        "ties": 4,
+        "losses": 63,
+        "n": 100
+      },
+      "pairedChange": 0.09,
+      "pairedCI95": [
+        0.004956638131011076,
+        0.17504336186898892
+      ],
+      "improvedGames": 16,
+      "worsenedGames": 6,
+      "unchangedGames": 78
+    },
+    {
+      "opponent": "melia",
+      "baseline": {
+        "share": 0.23,
+        "ci95": [
+          0.15843154746876406,
+          0.32154564856827694
+        ],
+        "wins": 19,
+        "ties": 8,
+        "losses": 73,
+        "n": 100
+      },
+      "thaleiaBook": {
+        "share": 0.26,
+        "ci95": [
+          0.18404578126986462,
+          0.35371172631861636
+        ],
+        "wins": 22,
+        "ties": 8,
+        "losses": 70,
+        "n": 100
+      },
+      "pairedChange": 0.03,
+      "pairedCI95": [
+        -0.05199660559616434,
+        0.11199660559616434
+      ],
+      "improvedGames": 12,
+      "worsenedGames": 8,
+      "unchangedGames": 80
+    },
+    {
+      "opponent": "doreios",
+      "baseline": {
+        "share": 0.315,
+        "ci95": [
+          0.23223714535022827,
+          0.4114509334158924
+        ],
+        "wins": 27,
+        "ties": 9,
+        "losses": 64,
+        "n": 100
+      },
+      "thaleiaBook": {
+        "share": 0.455,
+        "ci95": [
+          0.360870409348044,
+          0.5524591233247963
+        ],
+        "wins": 43,
+        "ties": 5,
+        "losses": 52,
+        "n": 100
+      },
+      "pairedChange": 0.14,
+      "pairedCI95": [
+        0.06267000383375991,
+        0.2173299961662401
+      ],
+      "improvedGames": 20,
+      "worsenedGames": 3,
+      "unchangedGames": 77
+    }
+  ],
+  "seeds": {
+    "start": 240000,
+    "count": 100
+  },
+  "rules": "equal turns, original half-credit ties",
+  "scope": "P1 Thaleia Engine vs P2 Money",
+  "selection": [
+    {
+      "id": "candidate-30",
+      "split": "5/1",
+      "cards": [
+        "forge-of-heroes",
+        null
+      ],
+      "shares": {
+        "melia": 0.2,
+        "doreios": 0.375,
+        "nereon": 0.175
+      },
+      "minimum": 0.175,
+      "total": 0.75,
+      "gamesPerOpponent": 20
+    },
+    {
+      "id": "candidate-63",
+      "split": "4/2",
+      "cards": [
+        "council-of-sages",
+        "seed-keeper"
+      ],
+      "shares": {
+        "doreios": 0.55,
+        "nereon": 0.475,
+        "melia": 0.425
+      },
+      "minimum": 0.425,
+      "total": 1.45,
+      "gamesPerOpponent": 20
+    },
+    {
+      "id": "candidate-116",
+      "split": "3/3",
+      "cards": [
+        "drachma",
+        "seed-keeper"
+      ],
+      "shares": {
+        "doreios": 0.225,
+        "melia": 0.2,
+        "nereon": 0.25
+      },
+      "minimum": 0.2,
+      "total": 0.675,
+      "gamesPerOpponent": 20
+    }
+  ]
+}

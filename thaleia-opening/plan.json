@@ -1,0 +1,1366 @@
+{
+  "candidates": [
+    {
+      "id": "candidate-0",
+      "split": "5/1",
+      "cards": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": "candidate-1",
+      "split": "5/1",
+      "cards": [
+        null,
+        "obol"
+      ]
+    },
+    {
+      "id": "candidate-2",
+      "split": "5/1",
+      "cards": [
+        "obol",
+        null
+      ]
+    },
+    {
+      "id": "candidate-3",
+      "split": "5/1",
+      "cards": [
+        "obol",
+        "obol"
+      ]
+    },
+    {
+      "id": "candidate-4",
+      "split": "5/1",
+      "cards": [
+        "drachma",
+        null
+      ]
+    },
+    {
+      "id": "candidate-5",
+      "split": "5/1",
+      "cards": [
+        "drachma",
+        "obol"
+      ]
+    },
+    {
+      "id": "candidate-6",
+      "split": "5/1",
+      "cards": [
+        "hamlet",
+        null
+      ]
+    },
+    {
+      "id": "candidate-7",
+      "split": "5/1",
+      "cards": [
+        "hamlet",
+        "obol"
+      ]
+    },
+    {
+      "id": "candidate-8",
+      "split": "5/1",
+      "cards": [
+        "polis",
+        null
+      ]
+    },
+    {
+      "id": "candidate-9",
+      "split": "5/1",
+      "cards": [
+        "polis",
+        "obol"
+      ]
+    },
+    {
+      "id": "candidate-10",
+      "split": "5/1",
+      "cards": [
+        "oracles-acolyte",
+        null
+      ]
+    },
+    {
+      "id": "candidate-11",
+      "split": "5/1",
+      "cards": [
+        "oracles-acolyte",
+        "obol"
+      ]
+    },
+    {
+      "id": "candidate-12",
+      "split": "5/1",
+      "cards": [
+        "council-of-sages",
+        null
+      ]
+    },
+    {
+      "id": "candidate-13",
+      "split": "5/1",
+      "cards": [
+        "council-of-sages",
+        "obol"
+      ]
+    },
+    {
+      "id": "candidate-14",
+      "split": "5/1",
+      "cards": [
+        "sacred-academy",
+        null
+      ]
+    },
+    {
+      "id": "candidate-15",
+      "split": "5/1",
+      "cards": [
+        "sacred-academy",
+        "obol"
+      ]
+    },
+    {
+      "id": "candidate-16",
+      "split": "5/1",
+      "cards": [
+        "harbor-pilot",
+        null
+      ]
+    },
+    {
+      "id": "candidate-17",
+      "split": "5/1",
+      "cards": [
+        "harbor-pilot",
+        "obol"
+      ]
+    },
+    {
+      "id": "candidate-18",
+      "split": "5/1",
+      "cards": [
+        "sea-trade",
+        null
+      ]
+    },
+    {
+      "id": "candidate-19",
+      "split": "5/1",
+      "cards": [
+        "sea-trade",
+        "obol"
+      ]
+    },
+    {
+      "id": "candidate-20",
+      "split": "5/1",
+      "cards": [
+        "merchant-fleet",
+        null
+      ]
+    },
+    {
+      "id": "candidate-21",
+      "split": "5/1",
+      "cards": [
+        "merchant-fleet",
+        "obol"
+      ]
+    },
+    {
+      "id": "candidate-22",
+      "split": "5/1",
+      "cards": [
+        "seed-keeper",
+        null
+      ]
+    },
+    {
+      "id": "candidate-23",
+      "split": "5/1",
+      "cards": [
+        "seed-keeper",
+        "obol"
+      ]
+    },
+    {
+      "id": "candidate-24",
+      "split": "5/1",
+      "cards": [
+        "harvest-feast",
+        null
+      ]
+    },
+    {
+      "id": "candidate-25",
+      "split": "5/1",
+      "cards": [
+        "harvest-feast",
+        "obol"
+      ]
+    },
+    {
+      "id": "candidate-26",
+      "split": "5/1",
+      "cards": [
+        "sacred-grove",
+        null
+      ]
+    },
+    {
+      "id": "candidate-27",
+      "split": "5/1",
+      "cards": [
+        "sacred-grove",
+        "obol"
+      ]
+    },
+    {
+      "id": "candidate-28",
+      "split": "5/1",
+      "cards": [
+        "bronze-recruit",
+        null
+      ]
+    },
+    {
+      "id": "candidate-29",
+      "split": "5/1",
+      "cards": [
+        "bronze-recruit",
+        "obol"
+      ]
+    },
+    {
+      "id": "candidate-30",
+      "split": "5/1",
+      "cards": [
+        "forge-of-heroes",
+        null
+      ]
+    },
+    {
+      "id": "candidate-31",
+      "split": "5/1",
+      "cards": [
+        "forge-of-heroes",
+        "obol"
+      ]
+    },
+    {
+      "id": "candidate-32",
+      "split": "5/1",
+      "cards": [
+        "victorious-procession",
+        null
+      ]
+    },
+    {
+      "id": "candidate-33",
+      "split": "5/1",
+      "cards": [
+        "victorious-procession",
+        "obol"
+      ]
+    },
+    {
+      "id": "candidate-34",
+      "split": "4/2",
+      "cards": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": "candidate-35",
+      "split": "4/2",
+      "cards": [
+        null,
+        "obol"
+      ]
+    },
+    {
+      "id": "candidate-36",
+      "split": "4/2",
+      "cards": [
+        null,
+        "hamlet"
+      ]
+    },
+    {
+      "id": "candidate-37",
+      "split": "4/2",
+      "cards": [
+        null,
+        "oracles-acolyte"
+      ]
+    },
+    {
+      "id": "candidate-38",
+      "split": "4/2",
+      "cards": [
+        null,
+        "seed-keeper"
+      ]
+    },
+    {
+      "id": "candidate-39",
+      "split": "4/2",
+      "cards": [
+        "obol",
+        null
+      ]
+    },
+    {
+      "id": "candidate-40",
+      "split": "4/2",
+      "cards": [
+        "obol",
+        "obol"
+      ]
+    },
+    {
+      "id": "candidate-41",
+      "split": "4/2",
+      "cards": [
+        "obol",
+        "hamlet"
+      ]
+    },
+    {
+      "id": "candidate-42",
+      "split": "4/2",
+      "cards": [
+        "obol",
+        "oracles-acolyte"
+      ]
+    },
+    {
+      "id": "candidate-43",
+      "split": "4/2",
+      "cards": [
+        "obol",
+        "seed-keeper"
+      ]
+    },
+    {
+      "id": "candidate-44",
+      "split": "4/2",
+      "cards": [
+        "drachma",
+        null
+      ]
+    },
+    {
+      "id": "candidate-45",
+      "split": "4/2",
+      "cards": [
+        "drachma",
+        "obol"
+      ]
+    },
+    {
+      "id": "candidate-46",
+      "split": "4/2",
+      "cards": [
+        "drachma",
+        "hamlet"
+      ]
+    },
+    {
+      "id": "candidate-47",
+      "split": "4/2",
+      "cards": [
+        "drachma",
+        "oracles-acolyte"
+      ]
+    },
+    {
+      "id": "candidate-48",
+      "split": "4/2",
+      "cards": [
+        "drachma",
+        "seed-keeper"
+      ]
+    },
+    {
+      "id": "candidate-49",
+      "split": "4/2",
+      "cards": [
+        "hamlet",
+        null
+      ]
+    },
+    {
+      "id": "candidate-50",
+      "split": "4/2",
+      "cards": [
+        "hamlet",
+        "obol"
+      ]
+    },
+    {
+      "id": "candidate-51",
+      "split": "4/2",
+      "cards": [
+        "hamlet",
+        "hamlet"
+      ]
+    },
+    {
+      "id": "candidate-52",
+      "split": "4/2",
+      "cards": [
+        "hamlet",
+        "oracles-acolyte"
+      ]
+    },
+    {
+      "id": "candidate-53",
+      "split": "4/2",
+      "cards": [
+        "hamlet",
+        "seed-keeper"
+      ]
+    },
+    {
+      "id": "candidate-54",
+      "split": "4/2",
+      "cards": [
+        "oracles-acolyte",
+        null
+      ]
+    },
+    {
+      "id": "candidate-55",
+      "split": "4/2",
+      "cards": [
+        "oracles-acolyte",
+        "obol"
+      ]
+    },
+    {
+      "id": "candidate-56",
+      "split": "4/2",
+      "cards": [
+        "oracles-acolyte",
+        "hamlet"
+      ]
+    },
+    {
+      "id": "candidate-57",
+      "split": "4/2",
+      "cards": [
+        "oracles-acolyte",
+        "oracles-acolyte"
+      ]
+    },
+    {
+      "id": "candidate-58",
+      "split": "4/2",
+      "cards": [
+        "oracles-acolyte",
+        "seed-keeper"
+      ]
+    },
+    {
+      "id": "candidate-59",
+      "split": "4/2",
+      "cards": [
+        "council-of-sages",
+        null
+      ]
+    },
+    {
+      "id": "candidate-60",
+      "split": "4/2",
+      "cards": [
+        "council-of-sages",
+        "obol"
+      ]
+    },
+    {
+      "id": "candidate-61",
+      "split": "4/2",
+      "cards": [
+        "council-of-sages",
+        "hamlet"
+      ]
+    },
+    {
+      "id": "candidate-62",
+      "split": "4/2",
+      "cards": [
+        "council-of-sages",
+        "oracles-acolyte"
+      ]
+    },
+    {
+      "id": "candidate-63",
+      "split": "4/2",
+      "cards": [
+        "council-of-sages",
+        "seed-keeper"
+      ]
+    },
+    {
+      "id": "candidate-64",
+      "split": "4/2",
+      "cards": [
+        "harbor-pilot",
+        null
+      ]
+    },
+    {
+      "id": "candidate-65",
+      "split": "4/2",
+      "cards": [
+        "harbor-pilot",
+        "obol"
+      ]
+    },
+    {
+      "id": "candidate-66",
+      "split": "4/2",
+      "cards": [
+        "harbor-pilot",
+        "hamlet"
+      ]
+    },
+    {
+      "id": "candidate-67",
+      "split": "4/2",
+      "cards": [
+        "harbor-pilot",
+        "oracles-acolyte"
+      ]
+    },
+    {
+      "id": "candidate-68",
+      "split": "4/2",
+      "cards": [
+        "harbor-pilot",
+        "seed-keeper"
+      ]
+    },
+    {
+      "id": "candidate-69",
+      "split": "4/2",
+      "cards": [
+        "sea-trade",
+        null
+      ]
+    },
+    {
+      "id": "candidate-70",
+      "split": "4/2",
+      "cards": [
+        "sea-trade",
+        "obol"
+      ]
+    },
+    {
+      "id": "candidate-71",
+      "split": "4/2",
+      "cards": [
+        "sea-trade",
+        "hamlet"
+      ]
+    },
+    {
+      "id": "candidate-72",
+      "split": "4/2",
+      "cards": [
+        "sea-trade",
+        "oracles-acolyte"
+      ]
+    },
+    {
+      "id": "candidate-73",
+      "split": "4/2",
+      "cards": [
+        "sea-trade",
+        "seed-keeper"
+      ]
+    },
+    {
+      "id": "candidate-74",
+      "split": "4/2",
+      "cards": [
+        "seed-keeper",
+        null
+      ]
+    },
+    {
+      "id": "candidate-75",
+      "split": "4/2",
+      "cards": [
+        "seed-keeper",
+        "obol"
+      ]
+    },
+    {
+      "id": "candidate-76",
+      "split": "4/2",
+      "cards": [
+        "seed-keeper",
+        "hamlet"
+      ]
+    },
+    {
+      "id": "candidate-77",
+      "split": "4/2",
+      "cards": [
+        "seed-keeper",
+        "oracles-acolyte"
+      ]
+    },
+    {
+      "id": "candidate-78",
+      "split": "4/2",
+      "cards": [
+        "seed-keeper",
+        "seed-keeper"
+      ]
+    },
+    {
+      "id": "candidate-79",
+      "split": "4/2",
+      "cards": [
+        "harvest-feast",
+        null
+      ]
+    },
+    {
+      "id": "candidate-80",
+      "split": "4/2",
+      "cards": [
+        "harvest-feast",
+        "obol"
+      ]
+    },
+    {
+      "id": "candidate-81",
+      "split": "4/2",
+      "cards": [
+        "harvest-feast",
+        "hamlet"
+      ]
+    },
+    {
+      "id": "candidate-82",
+      "split": "4/2",
+      "cards": [
+        "harvest-feast",
+        "oracles-acolyte"
+      ]
+    },
+    {
+      "id": "candidate-83",
+      "split": "4/2",
+      "cards": [
+        "harvest-feast",
+        "seed-keeper"
+      ]
+    },
+    {
+      "id": "candidate-84",
+      "split": "4/2",
+      "cards": [
+        "bronze-recruit",
+        null
+      ]
+    },
+    {
+      "id": "candidate-85",
+      "split": "4/2",
+      "cards": [
+        "bronze-recruit",
+        "obol"
+      ]
+    },
+    {
+      "id": "candidate-86",
+      "split": "4/2",
+      "cards": [
+        "bronze-recruit",
+        "hamlet"
+      ]
+    },
+    {
+      "id": "candidate-87",
+      "split": "4/2",
+      "cards": [
+        "bronze-recruit",
+        "oracles-acolyte"
+      ]
+    },
+    {
+      "id": "candidate-88",
+      "split": "4/2",
+      "cards": [
+        "bronze-recruit",
+        "seed-keeper"
+      ]
+    },
+    {
+      "id": "candidate-89",
+      "split": "4/2",
+      "cards": [
+        "forge-of-heroes",
+        null
+      ]
+    },
+    {
+      "id": "candidate-90",
+      "split": "4/2",
+      "cards": [
+        "forge-of-heroes",
+        "obol"
+      ]
+    },
+    {
+      "id": "candidate-91",
+      "split": "4/2",
+      "cards": [
+        "forge-of-heroes",
+        "hamlet"
+      ]
+    },
+    {
+      "id": "candidate-92",
+      "split": "4/2",
+      "cards": [
+        "forge-of-heroes",
+        "oracles-acolyte"
+      ]
+    },
+    {
+      "id": "candidate-93",
+      "split": "4/2",
+      "cards": [
+        "forge-of-heroes",
+        "seed-keeper"
+      ]
+    },
+    {
+      "id": "candidate-94",
+      "split": "3/3",
+      "cards": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": "candidate-95",
+      "split": "3/3",
+      "cards": [
+        null,
+        "obol"
+      ]
+    },
+    {
+      "id": "candidate-96",
+      "split": "3/3",
+      "cards": [
+        null,
+        "drachma"
+      ]
+    },
+    {
+      "id": "candidate-97",
+      "split": "3/3",
+      "cards": [
+        null,
+        "hamlet"
+      ]
+    },
+    {
+      "id": "candidate-98",
+      "split": "3/3",
+      "cards": [
+        null,
+        "oracles-acolyte"
+      ]
+    },
+    {
+      "id": "candidate-99",
+      "split": "3/3",
+      "cards": [
+        null,
+        "harbor-pilot"
+      ]
+    },
+    {
+      "id": "candidate-100",
+      "split": "3/3",
+      "cards": [
+        null,
+        "seed-keeper"
+      ]
+    },
+    {
+      "id": "candidate-101",
+      "split": "3/3",
+      "cards": [
+        null,
+        "bronze-recruit"
+      ]
+    },
+    {
+      "id": "candidate-102",
+      "split": "3/3",
+      "cards": [
+        "obol",
+        null
+      ]
+    },
+    {
+      "id": "candidate-103",
+      "split": "3/3",
+      "cards": [
+        "obol",
+        "obol"
+      ]
+    },
+    {
+      "id": "candidate-104",
+      "split": "3/3",
+      "cards": [
+        "obol",
+        "drachma"
+      ]
+    },
+    {
+      "id": "candidate-105",
+      "split": "3/3",
+      "cards": [
+        "obol",
+        "hamlet"
+      ]
+    },
+    {
+      "id": "candidate-106",
+      "split": "3/3",
+      "cards": [
+        "obol",
+        "oracles-acolyte"
+      ]
+    },
+    {
+      "id": "candidate-107",
+      "split": "3/3",
+      "cards": [
+        "obol",
+        "harbor-pilot"
+      ]
+    },
+    {
+      "id": "candidate-108",
+      "split": "3/3",
+      "cards": [
+        "obol",
+        "seed-keeper"
+      ]
+    },
+    {
+      "id": "candidate-109",
+      "split": "3/3",
+      "cards": [
+        "obol",
+        "bronze-recruit"
+      ]
+    },
+    {
+      "id": "candidate-110",
+      "split": "3/3",
+      "cards": [
+        "drachma",
+        null
+      ]
+    },
+    {
+      "id": "candidate-111",
+      "split": "3/3",
+      "cards": [
+        "drachma",
+        "obol"
+      ]
+    },
+    {
+      "id": "candidate-112",
+      "split": "3/3",
+      "cards": [
+        "drachma",
+        "drachma"
+      ]
+    },
+    {
+      "id": "candidate-113",
+      "split": "3/3",
+      "cards": [
+        "drachma",
+        "hamlet"
+      ]
+    },
+    {
+      "id": "candidate-114",
+      "split": "3/3",
+      "cards": [
+        "drachma",
+        "oracles-acolyte"
+      ]
+    },
+    {
+      "id": "candidate-115",
+      "split": "3/3",
+      "cards": [
+        "drachma",
+        "harbor-pilot"
+      ]
+    },
+    {
+      "id": "candidate-116",
+      "split": "3/3",
+      "cards": [
+        "drachma",
+        "seed-keeper"
+      ]
+    },
+    {
+      "id": "candidate-117",
+      "split": "3/3",
+      "cards": [
+        "drachma",
+        "bronze-recruit"
+      ]
+    },
+    {
+      "id": "candidate-118",
+      "split": "3/3",
+      "cards": [
+        "hamlet",
+        null
+      ]
+    },
+    {
+      "id": "candidate-119",
+      "split": "3/3",
+      "cards": [
+        "hamlet",
+        "obol"
+      ]
+    },
+    {
+      "id": "candidate-120",
+      "split": "3/3",
+      "cards": [
+        "hamlet",
+        "drachma"
+      ]
+    },
+    {
+      "id": "candidate-121",
+      "split": "3/3",
+      "cards": [
+        "hamlet",
+        "hamlet"
+      ]
+    },
+    {
+      "id": "candidate-122",
+      "split": "3/3",
+      "cards": [
+        "hamlet",
+        "oracles-acolyte"
+      ]
+    },
+    {
+      "id": "candidate-123",
+      "split": "3/3",
+      "cards": [
+        "hamlet",
+        "harbor-pilot"
+      ]
+    },
+    {
+      "id": "candidate-124",
+      "split": "3/3",
+      "cards": [
+        "hamlet",
+        "seed-keeper"
+      ]
+    },
+    {
+      "id": "candidate-125",
+      "split": "3/3",
+      "cards": [
+        "hamlet",
+        "bronze-recruit"
+      ]
+    },
+    {
+      "id": "candidate-126",
+      "split": "3/3",
+      "cards": [
+        "oracles-acolyte",
+        null
+      ]
+    },
+    {
+      "id": "candidate-127",
+      "split": "3/3",
+      "cards": [
+        "oracles-acolyte",
+        "obol"
+      ]
+    },
+    {
+      "id": "candidate-128",
+      "split": "3/3",
+      "cards": [
+        "oracles-acolyte",
+        "drachma"
+      ]
+    },
+    {
+      "id": "candidate-129",
+      "split": "3/3",
+      "cards": [
+        "oracles-acolyte",
+        "hamlet"
+      ]
+    },
+    {
+      "id": "candidate-130",
+      "split": "3/3",
+      "cards": [
+        "oracles-acolyte",
+        "oracles-acolyte"
+      ]
+    },
+    {
+      "id": "candidate-131",
+      "split": "3/3",
+      "cards": [
+        "oracles-acolyte",
+        "harbor-pilot"
+      ]
+    },
+    {
+      "id": "candidate-132",
+      "split": "3/3",
+      "cards": [
+        "oracles-acolyte",
+        "seed-keeper"
+      ]
+    },
+    {
+      "id": "candidate-133",
+      "split": "3/3",
+      "cards": [
+        "oracles-acolyte",
+        "bronze-recruit"
+      ]
+    },
+    {
+      "id": "candidate-134",
+      "split": "3/3",
+      "cards": [
+        "harbor-pilot",
+        null
+      ]
+    },
+    {
+      "id": "candidate-135",
+      "split": "3/3",
+      "cards": [
+        "harbor-pilot",
+        "obol"
+      ]
+    },
+    {
+      "id": "candidate-136",
+      "split": "3/3",
+      "cards": [
+        "harbor-pilot",
+        "drachma"
+      ]
+    },
+    {
+      "id": "candidate-137",
+      "split": "3/3",
+      "cards": [
+        "harbor-pilot",
+        "hamlet"
+      ]
+    },
+    {
+      "id": "candidate-138",
+      "split": "3/3",
+      "cards": [
+        "harbor-pilot",
+        "oracles-acolyte"
+      ]
+    },
+    {
+      "id": "candidate-139",
+      "split": "3/3",
+      "cards": [
+        "harbor-pilot",
+        "harbor-pilot"
+      ]
+    },
+    {
+      "id": "candidate-140",
+      "split": "3/3",
+      "cards": [
+        "harbor-pilot",
+        "seed-keeper"
+      ]
+    },
+    {
+      "id": "candidate-141",
+      "split": "3/3",
+      "cards": [
+        "harbor-pilot",
+        "bronze-recruit"
+      ]
+    },
+    {
+      "id": "candidate-142",
+      "split": "3/3",
+      "cards": [
+        "seed-keeper",
+        null
+      ]
+    },
+    {
+      "id": "candidate-143",
+      "split": "3/3",
+      "cards": [
+        "seed-keeper",
+        "obol"
+      ]
+    },
+    {
+      "id": "candidate-144",
+      "split": "3/3",
+      "cards": [
+        "seed-keeper",
+        "drachma"
+      ]
+    },
+    {
+      "id": "candidate-145",
+      "split": "3/3",
+      "cards": [
+        "seed-keeper",
+        "hamlet"
+      ]
+    },
+    {
+      "id": "candidate-146",
+      "split": "3/3",
+      "cards": [
+        "seed-keeper",
+        "oracles-acolyte"
+      ]
+    },
+    {
+      "id": "candidate-147",
+      "split": "3/3",
+      "cards": [
+        "seed-keeper",
+        "harbor-pilot"
+      ]
+    },
+    {
+      "id": "candidate-148",
+      "split": "3/3",
+      "cards": [
+        "seed-keeper",
+        "seed-keeper"
+      ]
+    },
+    {
+      "id": "candidate-149",
+      "split": "3/3",
+      "cards": [
+        "seed-keeper",
+        "bronze-recruit"
+      ]
+    },
+    {
+      "id": "candidate-150",
+      "split": "3/3",
+      "cards": [
+        "bronze-recruit",
+        null
+      ]
+    },
+    {
+      "id": "candidate-151",
+      "split": "3/3",
+      "cards": [
+        "bronze-recruit",
+        "obol"
+      ]
+    },
+    {
+      "id": "candidate-152",
+      "split": "3/3",
+      "cards": [
+        "bronze-recruit",
+        "drachma"
+      ]
+    },
+    {
+      "id": "candidate-153",
+      "split": "3/3",
+      "cards": [
+        "bronze-recruit",
+        "hamlet"
+      ]
+    },
+    {
+      "id": "candidate-154",
+      "split": "3/3",
+      "cards": [
+        "bronze-recruit",
+        "oracles-acolyte"
+      ]
+    },
+    {
+      "id": "candidate-155",
+      "split": "3/3",
+      "cards": [
+        "bronze-recruit",
+        "harbor-pilot"
+      ]
+    },
+    {
+      "id": "candidate-156",
+      "split": "3/3",
+      "cards": [
+        "bronze-recruit",
+        "seed-keeper"
+      ]
+    },
+    {
+      "id": "candidate-157",
+      "split": "3/3",
+      "cards": [
+        "bronze-recruit",
+        "bronze-recruit"
+      ]
+    }
+  ],
+  "screen": {
+    "5/1": [
+      250005,
+      250016,
+      250073,
+      250074
+    ],
+    "4/2": [
+      250000,
+      250003,
+      250006,
+      250007
+    ],
+    "3/3": [
+      250001,
+      250002,
+      250004,
+      250010
+    ]
+  },
+  "refine": {
+    "5/1": [
+      260030,
+      260039,
+      260052,
+      260071,
+      260087,
+      260144,
+      260162,
+      260190,
+      260234,
+      260243,
+      260255,
+      260256,
+      260258,
+      260284,
+      260294,
+      260320,
+      260324,
+      260369,
+      260400,
+      260413
+    ],
+    "4/2": [
+      260000,
+      260001,
+      260004,
+      260005,
+      260006,
+      260007,
+      260008,
+      260010,
+      260012,
+      260014,
+      260015,
+      260016,
+      260017,
+      260020,
+      260021,
+      260023,
+      260025,
+      260026,
+      260027,
+      260029
+    ],
+    "3/3": [
+      260002,
+      260003,
+      260009,
+      260011,
+      260013,
+      260018,
+      260019,
+      260022,
+      260024,
+      260028,
+      260032,
+      260033,
+      260038,
+      260041,
+      260043,
+      260048,
+      260051,
+      260058,
+      260059,
+      260060
+    ]
+  },
+  "validation": {
+    "start": 240000,
+    "count": 100
+  },
+  "opponents": [
+    "nereon",
+    "melia",
+    "doreios"
+  ],
+  "selection": "maximize worst opponent win share; break ties by total share, then candidate index"
+}

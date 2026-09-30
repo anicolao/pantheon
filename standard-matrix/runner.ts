@@ -6,13 +6,14 @@ import {activePlayer,applyPlayCommand,standings,type ActionCommand} from '../bal
 import {deepStrictEqual,ok} from 'node:assert';
 import {command as standardCommand,type Name,type StandardMemory} from './policy';
 import {definition} from '../balance-checkpoint/equal-turns/source/src/lib/game/actions';
-export type Spec={name:Name};
+import type {LeaderOpeningBook} from './leader-books';
+export type Spec={name:Name;openingBook?:LeaderOpeningBook|null};
 export function run(seed:number,specs:Spec[],lineup:string[]){
  const {game}=setupExperiment('leader-matrix-v1:'+seed,lineup,'standard');
  game.turn.equalTurns=true;
  const initial=structuredClone(game);
  const inventory=inventoryAtSetup(game,'standard'),acquired=new Set<string>(),commands:any[]=[],histories:Record<string,number[]>={},supplies:Record<string,any[]>={};
- const memories:StandardMemory[]=specs.map(()=>({turn:0}));
+ const memories:StandardMemory[]=specs.map(s=>({turn:0,...(s.openingBook===undefined?{}:{openingBook:s.openingBook})}));
  const worship:any[]=[],leaderTriggers=[0,0];
  let endTrigger:any=null;
  let key='',draws=0,seen=new Set<string>(),gained=new Set<string>(),target=0;

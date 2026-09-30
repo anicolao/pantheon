@@ -1,0 +1,11 @@
+Strict TypeScript checks passed for runner, worker, and opening tests.
+14 relevant tests passed across opening, standard worship, and equal-turn rules.
+All 158 pairs checked in both hand-budget orders; registered book scoped to
+Thaleia, custom book ignored by Money and after turn two.
+Three explicit historical-control games and three equivalent custom-old-book
+games exactly match pre-change archived full replay hashes.
+Three registered-default games exactly match selected-book validation traces.
+Every one of 3,036 search/validation games finished and passed reducer replay
+and equal-turn checks. Every candidate used the intended split and purchases.
+Exactly 100 paired validation seeds per opponent, disjoint from training.
+Archive contents verified against SHA256SUMS.
