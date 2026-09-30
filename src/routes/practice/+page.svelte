@@ -8,10 +8,10 @@
  import {leaderIds,leaderLinks,type SetupState} from '$lib/game/setup';
  import type {GameCommand} from '$lib/backend/setup-repository';
  let kind=$state<BotKind>('classic-engine'),humanLeader=$state('thaleia'),botLeader=$state('nereon'),humanFirst=$state(true);
- let game=$state<SetupState|null>(null),thinking=$state(false),paused=$state(false),error=$state(''),saved=$state(false);
+ let game=$state<SetupState|null>(null),thinking=$state(false),paused=$state(false),error=$state(''),warning=$state(''),saved=$state(false);
  let session:PracticeSession|null=null,worker:Worker|undefined,timer:ReturnType<typeof setTimeout>|undefined,request=0,alive=false;
  const key='pantheon-practice-v1';
- function persist(){if(session)try{localStorage.setItem(key,JSON.stringify(session.save()));saved=true;}catch{error='Your browser could not save this game. Keep this tab open to continue.';}}
+ function persist(){if(session)try{localStorage.setItem(key,JSON.stringify(session.save()));saved=true;warning='';}catch{warning='Your browser could not save this game. Keep this tab open to continue, or save a replay.';}}
  function display(){if(session)game=structuredClone(session.game);}
  function stop(){request++;worker?.terminate();worker=undefined;clearTimeout(timer);thinking=false;}
  function schedule(){
@@ -54,7 +54,7 @@
  }
  function retry(){stop();error='';schedule();}
  function togglePause(){paused=!paused;if(paused)stop();else schedule();}
- function again(){stop();session=null;game=null;error='';}
+ function again(){stop();session=null;game=null;error='';warning='';}
  function download(){
   if(!session)return;
   const url=URL.createObjectURL(new Blob([JSON.stringify(session.save(),null,2)],{type:'application/json'}));
@@ -64,12 +64,13 @@
 </script>
 <svelte:head><title>Practice against a bot · Pantheon</title></svelte:head>
 {#if game}
- <GameSession {game} uid="human" roomId="" status="synced" busy={false} {error} {command} {retry} {again}/>
  <aside class="controls" aria-label="Practice controls">
   <span aria-live="polite">{thinking?'Opponent is thinking…':paused?'Opponent paused':'Local practice · equal turns'}</span>
   <button onclick={togglePause}>{paused?'Resume opponent':'Pause opponent'}</button>
   <button onclick={download}>Save replay</button><button onclick={again}>New game</button>
+  {#if warning}<span role="status">{warning} <button onclick={persist}>Retry save</button></span>{/if}
  </aside>
+ <GameSession {game} uid="human" roomId="" status="synced" busy={false} {error} {command} {retry} {again}/>
  {#if error}<div class="practice-error" role="alert">{error} <button onclick={retry}>Retry opponent</button></div>{/if}
 {:else}
  <main class="setup">
@@ -93,8 +94,8 @@
  form{display:grid;gap:20px;margin-top:24px}label{display:grid;gap:8px}
  select,button{font:inherit;border:1px solid #c9ab6e;border-radius:8px;padding:12px;background:#222b30;color:#f8e8c8}
  button{cursor:pointer}button:disabled{opacity:.5;cursor:default}a{color:#f8e8c8}
- .controls{position:fixed;bottom:8px;right:12px;z-index:25;display:flex;gap:8px;align-items:center;padding:6px 10px;border-radius:8px;background:#111e}
+ .controls{position:relative;z-index:25;display:flex;gap:8px;align-items:center;padding:6px 10px;border-radius:8px;background:#111e}
  .controls button{padding:6px 8px;font-size:12px}.controls span{font-size:12px}
  .practice-error{position:fixed;top:0;left:0;right:0;z-index:100;background:#562a25;color:white;padding:16px}
- @media(max-width:600px){.controls{left:8px;right:8px;flex-wrap:wrap}.controls span{flex:1 0 100%}}
+ @media(max-width:600px){.controls{flex-wrap:wrap}.controls span{flex:1 0 100%}}
 </style>

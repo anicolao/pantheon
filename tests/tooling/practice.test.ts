@@ -67,3 +67,44 @@ test('production card effects remain compatible with the versioned bot controlle
   }
  }
 });
+
+test('P1 closing the supply grants exactly one P2 reply; P2 closing ends immediately',()=>{
+ for(const closer of [0,1]){
+  const s=new PracticeSession({seed:'last-reply',humanLeader:'thaleia',botLeader:'nereon',humanFirst:true,bot:'classic-engine'});
+  const g=s.game;g.turn.index=closer;g.turn.phase='buys';g.supply.acropolis=0;
+  if(closer===1)g.turn.turns.human=1;
+  s.apply({type:'turn/ended'});
+  if(closer===0){
+   expect(String(g.turn.phase)).toBe('actions');expect(activePlayer(g)).toBe('bot');expect(g.turn.finalRound).toBe(true);
+   g.turn.phase='buys';s.apply({type:'turn/ended'});
+  }
+  expect(String(g.turn.phase)).toBe('finished');expect(g.turn.turns).toEqual({human:1,bot:1});
+ }
+});
+test('ordinary multiplayer keeps its immediate-ending rule',()=>{
+ const s=new PracticeSession({seed:'ordinary-ending',humanLeader:'thaleia',botLeader:'nereon',humanFirst:true,bot:'classic-engine'});
+ s.game.turn.equalTurns=false;s.game.turn.phase='buys';s.game.supply.acropolis=0;
+ s.apply({type:'turn/ended'});expect(String(s.game.turn.phase)).toBe('finished');expect(s.game.turn.turns.bot??0).toBe(0);
+});
+
+test('leader opening entries act only on legal opening buys and use observed budgets',()=>{
+ const s=new PracticeSession({seed:'book-budget',humanLeader:'thaleia',botLeader:'nereon',humanFirst:true,bot:'classic-engine'});
+ const view={...s.tracker.view(s.game),phase:'buys' as const,hand:[],choice:null,resources:{actions:0,coins:4,buys:1,worship:0}};
+ const m={turn:1,openingOverride:{'1:4':'harbor-pilot'}};
+ expect(decide(view,m,'classic-engine')).toEqual({type:'card/bought',cardId:'harbor-pilot'});
+ expect((m as any).openingLog).toEqual([{turn:1,key:'1:4',card:'harbor-pilot'}]);
+ const noBook=decide(view,{turn:1,openingOverride:null},'classic-engine');
+ expect(decide(view,{turn:1,openingOverride:{'1:4':'talent'}},'classic-engine')).toEqual(noBook);
+ expect(decide({...view,supply:{...view.supply,'harbor-pilot':0}},{turn:1,openingOverride:{'1:4':'harbor-pilot'}},'classic-engine')).toEqual(decide({...view,supply:{...view.supply,'harbor-pilot':0}},{turn:1,openingOverride:null},'classic-engine'));
+ expect(decide(view,{turn:3,openingOverride:{'1:4':'harbor-pilot','3:4':'harbor-pilot'}},'classic-engine')).toEqual(decide(view,{turn:3,openingOverride:null},'classic-engine'));
+ expect(decide(view,{turn:1,openingOverride:{'1:4':null}},'classic-engine')).toEqual({type:'turn/ended'});
+});
+
+test('saving while a worker is thinking does not advance its turn twice on restore',()=>{
+ const s=new PracticeSession({seed:'pending-worker',humanLeader:'thaleia',botLeader:'nereon',humanFirst:false,bot:'classic-engine'});
+ s.tracker.view(s.game);
+ const restored=PracticeSession.restore(structuredClone(s.save()));
+ const view=restored.tracker.view(restored.game);
+ expect(restored.tracker.memories.bot.turn).toBe(1);
+ expect(decide(view,structuredClone(restored.tracker.memories.bot),'classic-engine')).toEqual(decide(s.tracker.view(s.game),structuredClone(s.tracker.memories.bot),'classic-engine'));
+});
