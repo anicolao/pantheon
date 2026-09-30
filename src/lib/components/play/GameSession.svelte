@@ -81,10 +81,10 @@
   $effect(()=>{if(game.turn.phase==='finished')untrack(()=>{resultsOpen=!modal;});});
   async function leaveResults(chronicle=false){resultsOpen=false;await tick();document.querySelector<HTMLButtonElement>('.final-control button')?.focus();if(chronicle)await open('chronicle');}
   const ready = $derived(status === 'synced' && !busy);
+  const automaticTreasures = $derived(game.phase === 'playing' && turnUid === uid && game.turn.phase === 'actions' && !choice && !game.turn.queue.length && !own.hand.some(card => canPlayAction(game, uid, card.id)));
   let automaticPhaseRevision = -1;
   $effect(() => {
-    if (game.phase !== 'playing' || turnUid !== uid || !ready || game.turn.phase !== 'actions' || choice || game.turn.queue.length) return;
-    if (own.hand.some(card => canPlayAction(game, uid, card.id))) return;
+    if (!ready || !automaticTreasures) return;
     const revision = game.activity.length;
     if (automaticPhaseRevision === revision) return;
     automaticPhaseRevision = revision;
@@ -132,7 +132,7 @@
   function choose() { if (isChoice && ready && !ownerOf(selected)) void command({ type: 'leader/chosen', leaderId: selected }); }
 </script>
 
-<main class="session" class:supply-open={modal==='supply'} class:drafting={game.phase === 'draft'} data-status={status} aria-busy={busy}>
+<main class="session" class:supply-open={modal==='supply'} class:drafting={game.phase === 'draft'} data-status={status} aria-busy={busy || (status === 'synced' && automaticTreasures)}>
   <picture class="environment" aria-hidden="true"><source media="(max-aspect-ratio:3/4)" srcset={`${base}/assets/ui/table-mobile.webp`} /><img src={`${base}/assets/ui/table-desktop.webp`} alt="" draggable="false" /></picture>
   <div class="composition" inert={status !== 'synced' || modal === 'chronicle' || modal === 'zone'} data-e2e-layout={modal || ownChoice || showResults || status !== 'synced' ? undefined : true}>
     <header><a href={`${base}/`} aria-label="Back to sanctuary">‹ Sanctuary</a>{#if /^[A-Z]{4,5}$/.test(roomId)}<span>Game code <strong>{roomId}</strong></span>{:else}<span>{game.playerCount} players</span>{/if}</header>
