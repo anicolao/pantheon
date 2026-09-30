@@ -93,10 +93,22 @@ test('an expanded fan fits without paging and narrow-screen paging stays clear o
   await steps.step('fallback-pages','Keep paging separate on the smallest phone', [{spec:'Paging and Play all Treasures have distinct, unobstructed controls.',check:async()=>{
     await expect(page.getByRole('button',{name:'Next hand cards',exact:true})).toBeEnabled();
     await expect(page.getByRole('button',{name:'Play all Treasures',exact:true})).toBeEnabled();
+    expect((await page.getByTestId('hand-card').first().boundingBox())!.width).toBeGreaterThanOrEqual(28);
   }}]);
   await page.setViewportSize({width:375,height:568});
   await expect(page.getByRole('navigation',{name:'Hand pages'})).toHaveCount(0);
   await expect(page.getByTestId('hand-card')).toHaveCount(9);
+  await page.setViewportSize({width:568,height:320});
+  await expect(page.getByRole('navigation',{name:'Hand pages'})).toHaveCount(0);
+  await expect(page.getByTestId('hand-card')).toHaveCount(9);
+  const exposed = await page.getByTestId('hand-card').evaluateAll(nodes=>nodes.map(node=>node.getBoundingClientRect().toJSON()));
+  expect(exposed.every(box=>box.x>=0&&box.right<=568)).toBe(true);
+  await page.setViewportSize({width:480,height:320});
+  await steps.step('landscape-pages','Keep a large hand and its controls inside a short landscape table',[{spec:'Nine cards fit at 568 pixels; the narrower 480-pixel fallback keeps paging clear of both turn controls.',check:async()=>{
+    await expect(page.getByRole('button',{name:'Next hand cards',exact:true})).toBeEnabled();
+    await expect(page.getByRole('button',{name:'Play all Treasures',exact:true})).toBeEnabled();
+    await expect(page.getByRole('button',{name:'To Treasures',exact:true})).toBeEnabled();
+  }}]);
   await page.setViewportSize({width:320,height:568});
   await page.getByRole('button',{name:'Next hand cards',exact:true}).click();
   const last = state.decks[fixture.host].hand.at(-1)!;
