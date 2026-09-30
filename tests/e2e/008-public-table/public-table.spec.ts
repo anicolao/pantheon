@@ -46,10 +46,10 @@ test('follow a friend from the first Temple through Worship and cleanup while re
     await capture('last-effect','Every Treasure remains reachable at the end of the move',async()=>{await expect(other.locator('.move')).toHaveCount(1);await expect(other.getByRole('button',{name:'Next effects',exact:true})).toBeDisabled();},true);
     await other.getByRole('button',{name:'Discard',exact:true}).click();await other.getByLabel('Player',{exact:true}).selectOption({label:'Ariadne'});
     await capture('empty-pile','Ariadne’s empty discard and hidden deck count are explicit',async()=>{await expect(other.locator('.pile')).toHaveText('No cards here.');await expect(other.locator('.deck-count')).toHaveText('Deck · 5 cards');},true);
-    await page.getByRole('button',{name:'Supply',exact:true}).click();await browseSupply(page,'Hamlet');
+    await expect(page.locator('.supply-coverflow')).toBeVisible();await browseSupply(page,'Hamlet');
     await capture('purchase','Ariadne chooses a Hamlet for two Coins',async()=>expect(page.getByRole('button',{name:'Buy Hamlet',exact:true})).toBeEnabled());
     await page.getByRole('button',{name:'Buy Hamlet',exact:true}).click();
-    await capture('bought','Ariadne’s purchase goes to discard and leaves three Coins',async()=>expect(page.locator('.wallet [data-resource=coins]')).toHaveAttribute('data-value','3'));
+    await capture('bought','Ariadne’s purchase goes to discard and leaves three Coins',async()=>expect(page.locator('.resources [data-resource=coins]')).toHaveAttribute('data-value','3'));
     await capture('stable-pile','Incoming cards do not reorder or replace the open tray',async()=>{await expect(other.locator('.pile')).toHaveText('No cards here.');await expect(other.getByRole('button',{name:'New moves · 1 · Refresh',exact:true})).toBeVisible();},true);
     await other.getByRole('button',{name:'New moves · 1 · Refresh',exact:true}).click();
     await capture('refreshed-pile','Theseus chooses to show the newly purchased Hamlet',async()=>expect(other.locator('.pile [data-card-id]')).toHaveAttribute('data-card-id','hamlet'),true);
@@ -60,7 +60,7 @@ test('follow a friend from the first Temple through Worship and cleanup while re
     await capture('play-pile','All five played cards are available in a stable public tray',async()=>{await expect(other.locator('.pile-count')).toHaveText('5 cards');await expect(other.locator('.pile [data-card-id]')).toHaveCount(3);},true);
     await other.getByRole('button',{name:'Next',exact:true}).click();
     await capture('last-pile-page','The last two played cards are reachable without leaving the table',async()=>{await expect(other.locator('.pile [data-card-id]')).toHaveCount(2);await expect(other.getByRole('button',{name:'Next',exact:true})).toBeDisabled();},true);
-    await page.getByRole('button',{name:'‹ Table',exact:true}).click();await page.getByRole('button',{name:'Inspect Counsel of Olympus',exact:true}).click();
+    await expect(page.locator('.supply-coverflow')).toBeVisible();await page.getByRole('button',{name:'Inspect Counsel of Olympus',exact:true}).click();
     await capture('worship','Ariadne can Worship Athena even after spending her last Buy',async()=>expect(page.getByRole('button',{name:'Worship Athena',exact:true})).toBeEnabled());
     await page.getByRole('button',{name:'Worship Athena',exact:true}).click();
     await capture('gain-choice','Ariadne pays for Worship and chooses a topdeck gain',async()=>expect(page.locator('.choice-scene .destination')).toHaveText('Onto your deck'));

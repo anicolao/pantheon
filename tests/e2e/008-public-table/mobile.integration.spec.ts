@@ -26,8 +26,8 @@ for(const viewport of [{width:320,height:568},{width:375,height:667},{width:430,
     await page.getByRole('button',{name:'Close',exact:true}).click();
     await steps.step('table','Return to the table without scrolling',[{spec:'The private hand, turn controls, and public play area fit on the phone.',check:async()=>{await expect(page.getByRole('button',{name:'Chronicle',exact:true})).toBeVisible();await expect(page.getByTestId('hand-card')).toHaveCount(4);}}]);
     await page.getByRole('button',{name:'Play all Treasures',exact:true}).click();
-    await page.getByRole('button',{name:'Supply',exact:true}).click();
-    await steps.step('supply','Browse the complete supply on a small phone',[{spec:'Two face-up cards, slanted side cards, stock and navigation fit without overlap.',check:async()=>{await expect(page.locator('.slot:not(.wing)')).toHaveCount(2);await expect(page.getByRole('button',{name:'More expensive cards',exact:true})).toBeEnabled();}}]);
+    await expect(page.locator('.supply-coverflow')).toBeVisible();
+    await steps.step('supply','Browse the complete supply on a small phone',[{spec:'One face-up card, persistent side stacks, stock and navigation fit without overlap.',check:async()=>{await expect(page.locator('.buy-card[data-centered=true]')).toHaveCount(1);await expect(page.getByRole('button',{name:'More expensive cards',exact:true})).toBeEnabled();}}]);
 
   });
 }

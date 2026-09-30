@@ -105,16 +105,16 @@ test('follow Worship and a purchase once while reconnecting without an animation
     await capture('played','Ariadne’s played wealth remains part of the public history',async()=>expect(page.getByRole('button',{name:'Play all Treasures',exact:true})).toHaveCount(0));
     await context.setOffline(false);await expect(other.locator('[data-status]')).toHaveAttribute('data-status','synced');
     await capture('reconnected','Theseus catches up to the latest counters without a burst of old motion',async()=>{await expect(other.locator('.public-flight')).toHaveCount(0);expect((await flights(other)).map(move=>move.id)).toEqual(expected);},true);
-    await page.getByRole('button',{name:'Supply',exact:true}).click();await browseSupply(page,'Obol');
+    await expect(page.locator('.supply-coverflow')).toBeVisible();await browseSupply(page,'Obol');
     await capture('purchase','Ariadne chooses a cost-zero Obol after reconnect',async()=>expect(page.getByRole('button',{name:'Buy Obol',exact:true})).toBeEnabled());
     await page.getByRole('button',{name:'Buy Obol',exact:true}).click();
-    await expect(page.locator('.wallet [data-resource=buys]')).toHaveAttribute('data-value','1');
+    await expect(page.locator('.resources [data-resource=buys]')).toHaveAttribute('data-value','1');
     state=replaySetup(await readEvents(fixture.code));const bought=state.publicActivity.at(-1)!;
     await expect.poll(async()=>(await flights(other)).map(move=>move.id)).toEqual([...expected,...bought.steps.map(step=>step.id)]);await expect(other.locator('.public-flight')).toHaveCount(0);
     await capture('live-again','The next live purchase moves once from Supply to Discard',async()=>expect(other.locator('.outcome [data-card-id]')).toHaveAttribute('data-card-id','obol'),true);
     await other.emulateMedia({reducedMotion:'reduce'});const before=await flights(other);
     await page.getByRole('button',{name:'Buy Obol',exact:true}).click();await expect(other.locator('.action-message')).toContainText('gained Obol');
-    await expect(page.locator('.wallet [data-resource=buys]')).toHaveAttribute('data-value','0');await expect(other.locator('.resources [data-resource=buys]')).toHaveAttribute('data-value','0');
+    await expect(page.locator('.resources [data-resource=buys]')).toHaveAttribute('data-value','0');await expect(other.locator('.resources [data-resource=buys]')).toHaveAttribute('data-value','0');
     await other.getByRole('button',{name:'Chronicle',exact:true}).click();
     await capture('reduced','Reduced motion preserves the same purchase path and cost without travel',async()=>{await expect(other.locator('.path')).toHaveText('Supply → Discard');await expect(other.locator('.result [data-resource=buys]')).toHaveAttribute('data-value','-1');expect(await flights(other)).toEqual(before);},true);
   }finally{await context.close();}

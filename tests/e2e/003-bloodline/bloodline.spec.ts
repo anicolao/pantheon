@@ -117,7 +117,7 @@ for (const count of [2, 3, 4] as const) test(`${count} players draft unique bloo
       await choosing.getByTestId('hand-card').first().click({button:'right'});
       await steps.step('hand-inspection', 'Read a card in your hand', [{ spec: 'Inspection preserves the physical copy identifier.', check: async () => expect(choosing.getByRole('dialog').locator('[data-serial]')).toHaveAttribute('data-serial', hand[0]!) }]);
       await choosing.keyboard.press('Escape');
-      await choosing.getByRole('button', { name: 'Supply', exact: true }).click();
+      await expect(choosing.locator('.supply-coverflow')).toBeVisible();
       await steps.step('supply', 'Inspect supply without disturbing the deal', [{ spec: 'The six basics show the unchanged stock, separate from starting cards.', check: async () => expect(choosing.getByLabel('Obol: 40 remaining',{exact:true})).toBeVisible() }]);
       await browseSupply(choosing,'Acropolis');await expect(choosing.getByRole('button',{name:'Buy Acropolis',exact:true})).toBeVisible();
       await choosing.keyboard.press('Escape');

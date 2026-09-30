@@ -4,16 +4,10 @@ import {expect,type Page} from '@playwright/test';
 export async function browseSupply(page:Page,name:string){
   await expect(page.locator('.session')).toHaveAttribute('aria-busy','false');
   const card=page.getByRole('button',{name:`Buy ${name}`,exact:true});
-  if(await card.count())return card;
-  const cheaper=page.getByRole('button',{name:'Cheaper cards',exact:true});
-  while(await cheaper.isEnabled())await cheaper.click();
-  for(let index=0;index<20;index++){
-    if(await card.count())return card;
-    const next=page.getByRole('button',{name:'More expensive cards',exact:true});
-    if(!await next.isEnabled())break;
-    await next.click();
-  }
-  throw new Error(`Supply card not found: ${name}`);
+  if(!await card.count())await page.getByRole('button',{name:`Center ${name}`,exact:true}).click();
+  await expect(page.locator('.supply-coverflow')).toHaveAttribute('aria-busy','false');
+  await expect(card).toBeVisible();
+  return card;
 }
 export async function inspectSupply(page:Page,name:string){
   const card=await browseSupply(page,name);await card.focus();await page.keyboard.press('Shift+F10');

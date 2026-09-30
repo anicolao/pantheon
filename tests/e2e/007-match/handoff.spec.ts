@@ -34,14 +34,14 @@ test('keep playing a Temple, spend the last Buy, and hand the turn to a friend e
     await capture('treasures','Ariadne can now play her wealth',page,'Ariadne',async()=>expect(page.getByRole('button',{name:'Play all Treasures',exact:true})).toBeEnabled());
     await page.getByRole('button',{name:'Play all Treasures',exact:true}).click();
     await capture('wealth','Four Obols provide four Coins',page,'Ariadne',async()=>expect(page.locator('.resources [data-resource=coins]')).toHaveAttribute('data-value','4'));
-    await page.getByRole('button',{name:'Supply',exact:true}).click();
+    await expect(page.locator('.supply-coverflow')).toBeVisible();
     await capture('supply','The supply offers both Basics and Actions',page,'Ariadne',async()=>expect(page.locator('.coverflow')).toBeVisible());
     await browseSupply(page,'Council of Sages');
     await capture('actions','Ariadne explores Action cards',page,'Ariadne',async()=>expect(page.getByRole('button',{name:'Buy Council of Sages',exact:true})).toBeVisible());
     await capture('council','Council of Sages costs all four Coins',page,'Ariadne',async()=>expect(page.getByRole('button',{name:'Buy Council of Sages',exact:true})).toBeEnabled());
     await page.getByRole('button',{name:'Buy Council of Sages',exact:true}).click();
-    await capture('last-buy','Spending the last Buy does not end the turn',page,'Ariadne',async()=>expect(page.locator('.wallet [data-resource=buys]')).toHaveAttribute('data-value','0'));
-    await page.getByRole('button',{name:'‹ Table',exact:true}).click();
+    await capture('last-buy','Spending the last Buy does not end the turn',page,'Ariadne',async()=>expect(page.locator('.resources [data-resource=buys]')).toHaveAttribute('data-value','0'));
+    await expect(page.locator('.supply-coverflow')).toBeVisible();
     await capture('finish','Ariadne chooses when to finish her turn',page,'Ariadne',async()=>{await expect(page.locator('.turn-marker')).toContainText('Buys');await expect(page.getByRole('button',{name:'End turn',exact:true})).toBeEnabled();});
     await page.emulateMedia({reducedMotion:'no-preference'});await other.emulateMedia({reducedMotion:'no-preference'});
     let dropped=false;await page.context().route(url=>url.pathname.endsWith('/documents:commit'),async route=>{if(dropped){await route.continue();return;}const response=await route.fetch({timeout:2000});expect(response.ok()).toBe(true);dropped=true;await route.abort('connectionreset');});
