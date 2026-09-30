@@ -11,6 +11,12 @@ on:
       linux_run:
         type: string
         default: ''
+      linux_extra:
+        type: string
+        default: ''
+      mac_extra:
+        type: string
+        default: ''
       linux_overlay:
         type: string
         default: ''
@@ -42,8 +48,10 @@ jobs:
           MAC_RUN: ${{ inputs.mac_run }}
           LINUX_OVERLAY: ${{ inputs.linux_overlay }}
           MAC_FALLBACK: ${{ inputs.mac_fallback }}
+          LINUX_EXTRA: ${{ inputs.linux_extra }}
+          MAC_EXTRA: ${{ inputs.mac_extra }}
         run: |
-          for run in "$LINUX_RUN" "$LINUX_OVERLAY" "$MAC_RUN"; do
+          for run in "$LINUX_RUN" "$LINUX_OVERLAY" "$MAC_RUN" "$LINUX_EXTRA" "$MAC_EXTRA"; do
             if [[ -z "$run" ]]; then continue; fi
             if ! gh run watch "$run" --repo "$GITHUB_REPOSITORY" --exit-status --interval 30; then
               if [[ "$run" == "$LINUX_RUN" && -n "$LINUX_OVERLAY" ]]; then
@@ -67,6 +75,13 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           run-id: ${{ inputs.linux_overlay }}
+          name: linux-screenshot-baselines
+          path: /tmp/baseline-input/linux
+      - uses: actions/download-artifact@v4
+        if: inputs.linux_extra != ''
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          run-id: ${{ inputs.linux_extra }}
           name: linux-screenshot-baselines
           path: /tmp/baseline-input/linux
       - uses: actions/download-artifact@v4
@@ -104,6 +119,13 @@ jobs:
           console.log({matched,filled});
           if(!matched)throw Error('No matching Mac draft evidence');
           JS
+      - uses: actions/download-artifact@v4
+        if: inputs.mac_extra != ''
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          run-id: ${{ inputs.mac_extra }}
+          name: darwin-screenshot-baselines
+          path: /tmp/baseline-input/darwin
       - name: Preserve exact pixels and prepare review images
         run: |
           node --input-type=module <<'JS'
@@ -113,7 +135,7 @@ jobs:
           const changed=[],linuxChanges=new Set();
           for(const platform of ['linux','darwin']){
             const root=`/tmp/baseline-input/${platform}`;
-            const names=(await readdir(root,{recursive:true}).catch(()=>[])).filter(n=>n.endsWith(`-${platform}.png`)).sort();
+            const names=(await readdir(root,{recursive:true}).catch(()=>[])).filter(n=>n.endsWith(`-${platform}.png`)&&!/009-direct-play\/screenshots\/an-expanded-fan.*\/(002-last-copy|003-play-all)-/.test(n)).sort();
             let next=0;
             await Promise.all(Array.from({length:3},async()=>{
               while(next<names.length){
