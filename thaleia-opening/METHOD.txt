@@ -1,0 +1,26 @@
+Thaleia-only leader opening experiment.
+P1 Thaleia Engine vs unchanged P2 Money as Nereon, Melia, Doreios.
+Equal turns and original half-credit ties. Standard leader and worship powers.
+Only the first two Thaleia purchases change; all later policy, worship timing,
+P1 closing guard, thinning floor, opponent policies, and rules remain fixed.
+158 legal pairs including all affordable cheaper cards and pass: 34 for 5/1,
+60 for 4/2, 64 ordered pairs for 3/3. Asymmetric books map high/low budgets;
+3/3 books map first/second turns. No hidden hand or real shuffle access.
+Screen: four conditional seeds per split and opponent (1,896 games).
+Refine: top four screen candidates plus baseline if absent; 20 new conditional
+seeds per opponent and split. Both high/low orders equally represented.
+Select one opponent-independent Thaleia book per split, maximizing the worst
+opponent win share, then total share as tie-break, then stable candidate index.
+Validation: 100 previously archived seeds 240000-240099 per opponent (300 old),
+then exactly the same 300 games with the selected book. These validation seeds
+are excluded from both opening-search stages. Baseline trace parity checked.
+Report each opponent separately with paired seed-level 95% t intervals. Small
+screening/validation samples identify a promising book, not a proven optimum.
+Every newly simulated game checks exact reducer replay and equal turns.
+
+Reproduction: extract games-and-replays.tar.gz into this directory, then run
+python3 analyze.py inside nix develop. To rerun simulations in a fresh checkout,
+run bun prepare.ts; python3 batch.py screen; python3 rank_openings.py screen;
+python3 batch.py refine; python3 rank_openings.py refine; python3 batch.py validation.
+Run commands from this directory inside nix develop. Existing output files are
+never silently overwritten. The archived baseline is baseline.jsonl.
