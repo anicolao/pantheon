@@ -68,11 +68,12 @@
   .supply-coverflow{width:100%;height:100%;position:relative;color:#f4dfb2;isolation:isolate;}
   .coverflow{position:absolute;inset:0 0 var(--nav-height);perspective:1400px;touch-action:pan-y;user-select:none;}
   .supply-face{position:absolute;top:0;left:calc(50% - var(--card-width)/2);width:var(--card-width);pointer-events:none;will-change:transform;backface-visibility:hidden;filter:drop-shadow(0 3px 3px #0009);}
-  .unavailable{filter:saturate(.7) brightness(.83) drop-shadow(0 3px 3px #0009);}
+  /* Opacity keeps unavailable stacks readable without a per-card color-filter pass. */
+  .unavailable{opacity:.78;}
   .buy-card{position:absolute;top:calc(var(--card-width)*.18);height:calc(var(--card-width)*1.02);border:0;padding:0;background:none;cursor:pointer;min-width:0;}
   .supply-coverflow:has(.buy-card:hover) .buy-card:focus-visible{outline:none;}
   .buy-card:focus-visible{outline:2px solid #ffdc84;outline-offset:0;}
-  .supply-coverflow:has(.buy-card[data-centered=true]:hover) .supply-face:has(+ .buy-card[data-centered=true]),.supply-coverflow:not(:has(.buy-card:hover)) .supply-face:has(+ .buy-card:focus-visible){filter:brightness(1.1) drop-shadow(0 0 5px #e6bd6a);}
+  .supply-coverflow:has(.buy-card[data-centered=true]:hover) .supply-face:has(+ .buy-card[data-centered=true]),.supply-coverflow:not(:has(.buy-card:hover)) .supply-face:has(+ .buy-card:focus-visible){filter:drop-shadow(0 0 5px #e6bd6a);}
   nav{position:absolute;bottom:0;left:50%;transform:translateX(-50%);height:clamp(44px,3.4svh,80px);display:flex;align-items:center;gap:8px;max-width:100%;}
   nav button{width:44px;height:44px;flex-shrink:0;border:1px solid #a88746;border-radius:50%;padding:0;background:#071522e8;color:inherit;font-size:28px;cursor:pointer;}nav button:disabled{opacity:.4;cursor:default;}
   .supply-caption{display:flex;flex-direction:column;align-items:center;text-align:center;white-space:nowrap;font-size:clamp(10px,1.25svh,25px);line-height:1.2;}.stock{font-size:.85em;color:#cbb78b;}
