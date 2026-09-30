@@ -19,7 +19,7 @@ export type Effect =
   | { kind: 'reveal'; source: string };
 export type Choice = { id: string; kind: 'trash' | 'discard' | 'gain'; source: string; min: number; max: number; limit?: number; forge?: boolean; offering?: 'sum' | 1 | 3; actionOnly?: boolean; topdeck?: boolean };
 export type Movement = { sequence: number; index: number; uid: string; kind: 'play' | 'draw' | 'trash' | 'discard' | 'gain' | 'reveal' | 'topdeck' | 'shuffle' | 'leader' | 'worship'; card?: CardInstance; source: string; amount?: number };
-export type TurnState = { number: number; index: number; phase: 'actions' | 'treasures' | 'buys' | 'finished'; leaderUsed: boolean; queue: Effect[]; choice: Choice | null; shuffles: Record<string, number>; turns: Record<string, number> };
+export type TurnState = { equalTurns?: boolean; finalRound?: boolean; endTriggeredBy?: string; number: number; index: number; phase: 'actions' | 'treasures' | 'buys' | 'finished'; leaderUsed: boolean; queue: Effect[]; choice: Choice | null; shuffles: Record<string, number>; turns: Record<string, number> };
 export function initialTurn(): TurnState { return { number: 1, index: 0, phase: 'actions', leaderUsed: false, queue: [], choice: null, shuffles: {}, turns: {} }; }
 export const definition = (id: string) => { const card = cards.find(card => card.id === id); if (!card) throw new Error('Unknown card.'); return card; };
 export const activePlayer = (game: SetupState) => game.turnOrder[game.turn.index];
@@ -250,7 +250,9 @@ export function applyPlayCommand(game: SetupState, uid: string, command: ActionC
       zones.discard.push(...zones.hand, ...zones.play); zones.hand = []; zones.play = []; draw(5, game.leaders[uid]);
       game.turn.turns[uid] = (game.turn.turns[uid] ?? 0) + 1;
       game.resources = { actions: 1, coins: 0, buys: 1, worship: variant === 'base-game' ? 0 : 1 }; game.turn.leaderUsed = false;
-      if (game.supply.acropolis === 0 || Object.values(game.supply).filter(count => count === 0).length >= 3) {game.turn.phase = 'finished';game.resources={actions:0,coins:0,buys:0,worship:0};}
+      const triggered = game.supply.acropolis === 0 || Object.values(game.supply).filter(count => count === 0).length >= 3;
+      if (game.turn.equalTurns && triggered && !game.turn.finalRound) { game.turn.finalRound = true; game.turn.endTriggeredBy = uid; }
+      if ((triggered || game.turn.finalRound) && (!game.turn.equalTurns || game.turn.index === game.turnOrder.length - 1)) {game.turn.phase = 'finished';game.resources={actions:0,coins:0,buys:0,worship:0};}
       else { game.turn.index = (game.turn.index + 1) % game.turnOrder.length; game.turn.number++; game.turn.phase = 'actions'; }
       messages.push('ended the turn'); break;
     }

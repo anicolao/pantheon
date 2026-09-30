@@ -34,7 +34,7 @@ export function deckCards(owned:Record<string,number>):CardInstance[]{
  */
 export function dealIncome(input:DeckInput,seed:string):{coins:number;openingCoins:number}{
  const cards=deckCards(input.owned),deck=shuffle(cards,seed);
- const game:SetupState={phase:'playing',seed,turn:initialTurn(),supply:{...input.supply},trash:[],movements:[],turnOrder:['audit'],draftOrder:[],leaders:{audit:input.leader},decks:{audit:{hand:deck.splice(0,5),deck,discard:[],play:[]}},sharedEvents:[],dealtAtSequence:null,resources:{actions:1,buys:1,coins:0,worship:1},playerCount:2,players:[{uid:'audit',name:'Audit'}],activity:[]};
+ const game:SetupState={phase:'playing',seed,turn:initialTurn(),supply:{...input.supply},trash:[],publicActivity:[],movements:[],turnOrder:['audit'],draftOrder:[],leaders:{audit:input.leader},decks:{audit:{hand:deck.splice(0,5),deck,discard:[],play:[]}},sharedEvents:[],dealtAtSequence:null,resources:{actions:1,buys:1,coins:0,worship:1},playerCount:2,players:[{uid:'audit',name:'Audit'}],activity:[]};
  const openingCoins=game.decks.audit.hand.reduce((n,c)=>n+treasureValue(c.cardId),0);
  let commands=0;
  while(game.turn.phase==='actions'){
