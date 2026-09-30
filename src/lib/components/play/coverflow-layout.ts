@@ -21,11 +21,12 @@ export function coverflowLayout(count:number, position:number, width:number, car
     return {index,transform:`translate3d(${x}px,0,${depth}px) rotateY(${rotation}deg)`,left:Math.min(...projected),right:Math.max(...projected),z:1000-Math.round(Math.abs(index-middle)*20)};
   });
   // Hit strips follow the exposed portion of each card, like the hand fan.
-  // They never overlap; the transformed faces remain purely visual.
+  // Leave a small gap between strips so independent CSS layout rounding cannot
+  // turn touching edges into overlapping controls. Faces remain purely visual.
   return cards.map(card=>{
     const closer=cards.filter(other=>other.z>card.z);
     const left=card.index>middle?Math.max(card.left,...closer.filter(other=>other.index<card.index).map(other=>other.right)):card.left;
     const right=card.index<middle?Math.min(card.right,...closer.filter(other=>other.index>card.index).map(other=>other.left)):card.right;
-    return {...card,hitLeft:Math.max(0,left),hitWidth:Math.max(0,right-left)};
+    return {...card,hitLeft:Math.max(0,left),hitWidth:Math.max(0,(right-left)-Math.min(.5,(right-left)/4))};
   });
 }
