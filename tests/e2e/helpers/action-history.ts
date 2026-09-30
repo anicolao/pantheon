@@ -71,7 +71,14 @@ export async function actionTable(page: Page, info: TestInfo, subject: string, l
 export async function playCard(page:Page,id:string){
   for(let i=0;i<20;i++){
     const face=page.locator(`.hand [data-card-id="${id}"]`);
-    if(await face.count()){const index=await face.first().evaluate(node=>[...node.closest('.hand')!.querySelectorAll('[data-card-id]')].indexOf(node));await page.getByTestId('hand-card').nth(index).click();await expect(page.locator(`.played-cards [data-card-id="${id}"]`).last()).toBeVisible();return;}
+    if(await face.count()){
+      const index=await face.first().evaluate(node=>[...node.closest('.hand')!.querySelectorAll('[data-card-id]')].indexOf(node));
+      await page.getByTestId('hand-card').nth(index).click();
+      await expect(page.locator(`.played-cards [data-card-id="${id}"]`).last()).toBeAttached();
+      // An Action can open an opaque choice scene, which covers the table.
+      await expect(page.locator(`.played-cards [data-card-id="${id}"]:visible, .choice-scene:visible`).first()).toBeVisible();
+      return;
+    }
     const next=page.getByRole('button',{name:'Next hand cards',exact:true});if(!await next.isEnabled())break;await next.click();
   }
   throw new Error(`Card ${id} was not in hand`);
