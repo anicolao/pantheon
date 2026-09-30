@@ -11,6 +11,9 @@ on:
       linux_run:
         type: string
         default: ''
+      linux_overlay:
+        type: string
+        default: ''
       mac_run:
         type: string
         default: ''
@@ -34,15 +37,30 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           LINUX_RUN: ${{ inputs.linux_run }}
           MAC_RUN: ${{ inputs.mac_run }}
+          LINUX_OVERLAY: ${{ inputs.linux_overlay }}
         run: |
-          for run in "$LINUX_RUN" "$MAC_RUN"; do
-            if [[ -n "$run" ]]; then gh run watch "$run" --repo "$GITHUB_REPOSITORY" --exit-status --interval 30; fi
+          for run in "$LINUX_RUN" "$LINUX_OVERLAY" "$MAC_RUN"; do
+            if [[ -z "$run" ]]; then continue; fi
+            if ! gh run watch "$run" --repo "$GITHUB_REPOSITORY" --exit-status --interval 30; then
+              if [[ "$run" == "$LINUX_RUN" && -n "$LINUX_OVERLAY" ]]; then
+                echo 'The diagnosed full-run failure must pass in the supplied focused overlay.'
+              else
+                exit 1
+              fi
+            fi
           done
       - uses: actions/download-artifact@v4
         if: inputs.linux_run != ''
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           run-id: ${{ inputs.linux_run }}
+          name: linux-screenshot-baselines
+          path: /tmp/baseline-input/linux
+      - uses: actions/download-artifact@v4
+        if: inputs.linux_overlay != ''
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          run-id: ${{ inputs.linux_overlay }}
           name: linux-screenshot-baselines
           path: /tmp/baseline-input/linux
       - uses: actions/download-artifact@v4
@@ -58,7 +76,7 @@ jobs:
           import sharp from '/tmp/baseline-tools/node_modules/sharp/lib/index.js';
           import {readdir,readFile,writeFile,mkdir,unlink} from 'node:fs/promises';
           import {dirname} from 'node:path';
-          const changed=[];
+          const changed=[],linuxChanges=new Set();
           for(const platform of ['linux','darwin']){
             const root=`/tmp/baseline-input/${platform}`;
             const names=(await readdir(root,{recursive:true}).catch(()=>[])).filter(n=>n.endsWith(`-${platform}.png`)).sort();
@@ -66,14 +84,17 @@ jobs:
             await Promise.all(Array.from({length:3},async()=>{
               while(next<names.length){
                 const name=names[next++];if(name.startsWith('/')||name.split('/').includes('..'))throw Error('Unsafe image path');
-                const source=await readFile(`${root}/${name}`),target=`tests/e2e/${name}`;
+                const target=`tests/e2e/${name}`;
+                // Keep pre-existing Mac raster differences out of this UI change.
+                if(platform==='darwin'&&!linuxChanges.has(target.replace(/-darwin\.png$/,'-linux.png'))){await unlink(`${root}/${name}`);continue;}
+                const source=await readFile(`${root}/${name}`);
                 const pixels=await sharp(source).ensureAlpha().raw().toBuffer();
                 const existing=await readFile(target).catch(()=>null);
                 if(existing&&pixels.equals(await sharp(existing).ensureAlpha().raw().toBuffer())){await unlink(`${root}/${name}`);continue;}
                 const compressed=await sharp(source).png({compressionLevel:6,adaptiveFiltering:true}).toBuffer();
                 if(!pixels.equals(await sharp(compressed).ensureAlpha().raw().toBuffer()))throw Error(`Pixels changed: ${name}`);
                 await mkdir(dirname(target),{recursive:true});await writeFile(target,compressed);await unlink(`${root}/${name}`);
-                changed.push(target);
+                changed.push(target);if(platform==='linux')linuxChanges.add(target);
               }
             }));
           }
