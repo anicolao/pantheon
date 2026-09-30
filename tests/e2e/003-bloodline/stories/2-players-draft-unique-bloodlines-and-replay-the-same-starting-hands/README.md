@@ -303,7 +303,7 @@ Viewpoint: **Theseus**.
 
 </details>
 
-- [x] The six basics show the unchanged stock, separate from starting cards.
+- [x] The complete supply retains its stock, separate from starting cards.
 
 ## Explain why a late visitor cannot join
 

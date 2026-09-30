@@ -304,7 +304,7 @@
   }
   @media(max-height:500px) and (min-aspect-ratio:3/4){
     .session{min-height:0;}header{font-size:9px;}header a{min-height:26px;padding:3px 8px;}header>span{padding:3px 8px;}.trash-control{height:26px;min-height:26px;--icon-size:10px;}
-    .opponents{top:10%;height:12%;}.opponent-portrait{max-width:26px;}.hidden-hand{height:20px;}.opponent p{font-size:8px;}.opponent-discard{min-height:24px;font-size:8px;}
+    .opponents{top:10%;height:12%;}.opponent-portrait{max-width:min(26px,6svh);}.hidden-hand{height:min(20px,5svh);}.opponent p{font-size:8px;}.opponent-discard{min-height:24px;font-size:8px;}
     .table-supply{top:23%;height:33%;left:20%;width:60%;}
     .altars{top:34%;grid-template-columns:15% 15%;gap:4px;}
     .altars.four{top:28%;grid-template-columns:min(12vw,18svh) min(12vw,18svh);gap:2px;}

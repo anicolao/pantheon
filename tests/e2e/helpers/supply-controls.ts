@@ -4,7 +4,18 @@ import {expect,type Page} from '@playwright/test';
 export async function browseSupply(page:Page,name:string){
   await expect(page.locator('.session')).toHaveAttribute('aria-busy','false');
   const card=page.getByRole('button',{name:`Buy ${name}`,exact:true});
-  if(!await card.count())await page.getByRole('button',{name:`Center ${name}`,exact:true}).click();
+  // Browse using the visible arrows; distant, nearly edge-on cards can be
+  // narrower than one device pixel and are not reliable mouse targets.
+  const direction=await page.locator('.buy-card').evaluateAll((nodes,name)=>{
+    const selected=nodes.findIndex(node=>node.getAttribute('data-centered')==='true');
+    const wanted=nodes.findIndex(node=>node.getAttribute('aria-label')===`Center ${name}`||node.getAttribute('aria-label')===`Buy ${name}`);
+    if(wanted<0)throw new Error(`Supply card not found: ${name}`);
+    return wanted>selected?'More expensive cards':'Cheaper cards';
+  },name);
+  for(let step=0;step<18&&!await card.count();step++){
+    await page.getByRole('button',{name:direction,exact:true}).click();
+    await expect(page.locator('.supply-coverflow')).toHaveAttribute('aria-busy','false');
+  }
   await expect(page.locator('.supply-coverflow')).toHaveAttribute('aria-busy','false');
   await expect(card).toBeVisible();
   return card;

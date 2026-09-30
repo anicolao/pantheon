@@ -19,7 +19,7 @@
   const playable=$derived(game.decks[uid].hand.filter(card=>canPlayAction(game,uid,card.id)));
   let notice=$state(''),pending=$state(''),warning=$state<HTMLDialogElement>();
   const reason=$derived(notice||purchaseReason(game,uid,centered.id)||(affordable>=0?`Affordable through ${definition(piles[affordable].id).name}`:''));
-  const moving=$derived(Math.abs(position-target)>.001 || dragging);
+  const moving=$derived(position!==target || dragging);
   $effect(()=>{if(affordable>=0){target=affordable;notice='';}});
   $effect(()=>{
     const end=target, snap=reduced;
@@ -41,7 +41,7 @@
   async function confirm(){const id=pending;dismiss();if(ready&&!purchaseReason(game,uid,id))await command({type:'card/bought',cardId:id});}
   function activate(index:number){if(dragged)return;if(moving||index!==Math.round(target)){move(index);return;}void buy(piles[index].id);}
   let pointer:number|undefined,startX=0,startPosition=0,lastWheel=0;
-  function down(event:PointerEvent){if(event.button!==0)return;pointer=event.pointerId;startX=event.clientX;startPosition=position;dragged=false;(event.target as HTMLElement).closest('button')?.setPointerCapture(event.pointerId);}
+  function down(event:PointerEvent){if(event.button!==0)return;pointer=event.pointerId;startX=event.clientX;startPosition=position;dragged=false;((event.target as HTMLElement).closest('button')??event.currentTarget as HTMLElement).setPointerCapture(event.pointerId);}
   function drag(event:PointerEvent){if(event.pointerId!==pointer)return;const delta=event.clientX-startX;if(Math.abs(delta)>10)dragged=true;if(dragged){dragging=true;position=Math.max(0,Math.min(piles.length-1,startPosition-delta/(cardWidth*1.055)));target=position;}}
   function up(event:PointerEvent){if(event.pointerId!==pointer)return;pointer=undefined;dragging=false;move(Math.round(position));}
   function wheel(event:WheelEvent){event.preventDefault();if(Math.abs(event.deltaX)+Math.abs(event.deltaY)<4||performance.now()-lastWheel<110)return;lastWheel=performance.now();move(Math.round(target)+Math.sign(event.deltaX||event.deltaY));}
