@@ -1,0 +1,46 @@
+Retained improvement: P2 substitutes Talent for its first planned Acropolis purchase once, then resumes normal scoring. Fresh validation: 44.90% -> 47.57%, +2.67 pp; paired 95% +1.06..+4.28 pp, adjusted 97.5% +0.82..+4.51 pp. P1 unchanged at 48.87%.
+
+P2-only engine improvement search
+
+User-accepted baseline: fixed opening book, equal completed turns, original ties (half win share), discard lookahead enabled, extra coin/Buy acquisition bonus removed, P1 one-point closing guard restored. The later-player tie rule was never installed; its earlier results were only rescored.
+
+All candidates change only P2 after its first two turns. P1 uses the accepted policy exactly. The Money opponent and game rules are fixed.
+
+Search: 18 alternatives plus control on 200 fresh P2 seeds (180000-180199). Four positive candidates advanced to 600 separate P2 seeds (190000-190599): income target 18, extra Talent before first Acropolis, thinning floor 5, income target 14.
+
+Selection favored extra Talent by mean gain, while floor 5 had a more precise positive result. Before observing final data, validation was expanded from one candidate to these two. Each final candidate is tested against control using paired 97.5% intervals (Bonferroni allowance for two candidate tests); ordinary 95% intervals are also reported.
+
+Final validation: seeds 200000-202999, 3000 games per arm per seat, three arms, 18000 games. No optional extension. Every P1 result must match its control exactly.
+
+SCREEN
+accepted baseline, P2, n=200: 44.500%; change +0.000 pp, paired 95% [+0.000, +0.000] pp; W/T/L 80/18/102.
+extra Talent before first Acropolis, P2, n=200: 47.000%; change +2.500 pp, paired 95% [-3.260, +8.260] pp; W/T/L 86/16/98.
+income target 18, P2, n=200: 47.750%; change +3.250 pp, paired 95% [+0.379, +6.121] pp; W/T/L 89/13/98.
+income floor 5, P2, n=200: 46.250%; change +1.750 pp, paired 95% [-0.137, +3.637] pp; W/T/L 83/19/98.
+income target 14, P2, n=200: 45.500%; change +1.000 pp, paired 95% [-4.008, +6.008] pp; W/T/L 80/22/98.
+
+SELECT
+accepted baseline, P2, n=600: 46.250%; change +0.000 pp, paired 95% [+0.000, +0.000] pp; W/T/L 247/61/292.
+extra Talent before first Acropolis, P2, n=600: 48.333%; change +2.083 pp, paired 95% [-1.833, +6.000] pp; W/T/L 263/54/283.
+income target 18, P2, n=600: 45.917%; change -0.333 pp, paired 95% [-2.281, +1.614] pp; W/T/L 244/63/293.
+income floor 5, P2, n=600: 47.917%; change +1.667 pp, paired 95% [+0.542, +2.791] pp; W/T/L 258/59/283.
+income target 14, P2, n=600: 43.750%; change -2.500 pp, paired 95% [-5.169, +0.169] pp; W/T/L 233/59/308.
+
+CONFIRM
+accepted baseline, P1, n=3000: 48.867%; change +0.000 pp, paired 95% [+0.000, +0.000] pp; W/T/L 1375/182/1443.
+accepted baseline, P2, n=3000: 44.900%; change +0.000 pp, paired 95% [+0.000, +0.000] pp; W/T/L 1213/268/1519.
+extra Talent before first Acropolis, P1, n=3000: 48.867%; change +0.000 pp, paired 95% [+0.000, +0.000] pp; W/T/L 1375/182/1443.
+extra Talent before first Acropolis, P2, n=3000: 47.567%; change +2.667 pp, paired 95% [+1.056, +4.278] pp; W/T/L 1270/314/1416.
+income floor 5, P1, n=3000: 48.867%; change +0.000 pp, paired 95% [+0.000, +0.000] pp; W/T/L 1375/182/1443.
+income floor 5, P2, n=3000: 45.683%; change +0.783 pp, paired 95% [+0.323, +1.243] pp; W/T/L 1237/267/1496.
+
+extra Talent before first Acropolis, P2 paired 97.5% interval: [+0.824, +4.509] pp.
+income floor 5, P2 paired 97.5% interval: [+0.257, +1.309] pp.
+
+Decision: Retain extra Talent before first Acropolis for P2; P1 unchanged.
+
+Validation: all 24800 games completed and passed full reducer replay with exact final-state equality and equal completed turn counts. All matched book purchases identical. All P1 confirmation results, final decks and telemetry exactly match control. Three focused tests (six assertions) and strict TypeScript checks passed. Frozen baseline/code hashes unchanged. Every CPU-bound batch used all 16 CPUs inside nix develop.
+
+Limits: fixed Money opponent, base game only; this is not proof of universal strategy or leader balance. Income is a nominal whole-deck heuristic, not guaranteed hand income. Screening and selection intervals are exploratory and unadjusted; final comparisons use independent seeds and a two-candidate allowance. No production game rules changed.
+
+Retained research entry points: ../accepted-engine/selected-policy.ts and ../accepted-engine/runner.ts. The selected entry point exactly reproduced both frozen confirmation traces at seed 200000; strict TypeScript checks passed after promotion. Production game code and PR unchanged.
