@@ -1,134 +1,149 @@
-name: Verify and deploy
-
+name: Package reviewed screenshot artifacts
 on:
-  push:
-    branches: [main]
-  pull_request:
-    branches: [main]
   workflow_dispatch:
     inputs:
-      story_filter:
-        description: Optional test-title pattern for focused manual checks (never deploys)
+      run_id:
         type: string
-        default: ''
-      update_snapshots:
-        description: Generate Linux screenshot baselines for review
-        type: boolean
-        default: false
-
+        required: true
+      artifact_name:
+        type: string
+        required: true
+      platform:
+        type: string
+        required: true
 permissions:
+  actions: read
   contents: read
-
 jobs:
-  verify:
+  package:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
       - uses: oven-sh/setup-bun@v2
         with:
           bun-version: 1.3.10
-      - run: bun install --frozen-lockfile
-      - run: bun run test:policy
-      - uses: actions/setup-java@v4
+      - run: bun add sharp@0.34.5
+      - uses: actions/download-artifact@v4
         with:
-          distribution: temurin
-          java-version: '21'
-      - run: bunx playwright install --with-deps chromium
-      - run: bun run check && bun run test:backend
-      - name: Browser stories and gallery regression checks
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          run-id: ${{ inputs.run_id }}
+          name: ${{ inputs.artifact_name }}
+          path: raw
+      - name: Compress without changing decoded pixels
         run: |
-          if [[ "${{ inputs.update_snapshots }}" == "true" ]]; then
-            bun run test:e2e:update
-          else
-            bun run test:e2e
-          fi
-        env:
-          CI: 'true'
-          E2E_STORY_FILTER: ${{ inputs.story_filter || '' }}
-          # Invitation screenshots use the same URL in manual and PR verification.
-          PUBLIC_BASE_PATH: /pantheon/prtest
-      - name: Collect changed Linux baselines
-        if: inputs.update_snapshots == true && always()
-        run: |
-          python3 - <<'PYTHON'
-          from pathlib import Path
-          import shutil, subprocess
-          paths = subprocess.check_output(['git', 'ls-files', '--others', '--modified', '--exclude-standard', '-z', '--', 'tests/e2e']).split(b'\0')
-          for raw in paths:
-              if not raw.endswith(b'-linux.png'):
-                  continue
-              source = Path(raw.decode())
-              target = Path('linux-screenshot-baselines') / source.relative_to('tests/e2e')
-              target.parent.mkdir(parents=True, exist_ok=True)
-              shutil.copyfile(source, target)
-          PYTHON
+          node --input-type=module <<'JS'
+          import sharp from 'sharp';
+          import {readdir,readFile,writeFile,mkdir,unlink} from 'node:fs/promises';
+          import {dirname} from 'node:path';
+          const names=(await readdir('raw',{recursive:true})).filter(name=>name.endsWith('.png')).sort();
+          let next=0,part=0,bytes=0,completed=0;
+          await Promise.all(Array.from({length:4},async()=>{
+            while(next<names.length){
+              const name=names[next++],source=await readFile(`raw/${name}`);
+              const pixels=await sharp(source).ensureAlpha().raw().toBuffer();
+              const compressed=await sharp(source).png({compressionLevel:9,adaptiveFiltering:true}).toBuffer();
+              if(!pixels.equals(await sharp(compressed).ensureAlpha().raw().toBuffer()))throw Error(`Pixels changed: ${name}`);
+              if(bytes+compressed.length>350*1024*1024){part++;bytes=0;}
+              if(part>=16)throw Error('Too many artifact parts');
+              const target=`parts/part-${part}/${name}`;bytes+=compressed.length;
+              await mkdir(dirname(target),{recursive:true});await writeFile(target,compressed);await unlink(`raw/${name}`);
+              completed++;if(completed%100===0)console.log(`${completed}/${names.length} images compressed losslessly`);
+            }
+          }));
+          console.log(`${completed} images in ${part+1} parts`);
+          JS
       - uses: actions/upload-artifact@v4
-        if: inputs.update_snapshots == true && always()
         with:
-          name: linux-screenshot-baselines
+          name: compressed-${{ inputs.platform }}-0
           compression-level: 0
-          path: linux-screenshot-baselines/
-      - name: Upload browser report and card screenshots
-        if: always()
-        uses: actions/upload-artifact@v4
+          path: parts/part-0/
+          if-no-files-found: ignore
+      - uses: actions/upload-artifact@v4
         with:
-          name: card-gallery-browser-report
+          name: compressed-${{ inputs.platform }}-1
           compression-level: 0
-          path: |
-            playwright-report/
-            test-results/
-          retention-days: 14
-
-  deploy:
-    needs: verify
-    # Verification is independent; only writes to the shared preview branch serialize.
-    concurrency:
-      group: pages-publish
-      cancel-in-progress: false
-    if: inputs.update_snapshots != true && !inputs.story_filter && (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository)
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write
-      pull-requests: write
-    steps:
-      - uses: actions/checkout@v4
-      - uses: oven-sh/setup-bun@v2
+          path: parts/part-1/
+          if-no-files-found: ignore
+      - uses: actions/upload-artifact@v4
         with:
-          bun-version: 1.3.10
-      - run: bun install --frozen-lockfile
-      - name: Choose deployment path
-        id: deployment
-        env:
-          EVENT_NAME: ${{ github.event_name }}
-          PR_NUMBER: ${{ github.event.pull_request.number }}
-        run: |
-          if [[ "$EVENT_NAME" == "pull_request" ]]; then
-            echo "base=/pantheon/pr$PR_NUMBER" >> "$GITHUB_OUTPUT"
-            echo "destination=pr$PR_NUMBER" >> "$GITHUB_OUTPUT"
-          else
-            echo "base=/pantheon" >> "$GITHUB_OUTPUT"
-            echo "destination=" >> "$GITHUB_OUTPUT"
-          fi
-      - run: bun run build
-        env:
-          PUBLIC_BASE_PATH: ${{ steps.deployment.outputs.base }}
-          VITE_FIREBASE_API_KEY: ${{ vars.VITE_FIREBASE_API_KEY }}
-          VITE_FIREBASE_AUTH_DOMAIN: ${{ vars.VITE_FIREBASE_AUTH_DOMAIN }}
-          VITE_FIREBASE_PROJECT_ID: ${{ vars.VITE_FIREBASE_PROJECT_ID }}
-          VITE_FIREBASE_APP_ID: ${{ vars.VITE_FIREBASE_APP_ID }}
-      - uses: peaceiris/actions-gh-pages@v4
+          name: compressed-${{ inputs.platform }}-2
+          compression-level: 0
+          path: parts/part-2/
+          if-no-files-found: ignore
+      - uses: actions/upload-artifact@v4
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: build
-          destination_dir: ${{ steps.deployment.outputs.destination }}
-          keep_files: true
-      - name: Link retained PR preview
-        if: github.event_name == 'pull_request'
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          PR_NUMBER: ${{ github.event.pull_request.number }}
-          PREVIEW_URL: https://${{ github.repository_owner }}.github.io/pantheon/pr${{ github.event.pull_request.number }}/
-        run: >-
-          gh pr comment "$PR_NUMBER" --repo "$GITHUB_REPOSITORY"
-          --edit-last --create-if-none
-          --body "Pantheon preview: [$PREVIEW_URL]($PREVIEW_URL)"
+          name: compressed-${{ inputs.platform }}-3
+          compression-level: 0
+          path: parts/part-3/
+          if-no-files-found: ignore
+      - uses: actions/upload-artifact@v4
+        with:
+          name: compressed-${{ inputs.platform }}-4
+          compression-level: 0
+          path: parts/part-4/
+          if-no-files-found: ignore
+      - uses: actions/upload-artifact@v4
+        with:
+          name: compressed-${{ inputs.platform }}-5
+          compression-level: 0
+          path: parts/part-5/
+          if-no-files-found: ignore
+      - uses: actions/upload-artifact@v4
+        with:
+          name: compressed-${{ inputs.platform }}-6
+          compression-level: 0
+          path: parts/part-6/
+          if-no-files-found: ignore
+      - uses: actions/upload-artifact@v4
+        with:
+          name: compressed-${{ inputs.platform }}-7
+          compression-level: 0
+          path: parts/part-7/
+          if-no-files-found: ignore
+      - uses: actions/upload-artifact@v4
+        with:
+          name: compressed-${{ inputs.platform }}-8
+          compression-level: 0
+          path: parts/part-8/
+          if-no-files-found: ignore
+      - uses: actions/upload-artifact@v4
+        with:
+          name: compressed-${{ inputs.platform }}-9
+          compression-level: 0
+          path: parts/part-9/
+          if-no-files-found: ignore
+      - uses: actions/upload-artifact@v4
+        with:
+          name: compressed-${{ inputs.platform }}-10
+          compression-level: 0
+          path: parts/part-10/
+          if-no-files-found: ignore
+      - uses: actions/upload-artifact@v4
+        with:
+          name: compressed-${{ inputs.platform }}-11
+          compression-level: 0
+          path: parts/part-11/
+          if-no-files-found: ignore
+      - uses: actions/upload-artifact@v4
+        with:
+          name: compressed-${{ inputs.platform }}-12
+          compression-level: 0
+          path: parts/part-12/
+          if-no-files-found: ignore
+      - uses: actions/upload-artifact@v4
+        with:
+          name: compressed-${{ inputs.platform }}-13
+          compression-level: 0
+          path: parts/part-13/
+          if-no-files-found: ignore
+      - uses: actions/upload-artifact@v4
+        with:
+          name: compressed-${{ inputs.platform }}-14
+          compression-level: 0
+          path: parts/part-14/
+          if-no-files-found: ignore
+      - uses: actions/upload-artifact@v4
+        with:
+          name: compressed-${{ inputs.platform }}-15
+          compression-level: 0
+          path: parts/part-15/
+          if-no-files-found: ignore
