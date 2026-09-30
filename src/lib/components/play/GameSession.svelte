@@ -315,6 +315,6 @@
     .all-played{top:57%;left:21%;width:10%;min-height:30px;font-size:9px;}
     .chronicle-control{top:60%;right:1%;width:19%;--control-height:34px;--control-font:13px;}
     .turn-rail{top:71%;height:13%;left:22%;width:56%;}.turn-marker{font-size:13px;min-height:32px;}.resources{--icon-size:15px;}
-    .hand{left:26%;--hand-room:48;bottom:1%;height:15svh;--hand-card-width:10svh;}.own-leader{left:1%!important;bottom:1%;width:13%;}.deck-pile{left:16%;bottom:1%;width:4%;}.discard-pile{bottom:1%;right:2%;width:12%;font-size:9px;}.discard-pile img{max-height:8svh;}.discard-pile span{padding:1px;}
+    .hand{left:26%;--hand-room:48;bottom:4%;height:15svh;--hand-card-width:10svh;}.own-leader{left:1%!important;bottom:1%;width:13%;}.deck-pile{left:16%;bottom:1%;width:4%;}.discard-pile{bottom:1%;right:2%;width:12%;font-size:9px;}.discard-pile img{max-height:8svh;}.discard-pile span{padding:1px;}
   }
 </style>
