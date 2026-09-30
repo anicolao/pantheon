@@ -141,8 +141,6 @@ jobs:
               while(next<names.length){
                 const name=names[next++];if(name.startsWith('/')||name.split('/').includes('..'))throw Error('Unsafe image path');
                 const target=`tests/e2e/${name}`;
-                // Keep pre-existing Mac raster differences out of this UI change.
-                if(platform==='darwin'&&!linuxChanges.has(target.replace(/-darwin\.png$/,'-linux.png'))){await unlink(`${root}/${name}`);continue;}
                 const source=await readFile(`${root}/${name}`);
                 const pixels=await sharp(source).ensureAlpha().raw().toBuffer();
                 const existing=await readFile(target).catch(()=>null);
