@@ -67,7 +67,8 @@
 <style>
   .supply-coverflow{width:100%;height:100%;position:relative;color:#f4dfb2;isolation:isolate;}
   .coverflow{position:absolute;inset:0 0 var(--nav-height);perspective:1400px;touch-action:pan-y;user-select:none;}
-  .supply-face{position:absolute;top:0;left:calc(50% - var(--card-width)/2);width:var(--card-width);pointer-events:none;will-change:transform;backface-visibility:hidden;filter:drop-shadow(0 3px 3px #0009);}
+  .supply-face{position:absolute;top:0;left:calc(50% - var(--card-width)/2);width:var(--card-width);pointer-events:none;will-change:transform;backface-visibility:hidden;}
+  /* CardFace already supplies its shadow; avoid filtering every tilted card twice. */
   /* Opacity keeps unavailable stacks readable without a per-card color-filter pass. */
   .unavailable{opacity:.78;}
   .buy-card{position:absolute;top:calc(var(--card-width)*.18);height:calc(var(--card-width)*1.02);border:0;padding:0;background:none;cursor:pointer;min-width:0;}
