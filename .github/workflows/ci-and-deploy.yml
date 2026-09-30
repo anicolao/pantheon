@@ -132,7 +132,7 @@ jobs:
           import sharp from '/tmp/baseline-tools/node_modules/sharp/lib/index.js';
           import {readdir,readFile,writeFile,mkdir,unlink} from 'node:fs/promises';
           import {dirname} from 'node:path';
-          const changed=[],linuxChanges=new Set();
+          const changed=[],differences=[],linuxChanges=new Set();
           for(const platform of ['linux','darwin']){
             const root=`/tmp/baseline-input/${platform}`;
             const names=(await readdir(root,{recursive:true}).catch(()=>[])).filter(n=>n.endsWith(`-${platform}.png`)&&!/009-direct-play\/screenshots\/an-expanded-fan.*\/(002-last-copy|003-play-all)-/.test(n)).sort();
@@ -147,6 +147,12 @@ jobs:
                 const pixels=await sharp(source).ensureAlpha().raw().toBuffer();
                 const existing=await readFile(target).catch(()=>null);
                 if(existing&&pixels.equals(await sharp(existing).ensureAlpha().raw().toBuffer())){await unlink(`${root}/${name}`);continue;}
+                if(existing){
+                  const old=await sharp(existing).ensureAlpha().raw().toBuffer(),{width,height}=await sharp(source).metadata();
+                  let count=0,maxDelta=0,minX=width,minY=height,maxX=0,maxY=0;
+                  for(let i=0;i<pixels.length;i+=4){let differs=false;for(let c=0;c<4;c++){const delta=Math.abs(pixels[i+c]-old[i+c]);if(delta){differs=true;maxDelta=Math.max(maxDelta,delta);}}if(differs){count++;const x=(i/4)%width,y=Math.floor(i/4/width);minX=Math.min(minX,x);maxX=Math.max(maxX,x);minY=Math.min(minY,y);maxY=Math.max(maxY,y);}}
+                  differences.push({path:target,count,maxDelta,bounds:[minX,minY,maxX,maxY]});
+                }else differences.push({path:target,new:true});
                 const compressed=await sharp(source).png({compressionLevel:6,adaptiveFiltering:true}).toBuffer();
                 if(!pixels.equals(await sharp(compressed).ensureAlpha().raw().toBuffer()))throw Error(`Pixels changed: ${name}`);
                 await mkdir(dirname(target),{recursive:true});await writeFile(target,compressed);await unlink(`${root}/${name}`);
@@ -154,7 +160,7 @@ jobs:
               }
             }));
           }
-          changed.sort();await mkdir('/tmp/baseline-review',{recursive:true});await writeFile('/tmp/baseline-review/changed.json',JSON.stringify(changed,null,2));
+          changed.sort();await mkdir('/tmp/baseline-review',{recursive:true});await writeFile('/tmp/baseline-review/differences.json',JSON.stringify(differences,null,2));await writeFile('/tmp/baseline-review/changed.json',JSON.stringify(changed,null,2));
           for(const platform of ['linux','darwin'])for(const project of ['phone','desktop','tabletop-4k']){
             const paths=changed.filter(p=>p.endsWith(`-${project}-${platform}.png`));
             const output=`/tmp/baseline-review/${platform}/${project}`;await mkdir(output,{recursive:true});await writeFile(`${output}/index.json`,JSON.stringify(paths,null,2));
