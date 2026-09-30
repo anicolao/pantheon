@@ -1,7 +1,11 @@
 import {run} from './runner';
-import {appendFileSync,writeFileSync} from 'node:fs';
+import {appendFileSync,writeFileSync,mkdirSync,unlinkSync} from 'node:fs';
 import {createHash} from 'node:crypto';
 import {createInterface} from 'node:readline';
+const statusDirectory=import.meta.dir+'/.run';mkdirSync(statusDirectory,{recursive:true});
+const identity=statusDirectory+'/'+process.pid+'.json';
+writeFileSync(identity,JSON.stringify({worker:process.pid,parent:process.ppid,started:new Date().toISOString()}));
+process.on('exit',()=>{try{unlinkSync(identity);}catch{}});
 for await(const line of createInterface({input:process.stdin})){
  let j:any;
  try{
