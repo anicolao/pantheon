@@ -1,4 +1,4 @@
-node_modules/
+node_modules
 .svelte-kit/
 build/
 test-results/
@@ -13,3 +13,5 @@ result
 *-debug.log
 
 balance-runs/
+
+practice-validation/
