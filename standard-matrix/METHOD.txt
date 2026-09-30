@@ -1,0 +1,19 @@
+Full 1v1 leader/policy matrix. Each leader is fixed to its printed god.
+48 legal cells: 12 ordered distinct leader pairs x Money/Engine x Money/Engine.
+Standard +1 Action Thaleia; equal completed turns; original ties count one half.
+All cells share the same seed indices. Strategy results are never averaged.
+Accepted base-game bots frozen in ../balance-checkpoint (7deefaa0).
+Standard-only adapter: observed-budget opening book, real leader effects, special
+leader/event trash decisions, and worship after action/treasure play from turn 3.
+Worship compares legal reducer continuations with/without each affordable event,
+including remaining purchases, costs, buys, supply, sacrifices, and public score.
+It uses each base objective plus its VP conversion, executes only the event,
+then replans. All shared gods are eligible. No opponent or own hidden order access.
+Feast lookahead includes pending public leader effects and standard rules.
+Every game replays all commands and checks equal completed turns.
+Limitations: no early-turn worship search or worship during opening; no worship
+inside Money future-deck rollouts; no optimization of leader-specific openings,
+action priorities, devotion acquisition, or repeated-worship plans. These are
+measurements of these adapted bots, not optimal-play claims about game balance.
+Use all available CPUs via batch.py. Store compact per-game outcomes and hashes,
+plus one full replay per 25-game chunk. Preserve unfinished games as errors.
