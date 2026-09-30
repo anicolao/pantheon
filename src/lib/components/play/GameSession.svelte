@@ -282,10 +282,10 @@
     .inspection:has(.play-command) .inspected{width:min(56vw,35svh);}.play-command{--control-font:22px;}
     .composition .all-played{left:3%;top:53%;width:17%;font-size:10px;min-height:40px;}
 
-    .composition .opponents{top:8%;left:3%;width:94%;height:10%;gap:2%;}
-    .composition .opponents .opponent,.composition:has(.outcome) .opponents .opponent{display:grid;grid-template-columns:1fr;grid-template-rows:32px 16px 24px;justify-items:center;align-items:center;gap:0;max-width:150px;}
-    .composition .opponents .opponent-portrait,.composition:has(.outcome) .opponents .opponent-portrait{width:32px;max-width:32px;grid-row:auto;}
-    .composition .opponents .hidden-hand,.composition:has(.outcome) .opponents .hidden-hand{height:16px;max-width:100px;}
+    .composition .opponents{top:9%;left:3%;width:94%;height:10%;gap:2%;}
+    .composition .opponents .opponent,.composition:has(.outcome) .opponents .opponent{display:grid;grid-template-columns:1fr;grid-template-rows:min(32px,4svh) min(16px,2svh) 24px;justify-items:center;align-items:center;gap:0;max-width:150px;}
+    .composition .opponents .opponent-portrait,.composition:has(.outcome) .opponents .opponent-portrait{width:min(32px,4svh);max-width:32px;grid-row:auto;}
+    .composition .opponents .hidden-hand,.composition:has(.outcome) .opponents .hidden-hand{height:min(16px,2svh);max-width:100px;}
     .composition .opponents .opponent p{grid-column:auto;font-size:8px;white-space:nowrap;}.composition .opponent-discard{min-height:24px;font-size:8px;}
     .composition .altars,.composition:has(.outcome) .altars,.composition:has(.action-message) .altars,.composition:has(.played-cards) .altars.four{top:20%;left:3%;width:94%;display:flex;justify-content:space-evenly;gap:4px;}
     .composition .altars button{width:min(21vw,9svh);flex-shrink:0;}
@@ -306,7 +306,8 @@
     .session{min-height:0;}header{font-size:9px;}header a{min-height:26px;padding:3px 8px;}header>span{padding:3px 8px;}.trash-control{height:26px;min-height:26px;--icon-size:10px;}
     .opponents{top:10%;height:12%;}.opponent-portrait{max-width:26px;}.hidden-hand{height:20px;}.opponent p{font-size:8px;}.opponent-discard{min-height:24px;font-size:8px;}
     .table-supply{top:23%;height:33%;left:20%;width:60%;}
-    .altars,.altars.four{top:34%;grid-template-columns:15% 15%;gap:4px;}
+    .altars{top:34%;grid-template-columns:15% 15%;gap:4px;}
+    .altars.four{top:28%;grid-template-columns:min(12vw,18svh) min(12vw,18svh);gap:2px;}
     .composition .play-area,.composition:has(.outcome) .play-area{top:57%;height:11%;left:32%;width:36%;}.composition:has(.outcome) .play-area{left:32%;width:16%;}
     .outcome{left:51%!important;top:57%!important;width:17%!important;height:11%!important;--icon-size:10px;}.outcome-card{max-width:7svh;}
     .action-message{top:68%;font-size:8px;padding:0 4px;}

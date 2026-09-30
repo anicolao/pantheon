@@ -56,7 +56,7 @@
   </section>
   <nav aria-label="Browse supply"><button aria-label="Cheaper cards" disabled={target<=0} onclick={()=>move(Math.round(target)-1)}>‹</button><div class="supply-caption"><span>{definition(centered.id).name} · {definition(centered.id).cost} Coins</span><span class="stock" aria-label={`${definition(centered.id).name}: ${game.supply[centered.id]} remaining`}>{game.supply[centered.id]} left</span></div><button aria-label="More expensive cards" disabled={target>=piles.length-1} onclick={()=>move(Math.round(target)+1)}>›</button></nav>
   <span id="supply-help" class="sr-only">Scroll or drag to browse. Tap a side card to center it; tap the center card to buy. Right-click, hold, or press Shift+F10 to inspect.</span>
-  <p class="reason sr-only" role="status">{reason}</p>
+  <p class="reason sr-only" aria-live="polite">{reason}</p>
 </section>
 <dialog bind:this={warning} class="warning framed-dialog" aria-label="Skip playable Actions?" oncancel={event=>{event.preventDefault();dismiss();}} data-e2e-layout>
   <DialogFrame/><h2>Skip playable Actions?</h2><p>You can still play {playable.map(card=>definition(card.cardId).name).join(', ')}.</p><GameButton primary onclick={confirm} disabled={!ready}>Buy {pending?definition(pending).name:''} now</GameButton><GameButton onclick={dismiss}>Keep playing</GameButton>

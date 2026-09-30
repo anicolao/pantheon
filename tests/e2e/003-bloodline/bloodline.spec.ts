@@ -118,7 +118,7 @@ for (const count of [2, 3, 4] as const) test(`${count} players draft unique bloo
       await steps.step('hand-inspection', 'Read a card in your hand', [{ spec: 'Inspection preserves the physical copy identifier.', check: async () => expect(choosing.getByRole('dialog').locator('[data-serial]')).toHaveAttribute('data-serial', hand[0]!) }]);
       await choosing.keyboard.press('Escape');
       await expect(choosing.locator('.supply-coverflow')).toBeVisible();
-      await steps.step('supply', 'Inspect supply without disturbing the deal', [{ spec: 'The six basics show the unchanged stock, separate from starting cards.', check: async () => expect(choosing.getByLabel('Obol: 40 remaining',{exact:true})).toBeVisible() }]);
+      await steps.step('supply', 'Inspect supply without disturbing the deal', [{ spec: 'The complete supply retains its stock, separate from starting cards.', check: async () => expect(choosing.getByLabel('Obol: 40 remaining',{exact:true})).toBeVisible() }]);
       await browseSupply(choosing,'Acropolis');await expect(choosing.getByRole('button',{name:'Buy Acropolis',exact:true})).toBeVisible();
       await choosing.keyboard.press('Escape');
       await choosing.getByRole('button', { name: 'Chronicle', exact: true }).click(); await expect(choosing.getByRole('dialog')).toContainText('Five cards dealt to each player.'); await choosing.keyboard.press('Escape');
@@ -130,6 +130,10 @@ for (const count of [2, 3, 4] as const) test(`${count} players draft unique bloo
       const recovery = new TestStepHelper(rejected, info, 'A begun game keeps its seats');
       await recovery.step('started', 'Explain why a late visitor cannot join', [{ spec: 'The invitation names the begun game and offers another table.', check: async () => { await expect(rejected.getByRole('heading', { name: 'This game has already begun.' })).toBeVisible(); await expect(rejected.getByRole('link', { name: 'Find another table' })).toBeVisible(); } }]);
       steps.generateDocs();
+    }
+    if(count===4 && info.project.name==='phone'){
+      await choosing.setViewportSize({width:568,height:320});
+      await steps.step('landscape-table','Keep four players and the complete supply on a landscape phone',[{spec:'All four altars, the hand, and the inline supply fit without overlapping controls.',check:async()=>{await expect(choosing.locator('.altars button')).toHaveCount(4);await expect(choosing.locator('.supply-face')).toHaveCount(18);await expect(choosing.getByTestId('hand-card')).toHaveCount(5);}}]);
     }
     expect(errors).toEqual([]);
   } finally { await Promise.all(contexts.map(context => context.close())); }
