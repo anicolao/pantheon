@@ -45,6 +45,7 @@
   const own = $derived(game.decks[uid]);
   let handElement = $state<HTMLElement>();
   let handCapacity = $state(5);
+  let handMinPeek = $state(44);
   const visibleHand = $derived(own?.hand.slice(handPage * handCapacity, (handPage + 1) * handCapacity) ?? []);
   $effect(() => { if (own && handPage * handCapacity >= own.hand.length) handPage = Math.max(0, Math.ceil(own.hand.length / handCapacity) - 1); });
   $effect(() => {
@@ -55,11 +56,18 @@
       const card = element.querySelector<HTMLElement>('.hand-slot');
       if (!card) return;
       const phone = matchMedia('(max-aspect-ratio:3/4)').matches;
+      const shortLandscape = matchMedia('(max-height:500px) and (min-aspect-ratio:3/4)').matches;
       const tableWidth = element.parentElement!.clientWidth, cardWidth = card.offsetWidth;
+      if (!cardWidth) return;
       const width = tableWidth * Number(getComputedStyle(element).getPropertyValue('--hand-room')) / 100;
-      const capacity = (room: number) => Math.max(1, Math.floor((room - 12 - cardWidth) / (phone ? 28 : 44)) + 1);
+      // Small landscape cards can expose most of their face and still overlap.
+      // Use the same minimum exposure for both sizing and paging.
+      const peek = Math.min(cardWidth * .85, phone ? 28 : 44);
+      handMinPeek = peek;
+      const capacity = (room: number) => Math.max(1, Math.floor((room - 12 - cardWidth) / peek) + 1);
       // Measure the full fan first so a shrinking hand never gets stuck paging.
-      handCapacity = phone && count > capacity(width) ? capacity(tableWidth - 96) : capacity(width);
+      const pagedRoom = phone ? tableWidth - 96 : shortLandscape ? tableWidth * .36 : width;
+      handCapacity = count > capacity(width) ? capacity(pagedRoom) : capacity(width);
     });
     resize.observe(element.parentElement!);
     return () => resize.disconnect();
@@ -189,7 +197,7 @@
         <div class="resources"><ResourceIcon resource="actions" value={game.resources.actions} /><ResourceIcon resource="coins" value={game.resources.coins} /><ResourceIcon resource="buys" value={game.resources.buys} /><ResourceIcon resource="worship" value={game.resources.worship} /></div>
       </section>
       {#if game.turn.phase==='finished'}<div class="chronicle-control final-control"><GameButton primary onclick={()=>resultsOpen=true}>Final scores</GameButton></div>{/if}
-      <section bind:this={handElement} data-public-zone="hand" data-public-uid={uid} class="hand" aria-label="Your hand" style:--hand-count={visibleHand.length} style:--hand-spaces={Math.max(1,visibleHand.length-1)}>
+      <section bind:this={handElement} data-public-zone="hand" data-public-uid={uid} class="hand" aria-label="Your hand" style:--hand-count={visibleHand.length} style:--hand-spaces={Math.max(1,visibleHand.length-1)} style:--hand-min-peek={`${handMinPeek}px`}>
         {#each visibleHand as card, index (`${card.id}:${handRevision(card.id)}`)}
           <div class="hand-slot" data-instance-id={card.id} style:--card-index={index} style:--fan-angle={`${(index-(visibleHand.length-1)/2)*Math.min(3,16/Math.max(1,visibleHand.length-1))}deg`} style:--fan-drop={`${Math.abs(index-(visibleHand.length-1)/2)*3}px`} in:deal|global={index}><div class="hand-face"><CardFace card={definition(card.cardId)} players={game.playerCount} copy={card.copy} /></div></div>
           <button data-testid="hand-card" data-instance-id={card.id} aria-label={`${canPlayAction(game,uid,card.id)||canPlayTreasure(game,uid,card.id)?'Play':'Inspect'} hand card ${handPage * handCapacity + index + 1}: ${definition(card.cardId).name}`} aria-describedby="hand-help" style:--card-index={index} use:cardGesture={{activate:()=>playHand(card.cardId,card.copy,card.id),inspect:()=>inspect(card.cardId,card.copy,card.id)}}></button>
@@ -247,7 +255,7 @@
   .play-area{position:absolute;left:24%;top:46%;height:14%;width:52%;display:grid;place-items:center;}.play-area span{font:500 clamp(20px,3svh,54px)/1 'Cormorant Garamond',serif;color:#ead8b4b0;text-shadow:0 2px 4px #000;}
   .chronicle-control{position:absolute;right:2%;top:65%;width:15%;--control-height:clamp(44px,5svh,100px);--control-font:clamp(20px,2.6svh,50px);}
   .turn-rail{position:absolute;left:23%;top:63%;width:54%;height:10%;isolation:isolate;padding:0 3%;display:flex;align-items:center;justify-content:center;}.rail-frame{position:absolute;inset:0;width:100%;height:100%;z-index:-1;pointer-events:none;} .turn-marker{width:35%;display:grid;text-align:center;font:600 clamp(18px,2.6svh,52px)/1.1 'Cormorant Garamond',serif;color:#f6dfac;}.turn-marker span{font-size:.65em;margin-top:4px;}.resources{display:flex;justify-content:space-evenly;width:65%;--icon-size:clamp(20px,3svh,64px);--icon-number-scale:.8;}
-  .hand{position:absolute;left:29%;bottom:3%;width:calc(var(--hand-room) * 1%);--hand-room:54;height:clamp(130px,23svh,460px);--hand-card-width:clamp(94px,15svh,300px);--fan-width:min(calc(100% - 12px),calc(var(--hand-card-width) * (1 + (var(--hand-count) - 1) * .48)));--fan-step:calc((var(--fan-width) - var(--hand-card-width)) / var(--hand-spaces));}
+  .hand{position:absolute;left:29%;bottom:3%;width:calc(var(--hand-room) * 1%);--hand-room:54;height:clamp(130px,23svh,460px);--hand-card-width:clamp(94px,15svh,300px);--fan-width:min(calc(100% - 12px),max(calc(var(--hand-card-width) * (1 + (var(--hand-count) - 1) * .48)),calc(var(--hand-card-width) + (var(--hand-count) - 1) * var(--hand-min-peek))));--fan-step:calc((var(--fan-width) - var(--hand-card-width)) / var(--hand-spaces));}
   .hand-slot,.hand button{position:absolute;left:calc((100% - var(--fan-width))/2 + var(--card-index)*var(--fan-step));bottom:0;}
   .hand-slot{width:var(--hand-card-width);z-index:calc(var(--card-index)*2);pointer-events:none;}
   .hand-face{transform:translateY(var(--fan-drop)) rotate(var(--fan-angle));transform-origin:50% 100%;pointer-events:none;}
@@ -307,6 +315,9 @@
     .composition .turn-marker{font-size:14px;}
   }
   @media(max-height:500px) and (min-aspect-ratio:3/4){
+    .composition:has(.hand-pages) .hand{left:32%;width:36%;}
+    .composition .hand-pages,.composition:has(.treasures-control) .hand-pages{left:21%;width:58%;bottom:4%;justify-content:space-between;pointer-events:none;z-index:4;}
+    .hand-pages button{pointer-events:auto;}.hand-pages span{position:absolute;left:0;bottom:-10px;width:44px;text-align:center;font-size:9px;line-height:10px;}
     .session{min-height:0;}header{font-size:9px;}header a{min-height:26px;padding:3px 8px;}header>span{padding:3px 8px;}.trash-control{height:26px;min-height:26px;--icon-size:10px;}
     .opponents{top:10%;height:12%;}.opponent-portrait{max-width:min(26px,6svh);}.hidden-hand{height:min(20px,5svh);}.opponent p{font-size:8px;}.opponent-discard{min-height:24px;font-size:8px;}
     .table-supply{top:23%;height:33%;left:20%;width:60%;}
