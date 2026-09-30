@@ -1,6 +1,10 @@
 Local practice opponents
 ========================
-Open /practice/ beneath the deployed site base (PR 10: /pantheon/pr10/practice/).
+Open /practice/ beneath the deployed site base (PR 10, after publication: /pantheon/pr10/practice/).
+To try the committed checkout locally, run:
+  nix develop --command bun run dev -- --port 5194
+Then open http://127.0.0.1:5194/practice/.
+The PR has not been updated from this restricted session: its GitHub write connector requires approval while the session policy is never.
 Select your leader, the opponent leader, a strategy, and who moves first.
 Money uses the accepted current sampler and standard-game Worship adapter.
 Engine (historical v4) uses the restored leader-aware policy that performed well in the historical study.
