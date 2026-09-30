@@ -1,0 +1,20 @@
+{
+  "acceptedBy": "explicit user instruction",
+  "openingBook": "engine-opening-book/candidate-book.ts",
+  "lookaheadDiscard": true,
+  "payload": 0,
+  "replyMargin": 1,
+  "equalTurns": true,
+  "ties": "original rules; half win share on tied score and equal completed turns",
+  "note": "User acceptance is distinct from prior statistical validation. Prior experiment reports preserved.",
+  "p2Adjustment": {
+    "extraTalent": true,
+    "scope": "P2 only, after opening book",
+    "validation": "../engine-p2-search/report.txt",
+    "pairedGainPP": 2.6666666667,
+    "paired975PP": [
+      0.8243036786,
+      4.5090296548
+    ]
+  }
+}
