@@ -1,149 +1,107 @@
-name: Package reviewed screenshot artifacts
+name: Prepare inline supply screenshot review
 on:
   workflow_dispatch:
     inputs:
-      run_id:
+      source_ref:
         type: string
         required: true
-      artifact_name:
+      target_branch:
         type: string
         required: true
-      platform:
+      linux_run:
         type: string
-        required: true
+        default: ''
+      mac_run:
+        type: string
+        default: ''
 permissions:
+  contents: write
   actions: read
-  contents: read
 jobs:
-  package:
+  prepare:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.source_ref }}
       - uses: oven-sh/setup-bun@v2
         with:
           bun-version: 1.3.10
-      - run: bun add sharp@0.34.5
+      - name: Install image tooling separately from the project
+        run: mkdir -p /tmp/baseline-tools && cd /tmp/baseline-tools && bun add sharp@0.34.5
       - uses: actions/download-artifact@v4
+        if: inputs.linux_run != ''
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          run-id: ${{ inputs.run_id }}
-          name: ${{ inputs.artifact_name }}
-          path: raw
-      - name: Compress without changing decoded pixels
+          run-id: ${{ inputs.linux_run }}
+          name: linux-screenshot-baselines
+          path: /tmp/baseline-input/linux
+      - uses: actions/download-artifact@v4
+        if: inputs.mac_run != ''
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          run-id: ${{ inputs.mac_run }}
+          name: darwin-screenshot-baselines
+          path: /tmp/baseline-input/darwin
+      - name: Preserve exact pixels and prepare review images
         run: |
           node --input-type=module <<'JS'
-          import sharp from 'sharp';
+          import sharp from '/tmp/baseline-tools/node_modules/sharp/lib/index.js';
           import {readdir,readFile,writeFile,mkdir,unlink} from 'node:fs/promises';
           import {dirname} from 'node:path';
-          const names=(await readdir('raw',{recursive:true})).filter(name=>name.endsWith('.png')).sort();
-          let next=0,part=0,bytes=0,completed=0;
-          await Promise.all(Array.from({length:4},async()=>{
-            while(next<names.length){
-              const name=names[next++],source=await readFile(`raw/${name}`);
-              const pixels=await sharp(source).ensureAlpha().raw().toBuffer();
-              const compressed=await sharp(source).png({compressionLevel:6,adaptiveFiltering:true}).toBuffer();
-              if(!pixels.equals(await sharp(compressed).ensureAlpha().raw().toBuffer()))throw Error(`Pixels changed: ${name}`);
-              if(bytes+compressed.length>350*1024*1024){part++;bytes=0;}
-              if(part>=16)throw Error('Too many artifact parts');
-              const target=`parts/part-${part}/${name}`;bytes+=compressed.length;
-              await mkdir(dirname(target),{recursive:true});await writeFile(target,compressed);await unlink(`raw/${name}`);
-              completed++;if(completed%100===0)console.log(`${completed}/${names.length} images compressed losslessly`);
+          const changed=[];
+          for(const platform of ['linux','darwin']){
+            const root=`/tmp/baseline-input/${platform}`;
+            const names=(await readdir(root,{recursive:true}).catch(()=>[])).filter(n=>n.endsWith(`-${platform}.png`)).sort();
+            let next=0;
+            await Promise.all(Array.from({length:3},async()=>{
+              while(next<names.length){
+                const name=names[next++];if(name.startsWith('/')||name.split('/').includes('..'))throw Error('Unsafe image path');
+                const source=await readFile(`${root}/${name}`),target=`tests/e2e/${name}`;
+                const pixels=await sharp(source).ensureAlpha().raw().toBuffer();
+                const existing=await readFile(target).catch(()=>null);
+                if(existing&&pixels.equals(await sharp(existing).ensureAlpha().raw().toBuffer())){await unlink(`${root}/${name}`);continue;}
+                const compressed=await sharp(source).png({compressionLevel:6,adaptiveFiltering:true}).toBuffer();
+                if(!pixels.equals(await sharp(compressed).ensureAlpha().raw().toBuffer()))throw Error(`Pixels changed: ${name}`);
+                await mkdir(dirname(target),{recursive:true});await writeFile(target,compressed);await unlink(`${root}/${name}`);
+                changed.push(target);
+              }
+            }));
+          }
+          changed.sort();await mkdir('/tmp/baseline-review',{recursive:true});await writeFile('/tmp/baseline-review/changed.json',JSON.stringify(changed,null,2));
+          for(const platform of ['linux','darwin'])for(const project of ['phone','desktop','tabletop-4k']){
+            const paths=changed.filter(p=>p.endsWith(`-${project}-${platform}.png`));
+            const output=`/tmp/baseline-review/${platform}/${project}`;await mkdir(output,{recursive:true});await writeFile(`${output}/index.json`,JSON.stringify(paths,null,2));
+            const width=project==='phone'?164:320,height=project==='phone'?356:project==='desktop'?223:180,columns=project==='phone'?6:4;
+            for(let batch=0;batch<Math.ceil(paths.length/24);batch++){
+              const tiles=[];
+              for(let i=0;i<24&&batch*24+i<paths.length;i++){
+                const idx=batch*24+i,path=paths[idx],left=i%columns*width,top=Math.floor(i/columns)*(height+22);
+                tiles.push({input:await sharp(path).resize(width,height,{fit:'contain',background:'#111'}).png().toBuffer(),left,top});
+                tiles.push({input:Buffer.from(`<svg width="${width}" height="22"><text x="5" y="16" fill="white" font-size="12">${idx}: ${path.split('/').at(-1).split('-').slice(0,3).join('-')}</text></svg>`),left,top:top+height});
+              }
+              await sharp({create:{width:columns*width,height:Math.ceil(24/columns)*(height+22),channels:3,background:'#111'}}).composite(tiles).png().toFile(`${output}/${batch}.png`);
             }
-          }));
-          console.log(`${completed} images in ${part+1} parts`);
+            console.log(platform,project,paths.length);
+          }
+          for(const path of changed.filter(p=>/000-supply|small-landscape|landscape-table|fallback-pages|expanded-fan|play-all/.test(p))){const target=`/tmp/baseline-review/full/${path}`;await mkdir(dirname(target),{recursive:true});await writeFile(target,await readFile(path));}
+          console.log(`${changed.length} changed images prepared for review`);
           JS
+      - name: Save baselines on the isolated review branch
+        env:
+          TARGET_BRANCH: ${{ inputs.target_branch }}
+        run: |
+          case "$TARGET_BRANCH" in validate/inline-supply-reviewed*) ;; *) echo 'Unexpected target branch'; exit 1;; esac
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -- 'tests/e2e/**/*.png'
+          git diff --cached --stat > /tmp/baseline-review/change-stat.txt
+          git commit -m 'Prepare inline supply screenshot baselines for visual review'
+          git push origin "HEAD:refs/heads/$TARGET_BRANCH"
+          git rev-parse HEAD > /tmp/baseline-review/commit.txt
       - uses: actions/upload-artifact@v4
+        if: always()
         with:
-          name: compressed-${{ inputs.platform }}-0
+          name: inline-supply-visual-review
+          path: /tmp/baseline-review/
           compression-level: 0
-          path: parts/part-0/
-          if-no-files-found: ignore
-      - uses: actions/upload-artifact@v4
-        with:
-          name: compressed-${{ inputs.platform }}-1
-          compression-level: 0
-          path: parts/part-1/
-          if-no-files-found: ignore
-      - uses: actions/upload-artifact@v4
-        with:
-          name: compressed-${{ inputs.platform }}-2
-          compression-level: 0
-          path: parts/part-2/
-          if-no-files-found: ignore
-      - uses: actions/upload-artifact@v4
-        with:
-          name: compressed-${{ inputs.platform }}-3
-          compression-level: 0
-          path: parts/part-3/
-          if-no-files-found: ignore
-      - uses: actions/upload-artifact@v4
-        with:
-          name: compressed-${{ inputs.platform }}-4
-          compression-level: 0
-          path: parts/part-4/
-          if-no-files-found: ignore
-      - uses: actions/upload-artifact@v4
-        with:
-          name: compressed-${{ inputs.platform }}-5
-          compression-level: 0
-          path: parts/part-5/
-          if-no-files-found: ignore
-      - uses: actions/upload-artifact@v4
-        with:
-          name: compressed-${{ inputs.platform }}-6
-          compression-level: 0
-          path: parts/part-6/
-          if-no-files-found: ignore
-      - uses: actions/upload-artifact@v4
-        with:
-          name: compressed-${{ inputs.platform }}-7
-          compression-level: 0
-          path: parts/part-7/
-          if-no-files-found: ignore
-      - uses: actions/upload-artifact@v4
-        with:
-          name: compressed-${{ inputs.platform }}-8
-          compression-level: 0
-          path: parts/part-8/
-          if-no-files-found: ignore
-      - uses: actions/upload-artifact@v4
-        with:
-          name: compressed-${{ inputs.platform }}-9
-          compression-level: 0
-          path: parts/part-9/
-          if-no-files-found: ignore
-      - uses: actions/upload-artifact@v4
-        with:
-          name: compressed-${{ inputs.platform }}-10
-          compression-level: 0
-          path: parts/part-10/
-          if-no-files-found: ignore
-      - uses: actions/upload-artifact@v4
-        with:
-          name: compressed-${{ inputs.platform }}-11
-          compression-level: 0
-          path: parts/part-11/
-          if-no-files-found: ignore
-      - uses: actions/upload-artifact@v4
-        with:
-          name: compressed-${{ inputs.platform }}-12
-          compression-level: 0
-          path: parts/part-12/
-          if-no-files-found: ignore
-      - uses: actions/upload-artifact@v4
-        with:
-          name: compressed-${{ inputs.platform }}-13
-          compression-level: 0
-          path: parts/part-13/
-          if-no-files-found: ignore
-      - uses: actions/upload-artifact@v4
-        with:
-          name: compressed-${{ inputs.platform }}-14
-          compression-level: 0
-          path: parts/part-14/
-          if-no-files-found: ignore
-      - uses: actions/upload-artifact@v4
-        with:
-          name: compressed-${{ inputs.platform }}-15
-          compression-level: 0
-          path: parts/part-15/
-          if-no-files-found: ignore
