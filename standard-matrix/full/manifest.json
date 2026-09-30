@@ -1,0 +1,22 @@
+{
+  "seedStart": 240000,
+  "gamesPerCell": 200,
+  "cells": 48,
+  "workers": 16,
+  "rules": "standard powers/worship, equal turns, original split ties",
+  "seedPrefix": "leader-matrix-v1",
+  "opening": "observed-budget book; no worship on first two turns",
+  "checkpoint": "7deefaa0",
+  "harnessCommit": "6ff8353ef3a5e1cc0f1c12068716581d14afd2d3",
+  "runtime": "Bun 1.3.13",
+  "elapsedSeconds": 6077,
+  "leaderGodPairs": {
+    "thaleia": "Athena",
+    "nereon": "Poseidon",
+    "melia": "Demeter",
+    "doreios": "Ares"
+  },
+  "completedGames": 9600,
+  "replayVerifiedGames": 9600,
+  "equalTurnsVerifiedGames": 9600
+}
