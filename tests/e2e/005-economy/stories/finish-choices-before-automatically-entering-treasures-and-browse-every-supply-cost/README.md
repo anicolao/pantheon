@@ -40,40 +40,40 @@ Recorded-history integration scenario. A legal event history prepares the starti
 
 - [x] No phase button or prompt is needed, and the transition is recorded once.
 
-## The affordable boundary starts at the right face-up card
+## The most expensive affordable card moves to the center
 
 <table>
 <tr><th>Desktop · 1440 × 1000</th><th>Phone · 393 × 852</th></tr>
 <tr>
-<td valign="top"><a href="../../screenshots/finish-choices-before-automatically-entering-treasures-and-browse-every-supply-cost/002-affordable-desktop-darwin.png"><img src="../../screenshots/finish-choices-before-automatically-entering-treasures-and-browse-every-supply-cost/002-affordable-desktop-darwin.png" alt="The affordable boundary starts at the right face-up card — desktop" width="720"></a></td>
-<td valign="top"><a href="../../screenshots/finish-choices-before-automatically-entering-treasures-and-browse-every-supply-cost/002-affordable-phone-darwin.png"><img src="../../screenshots/finish-choices-before-automatically-entering-treasures-and-browse-every-supply-cost/002-affordable-phone-darwin.png" alt="The affordable boundary starts at the right face-up card — phone" width="240"></a></td>
+<td valign="top"><a href="../../screenshots/finish-choices-before-automatically-entering-treasures-and-browse-every-supply-cost/002-affordable-desktop-darwin.png"><img src="../../screenshots/finish-choices-before-automatically-entering-treasures-and-browse-every-supply-cost/002-affordable-desktop-darwin.png" alt="The most expensive affordable card moves to the center — desktop" width="720"></a></td>
+<td valign="top"><a href="../../screenshots/finish-choices-before-automatically-entering-treasures-and-browse-every-supply-cost/002-affordable-phone-darwin.png"><img src="../../screenshots/finish-choices-before-automatically-entering-treasures-and-browse-every-supply-cost/002-affordable-phone-darwin.png" alt="The most expensive affordable card moves to the center — phone" width="240"></a></td>
 </tr>
 </table>
 
 <details>
 <summary>Tabletop · 3840 × 2160 — expand screenshot</summary>
 
-<a href="../../screenshots/finish-choices-before-automatically-entering-treasures-and-browse-every-supply-cost/002-affordable-tabletop-4k-darwin.png"><img src="../../screenshots/finish-choices-before-automatically-entering-treasures-and-browse-every-supply-cost/002-affordable-tabletop-4k-darwin.png" alt="The affordable boundary starts at the right face-up card — tabletop-4k" width="960"></a>
+<a href="../../screenshots/finish-choices-before-automatically-entering-treasures-and-browse-every-supply-cost/002-affordable-tabletop-4k-darwin.png"><img src="../../screenshots/finish-choices-before-automatically-entering-treasures-and-browse-every-supply-cost/002-affordable-tabletop-4k-darwin.png" alt="The most expensive affordable card moves to the center — tabletop-4k" width="960"></a>
 
 </details>
 
-- [x] The most expensive available purchase is the last face-up card.
+- [x] The supply responds to played Treasures on the table.
 
-## All piles remain reachable in the same display
+## Every pile is reachable in the same table
 
 <table>
 <tr><th>Desktop · 1440 × 1000</th><th>Phone · 393 × 852</th></tr>
 <tr>
-<td valign="top"><a href="../../screenshots/finish-choices-before-automatically-entering-treasures-and-browse-every-supply-cost/003-expensive-desktop-darwin.png"><img src="../../screenshots/finish-choices-before-automatically-entering-treasures-and-browse-every-supply-cost/003-expensive-desktop-darwin.png" alt="All piles remain reachable in the same display — desktop" width="720"></a></td>
-<td valign="top"><a href="../../screenshots/finish-choices-before-automatically-entering-treasures-and-browse-every-supply-cost/003-expensive-phone-darwin.png"><img src="../../screenshots/finish-choices-before-automatically-entering-treasures-and-browse-every-supply-cost/003-expensive-phone-darwin.png" alt="All piles remain reachable in the same display — phone" width="240"></a></td>
+<td valign="top"><a href="../../screenshots/finish-choices-before-automatically-entering-treasures-and-browse-every-supply-cost/003-expensive-desktop-darwin.png"><img src="../../screenshots/finish-choices-before-automatically-entering-treasures-and-browse-every-supply-cost/003-expensive-desktop-darwin.png" alt="Every pile is reachable in the same table — desktop" width="720"></a></td>
+<td valign="top"><a href="../../screenshots/finish-choices-before-automatically-entering-treasures-and-browse-every-supply-cost/003-expensive-phone-darwin.png"><img src="../../screenshots/finish-choices-before-automatically-entering-treasures-and-browse-every-supply-cost/003-expensive-phone-darwin.png" alt="Every pile is reachable in the same table — phone" width="240"></a></td>
 </tr>
 </table>
 
 <details>
 <summary>Tabletop · 3840 × 2160 — expand screenshot</summary>
 
-<a href="../../screenshots/finish-choices-before-automatically-entering-treasures-and-browse-every-supply-cost/003-expensive-tabletop-4k-darwin.png"><img src="../../screenshots/finish-choices-before-automatically-entering-treasures-and-browse-every-supply-cost/003-expensive-tabletop-4k-darwin.png" alt="All piles remain reachable in the same display — tabletop-4k" width="960"></a>
+<a href="../../screenshots/finish-choices-before-automatically-entering-treasures-and-browse-every-supply-cost/003-expensive-tabletop-4k-darwin.png"><img src="../../screenshots/finish-choices-before-automatically-entering-treasures-and-browse-every-supply-cost/003-expensive-tabletop-4k-darwin.png" alt="Every pile is reachable in the same table — tabletop-4k" width="960"></a>
 
 </details>
 
-- [x] The costliest Territory is visible without changing supply screens.
+- [x] The costliest Territory is centered while the hand stays visible.
