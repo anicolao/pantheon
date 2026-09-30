@@ -8,6 +8,9 @@ for(const viewport of [{width:320,height:568},{width:375,height:667},{width:430,
     await page.setViewportSize(viewport);
     await actionTable(page,info,'temple-of-athena','thaleia',{seed:'worship-story-2'});
     await playCard(page,'temple-of-athena');
+    // Chronicle freezes its opening revision. Let the automatic phase command
+    // finish first so this story always opens the same completed move history.
+    await expect(page.locator('.turn-marker')).toContainText('Treasures');
     const steps=new TestStepHelper(page,info,`Read public cards on a ${viewport.width} by ${viewport.height} phone`);
     await page.getByRole('button',{name:'Chronicle',exact:true}).click();
     await steps.step('chronicle','Read the played Temple and the bloodline blessing',[{spec:'Both public effects and their paths fit beside the history controls.',check:async()=>{await expect(page.locator('.move')).toHaveCount(2);await expect(page.getByRole('button',{name:'First moves',exact:true})).toBeEnabled();}}]);

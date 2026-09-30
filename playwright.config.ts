@@ -22,7 +22,9 @@ export default defineConfig({
     trace: { mode: 'retain-on-failure', screenshots: false, snapshots: false, sources: true },
     deviceScaleFactor: 1,
     // Full rasterization avoids reload-dependent rounded-edge pixels on macOS.
-    launchOptions: { args: ['--run-all-compositor-stages-before-draw', '--disable-checker-imaging', '--font-render-hinting=none', '--disable-font-subpixel-positioning', '--disable-lcd-text', '--force-device-scale-factor=1', '--disable-gpu', '--disable-partial-raster', '--use-gl=swiftshader'] },
+    // Linux runners have different CPU SIMD paths; use Skia's baseline path so
+    // filtered, tilted cards retain identical RGB rounding across machines.
+    launchOptions: { args: ['--run-all-compositor-stages-before-draw', '--disable-checker-imaging', '--font-render-hinting=none', '--disable-font-subpixel-positioning', '--disable-lcd-text', '--force-device-scale-factor=1', '--disable-gpu', '--disable-partial-raster', '--use-gl=swiftshader', ...(process.platform === 'linux' ? ['--disable-skia-runtime-opts'] : [])] },
     timezoneId: 'America/Toronto',
     serviceWorkers: 'block',
     // Playwright's automatic failure capture has an unconfigurable five-second budget.
