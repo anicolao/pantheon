@@ -17,6 +17,9 @@ on:
       mac_extra:
         type: string
         default: ''
+      linux_check:
+        type: string
+        default: ''
       linux_overlay:
         type: string
         default: ''
@@ -48,10 +51,11 @@ jobs:
           MAC_RUN: ${{ inputs.mac_run }}
           LINUX_OVERLAY: ${{ inputs.linux_overlay }}
           MAC_FALLBACK: ${{ inputs.mac_fallback }}
+          LINUX_CHECK: ${{ inputs.linux_check }}
           LINUX_EXTRA: ${{ inputs.linux_extra }}
           MAC_EXTRA: ${{ inputs.mac_extra }}
         run: |
-          for run in "$LINUX_RUN" "$LINUX_OVERLAY" "$MAC_RUN" "$LINUX_EXTRA" "$MAC_EXTRA"; do
+          for run in "$LINUX_RUN" "$LINUX_OVERLAY" "$MAC_RUN" "$LINUX_EXTRA" "$MAC_EXTRA" "$LINUX_CHECK"; do
             if [[ -z "$run" ]]; then continue; fi
             if ! gh run watch "$run" --repo "$GITHUB_REPOSITORY" --exit-status --interval 30; then
               if [[ "$run" == "$LINUX_RUN" && -n "$LINUX_OVERLAY" ]]; then
@@ -126,6 +130,28 @@ jobs:
           run-id: ${{ inputs.mac_extra }}
           name: darwin-screenshot-baselines
           path: /tmp/baseline-input/darwin
+      - uses: actions/download-artifact@v4
+        if: inputs.linux_check != ''
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          run-id: ${{ inputs.linux_check }}
+          name: linux-screenshot-baselines
+          path: /tmp/baseline-linux-check
+      - name: Compare independent Linux captures exactly
+        if: inputs.linux_check != ''
+        run: |
+          node --input-type=module <<'JS'
+          import sharp from '/tmp/baseline-tools/node_modules/sharp/lib/index.js';
+          import {readdir,readFile} from 'node:fs/promises';
+          const root='/tmp/baseline-linux-check';let matched=0;
+          for(const name of (await readdir(root,{recursive:true})).filter(n=>n.endsWith('-linux.png'))){
+            const a=await sharp(await readFile(`${root}/${name}`)).ensureAlpha().raw().toBuffer();
+            const b=await sharp(await readFile(`/tmp/baseline-input/linux/${name}`)).ensureAlpha().raw().toBuffer();
+            if(!a.equals(b))throw Error(`Independent Linux pixels differ: ${name}`);
+            matched++;
+          }
+          if(!matched)throw Error('No independent Linux captures');console.log({matched});
+          JS
       - name: Preserve exact pixels and prepare review images
         run: |
           node --input-type=module <<'JS'
@@ -141,6 +167,9 @@ jobs:
               while(next<names.length){
                 const name=names[next++];if(name.startsWith('/')||name.split('/').includes('..'))throw Error('Unsafe image path');
                 const target=`tests/e2e/${name}`;
+                // Mac captures outside changed scenes are pre-existing raster differences.
+                // The phase-timing fix deliberately refreshes every mobile Chronicle case.
+                if(platform==='darwin'&&!linuxChanges.has(target.replace(/-darwin\.png$/,'-linux.png'))&&!name.startsWith('008-public-table/screenshots/fit-the-public-trays-')){await unlink(`${root}/${name}`);continue;}
                 const source=await readFile(`${root}/${name}`);
                 const pixels=await sharp(source).ensureAlpha().raw().toBuffer();
                 const existing=await readFile(target).catch(()=>null);
