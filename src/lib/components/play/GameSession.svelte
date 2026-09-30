@@ -315,9 +315,10 @@
     .composition .turn-marker{font-size:14px;}
   }
   @media(max-height:500px) and (min-aspect-ratio:3/4){
+    .hand-face{transform:translateY(min(var(--fan-drop),max(0px,calc(4svh - var(--hand-card-width)*.15)))) rotate(var(--fan-angle));}
     .composition:has(.hand-pages) .hand{left:32%;width:36%;}
-    .composition .hand-pages,.composition:has(.treasures-control) .hand-pages{left:21%;width:58%;bottom:4%;justify-content:space-between;pointer-events:none;z-index:4;}
-    .hand-pages button{pointer-events:auto;}.hand-pages span{position:absolute;left:0;bottom:-10px;width:44px;text-align:center;font-size:9px;line-height:10px;}
+    .composition .hand-pages,.composition:has(.treasures-control) .hand-pages{left:21%;width:58%;bottom:3%;justify-content:space-between;pointer-events:none;z-index:4;}
+    .hand-pages button{pointer-events:auto;}.hand-pages span{position:absolute;left:0;bottom:-8px;width:44px;text-align:center;font-size:8px;line-height:8px;}
     .session{min-height:0;}header{font-size:9px;}header a{min-height:26px;padding:3px 8px;}header>span{padding:3px 8px;}.trash-control{height:26px;min-height:26px;--icon-size:10px;}
     .opponents{top:10%;height:12%;}.opponent-portrait{max-width:min(26px,6svh);}.hidden-hand{height:min(20px,5svh);}.opponent p{font-size:8px;}.opponent-discard{min-height:24px;font-size:8px;}
     .table-supply{top:23%;height:33%;left:20%;width:60%;}

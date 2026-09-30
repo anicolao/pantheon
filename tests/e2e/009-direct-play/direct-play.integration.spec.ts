@@ -103,6 +103,8 @@ test('an expanded fan fits without paging and narrow-screen paging stays clear o
   await expect(page.getByTestId('hand-card')).toHaveCount(9);
   const exposed = await page.getByTestId('hand-card').evaluateAll(nodes=>nodes.map(node=>node.getBoundingClientRect().toJSON()));
   expect(exposed.every(box=>box.x>=0&&box.right<=568)).toBe(true);
+  const faces = await page.locator('.hand-face').evaluateAll(nodes=>nodes.map(node=>node.getBoundingClientRect().toJSON()));
+  expect(faces.every(box=>box.y>=0&&box.bottom<=320)).toBe(true);
   await page.setViewportSize({width:480,height:320});
   await steps.step('landscape-pages','Keep a large hand and its controls inside a short landscape table',[{spec:'Nine cards fit at 568 pixels; the narrower 480-pixel fallback keeps paging clear of both turn controls.',check:async()=>{
     await expect(page.getByRole('button',{name:'Next hand cards',exact:true})).toBeEnabled();
