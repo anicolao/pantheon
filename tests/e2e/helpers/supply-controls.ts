@@ -19,10 +19,17 @@ export async function inspectSupply(page:Page,name:string){
   const card=await browseSupply(page,name);await card.focus();await page.keyboard.press('Shift+F10');
 }
 export async function enterTreasures(page:Page){
-  const marker=page.locator('.turn-marker');
-  if((await marker.textContent())?.includes('Treasures'))return;
-  // Automatic progression is already in flight when there are no legal Actions.
-  const playable=await page.locator('.hand-slot [data-card-id]').evaluateAll(nodes=>nodes.some(node=>node.getAttribute('data-card-id')&&!['obol','drachma','talent','hamlet','polis','acropolis'].includes(node.getAttribute('data-card-id')!)));
-  if(playable&&await page.getByRole('button',{name:'To Treasures',exact:true}).isEnabled())await page.getByRole('button',{name:'To Treasures',exact:true}).click();
-  await expect(marker).toContainText('Treasures');
+  // Read phase, readiness, and legal plays together. Card type alone is not
+  // playability: an Action can remain in hand after the last Action is spent.
+  const phase = await page.waitForFunction(() => {
+    const session = document.querySelector('.session');
+    if (session?.getAttribute('aria-busy') !== 'false') return false;
+    const marker = session.querySelector('.turn-marker')?.textContent;
+    if (marker?.includes('Treasures')) return 'treasures';
+    const playableAction = session.querySelector(
+      '.hand-slot:has([data-type="Action"]) + button[aria-label^="Play hand card "]');
+    return marker?.includes('Actions') && playableAction ? 'actions' : false;
+  }, undefined, {timeout: 2000});
+  if (await phase.jsonValue() === 'actions') await page.getByRole('button',{name:'To Treasures',exact:true}).click();
+  await expect(page.locator('.turn-marker')).toContainText('Treasures');
 }

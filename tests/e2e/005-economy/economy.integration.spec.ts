@@ -16,6 +16,9 @@ async function advance(page:Page,name:string){
 test('retain Treasures deliberately and spend multiple Buys including a zero-cost card',async({page},info)=>{
   test.setTimeout(120_000);const fixture=await actionTable(page,info,'sea-trade','thaleia');await playCard(page,'sea-trade');await advance(page,'To Treasures');
   const beforeEvents=await readEvents(fixture.code),state=replaySetup(beforeEvents),remaining=state.decks[fixture.host].hand.length;
+  expect(state.resources.actions).toBe(0);
+  expect(state.turn.phase).toBe('treasures');
+  expect(beforeEvents.slice(fixture.events.length).filter(event=>event.type==='phase/advanced')).toHaveLength(1);
   await page.getByRole('button',{name:'End turn',exact:true}).click();await expect(page.getByRole('button',{name:'Keep playing',exact:true})).toBeVisible();
   const steps=new TestStepHelper(page,info,'Retain wealth and choose your purchases');await steps.step('leave-treasures','Confirm leaving playable Treasures',[{spec:'Keep playing returns to the same hand without an event.',check:async()=>expect(page.getByRole('dialog')).toContainText('You can still play')}]);
   await page.getByRole('button',{name:'Keep playing',exact:true}).click();expect((await readEvents(fixture.code)).length).toBe(beforeEvents.length);
