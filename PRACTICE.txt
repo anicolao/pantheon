@@ -1,0 +1,28 @@
+Local practice opponents
+========================
+Open /practice/ beneath the deployed site base (PR 10: /pantheon/pr10/practice/).
+Select your leader, the opponent leader, a strategy, and who moves first.
+Money uses the accepted current sampler and standard-game Worship adapter.
+Engine (historical v4) uses the restored leader-aware policy that performed well in the historical study.
+Engine (current) preserves the neutral-base-game-tuned policy and its existing Thaleia book.
+Every practice game uses standard powers/Worship, equal completed turns, and original half-credit ties.
+The normal multiplayer rules remain unchanged.
+
+Bot decisions run in a dedicated worker. Only its legal observation and policy memory enter the worker:
+own hand and public composition, public supply, scores, completed turns and public history estimates.
+No seed, hidden draw order or opposing hand is sent to the decision worker.
+Practice is local to this browser; there is no shared multiplayer room or Firebase write.
+Progress is saved after each command. Continue saved game replays the reducer and restores decision memory.
+Pause opponent cancels pending computation; Resume replans the same decision.
+Save replay downloads the setup, commands, and policy memory as JSON.
+The initial seat choice is implemented by selecting a deterministic seed suffix before dealing, without inspecting hands.
+Historical Engine opening books are frozen into each new practice session so a later site update cannot change its opening halfway through.
+
+Validation
+----------
+Complete games for all three choices in both seats; equal-turn checks; replay and restore parity;
+public-observation checks; versioned-controller/production-effect compatibility; recorded-command parity.
+Svelte checks and production build pass.
+Local browser smoke is blocked by this workspace's socket and Chromium process restrictions.
+scripts/practice-browser-smoke.ts runs via CI and captures desktop/phone views; it verifies a worker turn and save/restore.
+The practice route is linked here while browser validation is pending; existing illustrated home-screen baselines are unchanged.
