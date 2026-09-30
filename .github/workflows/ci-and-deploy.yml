@@ -29,6 +29,15 @@ jobs:
           bun-version: 1.3.10
       - name: Install image tooling separately from the project
         run: mkdir -p /tmp/baseline-tools && cd /tmp/baseline-tools && bun add sharp@0.34.5
+      - name: Wait for successful source runs
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          LINUX_RUN: ${{ inputs.linux_run }}
+          MAC_RUN: ${{ inputs.mac_run }}
+        run: |
+          for run in "$LINUX_RUN" "$MAC_RUN"; do
+            if [[ -n "$run" ]]; then gh run watch "$run" --repo "$GITHUB_REPOSITORY" --exit-status --interval 30; fi
+          done
       - uses: actions/download-artifact@v4
         if: inputs.linux_run != ''
         with:
