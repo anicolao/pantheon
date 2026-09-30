@@ -1,0 +1,8 @@
+Accepted balance research checkpoint, 2026-09-30.
+Entry point: accepted-engine/runner.ts; policy: accepted-engine/selected-policy.ts.
+Equal completed turns, original split ties, standard +1 Action Thaleia.
+Fixed opening book; accepted discard lookahead; payload acquisition bonus removed.
+P1 closing guard restored; extra Talent only for P2; thinning floor 4.
+Money: v18 shuffle-effective / raw / stratified.
+This snapshot reproduces accepted base-game experiments. Standard-game worship integration is separate.
+Imports portable. Historical reports retained; raw results remain in original diagnostics.
