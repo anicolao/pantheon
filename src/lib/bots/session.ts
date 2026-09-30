@@ -6,7 +6,7 @@ import {inventoryAtSetup,updateInventory,strategyView} from '../../../balance-ch
 import type {StandardView} from '../../../standard-matrix/policy';
 import {botLabels,type BotKind,type BotMemory} from './policy';
 export type PracticeConfig={seed:string;humanLeader:string;botLeader:string;humanFirst:boolean;bot:BotKind};
-export type RecordGame={version:1;config:PracticeConfig;commands:ActionCommand[];memories:Record<string,BotMemory>};
+export type RecordGame={version:1;config:PracticeConfig;commands:ActionCommand[];observedTurn:string;memories:Record<string,BotMemory>};
 export function initialGame(config:PracticeConfig):SetupState{
  const events:SetupEvent[]=[];
  const add=(uid:string,data:Partial<SetupEvent>)=>events.push({schemaVersion:1,sequence:events.length+1,actorUid:uid,name:uid==='human'?'You':botLabels[config.bot],playerCount:2,reducerVersion:1,commandId:'practice-'+(events.length+1),type:'player/joined',...data});
@@ -66,10 +66,17 @@ export class PracticeSession{
   this.game.publicActivity.push(describePublicCommand(before,this.game,{...command,sequence,actorUid:uid} as SetupEvent));
   this.tracker.observe(this.game,uid,start,command);this.commands.push(command);
  }
- save():RecordGame{return {version:1,config:this.config,commands:this.commands,memories:this.tracker.memories};}
+ save():RecordGame{return {version:1,config:this.config,commands:this.commands,observedTurn:this.tracker.key,memories:this.tracker.memories};}
  static restore(record:RecordGame){
   if(record.version!==1||!Array.isArray(record.commands)||record.commands.length>20000)throw Error('Invalid saved practice game');
   const s=new PracticeSession(record.config);for(const c of record.commands)s.apply(c);
+  // A save can occur while a worker is deciding the first command of a turn.
+  // Preserve whether that turn was already observed, so its counter is not
+  // incremented a second time after reload.
+  if(record.observedTurn!==undefined&&record.observedTurn!==s.tracker.key){
+   if(s.game.turn.phase==='finished'||record.observedTurn!==activePlayer(s.game)+'/'+s.game.turn.number)throw Error('Invalid observed turn');
+   s.tracker.view(s.game);
+  }
   // Restore policy memory only after replay has rebuilt all public tracking.
   s.tracker.memories=record.memories;return s;
  }
