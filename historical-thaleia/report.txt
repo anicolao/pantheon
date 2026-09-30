@@ -1,0 +1,61 @@
+Historical v4 Thaleia Engine recheck
+
+Main comparison: P1 Thaleia vs unchanged P2 current Money, 100 matched seeds per opponent.
+Standard +1 Action power and Worship; equal completed turns; original ties count half.
+Historical source 744d0b142e19c7cc06d59421d6461b6f2730992e, frozen v4 leader profiles.
+Current baseline is 47ffa63 with the Thaleia-specific opening book. No default bot changed.
+All intervals are pointwise paired t intervals (99 df); share intervals also use seed-level t.
+These are reused diagnostic seeds, not independent final validation after choosing a policy.
+
+nereon
+  restored: 46.5% [37.1, 55.9]; W/T/L 41/11/48
+  currentBook: 35.0% [25.7, 44.3]; W/T/L 33/4/63
+  genericBook: 26.0% [17.5, 34.5]; W/T/L 24/4/72
+  oldOpponentEqual: 79.0% [71.1, 86.9]; W/T/L 77/4/19
+  oldOpponentOriginal: 86.0% [79.4, 92.6]; W/T/L 84/4/12
+  restored minus currentBook: +11.5 pp [+0.5, +22.5]
+  restored minus genericBook: +20.5 pp [+9.5, +31.5]
+  restored minus oldOpponentEqual: -32.5 pp [-43.5, -21.5]
+  equal turns minus immediate ending (both historical Engines): -7.0 pp [-12.1, -1.9]
+  Worship {"restored": {"perGame": 7.67, "favoredPerGame": 5.55}, "currentBook": {"perGame": 3.47, "favoredPerGame": 2.99}}
+melia
+  restored: 43.5% [34.0, 53.0]; W/T/L 40/7/53
+  currentBook: 26.0% [17.7, 34.3]; W/T/L 22/8/70
+  genericBook: 23.0% [15.1, 30.9]; W/T/L 19/8/73
+  oldOpponentEqual: 55.0% [45.6, 64.4]; W/T/L 50/10/40
+  oldOpponentOriginal: 60.0% [50.6, 69.4]; W/T/L 56/8/36
+  restored minus currentBook: +17.5 pp [+6.8, +28.2]
+  restored minus genericBook: +20.5 pp [+9.5, +31.5]
+  restored minus oldOpponentEqual: -11.5 pp [-24.3, +1.3]
+  equal turns minus immediate ending (both historical Engines): -5.0 pp [-9.1, -0.9]
+  Worship {"restored": {"perGame": 6.27, "favoredPerGame": 5.63}, "currentBook": {"perGame": 3.18, "favoredPerGame": 2.48}}
+doreios
+  restored: 58.5% [49.0, 68.0]; W/T/L 55/7/38
+  currentBook: 45.5% [35.8, 55.2]; W/T/L 43/5/52
+  genericBook: 31.5% [22.7, 40.3]; W/T/L 27/9/64
+  oldOpponentEqual: 66.5% [57.5, 75.5]; W/T/L 63/7/30
+  oldOpponentOriginal: 71.5% [62.7, 80.3]; W/T/L 70/3/27
+  restored minus currentBook: +13.0 pp [+2.1, +23.9]
+  restored minus genericBook: +27.0 pp [+16.0, +38.0]
+  restored minus oldOpponentEqual: -8.0 pp [-19.9, +3.9]
+  equal turns minus immediate ending (both historical Engines): -5.0 pp [-8.9, -1.1]
+  Worship {"restored": {"perGame": 6.15, "favoredPerGame": 5.44}, "currentBook": {"perGame": 3.82, "favoredPerGame": 2.78}}
+
+Original archived v4 headline (both seats, different seeds, 400 games/opponent):
+Nereon 72.625%, Melia 64.625%, Doreios 57.625%, all Engine versus Engine.
+Original card/leader standard effects are unchanged; current reducer adds the equal-turn ending option.
+The historical bot retains its own purchasing, action ordering, thinning and Worship; no modern opening book or Worship adapter is imposed.
+The restored policy values marginal deck draw coverage (including Thaleia action capacity), stranded draw, starter reliability and immediate payload.
+It searches known-hand action paths toward Favored Worship and evaluates Worship against purchase opportunity cost.
+The modern bot instead descends from the neutral-base-game balancing experiments, with a fixed opening and a later-added Worship adapter.
+Policy package differences are demonstrated; individual causes (purchases versus action play versus Worship) have not been ablated.
+The original reported superiority was against old Engines, not current Money. Paired bridge games separate those opponents from the equal-turn rule.
+
+Validation: 900 new games completed and replayed to identical full states. All 600 equal-turn games have equal completed turns.
+The untouched historical runner independently reproduces all 300 original-rule bridge outcomes.
+Card-gain bookkeeping was corrected to match the historical runner; preliminary runs are excluded and preserved separately.
+Six archived historical Engine/Engine games (three rivals, both seats) reproduce full results AND command traces exactly.
+Strict TypeScript passed for runner, worker and provenance verifier.
+Reproduce inside nix develop: python3 historical-thaleia/batch.py; python3 historical-thaleia/bridge.py equal; python3 historical-thaleia/bridge.py original; python3 historical-thaleia/analyze.py.
+Batch scripts refuse to overwrite raw files. Runs use 16 CPU workers. Each dataset has 300 records and three saved full replays.
+Source snapshot contains only the 13 exact historical dependencies; provenance is recorded in manifest.json.
