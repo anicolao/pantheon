@@ -11,7 +11,7 @@ jobs:
       - uses: actions/download-artifact@v4
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          run-id: '36754345762'
+          run-id: '36776621115'
           name: card-gallery-browser-report
           path: /tmp/report
       - name: Select representative failures
