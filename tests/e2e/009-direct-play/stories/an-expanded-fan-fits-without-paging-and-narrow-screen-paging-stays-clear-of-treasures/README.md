@@ -40,20 +40,39 @@ Recorded-history integration scenario. A legal event history prepares the starti
 
 - [x] Paging and Play all Treasures have distinct, unobstructed controls.
 
-## Inspect the last physical card on the next page
+## Keep a large hand and its controls inside a short landscape table
 
 <table>
 <tr><th>Desktop · 1440 × 1000</th><th>Phone · 393 × 852</th></tr>
 <tr>
-<td valign="top"><a href="../../screenshots/an-expanded-fan-fits-without-paging-and-narrow-screen-paging-stays-clear-of-treasures/002-last-copy-desktop-darwin.png"><img src="../../screenshots/an-expanded-fan-fits-without-paging-and-narrow-screen-paging-stays-clear-of-treasures/002-last-copy-desktop-darwin.png" alt="Inspect the last physical card on the next page — desktop" width="720"></a></td>
-<td valign="top"><a href="../../screenshots/an-expanded-fan-fits-without-paging-and-narrow-screen-paging-stays-clear-of-treasures/002-last-copy-phone-darwin.png"><img src="../../screenshots/an-expanded-fan-fits-without-paging-and-narrow-screen-paging-stays-clear-of-treasures/002-last-copy-phone-darwin.png" alt="Inspect the last physical card on the next page — phone" width="240"></a></td>
+<td valign="top"><a href="../../screenshots/an-expanded-fan-fits-without-paging-and-narrow-screen-paging-stays-clear-of-treasures/002-landscape-pages-desktop-darwin.png"><img src="../../screenshots/an-expanded-fan-fits-without-paging-and-narrow-screen-paging-stays-clear-of-treasures/002-landscape-pages-desktop-darwin.png" alt="Keep a large hand and its controls inside a short landscape table — desktop" width="720"></a></td>
+<td valign="top"><a href="../../screenshots/an-expanded-fan-fits-without-paging-and-narrow-screen-paging-stays-clear-of-treasures/002-landscape-pages-phone-darwin.png"><img src="../../screenshots/an-expanded-fan-fits-without-paging-and-narrow-screen-paging-stays-clear-of-treasures/002-landscape-pages-phone-darwin.png" alt="Keep a large hand and its controls inside a short landscape table — phone" width="240"></a></td>
 </tr>
 </table>
 
 <details>
 <summary>Tabletop · 3840 × 2160 — expand screenshot</summary>
 
-<a href="../../screenshots/an-expanded-fan-fits-without-paging-and-narrow-screen-paging-stays-clear-of-treasures/002-last-copy-tabletop-4k-darwin.png"><img src="../../screenshots/an-expanded-fan-fits-without-paging-and-narrow-screen-paging-stays-clear-of-treasures/002-last-copy-tabletop-4k-darwin.png" alt="Inspect the last physical card on the next page — tabletop-4k" width="960"></a>
+<a href="../../screenshots/an-expanded-fan-fits-without-paging-and-narrow-screen-paging-stays-clear-of-treasures/002-landscape-pages-tabletop-4k-darwin.png"><img src="../../screenshots/an-expanded-fan-fits-without-paging-and-narrow-screen-paging-stays-clear-of-treasures/002-landscape-pages-tabletop-4k-darwin.png" alt="Keep a large hand and its controls inside a short landscape table — tabletop-4k" width="960"></a>
+
+</details>
+
+- [x] Nine cards fit at 568 pixels; the narrower 480-pixel fallback keeps paging clear of both turn controls.
+
+## Inspect the last physical card on the next page
+
+<table>
+<tr><th>Desktop · 1440 × 1000</th><th>Phone · 393 × 852</th></tr>
+<tr>
+<td valign="top"><a href="../../screenshots/an-expanded-fan-fits-without-paging-and-narrow-screen-paging-stays-clear-of-treasures/003-last-copy-desktop-darwin.png"><img src="../../screenshots/an-expanded-fan-fits-without-paging-and-narrow-screen-paging-stays-clear-of-treasures/003-last-copy-desktop-darwin.png" alt="Inspect the last physical card on the next page — desktop" width="720"></a></td>
+<td valign="top"><a href="../../screenshots/an-expanded-fan-fits-without-paging-and-narrow-screen-paging-stays-clear-of-treasures/003-last-copy-phone-darwin.png"><img src="../../screenshots/an-expanded-fan-fits-without-paging-and-narrow-screen-paging-stays-clear-of-treasures/003-last-copy-phone-darwin.png" alt="Inspect the last physical card on the next page — phone" width="240"></a></td>
+</tr>
+</table>
+
+<details>
+<summary>Tabletop · 3840 × 2160 — expand screenshot</summary>
+
+<a href="../../screenshots/an-expanded-fan-fits-without-paging-and-narrow-screen-paging-stays-clear-of-treasures/003-last-copy-tabletop-4k-darwin.png"><img src="../../screenshots/an-expanded-fan-fits-without-paging-and-narrow-screen-paging-stays-clear-of-treasures/003-last-copy-tabletop-4k-darwin.png" alt="Inspect the last physical card on the next page — tabletop-4k" width="960"></a>
 
 </details>
 
@@ -64,15 +83,15 @@ Recorded-history integration scenario. A legal event history prepares the starti
 <table>
 <tr><th>Desktop · 1440 × 1000</th><th>Phone · 393 × 852</th></tr>
 <tr>
-<td valign="top"><a href="../../screenshots/an-expanded-fan-fits-without-paging-and-narrow-screen-paging-stays-clear-of-treasures/003-play-all-desktop-darwin.png"><img src="../../screenshots/an-expanded-fan-fits-without-paging-and-narrow-screen-paging-stays-clear-of-treasures/003-play-all-desktop-darwin.png" alt="Play every Treasure across all pages directly from Actions — desktop" width="720"></a></td>
-<td valign="top"><a href="../../screenshots/an-expanded-fan-fits-without-paging-and-narrow-screen-paging-stays-clear-of-treasures/003-play-all-phone-darwin.png"><img src="../../screenshots/an-expanded-fan-fits-without-paging-and-narrow-screen-paging-stays-clear-of-treasures/003-play-all-phone-darwin.png" alt="Play every Treasure across all pages directly from Actions — phone" width="240"></a></td>
+<td valign="top"><a href="../../screenshots/an-expanded-fan-fits-without-paging-and-narrow-screen-paging-stays-clear-of-treasures/004-play-all-desktop-darwin.png"><img src="../../screenshots/an-expanded-fan-fits-without-paging-and-narrow-screen-paging-stays-clear-of-treasures/004-play-all-desktop-darwin.png" alt="Play every Treasure across all pages directly from Actions — desktop" width="720"></a></td>
+<td valign="top"><a href="../../screenshots/an-expanded-fan-fits-without-paging-and-narrow-screen-paging-stays-clear-of-treasures/004-play-all-phone-darwin.png"><img src="../../screenshots/an-expanded-fan-fits-without-paging-and-narrow-screen-paging-stays-clear-of-treasures/004-play-all-phone-darwin.png" alt="Play every Treasure across all pages directly from Actions — phone" width="240"></a></td>
 </tr>
 </table>
 
 <details>
 <summary>Tabletop · 3840 × 2160 — expand screenshot</summary>
 
-<a href="../../screenshots/an-expanded-fan-fits-without-paging-and-narrow-screen-paging-stays-clear-of-treasures/003-play-all-tabletop-4k-darwin.png"><img src="../../screenshots/an-expanded-fan-fits-without-paging-and-narrow-screen-paging-stays-clear-of-treasures/003-play-all-tabletop-4k-darwin.png" alt="Play every Treasure across all pages directly from Actions — tabletop-4k" width="960"></a>
+<a href="../../screenshots/an-expanded-fan-fits-without-paging-and-narrow-screen-paging-stays-clear-of-treasures/004-play-all-tabletop-4k-darwin.png"><img src="../../screenshots/an-expanded-fan-fits-without-paging-and-narrow-screen-paging-stays-clear-of-treasures/004-play-all-tabletop-4k-darwin.png" alt="Play every Treasure across all pages directly from Actions — tabletop-4k" width="960"></a>
 
 </details>
 
