@@ -25,8 +25,11 @@
     const end=target, snap=reduced||!visible;
     if(dragging)return;
     if(snap){position=end;return;}
-    let frame=0,last=performance.now();
-    function animate(now:number){const elapsed=Math.min(50,now-last);last=now;const distance=end-position;position=Math.abs(distance)<.0005?end:position+distance*(1-Math.exp(-elapsed/104));if(position!==end)frame=requestAnimationFrame(animate);}
+    const start=performance.now(),from=untrack(()=>position);
+    let frame=0;
+    // Keep the prototype's exponential ease, but finish in one 520 ms glide.
+    // A fractional tail must not leave purchases busy on a slower renderer.
+    function animate(now:number){const progress=Math.min(1,(now-start)/520);position=progress===1?end:from+(end-from)*(1-Math.exp(-5*progress))/(1-Math.exp(-5));if(position!==end)frame=requestAnimationFrame(animate);}
     frame=requestAnimationFrame(animate);return()=>cancelAnimationFrame(frame);
   });
   onMount(()=>{const media=matchMedia('(prefers-reduced-motion: reduce)'),update=()=>{reduced=media.matches;};update();media.addEventListener('change',update);return()=>media.removeEventListener('change',update);});
