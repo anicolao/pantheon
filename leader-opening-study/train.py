@@ -1,7 +1,9 @@
 import json,os,subprocess,concurrent.futures,time
 from pathlib import Path
 from pool import CachedWorkers
+from runlock import lock
 root=Path(__file__).resolve().parent
+run_lock=lock(root,'training')
 out=root/'training';out.mkdir(exist_ok=True)
 leaders=['thaleia','nereon','melia','doreios']
 workers=os.cpu_count();books={l:{} for l in leaders};selections=[];t0=time.time()
