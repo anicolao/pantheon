@@ -1,0 +1,1871 @@
+{
+  "manifest": {
+    "seedStart": 240000,
+    "gamesPerCell": 200,
+    "cells": 48,
+    "workers": 16,
+    "rules": "standard powers/worship, equal turns, original split ties",
+    "seedPrefix": "leader-matrix-v1",
+    "opening": "observed-budget book; no worship on first two turns",
+    "checkpoint": "7deefaa0",
+    "harnessCommit": "6ff8353ef3a5e1cc0f1c12068716581d14afd2d3",
+    "runtime": "Bun 1.3.13",
+    "elapsedSeconds": 6077,
+    "leaderGodPairs": {
+      "thaleia": "Athena",
+      "nereon": "Poseidon",
+      "melia": "Demeter",
+      "doreios": "Ares"
+    },
+    "completedGames": 9600,
+    "replayVerifiedGames": 9600,
+    "equalTurnsVerifiedGames": 9600
+  },
+  "cells": [
+    {
+      "p1Leader": "doreios",
+      "p2Leader": "melia",
+      "p1Strategy": "engine",
+      "p2Strategy": "engine",
+      "mean": 0.3175,
+      "ci95": [
+        0.25694219973244947,
+        0.3849365924277377
+      ],
+      "n": 200,
+      "wins": 46,
+      "ties": 35,
+      "losses": 119,
+      "meanTurns": 13.125
+    },
+    {
+      "p1Leader": "doreios",
+      "p2Leader": "melia",
+      "p1Strategy": "engine",
+      "p2Strategy": "money",
+      "mean": 0.105,
+      "ci95": [
+        0.0697069624619373,
+        0.15518138221353622
+      ],
+      "n": 200,
+      "wins": 16,
+      "ties": 10,
+      "losses": 174,
+      "meanTurns": 12.41
+    },
+    {
+      "p1Leader": "doreios",
+      "p2Leader": "melia",
+      "p1Strategy": "money",
+      "p2Strategy": "engine",
+      "mean": 0.3325,
+      "ci95": [
+        0.2709055050854672,
+        0.40040790689717043
+      ],
+      "n": 200,
+      "wins": 49,
+      "ties": 35,
+      "losses": 116,
+      "meanTurns": 17.44
+    },
+    {
+      "p1Leader": "doreios",
+      "p2Leader": "melia",
+      "p1Strategy": "money",
+      "p2Strategy": "money",
+      "mean": 0.0925,
+      "ci95": [
+        0.059670699908549216,
+        0.14068879491488234
+      ],
+      "n": 200,
+      "wins": 8,
+      "ties": 21,
+      "losses": 171,
+      "meanTurns": 13.535
+    },
+    {
+      "p1Leader": "doreios",
+      "p2Leader": "nereon",
+      "p1Strategy": "engine",
+      "p2Strategy": "engine",
+      "mean": 0.71,
+      "ci95": [
+        0.6436239464268834,
+        0.7684607310874219
+      ],
+      "n": 200,
+      "wins": 131,
+      "ties": 22,
+      "losses": 47,
+      "meanTurns": 15.43
+    },
+    {
+      "p1Leader": "doreios",
+      "p2Leader": "nereon",
+      "p1Strategy": "engine",
+      "p2Strategy": "money",
+      "mean": 0.15,
+      "ci95": [
+        0.107135265876273,
+        0.20605693826655166
+      ],
+      "n": 200,
+      "wins": 25,
+      "ties": 10,
+      "losses": 165,
+      "meanTurns": 13.26
+    },
+    {
+      "p1Leader": "doreios",
+      "p2Leader": "nereon",
+      "p1Strategy": "money",
+      "p2Strategy": "engine",
+      "mean": 0.475,
+      "ci95": [
+        0.4069150074009861,
+        0.54402729289493
+      ],
+      "n": 200,
+      "wins": 78,
+      "ties": 34,
+      "losses": 88,
+      "meanTurns": 20.11
+    },
+    {
+      "p1Leader": "doreios",
+      "p2Leader": "nereon",
+      "p1Strategy": "money",
+      "p2Strategy": "money",
+      "mean": 0.0675,
+      "ci95": [
+        0.04025774262754594,
+        0.11104405249180166
+      ],
+      "n": 200,
+      "wins": 8,
+      "ties": 11,
+      "losses": 181,
+      "meanTurns": 14.505
+    },
+    {
+      "p1Leader": "doreios",
+      "p2Leader": "thaleia",
+      "p1Strategy": "engine",
+      "p2Strategy": "engine",
+      "mean": 0.5,
+      "ci95": [
+        0.43135962209034523,
+        0.5686403779096547
+      ],
+      "n": 200,
+      "wins": 82,
+      "ties": 36,
+      "losses": 82,
+      "meanTurns": 13.89
+    },
+    {
+      "p1Leader": "doreios",
+      "p2Leader": "thaleia",
+      "p1Strategy": "engine",
+      "p2Strategy": "money",
+      "mean": 0.1625,
+      "ci95": [
+        0.11781858422845592,
+        0.2199024697664107
+      ],
+      "n": 200,
+      "wins": 27,
+      "ties": 11,
+      "losses": 162,
+      "meanTurns": 12.67
+    },
+    {
+      "p1Leader": "doreios",
+      "p2Leader": "thaleia",
+      "p1Strategy": "money",
+      "p2Strategy": "engine",
+      "mean": 0.355,
+      "ci95": [
+        0.29198518653239286,
+        0.4234801551839203
+      ],
+      "n": 200,
+      "wins": 51,
+      "ties": 40,
+      "losses": 109,
+      "meanTurns": 16.73
+    },
+    {
+      "p1Leader": "doreios",
+      "p2Leader": "thaleia",
+      "p1Strategy": "money",
+      "p2Strategy": "money",
+      "mean": 0.09,
+      "ci95": [
+        0.05768697871453362,
+        0.13776674613848952
+      ],
+      "n": 200,
+      "wins": 10,
+      "ties": 16,
+      "losses": 174,
+      "meanTurns": 13.87
+    },
+    {
+      "p1Leader": "melia",
+      "p2Leader": "doreios",
+      "p1Strategy": "engine",
+      "p2Strategy": "engine",
+      "mean": 0.59,
+      "ci95": [
+        0.5207633107255152,
+        0.655844408209187
+      ],
+      "n": 200,
+      "wins": 102,
+      "ties": 32,
+      "losses": 66,
+      "meanTurns": 14.75
+    },
+    {
+      "p1Leader": "melia",
+      "p2Leader": "doreios",
+      "p1Strategy": "engine",
+      "p2Strategy": "money",
+      "mean": 0.4375,
+      "ci95": [
+        0.37056567632046794,
+        0.5067900744193223
+      ],
+      "n": 200,
+      "wins": 71,
+      "ties": 33,
+      "losses": 96,
+      "meanTurns": 13.775
+    },
+    {
+      "p1Leader": "melia",
+      "p2Leader": "doreios",
+      "p1Strategy": "money",
+      "p2Strategy": "engine",
+      "mean": 0.815,
+      "ci95": [
+        0.7554281794988185,
+        0.8626988367726394
+      ],
+      "n": 200,
+      "wins": 155,
+      "ties": 16,
+      "losses": 29,
+      "meanTurns": 27.07
+    },
+    {
+      "p1Leader": "melia",
+      "p2Leader": "doreios",
+      "p1Strategy": "money",
+      "p2Strategy": "money",
+      "mean": 0.6,
+      "ci95": [
+        0.5308354385001253,
+        0.6653953603162106
+      ],
+      "n": 200,
+      "wins": 108,
+      "ties": 24,
+      "losses": 68,
+      "meanTurns": 22.975
+    },
+    {
+      "p1Leader": "melia",
+      "p2Leader": "nereon",
+      "p1Strategy": "engine",
+      "p2Strategy": "engine",
+      "mean": 0.775,
+      "ci95": [
+        0.7122575346140798,
+        0.8273771621308439
+      ],
+      "n": 200,
+      "wins": 149,
+      "ties": 12,
+      "losses": 39,
+      "meanTurns": 15.735
+    },
+    {
+      "p1Leader": "melia",
+      "p2Leader": "nereon",
+      "p1Strategy": "engine",
+      "p2Strategy": "money",
+      "mean": 0.305,
+      "ci95": [
+        0.24536314352669053,
+        0.3719867987814547
+      ],
+      "n": 200,
+      "wins": 52,
+      "ties": 18,
+      "losses": 130,
+      "meanTurns": 14.525
+    },
+    {
+      "p1Leader": "melia",
+      "p2Leader": "nereon",
+      "p1Strategy": "money",
+      "p2Strategy": "engine",
+      "mean": 0.805,
+      "ci95": [
+        0.744558352034882,
+        0.8539455843549424
+      ],
+      "n": 200,
+      "wins": 153,
+      "ties": 16,
+      "losses": 31,
+      "meanTurns": 21.745
+    },
+    {
+      "p1Leader": "melia",
+      "p2Leader": "nereon",
+      "p1Strategy": "money",
+      "p2Strategy": "money",
+      "mean": 0.2225,
+      "ci95": [
+        0.17039224231955052,
+        0.2850672909651176
+      ],
+      "n": 200,
+      "wins": 29,
+      "ties": 31,
+      "losses": 140,
+      "meanTurns": 16.18
+    },
+    {
+      "p1Leader": "melia",
+      "p2Leader": "thaleia",
+      "p1Strategy": "engine",
+      "p2Strategy": "engine",
+      "mean": 0.5725,
+      "ci95": [
+        0.5032049590519969,
+        0.6390623700898466
+      ],
+      "n": 200,
+      "wins": 105,
+      "ties": 19,
+      "losses": 76,
+      "meanTurns": 14.015
+    },
+    {
+      "p1Leader": "melia",
+      "p2Leader": "thaleia",
+      "p1Strategy": "engine",
+      "p2Strategy": "money",
+      "mean": 0.35,
+      "ci95": [
+        0.28728715939415395,
+        0.41836664238134236
+      ],
+      "n": 200,
+      "wins": 62,
+      "ties": 16,
+      "losses": 122,
+      "meanTurns": 13.93
+    },
+    {
+      "p1Leader": "melia",
+      "p2Leader": "thaleia",
+      "p1Strategy": "money",
+      "p2Strategy": "engine",
+      "mean": 0.5575,
+      "ci95": [
+        0.48822276141416987,
+        0.6246099479052232
+      ],
+      "n": 200,
+      "wins": 100,
+      "ties": 23,
+      "losses": 77,
+      "meanTurns": 18.8
+    },
+    {
+      "p1Leader": "melia",
+      "p2Leader": "thaleia",
+      "p1Strategy": "money",
+      "p2Strategy": "money",
+      "mean": 0.325,
+      "ci95": [
+        0.2639146705018621,
+        0.39268143156955027
+      ],
+      "n": 200,
+      "wins": 52,
+      "ties": 26,
+      "losses": 122,
+      "meanTurns": 16.905
+    },
+    {
+      "p1Leader": "nereon",
+      "p2Leader": "doreios",
+      "p1Strategy": "engine",
+      "p2Strategy": "engine",
+      "mean": 0.47,
+      "ci95": [
+        0.4020463337087108,
+        0.5390844266463886
+      ],
+      "n": 200,
+      "wins": 84,
+      "ties": 20,
+      "losses": 96,
+      "meanTurns": 14.4
+    },
+    {
+      "p1Leader": "nereon",
+      "p2Leader": "doreios",
+      "p1Strategy": "engine",
+      "p2Strategy": "money",
+      "mean": 0.47,
+      "ci95": [
+        0.4020463337087108,
+        0.5390844266463886
+      ],
+      "n": 200,
+      "wins": 84,
+      "ties": 20,
+      "losses": 96,
+      "meanTurns": 14.5
+    },
+    {
+      "p1Leader": "nereon",
+      "p2Leader": "doreios",
+      "p1Strategy": "money",
+      "p2Strategy": "engine",
+      "mean": 0.6475,
+      "ci95": [
+        0.5790756387775244,
+        0.7103647894765708
+      ],
+      "n": 200,
+      "wins": 118,
+      "ties": 23,
+      "losses": 59,
+      "meanTurns": 23.91
+    },
+    {
+      "p1Leader": "nereon",
+      "p2Leader": "doreios",
+      "p1Strategy": "money",
+      "p2Strategy": "money",
+      "mean": 0.6325,
+      "ci95": [
+        0.5637694400490431,
+        0.6962363683826019
+      ],
+      "n": 200,
+      "wins": 116,
+      "ties": 21,
+      "losses": 63,
+      "meanTurns": 24.545
+    },
+    {
+      "p1Leader": "nereon",
+      "p2Leader": "melia",
+      "p1Strategy": "engine",
+      "p2Strategy": "engine",
+      "mean": 0.3375,
+      "ci95": [
+        0.27557610896975177,
+        0.4055488429537027
+      ],
+      "n": 200,
+      "wins": 60,
+      "ties": 15,
+      "losses": 125,
+      "meanTurns": 14.03
+    },
+    {
+      "p1Leader": "nereon",
+      "p2Leader": "melia",
+      "p1Strategy": "engine",
+      "p2Strategy": "money",
+      "mean": 0.16,
+      "ci95": [
+        0.11567342208544587,
+        0.2171418619390124
+      ],
+      "n": 200,
+      "wins": 26,
+      "ties": 12,
+      "losses": 162,
+      "meanTurns": 14.2
+    },
+    {
+      "p1Leader": "nereon",
+      "p2Leader": "melia",
+      "p1Strategy": "money",
+      "p2Strategy": "engine",
+      "mean": 0.5625,
+      "ci95": [
+        0.49320992558067783,
+        0.6294343236795321
+      ],
+      "n": 200,
+      "wins": 101,
+      "ties": 23,
+      "losses": 76,
+      "meanTurns": 20.035
+    },
+    {
+      "p1Leader": "nereon",
+      "p2Leader": "melia",
+      "p1Strategy": "money",
+      "p2Strategy": "money",
+      "mean": 0.2825,
+      "ci95": [
+        0.22465734450254057,
+        0.34854066807192896
+      ],
+      "n": 200,
+      "wins": 39,
+      "ties": 35,
+      "losses": 126,
+      "meanTurns": 17.035
+    },
+    {
+      "p1Leader": "nereon",
+      "p2Leader": "thaleia",
+      "p1Strategy": "engine",
+      "p2Strategy": "engine",
+      "mean": 0.36,
+      "ci95": [
+        0.29669087731339805,
+        0.42858600434373184
+      ],
+      "n": 200,
+      "wins": 64,
+      "ties": 16,
+      "losses": 120,
+      "meanTurns": 14.34
+    },
+    {
+      "p1Leader": "nereon",
+      "p2Leader": "thaleia",
+      "p1Strategy": "engine",
+      "p2Strategy": "money",
+      "mean": 0.27,
+      "ci95": [
+        0.2132335473104056,
+        0.3354356154120221
+      ],
+      "n": 200,
+      "wins": 46,
+      "ties": 16,
+      "losses": 138,
+      "meanTurns": 14.815
+    },
+    {
+      "p1Leader": "nereon",
+      "p2Leader": "thaleia",
+      "p1Strategy": "money",
+      "p2Strategy": "engine",
+      "mean": 0.535,
+      "ci95": [
+        0.46586521028994954,
+        0.6028155692957681
+      ],
+      "n": 200,
+      "wins": 94,
+      "ties": 26,
+      "losses": 80,
+      "meanTurns": 18.66
+    },
+    {
+      "p1Leader": "nereon",
+      "p2Leader": "thaleia",
+      "p1Strategy": "money",
+      "p2Strategy": "money",
+      "mean": 0.4325,
+      "ci95": [
+        0.36574819330041464,
+        0.5017960174985587
+      ],
+      "n": 200,
+      "wins": 74,
+      "ties": 25,
+      "losses": 101,
+      "meanTurns": 19.705
+    },
+    {
+      "p1Leader": "thaleia",
+      "p2Leader": "doreios",
+      "p1Strategy": "engine",
+      "p2Strategy": "engine",
+      "mean": 0.3875,
+      "ci95": [
+        0.32270622448946545,
+        0.45653412684215683
+      ],
+      "n": 200,
+      "wins": 62,
+      "ties": 31,
+      "losses": 107,
+      "meanTurns": 13.45
+    },
+    {
+      "p1Leader": "thaleia",
+      "p2Leader": "doreios",
+      "p1Strategy": "engine",
+      "p2Strategy": "money",
+      "mean": 0.305,
+      "ci95": [
+        0.24536314352669053,
+        0.3719867987814547
+      ],
+      "n": 200,
+      "wins": 53,
+      "ties": 16,
+      "losses": 131,
+      "meanTurns": 13.335
+    },
+    {
+      "p1Leader": "thaleia",
+      "p2Leader": "doreios",
+      "p1Strategy": "money",
+      "p2Strategy": "engine",
+      "mean": 0.5975,
+      "ci95": [
+        0.5283147380003899,
+        0.6630102908455378
+      ],
+      "n": 200,
+      "wins": 103,
+      "ties": 33,
+      "losses": 64,
+      "meanTurns": 18.07
+    },
+    {
+      "p1Leader": "thaleia",
+      "p2Leader": "doreios",
+      "p1Strategy": "money",
+      "p2Strategy": "money",
+      "mean": 0.5125,
+      "ci95": [
+        0.44364509611284353,
+        0.5808837537391984
+      ],
+      "n": 200,
+      "wins": 85,
+      "ties": 35,
+      "losses": 80,
+      "meanTurns": 18.9
+    },
+    {
+      "p1Leader": "thaleia",
+      "p2Leader": "melia",
+      "p1Strategy": "engine",
+      "p2Strategy": "engine",
+      "mean": 0.28,
+      "ci95": [
+        0.22236792842635128,
+        0.34592431417771
+      ],
+      "n": 200,
+      "wins": 45,
+      "ties": 22,
+      "losses": 133,
+      "meanTurns": 13.495
+    },
+    {
+      "p1Leader": "thaleia",
+      "p2Leader": "melia",
+      "p1Strategy": "engine",
+      "p2Strategy": "money",
+      "mean": 0.19,
+      "ci95": [
+        0.14167093792456506,
+        0.250013585744794
+      ],
+      "n": 200,
+      "wins": 33,
+      "ties": 10,
+      "losses": 157,
+      "meanTurns": 13.875
+    },
+    {
+      "p1Leader": "thaleia",
+      "p2Leader": "melia",
+      "p1Strategy": "money",
+      "p2Strategy": "engine",
+      "mean": 0.4825,
+      "ci95": [
+        0.4142306894994021,
+        0.5514289207077392
+      ],
+      "n": 200,
+      "wins": 85,
+      "ties": 23,
+      "losses": 92,
+      "meanTurns": 15.43
+    },
+    {
+      "p1Leader": "thaleia",
+      "p2Leader": "melia",
+      "p1Strategy": "money",
+      "p2Strategy": "money",
+      "mean": 0.31,
+      "ci95": [
+        0.24998842733633997,
+        0.377173054912622
+      ],
+      "n": 200,
+      "wins": 50,
+      "ties": 24,
+      "losses": 126,
+      "meanTurns": 15.175
+    },
+    {
+      "p1Leader": "thaleia",
+      "p2Leader": "nereon",
+      "p1Strategy": "engine",
+      "p2Strategy": "engine",
+      "mean": 0.66,
+      "ci95": [
+        0.5918836703220929,
+        0.7220856077840445
+      ],
+      "n": 200,
+      "wins": 124,
+      "ties": 16,
+      "losses": 60,
+      "meanTurns": 15.165
+    },
+    {
+      "p1Leader": "thaleia",
+      "p2Leader": "nereon",
+      "p1Strategy": "engine",
+      "p2Strategy": "money",
+      "mean": 0.1925,
+      "ci95": [
+        0.14386098880187076,
+        0.25272930483789663
+      ],
+      "n": 200,
+      "wins": 35,
+      "ties": 7,
+      "losses": 158,
+      "meanTurns": 14.42
+    },
+    {
+      "p1Leader": "thaleia",
+      "p2Leader": "nereon",
+      "p1Strategy": "money",
+      "p2Strategy": "engine",
+      "mean": 0.62,
+      "ci95": [
+        0.5510658951919951,
+        0.6844110633876079
+      ],
+      "n": 200,
+      "wins": 113,
+      "ties": 22,
+      "losses": 65,
+      "meanTurns": 17.375
+    },
+    {
+      "p1Leader": "thaleia",
+      "p2Leader": "nereon",
+      "p1Strategy": "money",
+      "p2Strategy": "money",
+      "mean": 0.1725,
+      "ci95": [
+        0.12643947206116635,
+        0.23090466181533387
+      ],
+      "n": 200,
+      "wins": 27,
+      "ties": 15,
+      "losses": 158,
+      "meanTurns": 15.86
+    }
+  ],
+  "pairedStrategyChanges": [
+    {
+      "p1Leader": "thaleia",
+      "p2Leader": "nereon",
+      "changedSeat": 1,
+      "opponentStrategy": "money",
+      "engineMinusMoney": {
+        "mean": 0.02,
+        "ci95": [
+          -0.042061702414070645,
+          0.08206170241407065
+        ],
+        "n": 200
+      }
+    },
+    {
+      "p1Leader": "thaleia",
+      "p2Leader": "nereon",
+      "changedSeat": 1,
+      "opponentStrategy": "engine",
+      "engineMinusMoney": {
+        "mean": 0.04,
+        "ci95": [
+          -0.031060232982715368,
+          0.11106023298271536
+        ],
+        "n": 200
+      }
+    },
+    {
+      "p1Leader": "thaleia",
+      "p2Leader": "nereon",
+      "changedSeat": 2,
+      "opponentStrategy": "money",
+      "engineMinusMoney": {
+        "mean": -0.4475,
+        "ci95": [
+          -0.5216017906150844,
+          -0.37339820938491564
+        ],
+        "n": 200
+      }
+    },
+    {
+      "p1Leader": "thaleia",
+      "p2Leader": "nereon",
+      "changedSeat": 2,
+      "opponentStrategy": "engine",
+      "engineMinusMoney": {
+        "mean": -0.4675,
+        "ci95": [
+          -0.5428051017611442,
+          -0.39219489823885584
+        ],
+        "n": 200
+      }
+    },
+    {
+      "p1Leader": "thaleia",
+      "p2Leader": "melia",
+      "changedSeat": 1,
+      "opponentStrategy": "money",
+      "engineMinusMoney": {
+        "mean": -0.12,
+        "ci95": [
+          -0.1874918774342364,
+          -0.05250812256576358
+        ],
+        "n": 200
+      }
+    },
+    {
+      "p1Leader": "thaleia",
+      "p2Leader": "melia",
+      "changedSeat": 1,
+      "opponentStrategy": "engine",
+      "engineMinusMoney": {
+        "mean": -0.2025,
+        "ci95": [
+          -0.2706608388686376,
+          -0.1343391611313624
+        ],
+        "n": 200
+      }
+    },
+    {
+      "p1Leader": "thaleia",
+      "p2Leader": "melia",
+      "changedSeat": 2,
+      "opponentStrategy": "money",
+      "engineMinusMoney": {
+        "mean": -0.1725,
+        "ci95": [
+          -0.2502061191947037,
+          -0.09479388080529624
+        ],
+        "n": 200
+      }
+    },
+    {
+      "p1Leader": "thaleia",
+      "p2Leader": "melia",
+      "changedSeat": 2,
+      "opponentStrategy": "engine",
+      "engineMinusMoney": {
+        "mean": -0.09,
+        "ci95": [
+          -0.1638913452476849,
+          -0.016108654752315113
+        ],
+        "n": 200
+      }
+    },
+    {
+      "p1Leader": "thaleia",
+      "p2Leader": "doreios",
+      "changedSeat": 1,
+      "opponentStrategy": "money",
+      "engineMinusMoney": {
+        "mean": -0.2075,
+        "ci95": [
+          -0.277142730915342,
+          -0.137857269084658
+        ],
+        "n": 200
+      }
+    },
+    {
+      "p1Leader": "thaleia",
+      "p2Leader": "doreios",
+      "changedSeat": 1,
+      "opponentStrategy": "engine",
+      "engineMinusMoney": {
+        "mean": -0.21,
+        "ci95": [
+          -0.28539668179787925,
+          -0.13460331820212076
+        ],
+        "n": 200
+      }
+    },
+    {
+      "p1Leader": "thaleia",
+      "p2Leader": "doreios",
+      "changedSeat": 2,
+      "opponentStrategy": "money",
+      "engineMinusMoney": {
+        "mean": -0.085,
+        "ci95": [
+          -0.1569993430874555,
+          -0.013000656912544512
+        ],
+        "n": 200
+      }
+    },
+    {
+      "p1Leader": "thaleia",
+      "p2Leader": "doreios",
+      "changedSeat": 2,
+      "opponentStrategy": "engine",
+      "engineMinusMoney": {
+        "mean": -0.0825,
+        "ci95": [
+          -0.15472544909507263,
+          -0.01027455090492739
+        ],
+        "n": 200
+      }
+    },
+    {
+      "p1Leader": "nereon",
+      "p2Leader": "thaleia",
+      "changedSeat": 1,
+      "opponentStrategy": "money",
+      "engineMinusMoney": {
+        "mean": -0.1625,
+        "ci95": [
+          -0.2415586340991807,
+          -0.0834413659008193
+        ],
+        "n": 200
+      }
+    },
+    {
+      "p1Leader": "nereon",
+      "p2Leader": "thaleia",
+      "changedSeat": 1,
+      "opponentStrategy": "engine",
+      "engineMinusMoney": {
+        "mean": -0.175,
+        "ci95": [
+          -0.25275404302047677,
+          -0.09724595697952323
+        ],
+        "n": 200
+      }
+    },
+    {
+      "p1Leader": "nereon",
+      "p2Leader": "thaleia",
+      "changedSeat": 2,
+      "opponentStrategy": "money",
+      "engineMinusMoney": {
+        "mean": -0.1025,
+        "ci95": [
+          -0.18410078218846215,
+          -0.020899217811537835
+        ],
+        "n": 200
+      }
+    },
+    {
+      "p1Leader": "nereon",
+      "p2Leader": "thaleia",
+      "changedSeat": 2,
+      "opponentStrategy": "engine",
+      "engineMinusMoney": {
+        "mean": -0.09,
+        "ci95": [
+          -0.1683829566132663,
+          -0.011617043386733708
+        ],
+        "n": 200
+      }
+    },
+    {
+      "p1Leader": "nereon",
+      "p2Leader": "melia",
+      "changedSeat": 1,
+      "opponentStrategy": "money",
+      "engineMinusMoney": {
+        "mean": -0.1225,
+        "ci95": [
+          -0.1893582478233617,
+          -0.055641752176638304
+        ],
+        "n": 200
+      }
+    },
+    {
+      "p1Leader": "nereon",
+      "p2Leader": "melia",
+      "changedSeat": 1,
+      "opponentStrategy": "engine",
+      "engineMinusMoney": {
+        "mean": -0.225,
+        "ci95": [
+          -0.3033798401805826,
+          -0.14662015981941742
+        ],
+        "n": 200
+      }
+    },
+    {
+      "p1Leader": "nereon",
+      "p2Leader": "melia",
+      "changedSeat": 2,
+      "opponentStrategy": "money",
+      "engineMinusMoney": {
+        "mean": -0.28,
+        "ci95": [
+          -0.34941876907218605,
+          -0.21058123092781403
+        ],
+        "n": 200
+      }
+    },
+    {
+      "p1Leader": "nereon",
+      "p2Leader": "melia",
+      "changedSeat": 2,
+      "opponentStrategy": "engine",
+      "engineMinusMoney": {
+        "mean": -0.1775,
+        "ci95": [
+          -0.24840106983692206,
+          -0.10659893016307792
+        ],
+        "n": 200
+      }
+    },
+    {
+      "p1Leader": "nereon",
+      "p2Leader": "doreios",
+      "changedSeat": 1,
+      "opponentStrategy": "money",
+      "engineMinusMoney": {
+        "mean": -0.1625,
+        "ci95": [
+          -0.24577199175324654,
+          -0.07922800824675345
+        ],
+        "n": 200
+      }
+    },
+    {
+      "p1Leader": "nereon",
+      "p2Leader": "doreios",
+      "changedSeat": 1,
+      "opponentStrategy": "engine",
+      "engineMinusMoney": {
+        "mean": -0.1775,
+        "ci95": [
+          -0.2691400161408293,
+          -0.08585998385917068
+        ],
+        "n": 200
+      }
+    },
+    {
+      "p1Leader": "nereon",
+      "p2Leader": "doreios",
+      "changedSeat": 2,
+      "opponentStrategy": "money",
+      "engineMinusMoney": {
+        "mean": -0.015,
+        "ci95": [
+          -0.09089718990302526,
+          0.060897189903025256
+        ],
+        "n": 200
+      }
+    },
+    {
+      "p1Leader": "nereon",
+      "p2Leader": "doreios",
+      "changedSeat": 2,
+      "opponentStrategy": "engine",
+      "engineMinusMoney": {
+        "mean": 0.0,
+        "ci95": [
+          -0.0765668886804933,
+          0.0765668886804933
+        ],
+        "n": 200
+      }
+    },
+    {
+      "p1Leader": "melia",
+      "p2Leader": "thaleia",
+      "changedSeat": 1,
+      "opponentStrategy": "money",
+      "engineMinusMoney": {
+        "mean": 0.025,
+        "ci95": [
+          -0.0521231681489203,
+          0.1021231681489203
+        ],
+        "n": 200
+      }
+    },
+    {
+      "p1Leader": "melia",
+      "p2Leader": "thaleia",
+      "changedSeat": 1,
+      "opponentStrategy": "engine",
+      "engineMinusMoney": {
+        "mean": 0.015,
+        "ci95": [
+          -0.07143075782085585,
+          0.10143075782085585
+        ],
+        "n": 200
+      }
+    },
+    {
+      "p1Leader": "melia",
+      "p2Leader": "thaleia",
+      "changedSeat": 2,
+      "opponentStrategy": "money",
+      "engineMinusMoney": {
+        "mean": -0.2325,
+        "ci95": [
+          -0.3093463264505515,
+          -0.15565367354944856
+        ],
+        "n": 200
+      }
+    },
+    {
+      "p1Leader": "melia",
+      "p2Leader": "thaleia",
+      "changedSeat": 2,
+      "opponentStrategy": "engine",
+      "engineMinusMoney": {
+        "mean": -0.2225,
+        "ci95": [
+          -0.29800594595708585,
+          -0.14699405404291416
+        ],
+        "n": 200
+      }
+    },
+    {
+      "p1Leader": "melia",
+      "p2Leader": "nereon",
+      "changedSeat": 1,
+      "opponentStrategy": "money",
+      "engineMinusMoney": {
+        "mean": 0.0825,
+        "ci95": [
+          0.005685466987623067,
+          0.15931453301237694
+        ],
+        "n": 200
+      }
+    },
+    {
+      "p1Leader": "melia",
+      "p2Leader": "nereon",
+      "changedSeat": 1,
+      "opponentStrategy": "engine",
+      "engineMinusMoney": {
+        "mean": -0.03,
+        "ci95": [
+          -0.09198293388072487,
+          0.03198293388072487
+        ],
+        "n": 200
+      }
+    },
+    {
+      "p1Leader": "melia",
+      "p2Leader": "nereon",
+      "changedSeat": 2,
+      "opponentStrategy": "money",
+      "engineMinusMoney": {
+        "mean": -0.5825,
+        "ci95": [
+          -0.6547254490950727,
+          -0.5102745509049273
+        ],
+        "n": 200
+      }
+    },
+    {
+      "p1Leader": "melia",
+      "p2Leader": "nereon",
+      "changedSeat": 2,
+      "opponentStrategy": "engine",
+      "engineMinusMoney": {
+        "mean": -0.47,
+        "ci95": [
+          -0.5492753909485802,
+          -0.39072460905141965
+        ],
+        "n": 200
+      }
+    },
+    {
+      "p1Leader": "melia",
+      "p2Leader": "doreios",
+      "changedSeat": 1,
+      "opponentStrategy": "money",
+      "engineMinusMoney": {
+        "mean": -0.1625,
+        "ci95": [
+          -0.24837148096847167,
+          -0.07662851903152833
+        ],
+        "n": 200
+      }
+    },
+    {
+      "p1Leader": "melia",
+      "p2Leader": "doreios",
+      "changedSeat": 1,
+      "opponentStrategy": "engine",
+      "engineMinusMoney": {
+        "mean": -0.225,
+        "ci95": [
+          -0.30492289846153264,
+          -0.14507710153846734
+        ],
+        "n": 200
+      }
+    },
+    {
+      "p1Leader": "melia",
+      "p2Leader": "doreios",
+      "changedSeat": 2,
+      "opponentStrategy": "money",
+      "engineMinusMoney": {
+        "mean": -0.215,
+        "ci95": [
+          -0.28294996827773156,
+          -0.14705003172226844
+        ],
+        "n": 200
+      }
+    },
+    {
+      "p1Leader": "melia",
+      "p2Leader": "doreios",
+      "changedSeat": 2,
+      "opponentStrategy": "engine",
+      "engineMinusMoney": {
+        "mean": -0.1525,
+        "ci95": [
+          -0.229447977175864,
+          -0.075552022824136
+        ],
+        "n": 200
+      }
+    },
+    {
+      "p1Leader": "doreios",
+      "p2Leader": "thaleia",
+      "changedSeat": 1,
+      "opponentStrategy": "money",
+      "engineMinusMoney": {
+        "mean": 0.0725,
+        "ci95": [
+          0.021424710264081312,
+          0.12357528973591868
+        ],
+        "n": 200
+      }
+    },
+    {
+      "p1Leader": "doreios",
+      "p2Leader": "thaleia",
+      "changedSeat": 1,
+      "opponentStrategy": "engine",
+      "engineMinusMoney": {
+        "mean": 0.145,
+        "ci95": [
+          0.06920587006460646,
+          0.22079412993539352
+        ],
+        "n": 200
+      }
+    },
+    {
+      "p1Leader": "doreios",
+      "p2Leader": "thaleia",
+      "changedSeat": 2,
+      "opponentStrategy": "money",
+      "engineMinusMoney": {
+        "mean": -0.265,
+        "ci95": [
+          -0.32978466781515203,
+          -0.20021533218484797
+        ],
+        "n": 200
+      }
+    },
+    {
+      "p1Leader": "doreios",
+      "p2Leader": "thaleia",
+      "changedSeat": 2,
+      "opponentStrategy": "engine",
+      "engineMinusMoney": {
+        "mean": -0.3375,
+        "ci95": [
+          -0.4104523151719308,
+          -0.26454768482806923
+        ],
+        "n": 200
+      }
+    },
+    {
+      "p1Leader": "doreios",
+      "p2Leader": "nereon",
+      "changedSeat": 1,
+      "opponentStrategy": "money",
+      "engineMinusMoney": {
+        "mean": 0.0825,
+        "ci95": [
+          0.03220545131290877,
+          0.13279454868709123
+        ],
+        "n": 200
+      }
+    },
+    {
+      "p1Leader": "doreios",
+      "p2Leader": "nereon",
+      "changedSeat": 1,
+      "opponentStrategy": "engine",
+      "engineMinusMoney": {
+        "mean": 0.235,
+        "ci95": [
+          0.16762766386429878,
+          0.3023723361357012
+        ],
+        "n": 200
+      }
+    },
+    {
+      "p1Leader": "doreios",
+      "p2Leader": "nereon",
+      "changedSeat": 2,
+      "opponentStrategy": "money",
+      "engineMinusMoney": {
+        "mean": -0.4075,
+        "ci95": [
+          -0.47082313920911123,
+          -0.3441768607908887
+        ],
+        "n": 200
+      }
+    },
+    {
+      "p1Leader": "doreios",
+      "p2Leader": "nereon",
+      "changedSeat": 2,
+      "opponentStrategy": "engine",
+      "engineMinusMoney": {
+        "mean": -0.56,
+        "ci95": [
+          -0.6361061008126453,
+          -0.4838938991873548
+        ],
+        "n": 200
+      }
+    },
+    {
+      "p1Leader": "doreios",
+      "p2Leader": "melia",
+      "changedSeat": 1,
+      "opponentStrategy": "money",
+      "engineMinusMoney": {
+        "mean": 0.0125,
+        "ci95": [
+          -0.027308339666898638,
+          0.05230833966689864
+        ],
+        "n": 200
+      }
+    },
+    {
+      "p1Leader": "doreios",
+      "p2Leader": "melia",
+      "changedSeat": 1,
+      "opponentStrategy": "engine",
+      "engineMinusMoney": {
+        "mean": -0.015,
+        "ci95": [
+          -0.0758975572613714,
+          0.04589755726137141
+        ],
+        "n": 200
+      }
+    },
+    {
+      "p1Leader": "doreios",
+      "p2Leader": "melia",
+      "changedSeat": 2,
+      "opponentStrategy": "money",
+      "engineMinusMoney": {
+        "mean": -0.24,
+        "ci95": [
+          -0.30327779710159125,
+          -0.17672220289840873
+        ],
+        "n": 200
+      }
+    },
+    {
+      "p1Leader": "doreios",
+      "p2Leader": "melia",
+      "changedSeat": 2,
+      "opponentStrategy": "engine",
+      "engineMinusMoney": {
+        "mean": -0.2125,
+        "ci95": [
+          -0.28427082306002605,
+          -0.14072917693997394
+        ],
+        "n": 200
+      }
+    }
+  ],
+  "selectedPureStrategies": [
+    {
+      "p1Leader": "thaleia",
+      "p2Leader": "nereon",
+      "p1Strategy": "engine",
+      "p2Strategy": "money",
+      "mean": 0.1925,
+      "ci95": [
+        0.14386098880187076,
+        0.25272930483789663
+      ],
+      "n": 200,
+      "wins": 35,
+      "ties": 7,
+      "losses": 158,
+      "meanTurns": 14.42,
+      "mutualBestResponse": true,
+      "p2Responses": {
+        "money": "money",
+        "engine": "money"
+      }
+    },
+    {
+      "p1Leader": "thaleia",
+      "p2Leader": "melia",
+      "p1Strategy": "money",
+      "p2Strategy": "money",
+      "mean": 0.31,
+      "ci95": [
+        0.24998842733633997,
+        0.377173054912622
+      ],
+      "n": 200,
+      "wins": 50,
+      "ties": 24,
+      "losses": 126,
+      "meanTurns": 15.175,
+      "mutualBestResponse": true,
+      "p2Responses": {
+        "money": "money",
+        "engine": "money"
+      }
+    },
+    {
+      "p1Leader": "thaleia",
+      "p2Leader": "doreios",
+      "p1Strategy": "money",
+      "p2Strategy": "money",
+      "mean": 0.5125,
+      "ci95": [
+        0.44364509611284353,
+        0.5808837537391984
+      ],
+      "n": 200,
+      "wins": 85,
+      "ties": 35,
+      "losses": 80,
+      "meanTurns": 18.9,
+      "mutualBestResponse": true,
+      "p2Responses": {
+        "money": "money",
+        "engine": "money"
+      }
+    },
+    {
+      "p1Leader": "nereon",
+      "p2Leader": "thaleia",
+      "p1Strategy": "money",
+      "p2Strategy": "money",
+      "mean": 0.4325,
+      "ci95": [
+        0.36574819330041464,
+        0.5017960174985587
+      ],
+      "n": 200,
+      "wins": 74,
+      "ties": 25,
+      "losses": 101,
+      "meanTurns": 19.705,
+      "mutualBestResponse": true,
+      "p2Responses": {
+        "money": "money",
+        "engine": "money"
+      }
+    },
+    {
+      "p1Leader": "nereon",
+      "p2Leader": "melia",
+      "p1Strategy": "money",
+      "p2Strategy": "money",
+      "mean": 0.2825,
+      "ci95": [
+        0.22465734450254057,
+        0.34854066807192896
+      ],
+      "n": 200,
+      "wins": 39,
+      "ties": 35,
+      "losses": 126,
+      "meanTurns": 17.035,
+      "mutualBestResponse": true,
+      "p2Responses": {
+        "money": "money",
+        "engine": "money"
+      }
+    },
+    {
+      "p1Leader": "nereon",
+      "p2Leader": "doreios",
+      "p1Strategy": "money",
+      "p2Strategy": "money",
+      "mean": 0.6325,
+      "ci95": [
+        0.5637694400490431,
+        0.6962363683826019
+      ],
+      "n": 200,
+      "wins": 116,
+      "ties": 21,
+      "losses": 63,
+      "meanTurns": 24.545,
+      "mutualBestResponse": true,
+      "p2Responses": {
+        "money": "money",
+        "engine": "money"
+      }
+    },
+    {
+      "p1Leader": "melia",
+      "p2Leader": "thaleia",
+      "p1Strategy": "engine",
+      "p2Strategy": "money",
+      "mean": 0.35,
+      "ci95": [
+        0.28728715939415395,
+        0.41836664238134236
+      ],
+      "n": 200,
+      "wins": 62,
+      "ties": 16,
+      "losses": 122,
+      "meanTurns": 13.93,
+      "mutualBestResponse": true,
+      "p2Responses": {
+        "money": "money",
+        "engine": "money"
+      }
+    },
+    {
+      "p1Leader": "melia",
+      "p2Leader": "nereon",
+      "p1Strategy": "engine",
+      "p2Strategy": "money",
+      "mean": 0.305,
+      "ci95": [
+        0.24536314352669053,
+        0.3719867987814547
+      ],
+      "n": 200,
+      "wins": 52,
+      "ties": 18,
+      "losses": 130,
+      "meanTurns": 14.525,
+      "mutualBestResponse": true,
+      "p2Responses": {
+        "money": "money",
+        "engine": "money"
+      }
+    },
+    {
+      "p1Leader": "melia",
+      "p2Leader": "doreios",
+      "p1Strategy": "money",
+      "p2Strategy": "money",
+      "mean": 0.6,
+      "ci95": [
+        0.5308354385001253,
+        0.6653953603162106
+      ],
+      "n": 200,
+      "wins": 108,
+      "ties": 24,
+      "losses": 68,
+      "meanTurns": 22.975,
+      "mutualBestResponse": true,
+      "p2Responses": {
+        "money": "money",
+        "engine": "money"
+      }
+    },
+    {
+      "p1Leader": "doreios",
+      "p2Leader": "thaleia",
+      "p1Strategy": "engine",
+      "p2Strategy": "money",
+      "mean": 0.1625,
+      "ci95": [
+        0.11781858422845592,
+        0.2199024697664107
+      ],
+      "n": 200,
+      "wins": 27,
+      "ties": 11,
+      "losses": 162,
+      "meanTurns": 12.67,
+      "mutualBestResponse": true,
+      "p2Responses": {
+        "money": "money",
+        "engine": "money"
+      }
+    },
+    {
+      "p1Leader": "doreios",
+      "p2Leader": "nereon",
+      "p1Strategy": "engine",
+      "p2Strategy": "money",
+      "mean": 0.15,
+      "ci95": [
+        0.107135265876273,
+        0.20605693826655166
+      ],
+      "n": 200,
+      "wins": 25,
+      "ties": 10,
+      "losses": 165,
+      "meanTurns": 13.26,
+      "mutualBestResponse": true,
+      "p2Responses": {
+        "money": "money",
+        "engine": "money"
+      }
+    },
+    {
+      "p1Leader": "doreios",
+      "p2Leader": "melia",
+      "p1Strategy": "engine",
+      "p2Strategy": "money",
+      "mean": 0.105,
+      "ci95": [
+        0.0697069624619373,
+        0.15518138221353622
+      ],
+      "n": 200,
+      "wins": 16,
+      "ties": 10,
+      "losses": 174,
+      "meanTurns": 12.41,
+      "mutualBestResponse": true,
+      "p2Responses": {
+        "money": "money",
+        "engine": "money"
+      }
+    }
+  ],
+  "worship": [
+    {
+      "strategy": "engine",
+      "event": "blessing-of-the-fields",
+      "mode": "favored",
+      "uses": 798
+    },
+    {
+      "strategy": "engine",
+      "event": "blessing-of-the-fields",
+      "mode": "standard",
+      "uses": 5780
+    },
+    {
+      "strategy": "engine",
+      "event": "counsel-of-olympus",
+      "mode": "favored",
+      "uses": 11113
+    },
+    {
+      "strategy": "engine",
+      "event": "counsel-of-olympus",
+      "mode": "standard",
+      "uses": 2162
+    },
+    {
+      "strategy": "engine",
+      "event": "trial-of-the-spear",
+      "mode": "favored",
+      "uses": 736
+    },
+    {
+      "strategy": "engine",
+      "event": "trial-of-the-spear",
+      "mode": "standard",
+      "uses": 9054
+    },
+    {
+      "strategy": "engine",
+      "event": "tribute-of-the-tides",
+      "mode": "favored",
+      "uses": 602
+    },
+    {
+      "strategy": "engine",
+      "event": "tribute-of-the-tides",
+      "mode": "standard",
+      "uses": 7168
+    },
+    {
+      "strategy": "money",
+      "event": "blessing-of-the-fields",
+      "mode": "favored",
+      "uses": 1012
+    },
+    {
+      "strategy": "money",
+      "event": "blessing-of-the-fields",
+      "mode": "standard",
+      "uses": 2944
+    },
+    {
+      "strategy": "money",
+      "event": "counsel-of-olympus",
+      "mode": "favored",
+      "uses": 7409
+    },
+    {
+      "strategy": "money",
+      "event": "counsel-of-olympus",
+      "mode": "standard",
+      "uses": 4186
+    },
+    {
+      "strategy": "money",
+      "event": "trial-of-the-spear",
+      "mode": "favored",
+      "uses": 331
+    },
+    {
+      "strategy": "money",
+      "event": "trial-of-the-spear",
+      "mode": "standard",
+      "uses": 8078
+    },
+    {
+      "strategy": "money",
+      "event": "tribute-of-the-tides",
+      "mode": "favored",
+      "uses": 1202
+    },
+    {
+      "strategy": "money",
+      "event": "tribute-of-the-tides",
+      "mode": "standard",
+      "uses": 15691
+    }
+  ],
+  "crossGodUses": 34985,
+  "leaderTriggers": [
+    {
+      "leader": "doreios",
+      "strategy": "engine",
+      "triggers": 26042,
+      "playerGames": 2400
+    },
+    {
+      "leader": "doreios",
+      "strategy": "money",
+      "triggers": 17125,
+      "playerGames": 2400
+    },
+    {
+      "leader": "melia",
+      "strategy": "engine",
+      "triggers": 23642,
+      "playerGames": 2400
+    },
+    {
+      "leader": "melia",
+      "strategy": "money",
+      "triggers": 22428,
+      "playerGames": 2400
+    },
+    {
+      "leader": "nereon",
+      "strategy": "engine",
+      "triggers": 22719,
+      "playerGames": 2400
+    },
+    {
+      "leader": "nereon",
+      "strategy": "money",
+      "triggers": 25951,
+      "playerGames": 2400
+    },
+    {
+      "leader": "thaleia",
+      "strategy": "engine",
+      "triggers": 27668,
+      "playerGames": 2400
+    },
+    {
+      "leader": "thaleia",
+      "strategy": "money",
+      "triggers": 26803,
+      "playerGames": 2400
+    }
+  ]
+}
