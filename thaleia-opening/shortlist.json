@@ -1,0 +1,226 @@
+[
+  {
+    "id": "candidate-4",
+    "split": "5/1",
+    "cards": [
+      "drachma",
+      null
+    ],
+    "shares": {
+      "melia": 0.25,
+      "doreios": 0.5,
+      "nereon": 0.25
+    },
+    "minimum": 0.25,
+    "total": 1.0,
+    "gamesPerOpponent": 4
+  },
+  {
+    "id": "candidate-30",
+    "split": "5/1",
+    "cards": [
+      "forge-of-heroes",
+      null
+    ],
+    "shares": {
+      "melia": 0.25,
+      "doreios": 0.5,
+      "nereon": 0.25
+    },
+    "minimum": 0.25,
+    "total": 1.0,
+    "gamesPerOpponent": 4
+  },
+  {
+    "id": "candidate-31",
+    "split": "5/1",
+    "cards": [
+      "forge-of-heroes",
+      "obol"
+    ],
+    "shares": {
+      "melia": 0.25,
+      "nereon": 0.25,
+      "doreios": 0.25
+    },
+    "minimum": 0.25,
+    "total": 0.75,
+    "gamesPerOpponent": 4
+  },
+  {
+    "id": "candidate-26",
+    "split": "5/1",
+    "cards": [
+      "sacred-grove",
+      null
+    ],
+    "shares": {
+      "nereon": 0.625,
+      "doreios": 0.25,
+      "melia": 0.125
+    },
+    "minimum": 0.125,
+    "total": 1.0,
+    "gamesPerOpponent": 4
+  },
+  {
+    "id": "candidate-20",
+    "split": "5/1",
+    "cards": [
+      "merchant-fleet",
+      null
+    ],
+    "shares": {
+      "melia": 0.0,
+      "nereon": 0.0,
+      "doreios": 0.25
+    },
+    "minimum": 0.0,
+    "total": 0.25,
+    "gamesPerOpponent": 4
+  },
+  {
+    "id": "candidate-63",
+    "split": "4/2",
+    "cards": [
+      "council-of-sages",
+      "seed-keeper"
+    ],
+    "shares": {
+      "doreios": 0.5,
+      "nereon": 0.5,
+      "melia": 0.25
+    },
+    "minimum": 0.25,
+    "total": 1.25,
+    "gamesPerOpponent": 4
+  },
+  {
+    "id": "candidate-48",
+    "split": "4/2",
+    "cards": [
+      "drachma",
+      "seed-keeper"
+    ],
+    "shares": {
+      "doreios": 0.5,
+      "melia": 0.25,
+      "nereon": 0.375
+    },
+    "minimum": 0.25,
+    "total": 1.125,
+    "gamesPerOpponent": 4
+  },
+  {
+    "id": "candidate-93",
+    "split": "4/2",
+    "cards": [
+      "forge-of-heroes",
+      "seed-keeper"
+    ],
+    "shares": {
+      "melia": 0.25,
+      "nereon": 0.25,
+      "doreios": 0.375
+    },
+    "minimum": 0.25,
+    "total": 0.875,
+    "gamesPerOpponent": 4
+  },
+  {
+    "id": "candidate-67",
+    "split": "4/2",
+    "cards": [
+      "harbor-pilot",
+      "oracles-acolyte"
+    ],
+    "shares": {
+      "nereon": 0.5,
+      "melia": 0.0,
+      "doreios": 0.5
+    },
+    "minimum": 0.0,
+    "total": 1.0,
+    "gamesPerOpponent": 4
+  },
+  {
+    "id": "candidate-83",
+    "split": "4/2",
+    "cards": [
+      "harvest-feast",
+      "seed-keeper"
+    ],
+    "shares": {
+      "nereon": 0.0,
+      "doreios": 0.25,
+      "melia": 0.0
+    },
+    "minimum": 0.0,
+    "total": 0.25,
+    "gamesPerOpponent": 4
+  },
+  {
+    "id": "candidate-144",
+    "split": "3/3",
+    "cards": [
+      "seed-keeper",
+      "drachma"
+    ],
+    "shares": {
+      "nereon": 0.25,
+      "melia": 0.25,
+      "doreios": 0.375
+    },
+    "minimum": 0.25,
+    "total": 0.875,
+    "gamesPerOpponent": 4
+  },
+  {
+    "id": "candidate-116",
+    "split": "3/3",
+    "cards": [
+      "drachma",
+      "seed-keeper"
+    ],
+    "shares": {
+      "melia": 0.125,
+      "doreios": 0.375,
+      "nereon": 0.125
+    },
+    "minimum": 0.125,
+    "total": 0.625,
+    "gamesPerOpponent": 4
+  },
+  {
+    "id": "candidate-128",
+    "split": "3/3",
+    "cards": [
+      "oracles-acolyte",
+      "drachma"
+    ],
+    "shares": {
+      "melia": 0.125,
+      "nereon": 0.25,
+      "doreios": 0.25
+    },
+    "minimum": 0.125,
+    "total": 0.625,
+    "gamesPerOpponent": 4
+  },
+  {
+    "id": "candidate-110",
+    "split": "3/3",
+    "cards": [
+      "drachma",
+      null
+    ],
+    "shares": {
+      "doreios": 0.5,
+      "nereon": 0.25,
+      "melia": 0.0
+    },
+    "minimum": 0.0,
+    "total": 0.75,
+    "gamesPerOpponent": 4
+  }
+]

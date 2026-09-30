@@ -1,0 +1,38 @@
+{
+  "baselineCommit": "dd2361b088d0fba0e3d22393413befff6d9924e0",
+  "baselineHarnessCommit": "6ff8353ef3a5e1cc0f1c12068716581d14afd2d3",
+  "workers": 16,
+  "runtime": "Bun 1.3.13",
+  "screenGames": 1896,
+  "refinementGames": 840,
+  "newValidationGames": 300,
+  "archivedMatchedBaselineGames": 300,
+  "validationSeedStart": 240000,
+  "validationSeedCountPerOpponent": 100,
+  "scope": "P1 Thaleia Engine vs P2 Money; Nereon, Melia, Doreios",
+  "rules": "standard powers and worship; equal completed turns; original half-credit ties",
+  "book": {
+    "5/1": [
+      "forge-of-heroes",
+      null
+    ],
+    "4/2": [
+      "council-of-sages",
+      "seed-keeper"
+    ],
+    "3/3": [
+      "drachma",
+      "seed-keeper"
+    ]
+  },
+  "searchSelection": "maximin opponent share; total share tie-break; stable candidate index",
+  "searchSeedsDisjointFromValidation": true,
+  "pointwiseIntervalsNotMultiplicityAdjusted": true,
+  "baselineControlOverride": "openingBook: null",
+  "validationSourceHashes": {
+    "standard-matrix/policy.ts": "e70b49959a6c62e25abeb30459a20e6ade2a24b811086ac521ac59f9f9e56484",
+    "standard-matrix/runner.ts": "07d4154ab7f462224744aa2bb64a91abce4579bff9ade3398ab92063e39bb5cb",
+    "standard-matrix/leader-books.ts": "885bbb3b1b7dfc4071e7615cd1e3934298a9b782fca4a2b74c2f52ce300441fe",
+    "thaleia-opening/worker.ts": "43ac8d73ada7908b56e54e3ae4d717db6bf4ebe25fd41ecc170629133ca9af13"
+  }
+}
