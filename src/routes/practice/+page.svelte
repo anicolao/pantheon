@@ -91,11 +91,11 @@
 <style>
  .setup{max-width:640px;margin:0 auto;padding:36px 24px 80px;color:#f8e8c8;min-height:100vh;box-sizing:border-box}
  h1{font:600 42px 'Cormorant Garamond',serif;margin:24px 0 12px}p{line-height:1.6}
- form{display:grid;gap:20px;margin-top:24px}label{display:grid;gap:8px}
+ form{display:grid;gap:20px;margin-top:24px}label{display:grid;gap:8px;min-width:0}select{width:100%;min-width:0;box-sizing:border-box}
  select,button{font:inherit;border:1px solid #c9ab6e;border-radius:8px;padding:12px;background:#222b30;color:#f8e8c8}
  button{cursor:pointer}button:disabled{opacity:.5;cursor:default}a{color:#f8e8c8}
- .controls{position:relative;z-index:25;display:flex;gap:8px;align-items:center;padding:6px 10px;border-radius:8px;background:#111e}
- .controls button{padding:6px 8px;font-size:12px}.controls span{font-size:12px}
+ .controls{position:relative;z-index:25;display:flex;flex-wrap:wrap;gap:8px;align-items:center;padding:6px 10px;border-radius:8px;background:#111e}
+ .controls button{min-height:44px;padding:8px 10px;font-size:12px}.controls span{font-size:12px}
  .practice-error{position:fixed;top:0;left:0;right:0;z-index:100;background:#562a25;color:white;padding:16px}
  @media(max-width:600px){.controls{flex-wrap:wrap}.controls span{flex:1 0 100%}}
 </style>

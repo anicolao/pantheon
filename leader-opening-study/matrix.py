@@ -1,7 +1,8 @@
 import os,json,subprocess,concurrent.futures,time,hashlib
 from pathlib import Path
 from pool import CachedWorkers
-root=Path(__file__).resolve().parent;out=root/'matrix';out.mkdir(exist_ok=True)
+from runlock import lock
+root=Path(__file__).resolve().parent;run_lock=lock(root,'matrix');out=root/'matrix';out.mkdir(exist_ok=True)
 books=json.loads((root/'selected-books.json').read_text());leaders=['thaleia','nereon','melia','doreios'];kinds=['money','classic-engine']
 start=400000;n=200;workers=os.cpu_count();jobs=[]
 for a in leaders:

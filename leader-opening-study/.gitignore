@@ -3,3 +3,4 @@ validation/
 matrix/
 *.log
 __pycache__/
+.run/
