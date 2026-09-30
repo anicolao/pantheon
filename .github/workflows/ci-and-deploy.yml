@@ -21,7 +21,7 @@ permissions:
 
 jobs:
   verify:
-    runs-on: ubuntu-latest
+    runs-on: macos-15
     steps:
       - uses: actions/checkout@v4
       - uses: oven-sh/setup-bun@v2
@@ -55,19 +55,19 @@ jobs:
           import shutil, subprocess
           paths = subprocess.check_output(['git', 'ls-files', '--others', '--modified', '--exclude-standard', '-z', '--', 'tests/e2e']).split(b'\0')
           for raw in paths:
-              if not raw.endswith(b'-linux.png'):
+              if not raw.endswith(b'-darwin.png'):
                   continue
               source = Path(raw.decode())
-              target = Path('linux-screenshot-baselines') / source.relative_to('tests/e2e')
+              target = Path('darwin-screenshot-baselines') / source.relative_to('tests/e2e')
               target.parent.mkdir(parents=True, exist_ok=True)
               shutil.copyfile(source, target)
           PYTHON
       - uses: actions/upload-artifact@v4
         if: inputs.update_snapshots == true && always()
         with:
-          name: linux-screenshot-baselines
+          name: darwin-screenshot-baselines
           compression-level: 0
-          path: linux-screenshot-baselines/
+          path: darwin-screenshot-baselines/
       - name: Upload browser report and card screenshots
         if: always()
         uses: actions/upload-artifact@v4
@@ -86,7 +86,7 @@ jobs:
       group: pages-publish
       cancel-in-progress: false
     if: inputs.update_snapshots != true && !inputs.story_filter && (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository)
-    runs-on: ubuntu-latest
+    runs-on: macos-15
     permissions:
       contents: write
       pull-requests: write
