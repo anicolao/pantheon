@@ -1,0 +1,32 @@
+Thaleia-specific Engine opening book
+
+Validation: 100 matched seeds per opponent. P1 Thaleia Engine vs unchanged P2 Money.
+Equal turns; original ties worth one half. No strategy averaging.
+Only the first two purchases change. Baseline is archived pre-change code/results.
+
+Selected book (high/low budget; 3/3 is first/second turn):
+5/1: forge-of-heroes / pass
+4/2: council-of-sages / seed-keeper
+3/3: drachma / seed-keeper
+
+Held-out comparison (percentage points for paired changes):
+vs nereon: 26.00% -> 35.00%; change +9.00 pp [95% CI +0.50, +17.50]
+  Old W/T/L 24/4/72; new 33/4/63; improved/worsened/unchanged seeds 16/6/78
+vs melia: 23.00% -> 26.00%; change +3.00 pp [95% CI -5.20, +11.20]
+  Old W/T/L 19/8/73; new 22/8/70; improved/worsened/unchanged seeds 12/8/80
+vs doreios: 31.50% -> 45.50%; change +14.00 pp [95% CI +6.27, +21.73]
+  Old W/T/L 27/9/64; new 43/5/52; improved/worsened/unchanged seeds 20/3/77
+
+Screening/refinement (excluded from validation):
+158 legal pairs; 4 conditional seeds per opponent in the screen.
+Top four per split plus old baseline retested on 20 different seeds per opponent.
+One opponent-independent book: maximize worst-opponent share, then total share tie-break.
+5/1: {"melia": 0.2, "doreios": 0.375, "nereon": 0.175}
+4/2: {"doreios": 0.55, "nereon": 0.475, "melia": 0.425}
+3/3: {"doreios": 0.225, "melia": 0.2, "nereon": 0.25}
+
+Validation checks: all 300 new games finished, replayed exactly, had equal completed turns,
+and used the selected opening purchases; exact 100-seed matching for each opponent.
+Intervals are pointwise; paired changes use seed-level t intervals (99 degrees of freedom).
+Small screening samples can miss the true optimum; this is the best book found in this search.
+This comparison tests Thaleia as P1 only. Worship policy and all later Engine decisions are unchanged.
