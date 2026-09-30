@@ -1,134 +1,39 @@
-name: Verify and deploy
-
+name: Inspect inline supply comparison differences
 on:
-  push:
-    branches: [main]
-  pull_request:
-    branches: [main]
   workflow_dispatch:
-    inputs:
-      story_filter:
-        description: Optional test-title pattern for focused manual checks (never deploys)
-        type: string
-        default: ''
-      update_snapshots:
-        description: Generate Linux screenshot baselines for review
-        type: boolean
-        default: false
-
 permissions:
+  actions: read
   contents: read
-
 jobs:
-  verify:
+  inspect:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: oven-sh/setup-bun@v2
+      - uses: actions/download-artifact@v4
         with:
-          bun-version: 1.3.10
-      - run: bun install --frozen-lockfile
-      - run: bun run test:policy
-      - uses: actions/setup-java@v4
-        with:
-          distribution: temurin
-          java-version: '21'
-      - run: bunx playwright install --with-deps chromium
-      - run: bun run check && bun run test:backend
-      - name: Browser stories and gallery regression checks
-        run: |
-          if [[ "${{ inputs.update_snapshots }}" == "true" ]]; then
-            bun run test:e2e:update
-          else
-            bun run test:e2e
-          fi
-        env:
-          CI: 'true'
-          E2E_STORY_FILTER: ${{ inputs.story_filter || '' }}
-          # Invitation screenshots use the same URL in manual and PR verification.
-          PUBLIC_BASE_PATH: /pantheon/prtest
-      - name: Collect changed Linux baselines
-        if: inputs.update_snapshots == true && always()
-        run: |
-          python3 - <<'PYTHON'
-          from pathlib import Path
-          import shutil, subprocess
-          paths = subprocess.check_output(['git', 'ls-files', '--others', '--modified', '--exclude-standard', '-z', '--', 'tests/e2e']).split(b'\0')
-          for raw in paths:
-              if not raw.endswith(b'-linux.png'):
-                  continue
-              source = Path(raw.decode())
-              target = Path('linux-screenshot-baselines') / source.relative_to('tests/e2e')
-              target.parent.mkdir(parents=True, exist_ok=True)
-              shutil.copyfile(source, target)
-          PYTHON
-      - uses: actions/upload-artifact@v4
-        if: inputs.update_snapshots == true && always()
-        with:
-          name: linux-screenshot-baselines
-          compression-level: 0
-          path: linux-screenshot-baselines/
-      - name: Upload browser report and card screenshots
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          run-id: '36754345762'
           name: card-gallery-browser-report
-          compression-level: 0
-          path: |
-            playwright-report/
-            test-results/
-          retention-days: 14
-
-  deploy:
-    needs: verify
-    # Verification is independent; only writes to the shared preview branch serialize.
-    concurrency:
-      group: pages-publish
-      cancel-in-progress: false
-    if: inputs.update_snapshots != true && !inputs.story_filter && (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository)
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write
-      pull-requests: write
-    steps:
-      - uses: actions/checkout@v4
-      - uses: oven-sh/setup-bun@v2
-        with:
-          bun-version: 1.3.10
-      - run: bun install --frozen-lockfile
-      - name: Choose deployment path
-        id: deployment
-        env:
-          EVENT_NAME: ${{ github.event_name }}
-          PR_NUMBER: ${{ github.event.pull_request.number }}
+          path: /tmp/report
+      - name: Select representative failures
         run: |
-          if [[ "$EVENT_NAME" == "pull_request" ]]; then
-            echo "base=/pantheon/pr$PR_NUMBER" >> "$GITHUB_OUTPUT"
-            echo "destination=pr$PR_NUMBER" >> "$GITHUB_OUTPUT"
-          else
-            echo "base=/pantheon" >> "$GITHUB_OUTPUT"
-            echo "destination=" >> "$GITHUB_OUTPUT"
-          fi
-      - run: bun run build
-        env:
-          PUBLIC_BASE_PATH: ${{ steps.deployment.outputs.base }}
-          VITE_FIREBASE_API_KEY: ${{ vars.VITE_FIREBASE_API_KEY }}
-          VITE_FIREBASE_AUTH_DOMAIN: ${{ vars.VITE_FIREBASE_AUTH_DOMAIN }}
-          VITE_FIREBASE_PROJECT_ID: ${{ vars.VITE_FIREBASE_PROJECT_ID }}
-          VITE_FIREBASE_APP_ID: ${{ vars.VITE_FIREBASE_APP_ID }}
-      - uses: peaceiris/actions-gh-pages@v4
+          python3 - <<'PY'
+          from pathlib import Path
+          import shutil, json
+          root=Path('/tmp/report/test-results'); dest=Path('/tmp/review'); dest.mkdir()
+          names=[str(p.relative_to(root)) for p in root.rglob('*') if p.is_file()]
+          (dest/'files.json').write_text(json.dumps(names,indent=2))
+          dirs=[p for p in root.iterdir() if p.is_dir()]
+          selected=[]
+          for project in ['phone','desktop','tabletop-4k']:
+            choices=[p for p in dirs if p.name.endswith('-'+project)]
+            for prefix in ['003-bloodline-bloodline-2-','005-economy-economy-integra','009-direct-play']:
+              match=next((p for p in sorted(choices) if p.name.startswith(prefix)),None)
+              if match and match not in selected:selected.append(match)
+          for p in selected:shutil.copytree(p,dest/p.name)
+          print([p.name for p in selected])
+          PY
+      - uses: actions/upload-artifact@v4
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: build
-          destination_dir: ${{ steps.deployment.outputs.destination }}
-          keep_files: true
-      - name: Link retained PR preview
-        if: github.event_name == 'pull_request'
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          PR_NUMBER: ${{ github.event.pull_request.number }}
-          PREVIEW_URL: https://${{ github.repository_owner }}.github.io/pantheon/pr${{ github.event.pull_request.number }}/
-        run: >-
-          gh pr comment "$PR_NUMBER" --repo "$GITHUB_REPOSITORY"
-          --edit-last --create-if-none
-          --body "Pantheon preview: [$PREVIEW_URL]($PREVIEW_URL)"
+          name: representative-comparison-diffs
+          path: /tmp/review
+          compression-level: 0
