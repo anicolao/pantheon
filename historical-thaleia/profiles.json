@@ -1,0 +1,182 @@
+{
+  "2/thaleia/treasure": {
+    "family": "treasure",
+    "parameters": {
+      "scoringAt": 3,
+      "engineCopies": 3,
+      "moneyFloor": 7,
+      "worshipMargin": 0.5
+    }
+  },
+  "2/thaleia/engine": {
+    "family": "engine",
+    "parameters": {
+      "scoringAt": 3,
+      "engineCopies": 3,
+      "moneyFloor": 7,
+      "worshipMargin": 0.5
+    }
+  },
+  "2/thaleia/thin": {
+    "family": "thin",
+    "parameters": {
+      "scoringAt": 2,
+      "engineCopies": 5,
+      "moneyFloor": 6,
+      "worshipMargin": 0
+    }
+  },
+  "2/thaleia/worship": {
+    "family": "worship",
+    "parameters": {
+      "scoringAt": 2,
+      "engineCopies": 5,
+      "moneyFloor": 6,
+      "worshipMargin": 0
+    }
+  },
+  "2/thaleia/race": {
+    "family": "race",
+    "parameters": {
+      "scoringAt": 2,
+      "engineCopies": 5,
+      "moneyFloor": 6,
+      "worshipMargin": 0
+    }
+  },
+  "2/nereon/treasure": {
+    "family": "treasure",
+    "parameters": {
+      "scoringAt": 3,
+      "engineCopies": 3,
+      "moneyFloor": 7,
+      "worshipMargin": 0.5
+    }
+  },
+  "2/nereon/engine": {
+    "family": "engine",
+    "parameters": {
+      "scoringAt": 2,
+      "engineCopies": 5,
+      "moneyFloor": 6,
+      "worshipMargin": 0
+    }
+  },
+  "2/nereon/thin": {
+    "family": "thin",
+    "parameters": {
+      "scoringAt": 2,
+      "engineCopies": 5,
+      "moneyFloor": 6,
+      "worshipMargin": 0
+    }
+  },
+  "2/nereon/worship": {
+    "family": "worship",
+    "parameters": {
+      "scoringAt": 2,
+      "engineCopies": 5,
+      "moneyFloor": 6,
+      "worshipMargin": 0
+    }
+  },
+  "2/nereon/race": {
+    "family": "race",
+    "parameters": {
+      "scoringAt": 2,
+      "engineCopies": 5,
+      "moneyFloor": 6,
+      "worshipMargin": 0
+    }
+  },
+  "2/melia/treasure": {
+    "family": "treasure",
+    "parameters": {
+      "scoringAt": 3,
+      "engineCopies": 3,
+      "moneyFloor": 7,
+      "worshipMargin": 0.5
+    }
+  },
+  "2/melia/engine": {
+    "family": "engine",
+    "parameters": {
+      "scoringAt": 2,
+      "engineCopies": 5,
+      "moneyFloor": 6,
+      "worshipMargin": 0
+    }
+  },
+  "2/melia/thin": {
+    "family": "thin",
+    "parameters": {
+      "scoringAt": 2,
+      "engineCopies": 5,
+      "moneyFloor": 6,
+      "worshipMargin": 0
+    }
+  },
+  "2/melia/worship": {
+    "family": "worship",
+    "parameters": {
+      "scoringAt": 2,
+      "engineCopies": 5,
+      "moneyFloor": 6,
+      "worshipMargin": 0
+    }
+  },
+  "2/melia/race": {
+    "family": "race",
+    "parameters": {
+      "scoringAt": 2,
+      "engineCopies": 5,
+      "moneyFloor": 6,
+      "worshipMargin": 0
+    }
+  },
+  "2/doreios/treasure": {
+    "family": "treasure",
+    "parameters": {
+      "scoringAt": 3,
+      "engineCopies": 3,
+      "moneyFloor": 7,
+      "worshipMargin": 0.5
+    }
+  },
+  "2/doreios/engine": {
+    "family": "engine",
+    "parameters": {
+      "scoringAt": 3,
+      "engineCopies": 3,
+      "moneyFloor": 7,
+      "worshipMargin": 0.5
+    }
+  },
+  "2/doreios/thin": {
+    "family": "thin",
+    "parameters": {
+      "scoringAt": 2,
+      "engineCopies": 5,
+      "moneyFloor": 6,
+      "worshipMargin": 0
+    }
+  },
+  "2/doreios/worship": {
+    "family": "worship",
+    "parameters": {
+      "scoringAt": 2,
+      "engineCopies": 5,
+      "moneyFloor": 6,
+      "worshipMargin": 0
+    }
+  },
+  "2/doreios/race": {
+    "family": "race",
+    "parameters": {
+      "scoringAt": 2,
+      "engineCopies": 5,
+      "moneyFloor": 6,
+      "worshipMargin": 0
+    }
+  }
+}

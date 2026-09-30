@@ -1,0 +1,23 @@
+Historical versus current Money: controlled matchup
+
+P1 historical v4 Thaleia Engine vs P2 Money, 100 matched seeds per opponent.
+Equal turns, standard powers/Worship, ties count half. Thaleia policy is identical in both arms.
+Historical Money uses the frozen v4 treasure profile and controller, including its lack of Worship.
+Current Money uses the accepted current controller plus the standard-game Worship adapter.
+Thus this measures the complete Money policy change, including Worship, not purchasing alone.
+Historical Money: 300 new games. Current Money: 300 reused games from the immediately preceding experiment.
+
+nereon: 78.5% -> 46.5%; paired change -32.0 pp [95% CI -42.0, -22.0]
+  Historical W/T/L 76/5/19; current 41/11/48.
+melia: 74.5% -> 43.5%; paired change -31.0 pp [95% CI -42.0, -20.0]
+  Historical W/T/L 72/5/23; current 40/7/53.
+doreios: 68.0% -> 58.5%; paired change -9.5 pp [95% CI -21.4, +2.4]
+  Historical W/T/L 65/6/29; current 55/7/38.
+
+All 300 new games completed, replayed to identical full states, and had equal completed turns.
+Six archived historical Engine/Money games (three opponents, both seats) reproduce exact results and command traces.
+Intervals are pointwise seed-paired t intervals with 99 degrees of freedom; no pooling across leaders.
+Seeds were reused from earlier diagnostic comparisons, so this is not fresh confirmatory validation.
+Default bots and game rules are unchanged. Only the experimental runner now supports historical Money.
+Reproduce in nix develop: python3 historical-thaleia/money-batch.py; bun historical-thaleia/verify-historical-money.ts; python3 historical-thaleia/analyze-money.py.
+The batch uses all available CPUs and refuses to overwrite existing results.

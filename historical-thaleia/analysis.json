@@ -1,0 +1,394 @@
+[
+  {
+    "opponent": "nereon",
+    "shares": {
+      "restored": {
+        "mean": 0.465,
+        "ci95": [
+          0.37119246309929305,
+          0.5588075369007071
+        ],
+        "wins": 41,
+        "ties": 11,
+        "losses": 48
+      },
+      "currentBook": {
+        "mean": 0.35,
+        "ci95": [
+          0.2569960939438578,
+          0.44300390605614215
+        ],
+        "wins": 33,
+        "ties": 4,
+        "losses": 63
+      },
+      "genericBook": {
+        "mean": 0.26,
+        "ci95": [
+          0.17483052402574692,
+          0.34516947597425307
+        ],
+        "wins": 24,
+        "ties": 4,
+        "losses": 72
+      },
+      "oldOpponentEqual": {
+        "mean": 0.79,
+        "ci95": [
+          0.7112601440840809,
+          0.8687398559159192
+        ],
+        "wins": 77,
+        "ties": 4,
+        "losses": 19
+      },
+      "oldOpponentOriginal": {
+        "mean": 0.86,
+        "ci95": [
+          0.7937392885188078,
+          0.9262607114811922
+        ],
+        "wins": 84,
+        "ties": 4,
+        "losses": 12
+      }
+    },
+    "pairedChanges": {
+      "currentBook": {
+        "mean": 0.115,
+        "ci95": [
+          0.004996958381118188,
+          0.22500304161888182
+        ]
+      },
+      "genericBook": {
+        "mean": 0.205,
+        "ci95": [
+          0.09478025678399976,
+          0.3152197432160002
+        ]
+      },
+      "oldOpponentEqual": {
+        "mean": -0.325,
+        "ci95": [
+          -0.4354720244918559,
+          -0.21452797550814412
+        ]
+      }
+    },
+    "equalTurnsChange": {
+      "mean": -0.07,
+      "ci95": [
+        -0.1208817514818473,
+        -0.019118248518152713
+      ]
+    },
+    "decks": {
+      "restored": {
+        "drachma": 5.88,
+        "obol": 5.67,
+        "sacred-academy": 5.13,
+        "acropolis": 3.16,
+        "hamlet": 2.01,
+        "council-of-sages": 2.0,
+        "polis": 1.62,
+        "oracles-acolyte": 1.39,
+        "temple-of-athena": 1.0,
+        "seed-keeper": 0.6,
+        "talent": 0.56,
+        "forge-of-heroes": 0.26,
+        "merchant-fleet": 0.14,
+        "victorious-procession": 0.01
+      },
+      "currentBook": {
+        "acropolis": 3.02,
+        "drachma": 2.82,
+        "merchant-fleet": 2.03,
+        "sacred-academy": 1.75,
+        "polis": 1.7,
+        "talent": 1.1,
+        "obol": 1.09,
+        "oracles-acolyte": 1.02,
+        "temple-of-athena": 1.0,
+        "seed-keeper": 0.94,
+        "council-of-sages": 0.81,
+        "hamlet": 0.56,
+        "bronze-recruit": 0.24,
+        "forge-of-heroes": 0.06,
+        "harbor-pilot": 0.05
+      }
+    },
+    "worship": {
+      "restored": {
+        "perGame": 7.67,
+        "favoredPerGame": 5.55
+      },
+      "currentBook": {
+        "perGame": 3.47,
+        "favoredPerGame": 2.99
+      }
+    }
+  },
+  {
+    "opponent": "melia",
+    "shares": {
+      "restored": {
+        "mean": 0.435,
+        "ci95": [
+          0.3397202225914732,
+          0.5302797774085268
+        ],
+        "wins": 40,
+        "ties": 7,
+        "losses": 53
+      },
+      "currentBook": {
+        "mean": 0.26,
+        "ci95": [
+          0.17719812163302695,
+          0.34280187836697307
+        ],
+        "wins": 22,
+        "ties": 8,
+        "losses": 70
+      },
+      "genericBook": {
+        "mean": 0.23,
+        "ci95": [
+          0.15095768513729313,
+          0.3090423148627069
+        ],
+        "wins": 19,
+        "ties": 8,
+        "losses": 73
+      },
+      "oldOpponentEqual": {
+        "mean": 0.55,
+        "ci95": [
+          0.4559331576483262,
+          0.6440668423516739
+        ],
+        "wins": 50,
+        "ties": 10,
+        "losses": 40
+      },
+      "oldOpponentOriginal": {
+        "mean": 0.6,
+        "ci95": [
+          0.5064631159068402,
+          0.6935368840931597
+        ],
+        "wins": 56,
+        "ties": 8,
+        "losses": 36
+      }
+    },
+    "pairedChanges": {
+      "currentBook": {
+        "mean": 0.175,
+        "ci95": [
+          0.06818852570032813,
+          0.28181147429967185
+        ]
+      },
+      "genericBook": {
+        "mean": 0.205,
+        "ci95": [
+          0.09478025678399976,
+          0.3152197432160002
+        ]
+      },
+      "oldOpponentEqual": {
+        "mean": -0.115,
+        "ci95": [
+          -0.24257899207949207,
+          0.012578992079492077
+        ]
+      }
+    },
+    "equalTurnsChange": {
+      "mean": -0.05,
+      "ci95": [
+        -0.09111175562630423,
+        -0.008888244373695772
+      ]
+    },
+    "decks": {
+      "restored": {
+        "obol": 5.74,
+        "sacred-academy": 4.99,
+        "drachma": 3.77,
+        "acropolis": 2.92,
+        "council-of-sages": 2.07,
+        "polis": 1.72,
+        "hamlet": 1.58,
+        "oracles-acolyte": 1.29,
+        "temple-of-athena": 0.98,
+        "seed-keeper": 0.46,
+        "talent": 0.45,
+        "forge-of-heroes": 0.29,
+        "merchant-fleet": 0.2,
+        "harbor-pilot": 0.07,
+        "victorious-procession": 0.02
+      },
+      "currentBook": {
+        "acropolis": 2.9,
+        "drachma": 2.56,
+        "merchant-fleet": 1.75,
+        "obol": 1.33,
+        "polis": 1.27,
+        "council-of-sages": 1.16,
+        "sacred-academy": 1.15,
+        "oracles-acolyte": 1.05,
+        "temple-of-athena": 0.99,
+        "talent": 0.99,
+        "hamlet": 0.42,
+        "seed-keeper": 0.37,
+        "bronze-recruit": 0.34,
+        "harbor-pilot": 0.04,
+        "forge-of-heroes": 0.03
+      }
+    },
+    "worship": {
+      "restored": {
+        "perGame": 6.27,
+        "favoredPerGame": 5.63
+      },
+      "currentBook": {
+        "perGame": 3.18,
+        "favoredPerGame": 2.48
+      }
+    }
+  },
+  {
+    "opponent": "doreios",
+    "shares": {
+      "restored": {
+        "mean": 0.585,
+        "ci95": [
+          0.4903483787247706,
+          0.6796516212752293
+        ],
+        "wins": 55,
+        "ties": 7,
+        "losses": 38
+      },
+      "currentBook": {
+        "mean": 0.455,
+        "ci95": [
+          0.35822928253757796,
+          0.5517707174624221
+        ],
+        "wins": 43,
+        "ties": 5,
+        "losses": 52
+      },
+      "genericBook": {
+        "mean": 0.315,
+        "ci95": [
+          0.22732830579477856,
+          0.4026716942052214
+        ],
+        "wins": 27,
+        "ties": 9,
+        "losses": 64
+      },
+      "oldOpponentEqual": {
+        "mean": 0.665,
+        "ci95": [
+          0.5746476217425922,
+          0.7553523782574079
+        ],
+        "wins": 63,
+        "ties": 7,
+        "losses": 30
+      },
+      "oldOpponentOriginal": {
+        "mean": 0.715,
+        "ci95": [
+          0.6266505091253898,
+          0.8033494908746102
+        ],
+        "wins": 70,
+        "ties": 3,
+        "losses": 27
+      }
+    },
+    "pairedChanges": {
+      "currentBook": {
+        "mean": 0.13,
+        "ci95": [
+          0.021118888372057415,
+          0.2388811116279426
+        ]
+      },
+      "genericBook": {
+        "mean": 0.27,
+        "ci95": [
+          0.16039082200842653,
+          0.3796091779915735
+        ]
+      },
+      "oldOpponentEqual": {
+        "mean": -0.08,
+        "ci95": [
+          -0.19941989933820586,
+          0.039419899338205874
+        ]
+      }
+    },
+    "equalTurnsChange": {
+      "mean": -0.05,
+      "ci95": [
+        -0.08861777003352242,
+        -0.011382229966477593
+      ]
+    },
+    "decks": {
+      "restored": {
+        "obol": 5.66,
+        "sacred-academy": 4.69,
+        "drachma": 4.26,
+        "acropolis": 3.0,
+        "polis": 2.42,
+        "council-of-sages": 2.07,
+        "hamlet": 1.84,
+        "oracles-acolyte": 1.24,
+        "temple-of-athena": 1.0,
+        "seed-keeper": 0.61,
+        "talent": 0.46,
+        "merchant-fleet": 0.13,
+        "forge-of-heroes": 0.13,
+        "harbor-pilot": 0.07,
+        "victorious-procession": 0.01
+      },
+      "currentBook": {
+        "acropolis": 3.22,
+        "drachma": 2.8,
+        "merchant-fleet": 1.81,
+        "sacred-academy": 1.53,
+        "oracles-acolyte": 1.05,
+        "temple-of-athena": 1.0,
+        "polis": 0.98,
+        "talent": 0.91,
+        "obol": 0.88,
+        "council-of-sages": 0.81,
+        "bronze-recruit": 0.8,
+        "hamlet": 0.38,
+        "seed-keeper": 0.37,
+        "forge-of-heroes": 0.02,
+        "harbor-pilot": 0.02
+      }
+    },
+    "worship": {
+      "restored": {
+        "perGame": 6.15,
+        "favoredPerGame": 5.44
+      },
+      "currentBook": {
+        "perGame": 3.82,
+        "favoredPerGame": 2.78
+      }
+    }
+  }
+]

@@ -1,0 +1,106 @@
+{
+  "scope": "P1 historical v4 Thaleia Engine against P2 Money",
+  "rules": "standard leaders/worship, equal turns, original shared ties worth one half",
+  "seeds": {
+    "namespace": "leader-matrix-v1",
+    "first": 240000,
+    "last": 240099
+  },
+  "historicalSource": "744d0b142e19c7cc06d59421d6461b6f2730992e",
+  "currentSource": "47ffa63f0882018059c5bee81ade6b42dc2c9d3b",
+  "rows": [
+    {
+      "opponent": "nereon",
+      "vsHistoricalMoney": {
+        "share": 0.785,
+        "ci95": [
+          0.7061655010082304,
+          0.8638344989917697
+        ],
+        "wins": 76,
+        "ties": 5,
+        "losses": 19
+      },
+      "vsCurrentMoney": {
+        "share": 0.465,
+        "ci95": [
+          0.37119246309929305,
+          0.5588075369007071
+        ],
+        "wins": 41,
+        "ties": 11,
+        "losses": 48
+      },
+      "pairedChange": -0.32,
+      "pairedCI95": [
+        -0.42022780774650603,
+        -0.21977219225349398
+      ],
+      "improved": 5,
+      "worsened": 41,
+      "unchanged": 54
+    },
+    {
+      "opponent": "melia",
+      "vsHistoricalMoney": {
+        "share": 0.745,
+        "ci95": [
+          0.6609882269337287,
+          0.8290117730662713
+        ],
+        "wins": 72,
+        "ties": 5,
+        "losses": 23
+      },
+      "vsCurrentMoney": {
+        "share": 0.435,
+        "ci95": [
+          0.3397202225914732,
+          0.5302797774085268
+        ],
+        "wins": 40,
+        "ties": 7,
+        "losses": 53
+      },
+      "pairedChange": -0.31,
+      "pairedCI95": [
+        -0.4199352347693033,
+        -0.20006476523069675
+      ],
+      "improved": 7,
+      "worsened": 42,
+      "unchanged": 51
+    },
+    {
+      "opponent": "doreios",
+      "vsHistoricalMoney": {
+        "share": 0.68,
+        "ci95": [
+          0.5902382566873771,
+          0.769761743312623
+        ],
+        "wins": 65,
+        "ties": 6,
+        "losses": 29
+      },
+      "vsCurrentMoney": {
+        "share": 0.585,
+        "ci95": [
+          0.4903483787247706,
+          0.6796516212752293
+        ],
+        "wins": 55,
+        "ties": 7,
+        "losses": 38
+      },
+      "pairedChange": -0.095,
+      "pairedCI95": [
+        -0.21356347229406036,
+        0.023563472294060347
+      ],
+      "improved": 18,
+      "worsened": 28,
+      "unchanged": 54
+    }
+  ]
+}

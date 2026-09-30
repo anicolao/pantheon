@@ -1,0 +1,27 @@
+{
+  "historicalSource": "744d0b142e19c7cc06d59421d6461b6f2730992e",
+  "currentSource": "47ffa63f0882018059c5bee81ade6b42dc2c9d3b",
+  "policyVersion": 4,
+  "profileSource": "../balance-results/all-leaders-v4/profiles.json selected",
+  "seedNamespace": "leader-matrix-v1",
+  "seeds": [
+    240000,
+    240099
+  ],
+  "mainGames": 300,
+  "diagnosticGames": 600,
+  "seat": "P1 Thaleia",
+  "opponents": [
+    "nereon",
+    "melia",
+    "doreios"
+  ],
+  "mainOpponent": "unchanged current Money",
+  "mainRules": "standard powers, equal turns, original ties split half",
+  "bridges": [
+    "historical Engine opponents with equal turns",
+    "historical Engine opponents with original immediate endings"
+  ],
+  "workers": 16,
+  "defaultBotsModified": false
+}
