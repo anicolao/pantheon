@@ -15,7 +15,7 @@ function initial(view:View,sample:number,bank:string):SetupState{
  for(const c of [...hand,...play,...discard])remaining[c.cardId]=(remaining[c.cardId]??0)-1;
  if(Object.values(remaining).some(n=>n<0))throw Error('Planner zones exceed owned inventory');
  const deck=shuffle(expand(remaining),'purchase-pair-v1:'+bank+':'+sample);
- return {phase:'playing',seed:'purchase-pair-v1:'+bank+':'+sample,turn:{...initialTurn(),phase:view.phase,leaderUsed:view.leaderUsed},supply:{...view.supply},trash:[],movements:[],turnOrder:['sample'],draftOrder:[],leaders:{sample:view.leader},decks:{sample:{hand,play,discard,deck}},sharedEvents:[],dealtAtSequence:null,resources:{...view.resources},playerCount:2,players:[{uid:'sample',name:'Sample'}],activity:[]};
+ return {phase:'playing',seed:'purchase-pair-v1:'+bank+':'+sample,turn:{...initialTurn(),phase:view.phase,leaderUsed:view.leaderUsed},supply:{...view.supply},trash:[],publicActivity:[],movements:[],turnOrder:['sample'],draftOrder:[],leaders:{sample:view.leader},decks:{sample:{hand,play,discard,deck}},sharedEvents:[],dealtAtSequence:null,resources:{...view.resources},playerCount:2,players:[{uid:'sample',name:'Sample'}],activity:[]};
 }
 /** Fixed-target continuation, selected across samples, not separately for each
  * hidden shuffle. It buys at the first publicly affordable opportunity within

@@ -74,7 +74,7 @@ export function moneyEstimate(view: MoneyView, owned=view.owned): MoneyEstimate 
    for(let offset=0;offset<Math.max(1,cards.length);offset++) {
     const sample=permutation*Math.max(1,cards.length)+offset;
     const deck=[...order.slice(offset),...order.slice(0,offset)];
-    const game:SetupState={phase:'playing',seed:`money-ev-v1:${sample}`,turn:{...initialTurn(),leaderUsed:disabled},supply:{...view.supply},trash:[],movements:[],turnOrder:['ev'],draftOrder:[],leaders:{ev:view.leader},decks:{ev:{hand:deck.splice(0,5),deck,discard:[],play:[]}},sharedEvents:[],dealtAtSequence:null,resources:{actions:1,buys:1,coins:0,worship:1},playerCount:2,players:[{uid:'ev',name:'EV'}],activity:[]};
+    const game:SetupState={phase:'playing',seed:`money-ev-v1:${sample}`,turn:{...initialTurn(),leaderUsed:disabled},supply:{...view.supply},trash:[],publicActivity:[],movements:[],turnOrder:['ev'],draftOrder:[],leaders:{ev:view.leader},decks:{ev:{hand:deck.splice(0,5),deck,discard:[],play:[]}},sharedEvents:[],dealtAtSequence:null,resources:{actions:1,buys:1,coins:0,worship:1},playerCount:2,players:[{uid:'ev',name:'EV'}],activity:[]};
     let commands=0;
     while(game.turn.phase==='actions') {
       if(++commands>1000)throw new Error('Money expectation action guard');

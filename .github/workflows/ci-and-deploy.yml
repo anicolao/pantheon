@@ -70,6 +70,8 @@ jobs:
           E2E_STORY_FILTER: ${{ inputs.story_filter || '' }}
           # Invitation screenshots use the same URL in manual and PR verification.
           PUBLIC_BASE_PATH: /pantheon/prtest
+      - name: Practice against bots
+        run: bun run build && bun scripts/practice-browser-smoke.ts
       - name: Collect changed Linux baselines
         if: inputs.update_snapshots == true && always()
         run: |
@@ -100,4 +102,5 @@ jobs:
           path: |
             playwright-report/
             test-results/
+            practice-validation/
           retention-days: 14
