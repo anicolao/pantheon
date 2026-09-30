@@ -273,25 +273,15 @@
     .error{left:5%;width:90%;top:19%;font-size:13px;padding:8px;}.connection{left:8%;width:84%;font-size:15px;--control-height:48px;--control-font:25px;}
     dialog{padding:20px 16px;}dialog h2{font-size:25px;margin:18px 28px 20px;}
   }
-  @media (max-aspect-ratio:3/4){
-
-    .trash-control{left:42%;top:1%;width:16%;--icon-size:18px;}.opponent-discard{min-height:44px;padding:0;font-size:9px;}.opponent-portrait{max-width:8svh;}.hidden-hand{height:5svh;}.play-area:has(.played-cards){top:44%;left:35%;width:30%;height:9%;} .played-cards button:first-child:nth-last-child(3){display:none;}.play-area:has(.played-cards) .played-cards{margin:0;gap:6px;}.all-played{top:53%;left:35%;width:30%;font-size:12px;min-height:44px;}.action-message{left:3%;width:94%;top:23%;font-size:10px;}.composition:has(.action-message) .altars{top:28%;}.composition:has(.outcome) .altars{top:22%;grid-template-columns:32% 32%;}.composition:has(.outcome) .opponent{grid-template-columns:1fr 1.6fr;}.composition:has(.outcome) .opponent-portrait{width:100%;max-width:7svh;}.composition:has(.outcome) .hidden-hand{height:6svh;}.composition:has(.outcome) .action-message{top:19%;}.composition:has(.action-message) .altars.four{top:28%;grid-template-columns:30% 30%;gap:0;}.composition:has(.played-cards) .altars.four{top:27%;grid-template-columns:repeat(4,minmax(0,1fr));gap:1%;}.composition:has(.outcome) .altars.four{top:24%;grid-template-columns:repeat(4,minmax(0,1fr));gap:1%;}.composition:has(.outcome):has(.altars.four) .action-message{top:21%;}.composition:has(.outcome) .opponents:has(.opponent:nth-child(2)) .opponent{display:flex;flex-direction:column;justify-content:flex-start;}.composition:has(.outcome) .opponents:has(.opponent:nth-child(2)) .opponent-portrait{max-width:5svh;}.composition:has(.outcome) .opponents:has(.opponent:nth-child(2)) .hidden-hand{height:3.5svh;flex-shrink:0;}.outcome{left:51%!important;top:33%!important;height:19%!important;width:44%!important;z-index:3;flex-direction:row;flex-wrap:nowrap;gap:0;--icon-size:16px;background:none;}.outcome-card{width:60%!important;flex-shrink:0;}.composition:has(.outcome) .play-area{left:7%;top:33%;width:33%;height:19%;}.composition:has(.outcome) .played-cards button:not(:last-child){display:none;}.composition:has(.hand-pages) .hand{left:48px;width:calc(100% - 96px);}.hand-pages{left:0;width:100%;bottom:13%;z-index:4;justify-content:space-between;pointer-events:none;}.hand-pages span{position:absolute;left:0;bottom:-18px;width:100%;text-align:center;font-size:11px;}.hand-pages button{pointer-events:auto;min-width:44px;min-height:44px;}.inspection:has(.play-command) .inspected{width:min(56vw,35svh);}.play-command{--control-font:22px;}
-  }
-  @media(max-aspect-ratio:3/4) and (max-height:720px){
-    .altars{grid-template-columns:40% 40%;justify-content:space-around;}
-    .altars.four{grid-template-columns:repeat(4,minmax(0,1fr));gap:1%;}
-    .opponents{top:9%;}
-    .opponents:not(:has(.opponent:nth-child(2))) .opponent{grid-template-columns:48px 1fr;grid-template-rows:24px 44px;gap:0 8px;max-width:280px;}
-    .opponents:not(:has(.opponent:nth-child(2))) .opponent-portrait{grid-row:1/3;width:48px;max-width:none;}
-    .opponents:not(:has(.opponent:nth-child(2))) .hidden-hand{height:24px;}
-    .opponents:not(:has(.opponent:nth-child(2))) .opponent p{grid-column:2;}
-    .turn-rail{top:62%;height:7.5%;}.hand{bottom:12%;}
-    .own-leader{left:44.5%!important;width:11svh!important;}
-    .deck-pile{width:calc(10svh * 5 / 7);}
-  }
-
   /* Keep supply, hand, resources, and the result together on the phone table. */
   @media(max-aspect-ratio:3/4){
+    .trash-control{left:42%;top:1%;width:16%;--icon-size:18px;}
+    .played-cards button:first-child:nth-last-child(3){display:none;}.play-area:has(.played-cards) .played-cards{margin:0;gap:6px;}
+    .composition:has(.hand-pages) .hand{left:48px;width:calc(100% - 96px);}
+    .hand-pages{left:0;width:100%;z-index:4;justify-content:space-between;pointer-events:none;}.hand-pages span{position:absolute;left:0;bottom:-18px;width:100%;text-align:center;font-size:11px;}.hand-pages button{pointer-events:auto;min-width:44px;min-height:44px;}
+    .inspection:has(.play-command) .inspected{width:min(56vw,35svh);}.play-command{--control-font:22px;}
+    .composition .all-played{left:3%;top:53%;width:17%;font-size:10px;min-height:40px;}
+
     .composition .opponents{top:8%;left:3%;width:94%;height:10%;gap:2%;}
     .composition .opponents .opponent,.composition:has(.outcome) .opponents .opponent{display:grid;grid-template-columns:1fr;grid-template-rows:32px 16px 24px;justify-items:center;align-items:center;gap:0;max-width:150px;}
     .composition .opponents .opponent-portrait,.composition:has(.outcome) .opponents .opponent-portrait{width:32px;max-width:32px;grid-row:auto;}
@@ -304,7 +294,7 @@
     .composition:has(.outcome) .play-area{left:22%;width:23%;}.composition .outcome{left:49%!important;top:53%!important;width:29%!important;height:7%!important;--icon-size:10px;}
     .composition .outcome-card{width:50%!important;max-width:5svh;}
     .composition .action-message,.composition:has(.outcome):has(.altars.four) .action-message{left:3%;top:60%;width:94%;font-size:9px;padding:1px 4px;line-height:1.1;}
-    .composition .treasures-control,.composition .all-played{left:3%;top:63%;width:47%;--control-font:17px;}
+    .composition .treasures-control{left:3%;top:63%;width:47%;--control-font:17px;}
     .composition .chronicle-control{right:3%;top:63%;width:44%;--control-font:17px!important;}
     .composition .turn-rail{top:71%;height:8%;}.composition .resources{--icon-size:21px;}
     .composition .hand{bottom:7%;height:13svh;--hand-card-width:min(27vw,9svh);}.composition .hand-pages{bottom:7%;}
@@ -320,7 +310,8 @@
     .composition .play-area,.composition:has(.outcome) .play-area{top:57%;height:11%;left:32%;width:36%;}.composition:has(.outcome) .play-area{left:32%;width:16%;}
     .outcome{left:51%!important;top:57%!important;width:17%!important;height:11%!important;--icon-size:10px;}.outcome-card{max-width:7svh;}
     .action-message{top:68%;font-size:8px;padding:0 4px;}
-    .treasures-control,.all-played{top:60%;left:1%;width:19%;--control-font:12px;--control-height:34px;min-height:34px;font-size:10px;}
+    .treasures-control{top:60%;left:1%;width:19%;--control-font:12px;--control-height:34px;min-height:34px;font-size:10px;}
+    .all-played{top:57%;left:21%;width:10%;min-height:30px;font-size:9px;}
     .chronicle-control{top:60%;right:1%;width:19%;--control-height:34px;--control-font:13px;}
     .turn-rail{top:71%;height:13%;left:22%;width:56%;}.turn-marker{font-size:13px;min-height:32px;}.resources{--icon-size:15px;}
     .hand{left:26%;--hand-room:48;bottom:1%;height:15svh;--hand-card-width:10svh;}.own-leader{left:1%!important;bottom:1%;width:13%;}.deck-pile{left:16%;bottom:1%;width:4%;}.discard-pile{bottom:1%;right:2%;width:12%;font-size:9px;}.discard-pile img{max-height:8svh;}.discard-pile span{padding:1px;}

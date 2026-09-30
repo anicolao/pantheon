@@ -39,7 +39,7 @@
   }
   function dismiss(){warning?.close();pending='';onDialog(false);}
   async function confirm(){const id=pending;dismiss();if(ready&&!purchaseReason(game,uid,id))await command({type:'card/bought',cardId:id});}
-  function activate(index:number){if(dragged)return;if(index!==Math.round(target)){move(index);return;}void buy(piles[index].id);}
+  function activate(index:number){if(dragged)return;if(moving||index!==Math.round(target)){move(index);return;}void buy(piles[index].id);}
   let pointer:number|undefined,startX=0,startPosition=0,lastWheel=0;
   function down(event:PointerEvent){if(event.button!==0)return;pointer=event.pointerId;startX=event.clientX;startPosition=position;dragged=false;(event.target as HTMLElement).closest('button')?.setPointerCapture(event.pointerId);}
   function drag(event:PointerEvent){if(event.pointerId!==pointer)return;const delta=event.clientX-startX;if(Math.abs(delta)>10)dragged=true;if(dragged){dragging=true;position=Math.max(0,Math.min(piles.length-1,startPosition-delta/(cardWidth*1.055)));target=position;}}
@@ -51,10 +51,11 @@
   <section class="coverflow" aria-label="Supply piles" onwheel={wheel} onpointerdown={down} onpointermove={drag} onpointerup={up} onpointercancel={up}>
     {#each piles as pile,index (pile.id)}
       <div class="supply-face" class:unavailable={!!purchaseReason(game,uid,pile.id)} style:transform={layout[index].transform} style:z-index={layout[index].z}><CardFace card={definition(pile.id)} players={game.playerCount}/></div>
-      <button class="buy-card" data-supply-id={pile.id} data-centered={index===Math.round(target)} data-public-zone="supply" data-public-card={pile.id} aria-label={`${index===Math.round(target)?'Buy':'Center'} ${definition(pile.id).name}`} aria-disabled={index===Math.round(target)&&(!ready||!!purchaseReason(game,uid,pile.id))} style:left={`${layout[index].hitLeft}px`} style:width={`${layout[index].hitWidth}px`} style:z-index={1100+index} onkeydown={key} use:cardGesture={{activate:()=>activate(index),inspect:()=>inspect(pile.id)}}></button>
+      <button class="buy-card" aria-describedby="supply-help" data-supply-id={pile.id} data-centered={index===Math.round(target)} data-public-zone="supply" data-public-card={pile.id} aria-label={`${index===Math.round(target)?'Buy':'Center'} ${definition(pile.id).name}`} aria-disabled={index===Math.round(target)&&(!ready||!!purchaseReason(game,uid,pile.id))} style:left={`${layout[index].hitLeft}px`} style:width={`${layout[index].hitWidth}px`} style:z-index={1100+index} onkeydown={key} use:cardGesture={{activate:()=>activate(index),inspect:()=>inspect(pile.id)}}></button>
     {/each}
   </section>
   <nav aria-label="Browse supply"><button aria-label="Cheaper cards" disabled={target<=0} onclick={()=>move(Math.round(target)-1)}>‹</button><div class="supply-caption"><span>{definition(centered.id).name} · {definition(centered.id).cost} Coins</span><span class="stock" aria-label={`${definition(centered.id).name}: ${game.supply[centered.id]} remaining`}>{game.supply[centered.id]} left</span></div><button aria-label="More expensive cards" disabled={target>=piles.length-1} onclick={()=>move(Math.round(target)+1)}>›</button></nav>
+  <span id="supply-help" class="sr-only">Scroll or drag to browse. Tap a side card to center it; tap the center card to buy. Right-click, hold, or press Shift+F10 to inspect.</span>
   <p class="reason sr-only" role="status">{reason}</p>
 </section>
 <dialog bind:this={warning} class="warning framed-dialog" aria-label="Skip playable Actions?" oncancel={event=>{event.preventDefault();dismiss();}} data-e2e-layout>
@@ -66,6 +67,7 @@
   .supply-face{position:absolute;top:0;left:calc(50% - var(--card-width)/2);width:var(--card-width);pointer-events:none;backface-visibility:hidden;filter:drop-shadow(0 3px 3px #0009);}
   .unavailable{filter:saturate(.7) brightness(.83) drop-shadow(0 3px 3px #0009);}
   .buy-card{position:absolute;top:calc(var(--card-width)*.18);height:calc(var(--card-width)*1.02);border:0;padding:0;background:none;cursor:pointer;min-width:0;}
+  .supply-coverflow:has(.buy-card:hover) .buy-card:focus-visible{outline:none;}
   .buy-card:focus-visible{outline:2px solid #ffdc84;outline-offset:0;}
   .supply-coverflow:has(.buy-card[data-centered=true]:hover) .supply-face:has(+ .buy-card[data-centered=true]),.supply-coverflow:not(:has(.buy-card:hover)) .supply-face:has(+ .buy-card:focus-visible){filter:brightness(1.1) drop-shadow(0 0 5px #e6bd6a);}
   nav{position:absolute;bottom:0;left:50%;transform:translateX(-50%);height:44px;display:flex;align-items:center;gap:8px;max-width:100%;}
