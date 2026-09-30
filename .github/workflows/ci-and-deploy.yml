@@ -40,7 +40,7 @@ jobs:
             while(next<names.length){
               const name=names[next++],source=await readFile(`raw/${name}`);
               const pixels=await sharp(source).ensureAlpha().raw().toBuffer();
-              const compressed=await sharp(source).png({compressionLevel:9,adaptiveFiltering:true}).toBuffer();
+              const compressed=await sharp(source).png({compressionLevel:6,adaptiveFiltering:true}).toBuffer();
               if(!pixels.equals(await sharp(compressed).ensureAlpha().raw().toBuffer()))throw Error(`Pixels changed: ${name}`);
               if(bytes+compressed.length>350*1024*1024){part++;bytes=0;}
               if(part>=16)throw Error('Too many artifact parts');
