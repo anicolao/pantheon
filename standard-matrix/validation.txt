@@ -1,0 +1,15 @@
+Validation before full matrix:
+- Strict TypeScript check: passed for runner and adapter tests.
+- 11 tests, 93 assertions: passed, including equal-turn and original tie rules.
+- Four accepted base-game results AND complete command traces match frozen SHA256 hashes.
+- 48 standard smoke games finished, replayed exactly, and completed equal turns.
+- Smoke: cross-god worship 160 uses; all four events used. Favored Ares was absent in
+  smoke games, but its legal continuation was covered explicitly in adapter tests.
+- No simulation draws allowed inside after-treasure worship evaluation; enforced by assertion.
+- Standard Feast evaluation includes public queued leader effects.
+- Full matrix: every game independently checks reducer replay and completed-turn parity.
+
+Final full matrix: 9,600/9,600 games finished; 9,600 exact reducer replays;
+9,600 equal-turn checks; exactly seeds 240000-240199 in each of 48 cells;
+no duplicates, exclusions, failures, or censored games. All 16 worship
+combinations (4 events x standard/Favored x 2 strategies) occurred.
