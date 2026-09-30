@@ -1,0 +1,16 @@
+Decision: do not enable extra Talent for P1. The measured gain is -0.17 pp, paired 95% -1.90..+1.57 pp. Accepted engine remains extra-Talent P2 only.
+
+P1 extra-Talent experiment
+
+Both arms use the accepted engine: original ties (half win share), equal completed turns, fixed opening book, discard lookahead on, coin/Buy acquisition bonus off, P1 guard 1 and unchanged Money opponent. Control has P1 extra Talent off; treatment substitutes Talent once for the first planned Acropolis purchase. P2 retains its accepted extra-Talent rule in both configurations.
+
+The Talent replacement itself must respect the P1 closing guard, including the third-pile ending edge case. Unsafe replacement falls back to the originally selected Acropolis. This guard protection is also used in speculative discard continuations.
+
+Fresh seeds 210000-212999: 3000 P1 games per arm, 6000 total. Fixed sample, paired two-sided 95% interval, no optional extension. No P2 win-rate resimulation was needed; representative full-trace regressions verify P2 invariance.
+
+baseline: 49.033% [95% 47.301, 50.766], W/T/L 1378/186/1436. First point turn 9.438; final Talents 1.277; substitution count 0.
+talent: 48.867% [95% 47.140, 50.594], W/T/L 1364/204/1432. First point turn 11.229; final Talents 2.060; substitution count 3000.
+Paired change: -0.167 pp; 95% [-1.904, +1.570] pp. Improved/worsened/unchanged: 487/470/2043.
+Supported P1 improvement: False
+
+Validation: every game completed, passed full command replay with exact state equality, equal completed turns, unchanged matched book purchases, and the P1 closing-margin invariant. Frozen sources unchanged. Four focused tests cover baseline equivalence, unchanged P2, one-shot substitution and third-pile closing safety. Strict TypeScript checks pass. CPU-bound batch uses all 16 CPUs inside nix develop.
