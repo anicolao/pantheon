@@ -36,6 +36,7 @@ for(const scenario of [{count:2 as const,goal:'acropolis' as const,last:false},{
     await page.getByRole('button',{name:'Return to scores',exact:true}).click();
     await steps.step('returned','Return to the same score breakdown',[{spec:'Focus returns to Hamlet without changing the selected empire.',check:async()=>expect(page.getByRole('button',{name:'Inspect Hamlet',exact:true})).toBeFocused()}]);
     await page.reload();
+    await expect(page.locator('.victory-scene')).toHaveCSS('opacity','1');
     await steps.step('restored','The finished table keeps its result on return',[{spec:'The same winners and totals return without another cleanup.',check:async()=>expect(page.locator('#victory-title')).toHaveText(scenario.goal==='actions'?(scenario.last?'Shared victory':'Theseus wins'):'Ariadne wins')}]);
     expect(await readEvents(fixture.code)).toHaveLength(game.activity.length);
     if(scenario.goal==='acropolis'){
@@ -48,9 +49,11 @@ for(const scenario of [{count:2 as const,goal:'acropolis' as const,last:false},{
       await page.getByRole('button',{name:'Close',exact:true}).click();
       await steps.step('finished-table','The table remains inspectable after scoring',[{spec:'Final scores can be reopened, and no play commands are offered.',check:async()=>{await expect(page.getByRole('button',{name:'Final scores',exact:true})).toBeFocused();await expect(page.getByRole('button',{name:'To Treasures',exact:true})).toHaveCount(0);}}]);
       await page.getByRole('button',{name:'Final scores',exact:true}).click();
+      await expect(page.locator('.victory-scene')).toHaveCSS('opacity','1');
       await steps.step('scores-again','Return to the same final standings',[{spec:'The winner and Territory total have not changed.',check:async()=>expect(page.locator('.total')).toHaveText('Total 39 VP')}]);
       const newCode=await roomCodeFixture(page,{...info,title:`${info.title}/rematch`});
       await page.reload();
+      await expect(page.locator('.victory-scene')).toHaveCSS('opacity','1');
       await steps.step('ready-again','Ariadne can gather a fresh table from the finished game',[{spec:'Play again is enabled after the result returns.',check:async()=>expect(page.getByRole('button',{name:'Play again',exact:true})).toBeEnabled()}]);
       const rematchUuid=createHash('sha256').update(`${info.project.name}/${info.title}/rematch`).digest('hex').slice(0,32);
       await page.evaluate(uuid=>Object.defineProperty(crypto,'randomUUID',{configurable:true,value:()=>uuid}),rematchUuid);

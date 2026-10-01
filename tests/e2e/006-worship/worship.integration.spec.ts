@@ -29,7 +29,7 @@ async function playCard(page:Page,id:string){
   }
 }
 const step=(steps:TestStepHelper,id:string,text:string,check:()=>Promise<unknown>)=>steps.step(id,text,[{spec:text,check}]);
-async function wealth(page:Page){await enterTreasures(page);await expect.poll(async()=>await page.getByRole('button',{name:'Keep playing',exact:true}).isVisible()||(await page.locator('.turn-marker').textContent())!.includes('Treasures')).toBe(true);if(await page.getByRole('button',{name:'Keep playing',exact:true}).isVisible())await page.getByRole('dialog').getByRole('button',{name:'To Treasures',exact:true}).click();await page.getByRole('button',{name:'Play all Treasures',exact:true}).click();await expect(page.getByRole('button',{name:'Play all Treasures',exact:true})).toHaveCount(0);}
+async function wealth(page:Page){await enterTreasures(page);await expect.poll(async()=>await page.getByRole('button',{name:'Keep playing',exact:true}).isVisible()||(await page.locator('.turn-marker').textContent())!.includes('Treasures')).toBe(true);if(await page.getByRole('button',{name:'Keep playing',exact:true}).isVisible())await page.getByRole('dialog').getByRole('button',{name:'To Treasures',exact:true}).click();await page.getByRole('button',{name:'Play all Treasures',exact:true}).click();await expect(page.getByRole('button',{name:'Play all Treasures',exact:true})).toHaveCount(0);await expect(page.locator('.supply-coverflow')).toHaveAttribute('aria-busy','false');}
 
 test('Athena rewards two matching Actions with a five-cost topdeck gain',async({page},info)=>{
   const fixture=await worshipTable(page,info,'oracles-acolyte','thaleia',{extra:['temple-of-athena'],wealth:3});

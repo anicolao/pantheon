@@ -212,26 +212,26 @@ Viewpoint: **Ariadne**.
 
 - [x] Ariadne chooses a cost-zero Obol after reconnect
 
-## The next live purchase moves once from Supply to Discard
+## The next live purchase lands beside played cards
 
 Viewpoint: **Theseus**.
 
 <table>
 <tr><th>Desktop · 1440 × 1000</th><th>Phone · 393 × 852</th></tr>
 <tr>
-<td valign="top"><a href="../../screenshots/follow-worship-and-a-purchase-once-while-reconnecting-without-an-animation-backlog/010-live-again-desktop-darwin.png"><img src="../../screenshots/follow-worship-and-a-purchase-once-while-reconnecting-without-an-animation-backlog/010-live-again-desktop-darwin.png" alt="The next live purchase moves once from Supply to Discard — desktop" width="720"></a></td>
-<td valign="top"><a href="../../screenshots/follow-worship-and-a-purchase-once-while-reconnecting-without-an-animation-backlog/010-live-again-phone-darwin.png"><img src="../../screenshots/follow-worship-and-a-purchase-once-while-reconnecting-without-an-animation-backlog/010-live-again-phone-darwin.png" alt="The next live purchase moves once from Supply to Discard — phone" width="240"></a></td>
+<td valign="top"><a href="../../screenshots/follow-worship-and-a-purchase-once-while-reconnecting-without-an-animation-backlog/010-live-again-desktop-darwin.png"><img src="../../screenshots/follow-worship-and-a-purchase-once-while-reconnecting-without-an-animation-backlog/010-live-again-desktop-darwin.png" alt="The next live purchase lands beside played cards — desktop" width="720"></a></td>
+<td valign="top"><a href="../../screenshots/follow-worship-and-a-purchase-once-while-reconnecting-without-an-animation-backlog/010-live-again-phone-darwin.png"><img src="../../screenshots/follow-worship-and-a-purchase-once-while-reconnecting-without-an-animation-backlog/010-live-again-phone-darwin.png" alt="The next live purchase lands beside played cards — phone" width="240"></a></td>
 </tr>
 </table>
 
 <details>
 <summary>Tabletop · 3840 × 2160 — expand screenshot</summary>
 
-<a href="../../screenshots/follow-worship-and-a-purchase-once-while-reconnecting-without-an-animation-backlog/010-live-again-tabletop-4k-darwin.png"><img src="../../screenshots/follow-worship-and-a-purchase-once-while-reconnecting-without-an-animation-backlog/010-live-again-tabletop-4k-darwin.png" alt="The next live purchase moves once from Supply to Discard — tabletop-4k" width="960"></a>
+<a href="../../screenshots/follow-worship-and-a-purchase-once-while-reconnecting-without-an-animation-backlog/010-live-again-tabletop-4k-darwin.png"><img src="../../screenshots/follow-worship-and-a-purchase-once-while-reconnecting-without-an-animation-backlog/010-live-again-tabletop-4k-darwin.png" alt="The next live purchase lands beside played cards — tabletop-4k" width="960"></a>
 
 </details>
 
-- [x] The next live purchase moves once from Supply to Discard
+- [x] The next live purchase lands beside played cards
 
 ## Reduced motion preserves the same purchase path and cost without travel
 

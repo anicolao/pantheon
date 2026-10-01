@@ -399,26 +399,26 @@ Viewpoint: **Theseus**.
 
 - [x] Incoming cards do not reorder or replace the open tray
 
-## Theseus chooses to show the newly purchased Hamlet
+## Theseus finds the purchase beside the played cards
 
 Viewpoint: **Theseus**.
 
 <table>
 <tr><th>Desktop · 1440 × 1000</th><th>Phone · 393 × 852</th></tr>
 <tr>
-<td valign="top"><a href="../../screenshots/follow-a-friend-from-the-first-temple-through-worship-and-cleanup-while-reading-the-public-table/019-refreshed-pile-desktop-darwin.png"><img src="../../screenshots/follow-a-friend-from-the-first-temple-through-worship-and-cleanup-while-reading-the-public-table/019-refreshed-pile-desktop-darwin.png" alt="Theseus chooses to show the newly purchased Hamlet — desktop" width="720"></a></td>
-<td valign="top"><a href="../../screenshots/follow-a-friend-from-the-first-temple-through-worship-and-cleanup-while-reading-the-public-table/019-refreshed-pile-phone-darwin.png"><img src="../../screenshots/follow-a-friend-from-the-first-temple-through-worship-and-cleanup-while-reading-the-public-table/019-refreshed-pile-phone-darwin.png" alt="Theseus chooses to show the newly purchased Hamlet — phone" width="240"></a></td>
+<td valign="top"><a href="../../screenshots/follow-a-friend-from-the-first-temple-through-worship-and-cleanup-while-reading-the-public-table/019-refreshed-pile-desktop-darwin.png"><img src="../../screenshots/follow-a-friend-from-the-first-temple-through-worship-and-cleanup-while-reading-the-public-table/019-refreshed-pile-desktop-darwin.png" alt="Theseus finds the purchase beside the played cards — desktop" width="720"></a></td>
+<td valign="top"><a href="../../screenshots/follow-a-friend-from-the-first-temple-through-worship-and-cleanup-while-reading-the-public-table/019-refreshed-pile-phone-darwin.png"><img src="../../screenshots/follow-a-friend-from-the-first-temple-through-worship-and-cleanup-while-reading-the-public-table/019-refreshed-pile-phone-darwin.png" alt="Theseus finds the purchase beside the played cards — phone" width="240"></a></td>
 </tr>
 </table>
 
 <details>
 <summary>Tabletop · 3840 × 2160 — expand screenshot</summary>
 
-<a href="../../screenshots/follow-a-friend-from-the-first-temple-through-worship-and-cleanup-while-reading-the-public-table/019-refreshed-pile-tabletop-4k-darwin.png"><img src="../../screenshots/follow-a-friend-from-the-first-temple-through-worship-and-cleanup-while-reading-the-public-table/019-refreshed-pile-tabletop-4k-darwin.png" alt="Theseus chooses to show the newly purchased Hamlet — tabletop-4k" width="960"></a>
+<a href="../../screenshots/follow-a-friend-from-the-first-temple-through-worship-and-cleanup-while-reading-the-public-table/019-refreshed-pile-tabletop-4k-darwin.png"><img src="../../screenshots/follow-a-friend-from-the-first-temple-through-worship-and-cleanup-while-reading-the-public-table/019-refreshed-pile-tabletop-4k-darwin.png" alt="Theseus finds the purchase beside the played cards — tabletop-4k" width="960"></a>
 
 </details>
 
-- [x] Theseus chooses to show the newly purchased Hamlet
+- [x] Theseus finds the purchase beside the played cards
 
 ## The physical Hamlet copy can be read in full
 
@@ -441,47 +441,47 @@ Viewpoint: **Theseus**.
 
 - [x] The physical Hamlet copy can be read in full
 
-## All five played cards are available in a stable public tray
+## Five played cards and the purchase are available in a stable public tray
 
 Viewpoint: **Theseus**.
 
 <table>
 <tr><th>Desktop · 1440 × 1000</th><th>Phone · 393 × 852</th></tr>
 <tr>
-<td valign="top"><a href="../../screenshots/follow-a-friend-from-the-first-temple-through-worship-and-cleanup-while-reading-the-public-table/021-play-pile-desktop-darwin.png"><img src="../../screenshots/follow-a-friend-from-the-first-temple-through-worship-and-cleanup-while-reading-the-public-table/021-play-pile-desktop-darwin.png" alt="All five played cards are available in a stable public tray — desktop" width="720"></a></td>
-<td valign="top"><a href="../../screenshots/follow-a-friend-from-the-first-temple-through-worship-and-cleanup-while-reading-the-public-table/021-play-pile-phone-darwin.png"><img src="../../screenshots/follow-a-friend-from-the-first-temple-through-worship-and-cleanup-while-reading-the-public-table/021-play-pile-phone-darwin.png" alt="All five played cards are available in a stable public tray — phone" width="240"></a></td>
+<td valign="top"><a href="../../screenshots/follow-a-friend-from-the-first-temple-through-worship-and-cleanup-while-reading-the-public-table/021-play-pile-desktop-darwin.png"><img src="../../screenshots/follow-a-friend-from-the-first-temple-through-worship-and-cleanup-while-reading-the-public-table/021-play-pile-desktop-darwin.png" alt="Five played cards and the purchase are available in a stable public tray — desktop" width="720"></a></td>
+<td valign="top"><a href="../../screenshots/follow-a-friend-from-the-first-temple-through-worship-and-cleanup-while-reading-the-public-table/021-play-pile-phone-darwin.png"><img src="../../screenshots/follow-a-friend-from-the-first-temple-through-worship-and-cleanup-while-reading-the-public-table/021-play-pile-phone-darwin.png" alt="Five played cards and the purchase are available in a stable public tray — phone" width="240"></a></td>
 </tr>
 </table>
 
 <details>
 <summary>Tabletop · 3840 × 2160 — expand screenshot</summary>
 
-<a href="../../screenshots/follow-a-friend-from-the-first-temple-through-worship-and-cleanup-while-reading-the-public-table/021-play-pile-tabletop-4k-darwin.png"><img src="../../screenshots/follow-a-friend-from-the-first-temple-through-worship-and-cleanup-while-reading-the-public-table/021-play-pile-tabletop-4k-darwin.png" alt="All five played cards are available in a stable public tray — tabletop-4k" width="960"></a>
+<a href="../../screenshots/follow-a-friend-from-the-first-temple-through-worship-and-cleanup-while-reading-the-public-table/021-play-pile-tabletop-4k-darwin.png"><img src="../../screenshots/follow-a-friend-from-the-first-temple-through-worship-and-cleanup-while-reading-the-public-table/021-play-pile-tabletop-4k-darwin.png" alt="Five played cards and the purchase are available in a stable public tray — tabletop-4k" width="960"></a>
 
 </details>
 
-- [x] All five played cards are available in a stable public tray
+- [x] Five played cards and the purchase are available in a stable public tray
 
-## The last two played cards are reachable without leaving the table
+## The remaining played cards and purchase are reachable without leaving the table
 
 Viewpoint: **Theseus**.
 
 <table>
 <tr><th>Desktop · 1440 × 1000</th><th>Phone · 393 × 852</th></tr>
 <tr>
-<td valign="top"><a href="../../screenshots/follow-a-friend-from-the-first-temple-through-worship-and-cleanup-while-reading-the-public-table/022-last-pile-page-desktop-darwin.png"><img src="../../screenshots/follow-a-friend-from-the-first-temple-through-worship-and-cleanup-while-reading-the-public-table/022-last-pile-page-desktop-darwin.png" alt="The last two played cards are reachable without leaving the table — desktop" width="720"></a></td>
-<td valign="top"><a href="../../screenshots/follow-a-friend-from-the-first-temple-through-worship-and-cleanup-while-reading-the-public-table/022-last-pile-page-phone-darwin.png"><img src="../../screenshots/follow-a-friend-from-the-first-temple-through-worship-and-cleanup-while-reading-the-public-table/022-last-pile-page-phone-darwin.png" alt="The last two played cards are reachable without leaving the table — phone" width="240"></a></td>
+<td valign="top"><a href="../../screenshots/follow-a-friend-from-the-first-temple-through-worship-and-cleanup-while-reading-the-public-table/022-last-pile-page-desktop-darwin.png"><img src="../../screenshots/follow-a-friend-from-the-first-temple-through-worship-and-cleanup-while-reading-the-public-table/022-last-pile-page-desktop-darwin.png" alt="The remaining played cards and purchase are reachable without leaving the table — desktop" width="720"></a></td>
+<td valign="top"><a href="../../screenshots/follow-a-friend-from-the-first-temple-through-worship-and-cleanup-while-reading-the-public-table/022-last-pile-page-phone-darwin.png"><img src="../../screenshots/follow-a-friend-from-the-first-temple-through-worship-and-cleanup-while-reading-the-public-table/022-last-pile-page-phone-darwin.png" alt="The remaining played cards and purchase are reachable without leaving the table — phone" width="240"></a></td>
 </tr>
 </table>
 
 <details>
 <summary>Tabletop · 3840 × 2160 — expand screenshot</summary>
 
-<a href="../../screenshots/follow-a-friend-from-the-first-temple-through-worship-and-cleanup-while-reading-the-public-table/022-last-pile-page-tabletop-4k-darwin.png"><img src="../../screenshots/follow-a-friend-from-the-first-temple-through-worship-and-cleanup-while-reading-the-public-table/022-last-pile-page-tabletop-4k-darwin.png" alt="The last two played cards are reachable without leaving the table — tabletop-4k" width="960"></a>
+<a href="../../screenshots/follow-a-friend-from-the-first-temple-through-worship-and-cleanup-while-reading-the-public-table/022-last-pile-page-tabletop-4k-darwin.png"><img src="../../screenshots/follow-a-friend-from-the-first-temple-through-worship-and-cleanup-while-reading-the-public-table/022-last-pile-page-tabletop-4k-darwin.png" alt="The remaining played cards and purchase are reachable without leaving the table — tabletop-4k" width="960"></a>
 
 </details>
 
-- [x] The last two played cards are reachable without leaving the table
+- [x] The remaining played cards and purchase are reachable without leaving the table
 
 ## Ariadne can Worship Athena even after spending her last Buy
 
