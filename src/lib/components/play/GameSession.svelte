@@ -113,6 +113,7 @@
     return fly(node, { x: source.left + source.width / 2 - target.left - target.width / 2, y: source.top + source.height / 2 - target.top - target.height / 2, duration: 450 });
   }
   function handRevision(id: string) { return game.movements.findLast(move => move.kind === 'draw' && move.card?.id === id)?.sequence ?? game.dealtAtSequence ?? 0; }
+  // Five cards arrive in one 460 ms gesture, without a long staggered rendering tail.
   function deal(node: Element, index: number) {
     const id = (node as HTMLElement).dataset.instanceId!;
     const revision = handRevision(id);
@@ -121,10 +122,10 @@
     animatedHand.add(animation);
     if (reduced || revision <= initialRevision || revision !== game.dealtAtSequence) return { duration: 0 };
     const source = document.querySelector('.deck-pile')!.getBoundingClientRect(), target = node.getBoundingClientRect();
-    return fly(node, { x: source.left - target.left, y: source.top - target.top, duration: 450, delay: index * 60 });
+    return fly(node, { x: source.left - target.left, y: source.top - target.top, duration: 300, delay: index * 40 });
   }
   function dealBack(node: Element, index: number) {
-    return reduced || !game.dealtAtSequence || game.dealtAtSequence <= initialRevision || game.activity.length !== game.dealtAtSequence ? { duration: 0 } : fly(node, { y: 40, duration: 450, delay: index * 60 });
+    return reduced || !game.dealtAtSequence || game.dealtAtSequence <= initialRevision || game.activity.length !== game.dealtAtSequence ? { duration: 0 } : fly(node, { y: 40, duration: 300, delay: index * 40 });
   }
   async function open(kind: 'card' | 'chronicle' | 'zone' | 'advance' | 'worship') { opener = document.activeElement as HTMLElement; modal = kind; await tick(); if (!['worship','chronicle','zone'].includes(kind)) dialog!.showModal(); }
   function inspect(id: string, copy = 1, instanceId?: string) { inspected = { card: definition(id), copy, instanceId }; void open('card'); }
