@@ -4,6 +4,8 @@ Players can try current Money, current Engine, and historical v4 Engine locally 
 
 Each Engine now has independently selected books for all four leaders. The fresh 12×12 matrix contains 21,600 games; 4,800 paired controls separately measure the books against unchanged Money. The books have mixed effects: Nereon's current Engine improves against Thaleia Money in both seats, while Thaleia's current Engine declines against Melia Money as P1. Books were frozen before held-out evaluation and were not retuned from these results. See leader-opening-study/RESULTS.txt, matrix-report.txt, and opening-control-report.txt for results and limitations.
 
-Validation: all held-out games replay exactly with equal completed turns; 15 practice tests / 539 assertions pass; Svelte check and production/PR-base-path builds pass. Browser smoke covers worker play and save/restore under a preview base path but could not execute locally because of sandbox restrictions.
+Validation: all held-out games replay exactly with equal completed turns; 15 practice tests / 539 assertions pass; Svelte check and production/PR-base-path builds pass. Browser smoke now passes under the PR preview base path, covering a worker turn, pause, and save/restore; desktop and phone captures were visually inspected.
 
-Rebased onto origin/main at 3b3703b40496a2b4c3015b1b00e2b2737af85bb7. This is a draft description: the session could not publish commits or update the PR.
+Rebased onto origin/main at 3b3703b40496a2b4c3015b1b00e2b2737af85bb7.
+
+[Full matrix](https://github.com/anicolao/pantheon/blob/docs/balancing-options/leader-opening-study/matrix-report.txt) · [Opening-book controls and intervals](https://github.com/anicolao/pantheon/blob/docs/balancing-options/leader-opening-study/opening-control-report.txt) · [Study summary](https://github.com/anicolao/pantheon/blob/docs/balancing-options/leader-opening-study/RESULTS.txt) · [Practice instructions](https://github.com/anicolao/pantheon/blob/docs/balancing-options/PRACTICE.txt)

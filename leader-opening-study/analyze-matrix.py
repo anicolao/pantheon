@@ -50,7 +50,7 @@ lines+=['','Books (key = own turn : observed coins; absent key retains that Engi
 'Screening used 2 games per rival/seat; refinement used 8 separate games per rival/seat.',
 'Books were trained against Money in both seats. Rare unrepresented budgets retain that Engine’s prior opening policy.',
 'The manual practice and simulation entry points call the same decision function.',
-'Browser interaction verification and PR publication remain subject to the session restrictions recorded in PRACTICE.txt.']
+'Browser practice smoke passed under the PR preview base path after permissions were restored; see PRACTICE.txt.']
 
 maximin=[]
 summary=['Observed pure-strategy responses','',
