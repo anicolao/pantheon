@@ -1,0 +1,24 @@
+{
+  "engineKind": "engine",
+  "workers": 16,
+  "screenPerOpponentSeat": 2,
+  "refinePerOpponentSeat": 8,
+  "leaderGroups": [
+    "thaleia",
+    "nereon",
+    "melia",
+    "doreios"
+  ],
+  "trainingSeedRanges": [
+    [
+      310000,
+      310799
+    ],
+    [
+      320000,
+      320799
+    ]
+  ],
+  "selection": "Per observed turn/coin budget: maximize worst rival/seat half-points, total half-points tie-break, baseline preferred on exact ties. Freeze turn-one entries before searching turn two. Baseline retains the current Engine\u2019s existing policy, including its previous generic/Thaleia opening book. Unrepresented budgets fall back to that policy.",
+  "seconds": 6412.825889110565
+}

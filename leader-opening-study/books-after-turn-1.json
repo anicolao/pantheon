@@ -1,0 +1,19 @@
+{
+  "thaleia": {
+    "1:1": "obol",
+    "1:2": "obol",
+    "1:5": "drachma"
+  },
+  "nereon": {
+    "1:4": "sea-trade",
+    "1:5": "sacred-academy"
+  },
+  "melia": {
+    "1:3": "obol"
+  },
+  "doreios": {
+    "1:1": "obol",
+    "1:2": null,
+    "1:4": "obol"
+  }
+}
