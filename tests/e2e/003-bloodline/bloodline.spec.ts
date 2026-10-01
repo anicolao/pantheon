@@ -158,6 +158,7 @@ test('a lost Begin acknowledgement starts one draft and deals each hand once',as
       const actor=await page.getByText('Your choice',{exact:true}).isVisible()?page:other;
       await actor.getByRole('button',{name:`View ${leader}`,exact:true}).click();await actor.getByRole('button',{name:`Choose ${leader}`,exact:true}).click();await expect(actor.getByText('Your choice',{exact:true})).toHaveCount(0);
     }
+    await other.bringToFront();
     await expect(other.getByTestId('hand-card')).toHaveCount(5);
     // Each face must finish its real deal before we inspect the resting hand.
     await expect.poll(()=>other.locator('.hand-slot').evaluateAll(cards=>cards.every(card=>card.getAnimations().every(animation=>animation.playState==='finished')))).toBe(true);
