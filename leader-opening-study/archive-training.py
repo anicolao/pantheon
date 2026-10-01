@@ -10,6 +10,11 @@ for f in (root/'training').glob('*.jsonl'):
  for r in rows:
   assert r['status']=='finished' and r['players'][0]['turns']==r['players'][1]['turns']
  counts[stage]+=len(rows)
+selections=json.loads((root/'selection.json').read_text())
+rankings=list((root/'training').glob('ranking-screen-*.json'))
+assert selections and len(rankings)==len(selections),'Complete raw training records are required; preserve the existing archive'
+expected={'screen':sum(len(json.loads(f.read_text())) for f in rankings)*6*2,'refine':sum(len(s['ranking']) for s in selections)*6*8}
+assert dict(counts)==expected,(dict(counts),expected)
 (root/'training-counts.json').write_text(json.dumps(dict(counts),indent=2))
 with tarfile.open(root/'training-games-and-selection.tar.gz','w:gz') as t:
  for f in sorted((root/'training').glob('*')):
