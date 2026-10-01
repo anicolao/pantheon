@@ -60,7 +60,7 @@ test('finish choices before automatically entering Treasures and browse every su
   await page.getByRole('button',{name:'Trash none',exact:true}).click();
   await steps.step('treasures','The resolved Action automatically enters Treasures',[{spec:'No phase button or prompt is needed, and the transition is recorded once.',check:async()=>{await expect(page.locator('.turn-marker')).toContainText('Treasures');await expect(page.locator('.hand [data-card-id="sea-trade"]')).toHaveCount(1);await expect(page.locator('.resources [data-resource=actions]')).toHaveAttribute('data-value','0');expect((await readEvents(fixture.code)).slice(fixture.events.length).filter(event=>event.type==='phase/advanced')).toHaveLength(1);}}]);
   await page.getByRole('button',{name:'Play all Treasures',exact:true}).click();
-  await expect(page.locator('.hand [data-card-id="obol"]')).toHaveCount(0);
+  await expect(page.getByRole('button',{name:'Play all Treasures',exact:true})).toHaveCount(0);
   const state=replaySetup(await readEvents(fixture.code));
   const piles=setupSupply(state.playerCount).sort((a,b)=>(definition(a.id).cost??0)-(definition(b.id).cost??0)||a.id.localeCompare(b.id));
   const best=piles.findLast(pile=>!purchaseReason(state,fixture.host,pile.id))!;

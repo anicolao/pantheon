@@ -1,3 +1,4 @@
+import {sortHand} from '../../../src/lib/components/play/hand-order';
 import {browseSupply} from '../helpers/supply-controls';
 import { newPlayerContext } from '../helpers/players';
 import { test, expect } from '../helpers/fixtures';
@@ -94,7 +95,7 @@ for (const count of [2, 3, 4] as const) test(`${count} players draft unique bloo
     for (const player of game.players) {
       const client = pages[player.name];
       await expect(client.getByTestId('hand-card')).toHaveCount(5);
-      expect(await client.locator('.hand [data-card-id]').evaluateAll(cards => cards.map(card => card.getAttribute('data-card-id')))).toEqual(game.decks[player.uid].hand.map(card => card.cardId));
+      expect(await client.locator('.hand [data-card-id]').evaluateAll(cards => cards.map(card => card.getAttribute('data-card-id')))).toEqual(sortHand(game.decks[player.uid].hand).map(card => card.cardId));
       await expect(client.getByTestId('opponent')).toHaveCount(count - 1);
       await expect(client.locator('.opponents [data-card-id]')).toHaveCount(0);
       await expect(client.locator('.opponents img[alt="Card back"]')).toHaveCount((count - 1) * 5);

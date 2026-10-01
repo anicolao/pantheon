@@ -38,11 +38,11 @@ test('buy an Action from an empty Action hand and play it on turn five',async({p
     await page.getByRole('button',{name:'View Thaleia',exact:true}).click();
     await capture('thaleia','Ariadne reads Thaleia before claiming her bloodline',page,'Ariadne',async()=>expect(page.getByRole('button',{name:'Choose Thaleia',exact:true})).toBeEnabled());
     await page.getByRole('button',{name:'Choose Thaleia',exact:true}).click();
-    await capture('opening-hand','Ariadne starts with two Obols, three Hamlets, and no Actions',page,'Ariadne',async()=>expect.poll(()=>page.locator('.hand [data-card-id]').evaluateAll(cards=>cards.map(card=>card.getAttribute('data-card-id')))).toEqual(['obol','hamlet','hamlet','hamlet','obol']));
+    await capture('opening-hand','Ariadne starts with two Obols, three Hamlets, and no Actions',page,'Ariadne',async()=>expect.poll(()=>page.locator('.hand [data-card-id]').evaluateAll(cards=>cards.map(card=>card.getAttribute('data-card-id')))).toEqual(['hamlet','hamlet','hamlet','obol','obol']));
     await capture('opening-observer','Theseus sees Ariadne’s turn and five hidden cards',other,'Theseus',async()=>{await expect(other.locator('.opponents [data-card-id]')).toHaveCount(0);await expect(other.locator('.opponents img[alt="Card back"]')).toHaveCount(5);await expect(other.getByRole('button',{name:'To Treasures',exact:true})).toHaveCount(0);});
     await enterTreasures(page);
     await capture('treasures','Ariadne advances without playing an Action',page,'Ariadne',async()=>{await expect(page.locator('.turn-marker')).toContainText('Treasures');await expect(page.getByRole('button',{name:'Play all Treasures',exact:true})).toBeEnabled();});
-    await page.getByTestId('hand-card').first().click({button:'right'});
+    await page.getByRole('button',{name:/^(Play|Inspect) hand card \d+: Obol$/}).first().click({button:'right'});
     await capture('obol-inspection','Read the Obol and its Play control',page,'Ariadne',async()=>expect(page.getByRole('button',{name:'Play Obol',exact:true})).toBeEnabled());
     await page.getByRole('button',{name:'Play Obol',exact:true}).click();
     await capture('obol-played','One Obol leaves the hand and earns one Coin',page,'Ariadne',async()=>{await expect(page.locator('.resources [data-resource=coins]')).toHaveAttribute('data-value','1');await expect(page.locator('.played-cards [data-card-id]')).toHaveCount(1);await expect(page.getByTestId('hand-card')).toHaveCount(4);});

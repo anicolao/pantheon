@@ -11,9 +11,10 @@ async function observe(page:Page){
   await page.emulateMedia({reducedMotion:'no-preference'});
   await page.evaluate(()=>{
     const animate=Element.prototype.animate;
+    const recorded=new WeakSet<Element>();
     const owner=window as unknown as {flights:{id:string;kind:string;faces:number;end:string;duration:number;delay:number}[]};owner.flights=[];
     Element.prototype.animate=function(frames,options){
-      if(this.matches('.public-flight'))owner.flights.push({id:this.getAttribute('data-motion-step')!,kind:this.getAttribute('data-motion-kind')!,faces:this.querySelectorAll('[data-card-id]').length,duration:typeof options==='number'?options:Number(options?.duration),delay:typeof options==='number'?0:Number(options?.delay??0),end:Array.isArray(frames)?String(frames.at(-1)?.transform):''});
+      if(this.matches('.public-flight')&&!recorded.has(this)){recorded.add(this);owner.flights.push({id:this.getAttribute('data-motion-step')!,kind:this.getAttribute('data-motion-kind')!,faces:this.querySelectorAll('[data-card-id]').length,duration:typeof options==='number'?options:Number(options?.duration),delay:typeof options==='number'?0:Number(options?.delay??0),end:Array.isArray(frames)?String(frames.at(-1)?.transform):''});}
       return animate.call(this,frames,options);
     };
   });
@@ -69,7 +70,7 @@ for(const scenario of [
     }
     const state=replaySetup(await readEvents(fixture.code));
     const moves=state.publicActivity.filter(entry=>entry.sequence>fixture.events.length).flatMap(entry=>entry.steps);
-    await expectFlights(other,moves.filter(move=>!['leader','worship'].includes(move.kind)).flatMap(move=>Array.from({length:move.kind==='cleanup'&&move.from.zone==='play'?move.count:1},()=>move.id)));
+    await expectFlights(other,moves.filter(move=>!['leader','worship'].includes(move.kind)).flatMap(move=>Array.from({length:move.kind==='cleanup'?(move.from.zone==='hand'?Math.min(5,move.count):move.count):1},()=>move.id)));
     await expect(other.locator('.public-flight')).toHaveCount(0);
     const observed=await flights(other);expect(observed.every(move=>move.duration>=450)).toBe(true);expect(observed.every(move=>move.delay<=700)).toBe(true);
     expect(observed.filter(move=>['draw','shuffle'].includes(move.kind)).every(move=>move.faces===0)).toBe(true);

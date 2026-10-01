@@ -228,7 +228,6 @@
           </div>
         {:else}<span>Your play area</span>{/if}
       </div>
-      {#if tablePlay.length && !(turnUid === uid && ['actions','treasures'].includes(game.turn.phase) && treasures.length)}<button class="all-played" onclick={() => inspectZone(turnUid, 'play', `${nameOf(turnUid)}’s play area`)}>In play · {tablePlay.length}</button>{/if}
       {#if (revealed || lastPublic) && game.publicActivity.find(entry=>entry.sequence===latestActivity?.sequence)?.command!=='card/bought'}{#key game.activity.length}<button class="outcome" data-motion-key={revealed ? `reveal:${revealed.card!.id}` : undefined} data-motion-card={revealed?.card?.id} data-public-zone={revealed ? 'reveal' : undefined} data-public-uid={turnUid} aria-label={`Inspect ${revealed ? 'revealed' : lastPublic!.kind === 'trash' ? 'trashed' : 'gained'} ${definition((revealed ?? lastPublic)!.card!.cardId).name}`} onclick={() => inspect((revealed ?? lastPublic)!.card!.cardId, (revealed ?? lastPublic)!.card!.copy)}><div class="outcome-card"><CardFace card={definition((revealed ?? lastPublic)!.card!.cardId)} players={game.playerCount} copy={(revealed ?? lastPublic)!.card!.copy} /></div><ResourceIcon resource={lastPublic?.kind === 'topdeck' ? 'topdeck' : lastPublic?.kind === 'trash' ? 'trash' : 'discard'} />{#if revealed && lastPublic?.kind === 'discard'}<ResourceIcon resource="coins" value="+2" />{/if}</button>{/key}{/if}
       {#if turnUid === uid && game.turn.phase !== 'finished'}<div class="chronicle-control"><GameButton primary onclick={advance} disabled={!ready || !!choice}>{advanceLabel}</GameButton></div>{/if}
       {#if turnUid === uid && ['actions','treasures'].includes(game.turn.phase) && treasures.length}<div class="treasures-control"><GameButton primary disabled={!ready} onclick={()=>command({type:'treasures/played'})}>Play all Treasures</GameButton></div>{/if}
@@ -276,7 +275,7 @@
   .composition:has(.outcome) .play-area{left:34%;top:44%;width:20%;height:17%;}.composition:has(.outcome) .played-cards{margin-left:0;}.composition:has(.outcome) .played-cards button:not(:last-child){display:none;}.outcome{left:56%!important;top:44%!important;width:18%!important;height:17%!important;flex-direction:row!important;}.outcome-card{width:min(54%,12svh)!important;flex-shrink:0;}
   .blessed{filter:drop-shadow(0 0 9px #ffe091);}
   .hand-count{position:absolute;right:0;bottom:0;min-width:24px;background:#071321;border:1px solid #b99a51;border-radius:50%;text-align:center;}
-  .trash-control{position:absolute;left:46%;top:1%;width:8%;height:44px;background:#071321c9;border:1px solid #aa8e52;border-radius:12px;--icon-size:20px;z-index:6;}.opponent-discard{border:0;padding:0 4px;background:#07132199;min-height:44px;font:inherit;color:inherit;border-radius:6px;}.played-cards{display:flex;gap:12px;height:100%;justify-content:center;}.played-cards button{height:100%;aspect-ratio:5/7;padding:0;border:0;background:none;}.all-played{position:absolute;left:24%;top:46%;width:10%;min-height:44px;background:#071321bb;border:1px solid #ad8e50;border-radius:8px;color:#edd7a8;font-size:clamp(12px,1.6svh,32px);}.play-area:has(.played-cards){left:31%;width:38%;}.play-area:has(.played-cards) .played-cards{margin-left:25%;}.outcome{position:absolute;left:4%;top:7%;width:13%;height:23%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;padding:0;border:0;background:none;--icon-size:clamp(18px,2svh,42px);}.outcome-card{width:70%;}.hand-pages{position:absolute;left:1%;bottom:22%;width:18%;display:flex;justify-content:center;gap:8px;align-items:center;font-size:clamp(12px,1.6svh,32px);}.hand-pages button{min-width:44px;min-height:44px;border:1px solid #b99653;background:#071321;border-radius:8px;color:#f2d694;font-size:24px;}.discard-pile{border:0;padding:0;background:none;color:inherit;}.play-command{max-width:440px;margin:16px auto 0;--control-height:52px;--control-font:24px;}.play-command p{margin:8px 0 0;color:#edca8d;font-size:15px;}.inspection:has(.play-command) .inspected{width:min(260px,35svh);}
+  .trash-control{position:absolute;left:46%;top:1%;width:8%;height:44px;background:#071321c9;border:1px solid #aa8e52;border-radius:12px;--icon-size:20px;z-index:6;}.opponent-discard{border:0;padding:0 4px;background:#07132199;min-height:44px;font:inherit;color:inherit;border-radius:6px;}.played-cards{display:flex;gap:12px;height:100%;justify-content:center;}.played-cards button{height:100%;aspect-ratio:5/7;padding:0;border:0;background:none;}.play-area:has(.played-cards){left:31%;width:38%;}.play-area:has(.played-cards) .played-cards{margin-left:25%;}.outcome{position:absolute;left:4%;top:7%;width:13%;height:23%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;padding:0;border:0;background:none;--icon-size:clamp(18px,2svh,42px);}.outcome-card{width:70%;}.hand-pages{position:absolute;left:1%;bottom:22%;width:18%;display:flex;justify-content:center;gap:8px;align-items:center;font-size:clamp(12px,1.6svh,32px);}.hand-pages button{min-width:44px;min-height:44px;border:1px solid #b99653;background:#071321;border-radius:8px;color:#f2d694;font-size:24px;}.discard-pile{border:0;padding:0;background:none;color:inherit;}.play-command{max-width:440px;margin:16px auto 0;--control-height:52px;--control-font:24px;}.play-command p{margin:8px 0 0;color:#edca8d;font-size:15px;}.inspection:has(.play-command) .inspected{width:min(260px,35svh);}
   .composition.covered{visibility:hidden;}
   .session{height:100svh;min-height:600px;position:relative;isolation:isolate;overflow:clip;background:#071321;}.environment{position:absolute;inset:0;z-index:-2;}.environment img{height:100%;width:100%;object-fit:cover;}.composition{height:100%;position:relative;--control-height:clamp(50px,6.5svh,128px);--control-font:clamp(22px,3svh,58px);}
   header{position:absolute;top:1.2%;left:2%;right:2%;display:flex;justify-content:space-between;align-items:center;z-index:6;font-size:clamp(12px,1.6svh,30px);}header a,header>span{padding:8px 14px;background:#071522d9;border:1px solid #ae91516b;border-radius:24px;color:#ecd5a1;text-decoration:none;}header a{min-height:44px;display:flex;align-items:center;}header strong{letter-spacing:.12em;}
@@ -328,7 +327,6 @@
     .composition:has(.hand-pages) .hand{left:48px;width:calc(100% - 96px);}
     .hand-pages{left:0;width:100%;z-index:4;justify-content:space-between;pointer-events:none;}.hand-pages span{position:absolute;left:0;bottom:-18px;width:44px;text-align:center;font-size:11px;}.hand-pages button{pointer-events:auto;min-width:44px;min-height:44px;}
     .inspection:has(.play-command) .inspected{width:min(56vw,35svh);}.play-command{--control-font:22px;}
-    .composition .all-played{left:3%;top:53%;width:17%;font-size:10px;min-height:40px;}
 
     .composition .opponents{top:9%;left:3%;width:94%;height:10%;gap:2%;}
     .composition .opponents .opponent,.composition:has(.outcome) .opponents .opponent{display:grid;grid-template-columns:1fr;grid-template-rows:min(32px,4svh) min(16px,2svh) 24px;justify-items:center;align-items:center;gap:0;max-width:150px;}
@@ -364,7 +362,6 @@
     .composition .play-area,.composition:has(.outcome) .play-area{top:57%;height:11%;left:32%;width:36%;}.composition:has(.outcome) .play-area{left:32%;width:16%;}
     .outcome{left:51%!important;top:57%!important;width:17%!important;height:11%!important;--icon-size:10px;}.outcome-card{max-width:7svh;}
     .treasures-control{top:60%;left:1%;width:19%;--control-font:12px;--control-height:34px;min-height:34px;font-size:10px;}
-    .all-played{top:57%;left:21%;width:10%;min-height:30px;font-size:9px;}
     .chronicle-control{top:60%;right:1%;width:19%;--control-height:34px;--control-font:13px;}
     .turn-rail{top:71%;height:13%;left:22%;width:56%;}.turn-marker{font-size:13px;min-height:32px;}.resources{--icon-size:15px;}
     .hand{left:26%;--hand-room:48;bottom:4%;height:15svh;--hand-card-width:10svh;}.own-leader{left:1%!important;bottom:1%;width:13%;}.deck-pile{left:16%;bottom:1%;width:4%;}.discard-pile{bottom:1%;right:2%;width:12%;font-size:9px;}.discard-pile img{max-height:8svh;}.discard-pile span{padding:1px;}
@@ -373,8 +370,7 @@
   @media(min-height:501px) and (min-aspect-ratio:3/4){
     .altars,.altars.four{top:55%;grid-template-columns:min(12vw,14svh) min(12vw,14svh);gap:1svh;}
     .composition .play-area,.composition:has(.outcome) .play-area{top:55%;height:8%;}
-    .composition .outcome{top:55%!important;height:8%!important;}
-    .all-played{top:55%;}.chronicle-control{top:74%;}
+    .composition .outcome{top:55%!important;height:8%!important;}.chronicle-control{top:74%;}
   }
   @media(max-aspect-ratio:3/4){
     .composition .play-area,.composition:has(.outcome) .play-area{top:60%;height:5%;}
@@ -393,7 +389,6 @@
     .altars button{width:100%;}
     .composition .play-area,.composition:has(.outcome) .play-area{top:66%;height:5%;}
     .composition .outcome{top:66%!important;height:5%!important;}
-    .all-played{top:65%;}
     .treasures-control,.chronicle-control{top:65%;}
     .turn-rail{top:74%;height:10%;}
     .hand{bottom:3%;height:15svh;--hand-card-width:10svh;}
@@ -413,7 +408,6 @@
     .table-supply{top:16%;}
     .composition .play-area,.composition:has(.outcome) .play-area{top:51%;height:12%;}
     .composition .outcome{top:51%!important;height:12%!important;}
-    .all-played{top:51%;}
   }
   @media(max-aspect-ratio:3/4){
     .session:not(.drafting) header{max-width:40%;}
@@ -424,7 +418,6 @@
     .table-supply,.altars,.altars.four{top:12%;}
     .composition .play-area,.composition:has(.outcome) .play-area{top:58%;height:13%;}
     .composition .outcome{top:58%!important;height:13%!important;}
-    .all-played{top:58%;}
   }
   /* Size study: the same portrait card dimensions in all three active zones. */
   .table-card-measure{position:absolute;width:var(--table-card-width);height:0;visibility:hidden;pointer-events:none;}
@@ -436,7 +429,6 @@
   .composition .played-cards button{width:var(--table-card-width);height:var(--table-card-height);flex-shrink:0;}
   .composition .outcome{top:var(--play-top)!important;height:var(--table-card-height)!important;}
   .composition .outcome-card{width:var(--table-card-width)!important;max-width:none;}
-  .composition .all-played{top:var(--play-top);}
   .composition .treasures-control,.composition .chronicle-control{top:64%;}
   .composition .turn-rail{top:64%;height:10%;}
   @media(max-aspect-ratio:3/4){
@@ -449,7 +441,7 @@
     .composition .outcome{left:53%!important;width:35%!important;}
   }
   @media(max-height:500px) and (min-aspect-ratio:3/4), (max-height:900px) and (min-aspect-ratio:3/2){
-    .composition{--table-card-height:22svh;--supply-top:10svh;}
+    .composition{--table-card-height:22svh;--supply-top:max(10svh,56px);}
     .composition .altars{top:var(--supply-top);height:calc(var(--table-card-height) + var(--supply-nav));}
     .composition .turn-rail{top:64%;height:10%;}
     .composition .treasures-control,.composition .chronicle-control{top:64%;}
@@ -480,6 +472,10 @@
   .composition .played-card,.composition .played-cards button,.composition:has(.outcome) .played-cards button:not(:last-child),.composition .played-cards button:first-child:nth-last-child(3){display:block;position:absolute;left:calc((100% - var(--played-span)) / 2 + var(--played-index) * var(--played-step) + var(--purchase-offset) * var(--group-offset));top:0;z-index:var(--played-index);}
   .composition .played-card{width:var(--table-card-width);height:var(--table-card-height);pointer-events:none;}
   .composition .played-cards button{width:var(--played-hit-width);aspect-ratio:auto;}
+  @media(min-height:901px) and (min-aspect-ratio:3/4){
+    .composition .treasures-control,.composition .chronicle-control{top:73%;}
+    .composition .discard-pile img{max-height:12svh;}
+  }
   /* Reserve a full card edge plus a clear gap between the two overlapping groups. */
   .composition .played-cards.with-purchases{
     --purchase-gap:clamp(16px,2vw,32px);

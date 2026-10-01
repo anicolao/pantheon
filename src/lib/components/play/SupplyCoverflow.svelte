@@ -16,7 +16,10 @@
   let width=$state(600),height=$state(200),reduced=$state(true),dragged=false,dragging=$state(false);
   const cardWidth=$derived(sharedCardWidth??Math.max(28,Math.min((height-2)/1.4,(width-24)/2.4)));
   // Keep room for both folded stacks; use surplus width for up to five flat cards.
-  const faces=$derived(Math.max(1,Math.min(5,Math.floor((width-16-cardWidth*2.6)/(cardWidth*1.055)))));
+  const faceCapacity=$derived(Math.max(1,Math.min(5,Math.floor((width-16-cardWidth*2.6)/(cardWidth*1.055)))));
+  // At the cheapest end, keep the affordable card on the right edge rather
+  // than filling the row with more expensive cards the player cannot buy.
+  const faces=$derived(Math.min(faceCapacity,Math.max(1,Math.floor(target)+1)));
   const layout=$derived(coverflowLayout(piles.length,position,width,cardWidth,faces));
   function faceUp(index:number){return index>=Math.round(target)-faces+1&&index<=Math.round(target);}
   const centered=$derived(piles[Math.round(target)]);
@@ -24,7 +27,7 @@
   let notice=$state(''),pending=$state(''),warning=$state<HTMLDialogElement>();
   const reason=$derived(notice||purchaseReason(game,uid,centered.id)||(affordable>=0?`Affordable through ${definition(piles[affordable].id).name}`:''));
   const moving=$derived(position!==target || dragging);
-  $effect(()=>{target=Math.max(faces-1,affordable>=0?affordable:untrack(()=>target));notice='';});
+  $effect(()=>{target=affordable>=0?affordable:untrack(()=>target);notice='';});
   $effect(()=>{
     const end=target, snap=reduced||!visible;
     if(dragging)return;
@@ -37,7 +40,7 @@
     frame=requestAnimationFrame(animate);return()=>cancelAnimationFrame(frame);
   });
   onMount(()=>{const media=matchMedia('(prefers-reduced-motion: reduce)'),update=()=>{reduced=media.matches;};update();media.addEventListener('change',update);return()=>media.removeEventListener('change',update);});
-  function move(index:number){target=Math.max(faces-1,Math.min(piles.length-1,index));notice='';}
+  function move(index:number){target=Math.max(0,Math.min(piles.length-1,index));notice='';}
   async function buy(id:string){
     if(!ready)return;
     const blocked=purchaseReason(game,uid,id);if(blocked){notice=blocked;return;}
@@ -55,10 +58,10 @@
   }
   let pointer:number|undefined,startX=0,startPosition=0,lastWheel=0;
   function down(event:PointerEvent){if(event.button!==0)return;pointer=event.pointerId;startX=event.clientX;startPosition=position;dragged=false;((event.target as HTMLElement).closest('button')??event.currentTarget as HTMLElement).setPointerCapture(event.pointerId);}
-  function drag(event:PointerEvent){if(event.pointerId!==pointer)return;const delta=event.clientX-startX;if(Math.abs(delta)>10)dragged=true;if(dragged){dragging=true;position=Math.max(faces-1,Math.min(piles.length-1,startPosition-delta/(cardWidth*1.055)));target=position;}}
+  function drag(event:PointerEvent){if(event.pointerId!==pointer)return;const delta=event.clientX-startX;if(Math.abs(delta)>10)dragged=true;if(dragged){dragging=true;position=Math.max(0,Math.min(piles.length-1,startPosition-delta/(cardWidth*1.055)));target=position;}}
   function up(event:PointerEvent){if(event.pointerId!==pointer)return;pointer=undefined;dragging=false;move(Math.round(position));}
   function wheel(event:WheelEvent){event.preventDefault();if(Math.abs(event.deltaX)+Math.abs(event.deltaY)<4||performance.now()-lastWheel<110)return;lastWheel=performance.now();move(Math.round(target)+Math.sign(event.deltaX||event.deltaY));}
-  function key(event:KeyboardEvent){dragged=false;if(!['ArrowLeft','ArrowRight','Home','End'].includes(event.key))return;event.preventDefault();move(event.key==='Home'?faces-1:event.key==='End'?piles.length-1:Math.round(target)+(event.key==='ArrowRight'?1:-1));}
+  function key(event:KeyboardEvent){dragged=false;if(!['ArrowLeft','ArrowRight','Home','End'].includes(event.key))return;event.preventDefault();move(event.key==='Home'?0:event.key==='End'?piles.length-1:Math.round(target)+(event.key==='ArrowRight'?1:-1));}
 </script>
 <section class="supply-coverflow" aria-label="Supply" aria-busy={moving} data-face-up-count={faces} bind:clientWidth={width} bind:clientHeight={height} style={`--card-width:${cardWidth}px`}>
   <section class="coverflow" aria-label="Supply piles" onwheel={wheel} onpointerdown={down} onpointermove={drag} onpointerup={up} onpointercancel={up}>
