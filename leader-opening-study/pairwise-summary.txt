@@ -1,0 +1,22 @@
+Observed pure-strategy responses
+
+For each ordered leader pairing, choose the P1 strategy with the highest share against its strongest P2 reply.
+This reports actual cells, without averaging strategies. H = historical v4 Engine; E = current Engine; M = Money.
+Selections and pointwise cell intervals use the same 200 held-out seeds; this is a descriptive selection, not an independently validated equilibrium.
+Ties in either strategy choice are retained. Tied games count one half.
+
+| P1 leader | P2 leader | P1 strategy | P2 reply | P1 share | Pointwise 95% interval |
+|---|---|---|---|---:|---:|
+| thaleia | nereon | classic-engine | money | 43.75% | [37.20, 50.30]% |
+| thaleia | melia | classic-engine | money | 46.50% | [39.78, 53.22]% |
+| thaleia | doreios | classic-engine | money | 61.50% | [55.11, 67.89]% |
+| nereon | thaleia | money | money | 44.00% | [37.69, 50.31]% |
+| nereon | thaleia | money | classic-engine | 44.00% | [37.50, 50.50]% |
+| nereon | melia | money | money | 34.00% | [27.96, 40.04]% |
+| nereon | doreios | money | classic-engine | 64.75% | [58.47, 71.03]% |
+| melia | thaleia | classic-engine | money | 40.50% | [33.97, 47.03]% |
+| melia | nereon | engine | money | 36.75% | [30.21, 43.29]% |
+| melia | doreios | money | money | 60.50% | [54.23, 66.77]% |
+| doreios | thaleia | classic-engine | money | 31.00% | [24.77, 37.23]% |
+| doreios | nereon | classic-engine | money | 27.25% | [21.37, 33.13]% |
+| doreios | melia | classic-engine | money | 17.75% | [12.81, 22.69]% |

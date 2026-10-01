@@ -21,6 +21,8 @@ Pause opponent cancels pending computation; Resume replans the same decision.
 Save replay downloads the setup, commands, and policy memory as JSON.
 The initial seat choice is implemented by selecting a deterministic seed suffix before dealing, without inspecting hands.
 Both Engines’ opening books are frozen into each new practice session so a later site update cannot change its opening halfway through.
+The books are small-sample sequential selections, not proven optimal openings. Held-out gains and regressions are reported separately in leader-opening-study/opening-control-report.txt.
+Money can take substantially longer to evaluate large, action-heavy decks. Its worker keeps the board responsive; Pause opponent cancels the current computation, and Resume starts that decision again.
 
 Validation
 ----------

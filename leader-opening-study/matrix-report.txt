@@ -1,0 +1,123 @@
+Leader-specific Engine books: full heads-up matrix
+
+P1 is the row, P2 the column. Each legal cell contains 200 games on matched seeds.
+M = current Money; E = current Engine; H = historical v4 Engine. Each Engine uses its own leader-specific books.
+Standard powers and shared Worship; equal turns; ties count one half. Same-leader games are illegal.
+These 21,600 games use seeds 400000–400199, disjoint from book training/refinement.
+
+P1 victory shares (%)
+| P1 / P2 | Tha M | Tha E | Tha H | Ner M | Ner E | Ner H | Mel M | Mel E | Mel H | Dor M | Dor E | Dor H |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| Tha M | — | — | — | 19.25 | 42.00 | 54.00 | 27.25 | 44.75 | 52.50 | 48.75 | 60.50 | 57.50 |
+| Tha E | — | — | — | 29.50 | 50.75 | 62.50 | 27.00 | 36.00 | 55.25 | 42.00 | 48.75 | 55.00 |
+| Tha H | — | — | — | 43.75 | 68.00 | 76.25 | 46.50 | 56.75 | 67.75 | 61.50 | 65.50 | 65.25 |
+| Ner M | 44.00 | 50.75 | 44.00 | — | — | — | 34.00 | 51.75 | 56.25 | 65.75 | 67.25 | 64.75 |
+| Ner E | 42.50 | 48.75 | 42.50 | — | — | — | 22.75 | 39.25 | 54.50 | 60.25 | 62.75 | 52.00 |
+| Ner H | 28.75 | 33.50 | 26.25 | — | — | — | 16.75 | 26.25 | 43.25 | 46.00 | 43.00 | 47.50 |
+| Mel M | 37.75 | 52.25 | 45.50 | 29.00 | 67.75 | 62.75 | — | — | — | 60.50 | 84.00 | 72.75 |
+| Mel E | 36.50 | 56.25 | 40.50 | 36.75 | 72.00 | 70.50 | — | — | — | 43.00 | 66.00 | 64.50 |
+| Mel H | 40.50 | 47.25 | 41.75 | 30.75 | 55.50 | 56.75 | — | — | — | 49.75 | 58.25 | 60.75 |
+| Dor M | 15.75 | 35.00 | 33.00 | 6.25 | 39.75 | 26.00 | 8.00 | 32.00 | 27.00 | — | — | — |
+| Dor E | 16.00 | 47.75 | 36.00 | 17.00 | 62.50 | 51.25 | 11.25 | 37.00 | 38.50 | — | — | — |
+| Dor H | 31.00 | 59.25 | 47.00 | 27.25 | 55.75 | 56.00 | 17.75 | 39.50 | 47.00 | — | — | — |
+
+P2 responses (one choice per fixed P1 strategy and opposing leader; no pooling):
+Tha M vs nereon: P2 chooses money, P2 share 80.75%
+Tha M vs melia: P2 chooses money, P2 share 72.75%
+Tha M vs doreios: P2 chooses money, P2 share 51.25%
+Tha E vs nereon: P2 chooses money, P2 share 70.50%
+Tha E vs melia: P2 chooses money, P2 share 73.00%
+Tha E vs doreios: P2 chooses money, P2 share 58.00%
+Tha H vs nereon: P2 chooses money, P2 share 56.25%
+Tha H vs melia: P2 chooses money, P2 share 53.50%
+Tha H vs doreios: P2 chooses money, P2 share 38.50%
+Ner M vs thaleia: P2 chooses money / classic-engine, P2 share 56.00%
+Ner M vs melia: P2 chooses money, P2 share 66.00%
+Ner M vs doreios: P2 chooses classic-engine, P2 share 35.25%
+Ner E vs thaleia: P2 chooses money / classic-engine, P2 share 57.50%
+Ner E vs melia: P2 chooses money, P2 share 77.25%
+Ner E vs doreios: P2 chooses classic-engine, P2 share 48.00%
+Ner H vs thaleia: P2 chooses classic-engine, P2 share 73.75%
+Ner H vs melia: P2 chooses money, P2 share 83.25%
+Ner H vs doreios: P2 chooses engine, P2 share 57.00%
+Mel M vs thaleia: P2 chooses money, P2 share 62.25%
+Mel M vs nereon: P2 chooses money, P2 share 71.00%
+Mel M vs doreios: P2 chooses money, P2 share 39.50%
+Mel E vs thaleia: P2 chooses money, P2 share 63.50%
+Mel E vs nereon: P2 chooses money, P2 share 63.25%
+Mel E vs doreios: P2 chooses money, P2 share 57.00%
+Mel H vs thaleia: P2 chooses money, P2 share 59.50%
+Mel H vs nereon: P2 chooses money, P2 share 69.25%
+Mel H vs doreios: P2 chooses money, P2 share 50.25%
+Dor M vs thaleia: P2 chooses money, P2 share 84.25%
+Dor M vs nereon: P2 chooses money, P2 share 93.75%
+Dor M vs melia: P2 chooses money, P2 share 92.00%
+Dor E vs thaleia: P2 chooses money, P2 share 84.00%
+Dor E vs nereon: P2 chooses money, P2 share 83.00%
+Dor E vs melia: P2 chooses money, P2 share 88.75%
+Dor H vs thaleia: P2 chooses money, P2 share 69.00%
+Dor H vs nereon: P2 chooses money, P2 share 72.75%
+Dor H vs melia: P2 chooses money, P2 share 82.25%
+
+Books (key = own turn : observed coins; absent key retains that Engine’s prior policy):
+{
+  "classic-engine": {
+    "thaleia": {
+      "1:1": "obol",
+      "1:2": "obol",
+      "1:5": "drachma"
+    },
+    "nereon": {
+      "1:4": "sea-trade",
+      "1:5": "sacred-academy",
+      "2:3": "obol",
+      "2:4": "obol"
+    },
+    "melia": {
+      "1:3": "obol",
+      "2:0": "obol",
+      "2:2": null,
+      "2:4": null
+    },
+    "doreios": {
+      "1:1": "obol",
+      "1:2": null,
+      "1:4": "obol",
+      "2:4": "obol"
+    }
+  },
+  "engine": {
+    "thaleia": {
+      "1:4": "forge-of-heroes",
+      "1:5": "sacred-grove",
+      "2:2": null
+    },
+    "nereon": {
+      "1:3": "seed-keeper",
+      "1:4": "drachma",
+      "1:5": "sacred-academy",
+      "2:4": "drachma"
+    },
+    "melia": {
+      "1:4": "drachma",
+      "1:5": "harvest-feast",
+      "2:5": "sacred-academy"
+    },
+    "doreios": {
+      "1:5": "sacred-academy"
+    }
+  }
+}
+
+Every game completed, had equal completed turns, and replayed to an identical full reducer state.
+All 108 cells have unique, identical seed sets. One full trace per cell is archived; its hash, result, and independently counted completed turns are verified.
+Cell intervals in matrix-analysis.json are pointwise t intervals over seed-level win shares.
+Best-response selections are descriptive, not independently validated equilibrium policies.
+Opening search optimized each observed budget separately, freezing turn one before turn two.
+It considers every affordable purchase and pass, but does not exhaustively search complete opening decision trees.
+Screening used 2 games per rival/seat; refinement used 8 separate games per rival/seat.
+Books were trained against Money in both seats. Rare unrepresented budgets retain that Engine’s prior opening policy.
+The manual practice and simulation entry points call the same decision function.
+Browser interaction verification and PR publication remain subject to the session restrictions recorded in PRACTICE.txt.
+Observed pure-strategy selections with per-cell intervals are in pairwise-summary.txt.
+Paired seat comparisons, without averaging strategies, are in seat-comparisons.txt.
