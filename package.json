@@ -13,10 +13,10 @@
     "test:e2e": "firebase emulators:exec --project demo-pantheon --only auth,firestore \"playwright test\"",
     "verify": "bun run test:policy && bun run check && bun run test:backend && bun run test:e2e",
     "test:e2e:update": "firebase emulators:exec --project demo-pantheon --only auth,firestore \"playwright test --update-snapshots\"",
-    "test:backend": "firebase emulators:exec --project demo-pantheon --only firestore \"bun test tests/backend\"",
+    "test:backend": "firebase emulators:exec --project demo-pantheon --only firestore \"bun test ./tests/backend\"",
     "emulators": "firebase emulators:start --project demo-pantheon --only auth,firestore",
     "check:e2e-policy": "bun scripts/check-e2e-policy.ts",
-    "test:policy": "bun run check:e2e-policy && bun test tests/tooling",
+    "test:policy": "bun run check:e2e-policy && bun test ./tests/tooling",
     "dev:curve-editor": "node tools/curve-editor/server.mjs"
   },
   "dependencies": {
