@@ -1,22 +1,22 @@
 Leader-specific opening books and fresh heads-up matrix
 ======================================================
 The matrix includes the restored historical v4 Engine and the accepted current Engine; Money is the unchanged accepted sampler with the standard Worship adapter. Each Engine gets an independent leader-specific opening search.
-Manual practice exposes both this Engine and the previous accepted Engine, plus Money.
+Manual practice exposes both Engines and Money.
 The search changes only the first market-purchase decision on each of the first two own turns.
-Historical action play, choices, Worship timing and later purchases are retained.
+Each Engine retains its prior action play, choices, Worship timing and later purchases.
 An entry is keyed by own turn and observed coins after any Worship; it never reads a future hand.
-If the selected card is unavailable or unaffordable, the historical policy remains the fallback.
-If no entry was learned for a budget, the historical policy also remains the fallback.
+If the selected card is unavailable or unaffordable, that Engine’s prior policy remains the fallback.
+If no entry was learned for a budget, that Engine’s prior policy also remains the fallback.
 
 Search
 ------
-For each leader and observed first-turn budget, evaluate pass and every affordable supply card, including Obol and Hamlet, plus the historical baseline.
+For each leader and observed first-turn budget, evaluate pass and every affordable supply card, including Obol and Hamlet, plus that Engine’s prior baseline.
 Collect seeds that actually reach the observation independently for each opponent and seat.
 Screen on two seeds per opponent/seat (six separate groups).
 Refine the best three candidates plus baseline on eight different seeds per opponent/seat.
 Select the maximum worst-group half-point total; break ties by total half-points, then stable candidate index (baseline first).
 Freeze all first-turn entries, recollect observed second-turn budgets under that book, and repeat.
-Only budgets with ten available samples in every opponent/seat group are calibrated. Other observations keep the historical fallback.
+Only budgets with ten available samples in every opponent/seat group are calibrated. Other observations keep that Engine’s prior fallback.
 This is a conditional, sequential search, not exhaustive optimization of all two-turn decision trees or all complementary pairs.
 Selections use small samples and can overfit. Per-opponent/seat refinement results remain separate in selection.json.
 Training/refinement seeds are leader-matrix-v1:310000–310799 for turn one and :320000–320799 for turn two.
@@ -52,3 +52,7 @@ Scope expanded during historical refinement at the user’s request to include b
 Run orchestration
 -----------------
 complete-study.py waits for the existing historical-search lock, then trains current Engine, verifies cache/replay parity, archives both searches, installs both registries, checks/builds practice, runs the full matrix and opening controls, and writes both reports. It holds its own lock and writes progress logs. Run inside nix develop from the repository root. Each search and matrix resumes only missing seeds; completed books are frozen rather than selected again.
+
+Seat comparisons
+----------------
+The final analysis pairs opposite-seat games by seed for every fixed leader/strategy pairing. It reports A's win share in each seat and a paired P2-minus-P1 interval, without pooling strategies. This includes the bots' existing seat-dependent choices and is not an isolated causal test of the equal-turn rule.
