@@ -23,6 +23,7 @@
   import ActionChoice from './ActionChoice.svelte';
   import WorshipOverlay from './WorshipOverlay.svelte';
   import WorshipFace from './WorshipFace.svelte';
+  import WorshipCoverflow from './WorshipCoverflow.svelte';
   import VictoryScene from './VictoryScene.svelte';
   import PublicTable from './PublicTable.svelte';
   import PublicMotion from './PublicMotion.svelte';
@@ -258,12 +259,16 @@
       {#if worshipVisible}<WorshipOverlay {game} {uid} selected={worshipChoice?.source ?? worshipEvent} {ready} {error} {command} close={()=>void finishWorshipReturn()} sourceRect={worshipSource} prepareReturn={prepareWorshipReturn} choice={worshipChoice} targets={worshipTargets} resolve={resolveWorship}/>{/if}
       <div class="table-card-measure" bind:clientWidth={tableCardWidth} aria-hidden="true"></div>
       <div class="table-supply" inert={worshipVisible && !worshipChoice}><SupplyCoverflow sharedCardWidth={tableCardWidth} {game} {uid} {ready} {command} selection={worshipChoice ? {options:worshipOptions,selected:worshipTargets,choose:selectWorshipTarget,kind:worshipChoice.kind} : undefined} visible={(!modal || worshipVisible) && !supplyWarning && (!ownChoice || !!worshipChoice) && !showResults && !drawer} inspect={id=>inspect(id)} onDialog={open=>supplyWarning=open}/></div>
-      <aside class="action-sidebar" aria-label="Worship, turn status, and controls" style:--god-count={game.sharedEvents.length}>
+      <aside class="action-sidebar" class:many-gods={game.sharedEvents.length > 2} aria-label="Worship, turn status, and controls" style:--god-count={game.sharedEvents.length}>
       <div id="worship-drawer" class="worship-drawer" class:drawer-open={drawer === 'worship'} inert={portraitLayout && drawer !== 'worship'}>
       <h2 class="drawer-title">Worship</h2>
+      {#if game.sharedEvents.length > 2}
+        <WorshipCoverflow {game} {uid} hidden={worshipVisible ? worshipChoice?.source ?? worshipEvent : undefined} disabled={worshipVisible} open={worship}/>
+      {:else}
       <section class="altars" aria-label="Shared god events" class:four={game.sharedEvents.length > 2}>
         {#each game.sharedEvents as id, index}<button data-public-zone="altar" data-public-card={id} data-god-event={id} style:visibility={worshipVisible && id === (worshipChoice?.source ?? worshipEvent) ? 'hidden' : undefined} disabled={worshipVisible} style:--altar-index={index} aria-label={`Inspect ${cards.find(card => card.id === id)!.name}`} onclick={() => worship(id)} in:arrive><WorshipFace {game} {uid} cardId={id} /></button>{/each}
       </section>
+      {/if}
 
       </div>
       <section class="turn-rail" aria-label="Turn resources"><ResourceFrame /><div class="turn-marker" class:long={nameOf(turnUid).length > 12 && turnUid !== uid}><strong>{turnUid === uid ? 'Your turn' : `${nameOf(turnUid)}’s turn`}</strong><span>{game.turn.phase === 'actions' ? 'Actions' : game.turn.phase === 'treasures' ? 'Treasures' : game.turn.phase === 'finished' ? 'Complete' : 'Buys'} · Turn {game.turn.number}</span></div>
@@ -728,4 +733,28 @@
     .session .action-sidebar .resources{--icon-size:clamp(18px,5.6vw,24px);gap:2px;justify-content:space-evenly;}
   }
 
+  /* Keep each control in a reserved slot so changing legal moves cannot
+     resize the worship fan or the resource frame above it. */
+  @media(min-aspect-ratio:3/4){
+    .session .action-sidebar .player-controls{--main-control-height:clamp(34px,5svh,94px);--undo-height:clamp(34px,4svh,70px);display:grid;grid-template-rows:var(--main-control-height) var(--main-control-height) var(--undo-height);gap:4px;flex:0 0 auto;}
+    .session .action-sidebar .player-controls .treasures-control{grid-row:1;--control-height:var(--main-control-height);}
+    .session .action-sidebar .player-controls .chronicle-control{grid-row:2;--control-height:var(--main-control-height);}
+    .session .action-sidebar .player-controls .undo-control{grid-row:3;--control-height:var(--undo-height);}
+    .session .action-sidebar .turn-marker strong{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0;}
+  }
+  @media(max-height:500px) and (min-aspect-ratio:3/4){
+    .session .action-sidebar .player-controls{--main-control-height:30px;}
+  }
+
+  @media(min-aspect-ratio:3/4){
+    .session .action-sidebar.many-gods .worship-drawer{display:flex;flex-direction:column;flex:1;min-height:0;overflow:visible;}
+    .session .action-sidebar.many-gods .turn-rail{flex:0 0 auto;min-height:0;flex-direction:column;flex-wrap:nowrap;padding:18px 8%;gap:3px;}
+    .session .action-sidebar.many-gods .turn-marker{display:flex;align-items:baseline;justify-content:space-between;gap:6px;font-size:clamp(13px,2svh,24px);min-height:0;text-align:left;}
+    .session .action-sidebar.many-gods .turn-marker span{margin:0;text-align:right;white-space:nowrap;}
+    .session .action-sidebar.many-gods .resources{display:flex;justify-content:space-evenly;gap:2px;--icon-size:clamp(12px,2svh,24px);}
+  }
+  @media(max-aspect-ratio:3/4){
+    .session .action-sidebar.many-gods .worship-drawer{overflow:visible;}
+    .session .action-sidebar.many-gods .worship-drawer :global(.worship-coverflow){flex:1;}
+  }
 </style>
