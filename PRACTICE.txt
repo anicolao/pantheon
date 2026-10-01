@@ -4,7 +4,6 @@ Open /practice/ beneath the deployed site base (PR 10, after publication: /panth
 To try the committed checkout locally, run:
   nix develop --command bun run dev -- --port 5194
 Then open http://127.0.0.1:5194/practice/.
-The PR has not been updated from this restricted session: its GitHub write connector requires approval while the session policy is never.
 Select your leader, the opponent leader, a strategy, and who moves first.
 Money uses the accepted current sampler and standard-game Worship adapter.
 Engine (historical v4) uses the restored leader-aware policy with its independently selected leader-specific openings.
@@ -29,6 +28,6 @@ Validation
 Complete games for all three choices in both seats; equal-turn checks; replay and restore parity;
 public-observation checks; versioned-controller/production-effect compatibility; recorded-command parity.
 Svelte checks and production build pass.
-Local browser smoke is blocked by this workspace's socket and Chromium process restrictions.
-scripts/practice-browser-smoke.ts runs via CI and captures desktop/phone views; it verifies a worker turn and save/restore.
-The practice route is linked here while browser validation is pending; existing illustrated home-screen baselines are unchanged.
+Local browser smoke passes under /pantheon/pr10 after workspace permissions were restored on 2026-10-01.
+scripts/practice-browser-smoke.ts also runs via CI and captures desktop/phone views; it verifies a worker turn, pause, and save/restore. Both local captures were visually inspected.
+The practice route is linked here; existing illustrated home-screen baselines are unchanged.
