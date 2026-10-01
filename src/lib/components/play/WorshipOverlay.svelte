@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { canUndo } from '$lib/game/undo';
   import { onMount, tick } from 'svelte';
   import type { SetupState } from '$lib/game/setup';
   import type { GameCommand } from '$lib/backend/setup-repository';
@@ -24,6 +25,12 @@
     close();
   }
   async function submit(){if(!ready||submitting||reason)return;submitting=true;submittedRevision=game.activity.length;try{await command({type:'god/worshipped',cardId:selected});}finally{submitting=false;}}
+  async function undo(){
+    if(!ready||submitting||returning||!canUndo(game,uid))return;
+    const targetSequence=game.undo!.sequence;submittedRevision=-1;submitting=true;
+    try{await command({type:'action/undone',targetSequence});await tick();}finally{submitting=false;}
+    if(!game.turn.choice)await leave();
+  }
   $effect(()=>{if(submittedRevision>=0&&game.activity.length>submittedRevision&&!game.turn.choice&&!game.turn.queue.length&&!submitting)void leave();});
   $effect(()=>{if(choice)submittedRevision=game.activity.length-1;});
 </script>
@@ -39,6 +46,7 @@
       <GameButton primary disabled={!ready||!!reason||submitting||returning} onclick={submit}>Worship {event.god}</GameButton>
       {#if reason}<p role="status">{reason}</p>{/if}
     {/if}
+    {#if canUndo(game,uid)}<GameButton disabled={!ready||submitting||returning} onclick={undo}>Undo</GameButton>{/if}
     {#if error}<p role="alert">{error}</p>{/if}
   </div>
   {#if !choice}<button class="close-worship" aria-label="Return worship card" disabled={submitting||returning} onclick={leave}>×</button>{/if}

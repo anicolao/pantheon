@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { canUndo } from '$lib/game/undo';
   import DialogFrame from "$lib/components/DialogFrame.svelte";
   import { tick, onDestroy } from 'svelte';
   import { base } from '$app/paths';
@@ -45,7 +46,7 @@
       {/each}
     </div>
     <nav class="pages" aria-label="Choice pages"><button aria-label="Previous choices" disabled={page === 0} onclick={() => page--}>‹</button><span>{selected.length} selected · {page + 1} / {pages}</span><button aria-label="Next choices" disabled={page + 1 === pages} onclick={() => page++}>›</button></nav>
-    <div class="confirmation"><GameButton primary onclick={() => submit()} disabled={!ready || selected.length < Math.max(1, choice.min)}>{confirm}</GameButton>{#if choice.min === 0}<GameButton onclick={() => submit([])} disabled={!ready}>{choice.kind === 'gain' ? 'Gain none' : 'Trash none'}</GameButton>{/if}</div>
+    <div class="confirmation"><GameButton primary onclick={() => submit()} disabled={!ready || selected.length < Math.max(1, choice.min)}>{confirm}</GameButton>{#if choice.min === 0}<GameButton onclick={() => submit([])} disabled={!ready}>{choice.kind === 'gain' ? 'Gain none' : 'Trash none'}</GameButton>{/if}{#if canUndo(game,uid)}<GameButton disabled={!ready} onclick={()=>command({type:'action/undone',targetSequence:game.undo!.sequence})}>Undo</GameButton>{/if}</div>
     {#if choice.kind === 'gain'}<p class="destination">{choice.topdeck ? 'Onto your deck' : 'To your discard pile'}</p>{/if}
     {#if error}<p class="error" role="alert">{error}</p>{/if}
     {#if status !== 'synced'}<div class="reconnect" role="status"><p>Connection lost. Your choice is kept.</p><GameButton onclick={retry}>Try again</GameButton></div>{:else if !ready}<p class="pending" role="status">Your choice is kept.</p>{/if}

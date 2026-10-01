@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { canUndo } from '$lib/game/undo';
   import ResourceFrame from '../ResourceFrame.svelte';
   import { cardGesture } from './card-gesture';
   import { latestMoveIndex } from '$lib/game/public-table';
@@ -144,7 +145,7 @@
     if (automaticPhaseRevision === revision) return;
     automaticPhaseRevision = revision;
     // Persist the transition as an ordinary command, preserving old event streams.
-    void command({type:'phase/advanced'}, revision);
+    void command({type:'phase/advanced',automatic:true}, revision);
   });
   $effect(() => { if (ownerOf(selected) && game.phase === 'draft') selected = leaderIds.find(id => !ownerOf(id)) ?? selected; });
   onMount(() => {
@@ -269,6 +270,7 @@
         <div class="resources"><ResourceIcon resource="actions" value={game.resources.actions} /><ResourceIcon resource="coins" value={game.resources.coins} /><ResourceIcon resource="buys" value={game.resources.buys} /><ResourceIcon resource="worship" value={game.resources.worship} /></div>
       </section>
         <div class="player-controls" inert={worshipVisible}>
+      {#if canUndo(game,uid)}<div class="undo-control" title={`Undo ${game.undo!.label}`}><GameButton disabled={!ready} onclick={()=>command({type:'action/undone',targetSequence:game.undo!.sequence})}>Undo</GameButton></div>{/if}
       {#if turnUid === uid && game.turn.phase !== 'finished'}<div class="chronicle-control"><GameButton primary onclick={advance} disabled={!ready || !!choice}>{advanceLabel}</GameButton></div>{/if}
       {#if turnUid === uid && ['actions','treasures'].includes(game.turn.phase) && treasures.length}<div class="treasures-control"><GameButton primary disabled={!ready} onclick={()=>command({type:'treasures/played'})}>Play all Treasures</GameButton></div>{/if}
       {#if game.turn.phase==='finished'}<div class="chronicle-control final-control"><GameButton primary onclick={()=>resultsOpen=true}>Final scores</GameButton></div>{/if}
@@ -710,6 +712,7 @@
   .session:not(.drafting) .composition>.deck-pile{left:calc(11% - var(--personal-pile-size)/2);}
   .session:not(.drafting) .composition>.discard-pile{right:calc(12.5% - var(--personal-pile-size)/2);}
   .session .action-sidebar{bottom:calc(1% + var(--personal-pile-size) + 10px);}
+  .undo-control{order:2;--control-height:clamp(34px,4svh,70px);--control-font:clamp(14px,2svh,28px);}
   @media(max-aspect-ratio:3/4){
     .session .player-sidebar{bottom:8px;}
     .session .action-sidebar .player-controls{left:62px;right:62px;bottom:12px;padding:0;min-height:0;background:none;border:0;border-radius:0;backdrop-filter:none;box-shadow:none;gap:4px;}
