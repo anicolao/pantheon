@@ -1,8 +1,12 @@
-import json,os,subprocess,concurrent.futures,time
+import json,os,subprocess,concurrent.futures,time,sys
 from pathlib import Path
 from pool import CachedWorkers
 from runlock import lock
-root=Path(__file__).resolve().parent
+source_root=Path(__file__).resolve().parent
+current='--current' in sys.argv
+root=source_root/'current-engine' if current else source_root
+root.mkdir(exist_ok=True)
+engine_kind='engine' if current else 'classic-engine'
 run_lock=lock(root,'training')
 out=root/'training';out.mkdir(exist_ok=True)
 leaders=['thaleia','nereon','melia','doreios']
@@ -23,18 +27,18 @@ def execute(j,script):
   resumed=out/(j['id']+'.resume.json');resumed.write_text(json.dumps(runjob))
   if script=='worker.ts':cache.run(runjob)
   else:
-   r=subprocess.run(['bun',str(root/script),str(resumed)],capture_output=True,text=True)
+   r=subprocess.run(['bun',str(source_root/script),str(resumed)],capture_output=True,text=True)
    if r.returncode:raise RuntimeError(j['id']+' '+r.stderr)
   return j
  path.write_text(json.dumps(j))
  if script=='worker.ts':cache.run(j)
  else:
-  r=subprocess.run(['bun',str(root/script),str(path)],capture_output=True,text=True)
+  r=subprocess.run(['bun',str(source_root/script),str(path)],capture_output=True,text=True)
   if r.returncode:raise RuntimeError(j['id']+' '+r.stderr)
  return j
 def parallel(jobs,script):
  global cache
- cache=CachedWorkers(root)
+ cache=CachedWorkers(source_root)
  with concurrent.futures.ThreadPoolExecutor(max_workers=workers) as pool:
   fs=[pool.submit(execute,j,script) for j in jobs]
   for i,f in enumerate(concurrent.futures.as_completed(fs)):
@@ -42,8 +46,8 @@ def parallel(jobs,script):
    if i%20==0 or i==len(fs)-1:print(json.dumps({'script':script,'done':i+1,'jobs':len(fs),'seconds':round(time.time()-t0)}),flush=True)
  cache.close()
 def groups(l):
- return [(o,s,[l,o] if s==0 else [o,l],['classic-engine','money'] if s==0 else ['money','classic-engine']) for o in leaders if o!=l for s in [0,1]]
-costs=json.loads(subprocess.check_output(['bun','-e',"import {cards} from './src/lib/game/cards';console.log(JSON.stringify(Object.fromEntries(cards.filter(c=>c.supply[2]>0&&c.cost!==null&&c.type!=='Leader'&&c.type!=='Event').map(c=>[c.id,c.cost]))))"],cwd=root.parent,text=True))
+ return [(o,s,[l,o] if s==0 else [o,l],[engine_kind,'money'] if s==0 else ['money',engine_kind]) for o in leaders if o!=l for s in [0,1]]
+costs=json.loads(subprocess.check_output(['bun','-e',"import {cards} from './src/lib/game/cards';console.log(JSON.stringify(Object.fromEntries(cards.filter(c=>c.supply[2]>0&&c.cost!==null&&c.type!=='Leader'&&c.type!=='Event').map(c=>[c.id,c.cost]))))"],cwd=source_root.parent,text=True))
 for turn in [1,2]:
  collect=[]
  for l in leaders:
@@ -99,4 +103,4 @@ for turn in [1,2]:
  (root/'selection.json').write_text(json.dumps(selections,indent=2))
  print(json.dumps({'completedTurn':turn,'books':books,'seconds':round(time.time()-t0)}),flush=True)
 (root/'selected-books.json').write_text(json.dumps(books,indent=2))
-(root/'training-manifest.json').write_text(json.dumps({'workers':workers,'screenPerOpponentSeat':2,'refinePerOpponentSeat':8,'leaderGroups':leaders,'trainingSeedRanges':[[310000,310799],[320000,320799]],'selection':'Per observed turn/coin budget: maximize worst rival/seat half-points, total half-points tie-break, baseline preferred on exact ties. Freeze turn-one entries before searching turn two. Baseline retains historical policy. Unrepresented budgets fall back to that policy.','seconds':time.time()-t0},indent=2))
+(root/'training-manifest.json').write_text(json.dumps({'engineKind':engine_kind,'workers':workers,'screenPerOpponentSeat':2,'refinePerOpponentSeat':8,'leaderGroups':leaders,'trainingSeedRanges':[[310000,310799],[320000,320799]],'selection':'Per observed turn/coin budget: maximize worst rival/seat half-points, total half-points tie-break, baseline preferred on exact ties. Freeze turn-one entries before searching turn two. Baseline retains historical policy. Unrepresented budgets fall back to that policy.','seconds':time.time()-t0},indent=2))

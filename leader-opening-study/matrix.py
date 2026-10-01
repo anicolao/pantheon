@@ -3,24 +3,24 @@ from pathlib import Path
 from pool import CachedWorkers
 from runlock import lock
 root=Path(__file__).resolve().parent;control='--control' in sys.argv;name='control' if control else 'matrix';run_lock=lock(root,name);out=root/name;out.mkdir(exist_ok=True)
-books=json.loads((root/'selected-books.json').read_text());leaders=['thaleia','nereon','melia','doreios'];kinds=['money','classic-engine']
+books={kind:json.loads(path.read_text()) for kind,path in [('classic-engine',root/'selected-books.json'),('engine',root/'current-engine'/'selected-books.json')]};leaders=['thaleia','nereon','melia','doreios'];kinds=['money','engine','classic-engine']
 start=400000;n=100 if control else 200;workers=os.cpu_count();jobs=[]
 for a in leaders:
  for b in leaders:
   if a==b:continue
   for first in kinds:
    for second in kinds:
-    if control and (first=='classic-engine')==(second=='classic-engine'):continue
+    if control and (first=='money')==(second=='money'):continue
     for k in range(0,n,2):
      id=f'{a}-{b}-{first}-{second}-{k}'
-     jobs.append({'id':id,'lineup':[a,b],'kinds':[first,second],'books':[books[a] if first=='classic-engine' and not control else None,books[b] if second=='classic-engine' and not control else None],'seeds':list(range(start+k,start+min(k+2,n))),'firstSeed':start,'output':str(out/(id+'.jsonl'))})
+     jobs.append({'id':id,'lineup':[a,b],'kinds':[first,second],'books':[books[first][a] if first!='money' and not control else None,books[second][b] if second!='money' and not control else None],'seeds':list(range(start+k,start+min(k+2,n))),'firstSeed':start,'output':str(out/(id+'.jsonl'))})
 source={}
 for directory in ['src/lib/bots','src/lib/game','standard-matrix','balance-checkpoint','historical-thaleia/source']:
  for f in (root.parent/directory).rglob('*.ts'):source[str(f.relative_to(root.parent))]=hashlib.sha256(f.read_bytes()).hexdigest()
 for name in ['runner.ts','daemon.ts','matrix.py']:
  f=root/name;source['leader-opening-study/'+name]=hashlib.sha256(f.read_bytes()).hexdigest()
 f=root.parent/'historical-thaleia/profiles.json';source['historical-thaleia/profiles.json']=hashlib.sha256(f.read_bytes()).hexdigest()
-manifest={'games':2400 if control else 9600,'cells':24 if control else 48,'gamesPerCell':n,'controlWithoutBooks':control,'seedStart':start,'seedPrefix':'leader-matrix-v1','rules':'standard leaders/Worship, equal turns, half-credit ties','strategies':kinds,'books':books,'sourceSHA256':source,'workers':workers,'gamesPerJob':2}
+manifest={'games':4800 if control else 21600,'cells':48 if control else 108,'gamesPerCell':n,'controlWithoutBooks':control,'seedStart':start,'seedPrefix':'leader-matrix-v1','rules':'standard leaders/Worship, equal turns, half-credit ties','strategies':kinds,'books':books,'sourceSHA256':source,'workers':workers,'gamesPerJob':2}
 existing=out/'manifest.json'
 if existing.exists():assert json.loads(existing.read_text())==manifest
 else:existing.write_text(json.dumps(manifest,indent=2))
