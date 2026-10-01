@@ -6,7 +6,7 @@
   import ResourceIcon from './ResourceIcon.svelte';
   import RuleText from './RuleText.svelte';
 
-  let { card, players = 2, copy = 1 }: { card: CardDefinition; players?: PlayerCount; copy?: number } = $props();
+  let { card, players = 2, copy = 1, points }: { card: CardDefinition; players?: PlayerCount; copy?: number; points?: number } = $props();
   const format = $derived(cardFormat(card));
   const total = $derived(copyCount(card, players));
   const serial = $derived(cardSerial(card, copy));
@@ -24,6 +24,7 @@
   {#if card.cost !== null}
     <div class="cost" data-fit="cost"><ResourceIcon resource="coins" value={card.cost} label={`${card.cost} Coins${card.type === 'Event' ? ' and 1 Worship to worship' : card.uniqueStartingCard ? '; starting card, not for sale' : ' to buy'}`} /></div>
   {/if}
+  {#if card.type === 'Leader' && points !== undefined}<div class="leader-points" data-fit="points"><ResourceIcon resource="victory" value={points} label={`${points} victory points`} /></div>{/if}
   <div class="tag-label god-label" data-fit="god"><span aria-hidden="true">{godSymbols[card.god]}</span> {card.god}</div>
   <div class="tag-label type-label" data-fit="type">{card.type}</div>
   <div class="rules" class:long={Math.max(card.effect.length, card.favored?.length ?? 0) > 120} data-fit="rules">
@@ -97,5 +98,6 @@
   [data-format='event'] .rules.long { font-size: 2.25cqi; --inline-icon-size: 1.1em; }
   [data-format='event'] h4, [data-format='leader'] h4 { font-size: 1.85cqi; }
   [data-format='event'] footer, [data-format='leader'] footer { left: 51%; top: 85%; width: 39%; height: 5%; font-size: 1.8cqi; }
+  .leader-points{position:absolute;z-index:4;left:86.8%;top:11.6%;transform:translate(-50%,-50%);--icon-size:3.8cqi;--icon-number-scale:1.05;}
   @media print { .card { filter: none; print-color-adjust: exact; } }
 </style>
