@@ -219,7 +219,14 @@
         {#each game.sharedEvents as id, index}<button data-public-zone="altar" data-public-card={id} data-god-event={id} style:--altar-index={index} aria-label={`Inspect ${cards.find(card => card.id === id)!.name}`} onclick={() => worship(id)} in:arrive><WorshipFace {game} {uid} cardId={id} /></button>{/each}
       </section>
       <div data-public-zone="play" data-public-uid={turnUid} class="play-area" aria-label="Active play area">
-        {#if tablePlay.length}<div class="played-cards" class:with-purchases={playedCount > 0 && (purchases[turnUid]?.length ?? 0) > 0} style:--played-count={tablePlay.length}>{#each tablePlay as card,index (card.id)}<button style:--played-index={index} style:--purchase-offset={index >= playedCount ? 1 : 0} data-motion-key={`play:${card.id}`} data-motion-card={card.id} data-motion-face={card.cardId} data-motion-copy={card.copy} data-motion-zone="play" data-motion-uid={turnUid} aria-label={`Inspect ${index >= playedCount ? 'purchased' : 'played'} ${definition(card.cardId).name}`} onclick={() => inspect(card.cardId, card.copy)}><CardFace card={definition(card.cardId)} players={game.playerCount} copy={card.copy} /></button>{/each}</div>{:else}<span>Your play area</span>{/if}
+        {#if tablePlay.length}
+          <div class="played-cards" class:with-purchases={playedCount > 0 && (purchases[turnUid]?.length ?? 0) > 0} style:--played-count={tablePlay.length}>
+            {#each tablePlay as card,index (card.id)}
+              <div class="played-card" style:--played-index={index} style:--purchase-offset={index >= playedCount ? 1 : 0} data-motion-key={`play:${card.id}`} data-motion-card={card.id} data-motion-face={card.cardId} data-motion-copy={card.copy} data-motion-zone="play" data-motion-uid={turnUid}><CardFace card={definition(card.cardId)} players={game.playerCount} copy={card.copy} /></div>
+              <button style:--played-index={index} style:--purchase-offset={index >= playedCount ? 1 : 0} style:--played-hit-width={index === tablePlay.length - 1 || index === playedCount - 1 ? 'var(--table-card-width)' : 'var(--played-step)'} aria-label={`Inspect ${index >= playedCount ? 'purchased' : 'played'} ${definition(card.cardId).name}`} onclick={() => inspect(card.cardId, card.copy)}></button>
+            {/each}
+          </div>
+        {:else}<span>Your play area</span>{/if}
       </div>
       {#if tablePlay.length && !(turnUid === uid && ['actions','treasures'].includes(game.turn.phase) && treasures.length)}<button class="all-played" onclick={() => inspectZone(turnUid, 'play', `${nameOf(turnUid)}’s play area`)}>In play · {tablePlay.length}</button>{/if}
       {#if (revealed || lastPublic) && game.publicActivity.find(entry=>entry.sequence===latestActivity?.sequence)?.command!=='card/bought'}{#key game.activity.length}<button class="outcome" data-motion-key={revealed ? `reveal:${revealed.card!.id}` : undefined} data-motion-card={revealed?.card?.id} data-public-zone={revealed ? 'reveal' : undefined} data-public-uid={turnUid} aria-label={`Inspect ${revealed ? 'revealed' : lastPublic!.kind === 'trash' ? 'trashed' : 'gained'} ${definition((revealed ?? lastPublic)!.card!.cardId).name}`} onclick={() => inspect((revealed ?? lastPublic)!.card!.cardId, (revealed ?? lastPublic)!.card!.copy)}><div class="outcome-card"><CardFace card={definition((revealed ?? lastPublic)!.card!.cardId)} players={game.playerCount} copy={(revealed ?? lastPublic)!.card!.copy} /></div><ResourceIcon resource={lastPublic?.kind === 'topdeck' ? 'topdeck' : lastPublic?.kind === 'trash' ? 'trash' : 'discard'} />{#if revealed && lastPublic?.kind === 'discard'}<ResourceIcon resource="coins" value="+2" />{/if}</button>{/key}{/if}
@@ -430,6 +437,7 @@
   .composition .outcome{top:var(--play-top)!important;height:var(--table-card-height)!important;}
   .composition .outcome-card{width:var(--table-card-width)!important;max-width:none;}
   .composition .all-played{top:var(--play-top);}
+  .composition .treasures-control,.composition .chronicle-control{top:64%;}
   .composition .turn-rail{top:64%;height:10%;}
   @media(max-aspect-ratio:3/4){
     .composition{--table-card-height:min(17svh,40vw);--supply-top:27svh;}
@@ -469,7 +477,9 @@
     .composition .altars,.composition .altars.four{height:calc(var(--table-card-height) * 2 + 12px);align-content:start;gap:12px 0;}
   }
   .composition .played-cards{position:relative;width:100%;--group-offset:0px;--played-span:min(100%,calc(var(--table-card-width) * var(--played-count)));--played-step:calc((var(--played-span) - var(--table-card-width)) / max(1,var(--played-count) - 1));}
-  .composition .played-cards button,.composition:has(.outcome) .played-cards button:not(:last-child),.composition .played-cards button:first-child:nth-last-child(3){display:block;position:absolute;left:calc((100% - var(--played-span)) / 2 + var(--played-index) * var(--played-step) + var(--purchase-offset) * var(--group-offset));top:0;z-index:var(--played-index);}
+  .composition .played-card,.composition .played-cards button,.composition:has(.outcome) .played-cards button:not(:last-child),.composition .played-cards button:first-child:nth-last-child(3){display:block;position:absolute;left:calc((100% - var(--played-span)) / 2 + var(--played-index) * var(--played-step) + var(--purchase-offset) * var(--group-offset));top:0;z-index:var(--played-index);}
+  .composition .played-card{width:var(--table-card-width);height:var(--table-card-height);pointer-events:none;}
+  .composition .played-cards button{width:var(--played-hit-width);aspect-ratio:auto;}
   /* Reserve a full card edge plus a clear gap between the two overlapping groups. */
   .composition .played-cards.with-purchases{
     --purchase-gap:clamp(16px,2vw,32px);
