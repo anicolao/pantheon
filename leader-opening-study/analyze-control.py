@@ -13,7 +13,13 @@ def read(directory):
    assert r['seed'] not in cell
    cell[r['seed']]=r
  assert len(cells)==48
- for cell in cells.values():assert set(cell)==set(range(400000,400100))
+ for k,cell in cells.items():
+  assert set(cell)==set(range(400000,400100))
+  first=cell[400000];replay=root/directory/f'{k[0][0]}-{k[1][0]}-{k[0][1]}-{k[1][1]}-0.jsonl.replay.json'
+  payload=replay.read_bytes();assert hashlib.sha256(payload).hexdigest()==first['traceHash']
+  trace=json.loads(payload);assert trace['players']==first['players']
+  for uid,player in zip(trace['initial']['turnOrder'],first['players']):
+   assert sum(c['uid']==uid and c['command']['type']=='turn/ended' for c in trace['commands'])==player['turns']
  return cells
 baseline=read('control');books=read('matrix');results=[]
 for k in sorted(baseline):
