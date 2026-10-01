@@ -1,6 +1,6 @@
 Leader-specific opening books and fresh heads-up matrix
 ======================================================
-Engine is the restored historical v4 policy; Money is the unchanged accepted sampler with the standard Worship adapter.
+The matrix includes the restored historical v4 Engine and the accepted current Engine; Money is the unchanged accepted sampler with the standard Worship adapter. Each Engine gets an independent leader-specific opening search.
 Manual practice exposes both this Engine and the previous accepted Engine, plus Money.
 The search changes only the first market-purchase decision on each of the first two own turns.
 Historical action play, choices, Worship timing and later purchases are retained.
@@ -24,13 +24,13 @@ Money has no forced opening book; its sampler remains active from turn one.
 
 Validation
 ----------
-The full 8×8 matrix omits illegal same-leader cells: 48 cells × 200 games = 9,600.
+The full 12×12 matrix omits illegal same-leader cells: 108 cells × 200 games = 21,600.
 Every cell uses fresh, matched leader-matrix-v1:400000–400199 seeds, disjoint from this opening search.
 Each cell retains P1/P2 orientation; ties count one half. No leader or strategy averages are used as balance summaries.
 Both sides use standard leader powers, shared Worship, and equal completed turns.
 Every game replays to the identical complete reducer state; failures abort instead of becoming losses.
 Results include all final decks, opening decisions, command counts and trace hashes, with a saved trace per cell.
-Best-response summaries choose P2's stronger observed strategy separately for each fixed P1 strategy and opponent leader.
+Best-response summaries choose P2's strongest observed strategy separately for each fixed P1 strategy and opponent leader.
 
 Execution
 ---------
@@ -38,11 +38,13 @@ All commands run in nix develop, using os.cpu_count() workers.
 Persistent Bun workers retain the sampler's existing bounded deterministic caches across jobs.
 The cache upgrade is checked against previously completed isolated-process results and complete trace hashes, including reverse-order repeated jobs.
 Resume checks the job definition and recorded seed set, and executes only missing seeds; completed data is not overwritten.
-Screening was interrupted once by sparse-checkout removal of a dependency and once to change worker execution. Valid completed records were retained.
+Screening was interrupted once by sparse-checkout removal of a dependency and once to change worker execution. Valid completed records were retained. A later tool-server restart disconnected the training driver; its first-turn refinement workers completed, and the driver resumed from those records. Manifest elapsed time covers the final invocation, not all interrupted work.
 The versioned policy source was restored byte-for-byte; these interruptions did not alter policies or seed schedules.
-Run train.py, install selected-books.json into src/lib/bots/opening-books.ts, then run matrix.py and analyze-matrix.py.
+Run train.py, install selected-books.json into src/lib/bots/opening-books.ts, repeat train.py --current and install current-engine/selected-books.json into the separate currentOpeningBooks registry, then run matrix.py and analyze-matrix.py.
 The matrix passes its frozen books explicitly and checks a source manifest on resume.
 
 Opening-book control
 --------------------
-After freezing the books, run matrix.py --control for historical Engine without overrides against unchanged Money in both seats: 24 cells × 100 games. These use the first 100 matrix seeds (400000–400099), allowing paired book-minus-baseline comparisons in each leader/opponent/seat separately. This is held-out evaluation, not an additional selection stage; do not retune books from these outcomes.
+After freezing the books, run matrix.py --control for each Engine without its new overrides against unchanged Money in both seats: 48 cells × 100 games. These use the first 100 matrix seeds (400000–400099), allowing paired book-minus-baseline comparisons in each leader/opponent/seat separately. This is held-out evaluation, not an additional selection stage; do not retune books from these outcomes.
+
+Scope expanded during historical refinement at the user’s request to include both Engines. The historical and Money branches were unchanged by the added current-Engine override; exact recorded historical/Money command parity and a full current-Engine fallback game were checked. Current Engine’s prior generic/Thaleia book remains its fallback; overridden purchases update its normal turn and opening-memory fields.

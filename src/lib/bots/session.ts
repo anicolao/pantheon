@@ -1,4 +1,4 @@
-import {openingBooks} from './opening-books';
+import {openingBooks,currentOpeningBooks} from './opening-books';
 import {activePlayer,applyPlayCommand,type ActionCommand} from '../game/actions';
 import {replaySetup,type SetupState,type SetupEvent} from '../game/setup';
 import {publicCommandContext,describePublicCommand} from '../game/public-table';
@@ -56,7 +56,7 @@ export class BotTracker{
 }
 export class PracticeSession{
  game:SetupState;tracker:BotTracker;commands:ActionCommand[]=[];
- constructor(public config:PracticeConfig){this.game=initialGame(config);this.tracker=new BotTracker(this.game);if(config.bot==='classic-engine')this.tracker.memories.bot.openingOverride=structuredClone(openingBooks[config.botLeader]??null);}
+ constructor(public config:PracticeConfig){this.game=initialGame(config);this.tracker=new BotTracker(this.game);if(config.bot!=='money')this.tracker.memories.bot.openingOverride=structuredClone((config.bot==='classic-engine'?openingBooks:currentOpeningBooks)[config.botLeader]??null);}
  apply(command:ActionCommand){
   this.tracker.view(this.game);
   const uid=activePlayer(this.game),start=this.game.movements.length,sequence=this.game.activity.length+1;
