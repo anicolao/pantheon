@@ -1,7 +1,9 @@
-import json,tempfile
+import json,tempfile,sys
 from pathlib import Path
 from pool import CachedWorkers
-root=Path(__file__).resolve().parent
+source_root=Path(__file__).resolve().parent
+current='--current' in sys.argv
+root=source_root/'current-engine' if current else source_root
 candidates=[]
 for leader in ['thaleia','nereon']:
  for opponent in ['thaleia','nereon','melia','doreios']:
@@ -10,7 +12,7 @@ for leader in ['thaleia','nereon']:
    matches=sorted((root/'training').glob(f'screen-1-{leader}-*-{opponent}-{seat}.jsonl'))
    complete=[f for f in matches if len(f.read_text().splitlines())==2]
    if complete:candidates.append(complete[0])
-pool=CachedWorkers(root);n=0
+pool=CachedWorkers(source_root);n=0
 with tempfile.TemporaryDirectory(prefix='pantheon-cache-parity-') as directory:
  for index,f in enumerate(candidates+list(reversed(candidates))):
   j=json.loads(f.with_suffix('.job.json').read_text())
@@ -20,5 +22,5 @@ with tempfile.TemporaryDirectory(prefix='pantheon-cache-parity-') as directory:
   assert list(map(json.loads,actual))==list(map(json.loads,expected)),j['id']
   n+=len(actual)
 pool.close()
-(root/'cache-verification.json').write_text(json.dumps({'games':n,'result':'exact result and trace hash equality, isolated versus persistent cache, including reverse-order repeat'},indent=2))
-print(n,'games match isolated workers exactly, including all trace hashes')
+(root/'cache-verification.json').write_text(json.dumps({'games':n,'result':'exact result and trace hash equality with a fresh worker and reverse-order repeat' if current else 'exact result and trace hash equality, isolated versus persistent cache, including reverse-order repeat'},indent=2))
+print(n,'games match archived records exactly, including all trace hashes')

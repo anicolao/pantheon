@@ -20,7 +20,7 @@ Progress is saved after each command. Continue saved game replays the reducer an
 Pause opponent cancels pending computation; Resume replans the same decision.
 Save replay downloads the setup, commands, and policy memory as JSON.
 The initial seat choice is implemented by selecting a deterministic seed suffix before dealing, without inspecting hands.
-Historical Engine opening books are frozen into each new practice session so a later site update cannot change its opening halfway through.
+Both Engines’ opening books are frozen into each new practice session so a later site update cannot change its opening halfway through.
 
 Validation
 ----------

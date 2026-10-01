@@ -1,6 +1,8 @@
 from pathlib import Path
-import json,tarfile,hashlib,collections
-root=Path(__file__).resolve().parent;counts=collections.Counter()
+import json,tarfile,hashlib,collections,sys
+root=Path(__file__).resolve().parent
+if '--current' in sys.argv:root=root/'current-engine'
+counts=collections.Counter()
 for f in (root/'training').glob('*.jsonl'):
  stage=f.name.split('-')[0]
  rows=[json.loads(x) for x in f.read_text().splitlines()]
