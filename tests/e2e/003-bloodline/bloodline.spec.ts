@@ -145,9 +145,13 @@ test('a lost Begin acknowledgement starts one draft and deals each hand once',as
     await page.goto('./play/');await page.getByLabel('Your name',{exact:true}).fill('Ariadne');await page.getByRole('button',{name:'Create table',exact:true}).click();await expect(page.getByTestId('player-seat')).toHaveCount(1);
     const code=(await page.getByTestId('room-code').textContent())!;
     await other.goto(page.url());await other.getByLabel('Your name',{exact:true}).fill('Theseus');await other.getByRole('button',{name:'Join table',exact:true}).click();await expect(page.getByTestId('player-seat')).toHaveCount(2);
-    let dropped=false;await page.context().route(url=>url.pathname.endsWith('/documents:commit'),async route=>{if(dropped){await route.continue();return;}const response=await route.fetch({timeout:2000});expect(response.ok()).toBe(true);dropped=true;await route.abort('connectionreset');});
+    const commitRequest=(url:URL)=>url.pathname.endsWith('/documents:commit');
+    let dropped=false;await page.context().route(commitRequest,async route=>{if(dropped){await route.continue();return;}const response=await route.fetch({timeout:2000});expect(response.ok()).toBe(true);dropped=true;await route.abort('connectionreset');});
     await page.getByRole('button',{name:'Begin',exact:true}).click();await expect(other.getByRole('heading',{name:'Choose your Bloodline'})).toBeVisible();
     expect(dropped).toBe(true);expect((await eventsAt(code)).filter(event=>event.type==='draft/started')).toHaveLength(1);
+    // The fault belongs to Begin only. Restore normal caching and request handling
+    // before the draft loads the table artwork on both clients.
+    await page.context().unroute(commitRequest);
     for(const leader of ['Thaleia','Nereon']){
       await expect.poll(async()=>(await Promise.all([page,other].map(client=>client.getByText('Your choice',{exact:true}).isVisible()))).filter(Boolean).length).toBe(1);
       const actor=await page.getByText('Your choice',{exact:true}).isVisible()?page:other;
