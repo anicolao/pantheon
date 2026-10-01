@@ -48,3 +48,7 @@ Opening-book control
 After freezing the books, run matrix.py --control for each Engine without its new overrides against unchanged Money in both seats: 48 cells × 100 games. These use the first 100 matrix seeds (400000–400099), allowing paired book-minus-baseline comparisons in each leader/opponent/seat separately. This is held-out evaluation, not an additional selection stage; do not retune books from these outcomes.
 
 Scope expanded during historical refinement at the user’s request to include both Engines. The historical and Money branches were unchanged by the added current-Engine override; exact recorded historical/Money command parity and a full current-Engine fallback game were checked. Current Engine’s prior generic/Thaleia book remains its fallback; overridden purchases update its normal turn and opening-memory fields.
+
+Run orchestration
+-----------------
+complete-study.py waits for the existing historical-search lock, then trains current Engine, verifies cache/replay parity, archives both searches, installs both registries, checks/builds practice, runs the full matrix and opening controls, and writes both reports. It holds its own lock and writes progress logs. Run inside nix develop from the repository root. Each search and matrix resumes only missing seeds; completed books are frozen rather than selected again.
