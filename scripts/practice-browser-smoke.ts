@@ -1,19 +1,25 @@
 import {chromium} from '@playwright/test';
 import {readFileSync,existsSync,mkdirSync} from 'node:fs';
 import {join,resolve,extname} from 'node:path';
+const base=process.env.PUBLIC_BASE_PATH??'';
 const root=resolve('build'),browser=await chromium.launch({headless:true});
 const page=await browser.newPage({viewport:{width:1440,height:1000},reducedMotion:'reduce'});
 page.setDefaultTimeout(2000);page.setDefaultNavigationTimeout(2000);
 const errors:string[]=[];page.on('pageerror',e=>errors.push(e.message));
-await page.route('http://practice.test/**',async route=>{
+await page.route('https://practice.test/**',async route=>{
  let path=decodeURIComponent(new URL(route.request().url()).pathname);
+ if(base){
+  if(!path.startsWith(base+'/')){await route.fulfill({status:404,body:'Outside deployment base'});return;}
+  path=path.slice(base.length);
+ }
  if(path.endsWith('/'))path+='index.html';
  const file=join(root,path);
  if(!file.startsWith(root+'/')||!existsSync(file)){await route.fulfill({status:404,body:'Missing '+path});return;}
  const mime:Record<string,string>={'.html':'text/html','.js':'application/javascript','.css':'text/css','.json':'application/json','.png':'image/png','.webp':'image/webp','.woff2':'font/woff2','.woff':'font/woff'};
  await route.fulfill({status:200,contentType:mime[extname(file)]??'application/octet-stream',body:readFileSync(file)});
 });
-await page.goto('http://practice.test/practice/');
+await page.goto('https://practice.test'+base+'/practice/');
+if(!await page.evaluate(()=>isSecureContext&&typeof crypto.randomUUID==='function'))throw Error('Practice requires a secure browser context');
 await page.getByLabel('Turn order').selectOption('false');
 await page.getByRole('button',{name:'Start practice game'}).click();
 let observed=0,ended=false;

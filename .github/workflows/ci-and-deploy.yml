@@ -72,6 +72,8 @@ jobs:
           PUBLIC_BASE_PATH: /pantheon/prtest
       - name: Practice against bots
         run: bun run build && bun scripts/practice-browser-smoke.ts
+        env:
+          PUBLIC_BASE_PATH: /pantheon/prtest
       - name: Collect changed Linux baselines
         if: inputs.update_snapshots == true && always()
         run: |
