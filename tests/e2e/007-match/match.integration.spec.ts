@@ -24,6 +24,7 @@ for(const scenario of [{count:2 as const,goal:'acropolis' as const,last:false},{
       await steps.step('confirm-ending','Choose to finish without spending the remaining Worship',[{spec:'The same meaningful choice is offered.',check:async()=>expect(page.getByRole('button',{name:'Keep playing',exact:true})).toBeEnabled()}]);
       await page.getByRole('dialog').getByRole('button',{name:'End turn',exact:true}).click();
     }
+    await expect(page.locator('.victory-scene')).toHaveCSS('opacity','1');
     await steps.step('results','Cleanup completes and every empire receives its final score',[{spec:'Every player has a visible score and turn count; no turn controls remain.',check:async()=>{await expect(page.locator('.victory-scene')).toBeVisible();await expect(page.locator('.standing')).toHaveCount(scenario.count);await expect(page.locator('.end-reason')).toHaveText(scenario.goal==='acropolis'?'Acropolis pile depleted':'3 supply piles depleted');await expect(page.getByRole('button',{name:'End turn',exact:true})).toHaveCount(0);}}]);
     const game=replaySetup(await readEvents(fixture.code)),scores=standings(game);expect(game.turn.phase).toBe('finished');expect(game.resources).toEqual({actions:0,coins:0,buys:0,worship:0});expect(game.decks[fixture.host].play).toHaveLength(0);expect(game.decks[fixture.host].hand).toHaveLength(5);
     if(scenario.goal==='actions'){expect(scores.every(s=>s.score===3)).toBe(true);await expect(page.locator('#victory-title')).toHaveText(scenario.last?'Shared victory':'Theseus wins');}

@@ -3,7 +3,7 @@ import {createHash} from 'node:crypto';
 import {test,expect} from '../helpers/fixtures';
 import type {Page} from '@playwright/test';
 import {TestStepHelper} from '../helpers/test-step-helper';
-import {actionTable,playCard,readEvents} from '../helpers/action-history';
+import {actionTable,playCard as playAction,readEvents} from '../helpers/action-history';
 import {replaySetup} from '../../../src/lib/game/setup';
 import {newPlayerContext} from '../helpers/players';
 
@@ -14,6 +14,20 @@ const worshipTable:typeof actionTable=(page,info,subject,leader='thaleia',option
   for(let i=0;i<5;i++){code+=String.fromCharCode(65+Number(entropy%26n));entropy/=26n;}
   return actionTable(page,info,subject,leader,{...options,seed:`actions-${code}`});
 };
+// Favor is a visible event: its glint must appear and finish, even when
+// the player cannot yet pay. Check that effect before photographing its resting glow.
+async function playCard(page:Page,id:string){
+  const favored=page.locator('.altars [data-favored="true"]');
+  const before=await favored.evaluateAll(nodes=>nodes.map(node=>(node.closest('button') as HTMLElement).dataset.godEvent));
+  await playAction(page,id);
+  const after=await favored.evaluateAll(nodes=>nodes.map(node=>(node.closest('button') as HTMLElement).dataset.godEvent));
+  for(const event of after.filter(event=>!before.includes(event))){
+    const glint=page.locator(`[data-god-event="${event}"] .glint`);
+    await expect(glint).toHaveCount(1);
+    await expect(glint).toHaveCSS('animation-duration','1.375s');
+    await expect.poll(()=>glint.evaluate(node=>node.getAnimations().every(animation=>animation.playState==='finished'))).toBe(true);
+  }
+}
 const step=(steps:TestStepHelper,id:string,text:string,check:()=>Promise<unknown>)=>steps.step(id,text,[{spec:text,check}]);
 async function wealth(page:Page){await enterTreasures(page);await expect.poll(async()=>await page.getByRole('button',{name:'Keep playing',exact:true}).isVisible()||(await page.locator('.turn-marker').textContent())!.includes('Treasures')).toBe(true);if(await page.getByRole('button',{name:'Keep playing',exact:true}).isVisible())await page.getByRole('dialog').getByRole('button',{name:'To Treasures',exact:true}).click();await page.getByRole('button',{name:'Play all Treasures',exact:true}).click();await expect(page.getByRole('button',{name:'Play all Treasures',exact:true})).toHaveCount(0);}
 

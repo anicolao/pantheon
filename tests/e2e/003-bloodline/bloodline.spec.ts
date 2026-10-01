@@ -158,6 +158,9 @@ test('a lost Begin acknowledgement starts one draft and deals each hand once',as
       const actor=await page.getByText('Your choice',{exact:true}).isVisible()?page:other;
       await actor.getByRole('button',{name:`View ${leader}`,exact:true}).click();await actor.getByRole('button',{name:`Choose ${leader}`,exact:true}).click();await expect(actor.getByText('Your choice',{exact:true})).toHaveCount(0);
     }
+    await expect(other.getByTestId('hand-card')).toHaveCount(5);
+    // Each face must finish its real deal before we inspect the resting hand.
+    await expect.poll(()=>other.locator('.hand-slot').evaluateAll(cards=>cards.every(card=>card.getAnimations().every(animation=>animation.playState==='finished')))).toBe(true);
     const steps=new TestStepHelper(other,info,'Begin recovery');
     await steps.step('dealt-once','Receive five cards after a recovered Begin',[{spec:'The other player sees five cards and a normal turn after animations finish.',check:async()=>expect(other.getByTestId('hand-card')).toHaveCount(5)}],{player:'Theseus'});
     const before=await eventsAt(code);await other.reload();await ready(other);expect(await eventsAt(code)).toEqual(before);expect(await other.evaluate(()=>document.getAnimations().length)).toBe(0);
