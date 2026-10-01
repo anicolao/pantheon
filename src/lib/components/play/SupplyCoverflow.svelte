@@ -9,9 +9,9 @@
   import { cardGesture } from './card-gesture';
   import { coverflowLayout } from './coverflow-layout';
   import { motionDuration } from './motion';
-  let {game,uid,ready,visible,inspect,onDialog,command,sharedCardWidth}:{game:SetupState;sharedCardWidth?:number;uid:string;ready:boolean;visible:boolean;inspect:(id:string)=>void;onDialog:(open:boolean)=>void;command:(command:GameCommand)=>Promise<void>}=$props();
-  const piles=$derived(setupSupply(game.playerCount).slice().sort((a,b)=>(definition(a.id).cost??0)-(definition(b.id).cost??0)||a.id.localeCompare(b.id)));
-  const affordable=$derived(piles.findLastIndex(pile=>!purchaseReason(game,uid,pile.id)));
+  let {game,uid,ready,visible,inspect,onDialog,command,sharedCardWidth,selection}:{selection?:{options:{id:string;cardId:string;copy:number}[];selected:string[];choose:(id:string)=>void;kind:string};game:SetupState;sharedCardWidth?:number;uid:string;ready:boolean;visible:boolean;inspect:(id:string)=>void;onDialog:(open:boolean)=>void;command:(command:GameCommand)=>Promise<void>}=$props();
+  const piles=$derived(selection ? selection.options : setupSupply(game.playerCount).map(pile=>({...pile,cardId:pile.id,copy:1})).sort((a,b)=>(definition(a.id).cost??0)-(definition(b.id).cost??0)||a.id.localeCompare(b.id)));
+  const affordable=$derived(selection ? 0 : piles.findLastIndex(pile=>!purchaseReason(game,uid,pile.id)));
   let target=$state(untrack(()=>Math.max(0,affordable))),position=$state(untrack(()=>target));
   let width=$state(600),height=$state(200),reduced=$state(true),dragged=false,dragging=$state(false);
   const cardWidth=$derived(sharedCardWidth??Math.max(28,Math.min((height-2)/1.4,(width-24)/2.4)));
@@ -25,9 +25,10 @@
   const centered=$derived(piles[Math.round(target)]);
   const playable=$derived(game.decks[uid].hand.filter(card=>canPlayAction(game,uid,card.id)));
   let notice=$state(''),pending=$state(''),warning=$state<HTMLDialogElement>();
-  const reason=$derived(notice||purchaseReason(game,uid,centered.id)||(affordable>=0?`Affordable through ${definition(piles[affordable].id).name}`:''));
+  const reason=$derived(selection ? `Choose cards to ${selection.kind}` : notice||(centered ? purchaseReason(game,uid,centered.id) : '')||(affordable>=0?`Affordable through ${definition(piles[affordable].id).name}`:''));
   const moving=$derived(position!==target || dragging);
-  $effect(()=>{target=affordable>=0?affordable:untrack(()=>target);notice='';});
+  const optionKey=$derived(selection?.options.map(card=>card.id).join(',') ?? 'supply');
+  $effect(()=>{optionKey;target=Math.max(0,affordable>=0?affordable:untrack(()=>Math.min(piles.length-1,target)));notice='';});
   $effect(()=>{
     const end=target, snap=reduced||!visible;
     if(dragging)return;
@@ -43,6 +44,7 @@
   function move(index:number){target=Math.max(0,Math.min(piles.length-1,index));notice='';}
   async function buy(id:string){
     if(!ready)return;
+    if(selection){selection.choose(id);return;}
     const blocked=purchaseReason(game,uid,id);if(blocked){notice=blocked;return;}
     if(playable.length){pending=id;onDialog(true);await tick();warning!.showModal();return;}
     await command({type:'card/bought',cardId:id});
@@ -66,11 +68,11 @@
 <section class="supply-coverflow" aria-label="Supply" aria-busy={moving} data-face-up-count={faces} bind:clientWidth={width} bind:clientHeight={height} style={`--card-width:${cardWidth}px`}>
   <section class="coverflow" aria-label="Supply piles" onwheel={wheel} onpointerdown={down} onpointermove={drag} onpointerup={up} onpointercancel={up}>
     {#each piles as pile,index (pile.id)}
-      <div data-motion-zone="supply" data-motion-pile={pile.id} class="supply-face" class:unavailable={!!purchaseReason(game,uid,pile.id)} style:transform={layout[index].transform} style:z-index={layout[index].z}><CardFace card={definition(pile.id)} players={game.playerCount}/><span class="pile-count" id={`pile-count-${pile.id}`} aria-label={`${definition(pile.id).name}: ${game.supply[pile.id]} remaining`}>{game.supply[pile.id]}</span></div>
-      <button class="buy-card" aria-describedby={`supply-help pile-count-${pile.id}`} data-supply-id={pile.id} data-centered={index===Math.round(target)} data-face-up={faceUp(index)} data-public-zone="supply" data-public-card={pile.id} aria-label={`${faceUp(index)?'Buy':'Center'} ${definition(pile.id).name}`} aria-disabled={faceUp(index)&&(!ready||!!purchaseReason(game,uid,pile.id))} style:left={`${layout[index].hitLeft}px`} style:width={`${layout[index].hitWidth}px`} style:z-index={1100+index} onkeydown={key} onfocus={()=>notice=purchaseReason(game,uid,pile.id)} use:cardGesture={{activate:()=>activate(index),inspect:()=>inspect(pile.id)}}></button>
+      <div data-motion-zone="supply" data-motion-pile={pile.id} class="supply-face" class:unavailable={!selection && !!purchaseReason(game,uid,pile.id)} class:selected={selection?.selected.includes(pile.id)} style:transform={layout[index].transform} style:z-index={layout[index].z}><CardFace card={definition(pile.cardId)} copy={pile.copy} players={game.playerCount}/>{#if selection}<span class="pile-count">{selection.selected.includes(pile.id)?'✓':'○'}</span>{:else}<span class="pile-count" id={`pile-count-${pile.id}`} aria-label={`${definition(pile.id).name}: ${game.supply[pile.id]} remaining`}>{game.supply[pile.id]}</span>{/if}</div>
+      <button class="buy-card" aria-describedby={selection ? 'supply-help' : `supply-help pile-count-${pile.id}`} data-supply-id={pile.id} data-centered={index===Math.round(target)} data-face-up={faceUp(index)} data-public-zone="supply" data-public-card={pile.id} aria-label={`${faceUp(index)?selection?'Select':'Buy':'Center'} ${definition(pile.cardId).name}`} aria-disabled={faceUp(index)&&(!ready||(!selection && !!purchaseReason(game,uid,pile.id)))} style:left={`${layout[index].hitLeft}px`} style:width={`${layout[index].hitWidth}px`} style:z-index={1100+index} onkeydown={key} aria-pressed={selection ? selection.selected.includes(pile.id) : undefined} onfocus={()=>notice=selection ? '' : purchaseReason(game,uid,pile.id)} use:cardGesture={{activate:()=>activate(index),inspect:()=>inspect(pile.cardId)}}></button>
     {/each}
   </section>
-  <span id="supply-help" class="sr-only">Scroll or drag to browse. Tap a stacked card to bring it forward; tap any face-up card to buy. Right-click, hold, or press Shift+F10 to inspect.</span>
+  <span id="supply-help" class="sr-only">Scroll or drag to browse. Tap a stacked card to bring it forward; tap a face-up card to {selection ? 'select it' : 'buy' }. Right-click, hold, or press Shift+F10 to inspect.</span>
   <p class="reason sr-only" aria-live="polite">{reason}</p>
 </section>
 <dialog bind:this={warning} class="warning framed-dialog" aria-label="Skip playable Actions?" oncancel={event=>{event.preventDefault();dismiss();}} data-e2e-layout>
@@ -85,8 +87,9 @@
   .pile-count{position:absolute;left:3%;bottom:3%;z-index:5;min-width:1.65em;height:1.65em;padding:0 .25em;display:grid;place-items:center;border:1px solid #d8b772;border-radius:50%;background:#071321f2;color:#ffedbd;font-size:clamp(11px,calc(var(--card-width)*.12),30px);font-weight:700;line-height:1;box-shadow:0 1px 3px #0009;}
   /* Flat cards retain depth; stacked faces do not need separate blur passes. */
   .supply-face:not(:has(+ .buy-card[data-face-up=true])) :global(.card){filter:none;}
-  /* Opacity keeps unavailable stacks readable without a per-card color-filter pass. */
-  .unavailable{opacity:.78;}
+  /* Dim the artwork without revealing the table or cards behind it. */
+  .unavailable :global(.card){filter:brightness(.65) saturate(.55)!important;}
+  .selected{filter:drop-shadow(0 0 8px #ffdc84);}
   .buy-card{position:absolute;top:calc(var(--card-width)*.18);height:calc(var(--card-width)*1.02);border:0;padding:0;background:none;cursor:pointer;min-width:0;}
   .supply-coverflow:has(.buy-card:hover) .buy-card:focus-visible{outline:none;}
   .buy-card:focus-visible{outline:2px solid #ffdc84;outline-offset:0;}

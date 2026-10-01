@@ -41,7 +41,8 @@
 {#key generation}
   <GameSession {game} {uid} roomId="DEMO" status="synced" busy={false} {error} {command} retry={()=>{error='';}} again={reset}/>
 {/key}
-<section class="preview-tools" aria-label="Demo controls">
+<details class="preview-tools" aria-label="Demo controls">
+  <summary>Demo · switch player</summary>
   <div class="view-tools">
     <label>Viewing <select bind:value={uid} onchange={()=>viewAs(uid)}>{#each game.players as player}<option value={player.uid}>{player.name}</option>{/each}</select></label>
     <button class="switch-player" onclick={()=>viewAs(nextViewer)}>Switch to {game.players.find(player=>player.uid===nextViewer)?.name} →</button>
@@ -52,10 +53,11 @@
     <button onclick={reset}>Reset table</button>
     <p>Your viewpoint stays fixed through cleanup and redeal. Switch players whenever you’re ready.</p>
   </details>
-</section>
+</details>
 
 <style>
-  .preview-tools{position:fixed;left:8px;bottom:8px;z-index:10000;color:#f4dfb2;background:#071321ed;border:1px solid #a88746;border-radius:8px;padding:6px 10px;font-size:12px;max-width:calc(100vw - 16px);}
+  .preview-tools{position:fixed;left:8px;bottom:calc(9svh + 8px);z-index:10000;color:#f4dfb2;background:#071321ed;border:1px solid #a88746;border-radius:8px;padding:4px 8px;font-size:11px;max-width:calc(100vw - 16px);}
+  .preview-tools>summary{margin:0;}
   .view-tools{display:flex;align-items:center;flex-wrap:wrap;gap:8px;}.switch-player{border-color:#e9c578;background:#274450;}summary{cursor:pointer;margin-top:5px;}label{display:flex;gap:10px;align-items:center;margin:4px 0;}
   select,button{color:inherit;background:#173043;border:1px solid #a88746;border-radius:4px;padding:6px;}p{line-height:1.4;margin-bottom:0;}
 </style>
