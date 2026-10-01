@@ -1,0 +1,5102 @@
+[
+  {
+    "leader": "thaleia",
+    "key": "1:1",
+    "ranking": [
+      {
+        "index": 0,
+        "card": "baseline",
+        "scores": [
+          {
+            "opponent": "nereon",
+            "seat": 0,
+            "halfPoints": 2,
+            "n": 8
+          },
+          {
+            "opponent": "nereon",
+            "seat": 1,
+            "halfPoints": 10,
+            "n": 8
+          },
+          {
+            "opponent": "melia",
+            "seat": 0,
+            "halfPoints": 4,
+            "n": 8
+          },
+          {
+            "opponent": "melia",
+            "seat": 1,
+            "halfPoints": 11,
+            "n": 8
+          },
+          {
+            "opponent": "doreios",
+            "seat": 0,
+            "halfPoints": 5,
+            "n": 8
+          },
+          {
+            "opponent": "doreios",
+            "seat": 1,
+            "halfPoints": 15,
+            "n": 8
+          }
+        ],
+        "worst": 2,
+        "total": 47
+      },
+      {
+        "index": 1,
+        "card": null,
+        "scores": [
+          {
+            "opponent": "nereon",
+            "seat": 0,
+            "halfPoints": 2,
+            "n": 8
+          },
+          {
+            "opponent": "nereon",
+            "seat": 1,
+            "halfPoints": 10,
+            "n": 8
+          },
+          {
+            "opponent": "melia",
+            "seat": 0,
+            "halfPoints": 4,
+            "n": 8
+          },
+          {
+            "opponent": "melia",
+            "seat": 1,
+            "halfPoints": 11,
+            "n": 8
+          },
+          {
+            "opponent": "doreios",
+            "seat": 0,
+            "halfPoints": 5,
+            "n": 8
+          },
+          {
+            "opponent": "doreios",
+            "seat": 1,
+            "halfPoints": 15,
+            "n": 8
+          }
+        ],
+        "worst": 2,
+        "total": 47
+      },
+      {
+        "index": 2,
+        "card": "obol",
+        "scores": [
+          {
+            "opponent": "nereon",
+            "seat": 0,
+            "halfPoints": 2,
+            "n": 8
+          },
+          {
+            "opponent": "nereon",
+            "seat": 1,
+            "halfPoints": 11,
+            "n": 8
+          },
+          {
+            "opponent": "melia",
+            "seat": 0,
+            "halfPoints": 2,
+            "n": 8
+          },
+          {
+            "opponent": "melia",
+            "seat": 1,
+            "halfPoints": 8,
+            "n": 8
+          },
+          {
+            "opponent": "doreios",
+            "seat": 0,
+            "halfPoints": 2,
+            "n": 8
+          },
+          {
+            "opponent": "doreios",
+            "seat": 1,
+            "halfPoints": 9,
+            "n": 8
+          }
+        ],
+        "worst": 2,
+        "total": 34
+      }
+    ]
+  },
+  {
+    "leader": "thaleia",
+    "key": "1:2",
+    "ranking": [
+      {
+        "index": 0,
+        "card": "baseline",
+        "scores": [
+          {
+            "opponent": "nereon",
+            "seat": 0,
+            "halfPoints": 4,
+            "n": 8
+          },
+          {
+            "opponent": "nereon",
+            "seat": 1,
+            "halfPoints": 10,
+            "n": 8
+          },
+          {
+            "opponent": "melia",
+            "seat": 0,
+            "halfPoints": 4,
+            "n": 8
+          },
+          {
+            "opponent": "melia",
+            "seat": 1,
+            "halfPoints": 9,
+            "n": 8
+          },
+          {
+            "opponent": "doreios",
+            "seat": 0,
+            "halfPoints": 6,
+            "n": 8
+          },
+          {
+            "opponent": "doreios",
+            "seat": 1,
+            "halfPoints": 11,
+            "n": 8
+          }
+        ],
+        "worst": 4,
+        "total": 44
+      },
+      {
+        "index": 5,
+        "card": "seed-keeper",
+        "scores": [
+          {
+            "opponent": "nereon",
+            "seat": 0,
+            "halfPoints": 4,
+            "n": 8
+          },
+          {
+            "opponent": "nereon",
+            "seat": 1,
+            "halfPoints": 10,
+            "n": 8
+          },
+          {
+            "opponent": "melia",
+            "seat": 0,
+            "halfPoints": 4,
+            "n": 8
+          },
+          {
+            "opponent": "melia",
+            "seat": 1,
+            "halfPoints": 9,
+            "n": 8
+          },
+          {
+            "opponent": "doreios",
+            "seat": 0,
+            "halfPoints": 6,
+            "n": 8
+          },
+          {
+            "opponent": "doreios",
+            "seat": 1,
+            "halfPoints": 11,
+            "n": 8
+          }
+        ],
+        "worst": 4,
+        "total": 44
+      },
+      {
+        "index": 4,
+        "card": "oracles-acolyte",
+        "scores": [
+          {
+            "opponent": "nereon",
+            "seat": 0,
+            "halfPoints": 2,
+            "n": 8
+          },
+          {
+            "opponent": "nereon",
+            "seat": 1,
+            "halfPoints": 6,
+            "n": 8
+          },
+          {
+            "opponent": "melia",
+            "seat": 0,
+            "halfPoints": 2,
+            "n": 8
+          },
+          {
+            "opponent": "melia",
+            "seat": 1,
+            "halfPoints": 8,
+            "n": 8
+          },
+          {
+            "opponent": "doreios",
+            "seat": 0,
+            "halfPoints": 9,
+            "n": 8
+          },
+          {
+            "opponent": "doreios",
+            "seat": 1,
+            "halfPoints": 12,
+            "n": 8
+          }
+        ],
+        "worst": 2,
+        "total": 39
+      }
+    ]
+  },
+  {
+    "leader": "thaleia",
+    "key": "1:3",
+    "ranking": [
+      {
+        "index": 0,
+        "card": "baseline",
+        "scores": [
+          {
+            "opponent": "nereon",
+            "seat": 0,
+            "halfPoints": 0,
+            "n": 8
+          },
+          {
+            "opponent": "nereon",
+            "seat": 1,
+            "halfPoints": 8,
+            "n": 8
+          },
+          {
+            "opponent": "melia",
+            "seat": 0,
+            "halfPoints": 4,
+            "n": 8
+          },
+          {
+            "opponent": "melia",
+            "seat": 1,
+            "halfPoints": 7,
+            "n": 8
+          },
+          {
+            "opponent": "doreios",
+            "seat": 0,
+            "halfPoints": 1,
+            "n": 8
+          },
+          {
+            "opponent": "doreios",
+            "seat": 1,
+            "halfPoints": 5,
+            "n": 8
+          }
+        ],
+        "worst": 0,
+        "total": 25
+      },
+      {
+        "index": 3,
+        "card": "drachma",
+        "scores": [
+          {
+            "opponent": "nereon",
+            "seat": 0,
+            "halfPoints": 0,
+            "n": 8
+          },
+          {
+            "opponent": "nereon",
+            "seat": 1,
+            "halfPoints": 8,
+            "n": 8
+          },
+          {
+            "opponent": "melia",
+            "seat": 0,
+            "halfPoints": 4,
+            "n": 8
+          },
+          {
+            "opponent": "melia",
+            "seat": 1,
+            "halfPoints": 7,
+            "n": 8
+          },
+          {
+            "opponent": "doreios",
+            "seat": 0,
+            "halfPoints": 1,
+            "n": 8
+          },
+          {
+            "opponent": "doreios",
+            "seat": 1,
+            "halfPoints": 5,
+            "n": 8
+          }
+        ],
+        "worst": 0,
+        "total": 25
+      },
+      {
+        "index": 7,
+        "card": "oracles-acolyte",
+        "scores": [
+          {
+            "opponent": "nereon",
+            "seat": 0,
+            "halfPoints": 0,
+            "n": 8
+          },
+          {
+            "opponent": "nereon",
+            "seat": 1,
+            "halfPoints": 1,
+            "n": 8
+          },
+          {
+            "opponent": "melia",
+            "seat": 0,
+            "halfPoints": 4,
+            "n": 8
+          },
+          {
+            "opponent": "melia",
+            "seat": 1,
+            "halfPoints": 4,
+            "n": 8
+          },
+          {
+            "opponent": "doreios",
+            "seat": 0,
+            "halfPoints": 0,
+            "n": 8
+          },
+          {
+            "opponent": "doreios",
+            "seat": 1,
+            "halfPoints": 4,
+            "n": 8
+          }
+        ],
+        "worst": 0,
+        "total": 13
+      }
+    ]
+  },
+  {
+    "leader": "thaleia",
+    "key": "1:4",
+    "ranking": [
+      {
+        "index": 5,
+        "card": "forge-of-heroes",
+        "scores": [
+          {
+            "opponent": "nereon",
+            "seat": 0,
+            "halfPoints": 6,
+            "n": 8
+          },
+          {
+            "opponent": "nereon",
+            "seat": 1,
+            "halfPoints": 8,
+            "n": 8
+          },
+          {
+            "opponent": "melia",
+            "seat": 0,
+            "halfPoints": 8,
+            "n": 8
+          },
+          {
+            "opponent": "melia",
+            "seat": 1,
+            "halfPoints": 6,
+            "n": 8
+          },
+          {
+            "opponent": "doreios",
+            "seat": 0,
+            "halfPoints": 6,
+            "n": 8
+          },
+          {
+            "opponent": "doreios",
+            "seat": 1,
+            "halfPoints": 9,
+            "n": 8
+          }
+        ],
+        "worst": 6,
+        "total": 43
+      },
+      {
+        "index": 0,
+        "card": "baseline",
+        "scores": [
+          {
+            "opponent": "nereon",
+            "seat": 0,
+            "halfPoints": 4,
+            "n": 8
+          },
+          {
+            "opponent": "nereon",
+            "seat": 1,
+            "halfPoints": 11,
+            "n": 8
+          },
+          {
+            "opponent": "melia",
+            "seat": 0,
+            "halfPoints": 2,
+            "n": 8
+          },
+          {
+            "opponent": "melia",
+            "seat": 1,
+            "halfPoints": 8,
+            "n": 8
+          },
+          {
+            "opponent": "doreios",
+            "seat": 0,
+            "halfPoints": 4,
+            "n": 8
+          },
+          {
+            "opponent": "doreios",
+            "seat": 1,
+            "halfPoints": 14,
+            "n": 8
+          }
+        ],
+        "worst": 2,
+        "total": 43
+      },
+      {
+        "index": 3,
+        "card": "council-of-sages",
+        "scores": [
+          {
+            "opponent": "nereon",
+            "seat": 0,
+            "halfPoints": 4,
+            "n": 8
+          },
+          {
+            "opponent": "nereon",
+            "seat": 1,
+            "halfPoints": 11,
+            "n": 8
+          },
+          {
+            "opponent": "melia",
+            "seat": 0,
+            "halfPoints": 2,
+            "n": 8
+          },
+          {
+            "opponent": "melia",
+            "seat": 1,
+            "halfPoints": 8,
+            "n": 8
+          },
+          {
+            "opponent": "doreios",
+            "seat": 0,
+            "halfPoints": 4,
+            "n": 8
+          },
+          {
+            "opponent": "doreios",
+            "seat": 1,
+            "halfPoints": 14,
+            "n": 8
+          }
+        ],
+        "worst": 2,
+        "total": 43
+      }
+    ]
+  },
+  {
+    "leader": "thaleia",
+    "key": "1:5",
+    "ranking": [
+      {
+        "index": 14,
+        "card": "sacred-grove",
+        "scores": [
+          {
+            "opponent": "nereon",
+            "seat": 0,
+            "halfPoints": 3,
+            "n": 8
+          },
+          {
+            "opponent": "nereon",
+            "seat": 1,
+            "halfPoints": 8,
+            "n": 8
+          },
+          {
+            "opponent": "melia",
+            "seat": 0,
+            "halfPoints": 4,
+            "n": 8
+          },
+          {
+            "opponent": "melia",
+            "seat": 1,
+            "halfPoints": 7,
+            "n": 8
+          },
+          {
+            "opponent": "doreios",
+            "seat": 0,
+            "halfPoints": 7,
+            "n": 8
+          },
+          {
+            "opponent": "doreios",
+            "seat": 1,
+            "halfPoints": 7,
+            "n": 8
+          }
+        ],
+        "worst": 3,
+        "total": 36
+      },
+      {
+        "index": 0,
+        "card": "baseline",
+        "scores": [
+          {
+            "opponent": "nereon",
+            "seat": 0,
+            "halfPoints": 2,
+            "n": 8
+          },
+          {
+            "opponent": "nereon",
+            "seat": 1,
+            "halfPoints": 15,
+            "n": 8
+          },
+          {
+            "opponent": "melia",
+            "seat": 0,
+            "halfPoints": 4,
+            "n": 8
+          },
+          {
+            "opponent": "melia",
+            "seat": 1,
+            "halfPoints": 11,
+            "n": 8
+          },
+          {
+            "opponent": "doreios",
+            "seat": 0,
+            "halfPoints": 9,
+            "n": 8
+          },
+          {
+            "opponent": "doreios",
+            "seat": 1,
+            "halfPoints": 13,
+            "n": 8
+          }
+        ],
+        "worst": 2,
+        "total": 54
+      },
+      {
+        "index": 5,
+        "card": "forge-of-heroes",
+        "scores": [
+          {
+            "opponent": "nereon",
+            "seat": 0,
+            "halfPoints": 2,
+            "n": 8
+          },
+          {
+            "opponent": "nereon",
+            "seat": 1,
+            "halfPoints": 15,
+            "n": 8
+          },
+          {
+            "opponent": "melia",
+            "seat": 0,
+            "halfPoints": 4,
+            "n": 8
+          },
+          {
+            "opponent": "melia",
+            "seat": 1,
+            "halfPoints": 11,
+            "n": 8
+          },
+          {
+            "opponent": "doreios",
+            "seat": 0,
+            "halfPoints": 9,
+            "n": 8
+          },
+          {
+            "opponent": "doreios",
+            "seat": 1,
+            "halfPoints": 13,
+            "n": 8
+          }
+        ],
+        "worst": 2,
+        "total": 54
+      }
+    ]
+  },
+  {
+    "leader": "nereon",
+    "key": "1:2",
+    "ranking": [
+      {
+        "index": 0,
+        "card": "baseline",
+        "scores": [
+          {
+            "opponent": "thaleia",
+            "seat": 0,
+            "halfPoints": 14,
+            "n": 8
+          },
+          {
+            "opponent": "thaleia",
+            "seat": 1,
+            "halfPoints": 9,
+            "n": 8
+          },
+          {
+            "opponent": "melia",
+            "seat": 0,
+            "halfPoints": 8,
+            "n": 8
+          },
+          {
+            "opponent": "melia",
+            "seat": 1,
+            "halfPoints": 9,
+            "n": 8
+          },
+          {
+            "opponent": "doreios",
+            "seat": 0,
+            "halfPoints": 14,
+            "n": 8
+          },
+          {
+            "opponent": "doreios",
+            "seat": 1,
+            "halfPoints": 10,
+            "n": 8
+          }
+        ],
+        "worst": 8,
+        "total": 64
+      },
+      {
+        "index": 5,
+        "card": "seed-keeper",
+        "scores": [
+          {
+            "opponent": "thaleia",
+            "seat": 0,
+            "halfPoints": 14,
+            "n": 8
+          },
+          {
+            "opponent": "thaleia",
+            "seat": 1,
+            "halfPoints": 9,
+            "n": 8
+          },
+          {
+            "opponent": "melia",
+            "seat": 0,
+            "halfPoints": 8,
+            "n": 8
+          },
+          {
+            "opponent": "melia",
+            "seat": 1,
+            "halfPoints": 9,
+            "n": 8
+          },
+          {
+            "opponent": "doreios",
+            "seat": 0,
+            "halfPoints": 14,
+            "n": 8
+          },
+          {
+            "opponent": "doreios",
+            "seat": 1,
+            "halfPoints": 10,
+            "n": 8
+          }
+        ],
+        "worst": 8,
+        "total": 64
+      },
+      {
+        "index": 2,
+        "card": "hamlet",
+        "scores": [
+          {
+            "opponent": "thaleia",
+            "seat": 0,
+            "halfPoints": 7,
+            "n": 8
+          },
+          {
+            "opponent": "thaleia",
+            "seat": 1,
+            "halfPoints": 1,
+            "n": 8
+          },
+          {
+            "opponent": "melia",
+            "seat": 0,
+            "halfPoints": 2,
+            "n": 8
+          },
+          {
+            "opponent": "melia",
+            "seat": 1,
+            "halfPoints": 1,
+            "n": 8
+          },
+          {
+            "opponent": "doreios",
+            "seat": 0,
+            "halfPoints": 10,
+            "n": 8
+          },
+          {
+            "opponent": "doreios",
+            "seat": 1,
+            "halfPoints": 5,
+            "n": 8
+          }
+        ],
+        "worst": 1,
+        "total": 26
+      }
+    ]
+  },
+  {
+    "leader": "nereon",
+    "key": "1:3",
+    "ranking": [
+      {
+        "index": 8,
+        "card": "seed-keeper",
+        "scores": [
+          {
+            "opponent": "thaleia",
+            "seat": 0,
+            "halfPoints": 10,
+            "n": 8
+          },
+          {
+            "opponent": "thaleia",
+            "seat": 1,
+            "halfPoints": 12,
+            "n": 8
+          },
+          {
+            "opponent": "melia",
+            "seat": 0,
+            "halfPoints": 3,
+            "n": 8
+          },
+          {
+            "opponent": "melia",
+            "seat": 1,
+            "halfPoints": 6,
+            "n": 8
+          },
+          {
+            "opponent": "doreios",
+            "seat": 0,
+            "halfPoints": 6,
+            "n": 8
+          },
+          {
+            "opponent": "doreios",
+            "seat": 1,
+            "halfPoints": 10,
+            "n": 8
+          }
+        ],
+        "worst": 3,
+        "total": 47
+      },
+      {
+        "index": 0,
+        "card": "baseline",
+        "scores": [
+          {
+            "opponent": "thaleia",
+            "seat": 0,
+            "halfPoints": 4,
+            "n": 8
+          },
+          {
+            "opponent": "thaleia",
+            "seat": 1,
+            "halfPoints": 7,
+            "n": 8
+          },
+          {
+            "opponent": "melia",
+            "seat": 0,
+            "halfPoints": 3,
+            "n": 8
+          },
+          {
+            "opponent": "melia",
+            "seat": 1,
+            "halfPoints": 2,
+            "n": 8
+          },
+          {
+            "opponent": "doreios",
+            "seat": 0,
+            "halfPoints": 6,
+            "n": 8
+          },
+          {
+            "opponent": "doreios",
+            "seat": 1,
+            "halfPoints": 6,
+            "n": 8
+          }
+        ],
+        "worst": 2,
+        "total": 28
+      },
+      {
+        "index": 3,
+        "card": "drachma",
+        "scores": [
+          {
+            "opponent": "thaleia",
+            "seat": 0,
+            "halfPoints": 4,
+            "n": 8
+          },
+          {
+            "opponent": "thaleia",
+            "seat": 1,
+            "halfPoints": 7,
+            "n": 8
+          },
+          {
+            "opponent": "melia",
+            "seat": 0,
+            "halfPoints": 3,
+            "n": 8
+          },
+          {
+            "opponent": "melia",
+            "seat": 1,
+            "halfPoints": 2,
+            "n": 8
+          },
+          {
+            "opponent": "doreios",
+            "seat": 0,
+            "halfPoints": 6,
+            "n": 8
+          },
+          {
+            "opponent": "doreios",
+            "seat": 1,
+            "halfPoints": 6,
+            "n": 8
+          }
+        ],
+        "worst": 2,
+        "total": 28
+      }
+    ]
+  },
+  {
+    "leader": "nereon",
+    "key": "1:4",
+    "ranking": [
+      {
+        "index": 4,
+        "card": "drachma",
+        "scores": [
+          {
+            "opponent": "thaleia",
+            "seat": 0,
+            "halfPoints": 5,
+            "n": 8
+          },
+          {
+            "opponent": "thaleia",
+            "seat": 1,
+            "halfPoints": 8,
+            "n": 8
+          },
+          {
+            "opponent": "melia",
+            "seat": 0,
+            "halfPoints": 7,
+            "n": 8
+          },
+          {
+            "opponent": "melia",
+            "seat": 1,
+            "halfPoints": 4,
+            "n": 8
+          },
+          {
+            "opponent": "doreios",
+            "seat": 0,
+            "halfPoints": 8,
+            "n": 8
+          },
+          {
+            "opponent": "doreios",
+            "seat": 1,
+            "halfPoints": 9,
+            "n": 8
+          }
+        ],
+        "worst": 4,
+        "total": 41
+      },
+      {
+        "index": 3,
+        "card": "council-of-sages",
+        "scores": [
+          {
+            "opponent": "thaleia",
+            "seat": 0,
+            "halfPoints": 2,
+            "n": 8
+          },
+          {
+            "opponent": "thaleia",
+            "seat": 1,
+            "halfPoints": 2,
+            "n": 8
+          },
+          {
+            "opponent": "melia",
+            "seat": 0,
+            "halfPoints": 5,
+            "n": 8
+          },
+          {
+            "opponent": "melia",
+            "seat": 1,
+            "halfPoints": 2,
+            "n": 8
+          },
+          {
+            "opponent": "doreios",
+            "seat": 0,
+            "halfPoints": 11,
+            "n": 8
+          },
+          {
+            "opponent": "doreios",
+            "seat": 1,
+            "halfPoints": 7,
+            "n": 8
+          }
+        ],
+        "worst": 2,
+        "total": 29
+      },
+      {
+        "index": 0,
+        "card": "baseline",
+        "scores": [
+          {
+            "opponent": "thaleia",
+            "seat": 0,
+            "halfPoints": 2,
+            "n": 8
+          },
+          {
+            "opponent": "thaleia",
+            "seat": 1,
+            "halfPoints": 2,
+            "n": 8
+          },
+          {
+            "opponent": "melia",
+            "seat": 0,
+            "halfPoints": 2,
+            "n": 8
+          },
+          {
+            "opponent": "melia",
+            "seat": 1,
+            "halfPoints": 2,
+            "n": 8
+          },
+          {
+            "opponent": "doreios",
+            "seat": 0,
+            "halfPoints": 7,
+            "n": 8
+          },
+          {
+            "opponent": "doreios",
+            "seat": 1,
+            "halfPoints": 11,
+            "n": 8
+          }
+        ],
+        "worst": 2,
+        "total": 26
+      },
+      {
+        "index": 7,
+        "card": "harbor-pilot",
+        "scores": [
+          {
+            "opponent": "thaleia",
+            "seat": 0,
+            "halfPoints": 4,
+            "n": 8
+          },
+          {
+            "opponent": "thaleia",
+            "seat": 1,
+            "halfPoints": 2,
+            "n": 8
+          },
+          {
+            "opponent": "melia",
+            "seat": 0,
+            "halfPoints": 2,
+            "n": 8
+          },
+          {
+            "opponent": "melia",
+            "seat": 1,
+            "halfPoints": 2,
+            "n": 8
+          },
+          {
+            "opponent": "doreios",
+            "seat": 0,
+            "halfPoints": 7,
+            "n": 8
+          },
+          {
+            "opponent": "doreios",
+            "seat": 1,
+            "halfPoints": 6,
+            "n": 8
+          }
+        ],
+        "worst": 2,
+        "total": 23
+      }
+    ]
+  },
+  {
+    "leader": "nereon",
+    "key": "1:5",
+    "ranking": [
+      {
+        "index": 13,
+        "card": "sacred-academy",
+        "scores": [
+          {
+            "opponent": "thaleia",
+            "seat": 0,
+            "halfPoints": 8,
+            "n": 8
+          },
+          {
+            "opponent": "thaleia",
+            "seat": 1,
+            "halfPoints": 11,
+            "n": 8
+          },
+          {
+            "opponent": "melia",
+            "seat": 0,
+            "halfPoints": 6,
+            "n": 8
+          },
+          {
+            "opponent": "melia",
+            "seat": 1,
+            "halfPoints": 10,
+            "n": 8
+          },
+          {
+            "opponent": "doreios",
+            "seat": 0,
+            "halfPoints": 14,
+            "n": 8
+          },
+          {
+            "opponent": "doreios",
+            "seat": 1,
+            "halfPoints": 14,
+            "n": 8
+          }
+        ],
+        "worst": 6,
+        "total": 63
+      },
+      {
+        "index": 0,
+        "card": "baseline",
+        "scores": [
+          {
+            "opponent": "thaleia",
+            "seat": 0,
+            "halfPoints": 6,
+            "n": 8
+          },
+          {
+            "opponent": "thaleia",
+            "seat": 1,
+            "halfPoints": 11,
+            "n": 8
+          },
+          {
+            "opponent": "melia",
+            "seat": 0,
+            "halfPoints": 4,
+            "n": 8
+          },
+          {
+            "opponent": "melia",
+            "seat": 1,
+            "halfPoints": 12,
+            "n": 8
+          },
+          {
+            "opponent": "doreios",
+            "seat": 0,
+            "halfPoints": 14,
+            "n": 8
+          },
+          {
+            "opponent": "doreios",
+            "seat": 1,
+            "halfPoints": 14,
+            "n": 8
+          }
+        ],
+        "worst": 4,
+        "total": 61
+      },
+      {
+        "index": 9,
+        "card": "merchant-fleet",
+        "scores": [
+          {
+            "opponent": "thaleia",
+            "seat": 0,
+            "halfPoints": 6,
+            "n": 8
+          },
+          {
+            "opponent": "thaleia",
+            "seat": 1,
+            "halfPoints": 11,
+            "n": 8
+          },
+          {
+            "opponent": "melia",
+            "seat": 0,
+            "halfPoints": 4,
+            "n": 8
+          },
+          {
+            "opponent": "melia",
+            "seat": 1,
+            "halfPoints": 12,
+            "n": 8
+          },
+          {
+            "opponent": "doreios",
+            "seat": 0,
+            "halfPoints": 14,
+            "n": 8
+          },
+          {
+            "opponent": "doreios",
+            "seat": 1,
+            "halfPoints": 14,
+            "n": 8
+          }
+        ],
+        "worst": 4,
+        "total": 61
+      }
+    ]
+  },
+  {
+    "leader": "melia",
+    "key": "1:2",
+    "ranking": [
+      {
+        "index": 0,
+        "card": "baseline",
+        "scores": [
+          {
+            "opponent": "thaleia",
+            "seat": 0,
+            "halfPoints": 11,
+            "n": 8
+          },
+          {
+            "opponent": "thaleia",
+            "seat": 1,
+            "halfPoints": 7,
+            "n": 8
+          },
+          {
+            "opponent": "nereon",
+            "seat": 0,
+            "halfPoints": 11,
+            "n": 8
+          },
+          {
+            "opponent": "nereon",
+            "seat": 1,
+            "halfPoints": 10,
+            "n": 8
+          },
+          {
+            "opponent": "doreios",
+            "seat": 0,
+            "halfPoints": 12,
+            "n": 8
+          },
+          {
+            "opponent": "doreios",
+            "seat": 1,
+            "halfPoints": 11,
+            "n": 8
+          }
+        ],
+        "worst": 7,
+        "total": 62
+      },
+      {
+        "index": 5,
+        "card": "seed-keeper",
+        "scores": [
+          {
+            "opponent": "thaleia",
+            "seat": 0,
+            "halfPoints": 11,
+            "n": 8
+          },
+          {
+            "opponent": "thaleia",
+            "seat": 1,
+            "halfPoints": 7,
+            "n": 8
+          },
+          {
+            "opponent": "nereon",
+            "seat": 0,
+            "halfPoints": 11,
+            "n": 8
+          },
+          {
+            "opponent": "nereon",
+            "seat": 1,
+            "halfPoints": 10,
+            "n": 8
+          },
+          {
+            "opponent": "doreios",
+            "seat": 0,
+            "halfPoints": 12,
+            "n": 8
+          },
+          {
+            "opponent": "doreios",
+            "seat": 1,
+            "halfPoints": 11,
+            "n": 8
+          }
+        ],
+        "worst": 7,
+        "total": 62
+      },
+      {
+        "index": 4,
+        "card": "oracles-acolyte",
+        "scores": [
+          {
+            "opponent": "thaleia",
+            "seat": 0,
+            "halfPoints": 1,
+            "n": 8
+          },
+          {
+            "opponent": "thaleia",
+            "seat": 1,
+            "halfPoints": 6,
+            "n": 8
+          },
+          {
+            "opponent": "nereon",
+            "seat": 0,
+            "halfPoints": 9,
+            "n": 8
+          },
+          {
+            "opponent": "nereon",
+            "seat": 1,
+            "halfPoints": 4,
+            "n": 8
+          },
+          {
+            "opponent": "doreios",
+            "seat": 0,
+            "halfPoints": 5,
+            "n": 8
+          },
+          {
+            "opponent": "doreios",
+            "seat": 1,
+            "halfPoints": 11,
+            "n": 8
+          }
+        ],
+        "worst": 1,
+        "total": 36
+      }
+    ]
+  },
+  {
+    "leader": "melia",
+    "key": "1:3",
+    "ranking": [
+      {
+        "index": 0,
+        "card": "baseline",
+        "scores": [
+          {
+            "opponent": "thaleia",
+            "seat": 0,
+            "halfPoints": 3,
+            "n": 8
+          },
+          {
+            "opponent": "thaleia",
+            "seat": 1,
+            "halfPoints": 6,
+            "n": 8
+          },
+          {
+            "opponent": "nereon",
+            "seat": 0,
+            "halfPoints": 3,
+            "n": 8
+          },
+          {
+            "opponent": "nereon",
+            "seat": 1,
+            "halfPoints": 9,
+            "n": 8
+          },
+          {
+            "opponent": "doreios",
+            "seat": 0,
+            "halfPoints": 5,
+            "n": 8
+          },
+          {
+            "opponent": "doreios",
+            "seat": 1,
+            "halfPoints": 12,
+            "n": 8
+          }
+        ],
+        "worst": 3,
+        "total": 38
+      },
+      {
+        "index": 3,
+        "card": "drachma",
+        "scores": [
+          {
+            "opponent": "thaleia",
+            "seat": 0,
+            "halfPoints": 3,
+            "n": 8
+          },
+          {
+            "opponent": "thaleia",
+            "seat": 1,
+            "halfPoints": 6,
+            "n": 8
+          },
+          {
+            "opponent": "nereon",
+            "seat": 0,
+            "halfPoints": 3,
+            "n": 8
+          },
+          {
+            "opponent": "nereon",
+            "seat": 1,
+            "halfPoints": 9,
+            "n": 8
+          },
+          {
+            "opponent": "doreios",
+            "seat": 0,
+            "halfPoints": 5,
+            "n": 8
+          },
+          {
+            "opponent": "doreios",
+            "seat": 1,
+            "halfPoints": 12,
+            "n": 8
+          }
+        ],
+        "worst": 3,
+        "total": 38
+      },
+      {
+        "index": 8,
+        "card": "seed-keeper",
+        "scores": [
+          {
+            "opponent": "thaleia",
+            "seat": 0,
+            "halfPoints": 5,
+            "n": 8
+          },
+          {
+            "opponent": "thaleia",
+            "seat": 1,
+            "halfPoints": 4,
+            "n": 8
+          },
+          {
+            "opponent": "nereon",
+            "seat": 0,
+            "halfPoints": 2,
+            "n": 8
+          },
+          {
+            "opponent": "nereon",
+            "seat": 1,
+            "halfPoints": 6,
+            "n": 8
+          },
+          {
+            "opponent": "doreios",
+            "seat": 0,
+            "halfPoints": 4,
+            "n": 8
+          },
+          {
+            "opponent": "doreios",
+            "seat": 1,
+            "halfPoints": 11,
+            "n": 8
+          }
+        ],
+        "worst": 2,
+        "total": 32
+      }
+    ]
+  },
+  {
+    "leader": "melia",
+    "key": "1:4",
+    "ranking": [
+      {
+        "index": 4,
+        "card": "drachma",
+        "scores": [
+          {
+            "opponent": "thaleia",
+            "seat": 0,
+            "halfPoints": 5,
+            "n": 8
+          },
+          {
+            "opponent": "thaleia",
+            "seat": 1,
+            "halfPoints": 3,
+            "n": 8
+          },
+          {
+            "opponent": "nereon",
+            "seat": 0,
+            "halfPoints": 11,
+            "n": 8
+          },
+          {
+            "opponent": "nereon",
+            "seat": 1,
+            "halfPoints": 4,
+            "n": 8
+          },
+          {
+            "opponent": "doreios",
+            "seat": 0,
+            "halfPoints": 8,
+            "n": 8
+          },
+          {
+            "opponent": "doreios",
+            "seat": 1,
+            "halfPoints": 12,
+            "n": 8
+          }
+        ],
+        "worst": 3,
+        "total": 43
+      },
+      {
+        "index": 0,
+        "card": "baseline",
+        "scores": [
+          {
+            "opponent": "thaleia",
+            "seat": 0,
+            "halfPoints": 2,
+            "n": 8
+          },
+          {
+            "opponent": "thaleia",
+            "seat": 1,
+            "halfPoints": 8,
+            "n": 8
+          },
+          {
+            "opponent": "nereon",
+            "seat": 0,
+            "halfPoints": 4,
+            "n": 8
+          },
+          {
+            "opponent": "nereon",
+            "seat": 1,
+            "halfPoints": 5,
+            "n": 8
+          },
+          {
+            "opponent": "doreios",
+            "seat": 0,
+            "halfPoints": 11,
+            "n": 8
+          },
+          {
+            "opponent": "doreios",
+            "seat": 1,
+            "halfPoints": 12,
+            "n": 8
+          }
+        ],
+        "worst": 2,
+        "total": 42
+      },
+      {
+        "index": 8,
+        "card": "harvest-feast",
+        "scores": [
+          {
+            "opponent": "thaleia",
+            "seat": 0,
+            "halfPoints": 2,
+            "n": 8
+          },
+          {
+            "opponent": "thaleia",
+            "seat": 1,
+            "halfPoints": 8,
+            "n": 8
+          },
+          {
+            "opponent": "nereon",
+            "seat": 0,
+            "halfPoints": 4,
+            "n": 8
+          },
+          {
+            "opponent": "nereon",
+            "seat": 1,
+            "halfPoints": 5,
+            "n": 8
+          },
+          {
+            "opponent": "doreios",
+            "seat": 0,
+            "halfPoints": 11,
+            "n": 8
+          },
+          {
+            "opponent": "doreios",
+            "seat": 1,
+            "halfPoints": 12,
+            "n": 8
+          }
+        ],
+        "worst": 2,
+        "total": 42
+      }
+    ]
+  },
+  {
+    "leader": "melia",
+    "key": "1:5",
+    "ranking": [
+      {
+        "index": 8,
+        "card": "harvest-feast",
+        "scores": [
+          {
+            "opponent": "thaleia",
+            "seat": 0,
+            "halfPoints": 8,
+            "n": 8
+          },
+          {
+            "opponent": "thaleia",
+            "seat": 1,
+            "halfPoints": 13,
+            "n": 8
+          },
+          {
+            "opponent": "nereon",
+            "seat": 0,
+            "halfPoints": 7,
+            "n": 8
+          },
+          {
+            "opponent": "nereon",
+            "seat": 1,
+            "halfPoints": 15,
+            "n": 8
+          },
+          {
+            "opponent": "doreios",
+            "seat": 0,
+            "halfPoints": 11,
+            "n": 8
+          },
+          {
+            "opponent": "doreios",
+            "seat": 1,
+            "halfPoints": 14,
+            "n": 8
+          }
+        ],
+        "worst": 7,
+        "total": 68
+      },
+      {
+        "index": 0,
+        "card": "baseline",
+        "scores": [
+          {
+            "opponent": "thaleia",
+            "seat": 0,
+            "halfPoints": 7,
+            "n": 8
+          },
+          {
+            "opponent": "thaleia",
+            "seat": 1,
+            "halfPoints": 13,
+            "n": 8
+          },
+          {
+            "opponent": "nereon",
+            "seat": 0,
+            "halfPoints": 9,
+            "n": 8
+          },
+          {
+            "opponent": "nereon",
+            "seat": 1,
+            "halfPoints": 13,
+            "n": 8
+          },
+          {
+            "opponent": "doreios",
+            "seat": 0,
+            "halfPoints": 10,
+            "n": 8
+          },
+          {
+            "opponent": "doreios",
+            "seat": 1,
+            "halfPoints": 13,
+            "n": 8
+          }
+        ],
+        "worst": 7,
+        "total": 65
+      },
+      {
+        "index": 9,
+        "card": "merchant-fleet",
+        "scores": [
+          {
+            "opponent": "thaleia",
+            "seat": 0,
+            "halfPoints": 7,
+            "n": 8
+          },
+          {
+            "opponent": "thaleia",
+            "seat": 1,
+            "halfPoints": 13,
+            "n": 8
+          },
+          {
+            "opponent": "nereon",
+            "seat": 0,
+            "halfPoints": 9,
+            "n": 8
+          },
+          {
+            "opponent": "nereon",
+            "seat": 1,
+            "halfPoints": 13,
+            "n": 8
+          },
+          {
+            "opponent": "doreios",
+            "seat": 0,
+            "halfPoints": 10,
+            "n": 8
+          },
+          {
+            "opponent": "doreios",
+            "seat": 1,
+            "halfPoints": 13,
+            "n": 8
+          }
+        ],
+        "worst": 7,
+        "total": 65
+      }
+    ]
+  },
+  {
+    "leader": "doreios",
+    "key": "1:1",
+    "ranking": [
+      {
+        "index": 0,
+        "card": "baseline",
+        "scores": [
+          {
+            "opponent": "thaleia",
+            "seat": 0,
+            "halfPoints": 0,
+            "n": 8
+          },
+          {
+            "opponent": "thaleia",
+            "seat": 1,
+            "halfPoints": 7,
+            "n": 8
+          },
+          {
+            "opponent": "nereon",
+            "seat": 0,
+            "halfPoints": 3,
+            "n": 8
+          },
+          {
+            "opponent": "nereon",
+            "seat": 1,
+            "halfPoints": 3,
+            "n": 8
+          },
+          {
+            "opponent": "melia",
+            "seat": 0,
+            "halfPoints": 1,
+            "n": 8
+          },
+          {
+            "opponent": "melia",
+            "seat": 1,
+            "halfPoints": 10,
+            "n": 8
+          }
+        ],
+        "worst": 0,
+        "total": 24
+      },
+      {
+        "index": 1,
+        "card": null,
+        "scores": [
+          {
+            "opponent": "thaleia",
+            "seat": 0,
+            "halfPoints": 0,
+            "n": 8
+          },
+          {
+            "opponent": "thaleia",
+            "seat": 1,
+            "halfPoints": 7,
+            "n": 8
+          },
+          {
+            "opponent": "nereon",
+            "seat": 0,
+            "halfPoints": 3,
+            "n": 8
+          },
+          {
+            "opponent": "nereon",
+            "seat": 1,
+            "halfPoints": 3,
+            "n": 8
+          },
+          {
+            "opponent": "melia",
+            "seat": 0,
+            "halfPoints": 1,
+            "n": 8
+          },
+          {
+            "opponent": "melia",
+            "seat": 1,
+            "halfPoints": 10,
+            "n": 8
+          }
+        ],
+        "worst": 0,
+        "total": 24
+      },
+      {
+        "index": 2,
+        "card": "obol",
+        "scores": [
+          {
+            "opponent": "thaleia",
+            "seat": 0,
+            "halfPoints": 0,
+            "n": 8
+          },
+          {
+            "opponent": "thaleia",
+            "seat": 1,
+            "halfPoints": 3,
+            "n": 8
+          },
+          {
+            "opponent": "nereon",
+            "seat": 0,
+            "halfPoints": 0,
+            "n": 8
+          },
+          {
+            "opponent": "nereon",
+            "seat": 1,
+            "halfPoints": 6,
+            "n": 8
+          },
+          {
+            "opponent": "melia",
+            "seat": 0,
+            "halfPoints": 0,
+            "n": 8
+          },
+          {
+            "opponent": "melia",
+            "seat": 1,
+            "halfPoints": 6,
+            "n": 8
+          }
+        ],
+        "worst": 0,
+        "total": 15
+      }
+    ]
+  },
+  {
+    "leader": "doreios",
+    "key": "1:2",
+    "ranking": [
+      {
+        "index": 0,
+        "card": "baseline",
+        "scores": [
+          {
+            "opponent": "thaleia",
+            "seat": 0,
+            "halfPoints": 2,
+            "n": 8
+          },
+          {
+            "opponent": "thaleia",
+            "seat": 1,
+            "halfPoints": 6,
+            "n": 8
+          },
+          {
+            "opponent": "nereon",
+            "seat": 0,
+            "halfPoints": 5,
+            "n": 8
+          },
+          {
+            "opponent": "nereon",
+            "seat": 1,
+            "halfPoints": 8,
+            "n": 8
+          },
+          {
+            "opponent": "melia",
+            "seat": 0,
+            "halfPoints": 2,
+            "n": 8
+          },
+          {
+            "opponent": "melia",
+            "seat": 1,
+            "halfPoints": 2,
+            "n": 8
+          }
+        ],
+        "worst": 2,
+        "total": 25
+      },
+      {
+        "index": 5,
+        "card": "seed-keeper",
+        "scores": [
+          {
+            "opponent": "thaleia",
+            "seat": 0,
+            "halfPoints": 2,
+            "n": 8
+          },
+          {
+            "opponent": "thaleia",
+            "seat": 1,
+            "halfPoints": 6,
+            "n": 8
+          },
+          {
+            "opponent": "nereon",
+            "seat": 0,
+            "halfPoints": 5,
+            "n": 8
+          },
+          {
+            "opponent": "nereon",
+            "seat": 1,
+            "halfPoints": 8,
+            "n": 8
+          },
+          {
+            "opponent": "melia",
+            "seat": 0,
+            "halfPoints": 2,
+            "n": 8
+          },
+          {
+            "opponent": "melia",
+            "seat": 1,
+            "halfPoints": 2,
+            "n": 8
+          }
+        ],
+        "worst": 2,
+        "total": 25
+      },
+      {
+        "index": 1,
+        "card": null,
+        "scores": [
+          {
+            "opponent": "thaleia",
+            "seat": 0,
+            "halfPoints": 0,
+            "n": 8
+          },
+          {
+            "opponent": "thaleia",
+            "seat": 1,
+            "halfPoints": 1,
+            "n": 8
+          },
+          {
+            "opponent": "nereon",
+            "seat": 0,
+            "halfPoints": 2,
+            "n": 8
+          },
+          {
+            "opponent": "nereon",
+            "seat": 1,
+            "halfPoints": 4,
+            "n": 8
+          },
+          {
+            "opponent": "melia",
+            "seat": 0,
+            "halfPoints": 0,
+            "n": 8
+          },
+          {
+            "opponent": "melia",
+            "seat": 1,
+            "halfPoints": 1,
+            "n": 8
+          }
+        ],
+        "worst": 0,
+        "total": 8
+      }
+    ]
+  },
+  {
+    "leader": "doreios",
+    "key": "1:3",
+    "ranking": [
+      {
+        "index": 0,
+        "card": "baseline",
+        "scores": [
+          {
+            "opponent": "thaleia",
+            "seat": 0,
+            "halfPoints": 3,
+            "n": 8
+          },
+          {
+            "opponent": "thaleia",
+            "seat": 1,
+            "halfPoints": 7,
+            "n": 8
+          },
+          {
+            "opponent": "nereon",
+            "seat": 0,
+            "halfPoints": 2,
+            "n": 8
+          },
+          {
+            "opponent": "nereon",
+            "seat": 1,
+            "halfPoints": 7,
+            "n": 8
+          },
+          {
+            "opponent": "melia",
+            "seat": 0,
+            "halfPoints": 0,
+            "n": 8
+          },
+          {
+            "opponent": "melia",
+            "seat": 1,
+            "halfPoints": 2,
+            "n": 8
+          }
+        ],
+        "worst": 0,
+        "total": 21
+      },
+      {
+        "index": 8,
+        "card": "seed-keeper",
+        "scores": [
+          {
+            "opponent": "thaleia",
+            "seat": 0,
+            "halfPoints": 4,
+            "n": 8
+          },
+          {
+            "opponent": "thaleia",
+            "seat": 1,
+            "halfPoints": 7,
+            "n": 8
+          },
+          {
+            "opponent": "nereon",
+            "seat": 0,
+            "halfPoints": 1,
+            "n": 8
+          },
+          {
+            "opponent": "nereon",
+            "seat": 1,
+            "halfPoints": 6,
+            "n": 8
+          },
+          {
+            "opponent": "melia",
+            "seat": 0,
+            "halfPoints": 0,
+            "n": 8
+          },
+          {
+            "opponent": "melia",
+            "seat": 1,
+            "halfPoints": 3,
+            "n": 8
+          }
+        ],
+        "worst": 0,
+        "total": 21
+      },
+      {
+        "index": 2,
+        "card": "bronze-recruit",
+        "scores": [
+          {
+            "opponent": "thaleia",
+            "seat": 0,
+            "halfPoints": 0,
+            "n": 8
+          },
+          {
+            "opponent": "thaleia",
+            "seat": 1,
+            "halfPoints": 7,
+            "n": 8
+          },
+          {
+            "opponent": "nereon",
+            "seat": 0,
+            "halfPoints": 3,
+            "n": 8
+          },
+          {
+            "opponent": "nereon",
+            "seat": 1,
+            "halfPoints": 5,
+            "n": 8
+          },
+          {
+            "opponent": "melia",
+            "seat": 0,
+            "halfPoints": 0,
+            "n": 8
+          },
+          {
+            "opponent": "melia",
+            "seat": 1,
+            "halfPoints": 0,
+            "n": 8
+          }
+        ],
+        "worst": 0,
+        "total": 15
+      }
+    ]
+  },
+  {
+    "leader": "doreios",
+    "key": "1:4",
+    "ranking": [
+      {
+        "index": 0,
+        "card": "baseline",
+        "scores": [
+          {
+            "opponent": "thaleia",
+            "seat": 0,
+            "halfPoints": 3,
+            "n": 8
+          },
+          {
+            "opponent": "thaleia",
+            "seat": 1,
+            "halfPoints": 9,
+            "n": 8
+          },
+          {
+            "opponent": "nereon",
+            "seat": 0,
+            "halfPoints": 8,
+            "n": 8
+          },
+          {
+            "opponent": "nereon",
+            "seat": 1,
+            "halfPoints": 6,
+            "n": 8
+          },
+          {
+            "opponent": "melia",
+            "seat": 0,
+            "halfPoints": 2,
+            "n": 8
+          },
+          {
+            "opponent": "melia",
+            "seat": 1,
+            "halfPoints": 3,
+            "n": 8
+          }
+        ],
+        "worst": 2,
+        "total": 31
+      },
+      {
+        "index": 8,
+        "card": "harvest-feast",
+        "scores": [
+          {
+            "opponent": "thaleia",
+            "seat": 0,
+            "halfPoints": 3,
+            "n": 8
+          },
+          {
+            "opponent": "thaleia",
+            "seat": 1,
+            "halfPoints": 9,
+            "n": 8
+          },
+          {
+            "opponent": "nereon",
+            "seat": 0,
+            "halfPoints": 8,
+            "n": 8
+          },
+          {
+            "opponent": "nereon",
+            "seat": 1,
+            "halfPoints": 6,
+            "n": 8
+          },
+          {
+            "opponent": "melia",
+            "seat": 0,
+            "halfPoints": 2,
+            "n": 8
+          },
+          {
+            "opponent": "melia",
+            "seat": 1,
+            "halfPoints": 3,
+            "n": 8
+          }
+        ],
+        "worst": 2,
+        "total": 31
+      },
+      {
+        "index": 4,
+        "card": "drachma",
+        "scores": [
+          {
+            "opponent": "thaleia",
+            "seat": 0,
+            "halfPoints": 1,
+            "n": 8
+          },
+          {
+            "opponent": "thaleia",
+            "seat": 1,
+            "halfPoints": 7,
+            "n": 8
+          },
+          {
+            "opponent": "nereon",
+            "seat": 0,
+            "halfPoints": 5,
+            "n": 8
+          },
+          {
+            "opponent": "nereon",
+            "seat": 1,
+            "halfPoints": 5,
+            "n": 8
+          },
+          {
+            "opponent": "melia",
+            "seat": 0,
+            "halfPoints": 4,
+            "n": 8
+          },
+          {
+            "opponent": "melia",
+            "seat": 1,
+            "halfPoints": 6,
+            "n": 8
+          }
+        ],
+        "worst": 1,
+        "total": 28
+      }
+    ]
+  },
+  {
+    "leader": "doreios",
+    "key": "1:5",
+    "ranking": [
+      {
+        "index": 13,
+        "card": "sacred-academy",
+        "scores": [
+          {
+            "opponent": "thaleia",
+            "seat": 0,
+            "halfPoints": 2,
+            "n": 8
+          },
+          {
+            "opponent": "thaleia",
+            "seat": 1,
+            "halfPoints": 6,
+            "n": 8
+          },
+          {
+            "opponent": "nereon",
+            "seat": 0,
+            "halfPoints": 4,
+            "n": 8
+          },
+          {
+            "opponent": "nereon",
+            "seat": 1,
+            "halfPoints": 9,
+            "n": 8
+          },
+          {
+            "opponent": "melia",
+            "seat": 0,
+            "halfPoints": 0,
+            "n": 8
+          },
+          {
+            "opponent": "melia",
+            "seat": 1,
+            "halfPoints": 0,
+            "n": 8
+          }
+        ],
+        "worst": 0,
+        "total": 21
+      },
+      {
+        "index": 0,
+        "card": "baseline",
+        "scores": [
+          {
+            "opponent": "thaleia",
+            "seat": 0,
+            "halfPoints": 2,
+            "n": 8
+          },
+          {
+            "opponent": "thaleia",
+            "seat": 1,
+            "halfPoints": 2,
+            "n": 8
+          },
+          {
+            "opponent": "nereon",
+            "seat": 0,
+            "halfPoints": 2,
+            "n": 8
+          },
+          {
+            "opponent": "nereon",
+            "seat": 1,
+            "halfPoints": 5,
+            "n": 8
+          },
+          {
+            "opponent": "melia",
+            "seat": 0,
+            "halfPoints": 0,
+            "n": 8
+          },
+          {
+            "opponent": "melia",
+            "seat": 1,
+            "halfPoints": 0,
+            "n": 8
+          }
+        ],
+        "worst": 0,
+        "total": 11
+      },
+      {
+        "index": 9,
+        "card": "merchant-fleet",
+        "scores": [
+          {
+            "opponent": "thaleia",
+            "seat": 0,
+            "halfPoints": 2,
+            "n": 8
+          },
+          {
+            "opponent": "thaleia",
+            "seat": 1,
+            "halfPoints": 2,
+            "n": 8
+          },
+          {
+            "opponent": "nereon",
+            "seat": 0,
+            "halfPoints": 2,
+            "n": 8
+          },
+          {
+            "opponent": "nereon",
+            "seat": 1,
+            "halfPoints": 5,
+            "n": 8
+          },
+          {
+            "opponent": "melia",
+            "seat": 0,
+            "halfPoints": 0,
+            "n": 8
+          },
+          {
+            "opponent": "melia",
+            "seat": 1,
+            "halfPoints": 0,
+            "n": 8
+          }
+        ],
+        "worst": 0,
+        "total": 11
+      }
+    ]
+  },
+  {
+    "leader": "thaleia",
+    "key": "2:1",
+    "ranking": [
+      {
+        "index": 0,
+        "card": "baseline",
+        "scores": [
+          {
+            "opponent": "nereon",
+            "seat": 0,
+            "halfPoints": 4,
+            "n": 8
+          },
+          {
+            "opponent": "nereon",
+            "seat": 1,
+            "halfPoints": 6,
+            "n": 8
+          },
+          {
+            "opponent": "melia",
+            "seat": 0,
+            "halfPoints": 2,
+            "n": 8
+          },
+          {
+            "opponent": "melia",
+            "seat": 1,
+            "halfPoints": 9,
+            "n": 8
+          },
+          {
+            "opponent": "doreios",
+            "seat": 0,
+            "halfPoints": 6,
+            "n": 8
+          },
+          {
+            "opponent": "doreios",
+            "seat": 1,
+            "halfPoints": 10,
+            "n": 8
+          }
+        ],
+        "worst": 2,
+        "total": 37
+      },
+      {
+        "index": 1,
+        "card": null,
+        "scores": [
+          {
+            "opponent": "nereon",
+            "seat": 0,
+            "halfPoints": 4,
+            "n": 8
+          },
+          {
+            "opponent": "nereon",
+            "seat": 1,
+            "halfPoints": 6,
+            "n": 8
+          },
+          {
+            "opponent": "melia",
+            "seat": 0,
+            "halfPoints": 2,
+            "n": 8
+          },
+          {
+            "opponent": "melia",
+            "seat": 1,
+            "halfPoints": 9,
+            "n": 8
+          },
+          {
+            "opponent": "doreios",
+            "seat": 0,
+            "halfPoints": 6,
+            "n": 8
+          },
+          {
+            "opponent": "doreios",
+            "seat": 1,
+            "halfPoints": 10,
+            "n": 8
+          }
+        ],
+        "worst": 2,
+        "total": 37
+      },
+      {
+        "index": 2,
+        "card": "obol",
+        "scores": [
+          {
+            "opponent": "nereon",
+            "seat": 0,
+            "halfPoints": 2,
+            "n": 8
+          },
+          {
+            "opponent": "nereon",
+            "seat": 1,
+            "halfPoints": 3,
+            "n": 8
+          },
+          {
+            "opponent": "melia",
+            "seat": 0,
+            "halfPoints": 1,
+            "n": 8
+          },
+          {
+            "opponent": "melia",
+            "seat": 1,
+            "halfPoints": 8,
+            "n": 8
+          },
+          {
+            "opponent": "doreios",
+            "seat": 0,
+            "halfPoints": 5,
+            "n": 8
+          },
+          {
+            "opponent": "doreios",
+            "seat": 1,
+            "halfPoints": 11,
+            "n": 8
+          }
+        ],
+        "worst": 1,
+        "total": 30
+      }
+    ]
+  },
+  {
+    "leader": "thaleia",
+    "key": "2:2",
+    "ranking": [
+      {
+        "index": 1,
+        "card": null,
+        "scores": [
+          {
+            "opponent": "nereon",
+            "seat": 0,
+            "halfPoints": 6,
+            "n": 8
+          },
+          {
+            "opponent": "nereon",
+            "seat": 1,
+            "halfPoints": 12,
+            "n": 8
+          },
+          {
+            "opponent": "melia",
+            "seat": 0,
+            "halfPoints": 9,
+            "n": 8
+          },
+          {
+            "opponent": "melia",
+            "seat": 1,
+            "halfPoints": 13,
+            "n": 8
+          },
+          {
+            "opponent": "doreios",
+            "seat": 0,
+            "halfPoints": 14,
+            "n": 8
+          },
+          {
+            "opponent": "doreios",
+            "seat": 1,
+            "halfPoints": 15,
+            "n": 8
+          }
+        ],
+        "worst": 6,
+        "total": 69
+      },
+      {
+        "index": 0,
+        "card": "baseline",
+        "scores": [
+          {
+            "opponent": "nereon",
+            "seat": 0,
+            "halfPoints": 3,
+            "n": 8
+          },
+          {
+            "opponent": "nereon",
+            "seat": 1,
+            "halfPoints": 10,
+            "n": 8
+          },
+          {
+            "opponent": "melia",
+            "seat": 0,
+            "halfPoints": 4,
+            "n": 8
+          },
+          {
+            "opponent": "melia",
+            "seat": 1,
+            "halfPoints": 10,
+            "n": 8
+          },
+          {
+            "opponent": "doreios",
+            "seat": 0,
+            "halfPoints": 10,
+            "n": 8
+          },
+          {
+            "opponent": "doreios",
+            "seat": 1,
+            "halfPoints": 12,
+            "n": 8
+          }
+        ],
+        "worst": 3,
+        "total": 49
+      },
+      {
+        "index": 3,
+        "card": "obol",
+        "scores": [
+          {
+            "opponent": "nereon",
+            "seat": 0,
+            "halfPoints": 3,
+            "n": 8
+          },
+          {
+            "opponent": "nereon",
+            "seat": 1,
+            "halfPoints": 9,
+            "n": 8
+          },
+          {
+            "opponent": "melia",
+            "seat": 0,
+            "halfPoints": 3,
+            "n": 8
+          },
+          {
+            "opponent": "melia",
+            "seat": 1,
+            "halfPoints": 7,
+            "n": 8
+          },
+          {
+            "opponent": "doreios",
+            "seat": 0,
+            "halfPoints": 10,
+            "n": 8
+          },
+          {
+            "opponent": "doreios",
+            "seat": 1,
+            "halfPoints": 10,
+            "n": 8
+          }
+        ],
+        "worst": 3,
+        "total": 42
+      }
+    ]
+  },
+  {
+    "leader": "thaleia",
+    "key": "2:3",
+    "ranking": [
+      {
+        "index": 0,
+        "card": "baseline",
+        "scores": [
+          {
+            "opponent": "nereon",
+            "seat": 0,
+            "halfPoints": 5,
+            "n": 8
+          },
+          {
+            "opponent": "nereon",
+            "seat": 1,
+            "halfPoints": 10,
+            "n": 8
+          },
+          {
+            "opponent": "melia",
+            "seat": 0,
+            "halfPoints": 6,
+            "n": 8
+          },
+          {
+            "opponent": "melia",
+            "seat": 1,
+            "halfPoints": 8,
+            "n": 8
+          },
+          {
+            "opponent": "doreios",
+            "seat": 0,
+            "halfPoints": 4,
+            "n": 8
+          },
+          {
+            "opponent": "doreios",
+            "seat": 1,
+            "halfPoints": 12,
+            "n": 8
+          }
+        ],
+        "worst": 4,
+        "total": 45
+      },
+      {
+        "index": 3,
+        "card": "drachma",
+        "scores": [
+          {
+            "opponent": "nereon",
+            "seat": 0,
+            "halfPoints": 3,
+            "n": 8
+          },
+          {
+            "opponent": "nereon",
+            "seat": 1,
+            "halfPoints": 2,
+            "n": 8
+          },
+          {
+            "opponent": "melia",
+            "seat": 0,
+            "halfPoints": 2,
+            "n": 8
+          },
+          {
+            "opponent": "melia",
+            "seat": 1,
+            "halfPoints": 4,
+            "n": 8
+          },
+          {
+            "opponent": "doreios",
+            "seat": 0,
+            "halfPoints": 1,
+            "n": 8
+          },
+          {
+            "opponent": "doreios",
+            "seat": 1,
+            "halfPoints": 10,
+            "n": 8
+          }
+        ],
+        "worst": 1,
+        "total": 22
+      },
+      {
+        "index": 7,
+        "card": "oracles-acolyte",
+        "scores": [
+          {
+            "opponent": "nereon",
+            "seat": 0,
+            "halfPoints": 3,
+            "n": 8
+          },
+          {
+            "opponent": "nereon",
+            "seat": 1,
+            "halfPoints": 5,
+            "n": 8
+          },
+          {
+            "opponent": "melia",
+            "seat": 0,
+            "halfPoints": 0,
+            "n": 8
+          },
+          {
+            "opponent": "melia",
+            "seat": 1,
+            "halfPoints": 5,
+            "n": 8
+          },
+          {
+            "opponent": "doreios",
+            "seat": 0,
+            "halfPoints": 4,
+            "n": 8
+          },
+          {
+            "opponent": "doreios",
+            "seat": 1,
+            "halfPoints": 9,
+            "n": 8
+          }
+        ],
+        "worst": 0,
+        "total": 26
+      },
+      {
+        "index": 5,
+        "card": "harbor-pilot",
+        "scores": [
+          {
+            "opponent": "nereon",
+            "seat": 0,
+            "halfPoints": 4,
+            "n": 8
+          },
+          {
+            "opponent": "nereon",
+            "seat": 1,
+            "halfPoints": 0,
+            "n": 8
+          },
+          {
+            "opponent": "melia",
+            "seat": 0,
+            "halfPoints": 0,
+            "n": 8
+          },
+          {
+            "opponent": "melia",
+            "seat": 1,
+            "halfPoints": 0,
+            "n": 8
+          },
+          {
+            "opponent": "doreios",
+            "seat": 0,
+            "halfPoints": 4,
+            "n": 8
+          },
+          {
+            "opponent": "doreios",
+            "seat": 1,
+            "halfPoints": 8,
+            "n": 8
+          }
+        ],
+        "worst": 0,
+        "total": 16
+      }
+    ]
+  },
+  {
+    "leader": "thaleia",
+    "key": "2:4",
+    "ranking": [
+      {
+        "index": 0,
+        "card": "baseline",
+        "scores": [
+          {
+            "opponent": "nereon",
+            "seat": 0,
+            "halfPoints": 9,
+            "n": 8
+          },
+          {
+            "opponent": "nereon",
+            "seat": 1,
+            "halfPoints": 9,
+            "n": 8
+          },
+          {
+            "opponent": "melia",
+            "seat": 0,
+            "halfPoints": 10,
+            "n": 8
+          },
+          {
+            "opponent": "melia",
+            "seat": 1,
+            "halfPoints": 11,
+            "n": 8
+          },
+          {
+            "opponent": "doreios",
+            "seat": 0,
+            "halfPoints": 9,
+            "n": 8
+          },
+          {
+            "opponent": "doreios",
+            "seat": 1,
+            "halfPoints": 11,
+            "n": 8
+          }
+        ],
+        "worst": 9,
+        "total": 59
+      },
+      {
+        "index": 3,
+        "card": "council-of-sages",
+        "scores": [
+          {
+            "opponent": "nereon",
+            "seat": 0,
+            "halfPoints": 9,
+            "n": 8
+          },
+          {
+            "opponent": "nereon",
+            "seat": 1,
+            "halfPoints": 9,
+            "n": 8
+          },
+          {
+            "opponent": "melia",
+            "seat": 0,
+            "halfPoints": 10,
+            "n": 8
+          },
+          {
+            "opponent": "melia",
+            "seat": 1,
+            "halfPoints": 11,
+            "n": 8
+          },
+          {
+            "opponent": "doreios",
+            "seat": 0,
+            "halfPoints": 9,
+            "n": 8
+          },
+          {
+            "opponent": "doreios",
+            "seat": 1,
+            "halfPoints": 11,
+            "n": 8
+          }
+        ],
+        "worst": 9,
+        "total": 59
+      },
+      {
+        "index": 8,
+        "card": "harvest-feast",
+        "scores": [
+          {
+            "opponent": "nereon",
+            "seat": 0,
+            "halfPoints": 0,
+            "n": 8
+          },
+          {
+            "opponent": "nereon",
+            "seat": 1,
+            "halfPoints": 9,
+            "n": 8
+          },
+          {
+            "opponent": "melia",
+            "seat": 0,
+            "halfPoints": 4,
+            "n": 8
+          },
+          {
+            "opponent": "melia",
+            "seat": 1,
+            "halfPoints": 10,
+            "n": 8
+          },
+          {
+            "opponent": "doreios",
+            "seat": 0,
+            "halfPoints": 6,
+            "n": 8
+          },
+          {
+            "opponent": "doreios",
+            "seat": 1,
+            "halfPoints": 9,
+            "n": 8
+          }
+        ],
+        "worst": 0,
+        "total": 38
+      }
+    ]
+  },
+  {
+    "leader": "thaleia",
+    "key": "2:5",
+    "ranking": [
+      {
+        "index": 0,
+        "card": "baseline",
+        "scores": [
+          {
+            "opponent": "nereon",
+            "seat": 0,
+            "halfPoints": 5,
+            "n": 8
+          },
+          {
+            "opponent": "nereon",
+            "seat": 1,
+            "halfPoints": 10,
+            "n": 8
+          },
+          {
+            "opponent": "melia",
+            "seat": 0,
+            "halfPoints": 10,
+            "n": 8
+          },
+          {
+            "opponent": "melia",
+            "seat": 1,
+            "halfPoints": 9,
+            "n": 8
+          },
+          {
+            "opponent": "doreios",
+            "seat": 0,
+            "halfPoints": 5,
+            "n": 8
+          },
+          {
+            "opponent": "doreios",
+            "seat": 1,
+            "halfPoints": 8,
+            "n": 8
+          }
+        ],
+        "worst": 5,
+        "total": 47
+      },
+      {
+        "index": 5,
+        "card": "forge-of-heroes",
+        "scores": [
+          {
+            "opponent": "nereon",
+            "seat": 0,
+            "halfPoints": 5,
+            "n": 8
+          },
+          {
+            "opponent": "nereon",
+            "seat": 1,
+            "halfPoints": 10,
+            "n": 8
+          },
+          {
+            "opponent": "melia",
+            "seat": 0,
+            "halfPoints": 10,
+            "n": 8
+          },
+          {
+            "opponent": "melia",
+            "seat": 1,
+            "halfPoints": 9,
+            "n": 8
+          },
+          {
+            "opponent": "doreios",
+            "seat": 0,
+            "halfPoints": 5,
+            "n": 8
+          },
+          {
+            "opponent": "doreios",
+            "seat": 1,
+            "halfPoints": 8,
+            "n": 8
+          }
+        ],
+        "worst": 5,
+        "total": 47
+      },
+      {
+        "index": 3,
+        "card": "council-of-sages",
+        "scores": [
+          {
+            "opponent": "nereon",
+            "seat": 0,
+            "halfPoints": 0,
+            "n": 8
+          },
+          {
+            "opponent": "nereon",
+            "seat": 1,
+            "halfPoints": 9,
+            "n": 8
+          },
+          {
+            "opponent": "melia",
+            "seat": 0,
+            "halfPoints": 6,
+            "n": 8
+          },
+          {
+            "opponent": "melia",
+            "seat": 1,
+            "halfPoints": 5,
+            "n": 8
+          },
+          {
+            "opponent": "doreios",
+            "seat": 0,
+            "halfPoints": 8,
+            "n": 8
+          },
+          {
+            "opponent": "doreios",
+            "seat": 1,
+            "halfPoints": 7,
+            "n": 8
+          }
+        ],
+        "worst": 0,
+        "total": 35
+      }
+    ]
+  },
+  {
+    "leader": "nereon",
+    "key": "2:2",
+    "ranking": [
+      {
+        "index": 0,
+        "card": "baseline",
+        "scores": [
+          {
+            "opponent": "thaleia",
+            "seat": 0,
+            "halfPoints": 10,
+            "n": 8
+          },
+          {
+            "opponent": "thaleia",
+            "seat": 1,
+            "halfPoints": 13,
+            "n": 8
+          },
+          {
+            "opponent": "melia",
+            "seat": 0,
+            "halfPoints": 9,
+            "n": 8
+          },
+          {
+            "opponent": "melia",
+            "seat": 1,
+            "halfPoints": 6,
+            "n": 8
+          },
+          {
+            "opponent": "doreios",
+            "seat": 0,
+            "halfPoints": 12,
+            "n": 8
+          },
+          {
+            "opponent": "doreios",
+            "seat": 1,
+            "halfPoints": 14,
+            "n": 8
+          }
+        ],
+        "worst": 6,
+        "total": 64
+      },
+      {
+        "index": 5,
+        "card": "seed-keeper",
+        "scores": [
+          {
+            "opponent": "thaleia",
+            "seat": 0,
+            "halfPoints": 10,
+            "n": 8
+          },
+          {
+            "opponent": "thaleia",
+            "seat": 1,
+            "halfPoints": 13,
+            "n": 8
+          },
+          {
+            "opponent": "melia",
+            "seat": 0,
+            "halfPoints": 9,
+            "n": 8
+          },
+          {
+            "opponent": "melia",
+            "seat": 1,
+            "halfPoints": 6,
+            "n": 8
+          },
+          {
+            "opponent": "doreios",
+            "seat": 0,
+            "halfPoints": 12,
+            "n": 8
+          },
+          {
+            "opponent": "doreios",
+            "seat": 1,
+            "halfPoints": 14,
+            "n": 8
+          }
+        ],
+        "worst": 6,
+        "total": 64
+      },
+      {
+        "index": 1,
+        "card": null,
+        "scores": [
+          {
+            "opponent": "thaleia",
+            "seat": 0,
+            "halfPoints": 5,
+            "n": 8
+          },
+          {
+            "opponent": "thaleia",
+            "seat": 1,
+            "halfPoints": 7,
+            "n": 8
+          },
+          {
+            "opponent": "melia",
+            "seat": 0,
+            "halfPoints": 2,
+            "n": 8
+          },
+          {
+            "opponent": "melia",
+            "seat": 1,
+            "halfPoints": 1,
+            "n": 8
+          },
+          {
+            "opponent": "doreios",
+            "seat": 0,
+            "halfPoints": 10,
+            "n": 8
+          },
+          {
+            "opponent": "doreios",
+            "seat": 1,
+            "halfPoints": 9,
+            "n": 8
+          }
+        ],
+        "worst": 1,
+        "total": 34
+      }
+    ]
+  },
+  {
+    "leader": "nereon",
+    "key": "2:3",
+    "ranking": [
+      {
+        "index": 0,
+        "card": "baseline",
+        "scores": [
+          {
+            "opponent": "thaleia",
+            "seat": 0,
+            "halfPoints": 9,
+            "n": 8
+          },
+          {
+            "opponent": "thaleia",
+            "seat": 1,
+            "halfPoints": 9,
+            "n": 8
+          },
+          {
+            "opponent": "melia",
+            "seat": 0,
+            "halfPoints": 4,
+            "n": 8
+          },
+          {
+            "opponent": "melia",
+            "seat": 1,
+            "halfPoints": 6,
+            "n": 8
+          },
+          {
+            "opponent": "doreios",
+            "seat": 0,
+            "halfPoints": 10,
+            "n": 8
+          },
+          {
+            "opponent": "doreios",
+            "seat": 1,
+            "halfPoints": 7,
+            "n": 8
+          }
+        ],
+        "worst": 4,
+        "total": 45
+      },
+      {
+        "index": 8,
+        "card": "seed-keeper",
+        "scores": [
+          {
+            "opponent": "thaleia",
+            "seat": 0,
+            "halfPoints": 9,
+            "n": 8
+          },
+          {
+            "opponent": "thaleia",
+            "seat": 1,
+            "halfPoints": 9,
+            "n": 8
+          },
+          {
+            "opponent": "melia",
+            "seat": 0,
+            "halfPoints": 4,
+            "n": 8
+          },
+          {
+            "opponent": "melia",
+            "seat": 1,
+            "halfPoints": 6,
+            "n": 8
+          },
+          {
+            "opponent": "doreios",
+            "seat": 0,
+            "halfPoints": 10,
+            "n": 8
+          },
+          {
+            "opponent": "doreios",
+            "seat": 1,
+            "halfPoints": 7,
+            "n": 8
+          }
+        ],
+        "worst": 4,
+        "total": 45
+      },
+      {
+        "index": 1,
+        "card": null,
+        "scores": [
+          {
+            "opponent": "thaleia",
+            "seat": 0,
+            "halfPoints": 1,
+            "n": 8
+          },
+          {
+            "opponent": "thaleia",
+            "seat": 1,
+            "halfPoints": 3,
+            "n": 8
+          },
+          {
+            "opponent": "melia",
+            "seat": 0,
+            "halfPoints": 1,
+            "n": 8
+          },
+          {
+            "opponent": "melia",
+            "seat": 1,
+            "halfPoints": 0,
+            "n": 8
+          },
+          {
+            "opponent": "doreios",
+            "seat": 0,
+            "halfPoints": 7,
+            "n": 8
+          },
+          {
+            "opponent": "doreios",
+            "seat": 1,
+            "halfPoints": 2,
+            "n": 8
+          }
+        ],
+        "worst": 0,
+        "total": 14
+      }
+    ]
+  },
+  {
+    "leader": "nereon",
+    "key": "2:4",
+    "ranking": [
+      {
+        "index": 4,
+        "card": "drachma",
+        "scores": [
+          {
+            "opponent": "thaleia",
+            "seat": 0,
+            "halfPoints": 4,
+            "n": 8
+          },
+          {
+            "opponent": "thaleia",
+            "seat": 1,
+            "halfPoints": 11,
+            "n": 8
+          },
+          {
+            "opponent": "melia",
+            "seat": 0,
+            "halfPoints": 3,
+            "n": 8
+          },
+          {
+            "opponent": "melia",
+            "seat": 1,
+            "halfPoints": 5,
+            "n": 8
+          },
+          {
+            "opponent": "doreios",
+            "seat": 0,
+            "halfPoints": 7,
+            "n": 8
+          },
+          {
+            "opponent": "doreios",
+            "seat": 1,
+            "halfPoints": 5,
+            "n": 8
+          }
+        ],
+        "worst": 3,
+        "total": 35
+      },
+      {
+        "index": 0,
+        "card": "baseline",
+        "scores": [
+          {
+            "opponent": "thaleia",
+            "seat": 0,
+            "halfPoints": 3,
+            "n": 8
+          },
+          {
+            "opponent": "thaleia",
+            "seat": 1,
+            "halfPoints": 11,
+            "n": 8
+          },
+          {
+            "opponent": "melia",
+            "seat": 0,
+            "halfPoints": 1,
+            "n": 8
+          },
+          {
+            "opponent": "melia",
+            "seat": 1,
+            "halfPoints": 5,
+            "n": 8
+          },
+          {
+            "opponent": "doreios",
+            "seat": 0,
+            "halfPoints": 6,
+            "n": 8
+          },
+          {
+            "opponent": "doreios",
+            "seat": 1,
+            "halfPoints": 10,
+            "n": 8
+          }
+        ],
+        "worst": 1,
+        "total": 36
+      },
+      {
+        "index": 8,
+        "card": "harvest-feast",
+        "scores": [
+          {
+            "opponent": "thaleia",
+            "seat": 0,
+            "halfPoints": 3,
+            "n": 8
+          },
+          {
+            "opponent": "thaleia",
+            "seat": 1,
+            "halfPoints": 11,
+            "n": 8
+          },
+          {
+            "opponent": "melia",
+            "seat": 0,
+            "halfPoints": 1,
+            "n": 8
+          },
+          {
+            "opponent": "melia",
+            "seat": 1,
+            "halfPoints": 5,
+            "n": 8
+          },
+          {
+            "opponent": "doreios",
+            "seat": 0,
+            "halfPoints": 6,
+            "n": 8
+          },
+          {
+            "opponent": "doreios",
+            "seat": 1,
+            "halfPoints": 10,
+            "n": 8
+          }
+        ],
+        "worst": 1,
+        "total": 36
+      }
+    ]
+  },
+  {
+    "leader": "nereon",
+    "key": "2:5",
+    "ranking": [
+      {
+        "index": 0,
+        "card": "baseline",
+        "scores": [
+          {
+            "opponent": "thaleia",
+            "seat": 0,
+            "halfPoints": 12,
+            "n": 8
+          },
+          {
+            "opponent": "thaleia",
+            "seat": 1,
+            "halfPoints": 15,
+            "n": 8
+          },
+          {
+            "opponent": "melia",
+            "seat": 0,
+            "halfPoints": 5,
+            "n": 8
+          },
+          {
+            "opponent": "melia",
+            "seat": 1,
+            "halfPoints": 7,
+            "n": 8
+          },
+          {
+            "opponent": "doreios",
+            "seat": 0,
+            "halfPoints": 14,
+            "n": 8
+          },
+          {
+            "opponent": "doreios",
+            "seat": 1,
+            "halfPoints": 11,
+            "n": 8
+          }
+        ],
+        "worst": 5,
+        "total": 64
+      },
+      {
+        "index": 9,
+        "card": "merchant-fleet",
+        "scores": [
+          {
+            "opponent": "thaleia",
+            "seat": 0,
+            "halfPoints": 12,
+            "n": 8
+          },
+          {
+            "opponent": "thaleia",
+            "seat": 1,
+            "halfPoints": 15,
+            "n": 8
+          },
+          {
+            "opponent": "melia",
+            "seat": 0,
+            "halfPoints": 5,
+            "n": 8
+          },
+          {
+            "opponent": "melia",
+            "seat": 1,
+            "halfPoints": 7,
+            "n": 8
+          },
+          {
+            "opponent": "doreios",
+            "seat": 0,
+            "halfPoints": 14,
+            "n": 8
+          },
+          {
+            "opponent": "doreios",
+            "seat": 1,
+            "halfPoints": 11,
+            "n": 8
+          }
+        ],
+        "worst": 5,
+        "total": 64
+      },
+      {
+        "index": 7,
+        "card": "harbor-pilot",
+        "scores": [
+          {
+            "opponent": "thaleia",
+            "seat": 0,
+            "halfPoints": 2,
+            "n": 8
+          },
+          {
+            "opponent": "thaleia",
+            "seat": 1,
+            "halfPoints": 9,
+            "n": 8
+          },
+          {
+            "opponent": "melia",
+            "seat": 0,
+            "halfPoints": 1,
+            "n": 8
+          },
+          {
+            "opponent": "melia",
+            "seat": 1,
+            "halfPoints": 2,
+            "n": 8
+          },
+          {
+            "opponent": "doreios",
+            "seat": 0,
+            "halfPoints": 5,
+            "n": 8
+          },
+          {
+            "opponent": "doreios",
+            "seat": 1,
+            "halfPoints": 7,
+            "n": 8
+          }
+        ],
+        "worst": 1,
+        "total": 26
+      }
+    ]
+  },
+  {
+    "leader": "melia",
+    "key": "2:2",
+    "ranking": [
+      {
+        "index": 0,
+        "card": "baseline",
+        "scores": [
+          {
+            "opponent": "thaleia",
+            "seat": 0,
+            "halfPoints": 5,
+            "n": 8
+          },
+          {
+            "opponent": "thaleia",
+            "seat": 1,
+            "halfPoints": 11,
+            "n": 8
+          },
+          {
+            "opponent": "nereon",
+            "seat": 0,
+            "halfPoints": 6,
+            "n": 8
+          },
+          {
+            "opponent": "nereon",
+            "seat": 1,
+            "halfPoints": 6,
+            "n": 8
+          },
+          {
+            "opponent": "doreios",
+            "seat": 0,
+            "halfPoints": 6,
+            "n": 8
+          },
+          {
+            "opponent": "doreios",
+            "seat": 1,
+            "halfPoints": 12,
+            "n": 8
+          }
+        ],
+        "worst": 5,
+        "total": 46
+      },
+      {
+        "index": 5,
+        "card": "seed-keeper",
+        "scores": [
+          {
+            "opponent": "thaleia",
+            "seat": 0,
+            "halfPoints": 5,
+            "n": 8
+          },
+          {
+            "opponent": "thaleia",
+            "seat": 1,
+            "halfPoints": 11,
+            "n": 8
+          },
+          {
+            "opponent": "nereon",
+            "seat": 0,
+            "halfPoints": 6,
+            "n": 8
+          },
+          {
+            "opponent": "nereon",
+            "seat": 1,
+            "halfPoints": 6,
+            "n": 8
+          },
+          {
+            "opponent": "doreios",
+            "seat": 0,
+            "halfPoints": 6,
+            "n": 8
+          },
+          {
+            "opponent": "doreios",
+            "seat": 1,
+            "halfPoints": 12,
+            "n": 8
+          }
+        ],
+        "worst": 5,
+        "total": 46
+      },
+      {
+        "index": 1,
+        "card": null,
+        "scores": [
+          {
+            "opponent": "thaleia",
+            "seat": 0,
+            "halfPoints": 4,
+            "n": 8
+          },
+          {
+            "opponent": "thaleia",
+            "seat": 1,
+            "halfPoints": 2,
+            "n": 8
+          },
+          {
+            "opponent": "nereon",
+            "seat": 0,
+            "halfPoints": 3,
+            "n": 8
+          },
+          {
+            "opponent": "nereon",
+            "seat": 1,
+            "halfPoints": 4,
+            "n": 8
+          },
+          {
+            "opponent": "doreios",
+            "seat": 0,
+            "halfPoints": 3,
+            "n": 8
+          },
+          {
+            "opponent": "doreios",
+            "seat": 1,
+            "halfPoints": 11,
+            "n": 8
+          }
+        ],
+        "worst": 2,
+        "total": 27
+      }
+    ]
+  },
+  {
+    "leader": "melia",
+    "key": "2:3",
+    "ranking": [
+      {
+        "index": 0,
+        "card": "baseline",
+        "scores": [
+          {
+            "opponent": "thaleia",
+            "seat": 0,
+            "halfPoints": 8,
+            "n": 8
+          },
+          {
+            "opponent": "thaleia",
+            "seat": 1,
+            "halfPoints": 8,
+            "n": 8
+          },
+          {
+            "opponent": "nereon",
+            "seat": 0,
+            "halfPoints": 2,
+            "n": 8
+          },
+          {
+            "opponent": "nereon",
+            "seat": 1,
+            "halfPoints": 11,
+            "n": 8
+          },
+          {
+            "opponent": "doreios",
+            "seat": 0,
+            "halfPoints": 11,
+            "n": 8
+          },
+          {
+            "opponent": "doreios",
+            "seat": 1,
+            "halfPoints": 15,
+            "n": 8
+          }
+        ],
+        "worst": 2,
+        "total": 55
+      },
+      {
+        "index": 8,
+        "card": "seed-keeper",
+        "scores": [
+          {
+            "opponent": "thaleia",
+            "seat": 0,
+            "halfPoints": 8,
+            "n": 8
+          },
+          {
+            "opponent": "thaleia",
+            "seat": 1,
+            "halfPoints": 8,
+            "n": 8
+          },
+          {
+            "opponent": "nereon",
+            "seat": 0,
+            "halfPoints": 2,
+            "n": 8
+          },
+          {
+            "opponent": "nereon",
+            "seat": 1,
+            "halfPoints": 11,
+            "n": 8
+          },
+          {
+            "opponent": "doreios",
+            "seat": 0,
+            "halfPoints": 11,
+            "n": 8
+          },
+          {
+            "opponent": "doreios",
+            "seat": 1,
+            "halfPoints": 15,
+            "n": 8
+          }
+        ],
+        "worst": 2,
+        "total": 55
+      },
+      {
+        "index": 1,
+        "card": null,
+        "scores": [
+          {
+            "opponent": "thaleia",
+            "seat": 0,
+            "halfPoints": 5,
+            "n": 8
+          },
+          {
+            "opponent": "thaleia",
+            "seat": 1,
+            "halfPoints": 1,
+            "n": 8
+          },
+          {
+            "opponent": "nereon",
+            "seat": 0,
+            "halfPoints": 0,
+            "n": 8
+          },
+          {
+            "opponent": "nereon",
+            "seat": 1,
+            "halfPoints": 2,
+            "n": 8
+          },
+          {
+            "opponent": "doreios",
+            "seat": 0,
+            "halfPoints": 6,
+            "n": 8
+          },
+          {
+            "opponent": "doreios",
+            "seat": 1,
+            "halfPoints": 9,
+            "n": 8
+          }
+        ],
+        "worst": 0,
+        "total": 23
+      }
+    ]
+  },
+  {
+    "leader": "melia",
+    "key": "2:4",
+    "ranking": [
+      {
+        "index": 0,
+        "card": "baseline",
+        "scores": [
+          {
+            "opponent": "thaleia",
+            "seat": 0,
+            "halfPoints": 4,
+            "n": 8
+          },
+          {
+            "opponent": "thaleia",
+            "seat": 1,
+            "halfPoints": 11,
+            "n": 8
+          },
+          {
+            "opponent": "nereon",
+            "seat": 0,
+            "halfPoints": 5,
+            "n": 8
+          },
+          {
+            "opponent": "nereon",
+            "seat": 1,
+            "halfPoints": 9,
+            "n": 8
+          },
+          {
+            "opponent": "doreios",
+            "seat": 0,
+            "halfPoints": 6,
+            "n": 8
+          },
+          {
+            "opponent": "doreios",
+            "seat": 1,
+            "halfPoints": 14,
+            "n": 8
+          }
+        ],
+        "worst": 4,
+        "total": 49
+      },
+      {
+        "index": 12,
+        "card": "seed-keeper",
+        "scores": [
+          {
+            "opponent": "thaleia",
+            "seat": 0,
+            "halfPoints": 1,
+            "n": 8
+          },
+          {
+            "opponent": "thaleia",
+            "seat": 1,
+            "halfPoints": 5,
+            "n": 8
+          },
+          {
+            "opponent": "nereon",
+            "seat": 0,
+            "halfPoints": 2,
+            "n": 8
+          },
+          {
+            "opponent": "nereon",
+            "seat": 1,
+            "halfPoints": 8,
+            "n": 8
+          },
+          {
+            "opponent": "doreios",
+            "seat": 0,
+            "halfPoints": 7,
+            "n": 8
+          },
+          {
+            "opponent": "doreios",
+            "seat": 1,
+            "halfPoints": 9,
+            "n": 8
+          }
+        ],
+        "worst": 1,
+        "total": 32
+      },
+      {
+        "index": 3,
+        "card": "council-of-sages",
+        "scores": [
+          {
+            "opponent": "thaleia",
+            "seat": 0,
+            "halfPoints": 0,
+            "n": 8
+          },
+          {
+            "opponent": "thaleia",
+            "seat": 1,
+            "halfPoints": 3,
+            "n": 8
+          },
+          {
+            "opponent": "nereon",
+            "seat": 0,
+            "halfPoints": 0,
+            "n": 8
+          },
+          {
+            "opponent": "nereon",
+            "seat": 1,
+            "halfPoints": 4,
+            "n": 8
+          },
+          {
+            "opponent": "doreios",
+            "seat": 0,
+            "halfPoints": 9,
+            "n": 8
+          },
+          {
+            "opponent": "doreios",
+            "seat": 1,
+            "halfPoints": 10,
+            "n": 8
+          }
+        ],
+        "worst": 0,
+        "total": 26
+      }
+    ]
+  },
+  {
+    "leader": "melia",
+    "key": "2:5",
+    "ranking": [
+      {
+        "index": 13,
+        "card": "sacred-academy",
+        "scores": [
+          {
+            "opponent": "thaleia",
+            "seat": 0,
+            "halfPoints": 6,
+            "n": 8
+          },
+          {
+            "opponent": "thaleia",
+            "seat": 1,
+            "halfPoints": 6,
+            "n": 8
+          },
+          {
+            "opponent": "nereon",
+            "seat": 0,
+            "halfPoints": 7,
+            "n": 8
+          },
+          {
+            "opponent": "nereon",
+            "seat": 1,
+            "halfPoints": 5,
+            "n": 8
+          },
+          {
+            "opponent": "doreios",
+            "seat": 0,
+            "halfPoints": 10,
+            "n": 8
+          },
+          {
+            "opponent": "doreios",
+            "seat": 1,
+            "halfPoints": 11,
+            "n": 8
+          }
+        ],
+        "worst": 5,
+        "total": 45
+      },
+      {
+        "index": 4,
+        "card": "drachma",
+        "scores": [
+          {
+            "opponent": "thaleia",
+            "seat": 0,
+            "halfPoints": 3,
+            "n": 8
+          },
+          {
+            "opponent": "thaleia",
+            "seat": 1,
+            "halfPoints": 4,
+            "n": 8
+          },
+          {
+            "opponent": "nereon",
+            "seat": 0,
+            "halfPoints": 3,
+            "n": 8
+          },
+          {
+            "opponent": "nereon",
+            "seat": 1,
+            "halfPoints": 5,
+            "n": 8
+          },
+          {
+            "opponent": "doreios",
+            "seat": 0,
+            "halfPoints": 6,
+            "n": 8
+          },
+          {
+            "opponent": "doreios",
+            "seat": 1,
+            "halfPoints": 7,
+            "n": 8
+          }
+        ],
+        "worst": 3,
+        "total": 28
+      },
+      {
+        "index": 0,
+        "card": "baseline",
+        "scores": [
+          {
+            "opponent": "thaleia",
+            "seat": 0,
+            "halfPoints": 6,
+            "n": 8
+          },
+          {
+            "opponent": "thaleia",
+            "seat": 1,
+            "halfPoints": 6,
+            "n": 8
+          },
+          {
+            "opponent": "nereon",
+            "seat": 0,
+            "halfPoints": 5,
+            "n": 8
+          },
+          {
+            "opponent": "nereon",
+            "seat": 1,
+            "halfPoints": 2,
+            "n": 8
+          },
+          {
+            "opponent": "doreios",
+            "seat": 0,
+            "halfPoints": 6,
+            "n": 8
+          },
+          {
+            "opponent": "doreios",
+            "seat": 1,
+            "halfPoints": 12,
+            "n": 8
+          }
+        ],
+        "worst": 2,
+        "total": 37
+      }
+    ]
+  },
+  {
+    "leader": "doreios",
+    "key": "2:1",
+    "ranking": [
+      {
+        "index": 0,
+        "card": "baseline",
+        "scores": [
+          {
+            "opponent": "thaleia",
+            "seat": 0,
+            "halfPoints": 2,
+            "n": 8
+          },
+          {
+            "opponent": "thaleia",
+            "seat": 1,
+            "halfPoints": 4,
+            "n": 8
+          },
+          {
+            "opponent": "nereon",
+            "seat": 0,
+            "halfPoints": 0,
+            "n": 8
+          },
+          {
+            "opponent": "nereon",
+            "seat": 1,
+            "halfPoints": 6,
+            "n": 8
+          },
+          {
+            "opponent": "melia",
+            "seat": 0,
+            "halfPoints": 0,
+            "n": 8
+          },
+          {
+            "opponent": "melia",
+            "seat": 1,
+            "halfPoints": 0,
+            "n": 8
+          }
+        ],
+        "worst": 0,
+        "total": 12
+      },
+      {
+        "index": 1,
+        "card": null,
+        "scores": [
+          {
+            "opponent": "thaleia",
+            "seat": 0,
+            "halfPoints": 2,
+            "n": 8
+          },
+          {
+            "opponent": "thaleia",
+            "seat": 1,
+            "halfPoints": 4,
+            "n": 8
+          },
+          {
+            "opponent": "nereon",
+            "seat": 0,
+            "halfPoints": 0,
+            "n": 8
+          },
+          {
+            "opponent": "nereon",
+            "seat": 1,
+            "halfPoints": 6,
+            "n": 8
+          },
+          {
+            "opponent": "melia",
+            "seat": 0,
+            "halfPoints": 0,
+            "n": 8
+          },
+          {
+            "opponent": "melia",
+            "seat": 1,
+            "halfPoints": 0,
+            "n": 8
+          }
+        ],
+        "worst": 0,
+        "total": 12
+      },
+      {
+        "index": 2,
+        "card": "obol",
+        "scores": [
+          {
+            "opponent": "thaleia",
+            "seat": 0,
+            "halfPoints": 2,
+            "n": 8
+          },
+          {
+            "opponent": "thaleia",
+            "seat": 1,
+            "halfPoints": 6,
+            "n": 8
+          },
+          {
+            "opponent": "nereon",
+            "seat": 0,
+            "halfPoints": 1,
+            "n": 8
+          },
+          {
+            "opponent": "nereon",
+            "seat": 1,
+            "halfPoints": 1,
+            "n": 8
+          },
+          {
+            "opponent": "melia",
+            "seat": 0,
+            "halfPoints": 0,
+            "n": 8
+          },
+          {
+            "opponent": "melia",
+            "seat": 1,
+            "halfPoints": 2,
+            "n": 8
+          }
+        ],
+        "worst": 0,
+        "total": 12
+      }
+    ]
+  },
+  {
+    "leader": "doreios",
+    "key": "2:2",
+    "ranking": [
+      {
+        "index": 0,
+        "card": "baseline",
+        "scores": [
+          {
+            "opponent": "thaleia",
+            "seat": 0,
+            "halfPoints": 3,
+            "n": 8
+          },
+          {
+            "opponent": "thaleia",
+            "seat": 1,
+            "halfPoints": 2,
+            "n": 8
+          },
+          {
+            "opponent": "nereon",
+            "seat": 0,
+            "halfPoints": 5,
+            "n": 8
+          },
+          {
+            "opponent": "nereon",
+            "seat": 1,
+            "halfPoints": 9,
+            "n": 8
+          },
+          {
+            "opponent": "melia",
+            "seat": 0,
+            "halfPoints": 2,
+            "n": 8
+          },
+          {
+            "opponent": "melia",
+            "seat": 1,
+            "halfPoints": 7,
+            "n": 8
+          }
+        ],
+        "worst": 2,
+        "total": 28
+      },
+      {
+        "index": 5,
+        "card": "seed-keeper",
+        "scores": [
+          {
+            "opponent": "thaleia",
+            "seat": 0,
+            "halfPoints": 3,
+            "n": 8
+          },
+          {
+            "opponent": "thaleia",
+            "seat": 1,
+            "halfPoints": 2,
+            "n": 8
+          },
+          {
+            "opponent": "nereon",
+            "seat": 0,
+            "halfPoints": 5,
+            "n": 8
+          },
+          {
+            "opponent": "nereon",
+            "seat": 1,
+            "halfPoints": 9,
+            "n": 8
+          },
+          {
+            "opponent": "melia",
+            "seat": 0,
+            "halfPoints": 2,
+            "n": 8
+          },
+          {
+            "opponent": "melia",
+            "seat": 1,
+            "halfPoints": 7,
+            "n": 8
+          }
+        ],
+        "worst": 2,
+        "total": 28
+      },
+      {
+        "index": 1,
+        "card": null,
+        "scores": [
+          {
+            "opponent": "thaleia",
+            "seat": 0,
+            "halfPoints": 0,
+            "n": 8
+          },
+          {
+            "opponent": "thaleia",
+            "seat": 1,
+            "halfPoints": 2,
+            "n": 8
+          },
+          {
+            "opponent": "nereon",
+            "seat": 0,
+            "halfPoints": 1,
+            "n": 8
+          },
+          {
+            "opponent": "nereon",
+            "seat": 1,
+            "halfPoints": 3,
+            "n": 8
+          },
+          {
+            "opponent": "melia",
+            "seat": 0,
+            "halfPoints": 0,
+            "n": 8
+          },
+          {
+            "opponent": "melia",
+            "seat": 1,
+            "halfPoints": 0,
+            "n": 8
+          }
+        ],
+        "worst": 0,
+        "total": 6
+      }
+    ]
+  },
+  {
+    "leader": "doreios",
+    "key": "2:3",
+    "ranking": [
+      {
+        "index": 0,
+        "card": "baseline",
+        "scores": [
+          {
+            "opponent": "thaleia",
+            "seat": 0,
+            "halfPoints": 4,
+            "n": 8
+          },
+          {
+            "opponent": "thaleia",
+            "seat": 1,
+            "halfPoints": 6,
+            "n": 8
+          },
+          {
+            "opponent": "nereon",
+            "seat": 0,
+            "halfPoints": 1,
+            "n": 8
+          },
+          {
+            "opponent": "nereon",
+            "seat": 1,
+            "halfPoints": 5,
+            "n": 8
+          },
+          {
+            "opponent": "melia",
+            "seat": 0,
+            "halfPoints": 2,
+            "n": 8
+          },
+          {
+            "opponent": "melia",
+            "seat": 1,
+            "halfPoints": 2,
+            "n": 8
+          }
+        ],
+        "worst": 1,
+        "total": 20
+      },
+      {
+        "index": 6,
+        "card": "obol",
+        "scores": [
+          {
+            "opponent": "thaleia",
+            "seat": 0,
+            "halfPoints": 0,
+            "n": 8
+          },
+          {
+            "opponent": "thaleia",
+            "seat": 1,
+            "halfPoints": 5,
+            "n": 8
+          },
+          {
+            "opponent": "nereon",
+            "seat": 0,
+            "halfPoints": 2,
+            "n": 8
+          },
+          {
+            "opponent": "nereon",
+            "seat": 1,
+            "halfPoints": 2,
+            "n": 8
+          },
+          {
+            "opponent": "melia",
+            "seat": 0,
+            "halfPoints": 2,
+            "n": 8
+          },
+          {
+            "opponent": "melia",
+            "seat": 1,
+            "halfPoints": 1,
+            "n": 8
+          }
+        ],
+        "worst": 0,
+        "total": 12
+      },
+      {
+        "index": 7,
+        "card": "oracles-acolyte",
+        "scores": [
+          {
+            "opponent": "thaleia",
+            "seat": 0,
+            "halfPoints": 0,
+            "n": 8
+          },
+          {
+            "opponent": "thaleia",
+            "seat": 1,
+            "halfPoints": 4,
+            "n": 8
+          },
+          {
+            "opponent": "nereon",
+            "seat": 0,
+            "halfPoints": 2,
+            "n": 8
+          },
+          {
+            "opponent": "nereon",
+            "seat": 1,
+            "halfPoints": 2,
+            "n": 8
+          },
+          {
+            "opponent": "melia",
+            "seat": 0,
+            "halfPoints": 2,
+            "n": 8
+          },
+          {
+            "opponent": "melia",
+            "seat": 1,
+            "halfPoints": 2,
+            "n": 8
+          }
+        ],
+        "worst": 0,
+        "total": 12
+      }
+    ]
+  },
+  {
+    "leader": "doreios",
+    "key": "2:4",
+    "ranking": [
+      {
+        "index": 0,
+        "card": "baseline",
+        "scores": [
+          {
+            "opponent": "thaleia",
+            "seat": 0,
+            "halfPoints": 2,
+            "n": 8
+          },
+          {
+            "opponent": "thaleia",
+            "seat": 1,
+            "halfPoints": 7,
+            "n": 8
+          },
+          {
+            "opponent": "nereon",
+            "seat": 0,
+            "halfPoints": 6,
+            "n": 8
+          },
+          {
+            "opponent": "nereon",
+            "seat": 1,
+            "halfPoints": 6,
+            "n": 8
+          },
+          {
+            "opponent": "melia",
+            "seat": 0,
+            "halfPoints": 5,
+            "n": 8
+          },
+          {
+            "opponent": "melia",
+            "seat": 1,
+            "halfPoints": 4,
+            "n": 8
+          }
+        ],
+        "worst": 2,
+        "total": 30
+      },
+      {
+        "index": 4,
+        "card": "drachma",
+        "scores": [
+          {
+            "opponent": "thaleia",
+            "seat": 0,
+            "halfPoints": 1,
+            "n": 8
+          },
+          {
+            "opponent": "thaleia",
+            "seat": 1,
+            "halfPoints": 6,
+            "n": 8
+          },
+          {
+            "opponent": "nereon",
+            "seat": 0,
+            "halfPoints": 4,
+            "n": 8
+          },
+          {
+            "opponent": "nereon",
+            "seat": 1,
+            "halfPoints": 5,
+            "n": 8
+          },
+          {
+            "opponent": "melia",
+            "seat": 0,
+            "halfPoints": 5,
+            "n": 8
+          },
+          {
+            "opponent": "melia",
+            "seat": 1,
+            "halfPoints": 5,
+            "n": 8
+          }
+        ],
+        "worst": 1,
+        "total": 26
+      },
+      {
+        "index": 11,
+        "card": "sea-trade",
+        "scores": [
+          {
+            "opponent": "thaleia",
+            "seat": 0,
+            "halfPoints": 1,
+            "n": 8
+          },
+          {
+            "opponent": "thaleia",
+            "seat": 1,
+            "halfPoints": 4,
+            "n": 8
+          },
+          {
+            "opponent": "nereon",
+            "seat": 0,
+            "halfPoints": 2,
+            "n": 8
+          },
+          {
+            "opponent": "nereon",
+            "seat": 1,
+            "halfPoints": 2,
+            "n": 8
+          },
+          {
+            "opponent": "melia",
+            "seat": 0,
+            "halfPoints": 4,
+            "n": 8
+          },
+          {
+            "opponent": "melia",
+            "seat": 1,
+            "halfPoints": 3,
+            "n": 8
+          }
+        ],
+        "worst": 1,
+        "total": 16
+      },
+      {
+        "index": 3,
+        "card": "council-of-sages",
+        "scores": [
+          {
+            "opponent": "thaleia",
+            "seat": 0,
+            "halfPoints": 0,
+            "n": 8
+          },
+          {
+            "opponent": "thaleia",
+            "seat": 1,
+            "halfPoints": 2,
+            "n": 8
+          },
+          {
+            "opponent": "nereon",
+            "seat": 0,
+            "halfPoints": 0,
+            "n": 8
+          },
+          {
+            "opponent": "nereon",
+            "seat": 1,
+            "halfPoints": 6,
+            "n": 8
+          },
+          {
+            "opponent": "melia",
+            "seat": 0,
+            "halfPoints": 0,
+            "n": 8
+          },
+          {
+            "opponent": "melia",
+            "seat": 1,
+            "halfPoints": 3,
+            "n": 8
+          }
+        ],
+        "worst": 0,
+        "total": 11
+      }
+    ]
+  },
+  {
+    "leader": "doreios",
+    "key": "2:5",
+    "ranking": [
+      {
+        "index": 0,
+        "card": "baseline",
+        "scores": [
+          {
+            "opponent": "thaleia",
+            "seat": 0,
+            "halfPoints": 1,
+            "n": 8
+          },
+          {
+            "opponent": "thaleia",
+            "seat": 1,
+            "halfPoints": 1,
+            "n": 8
+          },
+          {
+            "opponent": "nereon",
+            "seat": 0,
+            "halfPoints": 2,
+            "n": 8
+          },
+          {
+            "opponent": "nereon",
+            "seat": 1,
+            "halfPoints": 7,
+            "n": 8
+          },
+          {
+            "opponent": "melia",
+            "seat": 0,
+            "halfPoints": 0,
+            "n": 8
+          },
+          {
+            "opponent": "melia",
+            "seat": 1,
+            "halfPoints": 0,
+            "n": 8
+          }
+        ],
+        "worst": 0,
+        "total": 11
+      },
+      {
+        "index": 9,
+        "card": "merchant-fleet",
+        "scores": [
+          {
+            "opponent": "thaleia",
+            "seat": 0,
+            "halfPoints": 1,
+            "n": 8
+          },
+          {
+            "opponent": "thaleia",
+            "seat": 1,
+            "halfPoints": 1,
+            "n": 8
+          },
+          {
+            "opponent": "nereon",
+            "seat": 0,
+            "halfPoints": 2,
+            "n": 8
+          },
+          {
+            "opponent": "nereon",
+            "seat": 1,
+            "halfPoints": 7,
+            "n": 8
+          },
+          {
+            "opponent": "melia",
+            "seat": 0,
+            "halfPoints": 0,
+            "n": 8
+          },
+          {
+            "opponent": "melia",
+            "seat": 1,
+            "halfPoints": 0,
+            "n": 8
+          }
+        ],
+        "worst": 0,
+        "total": 11
+      },
+      {
+        "index": 4,
+        "card": "drachma",
+        "scores": [
+          {
+            "opponent": "thaleia",
+            "seat": 0,
+            "halfPoints": 3,
+            "n": 8
+          },
+          {
+            "opponent": "thaleia",
+            "seat": 1,
+            "halfPoints": 2,
+            "n": 8
+          },
+          {
+            "opponent": "nereon",
+            "seat": 0,
+            "halfPoints": 0,
+            "n": 8
+          },
+          {
+            "opponent": "nereon",
+            "seat": 1,
+            "halfPoints": 1,
+            "n": 8
+          },
+          {
+            "opponent": "melia",
+            "seat": 0,
+            "halfPoints": 0,
+            "n": 8
+          },
+          {
+            "opponent": "melia",
+            "seat": 1,
+            "halfPoints": 1,
+            "n": 8
+          }
+        ],
+        "worst": 0,
+        "total": 7
+      }
+    ]
+  }
+]
