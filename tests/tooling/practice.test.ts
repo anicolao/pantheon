@@ -108,3 +108,42 @@ test('saving while a worker is thinking does not advance its turn twice on resto
  expect(restored.tracker.memories.bot.turn).toBe(1);
  expect(decide(view,structuredClone(restored.tracker.memories.bot),'classic-engine')).toEqual(decide(s.tracker.view(s.game),structuredClone(s.tracker.memories.bot),'classic-engine'));
 });
+
+test('practice saves keep their opening book when the installed registry changes',async()=>{
+ const {openingBooks}=await import('../../src/lib/bots/opening-books');
+ const previous=openingBooks.nereon;
+ try{
+  const book={'1:4':'drachma'};openingBooks.nereon=book;
+  const s=new PracticeSession({seed:'frozen-opening',humanLeader:'thaleia',botLeader:'nereon',humanFirst:false,bot:'classic-engine'});
+  book['1:4']='seed-keeper';
+  expect(s.tracker.memories.bot.openingOverride).toEqual({'1:4':'drachma'});
+  const saved=structuredClone(s.save());
+  const restored=PracticeSession.restore(saved);
+  expect(restored.tracker.memories.bot.openingOverride).toEqual({'1:4':'drachma'});
+  expect(openingBooks.nereon).toEqual({'1:4':'seed-keeper'});
+ }finally{if(previous===undefined)delete openingBooks.nereon;else openingBooks.nereon=previous;}
+});
+
+test('current Engine opening overrides retain turn bookkeeping and preserve its unchanged fallback',async()=>{
+ const {command:baseline}=await import('../../standard-matrix/policy');
+ const s=new PracticeSession({seed:'current-book-control',humanLeader:'thaleia',botLeader:'nereon',humanFirst:false,bot:'engine'});
+ for(const memory of Object.values(s.tracker.memories))memory.openingOverride=null;
+ let steps=0;
+ while(s.game.turn.phase!=='finished'){
+  const uid=activePlayer(s.game),view=s.tracker.view(s.game),memory=s.tracker.memories[uid];
+  const expected=baseline(view,structuredClone(memory),'engine');
+  const actual=decide(view,memory,'engine');expect(actual).toEqual(expected);s.apply(actual);
+  if(++steps>5000)throw Error('Game did not end');
+ }
+ const fresh=new PracticeSession(s.config);
+ const view={...fresh.tracker.view(fresh.game),phase:'buys' as const,hand:[],choice:null,resources:{actions:0,coins:4,buys:1,worship:0}};
+ const memory:any={turn:1,openingOverride:{'1:4':'harbor-pilot'}};
+ expect(decide(view,memory,'engine')).toEqual({type:'card/bought',cardId:'harbor-pilot'});
+ expect(memory.openingActions).toEqual([{turn:1,coins:4,card:'harbor-pilot'}]);
+ expect(memory.bookTurns).toEqual([1]);
+ expect(decide(view,memory,'engine')).toEqual({type:'turn/ended'});
+ const thaleiaMemory:any={turn:1,openingOverride:{'1:4':'harbor-pilot'}};
+ decide({...view,leader:'thaleia'},thaleiaMemory,'engine');
+ thaleiaMemory.turn=2;
+ expect(decide({...view,leader:'thaleia',resources:{...view.resources,coins:2}},thaleiaMemory,'engine')).toEqual({type:'card/bought',cardId:'seed-keeper'});
+},120000);
