@@ -28,6 +28,11 @@ export class TestStepHelper {
       const stem=`${String(story.steps.length).padStart(3,'0')}-${id}`;
       await test.step('Ready, unclipped, and photographed within 2,000 ms',async()=>{
         const start=performance.now(),remaining=()=>Math.max(1,OPERATION_BUDGET-Math.ceil(performance.now()-start));
+        // Activate the photographed player's tab before waiting for its UI. Background
+        // tabs can defer rendering until activation, serializing readiness and paint.
+        await page.bringToFront();
+        await page.mouse.move(0,0);
+        const foreground=performance.now();
         // Locator assertions back off to one-second polling. Observe readiness promptly
         // so a settled scene does not spend its capture budget waiting for the next poll.
         if(!view.document){
@@ -38,9 +43,6 @@ export class TestStepHelper {
           await ready.dispose();
         }
         const acknowledged=performance.now();
-        await page.bringToFront();
-        await page.mouse.move(0,0);
-        const foreground=performance.now();
         const transitioned=await page.waitForFunction(()=>{
           const transitions=(window as Window&{__pantheonTransitions?:Map<Element,string>}).__pantheonTransitions;
           if(!transitions)throw new Error('Capture context must observe transition lifetimes before navigation');
@@ -103,7 +105,7 @@ export class TestStepHelper {
             expect(same,'Every decoded RGBA byte must equal the reviewed baseline').toBe(true);
           }
         }
-        expect(performance.now()-start,`Capture exceeded 2,000 ms: preparation ${Math.round(prepared-start)} (ack ${Math.round(acknowledged-start)}, foreground ${Math.round(foreground-acknowledged)}, assets/animations ${Math.round(ready-foreground)} ${JSON.stringify(assetTimings)}, layout ${Math.round(prepared-ready)}), image ${Math.round(photographed-prepared)}, comparison ${Math.round(performance.now()-photographed)}`).toBeLessThanOrEqual(OPERATION_BUDGET);
+        expect(performance.now()-start,`Capture exceeded 2,000 ms: preparation ${Math.round(prepared-start)} (foreground ${Math.round(foreground-start)}, ack ${Math.round(acknowledged-foreground)}, assets/animations ${Math.round(ready-acknowledged)} ${JSON.stringify(assetTimings)}, layout ${Math.round(prepared-ready)}), image ${Math.round(photographed-prepared)}, comparison ${Math.round(performance.now()-photographed)}`).toBeLessThanOrEqual(OPERATION_BUDGET);
       },{timeout:OPERATION_BUDGET});
       const views=renderStoryImages(story.slug,stem,description);
       story.steps.push(`## ${description}\n\n${view.player?`Viewpoint: **${view.player}**.\n\n`:''}${views}\n\n${verifications.map(item=>`- [x] ${item.spec}`).join('\n')}`);
