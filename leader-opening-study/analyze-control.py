@@ -39,6 +39,7 @@ lines=['Held-out opening-book controls','',
 for r in sorted(results,key=lambda r:(r['engineKind'],r['engineLeader'],r['engineSeat'],r['moneyLeader'])):
  lo,hi=r['ci95'];lines.append(f"| {r['engineKind']} / {r['engineLeader']} | {r['engineSeat']} | {r['moneyLeader']} | {100*r['baselineShare']:.1f}% | {100*r['bookShare']:.1f}% | {100*r['pairedChange']:+.1f} | [{100*lo:+.1f}, {100*hi:+.1f}] |")
 lines+=['','Multiple pointwise intervals are shown; they are not simultaneous family-wise intervals.',
+'A zero-width interval means no paired outcome differences were observed; it does not prove population equivalence.',
 'Books remain small-sample sequential selections, not proof of globally optimal openings.']
 (root/'opening-control-report.txt').write_text('\n'.join(lines)+'\n')
 (root/'opening-control-analysis.json').write_text(json.dumps(results,indent=2)+'\n')
