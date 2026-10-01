@@ -1,0 +1,64 @@
+Playable opponents and leader-book study — 2026-10-01
+=====================================================
+Implementation
+--------------
+Rebased docs/balancing-options onto verified origin/main 3b3703b40496a2b4c3015b1b00e2b2737af85bb7.
+Work is in the isolated balance-diagnostics/committed-balance checkout; the user's main workspace and unrelated UI edits were left alone.
+Practice at /practice/ offers current Money, current Engine, and historical v4 Engine, either seat, with standard powers/Worship, equal turns, and original tied scoring.
+Both Engines have independently selected books for all four leaders. The same policy entry points drive practice and the experiments.
+PRACTICE.txt contains launch instructions. Production multiplayer's ending rule remains unchanged.
+
+Study
+-----
+Historical book search: 10,428 games. Current Engine search: 9,888 games.
+Screening and refinement are separate; every affordable card and pass are candidates at represented opening observations.
+Books condition on own turn and observed coins, never future hands. Turn one is frozen before optimizing turn two.
+This is a small sequential search against Money, not an exhaustive joint opening tree or proof of optimality.
+Held-out matrix: 108 legal ordered cells, 200 matched fresh seeds each, 21,600 games total.
+Held-out opening controls: 48 cells, 100 matched seeds each, 4,800 games total.
+No books were retuned using held-out results. No strategies or leaders were averaged into a balance score.
+
+Reading the results
+-------------------
+matrix-report.txt: full 12×12 P1/P2 matrix and strongest observed P2 replies for each fixed P1 choice.
+matrix-analysis.json: per-cell counts and pointwise 95% intervals.
+pairwise-summary.txt: P1's best observed worst-case strategy and P2's reply for each ordered leader pairing, using actual cells rather than averages.
+seat-comparisons.txt: paired opposite-seat differences and 95% intervals.
+opening-control-report.txt: all 48 book-minus-baseline comparisons, separately by Engine, leader, rival, and seat.
+
+With its selected book, historical Engine is Thaleia's strongest tested P1 choice against each rival's best reply:
+43.75% against Nereon Money, 46.50% against Melia Money, and 61.50% against Doreios Money.
+Doreios remains weak as P1 even with its best tested choice, historical Engine:
+31.00% against Thaleia Money, 27.25% against Nereon Money, and 17.75% against Melia Money.
+Money has large seat effects in several pairings. For Thaleia Money versus Nereon Money, Thaleia scores 19.25% as P1 and 56.00% as P2; paired P2-minus-P1 is +36.75 points [28.67, 44.83].
+These seat comparisons include bot behavior, not just the equal-turn rule, and should not be interpreted as a causal rule-change test.
+
+Opening-book controls are mixed. The following are all comparisons whose pointwise paired 95% interval excludes zero (100 games each):
+- Nereon current Engine vs Thaleia Money, P1: 31.0% -> 45.0%, +14.0 points [3.3, 24.7].
+- Nereon current Engine vs Thaleia Money, P2: 36.5% -> 60.5%, +24.0 points [14.9, 33.1].
+- Melia current Engine vs Doreios Money, P2: 63.0% -> 72.5%, +9.5 points [3.4, 15.6].
+- Melia historical Engine vs Doreios Money, P2: 62.0% -> 77.5%, +15.5 points [5.5, 25.5].
+- Nereon historical Engine vs Doreios Money, P2: 61.5% -> 78.5%, +17.0 points [7.5, 26.5].
+- Thaleia current Engine vs Melia Money, P1: 32.5% -> 26.5%, -6.0 points [-10.9, -1.1].
+All other control intervals include zero. These are pointwise intervals, not simultaneous multiple-comparison-adjusted conclusions.
+The installed books remain the frozen selections used in the matrix; the study does not establish universal improvement.
+Zero observed paired differences do not establish population equivalence.
+Best-response selections are descriptive and use the same data as their cell intervals; they are not independently validated equilibrium policies.
+These results assess the tested bots and do not establish optimal human-play balance.
+
+Verification
+------------
+All 26,400 held-out games completed with equal completed turns and replayed to an identical full reducer state.
+Every cell has its exact expected unique seed set. Saved sample traces pass hash/result checks and independent completed-turn counting.
+Both book searches passed 48 cache/command-trace parity comparisons apiece.
+The practice suite passes 15 tests / 539 assertions, covering privacy, all bots in both seats, save/restore, controller parity, opening overrides, equal-turn endings, and unchanged multiplayer endings.
+Svelte check passes with zero errors/warnings; production builds and PR-base-path asset resolution pass.
+The broader simulation/tooling checks are described in the work history. All commands and simulations ran inside nix develop; CPU-bound runs used 16 workers.
+Money can be slow on large, action-heavy decks. Practice runs decisions in a cancellable worker.
+Browser interaction could not be run locally: Chromium process and local socket creation were denied. A PR-base-path browser smoke is prepared for CI; it has not been run by this session.
+
+Delivery limitation
+-------------------
+The commits are local. PR #10 was not updated: shell GitHub access failed DNS, and the GitHub write connector rejected the attempted write because it requires approval while this session's policy is never.
+A portable manual-bots-and-leader-books.bundle is supplied beside this checkout. It requires origin/main at the SHA above or an object database containing that commit.
+The existing accepted-balance.bundle is preserved.

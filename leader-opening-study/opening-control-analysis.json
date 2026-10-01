@@ -1,0 +1,674 @@
+[
+  {
+    "engineKind": "classic-engine",
+    "engineLeader": "doreios",
+    "moneyLeader": "melia",
+    "engineSeat": 1,
+    "n": 100,
+    "baselineShare": 0.16,
+    "bookShare": 0.175,
+    "pairedChange": 0.015,
+    "ci95": [
+      -0.04390728397278646,
+      0.07390728397278645
+    ]
+  },
+  {
+    "engineKind": "classic-engine",
+    "engineLeader": "doreios",
+    "moneyLeader": "nereon",
+    "engineSeat": 1,
+    "n": 100,
+    "baselineShare": 0.215,
+    "bookShare": 0.245,
+    "pairedChange": 0.03,
+    "ci95": [
+      -0.040244117594042395,
+      0.10024411759404239
+    ]
+  },
+  {
+    "engineKind": "classic-engine",
+    "engineLeader": "doreios",
+    "moneyLeader": "thaleia",
+    "engineSeat": 1,
+    "n": 100,
+    "baselineShare": 0.29,
+    "bookShare": 0.335,
+    "pairedChange": 0.045,
+    "ci95": [
+      -0.022759166631727848,
+      0.11275916663172784
+    ]
+  },
+  {
+    "engineKind": "engine",
+    "engineLeader": "doreios",
+    "moneyLeader": "melia",
+    "engineSeat": 1,
+    "n": 100,
+    "baselineShare": 0.115,
+    "bookShare": 0.115,
+    "pairedChange": 0.0,
+    "ci95": [
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "engineKind": "engine",
+    "engineLeader": "doreios",
+    "moneyLeader": "nereon",
+    "engineSeat": 1,
+    "n": 100,
+    "baselineShare": 0.2,
+    "bookShare": 0.195,
+    "pairedChange": -0.005,
+    "ci95": [
+      -0.014920000000000003,
+      0.004920000000000002
+    ]
+  },
+  {
+    "engineKind": "engine",
+    "engineLeader": "doreios",
+    "moneyLeader": "thaleia",
+    "engineSeat": 1,
+    "n": 100,
+    "baselineShare": 0.14,
+    "bookShare": 0.14,
+    "pairedChange": 0.0,
+    "ci95": [
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "engineKind": "classic-engine",
+    "engineLeader": "melia",
+    "moneyLeader": "doreios",
+    "engineSeat": 2,
+    "n": 100,
+    "baselineShare": 0.62,
+    "bookShare": 0.775,
+    "pairedChange": 0.155,
+    "ci95": [
+      0.05460972673781306,
+      0.25539027326218694
+    ]
+  },
+  {
+    "engineKind": "engine",
+    "engineLeader": "melia",
+    "moneyLeader": "doreios",
+    "engineSeat": 2,
+    "n": 100,
+    "baselineShare": 0.63,
+    "bookShare": 0.725,
+    "pairedChange": 0.095,
+    "ci95": [
+      0.034036231193677775,
+      0.15596376880632223
+    ]
+  },
+  {
+    "engineKind": "classic-engine",
+    "engineLeader": "nereon",
+    "moneyLeader": "doreios",
+    "engineSeat": 2,
+    "n": 100,
+    "baselineShare": 0.615,
+    "bookShare": 0.785,
+    "pairedChange": 0.17,
+    "ci95": [
+      0.07518558895708871,
+      0.2648144110429113
+    ]
+  },
+  {
+    "engineKind": "engine",
+    "engineLeader": "nereon",
+    "moneyLeader": "doreios",
+    "engineSeat": 2,
+    "n": 100,
+    "baselineShare": 0.55,
+    "bookShare": 0.63,
+    "pairedChange": 0.08,
+    "ci95": [
+      -0.008861510773617257,
+      0.16886151077361727
+    ]
+  },
+  {
+    "engineKind": "classic-engine",
+    "engineLeader": "thaleia",
+    "moneyLeader": "doreios",
+    "engineSeat": 2,
+    "n": 100,
+    "baselineShare": 0.72,
+    "bookShare": 0.69,
+    "pairedChange": -0.03,
+    "ci95": [
+      -0.08427916705106643,
+      0.024279167051066433
+    ]
+  },
+  {
+    "engineKind": "engine",
+    "engineLeader": "thaleia",
+    "moneyLeader": "doreios",
+    "engineSeat": 2,
+    "n": 100,
+    "baselineShare": 0.695,
+    "bookShare": 0.67,
+    "pairedChange": -0.025,
+    "ci95": [
+      -0.050902755206207836,
+      0.0009027552062078371
+    ]
+  },
+  {
+    "engineKind": "classic-engine",
+    "engineLeader": "melia",
+    "moneyLeader": "doreios",
+    "engineSeat": 1,
+    "n": 100,
+    "baselineShare": 0.38,
+    "bookShare": 0.465,
+    "pairedChange": 0.085,
+    "ci95": [
+      -0.020564100417564762,
+      0.19056410041756477
+    ]
+  },
+  {
+    "engineKind": "classic-engine",
+    "engineLeader": "melia",
+    "moneyLeader": "nereon",
+    "engineSeat": 1,
+    "n": 100,
+    "baselineShare": 0.31,
+    "bookShare": 0.34,
+    "pairedChange": 0.03,
+    "ci95": [
+      -0.06333515634583257,
+      0.12333515634583257
+    ]
+  },
+  {
+    "engineKind": "classic-engine",
+    "engineLeader": "melia",
+    "moneyLeader": "thaleia",
+    "engineSeat": 1,
+    "n": 100,
+    "baselineShare": 0.36,
+    "bookShare": 0.395,
+    "pairedChange": 0.035,
+    "ci95": [
+      -0.05220736730994298,
+      0.12220736730994299
+    ]
+  },
+  {
+    "engineKind": "engine",
+    "engineLeader": "melia",
+    "moneyLeader": "doreios",
+    "engineSeat": 1,
+    "n": 100,
+    "baselineShare": 0.36,
+    "bookShare": 0.4,
+    "pairedChange": 0.04,
+    "ci95": [
+      -0.022549179874961613,
+      0.10254917987496162
+    ]
+  },
+  {
+    "engineKind": "engine",
+    "engineLeader": "melia",
+    "moneyLeader": "nereon",
+    "engineSeat": 1,
+    "n": 100,
+    "baselineShare": 0.345,
+    "bookShare": 0.38,
+    "pairedChange": 0.035,
+    "ci95": [
+      -0.03299347609821984,
+      0.10299347609821985
+    ]
+  },
+  {
+    "engineKind": "engine",
+    "engineLeader": "melia",
+    "moneyLeader": "thaleia",
+    "engineSeat": 1,
+    "n": 100,
+    "baselineShare": 0.3,
+    "bookShare": 0.375,
+    "pairedChange": 0.075,
+    "ci95": [
+      -0.00522578239952641,
+      0.1552257823995264
+    ]
+  },
+  {
+    "engineKind": "classic-engine",
+    "engineLeader": "doreios",
+    "moneyLeader": "melia",
+    "engineSeat": 2,
+    "n": 100,
+    "baselineShare": 0.215,
+    "bookShare": 0.225,
+    "pairedChange": 0.01,
+    "ci95": [
+      -0.059045227045595096,
+      0.07904522704559509
+    ]
+  },
+  {
+    "engineKind": "engine",
+    "engineLeader": "doreios",
+    "moneyLeader": "melia",
+    "engineSeat": 2,
+    "n": 100,
+    "baselineShare": 0.17,
+    "bookShare": 0.17,
+    "pairedChange": 0.0,
+    "ci95": [
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "engineKind": "classic-engine",
+    "engineLeader": "nereon",
+    "moneyLeader": "melia",
+    "engineSeat": 2,
+    "n": 100,
+    "baselineShare": 0.41,
+    "bookShare": 0.34,
+    "pairedChange": -0.07,
+    "ci95": [
+      -0.18369269343899872,
+      0.0436926934389987
+    ]
+  },
+  {
+    "engineKind": "engine",
+    "engineLeader": "nereon",
+    "moneyLeader": "melia",
+    "engineSeat": 2,
+    "n": 100,
+    "baselineShare": 0.285,
+    "bookShare": 0.33,
+    "pairedChange": 0.045,
+    "ci95": [
+      -0.049683274343487085,
+      0.1396832743434871
+    ]
+  },
+  {
+    "engineKind": "classic-engine",
+    "engineLeader": "thaleia",
+    "moneyLeader": "melia",
+    "engineSeat": 2,
+    "n": 100,
+    "baselineShare": 0.515,
+    "bookShare": 0.515,
+    "pairedChange": 0.0,
+    "ci95": [
+      -0.04884270362059923,
+      0.04884270362059923
+    ]
+  },
+  {
+    "engineKind": "engine",
+    "engineLeader": "thaleia",
+    "moneyLeader": "melia",
+    "engineSeat": 2,
+    "n": 100,
+    "baselineShare": 0.51,
+    "bookShare": 0.515,
+    "pairedChange": 0.005,
+    "ci95": [
+      -0.03844667619884486,
+      0.04844667619884486
+    ]
+  },
+  {
+    "engineKind": "classic-engine",
+    "engineLeader": "nereon",
+    "moneyLeader": "doreios",
+    "engineSeat": 1,
+    "n": 100,
+    "baselineShare": 0.385,
+    "bookShare": 0.465,
+    "pairedChange": 0.08,
+    "ci95": [
+      -0.02618842608468888,
+      0.18618842608468888
+    ]
+  },
+  {
+    "engineKind": "classic-engine",
+    "engineLeader": "nereon",
+    "moneyLeader": "melia",
+    "engineSeat": 1,
+    "n": 100,
+    "baselineShare": 0.195,
+    "bookShare": 0.17,
+    "pairedChange": -0.025,
+    "ci95": [
+      -0.11234403820582722,
+      0.06234403820582723
+    ]
+  },
+  {
+    "engineKind": "classic-engine",
+    "engineLeader": "nereon",
+    "moneyLeader": "thaleia",
+    "engineSeat": 1,
+    "n": 100,
+    "baselineShare": 0.25,
+    "bookShare": 0.31,
+    "pairedChange": 0.06,
+    "ci95": [
+      -0.04947014529592583,
+      0.16947014529592583
+    ]
+  },
+  {
+    "engineKind": "engine",
+    "engineLeader": "nereon",
+    "moneyLeader": "doreios",
+    "engineSeat": 1,
+    "n": 100,
+    "baselineShare": 0.495,
+    "bookShare": 0.585,
+    "pairedChange": 0.09,
+    "ci95": [
+      -0.011066243222907626,
+      0.1910662432229076
+    ]
+  },
+  {
+    "engineKind": "engine",
+    "engineLeader": "nereon",
+    "moneyLeader": "melia",
+    "engineSeat": 1,
+    "n": 100,
+    "baselineShare": 0.24,
+    "bookShare": 0.25,
+    "pairedChange": 0.01,
+    "ci95": [
+      -0.08350539845053835,
+      0.10350539845053834
+    ]
+  },
+  {
+    "engineKind": "engine",
+    "engineLeader": "nereon",
+    "moneyLeader": "thaleia",
+    "engineSeat": 1,
+    "n": 100,
+    "baselineShare": 0.31,
+    "bookShare": 0.45,
+    "pairedChange": 0.14,
+    "ci95": [
+      0.03347511968909553,
+      0.2465248803109045
+    ]
+  },
+  {
+    "engineKind": "classic-engine",
+    "engineLeader": "doreios",
+    "moneyLeader": "nereon",
+    "engineSeat": 2,
+    "n": 100,
+    "baselineShare": 0.36,
+    "bookShare": 0.365,
+    "pairedChange": 0.005,
+    "ci95": [
+      -0.07026505846847278,
+      0.08026505846847279
+    ]
+  },
+  {
+    "engineKind": "engine",
+    "engineLeader": "doreios",
+    "moneyLeader": "nereon",
+    "engineSeat": 2,
+    "n": 100,
+    "baselineShare": 0.33,
+    "bookShare": 0.33,
+    "pairedChange": 0.0,
+    "ci95": [
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "engineKind": "classic-engine",
+    "engineLeader": "melia",
+    "moneyLeader": "nereon",
+    "engineSeat": 2,
+    "n": 100,
+    "baselineShare": 0.43,
+    "bookShare": 0.4,
+    "pairedChange": -0.03,
+    "ci95": [
+      -0.12952012991644385,
+      0.06952012991644384
+    ]
+  },
+  {
+    "engineKind": "engine",
+    "engineLeader": "melia",
+    "moneyLeader": "nereon",
+    "engineSeat": 2,
+    "n": 100,
+    "baselineShare": 0.47,
+    "bookShare": 0.495,
+    "pairedChange": 0.025,
+    "ci95": [
+      -0.05397705586773511,
+      0.10397705586773512
+    ]
+  },
+  {
+    "engineKind": "classic-engine",
+    "engineLeader": "thaleia",
+    "moneyLeader": "nereon",
+    "engineSeat": 2,
+    "n": 100,
+    "baselineShare": 0.57,
+    "bookShare": 0.585,
+    "pairedChange": 0.015,
+    "ci95": [
+      -0.04557118880401237,
+      0.07557118880401237
+    ]
+  },
+  {
+    "engineKind": "engine",
+    "engineLeader": "thaleia",
+    "moneyLeader": "nereon",
+    "engineSeat": 2,
+    "n": 100,
+    "baselineShare": 0.515,
+    "bookShare": 0.53,
+    "pairedChange": 0.015,
+    "ci95": [
+      -0.03059015736411587,
+      0.06059015736411587
+    ]
+  },
+  {
+    "engineKind": "classic-engine",
+    "engineLeader": "thaleia",
+    "moneyLeader": "doreios",
+    "engineSeat": 1,
+    "n": 100,
+    "baselineShare": 0.59,
+    "bookShare": 0.58,
+    "pairedChange": -0.01,
+    "ci95": [
+      -0.0645713854052699,
+      0.0445713854052699
+    ]
+  },
+  {
+    "engineKind": "classic-engine",
+    "engineLeader": "thaleia",
+    "moneyLeader": "melia",
+    "engineSeat": 1,
+    "n": 100,
+    "baselineShare": 0.495,
+    "bookShare": 0.46,
+    "pairedChange": -0.035,
+    "ci95": [
+      -0.08633327099563315,
+      0.016333270995633135
+    ]
+  },
+  {
+    "engineKind": "classic-engine",
+    "engineLeader": "thaleia",
+    "moneyLeader": "nereon",
+    "engineSeat": 1,
+    "n": 100,
+    "baselineShare": 0.47,
+    "bookShare": 0.46,
+    "pairedChange": -0.01,
+    "ci95": [
+      -0.06636343595923969,
+      0.04636343595923968
+    ]
+  },
+  {
+    "engineKind": "engine",
+    "engineLeader": "thaleia",
+    "moneyLeader": "doreios",
+    "engineSeat": 1,
+    "n": 100,
+    "baselineShare": 0.445,
+    "bookShare": 0.43,
+    "pairedChange": -0.015,
+    "ci95": [
+      -0.07042983392442095,
+      0.040429833924420955
+    ]
+  },
+  {
+    "engineKind": "engine",
+    "engineLeader": "thaleia",
+    "moneyLeader": "melia",
+    "engineSeat": 1,
+    "n": 100,
+    "baselineShare": 0.325,
+    "bookShare": 0.265,
+    "pairedChange": -0.06,
+    "ci95": [
+      -0.10940924936924587,
+      -0.010590750630754132
+    ]
+  },
+  {
+    "engineKind": "engine",
+    "engineLeader": "thaleia",
+    "moneyLeader": "nereon",
+    "engineSeat": 1,
+    "n": 100,
+    "baselineShare": 0.34,
+    "bookShare": 0.33,
+    "pairedChange": -0.01,
+    "ci95": [
+      -0.06810023856415841,
+      0.04810023856415841
+    ]
+  },
+  {
+    "engineKind": "classic-engine",
+    "engineLeader": "doreios",
+    "moneyLeader": "thaleia",
+    "engineSeat": 2,
+    "n": 100,
+    "baselineShare": 0.455,
+    "bookShare": 0.375,
+    "pairedChange": -0.08,
+    "ci95": [
+      -0.16773578112086818,
+      0.007735781120868174
+    ]
+  },
+  {
+    "engineKind": "engine",
+    "engineLeader": "doreios",
+    "moneyLeader": "thaleia",
+    "engineSeat": 2,
+    "n": 100,
+    "baselineShare": 0.43,
+    "bookShare": 0.43,
+    "pairedChange": 0.0,
+    "ci95": [
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "engineKind": "classic-engine",
+    "engineLeader": "melia",
+    "moneyLeader": "thaleia",
+    "engineSeat": 2,
+    "n": 100,
+    "baselineShare": 0.395,
+    "bookShare": 0.415,
+    "pairedChange": 0.02,
+    "ci95": [
+      -0.08061280806872825,
+      0.12061280806872826
+    ]
+  },
+  {
+    "engineKind": "engine",
+    "engineLeader": "melia",
+    "moneyLeader": "thaleia",
+    "engineSeat": 2,
+    "n": 100,
+    "baselineShare": 0.505,
+    "bookShare": 0.52,
+    "pairedChange": 0.015,
+    "ci95": [
+      -0.03671909582279327,
+      0.06671909582279327
+    ]
+  },
+  {
+    "engineKind": "classic-engine",
+    "engineLeader": "nereon",
+    "moneyLeader": "thaleia",
+    "engineSeat": 2,
+    "n": 100,
+    "baselineShare": 0.37,
+    "bookShare": 0.385,
+    "pairedChange": 0.015,
+    "ci95": [
+      -0.08808684298182573,
+      0.11808684298182573
+    ]
+  },
+  {
+    "engineKind": "engine",
+    "engineLeader": "nereon",
+    "moneyLeader": "thaleia",
+    "engineSeat": 2,
+    "n": 100,
+    "baselineShare": 0.365,
+    "bookShare": 0.605,
+    "pairedChange": 0.24,
+    "ci95": [
+      0.1491910933928179,
+      0.3308089066071821
+    ]
+  }
+]

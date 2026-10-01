@@ -1,0 +1,9 @@
+Add local practice opponents and independent leader opening books
+
+Players can try current Money, current Engine, and historical v4 Engine locally at /practice/, choose either seat and distinct leaders, pause/resume, restore a saved game, and export its replay. Decisions use only legal observations in a dedicated worker. Practice uses the study's equal-turn rule and original ties; regular multiplayer ending behavior is unchanged.
+
+Each Engine now has independently selected books for all four leaders. The fresh 12×12 matrix contains 21,600 games; 4,800 paired controls separately measure the books against unchanged Money. The books have mixed effects: Nereon's current Engine improves against Thaleia Money in both seats, while Thaleia's current Engine declines against Melia Money as P1. Books were frozen before held-out evaluation and were not retuned from these results. See leader-opening-study/RESULTS.txt, matrix-report.txt, and opening-control-report.txt for results and limitations.
+
+Validation: all held-out games replay exactly with equal completed turns; 15 practice tests / 539 assertions pass; Svelte check and production/PR-base-path builds pass. Browser smoke covers worker play and save/restore under a preview base path but could not execute locally because of sandbox restrictions.
+
+Rebased onto origin/main at 3b3703b40496a2b4c3015b1b00e2b2737af85bb7. This is a draft description: the session could not publish commits or update the PR.

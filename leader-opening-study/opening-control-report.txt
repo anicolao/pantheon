@@ -1,0 +1,62 @@
+Held-out opening-book controls
+
+Each Engine with its own selected books versus the same Engine without the new overrides.
+Opponent: unchanged current Money. Equal turns and half-credit ties.
+Each row uses 100 matched fresh seeds (400000–400099), shared with the matrix.
+Intervals are pointwise paired t intervals over seed-level Engine win-share changes.
+This validation did not select or retune the books. No pooling across opponents or seats.
+
+| Engine | Seat | Money leader | Baseline | Book | Change (pp) | 95% interval (pp) |
+|---|---:|---|---:|---:|---:|---:|
+| classic-engine / doreios | 1 | melia | 16.0% | 17.5% | +1.5 | [-4.4, +7.4] |
+| classic-engine / doreios | 1 | nereon | 21.5% | 24.5% | +3.0 | [-4.0, +10.0] |
+| classic-engine / doreios | 1 | thaleia | 29.0% | 33.5% | +4.5 | [-2.3, +11.3] |
+| classic-engine / doreios | 2 | melia | 21.5% | 22.5% | +1.0 | [-5.9, +7.9] |
+| classic-engine / doreios | 2 | nereon | 36.0% | 36.5% | +0.5 | [-7.0, +8.0] |
+| classic-engine / doreios | 2 | thaleia | 45.5% | 37.5% | -8.0 | [-16.8, +0.8] |
+| classic-engine / melia | 1 | doreios | 38.0% | 46.5% | +8.5 | [-2.1, +19.1] |
+| classic-engine / melia | 1 | nereon | 31.0% | 34.0% | +3.0 | [-6.3, +12.3] |
+| classic-engine / melia | 1 | thaleia | 36.0% | 39.5% | +3.5 | [-5.2, +12.2] |
+| classic-engine / melia | 2 | doreios | 62.0% | 77.5% | +15.5 | [+5.5, +25.5] |
+| classic-engine / melia | 2 | nereon | 43.0% | 40.0% | -3.0 | [-13.0, +7.0] |
+| classic-engine / melia | 2 | thaleia | 39.5% | 41.5% | +2.0 | [-8.1, +12.1] |
+| classic-engine / nereon | 1 | doreios | 38.5% | 46.5% | +8.0 | [-2.6, +18.6] |
+| classic-engine / nereon | 1 | melia | 19.5% | 17.0% | -2.5 | [-11.2, +6.2] |
+| classic-engine / nereon | 1 | thaleia | 25.0% | 31.0% | +6.0 | [-4.9, +16.9] |
+| classic-engine / nereon | 2 | doreios | 61.5% | 78.5% | +17.0 | [+7.5, +26.5] |
+| classic-engine / nereon | 2 | melia | 41.0% | 34.0% | -7.0 | [-18.4, +4.4] |
+| classic-engine / nereon | 2 | thaleia | 37.0% | 38.5% | +1.5 | [-8.8, +11.8] |
+| classic-engine / thaleia | 1 | doreios | 59.0% | 58.0% | -1.0 | [-6.5, +4.5] |
+| classic-engine / thaleia | 1 | melia | 49.5% | 46.0% | -3.5 | [-8.6, +1.6] |
+| classic-engine / thaleia | 1 | nereon | 47.0% | 46.0% | -1.0 | [-6.6, +4.6] |
+| classic-engine / thaleia | 2 | doreios | 72.0% | 69.0% | -3.0 | [-8.4, +2.4] |
+| classic-engine / thaleia | 2 | melia | 51.5% | 51.5% | +0.0 | [-4.9, +4.9] |
+| classic-engine / thaleia | 2 | nereon | 57.0% | 58.5% | +1.5 | [-4.6, +7.6] |
+| engine / doreios | 1 | melia | 11.5% | 11.5% | +0.0 | [+0.0, +0.0] |
+| engine / doreios | 1 | nereon | 20.0% | 19.5% | -0.5 | [-1.5, +0.5] |
+| engine / doreios | 1 | thaleia | 14.0% | 14.0% | +0.0 | [+0.0, +0.0] |
+| engine / doreios | 2 | melia | 17.0% | 17.0% | +0.0 | [+0.0, +0.0] |
+| engine / doreios | 2 | nereon | 33.0% | 33.0% | +0.0 | [+0.0, +0.0] |
+| engine / doreios | 2 | thaleia | 43.0% | 43.0% | +0.0 | [+0.0, +0.0] |
+| engine / melia | 1 | doreios | 36.0% | 40.0% | +4.0 | [-2.3, +10.3] |
+| engine / melia | 1 | nereon | 34.5% | 38.0% | +3.5 | [-3.3, +10.3] |
+| engine / melia | 1 | thaleia | 30.0% | 37.5% | +7.5 | [-0.5, +15.5] |
+| engine / melia | 2 | doreios | 63.0% | 72.5% | +9.5 | [+3.4, +15.6] |
+| engine / melia | 2 | nereon | 47.0% | 49.5% | +2.5 | [-5.4, +10.4] |
+| engine / melia | 2 | thaleia | 50.5% | 52.0% | +1.5 | [-3.7, +6.7] |
+| engine / nereon | 1 | doreios | 49.5% | 58.5% | +9.0 | [-1.1, +19.1] |
+| engine / nereon | 1 | melia | 24.0% | 25.0% | +1.0 | [-8.4, +10.4] |
+| engine / nereon | 1 | thaleia | 31.0% | 45.0% | +14.0 | [+3.3, +24.7] |
+| engine / nereon | 2 | doreios | 55.0% | 63.0% | +8.0 | [-0.9, +16.9] |
+| engine / nereon | 2 | melia | 28.5% | 33.0% | +4.5 | [-5.0, +14.0] |
+| engine / nereon | 2 | thaleia | 36.5% | 60.5% | +24.0 | [+14.9, +33.1] |
+| engine / thaleia | 1 | doreios | 44.5% | 43.0% | -1.5 | [-7.0, +4.0] |
+| engine / thaleia | 1 | melia | 32.5% | 26.5% | -6.0 | [-10.9, -1.1] |
+| engine / thaleia | 1 | nereon | 34.0% | 33.0% | -1.0 | [-6.8, +4.8] |
+| engine / thaleia | 2 | doreios | 69.5% | 67.0% | -2.5 | [-5.1, +0.1] |
+| engine / thaleia | 2 | melia | 51.0% | 51.5% | +0.5 | [-3.8, +4.8] |
+| engine / thaleia | 2 | nereon | 51.5% | 53.0% | +1.5 | [-3.1, +6.1] |
+
+Multiple pointwise intervals are shown; they are not simultaneous family-wise intervals.
+A zero-width interval means no paired outcome differences were observed; it does not prove population equivalence.
+Books remain small-sample sequential selections, not proof of globally optimal openings.

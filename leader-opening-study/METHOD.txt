@@ -30,7 +30,7 @@ Each cell retains P1/P2 orientation; ties count one half. No leader or strategy 
 Both sides use standard leader powers, shared Worship, and equal completed turns.
 Every game replays to the identical complete reducer state; failures abort instead of becoming losses.
 Results include all final decks, opening decisions, command counts and trace hashes, with a saved trace per cell.
-Best-response summaries choose P2's strongest observed strategy separately for each fixed P1 strategy and opponent leader.
+Best-response summaries choose P2's strongest observed strategy separately for each fixed P1 strategy and opponent leader. The compact pairwise summary then chooses P1's largest worst-case share from those actual cells, retaining tied strategy choices. These selections are descriptive and use the same data as their pointwise intervals; they are not independently validated equilibria.
 
 Execution
 ---------
