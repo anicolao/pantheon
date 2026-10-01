@@ -12,6 +12,7 @@ for leader in ['thaleia','nereon']:
    matches=sorted((root/'training').glob(f'screen-1-{leader}-*-{opponent}-{seat}.jsonl'))
    complete=[f for f in matches if len(f.read_text().splitlines())==2]
    if complete:candidates.append(complete[0])
+assert len(candidates)==12,'Need both seats against all rivals for the two verification leaders'
 pool=CachedWorkers(source_root);n=0
 with tempfile.TemporaryDirectory(prefix='pantheon-cache-parity-') as directory:
  for index,f in enumerate(candidates+list(reversed(candidates))):
