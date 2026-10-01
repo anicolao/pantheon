@@ -5,6 +5,12 @@ on:
     branches: [main]
   pull_request:
     branches: [main]
+  workflow_dispatch:
+    inputs:
+      preview_pr:
+        description: Pull request number to deploy from this branch
+        type: string
+        required: true
 
 permissions:
   contents: read
@@ -36,9 +42,10 @@ jobs:
         id: deployment
         env:
           EVENT_NAME: ${{ github.event_name }}
-          PR_NUMBER: ${{ github.event.pull_request.number }}
+          PR_NUMBER: ${{ github.event.pull_request.number || inputs.preview_pr }}
         run: |
-          if [[ "$EVENT_NAME" == "pull_request" ]]; then
+          if [[ "$EVENT_NAME" != "push" ]]; then
+            [[ "$PR_NUMBER" =~ ^[0-9]+$ ]] || exit 1
             echo "base=/pantheon/pr$PR_NUMBER" >> "$GITHUB_OUTPUT"
             echo "destination=pr$PR_NUMBER" >> "$GITHUB_OUTPUT"
           else
@@ -59,11 +66,11 @@ jobs:
           destination_dir: ${{ steps.deployment.outputs.destination }}
           keep_files: true
       - name: Link retained PR preview
-        if: github.event_name == 'pull_request'
+        if: github.event_name != 'push'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          PR_NUMBER: ${{ github.event.pull_request.number }}
-          PREVIEW_URL: https://${{ github.repository_owner }}.github.io/pantheon/pr${{ github.event.pull_request.number }}/
+          PR_NUMBER: ${{ github.event.pull_request.number || inputs.preview_pr }}
+          PREVIEW_URL: https://${{ github.repository_owner }}.github.io/pantheon/pr${{ github.event.pull_request.number || inputs.preview_pr }}/
         run: >-
           gh pr comment "$PR_NUMBER" --repo "$GITHUB_REPOSITORY"
           --edit-last --create-if-none
