@@ -5,10 +5,10 @@ import { publicCommandContext, describePublicCommand } from '../../../src/lib/ga
 import { roomCodeFixture } from './room-code-fixture';
 const root = 'http://127.0.0.1:8193/v1/projects/demo-pantheon/databases/(default)/documents';
 const headers = { Authorization: 'Bearer owner', 'Content-Type': 'application/json' };
-const value = (item: unknown): object => typeof item === 'string' ? { stringValue: item } : typeof item === 'number' ? { integerValue: String(item) } : Array.isArray(item) ? { arrayValue: { values: item.map(value) } } : { mapValue: { fields: fields(item as Record<string, unknown>) } };
+const value = (item: unknown): object => typeof item === 'boolean' ? { booleanValue: item } : typeof item === 'string' ? { stringValue: item } : typeof item === 'number' ? { integerValue: String(item) } : Array.isArray(item) ? { arrayValue: { values: item.map(value) } } : { mapValue: { fields: fields(item as Record<string, unknown>) } };
 const fields = (item: Record<string, unknown>) => Object.fromEntries(Object.entries(item).map(([key, entry]) => [key, value(entry)]));
 export async function readEvents(code: string): Promise<SetupEvent[]> {
-  const decode = (entry: Record<string, unknown>): unknown => 'stringValue' in entry ? entry.stringValue : 'integerValue' in entry ? Number(entry.integerValue) : 'arrayValue' in entry ? ((entry.arrayValue as { values?: Record<string, unknown>[] }).values ?? []).map(decode) : undefined;
+  const decode = (entry: Record<string, unknown>): unknown => 'booleanValue' in entry ? entry.booleanValue : 'stringValue' in entry ? entry.stringValue : 'integerValue' in entry ? Number(entry.integerValue) : 'arrayValue' in entry ? ((entry.arrayValue as { values?: Record<string, unknown>[] }).values ?? []).map(decode) : undefined;
   const documents: {fields:Record<string,Record<string,unknown>>}[] = [];
   let token = '';
   do {

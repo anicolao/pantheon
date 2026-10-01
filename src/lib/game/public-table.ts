@@ -17,6 +17,7 @@ export type PublicStep = {
 };
 export type PublicActivity = {
   sequence: number;
+  undoneSequence?: number;
   actor: { uid: string; name: string };
   command: SetupEvent['type'];
   steps: PublicStep[];
@@ -81,7 +82,7 @@ export function describePublicCommand(
   }
   const values = { ...game.resources };
   return {
-    sequence: event.sequence, actor: { ...actor }, command: event.type, steps,
+    sequence: event.sequence, ...(event.type === 'action/undone' ? { undoneSequence: event.targetSequence } : {}), actor: { ...actor }, command: event.type, steps,
     change: event.type === 'turn/ended' ? null : {
       actions: values.actions - before.resources.actions,
       coins: values.coins - before.resources.coins,

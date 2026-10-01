@@ -5,7 +5,8 @@ import type { CardInstance, SetupState } from './setup';
 export type ActionCommand =
   | { type: 'action/played'; instanceId: string }
   | { type: 'choice/resolved'; choiceId: string; targets: string[] }
-  | { type: 'phase/advanced' }
+  | { type: 'phase/advanced'; automatic?: boolean }
+  | { type: 'action/undone'; targetSequence: number }
   | { type: 'treasure/played'; instanceId: string }
   | { type: 'treasures/played' }
   | { type: 'card/bought'; cardId: string }
@@ -108,6 +109,7 @@ export function actionEffects(id: string): Effect[] {
   }
 }
 export function applyPlayCommand(game: SetupState, uid: string, command: ActionCommand, sequence: number): string {
+  if (command.type === 'action/undone') throw new Error('Undo requires the committed command history.');
   if (game.phase !== 'playing' || activePlayer(game) !== uid || game.turn.phase === 'finished') throw new Error('Wait for your turn.');
   const zones = game.decks[uid], name = game.players.find(player => player.uid === uid)!.name;
   const messages: string[] = [];
@@ -212,6 +214,8 @@ export function applyPlayCommand(game: SetupState, uid: string, command: ActionC
     }
     // Phase changes, payment and cleanup are ordinary replayable commands.
     case 'phase/advanced': {
+      if (command.automatic !== undefined && typeof command.automatic !== 'boolean') throw new Error('Invalid automatic transition.');
+      if (command.automatic && (game.turn.phase !== 'actions' || zones.hand.some(card => canPlayAction(game, uid, card.id)))) throw new Error('Automatic Treasure mode requires no playable Actions.');
       if (game.turn.phase === 'buys') throw new Error('You are already in the Buy phase.');
       game.turn.phase = game.turn.phase === 'actions' ? 'treasures' : 'buys'; messages.push(`entered the ${game.turn.phase === 'treasures' ? 'Treasure' : 'Buy'} phase`); break;
     }

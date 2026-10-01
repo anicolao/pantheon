@@ -1,6 +1,7 @@
+import { UndoHistory, type UndoTarget } from './undo';
 import { cards } from './cards';
 import { createPrng, shuffle } from './random';
-import { applyPlayCommand, initialTurn, type ActionCommand, type Movement, type TurnState } from './actions';
+import { initialTurn, type ActionCommand, type Movement, type TurnState } from './actions';
 import { describePublicCommand, publicCommandContext, type PublicActivity } from './public-table';
 export type SetupEvent = {
   schemaVersion: 1;
@@ -9,6 +10,8 @@ export type SetupEvent = {
   actorUid: string;
   type: 'game/created' | 'player/joined' | 'table/resized' | 'draft/started' | 'leader/chosen' | ActionCommand['type'];
   instanceId?: string;
+  targetSequence?: number;
+  automatic?: boolean;
   choiceId?: string;
   targets?: string[];
   cardId?: string;
@@ -28,6 +31,7 @@ export function leaderLinks(id: string) {
   return { leader, temple: cards.find(card => card.uniqueStartingCard && card.god === leader.god)!, event: cards.find(card => card.type === 'Event' && card.god === leader.god)! };
 }
 export type SetupState = {
+  undo: UndoTarget | null;
   turn: TurnState;
   supply: Record<string, number>;
   trash: CardInstance[];
@@ -49,20 +53,21 @@ export type SetupState = {
 };
 /** Replay only committed events. No clock, random source, or mutable projection. */
 export function replaySetup(events: SetupEvent[]): SetupState {
-  const state: SetupState = { turn: initialTurn(), supply: {}, trash: [], movements: [], publicActivity: [], playerCount: 2, players: [], activity: [], phase: 'gathering', seed: null, turnOrder: [], draftOrder: [], leaders: {}, decks: {}, sharedEvents: [], dealtAtSequence: null, resources: { actions: 1, buys: 1, worship: 1, coins: 0 } };
+  const state: SetupState = { undo: null, turn: initialTurn(), supply: {}, trash: [], movements: [], publicActivity: [], playerCount: 2, players: [], activity: [], phase: 'gathering', seed: null, turnOrder: [], draftOrder: [], leaders: {}, decks: {}, sharedEvents: [], dealtAtSequence: null, resources: { actions: 1, buys: 1, worship: 1, coins: 0 } };
   const commandIds = new Set<string>();
+  const undo = new UndoHistory();
   for (const event of [...events].sort((a, b) => a.sequence - b.sequence)) {
     if (event.schemaVersion !== 1 || event.sequence !== state.activity.length + 1 ||
       ![2, 3, 4].includes(event.playerCount) || !event.actorUid ||
       typeof event.name !== 'string' || !event.name.trim() || event.name.length > 24) throw new Error('Invalid setup event stream.');
-    if (event.type === 'draft/started' || event.type === 'leader/chosen' || ['action/played', 'choice/resolved', 'phase/advanced', 'treasure/played', 'treasures/played', 'card/bought', 'god/worshipped', 'turn/ended'].includes(event.type)) {
+    if (event.type === 'draft/started' || event.type === 'leader/chosen' || ['action/played', 'choice/resolved', 'phase/advanced', 'treasure/played', 'treasures/played', 'card/bought', 'god/worshipped', 'turn/ended', 'action/undone'].includes(event.type)) {
       if (event.reducerVersion !== 1 || !event.commandId || event.commandId.length > 64 ||
         commandIds.has(event.commandId) ||
         event.playerCount !== state.playerCount || !state.players.some(player => player.uid === event.actorUid && player.name === event.name)) throw new Error('Invalid play event.');
       commandIds.add(event.commandId);
       if (event.type !== 'draft/started' && event.type !== 'leader/chosen') {
         const before = publicCommandContext(state, event.actorUid);
-        state.activity.push({ sequence: event.sequence, message: applyPlayCommand(state, event.actorUid, event as ActionCommand, event.sequence) });
+        state.activity.push({ sequence: event.sequence, message: undo.apply(state, event.actorUid, event as ActionCommand, event.sequence) });
         state.publicActivity.push(describePublicCommand(before, state, event));
         continue;
       }

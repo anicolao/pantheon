@@ -312,3 +312,45 @@ test('concurrent and delayed automatic transitions cannot skip Treasure play', a
   await appendGameCommand(db,id,uid,'delayed-tab',{type:'phase/advanced'},revision);
   events=await history();expect(events).toHaveLength(revision+2);expect(replaySetup(events).turn.phase).toBe('treasures');
 });
+
+test('Undo is authenticated, append-only, serialized, retry-safe, and survives a fresh replay', async()=>{
+  const {appendGameCommand}=await import('../../src/lib/backend/setup-repository');
+  const {activePlayer,canPlayAction}=await import('../../src/lib/game/actions');
+  const a=database('undo-a'),b=database('undo-b'),id='undo-stream';
+  await enterRoom(a,id,'undo-a','Ariadne',2);await enterRoom(b,id,'undo-b','Theseus');
+  await appendGameCommand(a,id,'undo-a','draft',{type:'draft/started',seed:'undo-stream'});
+  const history=async()=>(await getDocs(collection(a,`games/${id}/events`))).docs.map(doc=>doc.data() as SetupEvent);
+  let state=replaySetup(await history());
+  for(const uid of state.draftOrder)await appendGameCommand(uid==='undo-a'?a:b,id,uid,`leader-${uid}`,{type:'leader/chosen',leaderId:uid==='undo-a'?'thaleia':'nereon'});
+  state=replaySetup(await history());const uid=activePlayer(state),db=uid==='undo-a'?a:b,other=uid==='undo-a'?'undo-b':'undo-a',otherDb=uid==='undo-a'?b:a;
+  const temple=state.decks[uid].hand.find(card=>canPlayAction(state,uid,card.id));
+  if(temple)await appendGameCommand(db,id,uid,'temple',{type:'action/played',instanceId:temple.id});
+  await appendGameCommand(db,id,uid,'automatic',{type:'phase/advanced',automatic:true});
+  const before=replaySetup(await history());
+  await appendGameCommand(db,id,uid,'treasures',{type:'treasures/played'});
+  state=replaySetup(await history());const targetSequence=state.undo!.sequence;
+  const command={type:'action/undone' as const,targetSequence};
+  await expect(appendGameCommand(otherDb,id,other,'wrong-player',command)).rejects.toThrow();
+  await expect(appendGameCommand(database('undo-outsider'),id,'undo-outsider','outsider',command)).rejects.toThrow();
+  // Rules reject malformed targets and attempts to point at another actor's event.
+  const foreignSequence=(await history()).find(event=>event.actorUid===other)!.sequence;
+  for(const invalid of [state.activity.length+2,'invalid',foreignSequence]){
+    const sequence=state.activity.length+1,batch=writeBatch(db);
+    batch.update(doc(db,'games',id),{revision:sequence});
+    batch.set(doc(db,'games',id,'events',String(sequence)),{schemaVersion:1,reducerVersion:1,commandId:'forged-undo',sequence,actorUid:uid,name:state.players.find(player=>player.uid===uid)!.name,playerCount:2,type:'action/undone',targetSequence:invalid,createdAt:serverTimestamp()});
+    await assertFails(batch.commit());
+  }
+  const attempts=await Promise.allSettled(['undo-first','undo-second'].map(key=>appendGameCommand(db,id,uid,key,command)));
+  expect(attempts.filter(result=>result.status==='fulfilled')).toHaveLength(1);
+  let events=await history();const accepted=events.find(event=>event.type==='action/undone')!;
+  await appendGameCommand(db,id,uid,accepted.commandId!,command);
+  events=await history();state=replaySetup(events);
+  expect(events.filter(event=>event.type==='action/undone')).toHaveLength(1);
+  expect(state.decks).toEqual(before.decks);expect(state.resources).toEqual(before.resources);expect(state.turn).toEqual(before.turn);
+  expect(replaySetup([...events].reverse())).toEqual(state);
+  await expect(appendGameCommand(db,id,uid,'stale-undo',command)).rejects.toThrow();
+  await assertFails(deleteDoc(doc(db,'games',id,'events',String(targetSequence))));
+  await appendGameCommand(db,id,uid,'cleanup',{type:'turn/ended'});
+  expect(replaySetup(await history()).undo).toBeNull();
+  await expect(appendGameCommand(db,id,uid,'undo-cleanup',command)).rejects.toThrow();
+});
