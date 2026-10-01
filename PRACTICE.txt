@@ -7,8 +7,8 @@ Then open http://127.0.0.1:5194/practice/.
 The PR has not been updated from this restricted session: its GitHub write connector requires approval while the session policy is never.
 Select your leader, the opponent leader, a strategy, and who moves first.
 Money uses the accepted current sampler and standard-game Worship adapter.
-Engine (historical v4) uses the restored leader-aware policy that performed well in the historical study.
-Engine (current) preserves the neutral-base-game-tuned policy and its existing Thaleia book.
+Engine (historical v4) uses the restored leader-aware policy with its independently selected leader-specific openings.
+Engine (current) uses the accepted policy with its own leader-specific openings; its previous generic/Thaleia book remains the fallback.
 Every practice game uses standard powers/Worship, equal completed turns, and original half-credit ties.
 The normal multiplayer rules remain unchanged.
 
