@@ -63,10 +63,18 @@
   }
   function subscribe() {
     stop?.();
-    stop = watchSetup(services!.db, roomId, (next, synced) => {
+    stop = watchSetup(services!.db, roomId, (next, synced, events) => {
       if (!alive || !next.players.length) return;
       setup = next;
       status = synced && navigator.onLine ? 'synced' : 'disconnected';
+      // A server-confirmed event is an acknowledgement even if the HTTP response was lost.
+      // Do not keep the table locked during Firestore's idempotent transaction retry.
+      const attempt = pendingCommand;
+      if (synced && attempt && events.some(event => event.commandId === attempt.id && event.actorUid === services!.uid &&
+        Object.entries(attempt.command).every(([key, value]) => JSON.stringify(event[key as keyof typeof event]) === JSON.stringify(value)))) {
+        pendingCommand = undefined;
+        busy = false;
+      }
       if (synced && next.players.some(player => player.uid === services!.uid)) rememberTable(roomId, services!.uid);
     }, fail);
   }
@@ -109,9 +117,17 @@
     if (!services || !setup || busy || status !== 'synced') return;
     busy = true; playError = '';
     if (!pendingCommand || pendingCommand.expectedRevision !== expectedRevision || JSON.stringify(pendingCommand.command) !== JSON.stringify(command)) pendingCommand = { id: expectedRevision === undefined ? `${crypto.randomUUID()}:${setup.activity.length + 1}` : `auto-treasures:${services.uid}:${expectedRevision}`, command, expectedRevision };
-    try { await appendGameCommand(services.db, roomId, services.uid, pendingCommand.id, pendingCommand.command, pendingCommand.expectedRevision); pendingCommand = undefined; }
-    catch (cause) { playError = cause instanceof SetupError ? cause.message : 'We couldn’t save your choice. Try again.'; }
-    finally { busy = false; }
+    const attempt = pendingCommand;
+    try {
+      await appendGameCommand(services.db, roomId, services.uid, attempt.id, attempt.command, attempt.expectedRevision);
+      if (pendingCommand === attempt) { pendingCommand = undefined; busy = false; }
+    } catch (cause) {
+      // A confirmed older request may finish after the player starts another command.
+      if (pendingCommand === attempt) {
+        playError = cause instanceof SetupError ? cause.message : 'We couldn’t save your choice. Try again.';
+        busy = false;
+      }
+    }
   }
   async function playAgain(){
     if(!services||!setup||setup.turn.phase!=='finished'||busy||status!=='synced')return;

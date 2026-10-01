@@ -64,14 +64,14 @@ export async function enterRoom(db: Firestore, id: string, uid: string, name: st
     throw error;
   }
 }
-export function watchSetup(db: Firestore, id: string, update: (state: SetupState, synced: boolean) => void, fail: (error: Error) => void) {
+export function watchSetup(db: Firestore, id: string, update: (state: SetupState, synced: boolean, events: readonly SetupEvent[]) => void, fail: (error: Error) => void) {
   return onSnapshot(query(collection(db, 'games', id, 'events'), orderBy('sequence')), { includeMetadataChanges: true }, snapshot => {
     if (snapshot.metadata.hasPendingWrites) return;
     try {
       const events = snapshot.docs.map(doc => doc.data() as SetupEvent);
       const state = replaySetup(events);
       if (!snapshot.metadata.fromCache) historyCache(db).set(id, events);
-      update(state, !snapshot.metadata.fromCache);
+      update(state, !snapshot.metadata.fromCache, events);
     }
     catch (error) { fail(error as Error); }
   }, fail);
