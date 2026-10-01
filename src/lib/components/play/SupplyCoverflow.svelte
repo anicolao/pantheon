@@ -79,7 +79,9 @@
 <style>
   .supply-coverflow{width:100%;height:100%;position:relative;color:#f4dfb2;isolation:isolate;}
   .coverflow{position:absolute;inset:0;perspective:1400px;touch-action:pan-y;user-select:none;}
-  .supply-face{position:absolute;top:0;left:calc(50% - var(--card-width)/2);width:var(--card-width);pointer-events:none;will-change:transform;backface-visibility:hidden;}
+  .supply-face{position:absolute;top:0;left:calc(50% - var(--card-width)/2);width:var(--card-width);pointer-events:none;backface-visibility:hidden;}
+  /* Release the transform hint at rest so faces rasterize at their final perspective. */
+  .supply-coverflow[aria-busy=true] .supply-face{will-change:transform;}
   .pile-count{position:absolute;left:3%;bottom:3%;z-index:5;min-width:1.65em;height:1.65em;padding:0 .25em;display:grid;place-items:center;border:1px solid #d8b772;border-radius:50%;background:#071321f2;color:#ffedbd;font-size:clamp(11px,calc(var(--card-width)*.12),30px);font-weight:700;line-height:1;box-shadow:0 1px 3px #0009;}
   /* Flat cards retain depth; stacked faces do not need separate blur passes. */
   .supply-face:not(:has(+ .buy-card[data-face-up=true])) :global(.card){filter:none;}
