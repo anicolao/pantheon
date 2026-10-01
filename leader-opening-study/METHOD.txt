@@ -42,3 +42,7 @@ Screening was interrupted once by sparse-checkout removal of a dependency and on
 The versioned policy source was restored byte-for-byte; these interruptions did not alter policies or seed schedules.
 Run train.py, install selected-books.json into src/lib/bots/opening-books.ts, then run matrix.py and analyze-matrix.py.
 The matrix passes its frozen books explicitly and checks a source manifest on resume.
+
+Opening-book control
+--------------------
+After freezing the books, run matrix.py --control for historical Engine without overrides against unchanged Money in both seats: 24 cells × 100 games. These use the first 100 matrix seeds (400000–400099), allowing paired book-minus-baseline comparisons in each leader/opponent/seat separately. This is held-out evaluation, not an additional selection stage; do not retune books from these outcomes.
