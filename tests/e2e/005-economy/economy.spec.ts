@@ -80,7 +80,12 @@ test('buy an Action from an empty Action hand and play it on turn five',async({p
       await client.getByRole('button',{name:'End turn',exact:true}).click();
       await capture(`turn-${turn}-confirm`,`${name} confirms leaving the available purchases`,client,name,async()=>expect(client.getByRole('dialog')).toContainText(`You can still buy ${coins === '2' ? 'Hamlet' : 'Council of Sages'}.`));
       await client.getByRole('dialog').getByRole('button',{name:'End turn',exact:true}).click();
-      await capture(`turn-${turn}-finished`,`${name} draws five and hands off the turn`,client,name,async()=>{await expect(client.getByTestId('hand-card')).toHaveCount(5);await expect(client.getByRole('button',{name:'To Treasures',exact:true})).toHaveCount(0);});
+      await capture(`turn-${turn}-finished`,`${name} draws five and hands off the turn`,client,name,async()=>{
+        await expect(client.getByTestId('hand-card')).toHaveCount(5);
+        await expect(client.getByRole('button',{name:'To Treasures',exact:true})).toHaveCount(0);
+        // Theseus has no Actions on turn four; observe his automatic phase command too.
+        await expect(client.locator('.turn-marker')).toContainText(`${turn === 3 ? 'Treasures' : 'Actions'} · Turn ${turn + 1}`);
+      });
     }
     await capture('purchased-in-hand','On turn five Ariadne holds the Action she bought',page,'Ariadne',async()=>{await expect(page.locator('.hand [data-card-id="oracles-acolyte"]')).toHaveCount(1);await expect(page.getByRole('button',{name:'To Treasures',exact:true})).toBeEnabled();});
     await page.getByTestId('hand-card').nth(1).click({button:'right'});
