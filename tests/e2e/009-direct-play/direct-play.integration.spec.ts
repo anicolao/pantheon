@@ -1,3 +1,4 @@
+import {sortHand} from '../../../src/lib/components/play/hand-order';
 import { test, expect } from '../helpers/fixtures';
 import { actionTable, playCard, readEvents } from '../helpers/action-history';
 import { TestStepHelper } from '../helpers/test-step-helper';
@@ -113,7 +114,7 @@ test('an expanded fan fits without paging and narrow-screen paging stays clear o
   }}]);
   await page.setViewportSize({width:320,height:568});
   await page.getByRole('button',{name:'Next hand cards',exact:true}).click();
-  const last = state.decks[fixture.host].hand.at(-1)!;
+  const last = sortHand(state.decks[fixture.host].hand).at(-1)!;
   await page.locator(`button[data-instance-id="${last.id}"]`).click({button:'right'});
   await steps.step('last-copy','Inspect the last physical card on the next page',[{spec:'Paging preserves the card identity and optional confirmation.',check:async()=>{
     await expect(page.locator('dialog:modal .inspected [data-card-id]')).toHaveAttribute('data-card-id',last.cardId);

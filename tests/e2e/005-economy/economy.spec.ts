@@ -62,7 +62,7 @@ test('buy an Action from an empty Action hand and play it on turn five',async({p
     await capture('return-to-purchase','Returning from inspection preserves the purchase choice',page,'Ariadne',async()=>expect(page.locator('.resources [data-resource=coins]')).toHaveAttribute('data-value','2'));
     await page.getByRole('button',{name:'Buy Oracle’s Acolyte',exact:true}).click();
     await capture('purchased','One purchased copy enters discard and spends both Coins and the Buy',page,'Ariadne',async()=>{await expect(page.getByRole('button',{name:'Inspect purchased Oracle’s Acolyte',exact:true})).toBeVisible();await expect(page.locator('.resources [data-resource=coins]')).toHaveAttribute('data-value','0');await expect(page.locator('.resources [data-resource=buys]')).toHaveAttribute('data-value','0');await expect(page.locator('#pile-count-oracles-acolyte')).toBeVisible();});
-    await capture('purchase-observer','Theseus sees the purchased Action and its public destination',other,'Theseus',async()=>expect(other.locator('.played-cards [data-card-id]')).toHaveAttribute('data-card-id','oracles-acolyte'));
+    await capture('purchase-observer','Theseus sees the purchased Action and its public destination',other,'Theseus',async()=>expect(other.getByRole('button',{name:'Inspect purchased Oracle’s Acolyte',exact:true})).toBeVisible());
     await expect(page.locator('.supply-coverflow')).toBeVisible();
     await capture('return-to-table','Ariadne returns to finish her first turn',page,'Ariadne',async()=>{await expect(page.getByRole('button',{name:'End turn',exact:true})).toBeEnabled();await expect(page.locator('.turn-marker')).toContainText('Buys');});
     await page.getByRole('button',{name:'End turn',exact:true}).click();
@@ -88,7 +88,7 @@ test('buy an Action from an empty Action hand and play it on turn five',async({p
       });
     }
     await capture('purchased-in-hand','On turn five Ariadne holds the Action she bought',page,'Ariadne',async()=>{await expect(page.locator('.hand [data-card-id="oracles-acolyte"]')).toHaveCount(1);await expect(page.getByRole('button',{name:'To Treasures',exact:true})).toBeEnabled();});
-    await page.getByTestId('hand-card').nth(1).click({button:'right'});
+    await page.getByRole('button',{name:/^(Play|Inspect) hand card \d+: Oracle’s Acolyte$/}).click({button:'right'});
     await capture('purchased-inspector','Ariadne inspects the purchased physical copy',page,'Ariadne',async()=>{await expect(page.getByRole('dialog').locator('[data-card-id]')).toHaveAttribute('data-card-id','oracles-acolyte');await expect(page.getByRole('button',{name:'Play Oracle’s Acolyte',exact:true})).toBeEnabled();});
     await page.getByRole('button',{name:'Play Oracle’s Acolyte',exact:true}).click();
     await capture('purchased-played','The Action draws a card and Thaleia adds her Action reward',page,'Ariadne',async()=>{await expect(page.locator('.played-cards [data-card-id]')).toHaveAttribute('data-card-id','oracles-acolyte');await expect(page.locator('.resources [data-resource=actions]')).toHaveAttribute('data-value','2');await expect(page.getByTestId('hand-card')).toHaveCount(5);});

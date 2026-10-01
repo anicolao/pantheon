@@ -103,7 +103,7 @@ test('four seats fill through ordered remote arrivals and respect reduced motion
       await expect(page.getByTestId('latest-activity')).toHaveText(`${name} joined the table.`);
       await steps.step(`joined-${name.toLowerCase()}`,`${name} arrives at the table`,[{spec:'The new seat and named arrival are visible.',check:async()=>expect(page.getByTestId('player-seat')).toHaveCount(guests.length+1)}],{player:'Ariadne'});
     }
-    await expect.poll(() => page.evaluate(() => (window as unknown as { motions: number[] }).motions.filter(n => n === 450).length)).toBe(6);
+    await expect.poll(() => page.evaluate(() => (window as unknown as { motions: number[] }).motions.filter(n => n === 1125).length)).toBe(6);
     await steps.step('four-player', 'Gather all four players', [
       { spec: 'Every player has a named medallion, and all seats are filled.', check: async () => { await expect(page.getByTestId('player-seat')).toHaveCount(4); await expect(page.getByText('Waiting for a player')).toHaveCount(0); } }
     ]);

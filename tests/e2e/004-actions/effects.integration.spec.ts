@@ -19,9 +19,9 @@ test('play, choose optional trash, reconnect, and show the public result', async
     await page.keyboard.press('Escape');
     await other.emulateMedia({reducedMotion:'no-preference'});
     await other.evaluate(() => {
-      const animate=Element.prototype.animate;
+      const animate=Element.prototype.animate,recorded=new WeakSet<Element>();
       (window as unknown as {flights:string[]}).flights=[];
-      Element.prototype.animate=function(frames,options){if(this.matches('.public-flight'))(window as unknown as {flights:string[]}).flights.push(this.getAttribute('data-motion-step')!);return animate.call(this,frames,options);};
+      Element.prototype.animate=function(frames,options){if(this.matches('.public-flight')&&!recorded.has(this)){recorded.add(this);(window as unknown as {flights:string[]}).flights.push(this.getAttribute('data-motion-step')!);}return animate.call(this,frames,options);};
     });
     await playCard(page,'seed-keeper');
     await steps.step('trash-choice','Choose cards for Seed Keeper',[{spec:'Only cards remaining in hand can be selected; trashing is optional.',check:async()=>{await expect(page.getByRole('dialog',{name:'Seed Keeper',exact:true})).toBeVisible();await expect(page.getByRole('button',{name:'Trash none',exact:true})).toBeEnabled();await expect(page.locator('.options [data-card-id="seed-keeper"]')).toHaveCount(0);}}]);
@@ -42,8 +42,10 @@ test('play, choose optional trash, reconnect, and show the public result', async
     await steps.step('trash-result','The chosen cards leave your deck',[{spec:'Trash is public and Melia draws only after Seed Keeper finishes.',check:async()=>{await expect(page.getByRole('button',{name:`Inspect shared trash, ${targets.length} cards`,exact:true})).toBeVisible();await expect(other.locator('.action-message')).toContainText('trashed');await expect(other.locator('.opponents [data-card-id]')).toHaveCount(0);}}]);
     await page.getByRole('button',{name:`Inspect shared trash, ${targets.length} cards`,exact:true}).click();await steps.step('public-trash','Inspect the shared trash',[{spec:'Trashed copies are visible and remain outside every player’s deck.',check:async()=>expect(page.getByRole('dialog').locator('[data-card-id]')).toHaveCount(targets.length)}]);
     await page.keyboard.press('Escape'); await expect(page.getByRole('button',{name:`Inspect shared trash, ${targets.length} cards`,exact:true})).toBeFocused();
-    const expectedFlights=result.publicActivity.filter(entry=>entry.sequence>fixture.events.length).flatMap(entry=>entry.steps.map(step=>step.id));
-    await expect.poll(()=>other.evaluate(()=>(window as unknown as {flights:string[]}).flights)).toEqual(expectedFlights);
+    const expectedFlights=result.publicActivity.filter(entry=>entry.sequence>fixture.events.length).flatMap(entry=>entry.steps.filter(step=>!['leader','worship'].includes(step.kind)).map(step=>step.id));
+    for(const id of expectedFlights)await expect.poll(()=>other.evaluate(()=>(window as unknown as {flights:string[]}).flights)).toContain(id);
+    expect(await other.evaluate(()=>(window as unknown as {flights:string[]}).flights)).toEqual(expectedFlights);
+    await expect(other.locator('.public-flight')).toHaveCount(0);
     await other.reload();await expect(other.locator('[data-status]')).toHaveAttribute('data-status','synced');
     expect(await other.evaluate(()=>document.getAnimations().length)).toBe(0);
     expect(errors).toEqual([]);steps.generateDocs();

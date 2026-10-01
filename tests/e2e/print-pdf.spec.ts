@@ -23,7 +23,10 @@ test('printed territory numbers preserve their backgrounds in macOS PDF renderin
   const pdf = testInfo.outputPath('territories.pdf');
   const png = testInfo.outputPath('territories-quartz.png');
   await page.pdf({ path: pdf, printBackground: true, preferCSSPageSize: true });
-  execFileSync('swift', [fileURLToPath(new URL('./helpers/render-pdf.swift', import.meta.url)), pdf, png]);
+  // Pair the native Swift compiler with its SDK even inside a Nix dev shell.
+  const {SDKROOT: _nixSdk, DEVELOPER_DIR: _nixDeveloper, ...nativeEnv} = process.env;
+  const sdk=execFileSync('/usr/bin/xcrun',['--sdk','macosx','--show-sdk-path'],{encoding:'utf8',env:nativeEnv}).trim();
+  execFileSync('/usr/bin/xcrun', ['--sdk','macosx','swift','-sdk',sdk,fileURLToPath(new URL('./helpers/render-pdf.swift', import.meta.url)), pdf, png],{env:nativeEnv});
   await testInfo.attach('PDF rendered by macOS', { path: png, contentType: 'image/png' });
   // The helper renders at 3 pixels per PDF point; CSS uses 96 pixels per inch.
   const scale = 3 * 72 / 96;

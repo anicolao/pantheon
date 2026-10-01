@@ -49,11 +49,11 @@ test('a lost purchase acknowledgement does not duplicate the card or its animati
   let dropped=false;
   await page.context().route(url=>url.pathname.endsWith('/documents:commit'),async route=>{if(dropped){await route.continue();return;}const response=await route.fetch({timeout:2000});expect(response.ok()).toBe(true);dropped=true;await route.abort('connectionreset');});
   await page.getByRole('button',{name:'Buy Obol',exact:true}).click();
-  await steps.step('purchase-recovered','Receive exactly one card after an interrupted acknowledgement',[{spec:'Recovery finishes with stock and Buy decreased once and the destination still discard.',check:async()=>{await expect(page.locator('.resources [data-resource=buys]')).toHaveAttribute('data-value','0');await expect(page.getByLabel(`Obol: ${before.supply.obol-1} remaining`,{exact:true})).toBeVisible();await page.waitForFunction(()=>document.querySelector('[data-status]')?.getAttribute('data-status')==='synced'&&!document.querySelector('[aria-busy="true"]'),undefined,{polling:20,timeout:2000});}}]);
+  await steps.step('purchase-recovered','Receive exactly one card after an interrupted acknowledgement',[{spec:'Recovery finishes with stock and Buy decreased once and the destination still discard.',check:async()=>{await expect(page.locator('.resources [data-resource=buys]')).toHaveAttribute('data-value','0');await expect(page.locator('#pile-count-obol')).toHaveText(String(before.supply.obol-1));await page.waitForFunction(()=>document.querySelector('[data-status]')?.getAttribute('data-status')==='synced'&&!document.querySelector('[aria-busy="true"]'),undefined,{polling:20,timeout:2000});}}]);
   expect(dropped).toBe(true);
   const events=await readEvents(fixture.code),after=replaySetup(events);
   expect(events.filter(event=>event.type==='card/bought')).toHaveLength(1);expect(after.decks[fixture.host].discard.length).toBe(before.decks[fixture.host].discard.length+1);
-  if(info.project.name!=='phone')expect(await page.evaluate(()=>(window as unknown as {gains:number[]}).gains.filter(duration=>duration===450).length)).toBe(1);
+  if(info.project.name!=='phone')expect(await page.evaluate(()=>(window as unknown as {gains:number[]}).gains.filter(duration=>duration===1125).length)).toBe(1);
   await page.reload();
   await steps.step('purchase-restored','Return to the same turn with the purchased card kept',[{spec:'Returning does not spend another Buy.',check:async()=>expect(page.locator('.resources [data-resource=buys]')).toHaveAttribute('data-value','0')}]);
   expect(await readEvents(fixture.code)).toEqual(events);expect(await page.evaluate(()=>document.getAnimations().length)).toBe(0);

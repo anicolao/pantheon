@@ -103,7 +103,7 @@ test('arrival has a finite animation and respects reduced motion', async ({ page
   await expect.poll(()=>page.evaluate(()=>matchMedia('(prefers-reduced-motion: reduce)').matches),{message:'The shared context must actually apply the configured reduced-motion preference.'}).toBe(true);
   await page.emulateMedia({ reducedMotion: 'no-preference' });
   await page.goto('./');
-  await expect(page.locator('.arrival')).toHaveCSS('animation-duration', '0.45s');
+  await expect(page.locator('.arrival')).toHaveCSS('animation-duration', '1.125s');
   await test.step('Arrival animation completes',()=>page.evaluate(async()=>{await Promise.all(document.getAnimations().map(animation=>animation.finished));}),{timeout:2_000});
   await expect(page.locator('.arrival')).toHaveCSS('opacity', '1');
   await page.emulateMedia({ reducedMotion: 'reduce' });

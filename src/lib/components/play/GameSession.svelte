@@ -80,7 +80,7 @@
       const width = tableWidth * Number(getComputedStyle(element).getPropertyValue('--hand-room')) / 100;
       // Small landscape cards can expose most of their face and still overlap.
       // Use the same minimum exposure for both sizing and paging.
-      const peek = Math.min(cardWidth * .85, phone ? 28 : 44);
+      const peek = Math.min(cardWidth * .85, phone || shortLandscape ? 28 : 44);
       handMinPeek = peek;
       const capacity = (room: number) => Math.max(1, Math.floor((room - 12 - cardWidth) / peek) + 1);
       // Measure the full fan first so a shrinking hand never gets stuck paging.
@@ -315,7 +315,7 @@
     .play-area{top:44%;left:21%;width:58%;height:7%;}.play-area span{font-size:20px;}.chronicle-control{top:53%;right:3%;width:32%;--control-height:44px;--control-font:21px;}
     .turn-marker.long{font-size:14px;}
     .turn-rail{top:60%;left:3%;width:94%;height:9%;padding:0 6%;}.turn-marker{font-size:19px;width:35%;}.resources{--icon-size:23px;--icon-number-scale:.8;}
-    .hand{left:8%;--hand-room:84;bottom:13%;height:21svh;--hand-card-width:min(30vw,14svh);}
+    .hand{left:4%;--hand-room:92;bottom:13%;height:21svh;--hand-card-width:min(30vw,14svh);}
     .own-leader{left:37%!important;bottom:1%!important;width:26%!important;}.leader-face{display:none;}.leader-portrait{display:block;}.deck-pile{left:9%;bottom:2%;width:14%;}.discard-pile{right:6%;bottom:2%;width:20%;font-size:12px;}.discard-pile{height:10%;}.discard-pile img{height:65%;max-height:6svh;display:block;margin:auto;}.discard-pile span{padding:2px;}
     .error{left:5%;width:90%;top:19%;font-size:13px;padding:8px;}.connection{left:8%;width:84%;font-size:15px;--control-height:48px;--control-font:25px;}
     dialog{padding:20px 16px;}dialog h2{font-size:25px;margin:18px 28px 20px;}
@@ -364,7 +364,7 @@
     .treasures-control{top:60%;left:1%;width:19%;--control-font:12px;--control-height:34px;min-height:34px;font-size:10px;}
     .chronicle-control{top:60%;right:1%;width:19%;--control-height:34px;--control-font:13px;}
     .turn-rail{top:71%;height:13%;left:22%;width:56%;}.turn-marker{font-size:13px;min-height:32px;}.resources{--icon-size:15px;}
-    .hand{left:26%;--hand-room:48;bottom:4%;height:15svh;--hand-card-width:10svh;}.own-leader{left:1%!important;bottom:1%;width:13%;}.deck-pile{left:16%;bottom:1%;width:4%;}.discard-pile{bottom:1%;right:2%;width:12%;font-size:9px;}.discard-pile img{max-height:8svh;}.discard-pile span{padding:1px;}
+    .hand{left:23%;--hand-room:54;bottom:4%;height:15svh;--hand-card-width:10svh;}.own-leader{left:1%!important;bottom:1%;width:13%;}.deck-pile{left:16%;bottom:1%;width:4%;}.discard-pile{bottom:1%;right:2%;width:12%;font-size:9px;}.discard-pile img{max-height:8svh;}.discard-pile span{padding:1px;}
   }
   /* Layout study: a full-width supply band, with public play below it. */
   @media(min-height:501px) and (min-aspect-ratio:3/4){
@@ -437,14 +437,19 @@
     .composition .treasures-control,.composition .chronicle-control{top:64%;}
     .composition .turn-rail{top:69%;height:6%;}
     .composition .play-area{left:10%;width:80%;}
-    .composition:has(.outcome) .play-area{left:12%;width:35%;}
-    .composition .outcome{left:53%!important;width:35%!important;}
+    .composition:has(.outcome) .play-area{left:2%;width:calc(96% - var(--table-card-width) - 40px);}
+    .composition .outcome{left:auto!important;right:2%;width:calc(var(--table-card-width) + 32px)!important;}
   }
   @media(max-height:500px) and (min-aspect-ratio:3/4), (max-height:900px) and (min-aspect-ratio:3/2){
     .composition{--table-card-height:22svh;--supply-top:max(10svh,56px);}
-    .composition .altars{top:var(--supply-top);height:calc(var(--table-card-height) + var(--supply-nav));}
+    .composition .altars{top:var(--supply-top);height:calc(var(--table-card-height) + var(--supply-nav));align-content:start;}
     .composition .turn-rail{top:64%;height:10%;}
     .composition .treasures-control,.composition .chronicle-control{top:64%;}
+  }
+  /* Short portrait screens still need a full touch row above the resource rail. */
+  @media(max-aspect-ratio:3/4) and (max-height:700px){
+    .composition{--table-card-height:15svh;}
+    .composition .treasures-control,.composition .chronicle-control{top:calc(var(--play-top) + var(--table-card-height) + 4px);}
   }
   /* Opponent piles sit beside the hand, without a second row of labels. */
   .composition .opponents .opponent,.composition:has(.outcome) .opponents .opponent{display:grid;grid-template-columns:auto auto minmax(0,1fr) auto;grid-template-rows:auto;align-items:center;gap:3px;max-width:44svh;}
@@ -468,6 +473,7 @@
     .composition{--worship-end:min(20vw,calc(var(--table-card-height) * 1.4));}
     .composition .altars,.composition .altars.four{height:calc(var(--table-card-height) * 2 + 12px);align-content:start;gap:12px 0;}
   }
+  .composition .play-area .played-cards{margin:0;}
   .composition .played-cards{position:relative;width:100%;--group-offset:0px;--played-span:min(100%,calc(var(--table-card-width) * var(--played-count)));--played-step:calc((var(--played-span) - var(--table-card-width)) / max(1,var(--played-count) - 1));}
   .composition .played-card,.composition .played-cards button,.composition:has(.outcome) .played-cards button:not(:last-child),.composition .played-cards button:first-child:nth-last-child(3){display:block;position:absolute;left:calc((100% - var(--played-span)) / 2 + var(--played-index) * var(--played-step) + var(--purchase-offset) * var(--group-offset));top:0;z-index:var(--played-index);}
   .composition .played-card{width:var(--table-card-width);height:var(--table-card-height);pointer-events:none;}

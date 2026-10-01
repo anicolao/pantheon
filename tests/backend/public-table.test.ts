@@ -1,3 +1,4 @@
+import {tablePurchases} from '../../src/lib/components/play/table-purchases';
 import {expect,test} from 'bun:test';
 import {replaySetup,type SetupEvent,type SetupState} from '../../src/lib/game/setup';
 import {activePlayer,applyPlayCommand,type ActionCommand} from '../../src/lib/game/actions';
@@ -134,4 +135,18 @@ test('automatic phase bookkeeping preserves the last card result without removin
   expect(game.publicActivity.at(-1)?.command).toBe('phase/advanced');
   game.publicActivity.push(command(game,{type:'card/bought',cardId:'obol'}));
   expect(latestMoveIndex(game)).toBe(game.activity.length-1);
+});
+
+test('purchases stage in order until cleanup without entering the engine play zone',()=>{
+  const game=table();game.resources.coins=2;game.resources.buys=2;
+  game.publicActivity.push(command(game,{type:'card/bought',cardId:'oracles-acolyte'}));
+  game.publicActivity.push(command(game,{type:'card/bought',cardId:'obol'}));
+  const before=structuredClone(game),purchases=tablePurchases(game,'a');
+  expect(purchases.map(card=>card.cardId)).toEqual(['oracles-acolyte','obol']);
+  expect(game.decks.a.play).toEqual([]);
+  expect(game.decks.a.discard).toEqual(purchases);
+  expect(game).toEqual(before);
+  game.publicActivity.push(command(game,{type:'turn/ended'}));
+  expect(tablePurchases(game,'a')).toEqual([]);
+  expect(game.decks.a.discard).toEqual(expect.arrayContaining(purchases));
 });
