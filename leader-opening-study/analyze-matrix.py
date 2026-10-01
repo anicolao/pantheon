@@ -51,6 +51,31 @@ lines+=['','Books (key = own turn : observed coins; absent key retains that Engi
 'Books were trained against Money in both seats. Rare unrepresented budgets retain that Engine’s prior opening policy.',
 'The manual practice and simulation entry points call the same decision function.',
 'Browser interaction verification and PR publication remain subject to the session restrictions recorded in PRACTICE.txt.']
+
+maximin=[]
+summary=['Observed pure-strategy responses','',
+'For each ordered leader pairing, choose the P1 strategy with the highest share against its strongest P2 reply.',
+'This reports actual cells, without averaging strategies. H = historical v4 Engine; E = current Engine; M = Money.',
+'Selections and pointwise cell intervals use the same 200 held-out seeds; this is a descriptive selection, not an independently validated equilibrium.',
+'Ties in either strategy choice are retained. Tied games count one half.','',
+'| P1 leader | P2 leader | P1 strategy | P2 reply | P1 share | Pointwise 95% interval |',
+'|---|---|---|---|---:|---:|']
+for a in leaders:
+ for b in leaders:
+  if a==b:continue
+  worst={s:min(stats[(a,s,b,t)]['share'] for t in strategies) for s in strategies}
+  best=max(worst.values())
+  for s in strategies:
+   if worst[s]!=best:continue
+   for t in strategies:
+    cell=stats[(a,s,b,t)]
+    if cell['share']!=best:continue
+    lo,hi=cell['ci95']
+    maximin.append({'p1Leader':a,'p2Leader':b,'p1Strategy':s,'p2Strategy':t,**cell})
+    summary.append(f"| {a} | {b} | {s} | {t} | {100*best:.2f}% | [{100*lo:.2f}, {100*hi:.2f}]% |")
+(root/'pairwise-summary.txt').write_text('\n'.join(summary)+'\n')
+lines+=['Observed pure-strategy selections with per-cell intervals are in pairwise-summary.txt.']
+
 seat_comparisons=[]
 seat_lines=['Matched seat comparisons','',
 'Each row moves the same leader/strategy pairing between P1 and P2 on 200 matched seeds.',
@@ -75,7 +100,7 @@ for i,a in enumerate(leaders):
 (root/'seat-comparisons.txt').write_text('\n'.join(seat_lines)+'\n')
 lines+=['Paired seat comparisons, without averaging strategies, are in seat-comparisons.txt.']
 (root/'matrix-report.txt').write_text('\n'.join(lines)+'\n')
-(root/'matrix-analysis.json').write_text(json.dumps({'manifest':manifest,'cells':[dict(zip(['p1Leader','p1Strategy','p2Leader','p2Strategy'],k),**v) for k,v in stats.items()],'responses':responses,'seatComparisons':seat_comparisons},indent=2))
+(root/'matrix-analysis.json').write_text(json.dumps({'manifest':manifest,'cells':[dict(zip(['p1Leader','p1Strategy','p2Leader','p2Strategy'],k),**v) for k,v in stats.items()],'responses':responses,'maximin':maximin,'seatComparisons':seat_comparisons},indent=2))
 with tarfile.open(root/'matrix-games-and-replays.tar.gz','w:gz') as t:
  for f in sorted(out.glob('*')):
   if f.name.endswith('.jsonl') or f.name.endswith('.replay.json') or f.name in ['manifest.json','timing.json']:t.add(f,arcname=str(f.relative_to(root)))
