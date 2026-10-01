@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { motionDuration, MOTION_EASING } from './motion';
   import DialogFrame from "$lib/components/DialogFrame.svelte";
   import { tick, onMount } from 'svelte';
   import { base } from '$app/paths';
@@ -6,6 +7,7 @@
   import type { SetupState } from '$lib/game/setup';
   import type { GameCommand } from '$lib/backend/setup-repository';
   import CardFace from '../CardFace.svelte';
+  import WorshipFace from './WorshipFace.svelte';
   import ResourceIcon from '../ResourceIcon.svelte';
   import GameButton from '../GameButton.svelte';
   let { game, uid, selected, ready, status, error, command, retry, close }: { game: SetupState; uid: string; selected: string; ready: boolean; status: string; error: string; command: (command: GameCommand) => Promise<void>; retry: () => void; close: () => void } = $props();
@@ -25,7 +27,7 @@
   $effect(() => {
     if (latest && latest.sequence > seen && face) {
       seen = latest.sequence;
-      if (latest.source === selected && !matchMedia('(prefers-reduced-motion: reduce)').matches) face.animate([{filter:'drop-shadow(0 0 36px #ffd878)',transform:'translateY(-8px)'},{filter:'drop-shadow(0 0 8px #daa84c)',transform:'translateY(0)'}],{duration:450,easing:'ease-out'});
+      if (latest.source === selected && !matchMedia('(prefers-reduced-motion: reduce)').matches) face.animate([{filter:'drop-shadow(0 0 36px #ffd878)'},{filter:'drop-shadow(0 0 8px #daa84c)'}],{duration:motionDuration(450),easing:MOTION_EASING});
     }
   });
   $effect(() => { if (dialog && !dialog.open) dialog.showModal(); });
@@ -38,7 +40,7 @@
   <picture class="environment" aria-hidden="true"><source media="(max-aspect-ratio:3/4)" srcset={`${base}/assets/ui/worship-mobile.webp`} /><img src={`${base}/assets/ui/worship-desktop.webp`} alt="" /></picture>
   <div class="altar-content" data-e2e-layout={inspected ? undefined : true}>
     <header><h1 id="worship-title">Worship</h1><p class="favor">{favored ? 'Favored' : 'Standard'}</p><p class="devotion" aria-label={`${contributors.length} Devotion to ${event.god}`}><span aria-hidden="true" class:lit={contributors.length >= 1}>✦</span><span aria-hidden="true" class:lit={favored}>✦</span><strong>{contributors.length}</strong> Devotion</p></header>
-    <button class="event-focus" bind:this={face} aria-label={`Read ${event.name}`} onclick={() => inspect(selected)}><CardFace card={event} players={game.playerCount}/></button>
+    <button class="event-focus" bind:this={face} aria-label={`Read ${event.name}`} onclick={() => inspect(selected)}><WorshipFace {game} {uid} cardId={selected}/></button>
     <p class="active-effect"><strong>{favored ? 'Favored' : 'Standard'}:</strong> {favored ? event.favored : event.effect}</p>
     <svg class="threads" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><path class="desktop-thread" class:lit={contributors.length > 0} d="M 50 43 Q 42 50 36 57 M 50 43 Q 58 50 64 57" /><path class="phone-thread" class:lit={contributors.length > 0} d="M 50 40 Q 40 41 34 44 M 50 40 Q 60 41 66 44" /></svg>
     <section class="contributors" aria-label={`Actions contributing Devotion to ${event.god}`}>
@@ -46,7 +48,7 @@
       {#if !contributors.length}<p>No {event.god} Actions in play</p>{/if}
     </section>
     {#if pages > 1}<nav class="contributor-pages" aria-label="Devotion cards"><button disabled={page === 0} onclick={() => page--} aria-label="Previous Devotion cards">‹</button><span>{page + 1} / {pages}</span><button disabled={page + 1 === pages} onclick={() => page++} aria-label="Next Devotion cards">›</button></nav>{/if}
-    <nav class="other-gods" aria-label="Shared gods">{#each game.sharedEvents.filter(id => id !== selected) as id}<button aria-label={`Choose ${definition(id).god}`} onclick={() => select(id)}><CardFace card={definition(id)} players={game.playerCount}/></button>{/each}</nav>
+    <nav class="other-gods" aria-label="Shared gods">{#each game.sharedEvents.filter(id => id !== selected) as id}<button aria-label={`Choose ${definition(id).god}`} onclick={() => select(id)}><WorshipFace {game} {uid} cardId={id}/></button>{/each}</nav>
     <section class="worship-wallet" aria-label="Turn resources"><img src={`${base}/assets/ui/resource-rail.webp`} alt=""/><ResourceIcon resource="actions" value={game.resources.actions}/><ResourceIcon resource="coins" value={game.resources.coins}/><ResourceIcon resource="buys" value={game.resources.buys}/><ResourceIcon resource="worship" value={game.resources.worship}/></section>
     <div class="payment" aria-label={`Worship costs 1 Worship and ${event.cost} Coins`}><ResourceIcon resource="worship" value={1}/><ResourceIcon resource="coins" value={event.cost!}/></div>
     <div class="worship-submit"><GameButton primary disabled={!ready || !!reason} onclick={() => command({ type:'god/worshipped', cardId:selected })}>Worship {event.god}</GameButton></div>

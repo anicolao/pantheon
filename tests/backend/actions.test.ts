@@ -193,6 +193,14 @@ test('departure reminders choose the highest-cost legal card with stable ties, w
   expect(departureReminder(state, 'a')?.card.god).toBe('Athena');
   state.resources.worship=0;
   expect(departureReminder(state,'a')).toBeNull();
+  state.resources.buys = 1;
+  state.resources.coins = 2;
+  state.supply = { obol: 10, hamlet: 8 };
+  expect(departureReminder(state, 'a')).toBeNull();
+  expect(purchaseReason(state, 'a', 'obol')).toBe('');
+  expect(purchaseReason(state, 'a', 'hamlet')).toBe('');
+  state.supply['oracles-acolyte'] = 8;
+  expect(departureReminder(state, 'a')?.card.id).toBe('oracles-acolyte');
 });
 
 test('Worship checks shared gods, turn, resources and pending choices before payment, with no Buy or phase cost', () => {

@@ -2,6 +2,8 @@
   import DialogFrame from "$lib/components/DialogFrame.svelte";
   import { onMount, tick } from 'svelte';
   import { fly } from 'svelte/transition';
+  import { cubicOut } from 'svelte/easing';
+  import { motionDuration } from '$lib/components/play/motion';
   import { base } from '$app/paths';
   import { afterNavigate, goto } from '$app/navigation';
   import { connectFirebase } from '$lib/backend/firebase';
@@ -52,7 +54,7 @@
   const openSeats = $derived(count - (setup?.players.length ?? 0));
   const title = $derived(unavailable === 'full' ? 'This table is full.' : unavailable === 'started' ? 'This game has already begun.' : unavailable ? 'This invitation was not found.' : 'Gather at the Table');
   const starting = ['obol', 'hamlet'].map(id => cards.find(card => card.id === id)!);
-  function arrival(node: Element) { return reducedMotion ? { duration: 0 } : fly(node, { y: 20, duration: 450 }); }
+  function arrival(node: Element) { return reducedMotion ? { duration: 0 } : fly(node, { y: 20, duration: motionDuration(450), easing: cubicOut }); }
   function fail(cause: unknown) {
     if (!alive) return;
     if (cause instanceof SetupError && (cause.code === 'full' || cause.code === 'missing' || cause.code === 'started')) {

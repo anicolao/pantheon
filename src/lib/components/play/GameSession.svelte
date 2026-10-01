@@ -4,6 +4,11 @@
   import DialogFrame from "$lib/components/DialogFrame.svelte";
   import { onMount, tick, untrack } from 'svelte';
   import { fly } from 'svelte/transition';
+  import { cubicOut } from 'svelte/easing';
+  import { motionDuration } from './motion';
+  import { sortHand } from './hand-order';
+  import { tablePurchases } from './table-purchases';
+  import { measureLayout, type Layout } from './motion-layout';
   import { base } from '$app/paths';
   import { cards } from '$lib/game/cards';
   import { leaderIds, leaderLinks, type SetupState } from '$lib/game/setup';
@@ -15,6 +20,7 @@
   import Portrait from './Portrait.svelte';
   import ActionChoice from './ActionChoice.svelte';
   import WorshipScene from './WorshipScene.svelte';
+  import WorshipFace from './WorshipFace.svelte';
   import VictoryScene from './VictoryScene.svelte';
   import PublicTable from './PublicTable.svelte';
   import PublicMotion from './PublicMotion.svelte';
@@ -26,6 +32,13 @@
     command: (command: GameCommand, expectedRevision?: number) => Promise<void>; retry: () => void; again: () => void;
   } = $props();
   const initialRevision = untrack(() => game.activity.length);
+  let motionRevision = -1;
+  let motionBefore: Layout = { poses: [], width: 100 };
+  $effect.pre(() => {
+    const revision = game.activity.length;
+    if (revision === motionRevision) return;
+    untrack(() => { motionBefore = measureLayout(); motionRevision = revision; });
+  });
   const animatedHand = new Set<string>();
   let selected = $state<string>('thaleia');
   let reduced = $state(true);
@@ -43,10 +56,15 @@
   const revealed = $derived(latestMoves.find(move => move.kind === 'reveal'));
   const lastPublic = $derived([...latestMoves].reverse().find(move => ['trash', 'gain', 'discard', 'topdeck'].includes(move.kind) && move.card));
   const own = $derived(game.decks[uid]);
+  const purchases = $derived(Object.fromEntries(game.players.map(player=>[player.uid,tablePurchases(game,player.uid)])));
+  const playedCount = $derived(game.decks[turnUid]?.play.length ?? 0);
+  const tablePlay = $derived([...(game.decks[turnUid]?.play ?? []),...(purchases[turnUid] ?? [])]);
   let handElement = $state<HTMLElement>();
   let handCapacity = $state(5);
+  let tableCardWidth = $state(100);
   let handMinPeek = $state(44);
-  const visibleHand = $derived(own?.hand.slice(handPage * handCapacity, (handPage + 1) * handCapacity) ?? []);
+  const orderedHand = $derived(sortHand(own?.hand ?? []));
+  const visibleHand = $derived(orderedHand.slice(handPage * handCapacity, (handPage + 1) * handCapacity));
   $effect(() => { if (own && handPage * handCapacity >= own.hand.length) handPage = Math.max(0, Math.ceil(own.hand.length / handCapacity) - 1); });
   $effect(() => {
     const count = own?.hand.length ?? 0;
@@ -57,7 +75,7 @@
       if (!card) return;
       const phone = matchMedia('(max-aspect-ratio:3/4)').matches;
       const shortLandscape = matchMedia('(max-height:500px) and (min-aspect-ratio:3/4)').matches;
-      const tableWidth = element.parentElement!.clientWidth, cardWidth = card.offsetWidth;
+      const tableWidth = element.parentElement!.clientWidth, cardWidth = parseFloat(getComputedStyle(card).width);
       if (!cardWidth) return;
       const width = tableWidth * Number(getComputedStyle(element).getPropertyValue('--hand-room')) / 100;
       // Small landscape cards can expose most of their face and still overlap.
@@ -105,15 +123,15 @@
     const update = () => { reduced = media.matches; }; update(); media.addEventListener('change', update);
     return () => media.removeEventListener('change', update);
   });
-  function arrive(node: Element) { return reduced ? { duration: 0 } : fly(node, { y: 24, duration: 450 }); }
+  function arrive(node: Element) { return reduced ? { duration: 0 } : fly(node, { y: 24, duration: motionDuration(450), easing: cubicOut }); }
   function claimFlight(node: Element, leader: string | undefined) {
     if (typeof leader !== 'string' || reduced || game.activity.length <= initialRevision) return { duration: 0 };
     const source = document.querySelector(`[data-leader-choice="${leader}"]`)!.getBoundingClientRect();
     const target = node.getBoundingClientRect();
-    return fly(node, { x: source.left + source.width / 2 - target.left - target.width / 2, y: source.top + source.height / 2 - target.top - target.height / 2, duration: 450 });
+    return fly(node, { x: source.left + source.width / 2 - target.left - target.width / 2, y: source.top + source.height / 2 - target.top - target.height / 2, duration: motionDuration(450), easing: cubicOut });
   }
   function handRevision(id: string) { return game.movements.findLast(move => move.kind === 'draw' && move.card?.id === id)?.sequence ?? game.dealtAtSequence ?? 0; }
-  // Five cards arrive in one 460 ms gesture, without a long staggered rendering tail.
+  // Keep the initial deal at the same slow-motion rate as subsequent flights.
   function deal(node: Element, index: number) {
     const id = (node as HTMLElement).dataset.instanceId!;
     const revision = handRevision(id);
@@ -122,10 +140,14 @@
     animatedHand.add(animation);
     if (reduced || revision <= initialRevision || revision !== game.dealtAtSequence) return { duration: 0 };
     const source = document.querySelector('.deck-pile')!.getBoundingClientRect(), target = node.getBoundingClientRect();
-    return fly(node, { x: source.left - target.left, y: source.top - target.top, duration: 300, delay: index * 40 });
+    return fly(node, { x: source.left + source.width / 2 - target.left - target.width / 2, y: source.top + source.height / 2 - target.top - target.height / 2, duration: motionDuration(300), delay: motionDuration(index * 40), easing: cubicOut, opacity: 1 });
   }
   function dealBack(node: Element, index: number) {
-    return reduced || !game.dealtAtSequence || game.dealtAtSequence <= initialRevision || game.activity.length !== game.dealtAtSequence ? { duration: 0 } : fly(node, { y: 40, duration: 300, delay: index * 40 });
+    if (reduced || !game.dealtAtSequence || game.dealtAtSequence <= initialRevision || game.activity.length !== game.dealtAtSequence) return { duration: 0 };
+    const deck = node.closest('.opponent')?.querySelector('.opponent-deck');
+    if (!deck) return { duration: 0 };
+    const source = deck.getBoundingClientRect(), target = node.getBoundingClientRect();
+    return fly(node, { x: source.left + source.width / 2 - target.left - target.width / 2, y: source.top + source.height / 2 - target.top - target.height / 2, duration: motionDuration(300), delay: motionDuration(index * 40), easing: cubicOut, opacity: 1 });
   }
   async function open(kind: 'card' | 'chronicle' | 'zone' | 'advance' | 'worship') { opener = document.activeElement as HTMLElement; modal = kind; await tick(); if (!['worship','chronicle','zone'].includes(kind)) dialog!.showModal(); }
   function inspect(id: string, copy = 1, instanceId?: string) { inspected = { card: definition(id), copy, instanceId }; void open('card'); }
@@ -144,8 +166,16 @@
 <main class="session" class:drafting={game.phase === 'draft'} data-status={status} aria-busy={busy || (status === 'synced' && automaticTreasures)}>
   <picture class="environment" aria-hidden="true"><source media="(max-aspect-ratio:3/4)" srcset={`${base}/assets/ui/table-mobile.webp`} /><img src={`${base}/assets/ui/table-desktop.webp`} alt="" draggable="false" /></picture>
   <div class="composition" class:covered={!!ownChoice || showResults || modal === 'worship'} inert={status !== 'synced' || modal === 'chronicle' || modal === 'zone'} data-e2e-layout={modal || supplyWarning || ownChoice || showResults || status !== 'synced' ? undefined : true}>
-    <header><a href={`${base}/`} aria-label="Back to sanctuary">‹ Sanctuary</a>{#if /^[A-Z]{4,5}$/.test(roomId)}<span>Game code <strong>{roomId}</strong></span>{:else}<span>{game.playerCount} players</span>{/if}</header>
-    {#if game.phase === 'playing'}<button data-public-zone="trash" class="trash-control" onclick={() => inspectZone(uid, 'trash', 'Shared trash')} aria-label={`Inspect shared trash, ${game.trash.length} cards`}><ResourceIcon resource="trash" value={game.trash.length} label={`${game.trash.length} cards in shared trash`} /></button>{/if}
+    <header><a href={`${base}/`} aria-label="Back to sanctuary">‹ Sanctuary</a>{#if /^[A-Z]{4,5}$/.test(roomId)}<span><span class="code-label">Game code </span><strong>{roomId}</strong></span>{:else}<span>{game.playerCount} players</span>{/if}</header>
+    {#if game.phase === 'playing'}
+      <aside class="table-corner" aria-label="Game activity">
+      <nav class="table-tools" aria-label="Table tools">
+        <button data-public-zone="trash" class="trash-control" onclick={() => inspectZone(uid, 'trash', 'Shared trash')} aria-label={`Inspect shared trash, ${game.trash.length} cards`}><ResourceIcon resource="trash" value={game.trash.length} label={`${game.trash.length} cards in shared trash`} /></button>
+        <button class="log-control" aria-label="Chronicle" title="Game log" onclick={()=>open('chronicle')}><span aria-hidden="true">▤</span></button>
+      </nav>
+      {#if game.movements.length}<p class="action-message" role="status">{choice && turnUid !== uid ? `${nameOf(turnUid)} chooses cards for ${definition(choice.source).name.split(',')[0]}.` : latestActivity?.message.split(';').slice(0, 2).join(';')}</p>{/if}
+      </aside>
+    {/if}
     {#if game.phase === 'draft'}
       <div class="draft-title"><h1>Choose your<br />Bloodline</h1><p aria-live="polite">{isChoice ? 'Your choice' : `${nameOf(chooser)} chooses`}</p></div>
       {#key selected}<img class="hero" src={`${base}/assets/ui/hero-${selected}.webp`} alt="" draggable="false" in:arrive />{/key}
@@ -174,41 +204,42 @@
         {#each opponents as id}
           <div data-public-zone="seat" data-public-uid={id} class="opponent" data-testid="opponent" class:first={id === turnUid}>
             <div class="opponent-portrait" class:blessed={latestMoves.some(move => move.kind === 'leader' && move.uid === id)}><Portrait leader={game.leaders[id]} name={nameOf(id)} active={id === turnUid} /></div>
+            <div class="opponent-deck" data-public-zone="deck" data-public-uid={id}><ResourceIcon resource="cards" value={game.decks[id].deck.length} label={`${nameOf(id)}’s deck: ${game.decks[id].deck.length} cards`}/></div>
             <div data-public-zone="hand" data-public-uid={id} class="hidden-hand" aria-label={`${nameOf(id)} has ${game.decks[id].hand.length} cards in hand`}>
-              {#each game.decks[id].hand.slice(0, 5) as _, index}<img src={`${base}/assets/backs/back-deck-icon.webp`} alt="Card back" style:--index={index} draggable="false" in:dealBack|global={index} />{/each}
+              {#each game.decks[id].hand.slice(0, 5) as _, index}<img data-motion-key={`hidden:${id}:${index}`} data-motion-zone="hand" data-motion-uid={id} src={`${base}/assets/backs/back-deck-icon.webp`} alt="Card back" style:--index={index} draggable="false" in:dealBack|global={index} />{/each}
               {#if game.decks[id].hand.length > 5}<span class="hand-count">{game.decks[id].hand.length}</span>{/if}
             </div>
-            <p>{id === turnUid ? 'Active · ' : ''}Deck {game.decks[id].deck.length} · <button data-public-zone="discard" data-public-uid={id} class="opponent-discard" aria-label={`Inspect ${nameOf(id)}’s discard pile, ${game.decks[id].discard.length} cards`} onclick={() => inspectZone(id, 'discard', `${nameOf(id)}’s discard`)}>Discard {game.decks[id].discard.length}</button></p>
+            <button data-public-zone="discard" data-public-uid={id} class="opponent-discard" aria-label={`Inspect ${nameOf(id)}’s discard pile, ${(game.decks[id].discard.length-purchases[id].length)} cards`} onclick={() => inspectZone(id, 'discard', `${nameOf(id)}’s discard`)}><ResourceIcon resource="discard" value={(game.decks[id].discard.length-purchases[id].length)} label={`${nameOf(id)}’s discard: ${(game.decks[id].discard.length-purchases[id].length)} cards`}/></button>
           </div>
         {/each}
       </section>
-      <div class="table-supply"><SupplyCoverflow {game} {uid} {ready} {command} visible={!modal && !supplyWarning && !ownChoice && !showResults} inspect={id=>inspect(id)} onDialog={open=>supplyWarning=open}/></div>
+      <div class="table-card-measure" bind:clientWidth={tableCardWidth} aria-hidden="true"></div>
+      <div class="table-supply"><SupplyCoverflow sharedCardWidth={tableCardWidth} {game} {uid} {ready} {command} visible={!modal && !supplyWarning && !ownChoice && !showResults} inspect={id=>inspect(id)} onDialog={open=>supplyWarning=open}/></div>
       <section class="altars" aria-label="Shared god events" class:four={game.sharedEvents.length > 2}>
-        {#each game.sharedEvents as id, index}<button data-public-zone="altar" data-public-card={id} data-god-event={id} style:--altar-index={index} aria-label={`Inspect ${cards.find(card => card.id === id)!.name}`} onclick={() => worship(id)} in:arrive><CardFace card={cards.find(card => card.id === id)!} players={game.playerCount} /></button>{/each}
+        {#each game.sharedEvents as id, index}<button data-public-zone="altar" data-public-card={id} data-god-event={id} style:--altar-index={index} aria-label={`Inspect ${cards.find(card => card.id === id)!.name}`} onclick={() => worship(id)} in:arrive><WorshipFace {game} {uid} cardId={id} /></button>{/each}
       </section>
       <div data-public-zone="play" data-public-uid={turnUid} class="play-area" aria-label="Active play area">
-        {#if game.decks[turnUid].play.length}<div class="played-cards">{#each game.decks[turnUid].play.slice(-3) as card (card.id)}<button aria-label={`Inspect played ${definition(card.cardId).name}`} onclick={() => inspect(card.cardId, card.copy)}><CardFace card={definition(card.cardId)} players={game.playerCount} copy={card.copy} /></button>{/each}</div>{:else}<span>Your play area</span>{/if}
+        {#if tablePlay.length}<div class="played-cards" class:with-purchases={playedCount > 0 && (purchases[turnUid]?.length ?? 0) > 0} style:--played-count={tablePlay.length}>{#each tablePlay as card,index (card.id)}<button style:--played-index={index} style:--purchase-offset={index >= playedCount ? 1 : 0} data-motion-key={`play:${card.id}`} data-motion-card={card.id} data-motion-face={card.cardId} data-motion-copy={card.copy} data-motion-zone="play" data-motion-uid={turnUid} aria-label={`Inspect ${index >= playedCount ? 'purchased' : 'played'} ${definition(card.cardId).name}`} onclick={() => inspect(card.cardId, card.copy)}><CardFace card={definition(card.cardId)} players={game.playerCount} copy={card.copy} /></button>{/each}</div>{:else}<span>Your play area</span>{/if}
       </div>
-      {#if game.decks[turnUid].play.length && !(turnUid === uid && ['actions','treasures'].includes(game.turn.phase) && treasures.length)}<button class="all-played" onclick={() => inspectZone(turnUid, 'play', `${nameOf(turnUid)}’s play area`)}>In play · {game.decks[turnUid].play.length}</button>{/if}
-      {#if revealed || lastPublic}{#key game.activity.length}<button class="outcome" aria-label={`Inspect ${revealed ? 'revealed' : lastPublic!.kind === 'trash' ? 'trashed' : 'gained'} ${definition((revealed ?? lastPublic)!.card!.cardId).name}`} onclick={() => inspect((revealed ?? lastPublic)!.card!.cardId, (revealed ?? lastPublic)!.card!.copy)}><div class="outcome-card"><CardFace card={definition((revealed ?? lastPublic)!.card!.cardId)} players={game.playerCount} copy={(revealed ?? lastPublic)!.card!.copy} /></div><ResourceIcon resource={lastPublic?.kind === 'topdeck' ? 'topdeck' : lastPublic?.kind === 'trash' ? 'trash' : 'discard'} />{#if revealed && lastPublic?.kind === 'discard'}<ResourceIcon resource="coins" value="+2" />{/if}</button>{/key}{/if}
-      {#if game.movements.length}<p class="action-message" role="status">{choice && turnUid !== uid ? `${nameOf(turnUid)} chooses cards for ${definition(choice.source).name.split(',')[0]}.` : latestActivity?.message.split(';').slice(0, 2).join(';')}</p>{/if}
+      {#if tablePlay.length && !(turnUid === uid && ['actions','treasures'].includes(game.turn.phase) && treasures.length)}<button class="all-played" onclick={() => inspectZone(turnUid, 'play', `${nameOf(turnUid)}’s play area`)}>In play · {tablePlay.length}</button>{/if}
+      {#if (revealed || lastPublic) && game.publicActivity.find(entry=>entry.sequence===latestActivity?.sequence)?.command!=='card/bought'}{#key game.activity.length}<button class="outcome" data-motion-key={revealed ? `reveal:${revealed.card!.id}` : undefined} data-motion-card={revealed?.card?.id} data-public-zone={revealed ? 'reveal' : undefined} data-public-uid={turnUid} aria-label={`Inspect ${revealed ? 'revealed' : lastPublic!.kind === 'trash' ? 'trashed' : 'gained'} ${definition((revealed ?? lastPublic)!.card!.cardId).name}`} onclick={() => inspect((revealed ?? lastPublic)!.card!.cardId, (revealed ?? lastPublic)!.card!.copy)}><div class="outcome-card"><CardFace card={definition((revealed ?? lastPublic)!.card!.cardId)} players={game.playerCount} copy={(revealed ?? lastPublic)!.card!.copy} /></div><ResourceIcon resource={lastPublic?.kind === 'topdeck' ? 'topdeck' : lastPublic?.kind === 'trash' ? 'trash' : 'discard'} />{#if revealed && lastPublic?.kind === 'discard'}<ResourceIcon resource="coins" value="+2" />{/if}</button>{/key}{/if}
       {#if turnUid === uid && game.turn.phase !== 'finished'}<div class="chronicle-control"><GameButton primary onclick={advance} disabled={!ready || !!choice}>{advanceLabel}</GameButton></div>{/if}
       {#if turnUid === uid && ['actions','treasures'].includes(game.turn.phase) && treasures.length}<div class="treasures-control"><GameButton primary disabled={!ready} onclick={()=>command({type:'treasures/played'})}>Play all Treasures</GameButton></div>{/if}
-      <section class="turn-rail" aria-label="Turn resources"><img class="rail-frame" src={`${base}/assets/ui/resource-rail.webp`} alt="" aria-hidden="true" /><button aria-label="Chronicle" title="Chronicle" onclick={()=>open('chronicle')} class="turn-marker" class:long={nameOf(turnUid).length > 12 && turnUid !== uid}><strong>{turnUid === uid ? 'Your turn' : `${nameOf(turnUid)}’s turn`}</strong><span>{game.turn.phase === 'actions' ? 'Actions' : game.turn.phase === 'treasures' ? 'Treasures' : game.turn.phase === 'finished' ? 'Complete' : 'Buys'} · Turn {game.turn.number} ▤</span></button>
+      <section class="turn-rail" aria-label="Turn resources"><img class="rail-frame" src={`${base}/assets/ui/resource-rail.webp`} alt="" aria-hidden="true" /><div class="turn-marker" class:long={nameOf(turnUid).length > 12 && turnUid !== uid}><strong>{turnUid === uid ? 'Your turn' : `${nameOf(turnUid)}’s turn`}</strong><span>{game.turn.phase === 'actions' ? 'Actions' : game.turn.phase === 'treasures' ? 'Treasures' : game.turn.phase === 'finished' ? 'Complete' : 'Buys'} · Turn {game.turn.number}</span></div>
         <div class="resources"><ResourceIcon resource="actions" value={game.resources.actions} /><ResourceIcon resource="coins" value={game.resources.coins} /><ResourceIcon resource="buys" value={game.resources.buys} /><ResourceIcon resource="worship" value={game.resources.worship} /></div>
       </section>
       {#if game.turn.phase==='finished'}<div class="chronicle-control final-control"><GameButton primary onclick={()=>resultsOpen=true}>Final scores</GameButton></div>{/if}
       <section bind:this={handElement} data-public-zone="hand" data-public-uid={uid} class="hand" aria-label="Your hand" style:--hand-count={visibleHand.length} style:--hand-spaces={Math.max(1,visibleHand.length-1)} style:--hand-min-peek={`${handMinPeek}px`}>
         {#each visibleHand as card, index (`${card.id}:${handRevision(card.id)}`)}
-          <div class="hand-slot" data-instance-id={card.id} style:--card-index={index} style:--fan-angle={`${(index-(visibleHand.length-1)/2)*Math.min(3,16/Math.max(1,visibleHand.length-1))}deg`} style:--fan-drop={`${Math.abs(index-(visibleHand.length-1)/2)*3}px`} in:deal|global={index}><div class="hand-face"><CardFace card={definition(card.cardId)} players={game.playerCount} copy={card.copy} /></div></div>
-          <button data-testid="hand-card" data-instance-id={card.id} aria-label={`${canPlayAction(game,uid,card.id)||canPlayTreasure(game,uid,card.id)?'Play':'Inspect'} hand card ${handPage * handCapacity + index + 1}: ${definition(card.cardId).name}`} aria-describedby="hand-help" style:--card-index={index} use:cardGesture={{activate:()=>playHand(card.cardId,card.copy,card.id),inspect:()=>inspect(card.cardId,card.copy,card.id)}}></button>
+          <div class="hand-slot" data-motion-key={`hand:${card.id}`} data-motion-card={card.id} data-motion-face={card.cardId} data-motion-copy={card.copy} data-motion-zone="hand" data-motion-uid={uid} data-instance-id={card.id} style:--card-index={index} style:--fan-angle={`${(index-(visibleHand.length-1)/2)*Math.min(3,16/Math.max(1,visibleHand.length-1))}deg`} style:--fan-drop={`${Math.abs(index-(visibleHand.length-1)/2)*3}px`} in:deal|global={index}><div class="hand-face"><CardFace card={definition(card.cardId)} players={game.playerCount} copy={card.copy} /></div></div>
+          <button data-motion-key={`hand-hit:${card.id}`} data-testid="hand-card" data-instance-id={card.id} aria-label={`${canPlayAction(game,uid,card.id)||canPlayTreasure(game,uid,card.id)?'Play':'Inspect'} hand card ${handPage * handCapacity + index + 1}: ${definition(card.cardId).name}`} aria-describedby="hand-help" style:--card-index={index} use:cardGesture={{activate:()=>playHand(card.cardId,card.copy,card.id),inspect:()=>inspect(card.cardId,card.copy,card.id)}}></button>
         {/each}
         <span id="hand-help" class="sr-only">Click or tap to play. Right-click, hold, or press Shift+F10 to inspect before playing.</span>
       </section>
       {#if own.hand.length > handCapacity}<nav class="hand-pages" aria-label="Hand pages"><button aria-label="Previous hand cards" disabled={handPage === 0} onclick={() => handPage--}>‹</button><span>{handPage + 1} / {Math.ceil(own.hand.length / handCapacity)}</span><button aria-label="Next hand cards" disabled={(handPage + 1) * handCapacity >= own.hand.length} onclick={() => handPage++}>›</button></nav>{/if}
       <button data-public-zone="leader" data-public-uid={uid} class="own-leader" class:blessed={latestMoves.some(move => move.kind === 'leader' && move.uid === uid)} aria-label={`Inspect your leader, ${leaderLinks(game.leaders[uid]).leader.name}`} onclick={() => inspect(game.leaders[uid])}><div class="leader-face"><CardFace card={leaderLinks(game.leaders[uid]).leader} players={game.playerCount} /></div><div class="leader-portrait"><Portrait leader={game.leaders[uid]} name={leaderLinks(game.leaders[uid]).leader.name.split(',')[0]} active={uid === turnUid} /></div></button>
       <div data-public-zone="deck" data-public-uid={uid} class="deck-pile" aria-label={`Your deck: ${own.deck.length} cards`}><img src={`${base}/assets/backs/back-deck.webp`} alt="Your face-down deck" /><span class="stock">{own.deck.length}</span></div>
-      <button data-public-zone="discard" data-public-uid={uid} class="discard-pile" aria-label={`Inspect your discard pile: ${own.discard.length} cards`} onclick={() => inspectZone(uid, 'discard', 'Your discard')}><img src={`${base}/assets/icons/discard-v2.webp`} alt="" /><span>Discard · {own.discard.length}</span></button>
+      <button data-public-zone="discard" data-public-uid={uid} class="discard-pile" aria-label={`Inspect your discard pile: ${(own.discard.length-purchases[uid].length)} cards`} onclick={() => inspectZone(uid, 'discard', 'Your discard')}><img src={`${base}/assets/icons/discard-v2.webp`} alt="" /><span>Discard · {(own.discard.length-purchases[uid].length)}</span></button>
     {/if}
     {#if error}<p class="error" role="alert">{error}</p>{/if}
   </div>
@@ -223,7 +254,7 @@
   {/if}
 </dialog>
 {#if modal === 'chronicle' || modal === 'zone'}<PublicTable {game} {uid} initialTab={modal === 'zone' ? zone!.kind : 'chronicle'} owner={modal === 'zone' ? zone!.uid : uid} {close}/>{/if}
-<PublicMotion {game} {status} {reduced} visible={!modal && !supplyWarning && !ownChoice && !showResults}/>
+<PublicMotion previousLayout={()=>motionBefore} {game} {status} {reduced} visible={!modal && !supplyWarning && !ownChoice && !showResults}/>
 {#if modal === 'worship'}<WorshipScene {game} {uid} selected={worshipEvent} {ready} {status} {error} {command} {retry} {close}/>{/if}
 {#if ownChoice}<ActionChoice {game} {uid} choice={ownChoice} {ready} {error} {command} {status} {retry} />{/if}
 
@@ -238,7 +269,7 @@
   .composition:has(.outcome) .play-area{left:34%;top:44%;width:20%;height:17%;}.composition:has(.outcome) .played-cards{margin-left:0;}.composition:has(.outcome) .played-cards button:not(:last-child){display:none;}.outcome{left:56%!important;top:44%!important;width:18%!important;height:17%!important;flex-direction:row!important;}.outcome-card{width:min(54%,12svh)!important;flex-shrink:0;}
   .blessed{filter:drop-shadow(0 0 9px #ffe091);}
   .hand-count{position:absolute;right:0;bottom:0;min-width:24px;background:#071321;border:1px solid #b99a51;border-radius:50%;text-align:center;}
-  .trash-control{position:absolute;left:46%;top:1%;width:8%;height:44px;background:#071321c9;border:1px solid #aa8e52;border-radius:12px;--icon-size:20px;z-index:6;}.opponent-discard{border:0;padding:0 4px;background:#07132199;min-height:44px;font:inherit;color:inherit;border-radius:6px;}.opponent p{display:flex;align-items:center;justify-content:center;gap:3px;}.played-cards{display:flex;gap:12px;height:100%;justify-content:center;}.played-cards button{height:100%;aspect-ratio:5/7;padding:0;border:0;background:none;}.all-played{position:absolute;left:24%;top:46%;width:10%;min-height:44px;background:#071321bb;border:1px solid #ad8e50;border-radius:8px;color:#edd7a8;font-size:clamp(12px,1.6svh,32px);}.play-area:has(.played-cards){left:31%;width:38%;}.play-area:has(.played-cards) .played-cards{margin-left:25%;}.outcome{position:absolute;left:4%;top:7%;width:13%;height:23%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;padding:0;border:0;background:none;--icon-size:clamp(18px,2svh,42px);}.outcome-card{width:70%;}.action-message{position:absolute;left:25%;width:50%;top:19%;margin:0;text-align:center;background:#071321da;border:1px solid #ae9151;border-radius:8px;padding:4px 8px;font-size:clamp(11px,1.4svh,28px);line-height:1.2;pointer-events:none;z-index:3;}.hand-pages{position:absolute;left:1%;bottom:22%;width:18%;display:flex;justify-content:center;gap:8px;align-items:center;font-size:clamp(12px,1.6svh,32px);}.hand-pages button{min-width:44px;min-height:44px;border:1px solid #b99653;background:#071321;border-radius:8px;color:#f2d694;font-size:24px;}.discard-pile{border:0;padding:0;background:none;color:inherit;}.play-command{max-width:440px;margin:16px auto 0;--control-height:52px;--control-font:24px;}.play-command p{margin:8px 0 0;color:#edca8d;font-size:15px;}.inspection:has(.play-command) .inspected{width:min(260px,35svh);}
+  .trash-control{position:absolute;left:46%;top:1%;width:8%;height:44px;background:#071321c9;border:1px solid #aa8e52;border-radius:12px;--icon-size:20px;z-index:6;}.opponent-discard{border:0;padding:0 4px;background:#07132199;min-height:44px;font:inherit;color:inherit;border-radius:6px;}.played-cards{display:flex;gap:12px;height:100%;justify-content:center;}.played-cards button{height:100%;aspect-ratio:5/7;padding:0;border:0;background:none;}.all-played{position:absolute;left:24%;top:46%;width:10%;min-height:44px;background:#071321bb;border:1px solid #ad8e50;border-radius:8px;color:#edd7a8;font-size:clamp(12px,1.6svh,32px);}.play-area:has(.played-cards){left:31%;width:38%;}.play-area:has(.played-cards) .played-cards{margin-left:25%;}.outcome{position:absolute;left:4%;top:7%;width:13%;height:23%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;padding:0;border:0;background:none;--icon-size:clamp(18px,2svh,42px);}.outcome-card{width:70%;}.hand-pages{position:absolute;left:1%;bottom:22%;width:18%;display:flex;justify-content:center;gap:8px;align-items:center;font-size:clamp(12px,1.6svh,32px);}.hand-pages button{min-width:44px;min-height:44px;border:1px solid #b99653;background:#071321;border-radius:8px;color:#f2d694;font-size:24px;}.discard-pile{border:0;padding:0;background:none;color:inherit;}.play-command{max-width:440px;margin:16px auto 0;--control-height:52px;--control-font:24px;}.play-command p{margin:8px 0 0;color:#edca8d;font-size:15px;}.inspection:has(.play-command) .inspected{width:min(260px,35svh);}
   .composition.covered{visibility:hidden;}
   .session{height:100svh;min-height:600px;position:relative;isolation:isolate;overflow:clip;background:#071321;}.environment{position:absolute;inset:0;z-index:-2;}.environment img{height:100%;width:100%;object-fit:cover;}.composition{height:100%;position:relative;--control-height:clamp(50px,6.5svh,128px);--control-font:clamp(22px,3svh,58px);}
   header{position:absolute;top:1.2%;left:2%;right:2%;display:flex;justify-content:space-between;align-items:center;z-index:6;font-size:clamp(12px,1.6svh,30px);}header a,header>span{padding:8px 14px;background:#071522d9;border:1px solid #ae91516b;border-radius:24px;color:#ecd5a1;text-decoration:none;}header a{min-height:44px;display:flex;align-items:center;}header strong{letter-spacing:.12em;}
@@ -249,8 +280,8 @@
   .leaders{position:absolute;left:28%;width:44%;bottom:12%;display:flex;justify-content:center;gap:3%;}.leaders button{width:min(10vw,15svh);flex-shrink:0;}.taken{filter:saturate(.4);}.taken-by{position:absolute;bottom:-12%;left:0;width:100%;text-align:center;font-size:clamp(10px,1.4svh,26px);color:#ffdf8e;}.choose{position:absolute;bottom:2.6%;left:35%;width:30%;}.choose p{text-align:center;font:500 clamp(22px,3svh,56px)/1.2 'Cormorant Garamond',serif;margin:0;padding:12px;background:#071321bb;border-radius:20px;}
   .draft-order{position:absolute;right:3%;top:9%;width:14%;text-align:center;}.draft-order h2{font:500 clamp(14px,1.8svh,34px)/1 'Cormorant Garamond',serif;color:#edd196;text-transform:uppercase;letter-spacing:.08em;margin:0 0 12px;}.draft-order>div{display:flex;flex-direction:column;align-items:center;}.order-portrait{width:min(8vw,12svh);}.draft-order p{font-size:clamp(11px,1.3svh,26px);line-height:1.2;margin:0 0 10px;}.order-index{display:none;}.current p{color:#ffe099;}
   .draft-order.many{display:grid;grid-template-columns:1fr 1fr;gap:10px;}.draft-order.many h2{grid-column:1/-1;}.many .order-portrait{width:8svh;}.many p{font-size:clamp(10px,1.2svh,24px);}
-  .opponents{position:absolute;top:5%;left:22%;width:56%;height:13%;display:flex;justify-content:center;gap:6%;}.opponent{position:relative;display:grid;grid-template-columns:1fr 1.6fr;align-items:center;width:40%;max-width:34svh;}.opponent-portrait{width:100%;max-width:10svh;}.hidden-hand{position:relative;display:flex;justify-content:center;min-width:0;height:9svh;}.hidden-hand img{width:25%;height:100%;object-fit:contain;margin-left:-7%;}.opponent p{grid-column:1/-1;text-align:center;margin:0;font-size:clamp(10px,1.3svh,25px);text-shadow:0 1px 3px #000;}.first p{color:#ffe099;}
-  .table-supply{position:absolute;left:20%;top:23%;width:60%;height:21%;}
+  .opponents{position:absolute;top:5%;left:22%;width:56%;height:13%;display:flex;justify-content:center;gap:6%;}.opponent{position:relative;display:grid;grid-template-columns:1fr 1.6fr;align-items:center;width:40%;max-width:34svh;}.opponent-portrait{width:100%;max-width:10svh;}.hidden-hand{position:relative;display:flex;justify-content:center;min-width:0;height:9svh;}.hidden-hand img{width:25%;height:100%;object-fit:contain;margin-left:-7%;}
+  .table-supply{position:absolute;left:0;top:20%;width:100%;height:34%;}
   .stock{position:absolute;right:0;bottom:0;min-width:1.8em;min-height:1.8em;display:grid;place-items:center;border:2px solid #bc974c;border-radius:50%;background:#071622;color:#fff1cb;font:bold clamp(13px,2svh,40px)/1 'Atkinson Hyperlegible',sans-serif;padding:2px;}
   .altars{position:absolute;left:1%;top:41%;width:98%;display:grid;grid-template-columns:18% 18%;justify-content:space-between;gap:2svh;pointer-events:none;}.altars button{pointer-events:auto;}.altars.four{top:35%;grid-template-columns:min(14vw,20svh) min(14vw,20svh);gap:1svh;}
   .play-area{position:absolute;left:24%;top:46%;height:14%;width:52%;display:grid;place-items:center;}.play-area span{font:500 clamp(20px,3svh,54px)/1 'Cormorant Garamond',serif;color:#ead8b4b0;text-shadow:0 2px 4px #000;}
@@ -273,7 +304,7 @@
     button.leader-card{left:7%;top:31%;width:86%;}button.temple-card{left:13%;top:56%;width:25%;}button.event-card{left:43%;top:56%;width:46%;}
     .leaders{left:5%;width:90%;bottom:auto;top:74%;gap:1%;}.leaders button{width:24%;}.taken-by{font-size:10px;bottom:-7%;}.choose{left:10%;width:80%;bottom:2.5%;--control-height:50px;--control-font:25px;}.choose p{font-size:23px;padding:10px;}
     .draft-order,.draft-order.many{display:flex;top:auto;bottom:10%;left:3%;width:94%;right:auto;display:flex;justify-content:center;gap:8px;}.draft-order h2,.order-portrait{display:none;}.draft-order>div{flex:1;min-width:0;}.draft-order p{font-size:10px;margin:0;}.order-index{display:inline;}
-    .opponents{top:6%;left:7%;width:86%;height:17%;gap:4%;}.opponent{width:100%;max-width:40svh;grid-template-columns:1fr;justify-items:center;}.opponent-portrait{width:23vw;max-width:11svh;}.opponents:has(.opponent:nth-child(2)) .opponent-portrait{width:20vw;max-width:6svh;}.hidden-hand{height:6svh;width:100%;}.hidden-hand img{width:19%;margin-left:-5%;}.opponent p{font-size:9px;}
+    .opponents{top:6%;left:7%;width:86%;height:17%;gap:4%;}.opponent{width:100%;max-width:40svh;grid-template-columns:1fr;justify-items:center;}.opponent-portrait{width:23vw;max-width:11svh;}.opponents:has(.opponent:nth-child(2)) .opponent-portrait{width:20vw;max-width:6svh;}.hidden-hand{height:6svh;width:100%;}.hidden-hand img{width:19%;margin-left:-5%;}
     .altars,.altars.four{top:26%;left:3%;width:94%;grid-template-columns:48% 48%;gap:1svh;}.altars.four{top:24%;grid-template-columns:39% 39%;justify-content:space-around;}
     .play-area{top:44%;left:21%;width:58%;height:7%;}.play-area span{font-size:20px;}.chronicle-control{top:53%;right:3%;width:32%;--control-height:44px;--control-font:21px;}
     .turn-marker.long{font-size:14px;}
@@ -295,15 +326,13 @@
     .composition .opponents{top:9%;left:3%;width:94%;height:10%;gap:2%;}
     .composition .opponents .opponent,.composition:has(.outcome) .opponents .opponent{display:grid;grid-template-columns:1fr;grid-template-rows:min(32px,4svh) min(16px,2svh) 24px;justify-items:center;align-items:center;gap:0;max-width:150px;}
     .composition .opponents .opponent-portrait,.composition:has(.outcome) .opponents .opponent-portrait{width:min(32px,4svh);max-width:32px;grid-row:auto;}
-    .composition .opponents .hidden-hand,.composition:has(.outcome) .opponents .hidden-hand{height:min(16px,2svh);max-width:100px;}
-    .composition .opponents .opponent p{grid-column:auto;font-size:8px;white-space:nowrap;}.composition .opponent-discard{min-height:24px;font-size:8px;}
+    .composition .opponents .hidden-hand,.composition:has(.outcome) .opponents .hidden-hand{height:min(16px,2svh);max-width:100px;}.composition .opponent-discard{min-height:24px;font-size:8px;}
     .composition .altars,.composition:has(.outcome) .altars,.composition:has(.action-message) .altars,.composition:has(.played-cards) .altars.four{top:20%;left:3%;width:94%;display:flex;justify-content:space-evenly;gap:4px;}
     .composition .altars button{width:min(21vw,9svh);flex-shrink:0;}
-    .table-supply{top:27%;left:2%;width:96%;height:25%;}
+    .table-supply{top:27%;left:0;width:100%;height:32%;}
     .composition .play-area,.composition:has(.outcome) .play-area{left:26%;top:53%;width:48%;height:7%;}
     .composition:has(.outcome) .play-area{left:22%;width:23%;}.composition .outcome{left:49%!important;top:53%!important;width:29%!important;height:7%!important;--icon-size:10px;}
     .composition .outcome-card{width:50%!important;max-width:5svh;}
-    .composition .action-message,.composition:has(.outcome):has(.altars.four) .action-message{left:3%;top:60%;width:94%;font-size:9px;padding:1px 4px;line-height:1.1;}
     .composition .treasures-control{left:3%;top:63%;width:47%;--control-font:17px;}
     .composition .chronicle-control{right:3%;top:63%;width:44%;--control-font:17px!important;}
     .composition .turn-rail{top:71%;height:8%;}.composition .resources{--icon-size:21px;}
@@ -321,17 +350,131 @@
     .composition .hand-pages,.composition:has(.treasures-control) .hand-pages{left:21%;width:58%;bottom:3%;justify-content:space-between;pointer-events:none;z-index:4;}
     .hand-pages button{pointer-events:auto;}.hand-pages span{position:absolute;left:0;bottom:-8px;width:44px;text-align:center;font-size:8px;line-height:8px;}
     .session{min-height:0;}header{font-size:9px;}header a{min-height:26px;padding:3px 8px;}header>span{padding:3px 8px;}.trash-control{height:26px;min-height:26px;--icon-size:10px;}
-    .opponents{top:10%;height:12%;}.opponent-portrait{max-width:min(26px,6svh);}.hidden-hand{height:min(20px,5svh);}.opponent p{font-size:8px;}.opponent-discard{min-height:24px;font-size:8px;}
-    .table-supply{top:23%;height:33%;left:20%;width:60%;}
+    .opponents{top:10%;height:12%;}.opponent-portrait{max-width:min(26px,6svh);}.hidden-hand{height:min(20px,5svh);}.opponent-discard{min-height:24px;font-size:8px;}
+    .table-supply{top:23%;height:38%;left:0;width:100%;}
     .altars{top:34%;grid-template-columns:15% 15%;gap:4px;}
     .altars.four{top:28%;grid-template-columns:min(12vw,18svh) min(12vw,18svh);gap:2px;}
     .composition .play-area,.composition:has(.outcome) .play-area{top:57%;height:11%;left:32%;width:36%;}.composition:has(.outcome) .play-area{left:32%;width:16%;}
     .outcome{left:51%!important;top:57%!important;width:17%!important;height:11%!important;--icon-size:10px;}.outcome-card{max-width:7svh;}
-    .action-message{top:68%;font-size:8px;padding:0 4px;}
     .treasures-control{top:60%;left:1%;width:19%;--control-font:12px;--control-height:34px;min-height:34px;font-size:10px;}
     .all-played{top:57%;left:21%;width:10%;min-height:30px;font-size:9px;}
     .chronicle-control{top:60%;right:1%;width:19%;--control-height:34px;--control-font:13px;}
     .turn-rail{top:71%;height:13%;left:22%;width:56%;}.turn-marker{font-size:13px;min-height:32px;}.resources{--icon-size:15px;}
     .hand{left:26%;--hand-room:48;bottom:4%;height:15svh;--hand-card-width:10svh;}.own-leader{left:1%!important;bottom:1%;width:13%;}.deck-pile{left:16%;bottom:1%;width:4%;}.discard-pile{bottom:1%;right:2%;width:12%;font-size:9px;}.discard-pile img{max-height:8svh;}.discard-pile span{padding:1px;}
+  }
+  /* Layout study: a full-width supply band, with public play below it. */
+  @media(min-height:501px) and (min-aspect-ratio:3/4){
+    .altars,.altars.four{top:55%;grid-template-columns:min(12vw,14svh) min(12vw,14svh);gap:1svh;}
+    .composition .play-area,.composition:has(.outcome) .play-area{top:55%;height:8%;}
+    .composition .outcome{top:55%!important;height:8%!important;}
+    .all-played{top:55%;}.chronicle-control{top:74%;}
+  }
+  @media(max-aspect-ratio:3/4){
+    .composition .play-area,.composition:has(.outcome) .play-area{top:60%;height:5%;}
+    .composition .outcome{top:60%!important;height:5%!important;}
+    .composition .treasures-control,.composition .chronicle-control{top:64%;}
+    .composition .turn-rail{top:73%;height:7%;}
+  }
+  @media(max-height:500px) and (min-aspect-ratio:3/4), (max-height:900px) and (min-aspect-ratio:3/2){
+    .composition{--worship-end:min(15vw,29svh);}
+    .opponents{top:9%;height:10%;}
+    .opponent{grid-template-columns:min(26px,6svh) 1fr;grid-template-rows:3svh 20px;gap:0 3px;}
+    .opponent-portrait{grid-row:1/3;}.hidden-hand{height:3svh;}.opponent-discard{min-height:20px;}
+    /* Worship cards bookend the same band as the supply, instead of taking a row. */
+    .table-supply{top:20%;height:45%;left:calc(var(--worship-end) + 8px);width:calc(100% - 2 * var(--worship-end) - 16px);}
+    .altars,.altars.four{top:20%;left:0;width:100%;height:45%;display:grid;grid-template-columns:var(--worship-end) var(--worship-end);justify-content:space-between;align-content:center;align-items:center;gap:8px 0;}
+    .altars button{width:100%;}
+    .composition .play-area,.composition:has(.outcome) .play-area{top:66%;height:5%;}
+    .composition .outcome{top:66%!important;height:5%!important;}
+    .all-played{top:65%;}
+    .treasures-control,.chronicle-control{top:65%;}
+    .turn-rail{top:74%;height:10%;}
+    .hand{bottom:3%;height:15svh;--hand-card-width:10svh;}
+    .composition .hand-pages,.composition:has(.treasures-control) .hand-pages{bottom:3%;}
+  }
+  /* Table tools share one corner, leaving the top center for opponent hands. */
+  .table-corner{position:absolute;top:1%;right:1%;z-index:7;width:clamp(130px,22vw,360px);display:flex;flex-direction:column;align-items:flex-end;gap:4px;pointer-events:none;}
+  .table-tools{display:flex;gap:4px;pointer-events:auto;}
+  .action-message{width:100%;margin:0;padding:4px 7px;border:1px solid #ae91516b;border-radius:8px;background:#071321e6;color:#edd7a8;text-align:right;font-size:clamp(10px,1.3svh,22px);line-height:1.25;overflow-wrap:anywhere;}
+  .table-tools button{position:static;width:44px;height:44px;min-height:44px;border:1px solid #aa8e52;border-radius:10px;background:#071321e6;color:#edd7a8;padding:0;display:grid;place-items:center;--icon-size:18px;}
+  .table-tools .log-control{font-size:28px;}
+  .session:not(.drafting) header{right:auto;max-width:21%;flex-direction:column;align-items:flex-start;gap:3px;font-size:clamp(9px,1.3svh,22px);}
+  .session:not(.drafting) header>span{padding:3px 8px;}
+  .turn-marker{cursor:default;}
+  @media(min-aspect-ratio:3/4){
+    .composition .opponents{top:1%;left:24%;width:52%;}
+    .table-supply{top:16%;}
+    .composition .play-area,.composition:has(.outcome) .play-area{top:51%;height:12%;}
+    .composition .outcome{top:51%!important;height:12%!important;}
+    .all-played{top:51%;}
+  }
+  @media(max-aspect-ratio:3/4){
+    .session:not(.drafting) header{max-width:40%;}
+    .session:not(.drafting) .code-label{display:none;}
+  }
+  @media(max-height:500px) and (min-aspect-ratio:3/4), (max-height:900px) and (min-aspect-ratio:3/2){
+    .session:not(.drafting) .code-label{display:none;}
+    .table-supply,.altars,.altars.four{top:12%;}
+    .composition .play-area,.composition:has(.outcome) .play-area{top:58%;height:13%;}
+    .composition .outcome{top:58%!important;height:13%!important;}
+    .all-played{top:58%;}
+  }
+  /* Size study: the same portrait card dimensions in all three active zones. */
+  .table-card-measure{position:absolute;width:var(--table-card-width);height:0;visibility:hidden;pointer-events:none;}
+  .composition{--table-card-height:min(22svh,44vw);--table-card-width:calc(var(--table-card-height) / 1.4);--supply-top:13svh;--supply-nav:0px;--play-top:calc(var(--supply-top) + var(--table-card-height) + var(--supply-nav) + 8px);}
+  .composition .table-supply{top:var(--supply-top);height:calc(var(--table-card-height) + var(--supply-nav) + 2px);}
+  .composition .hand{--hand-card-width:var(--table-card-width);height:var(--table-card-height);bottom:3%;}
+  .composition .play-area,.composition:has(.outcome) .play-area{top:var(--play-top);height:var(--table-card-height);}
+  .composition .played-cards{height:var(--table-card-height);margin:0;gap:6px;}
+  .composition .played-cards button{width:var(--table-card-width);height:var(--table-card-height);flex-shrink:0;}
+  .composition .outcome{top:var(--play-top)!important;height:var(--table-card-height)!important;}
+  .composition .outcome-card{width:var(--table-card-width)!important;max-width:none;}
+  .composition .all-played{top:var(--play-top);}
+  .composition .turn-rail{top:64%;height:10%;}
+  @media(max-aspect-ratio:3/4){
+    .composition{--table-card-height:min(17svh,40vw);--supply-top:27svh;}
+    .composition .hand{bottom:7%;}
+    .composition .treasures-control,.composition .chronicle-control{top:64%;}
+    .composition .turn-rail{top:69%;height:6%;}
+    .composition .play-area{left:10%;width:80%;}
+    .composition:has(.outcome) .play-area{left:12%;width:35%;}
+    .composition .outcome{left:53%!important;width:35%!important;}
+  }
+  @media(max-height:500px) and (min-aspect-ratio:3/4), (max-height:900px) and (min-aspect-ratio:3/2){
+    .composition{--table-card-height:22svh;--supply-top:10svh;}
+    .composition .altars{top:var(--supply-top);height:calc(var(--table-card-height) + var(--supply-nav));}
+    .composition .turn-rail{top:64%;height:10%;}
+    .composition .treasures-control,.composition .chronicle-control{top:64%;}
+  }
+  /* Opponent piles sit beside the hand, without a second row of labels. */
+  .composition .opponents .opponent,.composition:has(.outcome) .opponents .opponent{display:grid;grid-template-columns:auto auto minmax(0,1fr) auto;grid-template-rows:auto;align-items:center;gap:3px;max-width:44svh;}
+  .composition .opponents .opponent-portrait,.composition:has(.outcome) .opponents .opponent-portrait{grid-row:auto;width:min(5vw,7svh);max-width:none;}
+  .composition .opponents .hidden-hand,.composition:has(.outcome) .opponents .hidden-hand{height:5svh;width:100%;max-width:none;}
+  .opponent-deck,.composition .opponent-discard{--icon-size:clamp(12px,2.5svh,32px);}
+  .composition .opponent-discard{padding:0;min-width:32px;min-height:32px;display:grid;place-items:center;background:none;}
+  @media(max-aspect-ratio:3/4){
+    .composition .opponents .opponent,.composition:has(.outcome) .opponents .opponent{grid-template-columns:auto minmax(0,1fr) auto;gap:2px;}
+    .composition .opponents .opponent-portrait,.composition:has(.outcome) .opponents .opponent-portrait{grid-column:1/-1;width:24px;}
+    .composition .opponents .hidden-hand,.composition:has(.outcome) .opponents .hidden-hand{height:20px;}
+    .opponent-deck,.composition .opponent-discard{--icon-size:12px;}
+  }
+  /* Desktop Worship cards use the side space beside the public play area. */
+  @media(min-width:1000px) and (min-height:901px) and (min-aspect-ratio:3/4){
+    .composition .altars,.composition .altars.four{top:var(--play-top);left:1%;width:98%;height:calc(73svh - var(--play-top) - 8px);display:grid;grid-template-columns:min(22vw,calc(var(--table-card-height) * 1.4)) min(22vw,calc(var(--table-card-height) * 1.4));justify-content:space-between;align-content:start;gap:12px 0;}
+    .composition .altars.four{grid-template-columns:min(22vw,calc((73svh - var(--play-top) - 20px) * .7)) min(22vw,calc((73svh - var(--play-top) - 20px) * .7));}
+    .composition .altars button{width:100%;}
+  }
+  @media(min-width:1000px) and (min-height:501px) and (max-height:900px) and (min-aspect-ratio:3/2){
+    .composition{--worship-end:min(20vw,calc(var(--table-card-height) * 1.4));}
+    .composition .altars,.composition .altars.four{height:calc(var(--table-card-height) * 2 + 12px);align-content:start;gap:12px 0;}
+  }
+  .composition .played-cards{position:relative;width:100%;--group-offset:0px;--played-span:min(100%,calc(var(--table-card-width) * var(--played-count)));--played-step:calc((var(--played-span) - var(--table-card-width)) / max(1,var(--played-count) - 1));}
+  .composition .played-cards button,.composition:has(.outcome) .played-cards button:not(:last-child),.composition .played-cards button:first-child:nth-last-child(3){display:block;position:absolute;left:calc((100% - var(--played-span)) / 2 + var(--played-index) * var(--played-step) + var(--purchase-offset) * var(--group-offset));top:0;z-index:var(--played-index);}
+  /* Reserve a full card edge plus a clear gap between the two overlapping groups. */
+  .composition .played-cards.with-purchases{
+    --purchase-gap:clamp(16px,2vw,32px);
+    --played-span:max(calc(2 * var(--table-card-width) + var(--purchase-gap)),min(100%,calc(var(--table-card-width) * var(--played-count) + var(--purchase-gap))));
+    --played-step:calc((var(--played-span) - 2 * var(--table-card-width) - var(--purchase-gap)) / max(1,var(--played-count) - 2));
+    --group-offset:calc(var(--table-card-width) + var(--purchase-gap) - var(--played-step));
   }
 </style>

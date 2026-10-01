@@ -13,7 +13,7 @@ async function observe(page:Page){
     const animate=Element.prototype.animate;
     const owner=window as unknown as {flights:{id:string;kind:string;faces:number;end:string;duration:number;delay:number}[]};owner.flights=[];
     Element.prototype.animate=function(frames,options){
-      if(this.matches('.public-flight'))owner.flights.push({id:this.getAttribute('data-motion-step')!,kind:this.getAttribute('data-motion-kind')!,faces:this.querySelectorAll('[data-card-id]').length,duration:typeof options==='number'?options:Number(options?.duration),delay:typeof options==='number'?0:Number(options?.delay??0),end:Array.isArray(frames)?String(frames.at(-2)?.transform):''});
+      if(this.matches('.public-flight'))owner.flights.push({id:this.getAttribute('data-motion-step')!,kind:this.getAttribute('data-motion-kind')!,faces:this.querySelectorAll('[data-card-id]').length,duration:typeof options==='number'?options:Number(options?.duration),delay:typeof options==='number'?0:Number(options?.delay??0),end:Array.isArray(frames)?String(frames.at(-1)?.transform):''});
       return animate.call(this,frames,options);
     };
   });
@@ -38,7 +38,7 @@ for(const scenario of [
     await observe(other);await other.bringToFront();
     await playCard(page,scenario.card);
     const played=replaySetup(await readEvents(fixture.code)).publicActivity.findLast(entry=>entry.command==='action/played')!;
-    await expect.poll(async()=>(await flights(other)).map(move=>move.id)).toEqual(played.steps.map(step=>step.id));
+    await expect.poll(async()=>(await flights(other)).map(move=>move.id)).toEqual(played.steps.filter(step=>!['leader','worship'].includes(step.kind)).map(step=>step.id));
     await expect(other.locator('.public-flight')).toHaveCount(0);
     if(scenario.card==='harvest-feast'){
       await capture('discard','Ariadne must discard after drawing two cards',async()=>expect(page.getByRole('button',{name:'Discard 0',exact:true})).toBeDisabled());
@@ -61,13 +61,13 @@ for(const scenario of [
     }
     const state=replaySetup(await readEvents(fixture.code));
     const moves=state.publicActivity.filter(entry=>entry.sequence>fixture.events.length).flatMap(entry=>entry.steps);
-    await expect.poll(async()=>(await flights(other)).map(move=>move.id)).toEqual(moves.map(move=>move.id));
+    await expect.poll(async()=>(await flights(other)).map(move=>move.id)).toEqual(moves.filter(move=>!['leader','worship'].includes(move.kind)).flatMap(move=>Array.from({length:move.kind==='cleanup'&&move.from.zone==='play'?move.count:1},()=>move.id)));
     await expect(other.locator('.public-flight')).toHaveCount(0);
-    const observed=await flights(other);expect(observed.every(move=>move.duration>=450)).toBe(true);expect(observed.every(move=>move.delay<=280)).toBe(true);expect(new Set(observed.map(move=>move.id)).size).toBe(observed.length);
-    expect(observed.filter(move=>['draw','shuffle','cleanup'].includes(move.kind)).every(move=>move.faces===0)).toBe(true);
+    const observed=await flights(other);expect(observed.every(move=>move.duration>=450)).toBe(true);expect(observed.every(move=>move.delay<=700)).toBe(true);
+    expect(observed.filter(move=>['draw','shuffle'].includes(move.kind)).every(move=>move.faces===0)).toBe(true);
     if(scenario.cleanup)expect(observed.some(move=>move.kind==='shuffle')).toBe(true);
     if(scenario.reveal){
-      const target=await other.locator('.play-area').boundingBox();
+      const target=await other.locator('.outcome-card').boundingBox();
       expect(observed.find(move=>move.kind==='reveal')!.end).toContain(`translate(${target!.x+target!.width/2}px,${target!.y+target!.height/2}px)`);
     }
     await capture('result','Every public movement arrived in order while hidden cards stayed backs',async()=>expect(other.locator('.opponents [data-card-id]')).toHaveCount(0),true);
@@ -94,9 +94,9 @@ test('follow Worship and a purchase once while reconnecting without an animation
     await page.getByRole('button',{name:'Worship Poseidon',exact:true}).click();
     await capture('gift','Poseidon sends a Drachma to Ariadne’s discard',async()=>expect(page.locator('.worship-scene .worship-wallet [data-resource=coins]')).toHaveAttribute('data-value','0'));
     let state=replaySetup(await readEvents(fixture.code));
-    const expected=state.publicActivity.filter(entry=>entry.sequence>fixture.events.length).flatMap(entry=>entry.steps.map(step=>step.id));
+    const expected=state.publicActivity.filter(entry=>entry.sequence>fixture.events.length).flatMap(entry=>entry.steps.filter(step=>!['leader','worship'].includes(step.kind)).map(step=>step.id));
     await expect.poll(async()=>(await flights(other)).map(move=>move.id)).toEqual(expected);await expect(other.locator('.public-flight')).toHaveCount(0);
-    await capture('observer','Theseus sees the public gift without an extra leader blessing',async()=>{await expect(other.locator('.outcome [data-card-id]')).toHaveAttribute('data-card-id','drachma');expect((await flights(other)).filter(move=>move.kind==='leader')).toHaveLength(1);},true);
+    await capture('observer','Theseus sees the public gift without an extra leader blessing',async()=>{await expect(other.locator('.outcome [data-card-id]')).toHaveAttribute('data-card-id','drachma');expect((await flights(other)).filter(move=>move.kind==='leader')).toHaveLength(0);},true);
     await context.setOffline(true);
     await capture('interrupted','Theseus keeps his table when the connection is interrupted',async()=>expect(other.locator('.connection')).toContainText('Your place is kept'),true,'disconnected');
     await page.getByRole('button',{name:'Return',exact:true}).click();await enterTreasures(page);
@@ -111,7 +111,7 @@ test('follow Worship and a purchase once while reconnecting without an animation
     await expect(page.locator('.resources [data-resource=buys]')).toHaveAttribute('data-value','1');
     state=replaySetup(await readEvents(fixture.code));const bought=state.publicActivity.at(-1)!;
     await expect.poll(async()=>(await flights(other)).map(move=>move.id)).toEqual([...expected,...bought.steps.map(step=>step.id)]);await expect(other.locator('.public-flight')).toHaveCount(0);
-    await capture('live-again','The next live purchase moves once from Supply to Discard',async()=>expect(other.locator('.outcome [data-card-id]')).toHaveAttribute('data-card-id','obol'),true);
+    await capture('live-again','The next live purchase lands beside played cards',async()=>expect(other.getByRole('button',{name:'Inspect purchased Obol',exact:true})).toBeVisible(),true);
     await other.emulateMedia({reducedMotion:'reduce'});const before=await flights(other);
     await page.getByRole('button',{name:'Buy Obol',exact:true}).click();await expect(other.locator('.action-message')).toContainText('gained Obol');
     await expect(page.locator('.resources [data-resource=buys]')).toHaveAttribute('data-value','0');await expect(other.locator('.resources [data-resource=buys]')).toHaveAttribute('data-value','0');

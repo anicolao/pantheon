@@ -1,3 +1,4 @@
+import {setupSupply} from '../../../src/lib/game/setup';
 import {test,expect} from '../helpers/fixtures';
 import {actionTable,playCard} from '../helpers/action-history';
 import {TestStepHelper} from '../helpers/test-step-helper';
@@ -30,7 +31,7 @@ for(const viewport of [{width:320,height:568},{width:375,height:667},{width:430,
     await steps.step('table','Return to the table without scrolling',[{spec:'The private hand, turn controls, and public play area fit on the phone.',check:async()=>{await expect(page.getByRole('button',{name:'Chronicle',exact:true})).toBeVisible();await expect(page.getByTestId('hand-card')).toHaveCount(4);}}]);
     await page.getByRole('button',{name:'Play all Treasures',exact:true}).click();
     await expect(page.locator('.supply-coverflow')).toBeVisible();
-    await steps.step('supply','Browse the complete supply on a small phone',[{spec:'One face-up card, persistent side stacks, stock and navigation fit without overlap.',check:async()=>{await expect(page.locator('.buy-card[data-centered=true]')).toHaveCount(1);await expect(page.getByRole('button',{name:'More expensive cards',exact:true})).toBeEnabled();}}]);
+    await steps.step('supply','Browse the complete supply on a small phone',[{spec:'One face-up card, persistent side stacks, stock and navigation fit without overlap.',check:async()=>{await expect(page.locator('.buy-card[data-centered=true]')).toHaveCount(1);await expect(page.locator('.supply-face')).toHaveCount(setupSupply(2).length);}}]);
 
   });
 }

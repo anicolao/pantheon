@@ -1,4 +1,4 @@
-name: Verify and deploy
+name: Verify
 
 on:
   push:
@@ -78,57 +78,3 @@ jobs:
             playwright-report/
             test-results/
           retention-days: 14
-
-  deploy:
-    needs: verify
-    # Verification is independent; only writes to the shared preview branch serialize.
-    concurrency:
-      group: pages-publish
-      cancel-in-progress: false
-    if: inputs.update_snapshots != true && !inputs.story_filter && (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository)
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write
-      pull-requests: write
-    steps:
-      - uses: actions/checkout@v4
-      - uses: oven-sh/setup-bun@v2
-        with:
-          bun-version: 1.3.10
-      - run: bun install --frozen-lockfile
-      - name: Choose deployment path
-        id: deployment
-        env:
-          EVENT_NAME: ${{ github.event_name }}
-          PR_NUMBER: ${{ github.event.pull_request.number }}
-        run: |
-          if [[ "$EVENT_NAME" == "pull_request" ]]; then
-            echo "base=/pantheon/pr$PR_NUMBER" >> "$GITHUB_OUTPUT"
-            echo "destination=pr$PR_NUMBER" >> "$GITHUB_OUTPUT"
-          else
-            echo "base=/pantheon" >> "$GITHUB_OUTPUT"
-            echo "destination=" >> "$GITHUB_OUTPUT"
-          fi
-      - run: bun run build
-        env:
-          PUBLIC_BASE_PATH: ${{ steps.deployment.outputs.base }}
-          VITE_FIREBASE_API_KEY: ${{ vars.VITE_FIREBASE_API_KEY }}
-          VITE_FIREBASE_AUTH_DOMAIN: ${{ vars.VITE_FIREBASE_AUTH_DOMAIN }}
-          VITE_FIREBASE_PROJECT_ID: ${{ vars.VITE_FIREBASE_PROJECT_ID }}
-          VITE_FIREBASE_APP_ID: ${{ vars.VITE_FIREBASE_APP_ID }}
-      - uses: peaceiris/actions-gh-pages@v4
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: build
-          destination_dir: ${{ steps.deployment.outputs.destination }}
-          keep_files: true
-      - name: Link retained PR preview
-        if: github.event_name == 'pull_request'
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          PR_NUMBER: ${{ github.event.pull_request.number }}
-          PREVIEW_URL: https://${{ github.repository_owner }}.github.io/pantheon/pr${{ github.event.pull_request.number }}/
-        run: >-
-          gh pr comment "$PR_NUMBER" --repo "$GITHUB_REPOSITORY"
-          --edit-last --create-if-none
-          --body "Pantheon preview: [$PREVIEW_URL]($PREVIEW_URL)"

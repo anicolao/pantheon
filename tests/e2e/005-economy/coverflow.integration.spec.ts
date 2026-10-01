@@ -24,11 +24,9 @@ test('buy from one cost-sorted coverflow and warn before skipping playable Actio
   await expect(page.locator('.supply-coverflow')).toHaveAttribute('aria-busy','false');
   expect(await readEvents(fixture.code)).toEqual(fixture.events);
   await browseSupply(page,'Obol');
-  await page.getByRole('button',{name:'Center Hamlet',exact:true}).click();
-  await expect(page.getByRole('button',{name:'Buy Hamlet',exact:true})).toBeVisible();
+  await browseSupply(page,'Hamlet');
   expect(await readEvents(fixture.code)).toEqual(fixture.events);
-  await page.getByRole('button',{name:'Center Obol',exact:true}).click();
-  await expect(page.getByRole('button',{name:'Buy Obol',exact:true})).toBeVisible();
+  await browseSupply(page,'Obol');
   const originalFaces=await page.locator('.supply-face').elementHandles();
   const touch=await page.context().newCDPSession(page),box=(await page.getByRole('button',{name:'Buy Obol',exact:true}).boundingBox())!;
   const point={x:box.x+box.width/2,y:box.y+box.height/2};
@@ -69,16 +67,16 @@ test('finish choices before automatically entering Treasures and browse every su
   await steps.step('affordable','The most expensive affordable card moves to the center',[{spec:'The supply responds to played Treasures on the table.',check:async()=>{await expect(page.locator('.buy-card[data-centered=true]')).toHaveAttribute('aria-label',`Buy ${definition(best.id).name}`);await expect(page.locator('.supply-face [data-card-id]')).toHaveCount(piles.length);}}]);
   await page.emulateMedia({reducedMotion:'no-preference'});
   const faces=await page.locator('.supply-face').elementHandles();
-  await page.getByRole('button',{name:'More expensive cards',exact:true}).click();
+  await page.locator('.buy-card[data-centered=true]').press('ArrowRight');
   await expect(page.locator('.supply-coverflow')).toHaveAttribute('aria-busy','true');
   await expect(page.locator('.supply-coverflow')).toHaveAttribute('aria-busy','false');
   for(const face of faces)expect(await face.evaluate(node=>node.isConnected)).toBe(true);
   await page.emulateMedia({reducedMotion:'reduce'});
   const seen=new Set<string>();
-  while(await page.getByRole('button',{name:'Cheaper cards',exact:true}).isEnabled())await page.getByRole('button',{name:'Cheaper cards',exact:true}).click();
+  await page.locator('.buy-card[data-centered=true]').press('Home');
   for(let index=0;index<piles.length;index++){
-    seen.add((await page.locator('.buy-card[data-centered=true]').getAttribute('data-supply-id'))!);
-    if(await page.getByRole('button',{name:'More expensive cards',exact:true}).isEnabled())await page.getByRole('button',{name:'More expensive cards',exact:true}).click();
+    for(const id of await page.locator('.buy-card[data-face-up=true]').evaluateAll(nodes=>nodes.map(node=>node.getAttribute('data-supply-id')!)))seen.add(id);
+    await page.locator('.buy-card[data-centered=true]').press('ArrowRight');
   }
   expect([...seen].sort()).toEqual(piles.map(pile=>pile.id).sort());
   await steps.step('expensive','Every pile is reachable in the same table',[{spec:'The costliest Territory is centered while the hand stays visible.',check:async()=>{await expect(page.getByRole('button',{name:'Buy Acropolis',exact:true})).toBeVisible();await expect(page.locator('.hand')).toBeVisible();await expect(page.locator('dialog:modal')).toHaveCount(0);}}]);

@@ -1,4 +1,6 @@
 <script lang="ts">
+  import { motionDuration, MOTION_EASING } from './motion';
+  import { tablePurchases } from './table-purchases';
   import { latestMoveIndex } from '$lib/game/public-table';
   import DialogFrame from "$lib/components/DialogFrame.svelte";
   import { onMount, tick, untrack } from 'svelte';
@@ -11,6 +13,12 @@
   import Portrait from './Portrait.svelte';
 
   type Tab = 'chronicle' | 'play' | 'discard' | 'trash';
+  function shownPile(state:SetupState,uid:string,kind:'play'|'discard'|'trash'){
+    const pile=publicPile(state,uid,kind),purchases=tablePurchases(state,uid);
+    if(kind==='play')return [...pile,...purchases];
+    if(kind==='discard')return pile.filter(card=>!purchases.some(purchase=>purchase.id===card.id));
+    return pile;
+  }
   let { game, uid, initialTab = 'chronicle', owner = uid, close }: {
     game: SetupState; uid: string; initialTab?: Tab; owner?: string; close: () => void;
   } = $props();
@@ -20,7 +28,7 @@
   let entries = $state(untrack(() => [...game.publicActivity]));
   let through = $state(untrack(() => game.activity.length));
   let movePage = $state(untrack(() => latestMoveIndex(game)));
-  let pile = $state<CardInstance[]>(untrack(() => initialTab === 'chronicle' ? [] : publicPile(game, owner, initialTab)));
+  let pile = $state<CardInstance[]>(untrack(() => initialTab === 'chronicle' ? [] : shownPile(game, owner, initialTab)));
   let pilePage = $state(0), stepPage = $state(0);
   let inspected = $state<{card: CardInstance; source: string} | null>(null);
   let dialog: HTMLDialogElement;
@@ -29,7 +37,7 @@
   const item = $derived(history[movePage]);
   const entry = $derived(entries.find(entry => entry.sequence === item?.sequence));
   const unseen = $derived(game.activity.length - through);
-  const livePile = $derived(tab === 'chronicle' ? [] : publicPile(game, player, tab));
+  const livePile = $derived(tab === 'chronicle' ? [] : shownPile(game, player, tab));
   const changed = $derived(tab !== 'chronicle' && (livePile.length !== pile.length || livePile.some((card, i) => card.id !== pile[i]?.id)));
   const title = $derived(tab === 'chronicle' ? 'Chronicle' : tab === 'trash' ? 'Shared trash' : `${player === uid ? 'Your' : `${name(player)}’s`} ${tab === 'play' ? 'play area' : 'discard'}`);
   const verbs = { play: 'Played', draw: 'Drew', shuffle: 'Shuffled', trash: 'Trashed', discard: 'Discarded', gain: 'Gained', reveal: 'Revealed', topdeck: 'Topdecked', leader: 'Bloodline blessing', worship: 'Worshipped', cleanup: 'Cleanup' };
@@ -39,14 +47,14 @@
   onMount(() => {
     dialog.showModal();
     if (!matchMedia('(prefers-reduced-motion: reduce)').matches)
-      dialog.animate([{opacity:0,transform:'translateY(14px)'},{opacity:1,transform:'translateY(0)'}],{duration:160,easing:'ease-out'});
+      dialog.animate([{opacity:0,transform:'translateY(14px)'},{opacity:1,transform:'translateY(0)'}],{duration:motionDuration(160),easing:MOTION_EASING});
   });
-  function switchTab(next: Tab) { tab = next; inspected = null; pilePage = 0; if (next !== 'chronicle') pile = publicPile(game, player, next); }
-  function changeOwner() { if (tab !== 'chronicle') { pile = publicPile(game, player, tab); pilePage = 0; } }
+  function switchTab(next: Tab) { tab = next; inspected = null; pilePage = 0; if (next !== 'chronicle') pile = shownPile(game, player, next); }
+  function changeOwner() { if (tab !== 'chronicle') { pile = shownPile(game, player, tab); pilePage = 0; } }
   function refresh() {
     history = [...game.activity]; entries = [...game.publicActivity]; through = game.activity.length;
     movePage = latestMoveIndex(game); stepPage = 0;
-    if (tab !== 'chronicle') { pile = publicPile(game, player, tab); pilePage = Math.min(pilePage, Math.max(0, Math.ceil(pile.length / 3) - 1)); }
+    if (tab !== 'chronicle') { pile = shownPile(game, player, tab); pilePage = Math.min(pilePage, Math.max(0, Math.ceil(pile.length / 3) - 1)); }
   }
   function moveTo(index: number) { movePage = index; stepPage = 0; }
   async function inspect(card: CardInstance, source: string) { returnKey = (document.activeElement as HTMLElement | null)?.dataset.inspectionKey ?? ''; inspected = { card, source }; await tick(); dialog.querySelector<HTMLButtonElement>('.return')?.focus(); }

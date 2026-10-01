@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { motionDuration, MOTION_EASING } from './motion';
   import DialogFrame from "$lib/components/DialogFrame.svelte";
   import { onMount, tick, untrack } from 'svelte';
   import { base } from '$app/paths';
@@ -16,7 +17,7 @@
   let dialog=$state<HTMLDialogElement>(),detail=$state<HTMLDialogElement>(),inspected=$state<string>();
   let opener:HTMLElement|null=null;
   $effect(()=>{if(dialog&&!dialog.open)dialog.showModal();});
-  onMount(()=>{if(!matchMedia('(prefers-reduced-motion: reduce)').matches)dialog?.animate([{opacity:0},{opacity:1}],{duration:450,easing:'ease-out'});});
+  onMount(()=>{if(!matchMedia('(prefers-reduced-motion: reduce)').matches)dialog?.animate([{opacity:0},{opacity:1}],{duration:motionDuration(450),easing:MOTION_EASING});});
   async function inspect(id:string){opener=document.activeElement as HTMLElement;inspected=id;await tick();detail!.showModal();}
 </script>
 <dialog class="victory-scene" bind:this={dialog} aria-labelledby="victory-title" oncancel={event=>{event.preventDefault();close();}}>

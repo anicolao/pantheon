@@ -2,6 +2,7 @@
   import { onMount } from 'svelte';
   import { base } from '$app/paths';
   import CardFace from '$lib/components/CardFace.svelte';
+  import { motionDuration } from '$lib/components/play/motion';
   import { coverflowLayout } from '$lib/components/play/coverflow-layout';
   import { setupSupply } from '$lib/game/setup';
   import { definition } from '$lib/game/actions';
@@ -22,7 +23,7 @@
   function pose(index:number) { return layout[index].transform; }
   function isFlat(index:number) { return index>=target-faces+1 && index<=target; }
   function select(index:number) {
-    if(!isFlat(index)) { move(index);return; }
+    if(!isFlat(index)) { move(index<target-faces+1?index+faces-1:index);return; }
     message=(cards[index].cost ?? 0)<=coins ? `Preview purchase: ${cards[index].name}. No game is changed.` : `${cards[index].name} costs ${cards[index].cost} Coins; the preview wallet has ${coins}.`;
   }
   let pointerId:number|undefined, startX=0, startPosition=0, moved=false, lastWheel=0;
@@ -61,10 +62,10 @@
     let frame=0, previous=performance.now(), nextDemo=0, direction=1;
     function animate(now:number) {
       const elapsed=Math.min(50,now-previous);previous=now;
-      if(demo && now>=nextDemo){if(target>=cards.length-1)direction=-1;else if(target<=0)direction=1;target=clamp(Math.round(target)+direction);nextDemo=now+duration+600;}
+      if(demo && now>=nextDemo){if(target>=cards.length-1)direction=-1;else if(target<=0)direction=1;target=clamp(Math.round(target)+direction);nextDemo=now+motionDuration(duration+600);}
       if(!dragging) {
         const distance=target-position;
-        position=reduced || Math.abs(distance)<.0005?target:position+distance*(1-Math.exp(-elapsed/(duration/5)));
+        position=reduced || Math.abs(distance)<.0005?target:position+distance*(1-Math.exp(-elapsed/(motionDuration(duration)/5)));
       }
       frame=requestAnimationFrame(animate);
     }
@@ -97,10 +98,10 @@
   </nav>
   <p class="message" role="status">{message}</p>
   <fieldset><legend>Try the motion</legend>
-    <label>Face-up cards <select bind:value={faces}><option value={1}>1</option><option value={2}>2</option><option value={3}>3</option><option value={4}>4</option></select></label>
+    <label>Face-up cards <select bind:value={faces}><option value={1}>1</option><option value={2}>2</option><option value={3}>3</option><option value={4}>4</option><option value={5}>5</option></select></label>
     <label>Nearest card angle <input type="range" min="50" max="90" bind:value={angle}/><output>{angle}°</output></label>
     <label>Center spacing <input type="range" min="50" max="110" step="1" bind:value={spacing}/><output>{spacing}%</output></label>
-    <label>Glide <input type="range" min="200" max="1100" step="50" bind:value={duration}/><output>{duration} ms</output></label>
+    <label>Glide <input type="range" min="200" max="1100" step="50" bind:value={duration}/><output>{motionDuration(duration)} ms</output></label>
   </fieldset>
   {#if reduced}<p class="note">Your reduced-motion preference is enabled; movement snaps to its destination.</p>{/if}
   <p class="note">All {cards.length} cards remain mounted. Only their position and angle change. This prototype does not buy cards in a game.</p>

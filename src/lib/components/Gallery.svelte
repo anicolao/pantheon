@@ -166,7 +166,7 @@
   .resource-legend { display: flex; flex-wrap: wrap; gap: 0.8rem 1.5rem; padding: 0.7rem 0; border-top: 1px solid #ffffff18; }
   .resource-legend > span { display: flex; align-items: center; gap: 0.4rem; font-size: 0.75rem; color: #d6c79e; --icon-size: 32px; }
   .copy-note { color: #a6b1a3; font-size: 0.72rem; line-height: 1.5; margin-bottom: 2rem; }
-  .card-wrap { position: relative; transition: transform 160ms ease; }
+  .card-wrap { position: relative; transition: transform 400ms ease-out; }
   .card-wrap:hover { transform: translateY(-4px); }
   .inspect-card { position: absolute; inset: 0; width: 100%; border: 0; border-radius: 10px; background: transparent; }
   .inspect-card:focus-visible { outline-offset: 6px; }

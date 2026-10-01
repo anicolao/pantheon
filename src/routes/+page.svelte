@@ -67,7 +67,7 @@
   .sanctuary { position:relative; width:100%; height:100svh; min-height:320px; isolation:isolate; overflow:clip; background:#071628; }
   .environment { position:absolute; inset:0; z-index:-1; }
   .environment img { width:100%; height:100%; object-fit:cover; object-position:center; }
-  .arrival { height:100%; animation:arrive 450ms ease-out both; }
+  .arrival { height:100%; animation:arrive 1125ms ease-out both; }
   .composition { position:relative; width:100%; height:100%; --menu-button-height:clamp(54px,7.7svh,160px); --menu-label-size:clamp(28px,4.2svh,90px); }
   h1 { position:absolute; margin:0; left:24%; top:5%; width:55%; height:25%; }
   h1 img { display:block; width:100%; height:100%; object-fit:contain; }

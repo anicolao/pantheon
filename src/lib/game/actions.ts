@@ -73,7 +73,7 @@ export function departureReminder(game: SetupState, uid: string) {
   const card = highest(playable);
   if (card) return { verb: 'play' as const, card };
   if (game.turn.phase === 'actions') return null;
-  const purchase = highest(cards.filter(card => !purchaseReason(game, uid, card.id)));
+  const purchase = highest(cards.filter(card => !['obol', 'hamlet'].includes(card.id) && !purchaseReason(game, uid, card.id)));
   if(purchase)return {verb:'buy' as const,card:purchase};
   const worship=highest(game.sharedEvents.filter(id=>!worshipReason(game,uid,id)).map(definition));
   return worship?{verb:'worship' as const,card:worship}:null;
