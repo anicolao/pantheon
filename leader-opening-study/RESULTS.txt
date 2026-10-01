@@ -55,10 +55,11 @@ The practice suite passes 15 tests / 539 assertions, covering privacy, all bots 
 Svelte check passes with zero errors/warnings; production builds and PR-base-path asset resolution pass.
 The broader simulation/tooling checks are described in the work history. All commands and simulations ran inside nix develop; CPU-bound runs used 16 workers.
 Money can be slow on large, action-heavy decks. Practice runs decisions in a cancellable worker.
-Browser interaction could not be run locally: Chromium process and local socket creation were denied. A PR-base-path browser smoke is prepared for CI; it has not been run by this session.
+After workspace permissions were restored on 2026-10-01, the browser smoke passed locally under /pantheon/pr10: bot opening turn, pause, and saved-game restoration. Desktop and phone captures were visually inspected.
 
-Delivery limitation
--------------------
-The commits are local. PR #10 was not updated: shell GitHub access failed DNS, and the GitHub write connector rejected the attempted write because it requires approval while this session's policy is never.
+Delivery
+--------
+The original run could not publish because of network and approval restrictions. Those restrictions were lifted on 2026-10-01; GitHub access and the unchanged main/PR references were verified before publishing the prepared branch.
+PR: https://github.com/anicolao/pantheon/pull/10
 A portable manual-bots-and-leader-books.bundle is supplied beside this checkout. It requires origin/main at the SHA above or an object database containing that commit.
 The existing accepted-balance.bundle is preserved.
