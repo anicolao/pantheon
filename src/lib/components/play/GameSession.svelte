@@ -71,7 +71,8 @@
   let zone = $state<{ uid: string; kind: 'play' | 'discard' | 'trash'; title: string }>();
   const turnUid = $derived(activePlayer(game));
   const choice = $derived(game.turn.choice);
-  const ownChoice = $derived(choice && turnUid === uid ? choice : null);
+  const automated = $derived(!!game.players.find(player=>player.uid===uid)?.botKind);
+  const ownChoice = $derived(choice && turnUid === uid && !automated ? choice : null);
   const inlineChoice = $derived(ownChoice && definition(ownChoice.source).type!=='Event' ? ownChoice : null);
   let interaction=$state<InlineChoice>();
   let interactionTargets=$state<string[]>([]),interactionBusy=$state(false);
@@ -135,7 +136,7 @@
   let opener: HTMLElement | null = null;
   const links = $derived(leaderLinks(selected));
   const chooser = $derived(game.draftOrder[Object.keys(game.leaders).length]);
-  const isChoice = $derived(chooser === uid && game.phase === 'draft');
+  const isChoice = $derived(chooser === uid && game.phase === 'draft' && !automated);
   const nameOf = (id: string) => game.players.find(player => player.uid === id)!.name;
   const ownerOf = (leader: string) => Object.entries(game.leaders).find(([, value]) => value === leader)?.[0];
   const liveScores = $derived(Object.fromEntries((game.phase === 'playing' ? standings(game) : []).map(row => [row.uid,row.score])));
@@ -149,7 +150,7 @@
   const showResults=$derived(game.turn.phase==='finished'&&resultsOpen);
   $effect(()=>{if(game.turn.phase==='finished')untrack(()=>{resultsOpen=!modal;});});
   async function leaveResults(chronicle=false){resultsOpen=false;await tick();document.querySelector<HTMLButtonElement>('.final-control button')?.focus();if(chronicle)await open('chronicle');}
-  const ready = $derived(status === 'synced' && !busy);
+  const ready = $derived(status === 'synced' && !busy && !automated);
   const automaticTreasures = $derived(game.phase === 'playing' && turnUid === uid && game.turn.phase === 'actions' && !choice && !game.turn.queue.length && !own.hand.some(card => canPlayAction(game, uid, card.id)));
   let automaticPhaseRevision = -1;
   $effect(() => {
@@ -285,7 +286,7 @@
       {/if}
 
       </div>
-      <section class="turn-rail" aria-label="Turn resources"><ResourceFrame /><div class="turn-marker" class:long={nameOf(turnUid).length > 12 && turnUid !== uid}><strong>{turnUid === uid ? 'Your turn' : `${nameOf(turnUid)}’s turn`}</strong><span>{game.turn.phase === 'actions' ? 'Actions' : game.turn.phase === 'treasures' ? 'Treasures' : game.turn.phase === 'finished' ? 'Complete' : 'Buys'} · Turn {game.turn.number}</span></div>
+      <section class="turn-rail" aria-label="Turn resources"><ResourceFrame /><div class="turn-marker" class:long={nameOf(turnUid).length > 12 && turnUid !== uid}><strong>{turnUid === uid ? automated ? 'Your bot’s turn' : 'Your turn' : `${nameOf(turnUid)}’s turn`}</strong><span>{game.turn.phase === 'actions' ? 'Actions' : game.turn.phase === 'treasures' ? 'Treasures' : game.turn.phase === 'finished' ? 'Complete' : 'Buys'} · Turn {game.turn.number}</span></div>
         <div class="resources"><ResourceIcon resource="actions" value={game.resources.actions} /><ResourceIcon resource="coins" value={game.resources.coins} /><ResourceIcon resource="buys" value={game.resources.buys} /><ResourceIcon resource="worship" value={game.resources.worship} /></div>
       </section>
         <div class="player-controls" inert={worshipVisible || !!inlineChoice || !!drawer}>

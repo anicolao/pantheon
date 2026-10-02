@@ -1,33 +1,54 @@
-Local practice opponents
+Bots at the shared table
 ========================
-Open /practice/ beneath the deployed site base (PR 10, after publication: /pantheon/pr10/practice/).
-To try the committed checkout locally, run:
-  nix develop --command bun run dev -- --port 5194
-Then open http://127.0.0.1:5194/practice/.
-Select your leader, the opponent leader, a strategy, and who moves first.
-Money uses the accepted current sampler and standard-game Worship adapter.
-Engine (historical v4) uses the restored leader-aware policy with its independently selected leader-specific openings.
-Engine (current) uses the accepted policy with its own leader-specific openings; its previous generic/Thaleia book remains the fallback.
-Every practice game uses standard powers/Worship, equal completed turns, and original half-credit ties.
-The normal multiplayer rules remain unchanged.
+Open /play/ beneath the deployed site base. The old /practice/ URL redirects here.
+Create a two-, three-, or four-player table, then open Invite friends.
+Choose Money, Engine (current), or Engine (historical v4) and select Invite bot.
+Each bot occupies one remaining seat. Human guests join with the ordinary link/code.
+The host can also select a bot for their own seat under Table details / Your seat,
+allowing an all-bot game. Seat assignments are fixed once drafting begins.
 
-Bot decisions run in a dedicated worker. Only its legal observation and policy memory enter the worker:
-own hand and public composition, public supply, scores, completed turns and public history estimates.
-No seed, hidden draw order or opposing hand is sent to the decision worker.
-Practice is local to this browser; there is no shared multiplayer room or Firebase write.
-Progress is saved after each command. Continue saved game replays the reducer and restores decision memory.
-Pause opponent cancels pending computation; Resume replans the same decision.
-Save replay downloads the setup, commands, and policy memory as JSON.
-The initial seat choice is implemented by selecting a deterministic seed suffix before dealing, without inspecting hands.
-Both Engines’ opening books are frozen into each new practice session so a later site update cannot change its opening halfway through.
-The books are small-sample sequential selections, not proven optimal openings. Held-out gains and regressions are reported separately in leader-opening-study/opening-control-report.txt.
-Money can take substantially longer to evaluate large, action-heavy decks. Its worker keeps the board responsive; Pause opponent cancels the current computation, and Resume starts that decision again.
+Select Begin when every seat is occupied. Each bot chooses a uniformly random
+available leader on its draft turn. All players use the normal GameSession UI,
+shared supply, ordinary multiplayer ending/tiebreak rules, and immutable events.
+This replaces the separate local practice UI; it does not change multiplayer rules.
+The bot strategies and leader opening books are the existing three opponents.
+They have been tested for legal play at all table sizes; their historical balance
+training and opening-book selection primarily used heads-up games.
+
+Execution and recovery
+----------------------
+The host browser runs bot decisions in a worker. Keep that table open while bots
+play. Other human clients receive the same committed moves as in any shared game.
+A host refresh rebuilds observations and policy memory from the event log and
+resumes bot turns. Offline progress waits for the host to reconnect; a failed
+worker or write offers Retry bot. Multiple host tabs cannot duplicate a move:
+commands carry a stable bot/revision ID and an expected server revision.
+The host may control only recorded bot seats, never another human seat.
+The rules restrict inviting/automating seats to the gathering and preserve bot
+metadata when a human joins. The bot controller is not an authoritative server;
+the existing trusted-client game architecture remains in place.
+
+The worker reconstructs game state from the same stream used by multiplayer.
+Only the policy-facing observation is restricted: the policy receives its own
+hand, public composition, public actions/history, and public resources/supply.
+It receives neither shuffle seeds, hidden deck order nor opposing hand contents.
+Human Undo restores the bot inventory/draw tracker as well as the shared game.
 
 Validation
 ----------
-Complete games for all three choices in both seats; equal-turn checks; replay and restore parity;
-public-observation checks; versioned-controller/production-effect compatibility; recorded-command parity.
-Svelte checks and production build pass.
-Local browser smoke passes under /pantheon/pr10 after workspace permissions were restored on 2026-10-01.
-scripts/practice-browser-smoke.ts also runs via CI and captures desktop/phone views; it verifies a worker turn, pause, and save/restore. Both local captures were visually inspected.
-The practice route is linked here; existing illustrated home-screen baselines are unchanged.
+Tests cover mixed and all-bot 2/3/4-player games, legal random drafts, replay/
+refresh parity, human Undo, invitation races, retry idempotency, stale commands,
+and raw unauthorized bot impersonation. Browser smoke uses real Auth/Firestore
+emulators and the normal table, including all three policies and host reload.
+The illustrated 012-bot-seats story covers inviting, drafting, taking turns and
+refreshing through the real UI. Desktop/phone captures are visually reviewed.
+
+Local commands (all through nix develop)
+- bun run check
+- bun test ./tests/tooling/table-bots.test.ts
+- bun run test:backend
+- Build with the demo Firebase emulator variables, then bun run test:bot-table.
+- E2E_STORY_FILTER='invite an Engine bot' bun run test:e2e
+
+Deployment needs both the frontend and updated Firestore rules in the preview
+project. PR preview deployment includes the versioned policy source directories.
