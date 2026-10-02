@@ -1,0 +1,62 @@
+{
+  "total": {
+    "games": 100,
+    "thaleiaWins": 50,
+    "doreiosWins": 13,
+    "ties": 4,
+    "stalled": 33
+  },
+  "bySeat": {
+    "1": {
+      "games": 50,
+      "thaleiaWins": 25,
+      "doreiosWins": 8,
+      "ties": 1,
+      "stalled": 16
+    },
+    "2": {
+      "games": 50,
+      "thaleiaWins": 25,
+      "doreiosWins": 5,
+      "ties": 3,
+      "stalled": 17
+    }
+  },
+  "byActionCount": {
+    "0": {
+      "games": 20,
+      "thaleiaWins": 8,
+      "doreiosWins": 3,
+      "ties": 2,
+      "stalled": 7
+    },
+    "1": {
+      "games": 24,
+      "thaleiaWins": 8,
+      "doreiosWins": 5,
+      "ties": 2,
+      "stalled": 9
+    },
+    "2": {
+      "games": 22,
+      "thaleiaWins": 12,
+      "doreiosWins": 2,
+      "ties": 0,
+      "stalled": 8
+    },
+    "3": {
+      "games": 16,
+      "thaleiaWins": 12,
+      "doreiosWins": 1,
+      "ties": 0,
+      "stalled": 3
+    },
+    "4": {
+      "games": 18,
+      "thaleiaWins": 10,
+      "doreiosWins": 2,
+      "ties": 0,
+      "stalled": 6
+    }
+  }
+}

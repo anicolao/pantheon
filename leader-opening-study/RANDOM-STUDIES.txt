@@ -1,0 +1,53 @@
+Random-policy balance studies checkpoint, 2026-10-02
+
+Experimental only: these scripts do not change production bots or game rules.
+All commands should run through nix develop --command.
+
+Study sequence
+- extreme-matchup: diagnostics of the earlier strategic-bot matchup.
+- random-shared-piles: 100 Thaleia/Doreios games; unconstrained random trashing.
+- random-income-floor: same 100 games with the $3 post-trash income floor.
+- random-leader-matrix: 600 games across all leader pairs; floor only.
+  WINNING-PATTERNS.txt documents correlations, not causal card effects.
+- random-beneficial-trash: matched 600-game comparison with beneficial trashing.
+- random-beneficial-trash-6000: expansion to 500 games per ordered matchup.
+- random-fixed-piles-{0,1,2,3}: 6,000 games each with fixed purchasable Action counts.
+  FIXED-PILES-REPORT.txt and fixed-piles-analysis.json combine the four studies.
+
+Except for the fixed-count studies, startup chooses uniformly from 0–4 Action
+piles shared by both players. Purchases permit Drachma, Talent, Acropolis and
+selected Actions. Worship and effect gains can acquire other cards. Standard
+leader powers, equal turns and half-credit ties apply. Full methods, limitations,
+counts and intervals are in each REPORT.txt and analysis.json.
+
+Preservation
+Each games/ directory is preserved byte-for-byte in a committed .tar.gz archive,
+with a SHA256 sidecar. Unpacked copies are ignored to avoid duplicating the data.
+The fixed-count archives contain gzip-compressed individual replay JSON files.
+All other random-study archives contain uncompressed replay JSON files.
+The archive member prefix is games/; extract in the containing study directory.
+For example, from the repository root:
+  nix develop --command tar -xzf leader-opening-study/random-fixed-piles-0/games-and-replays.tar.gz -C leader-opening-study/random-fixed-piles-0
+
+Reproduce
+Restore all prerequisite archives before running analysis scripts.
+  nix develop --command python3 leader-opening-study/random-beneficial-trash/analyze.py
+  nix develop --command python3 leader-opening-study/random-beneficial-trash-6000/analyze.py
+  nix develop --command python3 leader-opening-study/analyze-fixed-piles.py
+
+To rerun the full fixed-count experiment:
+  nix develop --command python3 leader-opening-study/run-fixed-piles.py
+Use --counts 1 2 3 to run only specified counts. The saved timing.json records the
+original interrupted/resumed run: 6,000 completed games before a disk-write
+failure, followed by 18,000 games after replay compression was introduced.
+The failure changed storage only; original matching seeds were verified exactly.
+
+Validation at checkpoint
+All nine archives checked against every unpacked source file and sidecar hash.
+Each runner replays every game and checks equal turns and purchase legality.
+Trash-policy runners also check the policy and income floor at every trash.
+The 24,000 fixed-count games all finished. In 4,896 games with matching pile count,
+results and trace hashes exactly reproduce the prior 6,000-game study.
+Confidence intervals are exploratory, pointwise unless explicitly stated otherwise.
+These policies measure balance sensitivity under constrained random play; they
+do not establish optimal-play balance or justify a specific buff or nerf.

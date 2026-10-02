@@ -1,0 +1,168 @@
+{
+  "games": 600,
+  "finished": 586,
+  "unfinished": 14,
+  "cells": [
+    {
+      "p1": "thaleia",
+      "p2": "doreios",
+      "wins": 30,
+      "ties": 6,
+      "losses": 14,
+      "unfinished": 0,
+      "completedShare": 0.66,
+      "shareBounds": [
+        0.66,
+        0.66
+      ]
+    },
+    {
+      "p1": "melia",
+      "p2": "thaleia",
+      "wins": 21,
+      "ties": 8,
+      "losses": 21,
+      "unfinished": 0,
+      "completedShare": 0.5,
+      "shareBounds": [
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "p1": "thaleia",
+      "p2": "melia",
+      "wins": 17,
+      "ties": 6,
+      "losses": 27,
+      "unfinished": 0,
+      "completedShare": 0.4,
+      "shareBounds": [
+        0.4,
+        0.4
+      ]
+    },
+    {
+      "p1": "melia",
+      "p2": "nereon",
+      "wins": 19,
+      "ties": 2,
+      "losses": 28,
+      "unfinished": 1,
+      "completedShare": 0.40816326530612246,
+      "shareBounds": [
+        0.4,
+        0.42
+      ]
+    },
+    {
+      "p1": "nereon",
+      "p2": "melia",
+      "wins": 21,
+      "ties": 6,
+      "losses": 20,
+      "unfinished": 3,
+      "completedShare": 0.5106382978723404,
+      "shareBounds": [
+        0.48,
+        0.54
+      ]
+    },
+    {
+      "p1": "doreios",
+      "p2": "nereon",
+      "wins": 11,
+      "ties": 5,
+      "losses": 32,
+      "unfinished": 2,
+      "completedShare": 0.28125,
+      "shareBounds": [
+        0.27,
+        0.31
+      ]
+    },
+    {
+      "p1": "doreios",
+      "p2": "thaleia",
+      "wins": 9,
+      "ties": 11,
+      "losses": 30,
+      "unfinished": 0,
+      "completedShare": 0.29,
+      "shareBounds": [
+        0.29,
+        0.29
+      ]
+    },
+    {
+      "p1": "melia",
+      "p2": "doreios",
+      "wins": 28,
+      "ties": 10,
+      "losses": 9,
+      "unfinished": 3,
+      "completedShare": 0.7021276595744681,
+      "shareBounds": [
+        0.66,
+        0.72
+      ]
+    },
+    {
+      "p1": "nereon",
+      "p2": "thaleia",
+      "wins": 31,
+      "ties": 3,
+      "losses": 16,
+      "unfinished": 0,
+      "completedShare": 0.65,
+      "shareBounds": [
+        0.65,
+        0.65
+      ]
+    },
+    {
+      "p1": "doreios",
+      "p2": "melia",
+      "wins": 13,
+      "ties": 6,
+      "losses": 27,
+      "unfinished": 4,
+      "completedShare": 0.34782608695652173,
+      "shareBounds": [
+        0.32,
+        0.4
+      ]
+    },
+    {
+      "p1": "thaleia",
+      "p2": "nereon",
+      "wins": 20,
+      "ties": 5,
+      "losses": 25,
+      "unfinished": 0,
+      "completedShare": 0.45,
+      "shareBounds": [
+        0.45,
+        0.45
+      ]
+    },
+    {
+      "p1": "nereon",
+      "p2": "doreios",
+      "wins": 31,
+      "ties": 4,
+      "losses": 14,
+      "unfinished": 1,
+      "completedShare": 0.673469387755102,
+      "shareBounds": [
+        0.66,
+        0.68
+      ]
+    }
+  ],
+  "timing": {
+    "seconds": 2.252843625,
+    "workers": 16,
+    "games": 600
+  }
+}
