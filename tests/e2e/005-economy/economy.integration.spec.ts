@@ -49,6 +49,19 @@ test('a lost purchase acknowledgement does not duplicate the card or its animati
   let dropped=false;
   await page.context().route(url=>url.pathname.endsWith('/documents:commit'),async route=>{if(dropped){await route.continue();return;}const response=await route.fetch({timeout:2000});expect(response.ok()).toBe(true);dropped=true;await route.abort('connectionreset');});
   await page.getByRole('button',{name:'Buy Obol',exact:true}).click();
+  // Verify the visible transfer as its own bounded gameplay operation, just as
+  // the multi-batch motion stories do, before photographing the resting result.
+  if(info.project.name!=='phone'){
+    const flight=page.locator('.public-flight[data-motion-kind="gain"]');
+    await expect(flight).toBeVisible();
+    const destination=await page.locator('.played-card:has([data-card-id="obol"])').last().boundingBox();
+    expect(destination).not.toBeNull();
+    const end=await flight.evaluate(node=>node.getAnimations()[0].effect!.getKeyframes().at(-1)!.transform);
+    // Chromium serializes transform numbers to six significant digits.
+    expect(end).toContain(`translate(${Number((destination!.x+destination!.width/2).toPrecision(6))}px, ${Number((destination!.y+destination!.height/2).toPrecision(6))}px)`);
+    await page.waitForFunction(()=>!document.querySelector('.public-flight[data-motion-kind="gain"]'),undefined,{polling:'raf',timeout:2000});
+    await expect(page.getByRole('button',{name:'Inspect purchased Obol',exact:true})).toBeVisible();
+  }
   await steps.step('purchase-recovered','Receive exactly one card after an interrupted acknowledgement',[{spec:'Recovery finishes with stock and Buy decreased once and the destination still discard.',check:async()=>{await expect(page.locator('.resources [data-resource=buys]')).toHaveAttribute('data-value','0');await expect(page.locator('#pile-count-obol')).toHaveText(String(before.supply.obol-1));await page.waitForFunction(()=>document.querySelector('[data-status]')?.getAttribute('data-status')==='synced'&&!document.querySelector('[aria-busy="true"]'),undefined,{polling:20,timeout:2000});}}]);
   expect(dropped).toBe(true);
   const events=await readEvents(fixture.code),after=replaySetup(events);

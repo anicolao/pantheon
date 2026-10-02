@@ -162,7 +162,7 @@ test('a lost Begin acknowledgement starts one draft and deals each hand once',as
     await other.bringToFront();
     await expect(other.getByTestId('hand-card')).toHaveCount(5);
     // Each face must finish its real deal before we inspect the resting hand.
-    await expect.poll(()=>other.locator('.hand-slot').evaluateAll(cards=>cards.every(card=>card.getAnimations().every(animation=>animation.playState==='finished')))).toBe(true);
+    await other.waitForFunction(()=>[...document.querySelectorAll('.hand-slot')].every(card=>card.getAnimations().every(animation=>animation.playState==='finished')),undefined,{polling:'raf',timeout:2000});
     const steps=new TestStepHelper(other,info,'Begin recovery');
     await steps.step('dealt-once','Receive five cards after a recovered Begin',[{spec:'The other player sees five cards and a normal turn after animations finish.',check:async()=>expect(other.getByTestId('hand-card')).toHaveCount(5)}],{player:'Theseus'});
     const before=await eventsAt(code);await other.reload();await ready(other);expect(await eventsAt(code)).toEqual(before);expect(await other.evaluate(()=>document.getAnimations().length)).toBe(0);
