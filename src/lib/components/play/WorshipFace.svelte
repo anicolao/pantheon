@@ -5,10 +5,11 @@
   import CardFace from '../CardFace.svelte';
   import { motionDuration } from './motion';
 
-  let { game, uid, cardId }: { game: SetupState; uid: string; cardId: string } = $props();
+  let { game, uid, cardId, dimUnavailable=false }: { game: SetupState; uid: string; cardId: string; dimUnavailable?:boolean } = $props();
   const actor = $derived(activePlayer(game));
   const favored = $derived(devotionCards(game, actor, cardId).length >= 2);
-  const playable = $derived(favored && !worshipReason(game, uid, cardId));
+  const unavailable = $derived(!!worshipReason(game, uid, cardId));
+  const playable = $derived(favored && !unavailable);
   let previous = untrack(() => ({ actor, cardId, favored }));
   let glint = $state(0);
   $effect(() => {
@@ -18,7 +19,7 @@
   });
 </script>
 
-<span class="worship-face" class:playable data-favored={favored} data-favored-playable={playable}>
+<span class="worship-face" class:unavailable={dimUnavailable&&unavailable} class:playable data-favored={favored} data-favored-playable={playable}>
   <CardFace card={definition(cardId)} players={game.playerCount} />
   {#key glint}
     {#if glint}<span class="glint-clip" aria-hidden="true"><span class="glint" style:animation-duration={`${motionDuration(550)}ms`}></span></span>{/if}
@@ -27,6 +28,7 @@
 
 <style>
   .worship-face{display:block;position:relative;border-radius:5%;}
+  .unavailable :global(.card){filter:brightness(.65) saturate(.55);}
   .playable{box-shadow:0 0 8px 3px #ffdf87,0 0 24px 7px #f2ad4999;}
   .glint-clip{position:absolute;inset:0;overflow:hidden;border-radius:5%;pointer-events:none;}
   .glint{position:absolute;inset:-50%;background:linear-gradient(110deg,transparent 38%,#fff3ba55 45%,#fffbeee6 50%,#fff3ba55 55%,transparent 62%);animation:glint ease-out both;}

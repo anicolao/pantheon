@@ -1,5 +1,6 @@
 <script lang="ts">
   import { untrack } from 'svelte';
+  import { base } from '$app/paths';
   import GameSession from '$lib/components/play/GameSession.svelte';
   import { replaySetup, leaderIds, type SetupEvent } from '$lib/game/setup';
   import { activePlayer } from '$lib/game/actions';
@@ -50,7 +51,7 @@
   <details>
     <summary>Preview settings</summary>
     <label>Players <select bind:value={players} onchange={reset}><option value={2}>2</option><option value={3}>3</option><option value={4}>4</option></select></label>
-    <button onclick={reset}>Reset table</button>
+    <button onclick={reset}>Reset table</button><a href={base+'/dev/choices/'}>Preview card choices</a>
     <p>Your viewpoint stays fixed through cleanup and redeal. Switch players whenever you’re ready.</p>
   </details>
 </details>

@@ -8,7 +8,7 @@
   import CardFace from '../CardFace.svelte';
   import CardBack from '../CardBack.svelte';
 
-  let { game, status, reduced, visible, previousLayout }: { game: SetupState; status: string; reduced: boolean; visible: boolean; previousLayout: () => Layout } = $props();
+  let { game, status, reduced, visible, previousLayout, localChoices=[] }: { game: SetupState; status: string; reduced: boolean; visible: boolean; previousLayout: () => Layout; localChoices?:string[] } = $props();
   type Flight = { card?: CardInstance; id: string; step: PublicStep; from: Pose; to: Pose; width: number; stack: number; sequence: number };
   const cursor = new PublicMotionCursor(untrack(() => game.activity.length));
   let foreground = $state(true), flights = $state<Flight[]>([]);
@@ -71,6 +71,9 @@
       if(waiting.length)steps.unshift({id:`${entry.sequence}:cleanup:purchases`,kind:'cleanup',from:{zone:'play',uid:entry.actor.uid},to:{zone:'discard',uid:entry.actor.uid},count:waiting.length,backs:false,effect:'Cleanup'});
     }
     for(const step of steps){
+      // The inline target already carried these cards from hand to their pile.
+      // Keep later effects (including draws and gains) in the public animation.
+      if(entry.choiceId && localChoices.includes(entry.choiceId) && ['trash','discard'].includes(step.kind))continue;
       // Worship and Bloodline effects stay on their cards: they are not transfers.
       if(step.kind==='worship'||step.kind==='leader'){
         const source=anchor(next,step.from);if(source){

@@ -1,7 +1,7 @@
 <script lang="ts">
   import { canUndo } from '$lib/game/undo';
   import DialogFrame from "$lib/components/DialogFrame.svelte";
-  import { tick, onDestroy } from 'svelte';
+  import { tick, onDestroy, untrack } from 'svelte';
   import { base } from '$app/paths';
   import { definition, eligibleGains, type ActionCommand, type Choice } from '$lib/game/actions';
   import type { SetupState } from '$lib/game/setup';
@@ -19,13 +19,18 @@
   const instruction = $derived(choice.kind === 'gain' ? `Gain ${choice.actionOnly ? "an Action" : "a card"} costing up to ${choice.limit}` : choice.kind === 'discard' ? `Discard ${choice.min} card${choice.min === 1 ? '' : 's'}` : `Choose up to ${choice.max} to trash`);
   const selectedName = $derived(options.find(card => card.id === selected[0]));
   const confirm = $derived(choice.kind === 'gain' ? `Gain ${selectedName ? definition(selectedName.cardId).name : 'a card'}` : `${choice.kind === 'trash' ? 'Trash' : 'Discard'} ${selected.length}`);
-  $effect(() => { choiceId; selected = []; page = 0; });
+  $effect(() => { choiceId; selected = []; page = untrack(()=>choice.kind === 'gain' ? Math.floor(Math.max(0,options.findIndex(card=>card.id===(choice.browsedCardId ?? options.at(-1)?.id)))/3) : 0); });
   $effect(() => { if (dialog && !dialog.open) { dialog.showModal(); dialog.focus(); } });
   onDestroy(() => { queueMicrotask(() => {
     const altar = document.querySelector<HTMLDialogElement>('.worship-scene[open]');
     if (altar) (altar.querySelector<HTMLButtonElement>('.worship-submit button:not(:disabled)') ?? altar.querySelector<HTMLButtonElement>('.event-focus'))?.focus();
     else if (!document.querySelector('dialog[open]')) document.querySelector<HTMLButtonElement>('[data-testid="hand-card"],.supply-control button')?.focus();
   }); });
+  function browse(next:number) {
+    if(!ready)return;
+    page=next;
+    if(choice.kind==='gain')void command({type:'choice/browsed',choiceId:choice.id,cardId:options[Math.min(options.length-1,page*3+2)].id});
+  }
   function toggle(id: string) { selected = selected.includes(id) ? selected.filter(value => value !== id) : choice.max === 1 ? [id] : selected.length < choice.max ? [...selected, id] : selected; }
   async function inspect(cardId: string, copy = 1) { inspected = { cardId, copy }; await tick(); detail!.showModal(); }
   function submit(targets = selected) { if (ready) void command({ type: 'choice/resolved', choiceId: choice.id, targets }); }
@@ -45,7 +50,7 @@
         </div>
       {/each}
     </div>
-    <nav class="pages" aria-label="Choice pages"><button aria-label="Previous choices" disabled={page === 0} onclick={() => page--}>‹</button><span>{selected.length} selected · {page + 1} / {pages}</span><button aria-label="Next choices" disabled={page + 1 === pages} onclick={() => page++}>›</button></nav>
+    <nav class="pages" aria-label="Choice pages"><button aria-label="Previous choices" disabled={!ready || page === 0} onclick={() => browse(page-1)}>‹</button><span>{selected.length} selected · {page + 1} / {pages}</span><button aria-label="Next choices" disabled={!ready || page + 1 === pages} onclick={() => browse(page+1)}>›</button></nav>
     <div class="confirmation"><GameButton primary onclick={() => submit()} disabled={!ready || selected.length < Math.max(1, choice.min)}>{confirm}</GameButton>{#if choice.min === 0}<GameButton onclick={() => submit([])} disabled={!ready}>{choice.kind === 'gain' ? 'Gain none' : 'Trash none'}</GameButton>{/if}{#if canUndo(game,uid)}<GameButton disabled={!ready} onclick={()=>command({type:'action/undone',targetSequence:game.undo!.sequence})}>Undo</GameButton>{/if}</div>
     {#if choice.kind === 'gain'}<p class="destination">{choice.topdeck ? 'Onto your deck' : 'To your discard pile'}</p>{/if}
     {#if error}<p class="error" role="alert">{error}</p>{/if}

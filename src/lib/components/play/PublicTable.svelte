@@ -42,7 +42,7 @@
   const title = $derived(tab === 'chronicle' ? 'Chronicle' : tab === 'trash' ? 'Shared trash' : `${player === uid ? 'Your' : `${name(player)}’s`} ${tab === 'play' ? 'play area' : 'discard'}`);
   const verbs = { play: 'Played', draw: 'Drew', shuffle: 'Shuffled', trash: 'Trashed', discard: 'Discarded', gain: 'Gained', reveal: 'Revealed', topdeck: 'Topdecked', leader: 'Bloodline blessing', worship: 'Worshipped', cleanup: 'Cleanup' };
   const zones = { hand: 'Hand', deck: 'Deck', play: 'In play', discard: 'Discard', supply: 'Supply', trash: 'Shared trash', reveal: 'Revealed', altar: 'Altar', leader: 'Leader' };
-  const commandNames: Record<string, string> = { 'action/undone': 'undid an action', 'action/played': 'played an Action', 'treasure/played': 'played a Treasure', 'treasures/played': 'played Treasures', 'choice/resolved': 'chose cards', 'card/bought': 'bought a card', 'god/worshipped': 'worshipped', 'phase/advanced': 'entered Treasures', 'turn/ended': 'ended the turn' };
+  const commandNames: Record<string, string> = { 'choice/browsed': 'browsed the market', 'action/undone': 'undid an action', 'action/played': 'played an Action', 'treasure/played': 'played a Treasure', 'treasures/played': 'played Treasures', 'choice/resolved': 'chose cards', 'card/bought': 'bought a card', 'god/worshipped': 'worshipped', 'phase/advanced': 'entered Treasures', 'turn/ended': 'ended the turn' };
   const resources = ['actions', 'coins', 'buys', 'worship'] as const;
   onMount(() => {
     dialog.showModal();

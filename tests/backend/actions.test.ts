@@ -20,6 +20,26 @@ function run(state: SetupState, command: ActionCommand) { return applyPlayComman
 const play = (state: SetupState, index = 0) => run(state, { type: 'action/played', instanceId: state.decks.a.hand[index].id });
 const choose = (state: SetupState, targets: string[]) => run(state, { type: 'choice/resolved', choiceId: state.turn.choice!.id, targets });
 
+test('gain browsing validates the current public choice, actor, cost and stock without gaining', () => {
+  const state = game('nereon', ['sacred-grove']); play(state);
+  const choiceId = state.turn.choice!.id;
+  const before = structuredClone(state);
+  run(state, {type:'choice/browsed',choiceId,cardId:'drachma'});
+  expect(state.turn.choice?.browsedCardId).toBe('drachma');
+  const unchanged = structuredClone(state); delete unchanged.turn.choice!.browsedCardId;
+  expect(unchanged).toEqual(before);
+  for(const command of [
+    {type:'choice/browsed',choiceId:'stale',cardId:'drachma'},
+    {type:'choice/browsed',choiceId,cardId:'acropolis'},
+    {type:'choice/browsed',choiceId,cardId:'missing'}
+  ] as const) expect(()=>run(state,command)).toThrow();
+  expect(()=>applyPlayCommand(state,'b',{type:'choice/browsed',choiceId,cardId:'drachma'},99)).toThrow('turn');
+  state.supply.drachma=0;
+  expect(()=>run(state,{type:'choice/browsed',choiceId,cardId:'drachma'})).toThrow('available');
+  state.turn.choice!.kind='trash';
+  expect(()=>run(state,{type:'choice/browsed',choiceId,cardId:'hamlet'})).toThrow('available');
+});
+
 test('every printed Action and Temple resolves its ordered resource and draw effects', () => {
   const cases: [string, number, number, number, number][] = [
     ['oracles-acolyte', 1, 1, 0, 1], ['council-of-sages', 3, 0, 0, 1], ['sacred-academy', 2, 1, 0, 1],

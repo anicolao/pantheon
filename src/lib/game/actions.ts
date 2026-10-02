@@ -5,6 +5,7 @@ import type { CardInstance, SetupState } from './setup';
 export type ActionCommand =
   | { type: 'action/played'; instanceId: string }
   | { type: 'choice/resolved'; choiceId: string; targets: string[] }
+  | { type: 'choice/browsed'; choiceId: string; cardId: string }
   | { type: 'phase/advanced'; automatic?: boolean }
   | { type: 'action/undone'; targetSequence: number }
   | { type: 'treasure/played'; instanceId: string }
@@ -18,13 +19,13 @@ export type Effect =
   | { kind: 'trash' | 'discard'; amount: number; source: string; forge?: boolean; offering?: 'sum' | 1 | 3 }
   | { kind: 'gain'; limit: number; source: string; actionOnly?: boolean; topdeck?: boolean; optional?: boolean; cardId?: string }
   | { kind: 'reveal'; source: string };
-export type Choice = { id: string; kind: 'trash' | 'discard' | 'gain'; source: string; min: number; max: number; limit?: number; forge?: boolean; offering?: 'sum' | 1 | 3; actionOnly?: boolean; topdeck?: boolean };
+export type Choice = { id: string; kind: 'trash' | 'discard' | 'gain'; source: string; min: number; max: number; limit?: number; forge?: boolean; offering?: 'sum' | 1 | 3; actionOnly?: boolean; topdeck?: boolean; browsedCardId?: string };
 export type Movement = { sequence: number; index: number; uid: string; kind: 'play' | 'draw' | 'trash' | 'discard' | 'gain' | 'reveal' | 'topdeck' | 'shuffle' | 'leader' | 'worship'; card?: CardInstance; source: string; amount?: number };
 export type TurnState = { number: number; index: number; phase: 'actions' | 'treasures' | 'buys' | 'finished'; leaderUsed: boolean; queue: Effect[]; choice: Choice | null; shuffles: Record<string, number>; turns: Record<string, number> };
 export function initialTurn(): TurnState { return { number: 1, index: 0, phase: 'actions', leaderUsed: false, queue: [], choice: null, shuffles: {}, turns: {} }; }
 export const definition = (id: string) => { const card = cards.find(card => card.id === id); if (!card) throw new Error('Unknown card.'); return card; };
 export const activePlayer = (game: SetupState) => game.turnOrder[game.turn.index];
-export function eligibleGains(game: SetupState, limit: number, actionOnly = false) { return cards.filter(card => (game.supply[card.id] ?? 0) > 0 && card.cost !== null && card.cost <= limit && (!actionOnly || card.type === 'Action')); }
+export function eligibleGains(game: SetupState, limit: number, actionOnly = false) { return cards.filter(card => (game.supply[card.id] ?? 0) > 0 && card.cost !== null && card.cost <= limit && (!actionOnly || card.type === 'Action')).sort((a,b)=>a.cost!-b.cost! || a.name.localeCompare(b.name)); }
 export function devotionCards(game: SetupState, uid: string, eventId: string) {
   const god = definition(eventId).god;
   return (game.decks[uid]?.play ?? []).filter(card => definition(card.cardId).type === 'Action' && definition(card.cardId).god === god);
@@ -111,6 +112,13 @@ export function actionEffects(id: string): Effect[] {
 export function applyPlayCommand(game: SetupState, uid: string, command: ActionCommand, sequence: number): string {
   if (command.type === 'action/undone') throw new Error('Undo requires the committed command history.');
   if (game.phase !== 'playing' || activePlayer(game) !== uid || game.turn.phase === 'finished') throw new Error('Wait for your turn.');
+  if (command.type === 'choice/browsed') {
+    const choice = game.turn.choice;
+    if (!choice || choice.id !== command.choiceId || choice.kind !== 'gain' ||
+      !eligibleGains(game, choice.limit!, choice.actionOnly).some(card => card.id === command.cardId)) throw new Error('Choose an available pile for the current gain.');
+    choice.browsedCardId = command.cardId;
+    return `${game.players.find(player => player.uid === uid)!.name} browsed ${definition(command.cardId).name}.`;
+  }
   const zones = game.decks[uid], name = game.players.find(player => player.uid === uid)!.name;
   const messages: string[] = [];
   const move = (kind: Movement['kind'], source: string, card?: CardInstance, amount?: number) => game.movements.push({ sequence, index: game.movements.length, uid, kind, source, ...(card ? { card: { ...card } } : {}), ...(amount !== undefined ? { amount } : {}) });

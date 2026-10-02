@@ -20,7 +20,7 @@
   import ResourceIcon from '../ResourceIcon.svelte';
   import GameButton from '../GameButton.svelte';
   import Portrait from './Portrait.svelte';
-  import ActionChoice from './ActionChoice.svelte';
+  import InlineChoice from './InlineChoice.svelte';
   import WorshipOverlay from './WorshipOverlay.svelte';
   import WorshipFace from './WorshipFace.svelte';
   import WorshipCoverflow from './WorshipCoverflow.svelte';
@@ -51,6 +51,7 @@
   let inspected = $state<{ card: CardDefinition; copy: number; instanceId?: string } | null>(null);
   let modal = $state<'card' | 'chronicle' | 'zone' | 'advance' | 'worship' | ''>('');
   let worshipEvent = $state('counsel-of-olympus');
+  const worshipEvents=$derived([...game.sharedEvents].sort((a,b)=>(definition(a).cost??0)-(definition(b).cost??0)||definition(a).name.localeCompare(definition(b).name)));
   let worshipSource = $state<DOMRect>();
   function worship(id: string) { worshipSource=document.querySelector<HTMLElement>(`[data-god-event="${id}"]`)?.getBoundingClientRect(); worshipEvent=id; drawer=''; void open('worship'); }
   async function prepareWorshipReturn(){if(portraitLayout){drawer='worship';await tick();await new Promise(resolve=>setTimeout(resolve,reduced?0:350));}}
@@ -70,14 +71,22 @@
   const turnUid = $derived(activePlayer(game));
   const choice = $derived(game.turn.choice);
   const ownChoice = $derived(choice && turnUid === uid ? choice : null);
+  const inlineChoice = $derived(ownChoice && definition(ownChoice.source).type!=='Event' ? ownChoice : null);
+  let interaction=$state<InlineChoice>();
+  let interactionTargets=$state<string[]>([]),interactionBusy=$state(false);
+  let localChoices=$state<string[]>([]);
+  const inlineChoiceId=$derived(inlineChoice?.id);
+  $effect(()=>{inlineChoiceId;interactionTargets=[];interactionBusy=false;if(inlineChoiceId)drawer='';});
   const worshipChoice = $derived(ownChoice && definition(ownChoice.source).type==='Event' ? ownChoice : null);
   const worshipVisible = $derived(modal==='worship' || !!worshipChoice);
   let worshipTargets = $state<string[]>([]);
   const worshipChoiceId = $derived(worshipChoice?.id);
   $effect(()=>{if(worshipChoice && !modal){worshipEvent=worshipChoice.source;modal='worship';}});
   $effect(()=>{worshipChoiceId;worshipTargets=[];});
-  const worshipOptions = $derived(worshipChoice ? (worshipChoice.kind==='gain' ? eligibleGains(game,worshipChoice.limit!,worshipChoice.actionOnly).slice().sort((a,b)=>(a.cost??0)-(b.cost??0)||a.id.localeCompare(b.id)).map(card=>({id:card.id,cardId:card.id,copy:card.supply[game.playerCount]-game.supply[card.id]+1})) : game.decks[uid].hand.slice().sort((a,b)=>(definition(a.cardId).cost??0)-(definition(b.cardId).cost??0))) : []);
-  function selectWorshipTarget(id:string){if(!worshipChoice)return;worshipTargets=worshipTargets.includes(id)?worshipTargets.filter(value=>value!==id):worshipChoice.max===1?[id]:worshipTargets.length<worshipChoice.max?[...worshipTargets,id]:worshipTargets;}
+  // Gain options are public. Never project another player's private trash/discard choices.
+  const marketChoice = $derived(choice?.kind==='gain' ? choice : worshipChoice);
+  const worshipOptions = $derived(marketChoice ? (marketChoice.kind==='gain' ? eligibleGains(game,marketChoice.limit!,marketChoice.actionOnly).map(card=>({id:card.id,cardId:card.id,copy:card.supply[game.playerCount]-game.supply[card.id]+1})) : game.decks[uid].hand.slice().sort((a,b)=>(definition(a.cardId).cost??0)-(definition(b.cardId).cost??0))) : []);
+  function selectWorshipTarget(id:string){if(inlineChoice?.kind==='gain'){void interaction?.select(id);return;}if(!worshipChoice)return;worshipTargets=worshipTargets.includes(id)?worshipTargets.filter(value=>value!==id):worshipChoice.max===1?[id]:worshipTargets.length<worshipChoice.max?[...worshipTargets,id]:worshipTargets;}
   async function resolveWorship(){if(ready&&worshipChoice)await command({type:'choice/resolved',choiceId:worshipChoice.id,targets:worshipTargets});}
 
   const latestActivity = $derived(game.activity[latestMoveIndex(game)]);
@@ -188,6 +197,7 @@
   function close() { if (dialog?.open) dialog.close(); modal = ''; const target = opener; void tick().then(() => target?.focus()); }
   function inspectZone(player: string, kind: 'play' | 'discard' | 'trash', title: string) { zone = { uid: player, kind, title }; void open('zone'); }
   function playHand(id: string, copy: number, instanceId: string) {
+    if(inlineChoice){if(ready && inlineChoice.kind!=='gain')void interaction?.select(instanceId);return;}
     if (ready && (canPlayAction(game, uid, instanceId) || canPlayTreasure(game, uid, instanceId))) void command({type: definition(id).type === 'Action' ? 'action/played' : 'treasure/played', instanceId});
     else if (ready) inspect(id, copy, instanceId);
   }
@@ -201,7 +211,7 @@
 
 <main class="session" class:drafting={game.phase === 'draft'} data-status={status} aria-busy={busy || (status === 'synced' && automaticTreasures)}>
   <picture class="environment" aria-hidden="true"><source media="(max-aspect-ratio:3/4)" srcset={`${base}/assets/ui/table-mobile.webp`} /><img src={`${base}/assets/ui/table-desktop.webp`} alt="" draggable="false" /></picture>
-  <div class="composition" class:covered={(!!ownChoice && !worshipChoice) || showResults} inert={status !== 'synced' || modal === 'chronicle' || modal === 'zone'} data-e2e-layout={modal || supplyWarning || ownChoice || showResults || status !== 'synced' ? undefined : true}>
+  <div class="composition" class:covered={showResults} class:choosing={!!inlineChoice} inert={status !== 'synced' || modal === 'chronicle' || modal === 'zone'} data-e2e-layout={modal || supplyWarning || (ownChoice && !inlineChoice) || showResults || status !== 'synced' ? undefined : true}>
     {#if game.phase === 'draft'}<header><a href={`${base}/`} aria-label="Back to sanctuary">‹ Sanctuary</a>{#if /^[A-Z]{4,5}$/.test(roomId)}<span><span class="code-label">Game code </span><strong>{roomId}</strong></span>{:else}<span>{game.playerCount} players</span>{/if}</header>{/if}
     {#if game.phase === 'draft'}
       <div class="draft-title"><h1>Choose your<br />Bloodline</h1><p aria-live="polite">{isChoice ? 'Your choice' : `${nameOf(chooser)} chooses`}</p></div>
@@ -257,16 +267,17 @@
       </aside>
       <div data-public-zone="deck" data-public-uid={uid} class="deck-pile" aria-label={`Your deck: ${own.deck.length} cards`}><ResourceIcon resource="cards" value={own.deck.length} label={`Your deck: ${own.deck.length} cards`} /></div>
       {#if worshipVisible}<WorshipOverlay {game} {uid} selected={worshipChoice?.source ?? worshipEvent} {ready} {error} {command} close={()=>void finishWorshipReturn()} sourceRect={worshipSource} prepareReturn={prepareWorshipReturn} choice={worshipChoice} targets={worshipTargets} resolve={resolveWorship}/>{/if}
+      {#if inlineChoice}{#key inlineChoice.id}<InlineChoice bind:this={interaction} {game} {uid} choice={inlineChoice} {ready} {error} {reduced} {command} bind:targets={interactionTargets} bind:busy={interactionBusy} handled={id=>localChoices=[...localChoices.slice(-15),id]}/>{/key}{/if}
       <div class="table-card-measure" bind:clientWidth={tableCardWidth} aria-hidden="true"></div>
-      <div class="table-supply" inert={worshipVisible && !worshipChoice}><SupplyCoverflow sharedCardWidth={tableCardWidth} {game} {uid} {ready} {command} selection={worshipChoice ? {options:worshipOptions,selected:worshipTargets,choose:selectWorshipTarget,kind:worshipChoice.kind} : undefined} visible={(!modal || worshipVisible) && !supplyWarning && (!ownChoice || !!worshipChoice) && !showResults && !drawer} inspect={id=>inspect(id)} onDialog={open=>supplyWarning=open}/></div>
+      <div class="table-supply" inert={(worshipVisible && !worshipChoice) || (!!inlineChoice && inlineChoice.kind!=='gain')}><SupplyCoverflow sharedCardWidth={tableCardWidth} {game} {uid} ready={ready && !interactionBusy} {command} selection={marketChoice ? {options:worshipOptions,selected:turnUid===uid?worshipTargets:[],choose:selectWorshipTarget,kind:marketChoice.kind,choiceId:marketChoice.id,browsedCardId:marketChoice.browsedCardId,readOnly:turnUid!==uid} : undefined} visible={(!modal || worshipVisible) && !supplyWarning && (!ownChoice || !!worshipChoice || !!inlineChoice) && !showResults && !drawer} inspect={id=>inspect(id)} onDialog={open=>supplyWarning=open}/></div>
       <aside class="action-sidebar" class:many-gods={game.sharedEvents.length > 2} aria-label="Worship, turn status, and controls" style:--god-count={game.sharedEvents.length}>
       <div id="worship-drawer" class="worship-drawer" class:drawer-open={drawer === 'worship'} inert={portraitLayout && drawer !== 'worship'}>
       <h2 class="drawer-title">Worship</h2>
       {#if game.sharedEvents.length > 2}
-        <WorshipCoverflow {game} {uid} hidden={worshipVisible ? worshipChoice?.source ?? worshipEvent : undefined} disabled={worshipVisible} open={worship}/>
+        <WorshipCoverflow {game} {uid} events={worshipEvents} hidden={worshipVisible ? worshipChoice?.source ?? worshipEvent : undefined} disabled={worshipVisible || !!inlineChoice} open={worship}/>
       {:else}
       <section class="altars" aria-label="Shared god events" class:four={game.sharedEvents.length > 2}>
-        {#each game.sharedEvents as id, index}<button data-public-zone="altar" data-public-card={id} data-god-event={id} style:visibility={worshipVisible && id === (worshipChoice?.source ?? worshipEvent) ? 'hidden' : undefined} disabled={worshipVisible} style:--altar-index={index} aria-label={`Inspect ${cards.find(card => card.id === id)!.name}`} onclick={() => worship(id)} in:arrive><WorshipFace {game} {uid} cardId={id} /></button>{/each}
+        {#each worshipEvents as id, index}<button data-public-zone="altar" data-public-card={id} data-god-event={id} style:visibility={worshipVisible && id === (worshipChoice?.source ?? worshipEvent) ? 'hidden' : undefined} disabled={worshipVisible} style:--altar-index={index} aria-label={`Inspect ${cards.find(card => card.id === id)!.name}`} onclick={() => worship(id)} in:arrive><WorshipFace {game} {uid} cardId={id} dimUnavailable /></button>{/each}
       </section>
       {/if}
 
@@ -274,7 +285,7 @@
       <section class="turn-rail" aria-label="Turn resources"><ResourceFrame /><div class="turn-marker" class:long={nameOf(turnUid).length > 12 && turnUid !== uid}><strong>{turnUid === uid ? 'Your turn' : `${nameOf(turnUid)}’s turn`}</strong><span>{game.turn.phase === 'actions' ? 'Actions' : game.turn.phase === 'treasures' ? 'Treasures' : game.turn.phase === 'finished' ? 'Complete' : 'Buys'} · Turn {game.turn.number}</span></div>
         <div class="resources"><ResourceIcon resource="actions" value={game.resources.actions} /><ResourceIcon resource="coins" value={game.resources.coins} /><ResourceIcon resource="buys" value={game.resources.buys} /><ResourceIcon resource="worship" value={game.resources.worship} /></div>
       </section>
-        <div class="player-controls" inert={worshipVisible}>
+        <div class="player-controls" inert={worshipVisible || !!inlineChoice}>
       {#if canUndo(game,uid)}<div class="undo-control" title={`Undo ${game.undo!.label}`}><GameButton disabled={!ready} onclick={()=>command({type:'action/undone',targetSequence:game.undo!.sequence})}>Undo</GameButton></div>{/if}
       {#if turnUid === uid && game.turn.phase !== 'finished'}<div class="chronicle-control"><GameButton primary onclick={advance} disabled={!ready || !!choice}>{advanceLabel}</GameButton></div>{/if}
       {#if turnUid === uid && ['actions','treasures'].includes(game.turn.phase) && treasures.length}<div class="treasures-control"><GameButton primary disabled={!ready} onclick={()=>command({type:'treasures/played'})}>Play all Treasures</GameButton></div>{/if}
@@ -295,12 +306,12 @@
       </div>
       {#if (revealed || lastPublic) && game.publicActivity.find(entry=>entry.sequence===latestActivity?.sequence)?.command!=='card/bought'}{#key game.activity.length}<button class="outcome" data-motion-key={revealed ? `reveal:${revealed.card!.id}` : undefined} data-motion-card={revealed?.card?.id} data-public-zone={revealed ? 'reveal' : undefined} data-public-uid={turnUid} aria-label={`Inspect ${revealed ? 'revealed' : lastPublic!.kind === 'trash' ? 'trashed' : 'gained'} ${definition((revealed ?? lastPublic)!.card!.cardId).name}`} onclick={() => inspect((revealed ?? lastPublic)!.card!.cardId, (revealed ?? lastPublic)!.card!.copy)}><div class="outcome-card"><CardFace card={definition((revealed ?? lastPublic)!.card!.cardId)} players={game.playerCount} copy={(revealed ?? lastPublic)!.card!.copy} /></div><span class="outcome-icons"><ResourceIcon resource={lastPublic?.kind === 'topdeck' ? 'topdeck' : lastPublic?.kind === 'trash' ? 'trash' : 'discard'} />{#if revealed && lastPublic?.kind === 'discard'}<ResourceIcon resource="coins" value="+2" />{/if}</span></button>{/key}{/if}
 
-      <section inert={worshipVisible} bind:this={handElement} data-public-zone="hand" data-public-uid={uid} class="hand" aria-label="Your hand" style:--hand-count={visibleHand.length} style:--hand-spaces={Math.max(1,visibleHand.length-1)} style:--hand-min-peek={`${handMinPeek}px`}>
+      <section inert={worshipVisible || inlineChoice?.kind==='gain'} bind:this={handElement} data-public-zone="hand" data-public-uid={uid} class="hand" aria-label="Your hand" style:--hand-count={visibleHand.length} style:--hand-spaces={Math.max(1,visibleHand.length-1)} style:--hand-min-peek={`${handMinPeek}px`}>
         {#each visibleHand as card, index (`${card.id}:${handRevision(card.id)}`)}
-          <div class="hand-slot" data-motion-key={`hand:${card.id}`} data-motion-card={card.id} data-motion-face={card.cardId} data-motion-copy={card.copy} data-motion-zone="hand" data-motion-uid={uid} data-instance-id={card.id} style:--card-index={index} style:--fan-angle={`${(index-(visibleHand.length-1)/2)*Math.min(3,16/Math.max(1,visibleHand.length-1))}deg`} style:--fan-drop={`${Math.abs(index-(visibleHand.length-1)/2)*3}px`} in:deal|global={index}><div class="hand-face"><CardFace card={definition(card.cardId)} players={game.playerCount} copy={card.copy} /></div></div>
-          <button data-motion-key={`hand-hit:${card.id}`} data-testid="hand-card" data-instance-id={card.id} aria-label={`${canPlayAction(game,uid,card.id)||canPlayTreasure(game,uid,card.id)?'Play':'Inspect'} hand card ${handPage * handCapacity + index + 1}: ${definition(card.cardId).name}`} aria-describedby="hand-help" style:--card-index={index} use:cardGesture={{activate:()=>playHand(card.cardId,card.copy,card.id),inspect:()=>inspect(card.cardId,card.copy,card.id)}}></button>
+          <div class="hand-slot" class:staged={interactionTargets.includes(card.id)} data-motion-key={`hand:${card.id}`} data-motion-card={card.id} data-motion-face={card.cardId} data-motion-copy={card.copy} data-motion-zone="hand" data-motion-uid={uid} data-instance-id={card.id} style:--card-index={index} style:--fan-angle={`${(index-(visibleHand.length-1)/2)*Math.min(3,16/Math.max(1,visibleHand.length-1))}deg`} style:--fan-drop={`${Math.abs(index-(visibleHand.length-1)/2)*3}px`} in:deal|global={index}><div class="hand-face"><CardFace card={definition(card.cardId)} players={game.playerCount} copy={card.copy} /></div></div>
+          <button data-motion-key={`hand-hit:${card.id}`} data-testid="hand-card" data-instance-id={card.id} disabled={!!inlineChoice && (!ready || interactionBusy || interactionTargets.includes(card.id))} aria-pressed={inlineChoice && inlineChoice.kind!=='gain' ? interactionTargets.includes(card.id) : undefined} aria-label={`${inlineChoice && inlineChoice.kind!=='gain' ? inlineChoice.kind==='trash'?'Trash':'Discard' : canPlayAction(game,uid,card.id)||canPlayTreasure(game,uid,card.id)?'Play':'Inspect'} hand card ${handPage * handCapacity + index + 1}: ${definition(card.cardId).name}`} aria-describedby="hand-help" style:--card-index={index} use:cardGesture={{activate:()=>playHand(card.cardId,card.copy,card.id),inspect:()=>inspect(card.cardId,card.copy,card.id)}}></button>
         {/each}
-        <span id="hand-help" class="sr-only">Click or tap to play. Right-click, hold, or press Shift+F10 to inspect before playing.</span>
+        <span id="hand-help" class="sr-only">{inlineChoice && inlineChoice.kind!=='gain' ? `Click or tap a card to ${inlineChoice.kind}.` : 'Click or tap to play.'} Right-click, hold, or press Shift+F10 to inspect.</span>
       </section>
       {#if own.hand.length > handCapacity}<nav class="hand-pages" aria-label="Hand pages"><button aria-label="Previous hand cards" disabled={handPage === 0} onclick={() => handPage--}>‹</button><span>{handPage + 1} / {Math.ceil(own.hand.length / handCapacity)}</span><button aria-label="Next hand cards" disabled={(handPage + 1) * handCapacity >= own.hand.length} onclick={() => handPage++}>›</button></nav>{/if}
 
@@ -320,13 +331,19 @@
   {/if}
 </dialog>
 {#if modal === 'chronicle' || modal === 'zone'}<PublicTable {game} {uid} initialTab={modal === 'zone' ? zone!.kind : 'chronicle'} owner={modal === 'zone' ? zone!.uid : uid} {close}/>{/if}
-<PublicMotion previousLayout={()=>motionBefore} {game} {status} {reduced} visible={!modal && !supplyWarning && !ownChoice && !showResults}/>
+<PublicMotion previousLayout={()=>motionBefore} {game} {status} {reduced} localChoices={localChoices} visible={!modal && !supplyWarning && (!ownChoice || !!inlineChoice) && !showResults}/>
 
-{#if ownChoice && !worshipChoice}<ActionChoice {game} {uid} choice={ownChoice} {ready} {error} {command} {status} {retry} />{/if}
+
 
 {#if showResults}<VictoryScene {game} {uid} {busy} {status} {error} {again} {retry} close={()=>void leaveResults()} chronicle={()=>void leaveResults(true)}/>{/if}
 
 <style>
+  .composition.choosing .player-controls{visibility:hidden;}
+  .composition.choosing .play-area,.composition.choosing .outcome{opacity:.16;pointer-events:none;}
+  .hand .hand-slot.staged{visibility:hidden;}
+  .hand button:disabled{pointer-events:none;}
+  .composition.choosing .hand button:not(:disabled):hover{filter:brightness(1.12);}
+
   @media(min-aspect-ratio:3/4){.composition:has(.treasures-control) .hand-pages{left:85%;width:14%;bottom:24%;}}
 
   .turn-marker{border:0;background:none;color:inherit;padding:0;cursor:pointer;min-height:44px;}.treasures-control{position:absolute;left:2%;top:73%;width:16%;--control-height:clamp(48px,4.8svh,104px);--control-font:clamp(23px,2.3svh,50px);}.confirm-resources{display:flex;gap:24px;justify-content:center;--icon-size:30px;margin:24px;}.confirm-controls{display:flex;gap:24px;margin:32px auto 12px;max-width:640px;--control-height:56px;--control-font:24px;}.confirm-controls :global(button){flex:1;}dialog.decision{width:min(780px,94vw);max-height:94svh;border:0;box-shadow:none;padding:70px 70px 55px;}dialog.decision h2{font-size:clamp(32px,4svh,72px);margin-top:0;}dialog.decision .close{display:none;}dialog.decision::backdrop{background:#02081155;backdrop-filter:none;}@media(max-aspect-ratio:3/4){dialog.decision{padding:58px 35px 45px;}.confirm-controls{flex-direction:column;gap:6px;margin-top:20px;}.confirm-resources{margin:18px 0;gap:20px;}}
@@ -756,5 +773,9 @@
   @media(max-aspect-ratio:3/4){
     .session .action-sidebar.many-gods .worship-drawer{overflow:visible;}
     .session .action-sidebar.many-gods .worship-drawer :global(.worship-coverflow){flex:1;}
+  }
+  @media(min-width:900px) and (min-height:501px) and (min-aspect-ratio:3/4){
+    .session .action-sidebar .resources{padding-block:3px 13px;}
+    .session .action-sidebar.many-gods .turn-rail{padding:29px 11% 30px;gap:8px;}
   }
 </style>

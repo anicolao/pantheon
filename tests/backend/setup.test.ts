@@ -247,8 +247,21 @@ test('Worship commands authenticate, serialize payment, and retry a topdeck choi
       await expect(appendGameCommand(uid==='worship-a'?b:a,'worship-stream',uid==='worship-a'?'worship-b':'worship-a','wrong-worship',worship)).rejects.toThrow();
       await appendGameCommand(db,'worship-stream',uid,'worship',worship);await appendGameCommand(db,'worship-stream',uid,'worship',worship);
       state=replaySetup(await history());expect(state.resources.worship).toBe(0);expect(state.resources.buys).toBe(1);
+      const browse={type:'choice/browsed' as const,choiceId:state.turn.choice!.id,cardId:'oracles-acolyte'};
+      const undoBefore=state.undo;
+      await appendGameCommand(db,'worship-stream',uid,'browse',browse);
+      await appendGameCommand(db,'worship-stream',uid,'browse',browse);
+      const other=uid==='worship-a'?b:a;
+      const observerEvents=(await getDocs(collection(other,'games/worship-stream/events'))).docs.map(doc=>doc.data() as SetupEvent);
+      const observer=replaySetup(observerEvents);
+      expect(observer.turn.choice?.browsedCardId).toBe('oracles-acolyte');
+      expect(observer.undo).toEqual(undoBefore);
+      expect(observer.resources).toEqual(state.resources);
+      expect(observerEvents.filter(event=>event.type==='choice/browsed')).toHaveLength(1);
+      await expect(appendGameCommand(other,'worship-stream',uid==='worship-a'?'worship-b':'worship-a','wrong-browse',browse)).rejects.toThrow();
       const choice={type:'choice/resolved' as const,choiceId:state.turn.choice!.id,targets:['oracles-acolyte']};
       await appendGameCommand(db,'worship-stream',uid,'gain',choice);await appendGameCommand(db,'worship-stream',uid,'gain',choice);
+      await expect(appendGameCommand(db,'worship-stream',uid,'stale-browse',browse)).rejects.toThrow();
       const events=await history();state=replaySetup(events);expect(state.decks[uid].deck[0].cardId).toBe('oracles-acolyte');expect(events.filter(event=>event.type==='god/worshipped')).toHaveLength(1);expect(state.supply['oracles-acolyte']).toBe(7);expect(replaySetup([...events].reverse())).toEqual(state);return;
     }
     await appendGameCommand(db,'worship-stream',uid,`end-${counter++}`,{type:'turn/ended'});state=replaySetup(await history());

@@ -30,6 +30,19 @@ function table(hand=['obol','hamlet'],deck=['obol','hamlet'],leader='nereon') {
 }
 const position=(game:SetupState)=>structuredClone({turn:game.turn,decks:game.decks,supply:game.supply,trash:game.trash,resources:game.resources});
 
+test('market browsing preserves the gameplay Undo target and restored gain view',()=>{
+  const {game,run,undo}=table(['sacred-grove']);
+  const before=position(game);
+  run({type:'action/played',instanceId:'h-0'});
+  const choiceId=game.turn.choice!.id, target=game.undo!.sequence;
+  run({type:'choice/browsed',choiceId,cardId:'drachma'});
+  expect(game.undo!.sequence).toBe(target);
+  run({type:'choice/resolved',choiceId,targets:['drachma']});
+  undo();expect(game.turn.choice?.browsedCardId).toBe('drachma');
+  expect(game.undo!.sequence).toBe(target);
+  undo();expect(position(game)).toEqual(before);
+});
+
 test('undo restores card order, phase and resources; repeated undo stops at the beginning of the turn',()=>{
   const {game,run,undo}=table(['obol','drachma','hamlet']);
   const initial=position(game);

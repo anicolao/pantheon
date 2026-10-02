@@ -17,6 +17,7 @@ export type PublicStep = {
 };
 export type PublicActivity = {
   sequence: number;
+  choiceId?: string;
   undoneSequence?: number;
   actor: { uid: string; name: string };
   command: SetupEvent['type'];
@@ -82,6 +83,7 @@ export function describePublicCommand(
   }
   const values = { ...game.resources };
   return {
+    ...(event.type === 'choice/resolved' ? { choiceId: event.choiceId } : {}),
     sequence: event.sequence, ...(event.type === 'action/undone' ? { undoneSequence: event.targetSequence } : {}), actor: { ...actor }, command: event.type, steps,
     change: event.type === 'turn/ended' ? null : {
       actions: values.actions - before.resources.actions,
@@ -132,6 +134,6 @@ export class PublicReadingCursor {
 /** Keep a bookkeeping phase transition from hiding the card effect it follows. */
 export function latestMoveIndex(game: SetupState): number {
   let index=game.activity.length-1;
-  while(index>0 && game.publicActivity.find(entry=>entry.sequence===game.activity[index].sequence)?.command==='phase/advanced') index--;
+  while(index>0 && ['phase/advanced','choice/browsed'].includes(game.publicActivity.find(entry=>entry.sequence===game.activity[index].sequence)?.command ?? '')) index--;
   return Math.max(0,index);
 }

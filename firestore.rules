@@ -42,7 +42,7 @@ service cloud.firestore {
             && resource.data.get('phase', 'gathering') == 'gathering' && request.resource.data.phase == 'draft')
           || (getAfter(event(gameId, request.resource.data.revision)).data.type == 'leader/chosen'
             && resource.data.phase == 'draft' && request.resource.data.phase in ['draft', 'playing'])
-          || (getAfter(event(gameId, request.resource.data.revision)).data.type in ['action/played', 'choice/resolved', 'phase/advanced', 'treasure/played', 'treasures/played', 'card/bought', 'god/worshipped', 'turn/ended', 'action/undone']
+          || (getAfter(event(gameId, request.resource.data.revision)).data.type in ['action/played', 'choice/resolved', 'choice/browsed', 'phase/advanced', 'treasure/played', 'treasures/played', 'card/bought', 'god/worshipped', 'turn/ended', 'action/undone']
             && resource.data.phase == 'playing' && request.resource.data.phase == 'playing'))))
         && getAfter(event(gameId, request.resource.data.revision)).data.actorUid == request.auth.uid;
       match /events/{eventId} {
@@ -72,7 +72,7 @@ service cloud.firestore {
               && request.resource.data.sequence == get(room(gameId)).data.revision + 1
               && getAfter(room(gameId)).data.members == get(room(gameId)).data.members
               && request.resource.data.playerCount != get(room(gameId)).data.playerCount)
-            || (request.resource.data.type in ['draft/started', 'leader/chosen', 'action/played', 'choice/resolved', 'phase/advanced', 'treasure/played', 'treasures/played', 'card/bought', 'god/worshipped', 'turn/ended', 'action/undone'] && exists(room(gameId))
+            || (request.resource.data.type in ['draft/started', 'leader/chosen', 'action/played', 'choice/resolved', 'choice/browsed', 'phase/advanced', 'treasure/played', 'treasures/played', 'card/bought', 'god/worshipped', 'turn/ended', 'action/undone'] && exists(room(gameId))
               && request.resource.data.reducerVersion == 1
               && request.resource.data.commandId is string && request.resource.data.commandId.size() > 0 && request.resource.data.commandId.size() <= 64
               && request.resource.data.sequence == get(room(gameId)).data.revision + 1
@@ -83,6 +83,7 @@ service cloud.firestore {
               || (request.resource.data.type == 'leader/chosen' && request.resource.data.leaderId in ['thaleia', 'nereon', 'melia', 'doreios']
                 && !('seed' in request.resource.data))
               || (request.resource.data.type in ['action/played', 'treasure/played'] && request.resource.data.instanceId is string && request.resource.data.instanceId.size() <= 128)
+              || (request.resource.data.type == 'choice/browsed' && request.resource.data.choiceId is string && request.resource.data.choiceId.size() <= 128 && request.resource.data.cardId is string && request.resource.data.cardId.size() <= 128)
               || (request.resource.data.type == 'choice/resolved' && request.resource.data.choiceId is string && request.resource.data.targets is list && request.resource.data.targets.size() <= 2)
               || (request.resource.data.type in ['card/bought', 'god/worshipped'] && request.resource.data.cardId is string)
               || (request.resource.data.type == 'action/undone' && request.resource.data.targetSequence is int
