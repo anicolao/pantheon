@@ -20,7 +20,7 @@ Do not mask regions, normalize screenshots, hide controls for captures, loosen t
 
 The x86 software renderer produced repeatable but different perspective pixels on Intel and AMD, even with `--disable-skia-runtime-opts`. That flag is not a substitute for the pinned environment. An image or architecture update requires explicit baseline review and a fresh complete exact comparison; do not add CPU-specific baseline alternatives.
 
-Linux also pins one software raster worker (`--num-raster-threads=1`) rather than letting Chromium select raster concurrency. Keep commit metadata in reports, but disable the optional Git diff attachment: computing it in a partial clone fetches historical screenshot blobs that are unrelated to the current comparison.
+Linux also pins two software raster workers (`--num-raster-threads=2`) rather than letting Chromium select raster concurrency. Keep commit metadata in reports, but disable the optional Git diff attachment: computing it in a partial clone fetches historical screenshot blobs that are unrelated to the current comparison.
 
 ## 2. One directory per illustrated story
 

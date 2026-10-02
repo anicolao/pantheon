@@ -27,7 +27,7 @@ export default defineConfig({
     // Pin Linux raster concurrency and Skia dispatch alongside ARM64/userspace.
     // This flag alone cannot equalize Intel and AMD perspective rasterization.
     // Full rasterization avoids reload-dependent rounded-edge pixels on macOS.
-    launchOptions: { args: [...(process.platform==='linux'?['--disable-skia-runtime-opts','--num-raster-threads=1']:[]), '--run-all-compositor-stages-before-draw', '--disable-checker-imaging', '--font-render-hinting=none', '--disable-font-subpixel-positioning', '--disable-lcd-text', '--force-device-scale-factor=1', '--disable-gpu', '--disable-partial-raster', '--use-gl=swiftshader'] },
+    launchOptions: { args: [...(process.platform==='linux'?['--disable-skia-runtime-opts','--num-raster-threads=2']:[]), '--run-all-compositor-stages-before-draw', '--disable-checker-imaging', '--font-render-hinting=none', '--disable-font-subpixel-positioning', '--disable-lcd-text', '--force-device-scale-factor=1', '--disable-gpu', '--disable-partial-raster', '--use-gl=swiftshader'] },
     timezoneId: 'America/Toronto',
     serviceWorkers: 'block',
     // Playwright's automatic failure capture has an unconfigurable five-second budget.
