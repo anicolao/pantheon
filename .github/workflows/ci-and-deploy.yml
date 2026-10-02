@@ -21,19 +21,33 @@ permissions:
 
 jobs:
   verify:
-    runs-on: ubuntu-latest
+    # x86 software perspective rasterization differs between Intel and AMD.
+    # Keep one Linux baseline by pinning the architecture and browser userspace.
+    runs-on: ubuntu-24.04-arm
+    container:
+      image: mcr.microsoft.com/playwright:v1.61.1-noble@sha256:824f1a789072e648c62541c2cfa4479c4061a290d5c27766d67dc1dcbc19b321
+      options: --ipc=host
+    defaults:
+      run:
+        shell: bash
     steps:
       - uses: actions/checkout@v4
+      - run: apt-get update && apt-get install -y --no-install-recommends unzip
       - uses: oven-sh/setup-bun@v2
         with:
           bun-version: 1.3.10
+      - run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
       - run: bun install --frozen-lockfile
       - run: bun run test:policy
       - uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: '21'
-      - run: bunx playwright install --with-deps chromium
+      - name: Record pinned renderer environment
+        run: |
+          uname -m
+          cat /etc/os-release
+          bunx playwright --version
       - run: bun run check && bun run test:backend
       - name: Browser stories and gallery regression checks
         run: |

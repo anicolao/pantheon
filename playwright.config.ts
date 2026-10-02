@@ -21,7 +21,8 @@ export default defineConfig({
     // The story already captures every illustrated step; avoid a competing screencast.
     trace: { mode: 'retain-on-failure', screenshots: false, snapshots: false, sources: true },
     deviceScaleFactor: 1,
-    // Pin Linux Skia math across runner CPUs: perspective/opacity otherwise vary by 1 RGB level.
+    // Disable Linux Skia runtime dispatch; CI also pins ARM64 and browser userspace.
+    // This flag alone cannot equalize Intel and AMD perspective rasterization.
     // Full rasterization avoids reload-dependent rounded-edge pixels on macOS.
     launchOptions: { args: [...(process.platform==='linux'?['--disable-skia-runtime-opts']:[]), '--run-all-compositor-stages-before-draw', '--disable-checker-imaging', '--font-render-hinting=none', '--disable-font-subpixel-positioning', '--disable-lcd-text', '--force-device-scale-factor=1', '--disable-gpu', '--disable-partial-raster', '--use-gl=swiftshader'] },
     timezoneId: 'America/Toronto',

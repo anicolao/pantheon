@@ -16,7 +16,9 @@ The [card set](MVP_CARDSET.md) defines the rules. The [UX design](UX_DESIGN.md) 
 - **Complete journeys:** show how the player reaches a decision, understands the available choices, acts, and sees the consequence.
 - **Human visual review:** compare the implementation with the accepted paintings before accepting application baselines. Exact comparison to an existing baseline cannot establish fidelity to the design.
 
-Do not mask regions, normalize screenshots, hide controls for captures, loosen thresholds, or regenerate baselines merely to turn a failure green. Software rendering reduces variability; it does not make different operating systems pixel-identical. Keep reviewed macOS and Linux baselines separately.
+Do not mask regions, normalize screenshots, hide controls for captures, loosen thresholds, or regenerate baselines merely to turn a failure green. Software rendering reduces variability; it does not make different operating systems pixel-identical. Keep reviewed macOS and Linux baselines separately. Linux has one baseline set: CI runs on `ubuntu-24.04-arm` inside the immutable ARM64 Playwright 1.61.1 Noble image recorded in `.github/workflows/ci-and-deploy.yml`. Use that same image and native architecture for Linux generation and comparison. The image pins Chromium, fonts, and browser system libraries; do not reinstall browser dependencies from changing package repositories. The `-linux.png` names remain unchanged.
+
+The x86 software renderer produced repeatable but different perspective pixels on Intel and AMD, even with `--disable-skia-runtime-opts`. That flag is not a substitute for the pinned environment. An image or architecture update requires explicit baseline review and a fresh complete exact comparison; do not add CPU-specific baseline alternatives.
 
 ## 2. One directory per illustrated story
 
