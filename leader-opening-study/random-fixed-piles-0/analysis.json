@@ -1,0 +1,224 @@
+{
+  "action_piles": 0,
+  "games": 6000,
+  "finished": 6000,
+  "cells": [
+    {
+      "p1": "thaleia",
+      "p2": "nereon",
+      "wins": 180,
+      "ties": 53,
+      "losses": 267,
+      "unfinished": 0,
+      "n": 500,
+      "mean": 0.413,
+      "ci95": [
+        0.37212949888074853,
+        0.4538705011192514
+      ],
+      "all_games_bounds": [
+        0.413,
+        0.413
+      ]
+    },
+    {
+      "p1": "thaleia",
+      "p2": "melia",
+      "wins": 138,
+      "ties": 70,
+      "losses": 292,
+      "unfinished": 0,
+      "n": 500,
+      "mean": 0.346,
+      "ci95": [
+        0.3075326926798263,
+        0.38446730732017365
+      ],
+      "all_games_bounds": [
+        0.346,
+        0.346
+      ]
+    },
+    {
+      "p1": "thaleia",
+      "p2": "doreios",
+      "wins": 212,
+      "ties": 56,
+      "losses": 232,
+      "unfinished": 0,
+      "n": 500,
+      "mean": 0.48,
+      "ci95": [
+        0.43859647259866935,
+        0.5214035274013307
+      ],
+      "all_games_bounds": [
+        0.48,
+        0.48
+      ]
+    },
+    {
+      "p1": "nereon",
+      "p2": "thaleia",
+      "wins": 275,
+      "ties": 55,
+      "losses": 170,
+      "unfinished": 0,
+      "n": 500,
+      "mean": 0.605,
+      "ci95": [
+        0.5645534035913637,
+        0.6454465964086362
+      ],
+      "all_games_bounds": [
+        0.605,
+        0.605
+      ]
+    },
+    {
+      "p1": "nereon",
+      "p2": "melia",
+      "wins": 210,
+      "ties": 66,
+      "losses": 224,
+      "unfinished": 0,
+      "n": 500,
+      "mean": 0.486,
+      "ci95": [
+        0.44504696335537114,
+        0.5269530366446288
+      ],
+      "all_games_bounds": [
+        0.486,
+        0.486
+      ]
+    },
+    {
+      "p1": "nereon",
+      "p2": "doreios",
+      "wins": 285,
+      "ties": 37,
+      "losses": 178,
+      "unfinished": 0,
+      "n": 500,
+      "mean": 0.607,
+      "ci95": [
+        0.5657414331871315,
+        0.6482585668128684
+      ],
+      "all_games_bounds": [
+        0.607,
+        0.607
+      ]
+    },
+    {
+      "p1": "melia",
+      "p2": "thaleia",
+      "wins": 284,
+      "ties": 70,
+      "losses": 146,
+      "unfinished": 0,
+      "n": 500,
+      "mean": 0.638,
+      "ci95": [
+        0.5990657558851866,
+        0.6769342441148134
+      ],
+      "all_games_bounds": [
+        0.638,
+        0.638
+      ]
+    },
+    {
+      "p1": "melia",
+      "p2": "nereon",
+      "wins": 228,
+      "ties": 73,
+      "losses": 199,
+      "unfinished": 0,
+      "n": 500,
+      "mean": 0.529,
+      "ci95": [
+        0.4884403360240947,
+        0.5695596639759054
+      ],
+      "all_games_bounds": [
+        0.529,
+        0.529
+      ]
+    },
+    {
+      "p1": "melia",
+      "p2": "doreios",
+      "wins": 227,
+      "ties": 153,
+      "losses": 120,
+      "unfinished": 0,
+      "n": 500,
+      "mean": 0.607,
+      "ci95": [
+        0.5715938811898531,
+        0.6424061188101469
+      ],
+      "all_games_bounds": [
+        0.607,
+        0.607
+      ]
+    },
+    {
+      "p1": "doreios",
+      "p2": "thaleia",
+      "wins": 259,
+      "ties": 50,
+      "losses": 191,
+      "unfinished": 0,
+      "n": 500,
+      "mean": 0.568,
+      "ci95": [
+        0.5267109764138957,
+        0.6092890235861042
+      ],
+      "all_games_bounds": [
+        0.568,
+        0.568
+      ]
+    },
+    {
+      "p1": "doreios",
+      "p2": "nereon",
+      "wins": 196,
+      "ties": 36,
+      "losses": 268,
+      "unfinished": 0,
+      "n": 500,
+      "mean": 0.428,
+      "ci95": [
+        0.38611203053552,
+        0.46988796946447997
+      ],
+      "all_games_bounds": [
+        0.428,
+        0.428
+      ]
+    },
+    {
+      "p1": "doreios",
+      "p2": "melia",
+      "wins": 130,
+      "ties": 148,
+      "losses": 222,
+      "unfinished": 0,
+      "n": 500,
+      "mean": 0.408,
+      "ci95": [
+        0.37199966552200425,
+        0.4440003344779957
+      ],
+      "all_games_bounds": [
+        0.408,
+        0.408
+      ]
+    }
+  ],
+  "mean_finished_turns": 31.343333333333334
+}

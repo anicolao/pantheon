@@ -1,0 +1,24 @@
+{
+  "games": 100,
+  "pairedSetups": 50,
+  "seeds": [
+    510000,
+    510049
+  ],
+  "rules": "standard leaders/Worship; equal turns; half-credit ties for finished games",
+  "startup": "Uniform integer 0..4; that many distinct uniformly shuffled action piles; same selection for both bots and both seat orientations",
+  "policy": "Uniform random playable Action instance; play all Treasures in random order; then uniform random choice among each affordable permitted purchase and each legal shared Worship. No voluntary pass while Buys remain and a spending choice exists. Stop spending when Buys are exhausted. Optional choices sample uniformly among all legal target subsets, including empty; mandatory choices obey their minimum.",
+  "purchaseRestriction": "Drachma, Talent, Acropolis and the shared selected action piles only",
+  "effectGains": "Normal legal gains, including cards outside purchase whitelist",
+  "randomness": "Independent decision streams keyed by seed and seat, reused for the seat-swapped partner; no policy tuning or win-rate heuristic",
+  "guard": "500 completed turns per player or 100000 commands; all 33 censored games independently proven income deadlocks",
+  "workers": 16,
+  "sourceSHA256": {
+    "leader-opening-study/random-shared-piles/runner.ts": "b748111dcddc1cfbd7421a89465f6c452aad6cf4e5eb43c7680c341b92089f24",
+    "leader-opening-study/random-shared-piles/run.py": "aa926882619c2524c7d9b21c6debc612c0ad625e175512bba33877d69a51b9ff",
+    "leader-opening-study/random-shared-piles/verify-stalemates.ts": "e3524ba91e8c5cc1d4dd4a0b6760d13989a047ccfb45f92e5a18a37df9327c98",
+    "src/lib/game/actions.ts": "0784dfedaec5e5908105e64a3a34191ebaa979fb2148b5dd4122c35c2be52be8",
+    "src/lib/game/cards.ts": "a63cefb8f2736da5ece3027ded5134843e081c957b93a5840178be69b6b46dde",
+    "src/lib/game/random.ts": "4646ebe251940453b1a8a28739644b5f42a2de069b57d7b52ebf01cd836e8af6"
+  }
+}
