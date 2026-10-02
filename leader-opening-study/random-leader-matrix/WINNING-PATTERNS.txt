@@ -1,0 +1,58 @@
+Winning patterns in random leader self-play
+============================================
+Scope
+-----
+Exploratory analysis of 514 decisive games from the 600-game matrix. Excludes 72 tied and 14 unfinished games.
+Each winner/loser comparison is within the same game, hence the same startup purchase pool, shared Worship events, and completed-turn count.
+We also checked 24 fixed (leader, opposing leader, seat) groups, comparing that leader's wins with its losses.
+This is descriptive outcome-conditioned analysis; no random policy was modified and no causal card-strength or significance claim is made.
+winning-patterns.ts replays all 514 games and verifies final scores before recording early income, cash-floor exposure and source-attributed trashing.
+
+Retained income is the strongest common pattern
+-----------------------------------------------
+Per decisive game, mean winner / loser:
+- Final Talent count: 4.08 / 2.37.
+- Final Drachma count: 11.10 / 7.26.
+- Total Treasure face-value income trashed: $8.67 / $15.07.
+- Final deck size: 34.02 / 21.36.
+- Coins generated in first ten turns: $42.46 / $38.29.
+- Fraction of own turns starting with whole-deck income capacity <= $4: 2.53% / 11.07%.
+The coin-trash number is face value of removed Treasures, not purchase cost or cumulative lost earnings.
+Winners have more Talents in 20/24 fixed leader/opponent/seat comparisons, more Drachmas in 21/24, and trash less Treasure income in 20/24.
+All four leaders separately have lower average Treasure income trashed in their wins than losses:
+Doreios $18.99 / $21.56; Thaleia $9.74 / $16.69; Nereon $5.70 / $8.45; Melia $6.08 / $8.65.
+Random trashing still destroys useful economy even though the floor prevents dropping below $3.
+This does not imply that deliberate thinning is weak.
+
+Action purchases, conditioning on that card being in the shared startup pool
+---------------------------------------------------------------------------
+Mean purchased copies by winner / loser, with number of decisive games:
+Merchant Fleet: 4.33 / 2.63 (52 games).
+Sacred Grove: 3.72 / 2.59 (101 games).
+Council of Sages: 4.09 / 3.35 (86 games).
+Harbor Pilot: 3.59 / 3.40 (101 games).
+Seed Keeper: 3.60 / 3.95 (43 games).
+Both players could purchase the card in every included game. Effect gains may obtain cards outside the purchase pool and are not counted as purchases.
+Merchant Fleet and Sacred Grove are the clearest purchase associations among these examples, consistent with extra income/Buys and extra gains. Greater early income can itself make these purchases possible; this is not proof that buying more causes the win.
+Larger winning decks inflate raw final copy counts. Per ten final-deck cards, Harbor Pilot is actually less frequent in winners (0.426 vs 0.488), while Talent remains higher (1.200 vs 0.964).
+No single Action appears as a universal winning engine.
+
+Worship, only in games where the event is shared and available
+-------------------------------------------------------------
+Mean uses per winner / loser:
+Tribute of the Tides: 7.38 / 7.01 (268 games).
+Counsel of Olympus: 7.67 / 8.46 (261 games).
+Blessing of the Fields: 7.68 / 8.49 (251 games).
+Trial of the Spear: 6.39 / 6.50 (248 games).
+The directions are the same after dividing each player's uses by its completed turns.
+Winners use Worship less frequently per turn in 19/24 fixed leader/opponent/seat comparisons.
+There is no broad association of repeated Worship with winning. Tribute shows a small positive association; the other three show small negative associations. These differences do not establish causal benefits or costs.
+Worship happens after playing Treasures in this policy. Thus the immediate random cash-destruction mechanism is principally Seed Keeper/Forge and Doreios's leader trigger, not trashing Treasure through Worship.
+Seed Keeper removes $5.22 of Treasure income per winning player versus $8.30 per losing player, across the decisive-game sample.
+
+Interpretation
+--------------
+Winning random bots tend to preserve/build a larger working economy, escape the $3 floor, and acquire Talents, Merchant Fleets and Sacred Groves more often.
+The current experiment is heavily influenced by random destruction of useful cards. It does not yet isolate leader power strength or an overpowered card/Worship combination.
+The shared pool removes availability asymmetry inside each game, but early luck, leader powers, purchase affordability, deck size and survival all remain intertwined.
+The matched startup pairs and reused seed banks also mean these observations are not independent hypothesis tests.

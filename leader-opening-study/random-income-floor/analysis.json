@@ -1,0 +1,73 @@
+{
+  "total": {
+    "games": 100,
+    "thaleiaWins": 60,
+    "doreiosWins": 23,
+    "ties": 17,
+    "thaleiaShare": 0.685
+  },
+  "bySeat": {
+    "1": {
+      "games": 50,
+      "thaleiaWins": 30,
+      "doreiosWins": 14,
+      "ties": 6,
+      "thaleiaShare": 0.66
+    },
+    "2": {
+      "games": 50,
+      "thaleiaWins": 30,
+      "doreiosWins": 9,
+      "ties": 11,
+      "thaleiaShare": 0.71
+    }
+  },
+  "byActionCount": {
+    "0": {
+      "games": 20,
+      "thaleiaWins": 9,
+      "doreiosWins": 5,
+      "ties": 6,
+      "thaleiaShare": 0.6
+    },
+    "1": {
+      "games": 24,
+      "thaleiaWins": 13,
+      "doreiosWins": 9,
+      "ties": 2,
+      "thaleiaShare": 0.5833333333333334
+    },
+    "2": {
+      "games": 22,
+      "thaleiaWins": 16,
+      "doreiosWins": 3,
+      "ties": 3,
+      "thaleiaShare": 0.7954545454545454
+    },
+    "3": {
+      "games": 16,
+      "thaleiaWins": 11,
+      "doreiosWins": 3,
+      "ties": 2,
+      "thaleiaShare": 0.75
+    },
+    "4": {
+      "games": 18,
+      "thaleiaWins": 11,
+      "doreiosWins": 3,
+      "ties": 4,
+      "thaleiaShare": 0.7222222222222222
+    }
+  },
+  "thaleiaCI95PairedSetup": [
+    0.6120760497906954,
+    0.7579239502093047
+  ],
+  "meanTurns": 40.33,
+  "maxTurns": 68,
+  "previouslyFinishedSubset": {
+    "n": 67,
+    "before": 0.7761194029850746,
+    "after": 0.7164179104477612
+  }
+}

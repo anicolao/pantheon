@@ -1,0 +1,60 @@
+{
+  "description": "Controlled legal P2 closing position: Doreios 18 VP vs 12, $4, Acropolis in hand, one Acropolis left",
+  "historical": {
+    "type": "card/bought",
+    "cardId": "drachma"
+  },
+  "current": {
+    "type": "god/worshipped",
+    "cardId": "trial-of-the-spear"
+  },
+  "money": {
+    "type": "god/worshipped",
+    "cardId": "trial-of-the-spear"
+  },
+  "winningContinuation": "Trial of the Spear -> trash Acropolis -> gain Acropolis -> end turn",
+  "final": [
+    {
+      "uid": "seat-0",
+      "name": "seat-0",
+      "score": 18,
+      "turns": 10,
+      "territories": [
+        {
+          "id": "hamlet",
+          "count": 0
+        },
+        {
+          "id": "polis",
+          "count": 0
+        },
+        {
+          "id": "acropolis",
+          "count": 3
+        }
+      ],
+      "winner": true
+    },
+    {
+      "uid": "seat-1",
+      "name": "seat-1",
+      "score": 12,
+      "turns": 10,
+      "territories": [
+        {
+          "id": "hamlet",
+          "count": 0
+        },
+        {
+          "id": "polis",
+          "count": 0
+        },
+        {
+          "id": "acropolis",
+          "count": 2
+        }
+      ],
+      "winner": false
+    }
+  ]
+}
