@@ -72,8 +72,9 @@
       // A server-confirmed event is an acknowledgement even if the HTTP response was lost.
       // Do not keep the table locked during Firestore's idempotent transaction retry.
       const attempt = pendingCommand;
-      if (synced && attempt && events.some(event => event.commandId === attempt.id && event.actorUid === services!.uid &&
-        Object.entries(attempt.command).every(([key, value]) => JSON.stringify(event[key as keyof typeof event]) === JSON.stringify(value)))) {
+      if (synced && attempt && ((attempt.expectedRevision !== undefined && events.length > attempt.expectedRevision) ||
+        events.some(event => event.commandId === attempt.id && event.actorUid === services!.uid &&
+        Object.entries(attempt.command).every(([key, value]) => JSON.stringify(event[key as keyof typeof event]) === JSON.stringify(value))))) {
         attempt.acknowledge?.();
         pendingCommand = undefined;
         busy = false;
@@ -125,7 +126,10 @@
     // may still be retrying an HTTP response that was lost after the commit.
     const acknowledged=new Promise<void>(resolve=>{attempt.acknowledge=resolve;});
     try {
-      await Promise.race([appendGameCommand(services.db, roomId, services.uid, attempt.id, attempt.command, attempt.expectedRevision),acknowledged]);
+      // A successful HTTP response can precede the subscription update. Keep
+      // controls busy until the confirmed projection contains this command (or
+      // supersedes an automatic request), while still surfacing write failures.
+      await Promise.race([appendGameCommand(services.db, roomId, services.uid, attempt.id, attempt.command, attempt.expectedRevision).then(()=>acknowledged),acknowledged]);
       if (pendingCommand === attempt) { pendingCommand = undefined; busy = false; }
     } catch (cause) {
       // A confirmed older request may finish after the player starts another command.

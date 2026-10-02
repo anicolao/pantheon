@@ -50,7 +50,9 @@ test('keep playing a Temple, spend the last Buy, and hand the turn to a friend e
     await page.getByRole('button',{name:'End turn',exact:true}).click();
     // Cleanup and redeal are separate, intentionally slowed animation batches.
     await expect(other.locator('.public-flight[data-motion-kind="cleanup"]').first()).toBeAttached();
-    await other.waitForFunction(()=>!document.querySelector('.public-flight[data-motion-kind="cleanup"]'),undefined,{polling:20,timeout:2000});
+    const cleanupStarts=await other.locator('.public-flight[data-motion-kind="cleanup"]').evaluateAll(nodes=>nodes.flatMap(node=>node.getAnimations().map(animation=>animation.startTime)));
+    expect(cleanupStarts.length).toBeGreaterThan(0);expect(cleanupStarts).not.toContain(null);expect(new Set(cleanupStarts).size).toBe(1);
+    await other.waitForFunction(()=>!document.querySelector('.public-flight[data-motion-kind="cleanup"]'),undefined,{polling:'raf',timeout:2000});
     await expect(other.locator('.public-flight[data-motion-kind="draw"]').first()).toBeAttached();
     await other.waitForFunction(()=>!document.querySelector('.public-flight'),undefined,{polling:20,timeout:2000});
     await closePlayers(other);

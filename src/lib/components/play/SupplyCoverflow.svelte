@@ -87,7 +87,7 @@
   function wheel(event:WheelEvent){event.preventDefault();if(Math.abs(event.deltaX)+Math.abs(event.deltaY)<4||performance.now()-lastWheel<110)return;lastWheel=performance.now();move(Math.round(target)+Math.sign(event.deltaX||event.deltaY));}
   function key(event:KeyboardEvent){dragged=false;if(!['ArrowLeft','ArrowRight','Home','End'].includes(event.key))return;event.preventDefault();move(event.key==='Home'?0:event.key==='End'?piles.length-1:Math.round(target)+(event.key==='ArrowRight'?1:-1));}
 </script>
-<section class="supply-coverflow" aria-label="Supply" aria-busy={moving || sendingBrowse || !!queuedBrowse} data-face-up-count={faces} bind:clientWidth={width} bind:clientHeight={height} style={`--card-width:${cardWidth}px`}>
+<section class="supply-coverflow" class:moving aria-label="Supply" aria-busy={moving || sendingBrowse || !!queuedBrowse} data-face-up-count={faces} bind:clientWidth={width} bind:clientHeight={height} style={`--card-width:${cardWidth}px`}>
   <section class="coverflow" aria-label="Supply piles" onwheel={wheel} onpointerdown={down} onpointermove={drag} onpointerup={up} onpointercancel={up}>
     {#each piles as pile,index (pile.id)}
       <div data-motion-zone="supply" data-motion-pile={pile.id} class="supply-face" class:unavailable={!selection && !!purchaseReason(game,uid,pile.id)} class:selected={selection?.selected.includes(pile.id)} style:transform={layout[index].transform} style:z-index={layout[index].z}><CardFace card={definition(pile.cardId)} copy={pile.copy} players={game.playerCount}/>{#if !selection || selection.kind==='gain'}<span class="pile-count" id={`pile-count-${pile.id}`} aria-label={`${definition(pile.id).name}: ${game.supply[pile.id]} remaining`}>{game.supply[pile.id]}</span>{/if}{#if selection?.selected.includes(pile.id)}<span class="selection-badge" aria-hidden="true">✓ Selected</span>{/if}</div>
@@ -105,7 +105,7 @@
   .coverflow{position:absolute;inset:0;perspective:1400px;touch-action:pan-y;user-select:none;}
   .supply-face{position:absolute;top:0;left:calc(50% - var(--card-width)/2);width:var(--card-width);pointer-events:none;backface-visibility:hidden;}
   /* Release the transform hint at rest so faces rasterize at their final perspective. */
-  .supply-coverflow[aria-busy=true] .supply-face{will-change:transform;}
+  .supply-coverflow.moving .supply-face{will-change:transform;}
   .pile-count{position:absolute;left:3%;bottom:3%;z-index:5;min-width:1.65em;height:1.65em;padding:0 .25em;display:grid;place-items:center;border:1px solid #d8b772;border-radius:50%;background:#071321f2;color:#ffedbd;font-size:clamp(11px,calc(var(--card-width)*.12),30px);font-weight:700;line-height:1;box-shadow:0 1px 3px #0009;}
   .selection-badge{position:absolute;right:3%;bottom:3%;z-index:5;padding:.3em .45em;border:1px solid #ffdf87;border-radius:6px;background:#173b29;color:#fff1bd;font-size:clamp(11px,calc(var(--card-width)*.075),22px);font-weight:700;line-height:1.2;white-space:nowrap;}
   /* Flat cards retain depth; stacked faces do not need separate blur passes. */

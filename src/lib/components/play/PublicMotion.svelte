@@ -123,13 +123,17 @@
             while(index<entry.length&&entry[index].step.kind===batch[0].step.kind)batch.push(entry[index++]);
           }
           flushSync(()=>{flights=batch;});
+          // Schedule the whole batch on one timeline instant. Otherwise each
+          // pending animation starts on a later compositor frame under load,
+          // adding renderer latency to the intended stagger and landing time.
+          const batchStart=document.timeline.currentTime;
           const landed:Animation[]=[];
           await Promise.all(batch.map(async(flight,offset)=>{
             const node=nodes.get(flight.id)!;
             // Use the actual card slot when available, otherwise the real pile icon.
             const destination=current.poses.find(pose=>pose.key&&pose.key===flight.to.key)??anchor(current,flight.step.to,flight.step.card?.id)??flight.to;
             const active:ActiveFlight={flight,node,target:destination};activeFlights.add(active);
-            let start=transform(flight.from),duration=motionDuration(flight.step.kind==='reveal'?680:450),delay=motionDuration(Math.min(offset*70,280));
+            let start=transform(flight.from),duration=motionDuration(flight.step.kind==='reveal'?680:450),delay=motionDuration(Math.min(offset*70,280)),initial=true;
             try{
               while(token===generation){
                 active.redirect=undefined;
@@ -137,6 +141,7 @@
                   {transform:start,opacity:1},
                   {transform:transform(active.target),opacity:1}
                 ],{duration,delay,easing:MOTION_EASING,fill:'both'});
+                if(initial){animation.startTime=batchStart;initial=false;}
                 active.animation=animation;animations.add(animation);
                 await animation.finished.catch(()=>undefined);
                 const redirect=active.redirect as ActiveFlight['redirect'];
