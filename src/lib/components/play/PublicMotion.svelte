@@ -92,7 +92,14 @@
         // A hidden or absent destination must not turn into a flight to an unrelated spot.
         if(!from||!to)continue;
         const card=step.card??(step.kind==='draw'?arriving?.face:step.kind==='cleanup'?from.face:undefined);
-        const flight={card,stack:to.stack,id:`${step.id}:${index}`,step,from,to,width:from.key?from.width:to.key?to.width:next.width,sequence:entry.sequence};
+        // Hidden draws beyond the five painted hand slots, and shuffles between
+        // piles, have no keyed destination. Use that player's sidebar card size
+        // rather than falling back to the full-size cards in the central table.
+        const owner=step.to.uid??step.from.uid;
+        const sidebarCard=!card?[...next.poses,...previous.poses].find(pose=>pose.uid===owner&&pose.zone==='hand'&&pose.key?.startsWith('hidden:')):undefined;
+        const sidebarDeck=!card?anchor(next,{zone:'deck',uid:owner})??anchor(previous,{zone:'deck',uid:owner}):undefined;
+        const width=card?(from.key?from.width:to.key?to.width:next.width):(sidebarCard?.width??sidebarDeck?.width??Math.min(from.width,to.width));
+        const flight={card,stack:to.stack,id:`${step.id}:${index}`,step,from,to,width,sequence:entry.sequence};
         if(to.key)mask(to.node);
         result.push(flight);
       }
