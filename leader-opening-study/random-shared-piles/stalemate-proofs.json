@@ -1,0 +1,596 @@
+[
+  {
+    "seed": 510028,
+    "reverse": false,
+    "players": [
+      {
+        "leader": "thaleia",
+        "remainingCard": "seed-keeper",
+        "maximumCoins": 0,
+        "cheapestAvailablePurchaseOrWorship": 3
+      },
+      {
+        "leader": "doreios",
+        "remainingCard": "temple-of-ares",
+        "maximumCoins": 0,
+        "cheapestAvailablePurchaseOrWorship": 3
+      }
+    ]
+  },
+  {
+    "seed": 510009,
+    "reverse": true,
+    "players": [
+      {
+        "leader": "doreios",
+        "remainingCard": "bronze-recruit",
+        "maximumCoins": 2,
+        "cheapestAvailablePurchaseOrWorship": 3
+      },
+      {
+        "leader": "thaleia",
+        "remainingCard": "seed-keeper",
+        "maximumCoins": 0,
+        "cheapestAvailablePurchaseOrWorship": 3
+      }
+    ]
+  },
+  {
+    "seed": 510018,
+    "reverse": false,
+    "players": [
+      {
+        "leader": "thaleia",
+        "remainingCard": "seed-keeper",
+        "maximumCoins": 0,
+        "cheapestAvailablePurchaseOrWorship": 3
+      },
+      {
+        "leader": "doreios",
+        "remainingCard": "seed-keeper",
+        "maximumCoins": 0,
+        "cheapestAvailablePurchaseOrWorship": 3
+      }
+    ]
+  },
+  {
+    "seed": 510039,
+    "reverse": true,
+    "players": [
+      {
+        "leader": "doreios",
+        "remainingCard": "temple-of-ares",
+        "maximumCoins": 0,
+        "cheapestAvailablePurchaseOrWorship": 3
+      },
+      {
+        "leader": "thaleia",
+        "remainingCard": "seed-keeper",
+        "maximumCoins": 0,
+        "cheapestAvailablePurchaseOrWorship": 3
+      }
+    ]
+  },
+  {
+    "seed": 510031,
+    "reverse": false,
+    "players": [
+      {
+        "leader": "thaleia",
+        "remainingCard": "seed-keeper",
+        "maximumCoins": 0,
+        "cheapestAvailablePurchaseOrWorship": 3
+      },
+      {
+        "leader": "doreios",
+        "remainingCard": "bronze-recruit",
+        "maximumCoins": 2,
+        "cheapestAvailablePurchaseOrWorship": 3
+      }
+    ]
+  },
+  {
+    "seed": 510001,
+    "reverse": false,
+    "players": [
+      {
+        "leader": "thaleia",
+        "remainingCard": "seed-keeper",
+        "maximumCoins": 0,
+        "cheapestAvailablePurchaseOrWorship": 3
+      },
+      {
+        "leader": "doreios",
+        "remainingCard": "seed-keeper",
+        "maximumCoins": 0,
+        "cheapestAvailablePurchaseOrWorship": 3
+      }
+    ]
+  },
+  {
+    "seed": 510042,
+    "reverse": true,
+    "players": [
+      {
+        "leader": "doreios",
+        "remainingCard": "seed-keeper",
+        "maximumCoins": 0,
+        "cheapestAvailablePurchaseOrWorship": 3
+      },
+      {
+        "leader": "thaleia",
+        "remainingCard": "seed-keeper",
+        "maximumCoins": 0,
+        "cheapestAvailablePurchaseOrWorship": 3
+      }
+    ]
+  },
+  {
+    "seed": 510017,
+    "reverse": true,
+    "players": [
+      {
+        "leader": "doreios",
+        "remainingCard": "seed-keeper",
+        "maximumCoins": 0,
+        "cheapestAvailablePurchaseOrWorship": 3
+      },
+      {
+        "leader": "thaleia",
+        "remainingCard": "seed-keeper",
+        "maximumCoins": 0,
+        "cheapestAvailablePurchaseOrWorship": 3
+      }
+    ]
+  },
+  {
+    "seed": 510045,
+    "reverse": true,
+    "players": [
+      {
+        "leader": "doreios",
+        "remainingCard": "bronze-recruit",
+        "maximumCoins": 2,
+        "cheapestAvailablePurchaseOrWorship": 3
+      },
+      {
+        "leader": "thaleia",
+        "remainingCard": "seed-keeper",
+        "maximumCoins": 0,
+        "cheapestAvailablePurchaseOrWorship": 3
+      }
+    ]
+  },
+  {
+    "seed": 510021,
+    "reverse": true,
+    "players": [
+      {
+        "leader": "doreios",
+        "remainingCard": "seed-keeper",
+        "maximumCoins": 0,
+        "cheapestAvailablePurchaseOrWorship": 3
+      },
+      {
+        "leader": "thaleia",
+        "remainingCard": "seed-keeper",
+        "maximumCoins": 0,
+        "cheapestAvailablePurchaseOrWorship": 3
+      }
+    ]
+  },
+  {
+    "seed": 510004,
+    "reverse": true,
+    "players": [
+      {
+        "leader": "doreios",
+        "remainingCard": "seed-keeper",
+        "maximumCoins": 0,
+        "cheapestAvailablePurchaseOrWorship": 2
+      },
+      {
+        "leader": "thaleia",
+        "remainingCard": "seed-keeper",
+        "maximumCoins": 0,
+        "cheapestAvailablePurchaseOrWorship": 2
+      }
+    ]
+  },
+  {
+    "seed": 510047,
+    "reverse": false,
+    "players": [
+      {
+        "leader": "thaleia",
+        "remainingCard": "seed-keeper",
+        "maximumCoins": 0,
+        "cheapestAvailablePurchaseOrWorship": 3
+      },
+      {
+        "leader": "doreios",
+        "remainingCard": "seed-keeper",
+        "maximumCoins": 0,
+        "cheapestAvailablePurchaseOrWorship": 3
+      }
+    ]
+  },
+  {
+    "seed": 510003,
+    "reverse": true,
+    "players": [
+      {
+        "leader": "doreios",
+        "remainingCard": "temple-of-ares",
+        "maximumCoins": 0,
+        "cheapestAvailablePurchaseOrWorship": 3
+      },
+      {
+        "leader": "thaleia",
+        "remainingCard": "seed-keeper",
+        "maximumCoins": 0,
+        "cheapestAvailablePurchaseOrWorship": 3
+      }
+    ]
+  },
+  {
+    "seed": 510007,
+    "reverse": false,
+    "players": [
+      {
+        "leader": "thaleia",
+        "remainingCard": "seed-keeper",
+        "maximumCoins": 0,
+        "cheapestAvailablePurchaseOrWorship": 3
+      },
+      {
+        "leader": "doreios",
+        "remainingCard": "seed-keeper",
+        "maximumCoins": 0,
+        "cheapestAvailablePurchaseOrWorship": 3
+      }
+    ]
+  },
+  {
+    "seed": 510044,
+    "reverse": true,
+    "players": [
+      {
+        "leader": "doreios",
+        "remainingCard": "seed-keeper",
+        "maximumCoins": 0,
+        "cheapestAvailablePurchaseOrWorship": 3
+      },
+      {
+        "leader": "thaleia",
+        "remainingCard": "seed-keeper",
+        "maximumCoins": 0,
+        "cheapestAvailablePurchaseOrWorship": 3
+      }
+    ]
+  },
+  {
+    "seed": 510014,
+    "reverse": false,
+    "players": [
+      {
+        "leader": "thaleia",
+        "remainingCard": "seed-keeper",
+        "maximumCoins": 0,
+        "cheapestAvailablePurchaseOrWorship": 3
+      },
+      {
+        "leader": "doreios",
+        "remainingCard": "temple-of-ares",
+        "maximumCoins": 0,
+        "cheapestAvailablePurchaseOrWorship": 3
+      }
+    ]
+  },
+  {
+    "seed": 510027,
+    "reverse": true,
+    "players": [
+      {
+        "leader": "doreios",
+        "remainingCard": "seed-keeper",
+        "maximumCoins": 0,
+        "cheapestAvailablePurchaseOrWorship": 3
+      },
+      {
+        "leader": "thaleia",
+        "remainingCard": "seed-keeper",
+        "maximumCoins": 0,
+        "cheapestAvailablePurchaseOrWorship": 3
+      }
+    ]
+  },
+  {
+    "seed": 510013,
+    "reverse": true,
+    "players": [
+      {
+        "leader": "doreios",
+        "remainingCard": "seed-keeper",
+        "maximumCoins": 0,
+        "cheapestAvailablePurchaseOrWorship": 3
+      },
+      {
+        "leader": "thaleia",
+        "remainingCard": "seed-keeper",
+        "maximumCoins": 0,
+        "cheapestAvailablePurchaseOrWorship": 3
+      }
+    ]
+  },
+  {
+    "seed": 510020,
+    "reverse": false,
+    "players": [
+      {
+        "leader": "thaleia",
+        "remainingCard": "seed-keeper",
+        "maximumCoins": 0,
+        "cheapestAvailablePurchaseOrWorship": 3
+      },
+      {
+        "leader": "doreios",
+        "remainingCard": "bronze-recruit",
+        "maximumCoins": 2,
+        "cheapestAvailablePurchaseOrWorship": 3
+      }
+    ]
+  },
+  {
+    "seed": 510027,
+    "reverse": false,
+    "players": [
+      {
+        "leader": "thaleia",
+        "remainingCard": "seed-keeper",
+        "maximumCoins": 0,
+        "cheapestAvailablePurchaseOrWorship": 3
+      },
+      {
+        "leader": "doreios",
+        "remainingCard": "seed-keeper",
+        "maximumCoins": 0,
+        "cheapestAvailablePurchaseOrWorship": 3
+      }
+    ]
+  },
+  {
+    "seed": 510044,
+    "reverse": false,
+    "players": [
+      {
+        "leader": "thaleia",
+        "remainingCard": "seed-keeper",
+        "maximumCoins": 0,
+        "cheapestAvailablePurchaseOrWorship": 3
+      },
+      {
+        "leader": "doreios",
+        "remainingCard": "temple-of-ares",
+        "maximumCoins": 0,
+        "cheapestAvailablePurchaseOrWorship": 3
+      }
+    ]
+  },
+  {
+    "seed": 510022,
+    "reverse": true,
+    "players": [
+      {
+        "leader": "doreios",
+        "remainingCard": "seed-keeper",
+        "maximumCoins": 0,
+        "cheapestAvailablePurchaseOrWorship": 3
+      },
+      {
+        "leader": "thaleia",
+        "remainingCard": "seed-keeper",
+        "maximumCoins": 0,
+        "cheapestAvailablePurchaseOrWorship": 3
+      }
+    ]
+  },
+  {
+    "seed": 510021,
+    "reverse": false,
+    "players": [
+      {
+        "leader": "thaleia",
+        "remainingCard": "seed-keeper",
+        "maximumCoins": 0,
+        "cheapestAvailablePurchaseOrWorship": 2
+      },
+      {
+        "leader": "doreios",
+        "remainingCard": "seed-keeper",
+        "maximumCoins": 0,
+        "cheapestAvailablePurchaseOrWorship": 2
+      }
+    ]
+  },
+  {
+    "seed": 510004,
+    "reverse": false,
+    "players": [
+      {
+        "leader": "thaleia",
+        "remainingCard": "seed-keeper",
+        "maximumCoins": 0,
+        "cheapestAvailablePurchaseOrWorship": 2
+      },
+      {
+        "leader": "doreios",
+        "remainingCard": "seed-keeper",
+        "maximumCoins": 0,
+        "cheapestAvailablePurchaseOrWorship": 2
+      }
+    ]
+  },
+  {
+    "seed": 510015,
+    "reverse": true,
+    "players": [
+      {
+        "leader": "doreios",
+        "remainingCard": "seed-keeper",
+        "maximumCoins": 0,
+        "cheapestAvailablePurchaseOrWorship": 3
+      },
+      {
+        "leader": "thaleia",
+        "remainingCard": "seed-keeper",
+        "maximumCoins": 0,
+        "cheapestAvailablePurchaseOrWorship": 3
+      }
+    ]
+  },
+  {
+    "seed": 510040,
+    "reverse": true,
+    "players": [
+      {
+        "leader": "doreios",
+        "remainingCard": "seed-keeper",
+        "maximumCoins": 0,
+        "cheapestAvailablePurchaseOrWorship": 3
+      },
+      {
+        "leader": "thaleia",
+        "remainingCard": "seed-keeper",
+        "maximumCoins": 0,
+        "cheapestAvailablePurchaseOrWorship": 3
+      }
+    ]
+  },
+  {
+    "seed": 510001,
+    "reverse": true,
+    "players": [
+      {
+        "leader": "doreios",
+        "remainingCard": "seed-keeper",
+        "maximumCoins": 0,
+        "cheapestAvailablePurchaseOrWorship": 3
+      },
+      {
+        "leader": "thaleia",
+        "remainingCard": "seed-keeper",
+        "maximumCoins": 0,
+        "cheapestAvailablePurchaseOrWorship": 3
+      }
+    ]
+  },
+  {
+    "seed": 510017,
+    "reverse": false,
+    "players": [
+      {
+        "leader": "thaleia",
+        "remainingCard": "seed-keeper",
+        "maximumCoins": 0,
+        "cheapestAvailablePurchaseOrWorship": 2
+      },
+      {
+        "leader": "doreios",
+        "remainingCard": "temple-of-ares",
+        "maximumCoins": 0,
+        "cheapestAvailablePurchaseOrWorship": 2
+      }
+    ]
+  },
+  {
+    "seed": 510042,
+    "reverse": false,
+    "players": [
+      {
+        "leader": "thaleia",
+        "remainingCard": "seed-keeper",
+        "maximumCoins": 0,
+        "cheapestAvailablePurchaseOrWorship": 3
+      },
+      {
+        "leader": "doreios",
+        "remainingCard": "seed-keeper",
+        "maximumCoins": 0,
+        "cheapestAvailablePurchaseOrWorship": 3
+      }
+    ]
+  },
+  {
+    "seed": 510006,
+    "reverse": true,
+    "players": [
+      {
+        "leader": "doreios",
+        "remainingCard": "temple-of-ares",
+        "maximumCoins": 0,
+        "cheapestAvailablePurchaseOrWorship": 3
+      },
+      {
+        "leader": "thaleia",
+        "remainingCard": "seed-keeper",
+        "maximumCoins": 0,
+        "cheapestAvailablePurchaseOrWorship": 3
+      }
+    ]
+  },
+  {
+    "seed": 510018,
+    "reverse": true,
+    "players": [
+      {
+        "leader": "doreios",
+        "remainingCard": "temple-of-ares",
+        "maximumCoins": 0,
+        "cheapestAvailablePurchaseOrWorship": 3
+      },
+      {
+        "leader": "thaleia",
+        "remainingCard": "seed-keeper",
+        "maximumCoins": 0,
+        "cheapestAvailablePurchaseOrWorship": 3
+      }
+    ]
+  },
+  {
+    "seed": 510039,
+    "reverse": false,
+    "players": [
+      {
+        "leader": "thaleia",
+        "remainingCard": "seed-keeper",
+        "maximumCoins": 0,
+        "cheapestAvailablePurchaseOrWorship": 3
+      },
+      {
+        "leader": "doreios",
+        "remainingCard": "temple-of-ares",
+        "maximumCoins": 0,
+        "cheapestAvailablePurchaseOrWorship": 3
+      }
+    ]
+  },
+  {
+    "seed": 510038,
+    "reverse": false,
+    "players": [
+      {
+        "leader": "thaleia",
+        "remainingCard": "seed-keeper",
+        "maximumCoins": 0,
+        "cheapestAvailablePurchaseOrWorship": 3
+      },
+      {
+        "leader": "doreios",
+        "remainingCard": "seed-keeper",
+        "maximumCoins": 0,
+        "cheapestAvailablePurchaseOrWorship": 3
+      }
+    ]
+  }
+]

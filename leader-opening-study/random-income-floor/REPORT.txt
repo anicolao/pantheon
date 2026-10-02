@@ -1,0 +1,23 @@
+Random self-play with a $3 trashing floor
+
+Same 50 shared startup selections, seeds, and reversed-seat pairs as random-shared-piles: 100 games.
+Both bots share the selected 0–4 action-pile purchase whitelist in each game.
+Only trash choices changed. The full owned deck must retain at least $3 of income capacity after any nonempty trash selection, before a replacement gain.
+Capacity counts all Treasure money, nonterminal Action income, and terminal Action income only with enough Actions to play it. It includes Thaleia support and excludes conditional reveal bonuses/future gains. This is whole-deck capacity, not a promise that each shuffled hand reaches $3.
+Action play, gains and spending remain random. Effect gains remain unrestricted beyond normal legality.
+
+| Thaleia seat | Thaleia wins | Doreios wins | Ties | Thaleia half-credit share |
+|---|---:|---:|---:|---:|
+| 1 | 30 | 14 | 6 | 66.0% |
+| 2 | 30 | 9 | 11 | 71.0% |
+| Total | 60 | 23 | 17 | 68.5% |
+
+Thaleia 95% interval: [61.21, 75.79]%, using 50 paired-setup means rather than treating seat partners as independent.
+All 100 games finished; no stalls. Mean game length 40.33 turns per player; maximum 68.
+Previously: 50 Thaleia wins, 13 Doreios wins, 4 ties, 33 stalls. The prior 77.61% win share was conditional on completion, so it is not an all-game before/after comparison.
+
+On the same 67 previously completed games: before Thaleia share 77.61%; after 71.64%. This is a selected subset, not a population-wide treatment effect.
+
+All 100 replays reproduce the full final reducer state. Every trash is checked against the floor; every purchase against the whitelist. All games have equal completed turns, and startup selections match the earlier run exactly.
+Four focused tests (11 assertions) cover Treasure floor, terminal Action collisions, Thaleia Action support and its removal, and excluding conditional income or speculative upgrades.
+No production bot policies changed.

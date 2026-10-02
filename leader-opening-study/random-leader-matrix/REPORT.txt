@@ -1,0 +1,36 @@
+Random heads-up leader matrix with $3 trash floor
+
+600 games: 50 per ordered leader pairing, using 50 common startup seeds and identical shared purchase pools in reversed-seat partners.
+Random startup count 0–4; purchases restricted to Drachma, Talent, Acropolis, and the selected action piles. Effect gains follow normal rules.
+Equal completed turns; tied games count half. Random action play, target subsets and spending, with a $3 post-trash whole-deck playable-income floor.
+The income floor includes Nereon's +1 Coin only if a matching Action can be played; its extra income is counted once. All prior Thaleia–Doreios records and command hashes reproduce exactly.
+
+P1 is the row; P2 is the column. Ranges bound the result if unfinished games eventually count anywhere from loss to win; they are NOT confidence intervals.
+| P1 / P2 | thaleia | nereon | melia | doreios |
+|---|---:|---:|---:|---:|
+| thaleia | — | 45% | 40% | 66% |
+| nereon | 65% | — | 48%–54% | 66%–68% |
+| melia | 50% | 40%–42% | — | 66%–72% |
+| doreios | 29% | 27%–31% | 32%–40% | — |
+
+| P1 | P2 | Wins | Ties | Losses | Unfinished | Completed-only share |
+|---|---|---:|---:|---:|---:|---:|
+| thaleia | nereon | 20 | 5 | 25 | 0 | 45.00% |
+| thaleia | melia | 17 | 6 | 27 | 0 | 40.00% |
+| thaleia | doreios | 30 | 6 | 14 | 0 | 66.00% |
+| nereon | thaleia | 31 | 3 | 16 | 0 | 65.00% |
+| nereon | melia | 21 | 6 | 20 | 3 | 51.06% |
+| nereon | doreios | 31 | 4 | 14 | 1 | 67.35% |
+| melia | thaleia | 21 | 8 | 21 | 0 | 50.00% |
+| melia | nereon | 19 | 2 | 28 | 1 | 40.82% |
+| melia | doreios | 28 | 10 | 9 | 3 | 70.21% |
+| doreios | thaleia | 9 | 11 | 30 | 0 | 29.00% |
+| doreios | nereon | 11 | 5 | 32 | 2 | 28.12% |
+| doreios | melia | 13 | 6 | 27 | 4 | 34.78% |
+
+586 games finished; 14 hit 500 completed turns per player. All 14 end with tiny Seed Keeper decks and only $3–$4 income. The floor prevents bankruptcy, but cannot guarantee progress once Drachma (and any cheaper permitted action pile) is exhausted. More expensive Talent/Acropolis remain out of reach.
+Melia vs Doreios: 55 Melia wins, 22 Doreios wins, 16 ties, 7 unfinished. Melia's share is 67.74% among the 93 completed games; its all-game bounds are 63–70%.
+
+Simulation wall time: 2.253 seconds using 16 workers. Setup, tests and analysis are additional.
+All 600 game traces replayed to identical full reducer states; legal purchase pools, trash floor and equal turns checked throughout. Five focused floor tests / 17 assertions passed.
+No existing production policies were changed. No unfinished games were scored as wins, losses or draws.

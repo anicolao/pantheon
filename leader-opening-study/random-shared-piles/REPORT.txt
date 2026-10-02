@@ -1,0 +1,30 @@
+Random self-play: shared action-pile choices
+
+Thaleia vs Doreios, 50 paired setups / 100 games. Standard powers and Worship, equal turns.
+Both players use the same random 0–4 action-pile purchase whitelist in each game.
+The same setup is played twice with leaders swapped between seats.
+Drachma, Talent, and Acropolis are always purchasable; Obol and Polis are never purchased.
+Card-effect gains are unrestricted beyond the normal rules: even a zero-action-pile setup can gain Actions through Worship.
+Actions, target subsets and gains are random. All Treasures are played before randomly choosing an affordable permitted purchase or legal Worship.
+No voluntary ending while Buys and legal spending options remain; spending ends when Buys reach zero.
+
+| Thaleia seat | Thaleia wins | Doreios wins | Ties | Stalled |
+|---|---:|---:|---:|---:|
+| 1 | 25 | 8 | 1 | 16 |
+| 2 | 25 | 5 | 3 | 17 |
+| Total | 50 | 13 | 4 | 33 |
+
+Thaleia has 77.61% half-credit win share among the 67 completed games. This is conditional on completion; the 33 stalls are not treated as ties or wins.
+All 33 stalls reach 500 completed turns each and have been independently proven irreversible under this policy: each player owns only one Seed Keeper, Temple of Ares, or Bronze Recruit; maximum possible income is below every remaining permitted purchase and shared Worship cost.
+
+| Shared action-pile count | Games | Thaleia wins | Doreios wins | Ties | Stalled |
+|---|---:|---:|---:|---:|---:|
+| 0 | 20 | 8 | 3 | 2 | 7 |
+| 1 | 24 | 8 | 5 | 2 | 9 |
+| 2 | 22 | 12 | 2 | 0 | 8 |
+| 3 | 16 | 12 | 1 | 0 | 3 |
+| 4 | 18 | 10 | 2 | 0 | 6 |
+
+All 100 games replayed to identical full reducer states. All recorded purchases obeyed the whitelist, all paired startup selections matched, and all games reached equal completed-turn counts.
+This describes fully random play, including random trashing of useful money and points. It does not establish balance under competent play.
+No existing bot policy was changed.
