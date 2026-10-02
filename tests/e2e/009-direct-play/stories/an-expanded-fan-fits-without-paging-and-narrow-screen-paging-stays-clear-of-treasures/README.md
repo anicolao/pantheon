@@ -19,7 +19,7 @@ Recorded-history integration scenario. A legal event history prepares the starti
 
 </details>
 
-- [x] Nine cards remain in one fan at the standard viewport.
+- [x] Desktop keeps nine cards in one fan; the portrait phone preserves card size and exposed tap regions with paging.
 
 ## Keep paging separate on the smallest phone
 
@@ -57,7 +57,7 @@ Recorded-history integration scenario. A legal event history prepares the starti
 
 </details>
 
-- [x] Nine cards fit at 568 pixels; the narrower 480-pixel fallback keeps paging clear of both turn controls.
+- [x] The narrow landscape fallback keeps full-size cards and paging clear of both turn controls.
 
 ## Inspect the last physical card on the next page
 
