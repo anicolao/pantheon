@@ -1,4 +1,4 @@
-import {openPlayers} from '../helpers/table-controls';
+import {openPlayers,closePlayers} from '../helpers/table-controls';
 import {test,expect} from '../helpers/fixtures';
 import {newPlayerContext} from '../helpers/players';
 import {finalTurn} from '../helpers/match-history';
@@ -23,7 +23,7 @@ test('keep reading the Chronicle when a friend completes the match',async({page,
     await steps.step('undisturbed','The finished game does not tear Theseus away from the Chronicle',[{spec:'His first page stays open, with the final move available explicitly.',check:async()=>{await expect(other.locator('.chronicle')).toContainText('created the table');await expect(other.getByRole('button',{name:'New moves · 1 · Refresh',exact:true})).toBeVisible();await expect(other.locator('.victory-scene')).toHaveCount(0);}}],{page:other,player:'Theseus'});
     await other.getByRole('button',{name:'New moves · 1 · Refresh',exact:true}).click();
     await steps.step('last-move','Theseus chooses to read the final cleanup',[{spec:'The final entry names the actor and shows cleared resources.',check:async()=>{await expect(other.locator('.chronicle')).toContainText('ended the turn');await expect(other.locator('.totals [data-resource=coins]')).toHaveAttribute('data-value','0');}}],{page:other,player:'Theseus'});
-    await other.keyboard.press('Escape');await other.getByRole('button',{name:'Final scores',exact:true}).click();
+    await other.keyboard.press('Escape');await closePlayers(other);await other.getByRole('button',{name:'Final scores',exact:true}).click();
     await steps.step('scores','Theseus opens the same final standings when ready',[{spec:'The winner agrees with Ariadne’s view.',check:async()=>expect(other.locator('#victory-title')).toHaveText(await page.locator('#victory-title').innerText())}],{page:other,player:'Theseus'});
   }finally{await context.close();}
 });

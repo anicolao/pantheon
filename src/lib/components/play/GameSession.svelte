@@ -292,7 +292,7 @@
       {#if canUndo(game,uid)}<div class="undo-control" title={`Undo ${game.undo!.label}`}><GameButton disabled={!ready} onclick={()=>command({type:'action/undone',targetSequence:game.undo!.sequence})}>Undo</GameButton></div>{/if}
       {#if turnUid === uid && game.turn.phase !== 'finished'}<div class="chronicle-control"><GameButton primary onclick={advance} disabled={!ready || !!choice}>{advanceLabel}</GameButton></div>{/if}
       {#if turnUid === uid && ['actions','treasures'].includes(game.turn.phase) && treasures.length}<div class="treasures-control"><GameButton primary disabled={!ready} onclick={()=>command({type:'treasures/played'})}>Play all Treasures</GameButton></div>{/if}
-      {#if game.turn.phase==='finished'}<div class="chronicle-control final-control"><GameButton primary onclick={()=>resultsOpen=true}>Final scores</GameButton></div>{/if}
+      {#if game.turn.phase==='finished'}<div class="chronicle-control final-control" inert={!!drawer}><GameButton primary onclick={()=>resultsOpen=true}>Final scores</GameButton></div>{/if}
         </div>
 
       </aside>
