@@ -1,6 +1,8 @@
 import {test,expect} from '../helpers/fixtures';
 import {roomCodeFixture} from '../helpers/room-code-fixture';
 import {TestStepHelper} from '../helpers/test-step-helper';
+import {setMotionPreference} from '../helpers/motion-preference';
+import {openPlayers,closePlayers} from '../helpers/table-controls';
 
 test('invite an Engine bot to the real table and take turns together',async({page},info)=>{
  await roomCodeFixture(page,info,'shared-bot-story');
@@ -23,8 +25,43 @@ test('invite an Engine bot to the real table and take turns together',async({pag
  await expect(page.getByRole('button',{name:'Play all Treasures',exact:true})).toBeEnabled();
  await steps.step('playing','Ariadne plays on the same table as her bot opponent',[{spec:'The normal table shows her private hand and one opponent, without a separate practice toolbar.',check:async()=>{await expect(page.getByTestId('opponent')).toHaveCount(1);await expect(page.getByTestId('hand-card')).toHaveCount(5);await expect(page.getByRole('button',{name:'Pause opponent',exact:true})).toHaveCount(0);}}]);
  await page.getByRole('button',{name:'Play all Treasures',exact:true}).click();
+ await expect(page.getByRole('button',{name:'Play all Treasures',exact:true})).toHaveCount(0);
+ await setMotionPreference(page,'no-preference');
+ await page.evaluate(()=>{
+  const state={progress:0,landings:[] as {kind:string;painted:boolean}[]};
+  (window as Window&{botMotion?:typeof state}).botMotion=state;
+  new MutationObserver(records=>{
+   for(const record of records)for(const node of [...record.addedNodes,...record.removedNodes]){
+    if(!(node instanceof HTMLElement)||!node.matches('.public-flight'))continue;
+    state.progress++;
+    const kind=node.dataset.motionKind!;
+    if(node.isConnected||!['play','gain'].includes(kind))continue;
+    requestAnimationFrame(()=>{
+     const slots=[...document.querySelectorAll<HTMLElement>('.played-card')];
+     state.landings.push({kind,painted:slots.length>0&&slots.every(slot=>getComputedStyle(slot).opacity==='1')&&!!document.querySelector('.turn-marker')?.textContent?.includes('Classic Engine bot 2')});
+     state.progress++;
+    });
+   }
+  }).observe(document.body,{childList:true,subtree:true});
+ });
  await page.getByRole('button',{name:'End turn',exact:true}).click();
  await page.getByRole('dialog').getByRole('button',{name:'End turn',exact:true}).click();
+ await openPlayers(page);
+ // Observe each bounded flight, rather than imposing a two-second deadline on
+ // an entire deliberately slowed-down turn. Destinations must paint mid-turn.
+ let progress=0;
+ for(let step=0;step<60;step++){
+  await expect.poll(()=>page.evaluate(()=>(window as Window&{botMotion?:{progress:number}}).botMotion!.progress)).toBeGreaterThan(progress);
+  const audit=await page.evaluate(()=>(window as Window&{botMotion?:{progress:number;landings:{kind:string;painted:boolean}[]}}).botMotion!);
+  progress=audit.progress;
+  expect(audit.landings.every(landing=>landing.painted)).toBe(true);
+  if(audit.landings.length && (await page.locator('.turn-marker').textContent())?.includes('Your turn'))break;
+ }
+ const landed=await page.evaluate(()=>(window as Window&{botMotion?:{landings:{kind:string;painted:boolean}[]}}).botMotion!.landings);
+ expect(landed.some(landing=>landing.kind==='play')).toBe(true);
+ expect(landed.some(landing=>landing.kind==='gain')).toBe(true);
+ await setMotionPreference(page,'reduce');
+ await closePlayers(page);
  await expect(page.getByRole('button',{name:'Play all Treasures',exact:true})).toBeEnabled();
  await steps.step('bot-turn','The Engine completes its turn and returns play to Ariadne',[{spec:'Ariadne has a fresh hand and can take her next turn.',check:async()=>{await expect(page.locator('.turn-marker')).toContainText('Your turn');await expect(page.getByRole('button',{name:'Play all Treasures',exact:true})).toBeEnabled();}}]);
  await page.reload();
