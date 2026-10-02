@@ -2,7 +2,7 @@ import { expect, test, type Page, type TestInfo, type CDPSession } from '@playwr
 import { mkdirSync, writeFileSync, readFileSync, existsSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { assertScreenFit } from './screen-fit';
-import { identicalPixels } from './exact-pixels';
+import { identicalPixels, preparePixels } from './exact-pixels';
 import { renderStoryImages } from './story-images';
 
 export const OPERATION_BUDGET = 2_000;
@@ -28,6 +28,10 @@ export class TestStepHelper {
       const stem=`${String(story.steps.length).padStart(3,'0')}-${id}`;
       await test.step('Ready, unclipped, and photographed within 2,000 ms',async()=>{
         const start=performance.now(),remaining=()=>Math.max(1,OPERATION_BUDGET-Math.ceil(performance.now()-start));
+        const name=[story.slug,`${stem}-${this.info.project.name}-${process.platform}.png`],baseline=this.info.snapshotPath(...name);
+        const updating=['all','changed'].includes(this.info.config.updateSnapshots);
+        // Reference decoding is independent of UI readiness. Both still share this deadline.
+        const reference=!updating&&existsSync(baseline)?preparePixels(readFileSync(baseline)):undefined;
         // Activate the photographed player's tab before waiting for its UI. Background
         // tabs can defer rendering until activation, serializing readiness and paint.
         await page.bringToFront();
@@ -94,12 +98,11 @@ export class TestStepHelper {
         let capture:Buffer;
         const result=await camera.send('Page.captureScreenshot',{format:'png',fromSurface:true,captureBeyondViewport:false,optimizeForSpeed:true});capture=Buffer.from(result.data,'base64');
         const photographed=performance.now();
-        const name=[story.slug,`${stem}-${this.info.project.name}-${process.platform}.png`],baseline=this.info.snapshotPath(...name);
-        if(['all','changed'].includes(this.info.config.updateSnapshots)){
+        if(updating){
           // Explicit generation is never verification; review and compare in a separate run.
           mkdirSync(dirname(baseline),{recursive:true});writeFileSync(baseline,capture);
         }else{
-          const same=existsSync(baseline)&&await identicalPixels(capture,readFileSync(baseline));
+          const same=reference!==undefined&&await identicalPixels(capture,reference);
           if(!same){
             // Keep Playwright's expected/actual/diff report on failures.
             expect(capture).toMatchSnapshot(name,{maxDiffPixels:0,threshold:0});
