@@ -56,7 +56,7 @@ test('a lost purchase acknowledgement does not duplicate the card or its animati
     await expect(flight).toBeVisible();
     const destination=await page.locator('.played-card:has([data-card-id="obol"])').last().boundingBox();
     expect(destination).not.toBeNull();
-    const end=await flight.evaluate(node=>node.getAnimations()[0].effect!.getKeyframes().at(-1)!.transform);
+    const end=await flight.evaluate(node=>(node.getAnimations()[0].effect as KeyframeEffect).getKeyframes().at(-1)!.transform);
     // Chromium serializes transform numbers to six significant digits.
     expect(end).toContain(`translate(${Number((destination!.x+destination!.width/2).toPrecision(6))}px, ${Number((destination!.y+destination!.height/2).toPrecision(6))}px)`);
     await page.waitForFunction(()=>!document.querySelector('.public-flight[data-motion-kind="gain"]'),undefined,{polling:'raf',timeout:2000});
