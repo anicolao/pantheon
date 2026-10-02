@@ -1,6 +1,7 @@
+import {UndoHistory} from '../../../src/lib/game/undo';
 import {expect,type Page,type TestInfo} from '@playwright/test';
 import {replaySetup,leaderIds,type SetupEvent,type SetupState} from '../../../src/lib/game/setup';
-import {activePlayer,applyPlayCommand} from '../../../src/lib/game/actions';
+import {activePlayer} from '../../../src/lib/game/actions';
 import {publicCommandContext,describePublicCommand} from '../../../src/lib/game/public-table';
 import {readEvents} from './action-history';
 import {roomCodeFixture} from './room-code-fixture';
@@ -25,12 +26,13 @@ export async function finalTurn(page:Page,info:TestInfo,{count=2,goal='acropolis
   const leaders=leaderIds.filter(id=>id!=='thaleia');
   for(const uid of game.draftOrder)events.push({schemaVersion:1,reducerVersion:1,sequence:events.length+1,type:'leader/chosen',actorUid:uid,name:game.players.find(p=>p.uid===uid)!.name,playerCount:count,leaderId:uid===host?'thaleia':leaders.shift()!,commandId:`leader-${uid}`});
   game=replaySetup(events);
+  const undo=new UndoHistory();
   for(let i=0;i<4000;i++){
     const command=matchCommand(game,goal,host),uid=activePlayer(game);
     if(command.type==='turn/ended'&&ending(game))break;
     const sequence=events.length+1,event:SetupEvent={schemaVersion:1,reducerVersion:1,sequence,actorUid:uid,name:game.players.find(p=>p.uid===uid)!.name,playerCount:count,commandId:`record-${sequence}`,...command};
     const before=publicCommandContext(game,uid);
-    const message=applyPlayCommand(game,uid,command,sequence);game.activity.push({sequence,message});events.push(event);
+    const message=undo.apply(game,uid,command,sequence);game.activity.push({sequence,message});events.push(event);
     game.publicActivity.push(describePublicCommand(before,game,event));
     if(i===3999)throw Error('The legal match did not reach its ending');
   }

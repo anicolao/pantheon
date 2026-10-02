@@ -1,3 +1,4 @@
+import {openPlayers} from '../helpers/table-controls';
 import {test,expect} from '../helpers/fixtures';
 import {newPlayerContext} from '../helpers/players';
 import {finalTurn} from '../helpers/match-history';
@@ -10,7 +11,7 @@ test('keep reading the Chronicle when a friend completes the match',async({page,
   try{
     await finalTurn(page,info,{other});
     await steps.step('last-turn','Ariadne is about to complete a legal recorded match',[{spec:'The last cleanup has not happened yet.',check:async()=>expect(page.getByRole('button',{name:'End turn',exact:true})).toBeEnabled()}]);
-    await other.getByRole('button',{name:'Chronicle',exact:true}).click();await other.getByRole('button',{name:'First moves',exact:true}).click();
+    await openPlayers(other);await other.getByRole('button',{name:'Chronicle',exact:true}).click();await other.getByRole('button',{name:'First moves',exact:true}).click();
     await steps.step('reading','Theseus reads the beginning of the match',[{spec:'Creation remains on the first page of the Chronicle.',check:async()=>expect(other.locator('.chronicle')).toContainText('created the table')}],{page:other,player:'Theseus'});
     await page.getByRole('button',{name:'End turn',exact:true}).click();
     await expect.poll(async()=>await page.locator('.victory-scene').count()>0||await page.getByRole('button',{name:'Keep playing',exact:true}).isVisible()).toBe(true);

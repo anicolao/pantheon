@@ -75,7 +75,7 @@
   [data-format='event'] .illustration, [data-format='leader'] .illustration { left: 8%; top: 23%; width: 40%; height: 56%; object-position: 23% center; }
   [data-format='leader'] .illustration { top: 18%; height: 60%; }
   [data-format='event'] .card-title { top: 13%; left: 11%; width: 71%; height: 7%; }
-  [data-format='leader'] .card-title { top: 8%; left: 19%; width: 62%; height: 7%; }
+  [data-format='leader'] .card-title { top: 7%; left: 19%; width: 62%; height: 9%; }
   [data-format='event'] h3 { font-size: 3.8cqi; }
   [data-format='leader'] h3 { font-size: 3.5cqi; }
   [data-format='event'] .cost { top: 15.2%; left: 91.4%; right: auto; display: flex; transform: translate(-50%, -50%); --icon-size: 5.2cqi; --icon-number-scale: 1.34; }
@@ -98,6 +98,6 @@
   [data-format='event'] .rules.long { font-size: 2.25cqi; --inline-icon-size: 1.1em; }
   [data-format='event'] h4, [data-format='leader'] h4 { font-size: 1.85cqi; }
   [data-format='event'] footer, [data-format='leader'] footer { left: 51%; top: 85%; width: 39%; height: 5%; font-size: 1.8cqi; }
-  .leader-points{position:absolute;z-index:4;left:86.8%;top:11.6%;transform:translate(-50%,-50%);--icon-size:3.8cqi;--icon-number-scale:1.05;}
+  .leader-points{display:flex;line-height:1;position:absolute;z-index:4;left:86.8%;top:11.6%;transform:translate(-50%,-50%);--icon-size:3.8cqi;--icon-number-scale:1.05;}
   @media print { .card { filter: none; print-color-adjust: exact; } }
 </style>

@@ -37,7 +37,7 @@
   let busy = $state(false);
   let playError = $state('');
   let draftSeed = '';
-  let pendingCommand: { id: string; command: GameCommand; expectedRevision?: number } | undefined;
+  let pendingCommand: { id: string; command: GameCommand; expectedRevision?: number; acknowledge?:()=>void } | undefined;
   let copied = $state(false);
   let manualInvitation = $state(false);
   let invitation = $state('');
@@ -74,6 +74,7 @@
       const attempt = pendingCommand;
       if (synced && attempt && events.some(event => event.commandId === attempt.id && event.actorUid === services!.uid &&
         Object.entries(attempt.command).every(([key, value]) => JSON.stringify(event[key as keyof typeof event]) === JSON.stringify(value)))) {
+        attempt.acknowledge?.();
         pendingCommand = undefined;
         busy = false;
       }
@@ -120,8 +121,11 @@
     busy = true; playError = '';
     if (!pendingCommand || pendingCommand.expectedRevision !== expectedRevision || JSON.stringify(pendingCommand.command) !== JSON.stringify(command)) pendingCommand = { id: expectedRevision === undefined ? `${crypto.randomUUID()}:${setup.activity.length + 1}` : `auto-treasures:${services.uid}:${expectedRevision}`, command, expectedRevision };
     const attempt = pendingCommand;
+    // A matching server event completes the caller's interaction too. The SDK
+    // may still be retrying an HTTP response that was lost after the commit.
+    const acknowledged=new Promise<void>(resolve=>{attempt.acknowledge=resolve;});
     try {
-      await appendGameCommand(services.db, roomId, services.uid, attempt.id, attempt.command, attempt.expectedRevision);
+      await Promise.race([appendGameCommand(services.db, roomId, services.uid, attempt.id, attempt.command, attempt.expectedRevision),acknowledged]);
       if (pendingCommand === attempt) { pendingCommand = undefined; busy = false; }
     } catch (cause) {
       // A confirmed older request may finish after the player starts another command.
@@ -129,7 +133,7 @@
         playError = cause instanceof SetupError ? cause.message : 'We couldn’t save your choice. Try again.';
         busy = false;
       }
-    }
+    } finally { attempt.acknowledge=undefined; }
   }
   async function playAgain(){
     if(!services||!setup||setup.turn.phase!=='finished'||busy||status!=='synced')return;

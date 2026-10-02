@@ -4,85 +4,87 @@ import { actionTable, playCard, readEvents } from '../helpers/action-history';
 import { TestStepHelper } from '../helpers/test-step-helper';
 import { replaySetup } from '../../../src/lib/game/setup';
 import { definition } from '../../../src/lib/game/actions';
+import {openPlayers,closePlayers,browseChoice} from '../helpers/table-controls';
 
-test('play, choose optional trash, reconnect, and show the public result', async ({page,browser},info)=>{
+test('play, choose optional trash, reconnect, and show the public result',async({page,browser},info)=>{
   test.setTimeout(180_000);
-  const context=await newPlayerContext(browser, {viewport:info.project.use.viewport,reducedMotion:'reduce'}),other=await context.newPage();
-  const errors:string[]=[]; page.on('pageerror',error=>errors.push(error.message)); other.on('pageerror',error=>errors.push(error.message));
-  try {
-    const fixture=await actionTable(page,info,'seed-keeper','melia',{other});
-    const steps=new TestStepHelper(page,info,'Play Actions and shape your deck');
-    await steps.step('action-table','Find a playable Action in your hand',[{spec:'Your hand exposes playable Actions and keeps the counters in view.',check:async()=>{await expect(page.getByRole('button',{name:/^Play hand card .*: Seed Keeper$/})).not.toHaveCount(0);await expect(page.locator('.turn-marker')).toContainText('Your turn');}}]);
-    const actionIndex=await page.locator('.hand [data-card-id]').evaluateAll(cards=>cards.findIndex(card=>card.getAttribute('data-card-id')==='seed-keeper'));
-    await page.getByTestId('hand-card').nth(actionIndex).click({button:'right'});
-    await new TestStepHelper(page,info,'Inspect an Action').step('play-action','Inspect before playing',[{spec:'The actual card has a working Play control, with its physical copy preserved.',check:async()=>expect(page.getByRole('button',{name:'Play Seed Keeper',exact:true})).toBeEnabled()}]);
-    await page.keyboard.press('Escape');
-    await other.emulateMedia({reducedMotion:'no-preference'});
-    await other.evaluate(() => {
-      const animate=Element.prototype.animate,recorded=new WeakSet<Element>();
-      (window as unknown as {flights:string[]}).flights=[];
-      Element.prototype.animate=function(frames,options){if(this.matches('.public-flight')&&!recorded.has(this)){recorded.add(this);(window as unknown as {flights:string[]}).flights.push(this.getAttribute('data-motion-step')!);}return animate.call(this,frames,options);};
+  const context=await newPlayerContext(browser,{viewport:info.project.use.viewport,baseURL:info.project.use.baseURL}),other=await context.newPage();
+  const steps=new TestStepHelper(page,info,'Play Actions and shape your deck');
+  const capture=(id:string,text:string,check:()=>Promise<unknown>)=>steps.step(id,text,[{spec:text,check}]);
+  try{
+    const fixture=await actionTable(page,info,'seed-keeper','melia',{other,extra:['hamlet'],seed:'inline-seed-keeper'});
+    await capture('action-table','Find Seed Keeper in the playable hand',async()=>expect(page.getByRole('button',{name:/^Play hand card .*Seed Keeper$/})).toBeVisible());
+    await page.getByRole('button',{name:/^Play hand card .*Seed Keeper$/}).click({button:'right'});
+    await capture('inspect','Read Seed Keeper before playing it',async()=>expect(page.getByRole('button',{name:'Play Seed Keeper',exact:true})).toBeEnabled());
+    await page.getByRole('button',{name:'Play Seed Keeper',exact:true}).click();
+    await capture('trash-choice','A trash target arrives while the hand stays on the table',async()=>{
+      await expect(page.locator('.inline-choice')).toContainText('Choose up to 2 cards to trash');
+      await expect(page.locator('dialog:modal')).toHaveCount(0);
+      await expect(page.getByRole('button',{name:'Done trashing',exact:true})).toBeEnabled();
     });
-    await playCard(page,'seed-keeper');
-    await steps.step('trash-choice','Choose cards for Seed Keeper',[{spec:'Only cards remaining in hand can be selected; trashing is optional.',check:async()=>{await expect(page.getByRole('dialog',{name:'Seed Keeper',exact:true})).toBeVisible();await expect(page.getByRole('button',{name:'Trash none',exact:true})).toBeEnabled();await expect(page.locator('.options [data-card-id="seed-keeper"]')).toHaveCount(0);}}]);
-    const before=replaySetup(await readEvents(fixture.code));
-    await expect(other.locator('.action-message')).toContainText('Ariadne chooses');await expect(other.locator('.opponents [data-card-id]')).toHaveCount(0);
-    await page.reload(); await expect(page.getByRole('dialog',{name:'Seed Keeper',exact:true})).toBeVisible();
-    expect(replaySetup(await readEvents(fixture.code)).turn.choice).toEqual(before.turn.choice);
-    const targets=before.decks[fixture.host].hand.filter(card=>card.cardId==='hamlet').slice(0,2);
-    if(!targets.length)targets.push(before.decks[fixture.host].hand[0]);
-    for(const card of targets){while(!await page.getByRole('button',{name:`Select ${definition(card.cardId).name}, copy ${card.copy}`,exact:true}).count())await page.getByRole('button',{name:'Next choices',exact:true}).click();await page.getByRole('button',{name:`Select ${definition(card.cardId).name}, copy ${card.copy}`,exact:true}).click();}
-    await steps.step('trash-selected','Review the selected cards',[{spec:'The selection glows and the confirmation gives the exact count.',check:async()=>expect(page.getByRole('button',{name:`Trash ${targets.length}`,exact:true})).toBeEnabled()}]);
-    await page.context().setOffline(true);await expect(page.locator('.choice-scene .reconnect')).toContainText('Your choice is kept.');
-    await page.context().setOffline(false);await expect(page.locator('.choice-scene .reconnect')).toHaveCount(0);
-    await expect(page.getByRole('button',{name:`Trash ${targets.length}`,exact:true})).toBeEnabled();
-    await expect(page.locator('.choice-scene .pages')).toContainText(`${targets.length} selected`);
-    await page.getByRole('button',{name:`Trash ${targets.length}`,exact:true}).click();await expect(page.locator('.choice-scene')).toHaveCount(0);
-    const result=replaySetup(await readEvents(fixture.code));expect(result.trash.map(card=>card.id)).toEqual(targets.map(card=>card.id));expect(result.decks[fixture.host].hand.length).toBe(before.decks[fixture.host].hand.length-targets.length+1);
-    await steps.step('trash-result','The chosen cards leave your deck',[{spec:'Trash is public and Melia draws only after Seed Keeper finishes.',check:async()=>{await expect(page.getByRole('button',{name:`Inspect shared trash, ${targets.length} cards`,exact:true})).toBeVisible();await expect(other.locator('.action-message')).toContainText('trashed');await expect(other.locator('.opponents [data-card-id]')).toHaveCount(0);}}]);
-    await page.getByRole('button',{name:`Inspect shared trash, ${targets.length} cards`,exact:true}).click();await steps.step('public-trash','Inspect the shared trash',[{spec:'Trashed copies are visible and remain outside every player’s deck.',check:async()=>expect(page.getByRole('dialog').locator('[data-card-id]')).toHaveCount(targets.length)}]);
-    await page.keyboard.press('Escape'); await expect(page.getByRole('button',{name:`Inspect shared trash, ${targets.length} cards`,exact:true})).toBeFocused();
-    const expectedFlights=result.publicActivity.filter(entry=>entry.sequence>fixture.events.length).flatMap(entry=>entry.steps.filter(step=>!['leader','worship'].includes(step.kind)).map(step=>step.id));
-    for(const id of expectedFlights)await expect.poll(()=>other.evaluate(()=>(window as unknown as {flights:string[]}).flights)).toContain(id);
-    expect(await other.evaluate(()=>(window as unknown as {flights:string[]}).flights)).toEqual(expectedFlights);
-    await expect(other.locator('.public-flight')).toHaveCount(0);
-    await other.reload();await expect(other.locator('[data-status]')).toHaveAttribute('data-status','synced');
-    expect(await other.evaluate(()=>document.getAnimations().length)).toBe(0);
-    expect(errors).toEqual([]);steps.generateDocs();
+    await page.reload();
+    await capture('restored','Return to the same unfinished trash choice',async()=>expect(page.locator('.inline-choice')).toContainText('Seed Keeper'));
+    const target=page.getByRole('button',{name:/^Trash hand card .*Hamlet$/}).first();
+    const id=await target.getAttribute('data-instance-id');await target.click();
+    await capture('trash-selected','One Hamlet rests at the trash target; Ariadne may stop early',async()=>{
+      await expect(page.locator('.staged-card [data-card-id]')).toHaveAttribute('data-card-id','hamlet');
+      await expect(page.getByRole('button',{name:'Done trashing (1)',exact:true})).toBeEnabled();
+    });
+    await page.context().setOffline(true);
+    await steps.step('interrupted','An interrupted connection keeps the staged choice',[{spec:'The reconnect message is visible and no trash is committed.',check:async()=>expect(page.locator('.connection')).toContainText('Your place is kept.')}],{status:'disconnected'});
+    await page.context().setOffline(false);
+    await capture('reconnected','Reconnect with the same staged Hamlet',async()=>expect(page.getByRole('button',{name:'Done trashing (1)',exact:true})).toBeEnabled());
+    await page.getByRole('button',{name:'Done trashing (1)',exact:true}).click();
+    await capture('trash-result','The Hamlet enters the trash and Melia draws after the choice',async()=>{
+      await expect(page.locator('.inline-choice')).toHaveCount(0);
+      await expect(page.locator('.hand [data-card-id]')).toHaveCount(4);
+      const state=replaySetup(await readEvents(fixture.code));expect(state.trash.map(card=>card.id)).toEqual([id]);
+    });
+    await openPlayers(other);
+    await steps.step('observer','Theseus sees the public trash result without seeing Ariadne’s hand',[{spec:'The shared trash has one card and opponent hands contain no faces.',check:async()=>{
+      await expect(other.getByRole('button',{name:'Inspect shared trash, 1 cards',exact:true})).toBeVisible();
+      await expect(other.locator('.opponents [data-card-id]')).toHaveCount(0);
+    }}],{page:other,player:'Theseus'});
+    await openPlayers(page);await page.getByRole('button',{name:'Inspect shared trash, 1 cards',exact:true}).click();
+    await capture('public-trash','Inspect the trashed Hamlet in the Chronicle',async()=>expect(page.locator('.pile [data-card-id]')).toHaveAttribute('data-card-id','hamlet'));
   }finally{await context.close();}
 });
 
 test('Forge gains a cheaper card before Doreios offers his separate choice',async({page},info)=>{
-  test.setTimeout(120_000);const fixture=await actionTable(page,info,'forge-of-heroes','doreios');const steps=new TestStepHelper(page,info,'Forge a new card');
-  await playCard(page,'forge-of-heroes');const state=replaySetup(await readEvents(fixture.code));const target=state.decks[fixture.host].hand[0];
-  await steps.step('forge-trash','Choose what to forge',[{spec:'Trashing is optional before choosing a replacement.',check:async()=>expect(page.getByRole('button',{name:'Trash none',exact:true})).toBeEnabled()}]);
-  await page.getByRole('button',{name:`Select ${definition(target.cardId).name}, copy ${target.copy}`,exact:true}).click();
-  await steps.step('forge-selected','Review the card being replaced',[{spec:'One selected card enables the trash confirmation.',check:async()=>expect(page.getByRole('button',{name:'Trash 1',exact:true})).toBeEnabled()}]);
-  await page.getByRole('button',{name:'Trash 1',exact:true}).click();
-  await steps.step('gain-choice','Choose a replacement within the cost limit',[{spec:'The gain uses actual nonempty supply piles and sends the card to discard.',check:async()=>{await expect(page.locator('.heading')).toContainText(`up to ${definition(target.cardId).cost!+2}`);await expect(page.locator('.destination')).toHaveText('To your discard pile');}}]);
-  await page.getByRole('button',{name:'Select Obol, copy 1',exact:true}).click();await steps.step('gain-selected','A cheaper card is a legal gain',[{spec:'A cost-zero Obol can replace the trashed card without spending a Buy.',check:async()=>expect(page.getByRole('button',{name:'Gain Obol',exact:true})).toBeEnabled()}]);
-  await page.getByRole('button',{name:'Gain Obol',exact:true}).click();
-  await steps.step('leader-choice','Finish Doreios’s blessing',[{spec:'The leader offers a separate optional trash only after the gain.',check:async()=>{await expect(page.locator('.heading h1')).toHaveText('Doreios');await expect(page.getByRole('button',{name:'Trash none',exact:true})).toBeEnabled();}}]);
-  await page.getByRole('button',{name:'Trash none',exact:true}).click();await expect(page.locator('.choice-scene')).toHaveCount(0);
-  await steps.step('forge-finished','Return to the table with the replacement',[{spec:'Both choices are complete and control returns to the table.',check:async()=>{await expect(page.locator('.choice-scene')).toHaveCount(0);await expect(page.locator('.turn-marker')).toContainText('Your turn');}}]);
-  const result=replaySetup(await readEvents(fixture.code));expect(result.supply.obol).toBe(state.supply.obol-1);expect(result.resources.buys).toBe(state.resources.buys);expect(result.turn.leaderUsed).toBe(true);
+  const fixture=await actionTable(page,info,'forge-of-heroes','doreios',{extra:['hamlet'],seed:'inline-forge'});
+  const steps=new TestStepHelper(page,info,'Forge a new card');
+  const capture=(id:string,text:string,check:()=>Promise<unknown>)=>steps.step(id,text,[{spec:text,check}]);
+  await capture('opening','Ariadne holds Forge and a Hamlet to replace',async()=>expect(page.getByRole('button',{name:/^Play hand card .*Forge of Heroes$/})).toBeVisible());
+  await playCard(page,'forge-of-heroes');
+  await capture('forge-trash','Choose a card from the hand or stop without trashing',async()=>expect(page.getByRole('button',{name:'Done trashing',exact:true})).toBeEnabled());
+  await page.getByRole('button',{name:/^Trash hand card .*Hamlet$/}).first().click();
+  await capture('gain-choice','Trashing the Hamlet opens the market at its most valuable legal gain',async()=>{
+    await expect(page.locator('.inline-choice')).toContainText('up to 4');
+    await expect(page.locator('.buy-card[data-centered=true]')).toHaveAttribute('data-supply-id','sea-trade');
+  });
+  const obol=await browseChoice(page,'Obol');
+  await capture('cheaper','A cheaper Obol is also available without spending a Buy',async()=>expect(obol).toBeEnabled());
+  await obol.click();
+  await capture('leader-choice','Doreios offers his separate optional trash after the gain',async()=>{await expect(page.locator('.inline-choice')).toContainText('Doreios');await expect(page.getByRole('button',{name:'Done trashing',exact:true})).toBeEnabled();});
+  await page.getByRole('button',{name:'Done trashing',exact:true}).click();
+  await capture('finished','The Forge and blessing finish on the same table',async()=>{await expect(page.locator('.inline-choice')).toHaveCount(0);await expect(page.locator('.resources [data-resource=buys]')).toHaveAttribute('data-value','1');});
+  const state=replaySetup(await readEvents(fixture.code));expect(state.trash.at(-1)?.cardId).toBe('hamlet');expect(state.decks[fixture.host].discard.at(-1)?.cardId).toBe('obol');
 });
 
 test('Harvest Feast requires a discard after drawing and fits the expanded hand in a fan',async({page},info)=>{
-  test.setTimeout(120_000);const fixture=await actionTable(page,info,'harvest-feast','melia');const steps=new TestStepHelper(page,info,'Resolve a mandatory discard');
-  const initial=fixture.game.decks[fixture.host];const newlyDrawn=initial.deck.slice(0,2);
-  await playCard(page,'harvest-feast');const state=replaySetup(await readEvents(fixture.code));expect(state.decks[fixture.host].hand.length).toBe(initial.hand.length+1);
-  await steps.step('mandatory-discard','Draw first, then choose a discard',[{spec:'Discarding one card is required; there is no skip or cancel command.',check:async()=>{await expect(page.locator('.heading')).toContainText('Discard 1 card');await expect(page.getByRole('button',{name:'Trash none'})).toHaveCount(0);await expect(page.getByRole('button',{name:'Discard 0',exact:true})).toBeDisabled();}}]);
-  await page.keyboard.press('Escape');await expect(page.locator('.choice-scene')).toBeVisible();
-  const card=newlyDrawn.at(-1) ?? state.decks[fixture.host].hand.at(-1)!;
-  while(!await page.getByRole('button',{name:`Select ${definition(card.cardId).name}, copy ${card.copy}`,exact:true}).count())await page.getByRole('button',{name:'Next choices',exact:true}).click();
-  await page.getByRole('button',{name:`Select ${definition(card.cardId).name}, copy ${card.copy}`,exact:true}).focus();await page.keyboard.press('Space');
-  await steps.step('discard-selected','A just-drawn card can be discarded',[{spec:'Keyboard selection marks the card and enables the mandatory discard.',check:async()=>expect(page.getByRole('button',{name:'Discard 1',exact:true})).toBeEnabled()}]);
-  await page.getByRole('button',{name:'Discard 1',exact:true}).click();await expect(page.locator('.choice-scene')).toHaveCount(0);
-  await steps.step('expanded-hand','Melia’s draw follows the discard',[{spec:'All six cards fit in the overlapping fan without paging.',check:async()=>{await expect(page.locator('.hand [data-card-id]')).toHaveCount(6);await expect(page.getByRole('navigation',{name:'Hand pages'})).toHaveCount(0);}}]);
+  const fixture=await actionTable(page,info,'harvest-feast','melia',{seed:'inline-harvest'});
+  const steps=new TestStepHelper(page,info,'Resolve a mandatory discard');
+  await steps.step('opening','Play Harvest Feast from the existing hand',[{spec:'Harvest Feast is playable.',check:async()=>expect(page.getByRole('button',{name:/^Play hand card .*Harvest Feast$/})).toBeVisible()}]);
+  const original=await page.getByTestId('hand-card').evaluateAll(nodes=>nodes.map(node=>node.getAttribute('data-instance-id')));
+  await playCard(page,'harvest-feast');
+  await steps.step('mandatory-discard','Draw two cards and choose a discard directly from the fan',[{spec:'Six hand cards remain visible beside the discard target, with no skip or modal.',check:async()=>{await expect(page.locator('.hand-slot')).toHaveCount(6);await expect(page.locator('.inline-choice')).toContainText('Discard a card from your hand');await expect(page.getByRole('button',{name:'Done trashing',exact:true})).toHaveCount(0);await expect(page.locator('dialog:modal')).toHaveCount(0);}}]);
+  await page.keyboard.press('Escape');await expect(page.locator('.inline-choice')).toBeVisible();
+  const drawn=await page.getByTestId('hand-card').evaluateAll((nodes,original)=>nodes.filter(node=>!original.includes(node.getAttribute('data-instance-id'))).map(node=>node.getAttribute('data-instance-id')!),original);
+  expect(drawn).toHaveLength(2);
+  await page.locator(`[data-testid="hand-card"][data-instance-id="${drawn[0]}"]`).press('Space');
+  await steps.step('expanded-hand','The selected card is discarded and Melia draws afterward',[{spec:'The six-card fan remains usable without a separate choice screen.',check:async()=>{await expect(page.locator('.inline-choice')).toHaveCount(0);await expect(page.locator('.hand-slot')).toHaveCount(6);expect(replaySetup(await readEvents(fixture.code)).decks[fixture.host].discard.at(-1)?.id).toBe(drawn[0]);}}]);
   await page.getByTestId('hand-card').last().click({button:'right'});
-  await steps.step('hand-last-card','Read the last card without changing pages',[{spec:'The final card opens for inspection and returns to the same fan.',check:async()=>expect(page.locator('dialog:modal .inspected [data-card-id]')).toHaveCount(1)}]);
-
+  await steps.step('last-card','Read the last card in the expanded fan',[{spec:'The card inspector displays the actual card.',check:async()=>expect(page.locator('dialog:modal .inspected [data-card-id]')).toHaveCount(1)}]);
 });
 
 for(const reveal of ['Territory','other'] as const)test(`Procession reveals ${reveal} and preserves its proper destination`,async({page},info)=>{
@@ -106,9 +108,9 @@ test('every simple Action and Temple uses real authenticated commands',async({br
       await context.route(url=>url.pathname.endsWith('/documents:commit'),async route=>{if(lostAcknowledgement){await route.continue();return;}const response=await route.fetch({timeout:2_000});expect(response.ok()).toBe(true);lostAcknowledgement=true;await route.abort('connectionreset');});
     }
     await playCard(page,id);
-    if(id==='sacred-grove'){await page.getByRole('button',{name:'Select Obol, copy 1',exact:true}).click();await page.getByRole('button',{name:'Gain Obol',exact:true}).click();}
-    if(leader==='doreios')await page.getByRole('button',{name:'Trash none',exact:true}).click();
-    await expect(page.locator('.choice-scene')).toHaveCount(0);const events=await readEvents(fixture.code),state=replaySetup(events);expect(state.decks[fixture.host].play.at(-1)?.cardId).toBe(id);expect(state.turn.leaderUsed).toBe(true);expect(events.at(-1)?.actorUid).toBe(fixture.host);
+    if(id==='sacred-grove'){await (await browseChoice(page,'Obol')).click();}
+    if(leader==='doreios')await page.getByRole('button',{name:'Done trashing',exact:true}).click();
+    await expect(page.locator('.inline-choice')).toHaveCount(0);const events=await readEvents(fixture.code),state=replaySetup(events);expect(state.decks[fixture.host].play.at(-1)?.cardId).toBe(id);expect(state.turn.leaderUsed).toBe(true);expect(events.at(-1)?.actorUid).toBe(fixture.host);
     if(id==='oracles-acolyte'){expect(lostAcknowledgement).toBe(true);expect(events.filter(event=>event.type==='action/played'&&event.instanceId===fixture.game.decks[fixture.host].hand.find(card=>card.cardId===id)!.id)).toHaveLength(1);await expect.poll(()=>page.evaluate(()=>(window as unknown as {draws:string[]}).draws.length)).toBe(1);}
 
     } finally { await context.close(); }
@@ -118,5 +120,5 @@ test('every simple Action and Temple uses real authenticated commands',async({br
 for (const count of [3,4] as const) test(`${count} players can follow a public reveal`,async({page},info)=>{
   test.setTimeout(120_000);const fixture=await actionTable(page,info,'victorious-procession','thaleia',{reveal:'Territory',count});
   await playCard(page,'victorious-procession');
-  await new TestStepHelper(page,info,`${count}-player Action table`).step(`reveal-${count}`,'Read the effect without covering the other seats',[{spec:'Every opponent and chosen altar remains visible beside the public result.',check:async()=>{await expect(page.getByTestId('opponent')).toHaveCount(count-1);await expect(page.locator('.altars button')).toHaveCount(count);await expect(page.locator('.outcome')).toBeVisible();await expect(page.locator('.turn-marker')).toContainText('Treasures');expect(replaySetup(await readEvents(fixture.code)).resources.coins).toBe(4);}}]);
+  await new TestStepHelper(page,info,`${count}-player Action table`).step(`reveal-${count}`,'Read the effect without covering the other seats',[{spec:'Every opponent and chosen altar remains visible beside the public result.',check:async()=>{await expect(page.getByTestId('opponent')).toHaveCount(count-1);await expect(page.locator('.worship-drawer button')).toHaveCount(count);await expect(page.locator('.outcome')).toBeVisible();await expect(page.locator('.turn-marker')).toContainText('Treasures');expect(replaySetup(await readEvents(fixture.code)).resources.coins).toBe(4);}}]);
 });

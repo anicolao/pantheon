@@ -4,6 +4,19 @@ import {assertScreenFit} from './helpers/screen-fit';
 test('capture audit rejects clipped components and text on every viewport',async({page})=>{
   await page.setContent('<main data-e2e-layout style="margin:32px;width:300px;height:200px"><div id="clip" style="position:relative;width:150px;height:100px;overflow:hidden"><button id="target" style="position:absolute;left:5px;top:5px;width:100px;height:44px">Gain a card</button></div></main>');
   await page.evaluate(assertScreenFit,{});
+  // Closed slide-out drawers are genuinely hidden. Opening an offscreen drawer
+  // must still fail the same viewport audit; inert alone does not exempt it.
+  await page.evaluate(()=>{const drawer=document.createElement('aside');drawer.id='drawer';drawer.inert=true;drawer.style.cssText='position:absolute;left:-300px;top:40px;width:200px;height:100px;visibility:hidden';drawer.textContent='Player drawer';document.querySelector('main')!.append(drawer);});
+  await page.evaluate(assertScreenFit,{});
+  await page.locator('#drawer').evaluate(node=>(node as HTMLElement).style.visibility='visible');
+  await expect(page.evaluate(assertScreenFit,{})).rejects.toThrow(/clipped by viewport/);
+  await page.locator('#drawer').evaluate(node=>node.remove());
+  await page.locator('#clip').evaluate(node=>{const box=node as HTMLElement;box.style.width='150.375px';box.style.border='1px solid';});
+  await page.locator('#target').evaluate(node=>{const target=node as HTMLElement;target.style.left='0';target.style.width='150.375px';});
+  await page.evaluate(assertScreenFit,{});
+  await page.locator('#target').evaluate(node=>(node as HTMLElement).style.width='151.375px');
+  await expect(page.evaluate(assertScreenFit,{})).rejects.toThrow(/clipped by div/);
+  await page.locator('#target').evaluate(node=>(node as HTMLElement).style.width='100px');
   for(const position of [{left:'120px',top:'5px'},{left:'-10px',top:'5px'},{left:'5px',top:'80px'},{left:'5px',top:'-10px'}]){
     await page.locator('#target').evaluate((node,position)=>Object.assign((node as HTMLElement).style,position),position);
     await expect(page.evaluate(assertScreenFit,{})).rejects.toThrow(/clipped by div/);
@@ -16,6 +29,9 @@ test('capture audit rejects clipped components and text on every viewport',async
   await page.evaluate(assertScreenFit,{document:true});
   await page.locator('#second').evaluate(node=>(node as HTMLElement).style.top='120px');
   await expect(page.evaluate(assertScreenFit,{document:true})).rejects.toThrow(/Controls overlap/);
+  await page.locator('#second').evaluate(node=>(node as HTMLElement).inert=true);
+  await page.evaluate(assertScreenFit,{document:true});
+  await page.locator('#second').evaluate(node=>(node as HTMLElement).inert=false);
   await page.setContent('<button style="position:fixed;inset:0;width:100vw;height:100vh">Inert page control</button><dialog style="width:280px;height:180px;padding:12px"><button id="first" style="position:absolute;top:20px;left:20px;width:100px;height:44px">First</button><button id="second" style="position:absolute;top:80px;left:20px;width:100px;height:44px">Second</button></dialog>');
   await page.locator('dialog').evaluate(node=>(node as HTMLDialogElement).showModal());
   await page.evaluate(assertScreenFit,{document:true});

@@ -57,10 +57,10 @@ export class TestStepHelper {
           const top=[...document.querySelectorAll<HTMLDialogElement>('dialog:modal')].at(-1),box=top?.getBoundingClientRect();
           // These opaque scenes cover the whole table; underlying artwork is not visible.
           const root=top&&top.matches('.choice-scene,.supply-scene,.worship-scene,.victory-scene')&&box!.left<=0&&box!.top<=0&&box!.right>=innerWidth&&box!.bottom>=innerHeight?top:document;
-          const images=[...root.querySelectorAll<HTMLImageElement>('img')].filter(image=>image.checkVisibility()),backgrounds=new Set<string>();
+          const images=[...root.querySelectorAll<HTMLImageElement>('img')].filter(image=>image.checkVisibility({visibilityProperty:true})),backgrounds=new Set<string>();
           const elements=[...(root instanceof HTMLElement?[root]:[]),...root.querySelectorAll<HTMLElement>('[data-e2e-layout], [data-e2e-layout] *')];
           for(const element of elements){
-            if(!element.checkVisibility())continue;
+            if(!element.checkVisibility({visibilityProperty:true}))continue;
             for(const match of getComputedStyle(element).backgroundImage.matchAll(/url\(["']?(.*?)["']?\)/g))backgrounds.add(match[1]);
           }
           const discovered=performance.now();

@@ -5,7 +5,7 @@ export type Layout = { poses: Pose[]; width: number };
 
 export function measureLayout(): Layout {
     const poses=[...document.querySelectorAll<HTMLElement>('[data-motion-key], [data-public-zone], [data-motion-pile]')]
-      .filter(node=>node.checkVisibility()&&node.getBoundingClientRect().width>0)
+      .filter(node=>node.checkVisibility({visibilityProperty:true})&&node.getBoundingClientRect().width>0)
       .map(node=>{
         const face=node.querySelector<HTMLElement>('.hand-face, .outcome-card')??node;
         const box=face.getBoundingClientRect(),transform=getComputedStyle(face).transform;

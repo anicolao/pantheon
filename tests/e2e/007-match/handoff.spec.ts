@@ -1,3 +1,4 @@
+import {openPlayers,closePlayers} from '../helpers/table-controls';
 import {enterTreasures,browseSupply} from '../helpers/supply-controls';
 import {test,expect} from '../helpers/fixtures';
 import {TestStepHelper} from '../helpers/test-step-helper';
@@ -45,13 +46,14 @@ test('keep playing a Temple, spend the last Buy, and hand the turn to a friend e
     await capture('finish','Ariadne chooses when to finish her turn',page,'Ariadne',async()=>{await expect(page.locator('.turn-marker')).toContainText('Buys');await expect(page.getByRole('button',{name:'End turn',exact:true})).toBeEnabled();});
     await page.emulateMedia({reducedMotion:'no-preference'});await other.emulateMedia({reducedMotion:'no-preference'});
     let dropped=false;await page.context().route(url=>url.pathname.endsWith('/documents:commit'),async route=>{if(dropped){await route.continue();return;}const response=await route.fetch({timeout:2000});expect(response.ok()).toBe(true);dropped=true;await route.abort('connectionreset');});
-    await other.bringToFront();
+    await openPlayers(other);await other.bringToFront();
     await page.getByRole('button',{name:'End turn',exact:true}).click();
     // Cleanup and redeal are separate, intentionally slowed animation batches.
     await expect(other.locator('.public-flight[data-motion-kind="cleanup"]').first()).toBeAttached();
     await other.waitForFunction(()=>!document.querySelector('.public-flight[data-motion-kind="cleanup"]'),undefined,{polling:20,timeout:2000});
     await expect(other.locator('.public-flight[data-motion-kind="draw"]').first()).toBeAttached();
     await other.waitForFunction(()=>!document.querySelector('.public-flight'),undefined,{polling:20,timeout:2000});
+    await closePlayers(other);
     await capture('handoff','Theseus receives fresh counters after public cleanup finishes',other,'Theseus',async()=>{await expect(other.locator('.turn-marker')).toContainText('Your turn');await expect(other.locator('.resources [data-resource=actions]')).toHaveAttribute('data-value','1');await expect(other.locator('.resources [data-resource=coins]')).toHaveAttribute('data-value','0');await expect(other.locator('.resources [data-resource=worship]')).toHaveAttribute('data-value','1');await expect(other.getByRole('button',{name:'End turn',exact:true})).toBeEnabled();await other.waitForFunction(()=>!document.querySelector('.public-flight'),undefined,{polling:20,timeout:2000});});
     await capture('waiting-hand','Ariadne receives five private cards and waits for Theseus',page,'Ariadne',async()=>{await expect(page.locator('.turn-marker')).toContainText('Theseus');await expect(page.getByTestId('hand-card')).toHaveCount(5);await expect(page.locator('.opponents [data-card-id]')).toHaveCount(0);await expect(page.getByRole('button',{name:'End turn',exact:true})).toHaveCount(0);});
     const events=await readEvents(code),state=replaySetup(events),host=events[0].actorUid;expect(dropped).toBe(true);expect(events.filter(e=>e.type==='turn/ended')).toHaveLength(1);expect(state.turn.turns[host]).toBe(1);expect(state.decks[host].play).toHaveLength(0);expect(state.decks[host].discard).toHaveLength(6);expect(state.decks[host].hand.filter(c=>c.cardId==='hamlet')).toHaveLength(3);

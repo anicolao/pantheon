@@ -1,3 +1,4 @@
+import {openWorship,openPlayers,closePlayers} from '../helpers/table-controls';
 import {browseSupply,enterTreasures} from '../helpers/supply-controls';
 import {test,expect} from '../helpers/fixtures';
 import {newPlayerContext} from '../helpers/players';
@@ -44,17 +45,15 @@ for(const scenario of [
     const fixture=await actionTable(page,info,scenario.card,scenario.leader,{other,reveal:scenario.reveal,seed:scenario.cleanup?'actions-MYEJG':undefined});
     await capture('table','Ariadne holds the Action at a legal recorded table',async()=>expect(page.locator(`.hand [data-card-id="${scenario.card}"]`)).toBeVisible());
     await capture('waiting','Theseus can follow the active player while keeping his own hand',async()=>expect(other.locator('.turn-marker')).toContainText('Ariadne'),true);
-    await observe(other);await other.bringToFront();
+    await openPlayers(other);await observe(other);await other.bringToFront();
     await playCard(page,scenario.card);
     const played=replaySetup(await readEvents(fixture.code)).publicActivity.findLast(entry=>entry.command==='action/played')!;
     await expectFlights(other,played.steps.filter(step=>!['leader','worship'].includes(step.kind)).map(step=>step.id));
     await expect(other.locator('.public-flight')).toHaveCount(0);
     if(scenario.card==='harvest-feast'){
-      await capture('discard','Ariadne must discard after drawing two cards',async()=>expect(page.getByRole('button',{name:'Discard 0',exact:true})).toBeDisabled());
-      const state=replaySetup(await readEvents(fixture.code)),target=state.decks[fixture.host].hand[0];
-      await page.getByRole('button',{name:`Select ${definition(target.cardId).name}, copy ${target.copy}`,exact:true}).click();
-      await capture('selected','Ariadne reviews the card going to discard',async()=>expect(page.getByRole('button',{name:'Discard 1',exact:true})).toBeEnabled());
-      await page.getByRole('button',{name:'Discard 1',exact:true}).click();await expect(page.locator('.choice-scene')).toHaveCount(0);
+      await capture('discard','Ariadne must discard after drawing two cards',async()=>expect(page.locator('.inline-choice')).toContainText('Discard a card from your hand'));
+      await page.getByRole('button',{name:/^Discard hand card /}).first().click();
+      await capture('discarded','The chosen card leaves the hand and enters discard',async()=>expect(page.locator('.inline-choice')).toHaveCount(0));
     }
     if(scenario.cleanup){
       await capture('drawn','Council of Sages has drawn three cards and finished its blessing',async()=>expect(page.locator('.resources [data-resource=actions]')).toHaveAttribute('data-value','1'));
@@ -80,7 +79,7 @@ for(const scenario of [
       expect(observed.find(move=>move.kind==='reveal')!.end).toContain(`translate(${target!.x+target!.width/2}px,${target!.y+target!.height/2}px)`);
     }
     await capture('result','Every public movement arrived in order while hidden cards stayed backs',async()=>expect(other.locator('.opponents [data-card-id]')).toHaveCount(0),true);
-    await other.getByRole('button',{name:'Chronicle',exact:true}).click();
+    await openPlayers(other);await other.getByRole('button',{name:'Chronicle',exact:true}).click();
     await capture('history','The same source, destination, and resource result remain after motion',async()=>expect(other.locator('.chronicle .actor')).toContainText('Ariadne'),true);
     await other.getByRole('button',{name:'Close',exact:true}).click();
     await other.reload();await expect(other.locator('[data-status]')).toHaveAttribute('data-status','synced');
@@ -96,19 +95,19 @@ test('follow Worship and a purchase once while reconnecting without an animation
   try{
     const fixture=await actionTable(page,info,'sea-trade','nereon',{other,wealth:1});
     await capture('table','Ariadne is ready to play Sea Trade at a legal recorded table',async()=>expect(page.locator('.hand [data-card-id="sea-trade"]')).toBeVisible());
-    await observe(other);await other.bringToFront();await playCard(page,'sea-trade');
+    await openPlayers(other);await observe(other);await other.bringToFront();await playCard(page,'sea-trade');
     await capture('wealth','Sea Trade and Nereon grant three Coins',async()=>expect(page.locator('.resources [data-resource=coins]')).toHaveAttribute('data-value','3'));
-    await page.getByRole('button',{name:'Inspect Tribute of the Tides',exact:true}).click();
+    await openWorship(page,'Tribute of the Tides');
     await capture('altar','Ariadne can pay Poseidon before the Treasure phase',async()=>expect(page.getByRole('button',{name:'Worship Poseidon',exact:true})).toBeEnabled());
     await page.getByRole('button',{name:'Worship Poseidon',exact:true}).click();
-    await capture('gift','Poseidon sends a Drachma to Ariadne’s discard',async()=>expect(page.locator('.worship-scene .worship-wallet [data-resource=coins]')).toHaveAttribute('data-value','0'));
+    await capture('gift','Poseidon sends a Drachma to Ariadne’s discard',async()=>expect(page.locator('.resources [data-resource=coins]')).toHaveAttribute('data-value','0'));
     let state=replaySetup(await readEvents(fixture.code));
     const expected=state.publicActivity.filter(entry=>entry.sequence>fixture.events.length).flatMap(entry=>entry.steps.filter(step=>!['leader','worship'].includes(step.kind)).map(step=>step.id));
     await expectFlights(other,expected);await expect(other.locator('.public-flight')).toHaveCount(0);
     await capture('observer','Theseus sees the public gift without an extra leader blessing',async()=>{await expect(other.locator('.outcome [data-card-id]')).toHaveAttribute('data-card-id','drachma');expect((await flights(other)).filter(move=>move.kind==='leader')).toHaveLength(0);},true);
     await context.setOffline(true);
     await capture('interrupted','Theseus keeps his table when the connection is interrupted',async()=>expect(other.locator('.connection')).toContainText('Your place is kept'),true,'disconnected');
-    await page.getByRole('button',{name:'Return',exact:true}).click();await enterTreasures(page);
+    await expect(page.locator('.worship-overlay')).toHaveCount(0);await enterTreasures(page);
     await capture('treasures','Ariadne can continue into Treasures during the interruption',async()=>expect(page.locator('.turn-marker')).toContainText('Treasures'));
     await page.getByRole('button',{name:'Play all Treasures',exact:true}).click();
     await capture('played','Ariadne’s played wealth remains part of the public history',async()=>expect(page.getByRole('button',{name:'Play all Treasures',exact:true})).toHaveCount(0));
@@ -122,9 +121,9 @@ test('follow Worship and a purchase once while reconnecting without an animation
     await expectFlights(other,[...expected,...bought.steps.map(step=>step.id)]);await expect(other.locator('.public-flight')).toHaveCount(0);
     await capture('live-again','The next live purchase lands beside played cards',async()=>expect(other.getByRole('button',{name:'Inspect purchased Obol',exact:true})).toBeVisible(),true);
     await other.emulateMedia({reducedMotion:'reduce'});const before=await flights(other);
-    await page.getByRole('button',{name:'Buy Obol',exact:true}).click();await expect(other.locator('.action-message')).toContainText('gained Obol');
+    await page.getByRole('button',{name:'Buy Obol',exact:true}).click();await expect(other.locator('.log-entries')).toContainText('gained Obol');
     await expect(page.locator('.resources [data-resource=buys]')).toHaveAttribute('data-value','0');await expect(other.locator('.resources [data-resource=buys]')).toHaveAttribute('data-value','0');
-    await other.getByRole('button',{name:'Chronicle',exact:true}).click();
+    await openPlayers(other);await other.getByRole('button',{name:'Chronicle',exact:true}).click();
     await capture('reduced','Reduced motion preserves the same purchase path and cost without travel',async()=>{await expect(other.locator('.path')).toHaveText('Supply → Discard');await expect(other.locator('.result [data-resource=buys]')).toHaveAttribute('data-value','-1');expect(await flights(other)).toEqual(before);},true);
   }finally{await context.close();}
 });
@@ -143,7 +142,7 @@ test('keep a private hand inspection open while another player moves',async({pag
     const played=replaySetup(await readEvents(fixture.code));
     const phase=played.decks[fixture.host].hand.some(card=>canPlayAction(played,fixture.host,card.id))?'Actions':'Treasures';
     await expect(other.locator('.turn-marker')).toContainText(phase);
-    await steps.step('kept','Ariadne’s Action updates the table without interrupting Theseus’s reading',[{spec:'The same private card remains open and no travel runs over it.',check:async()=>{await expect(other.locator('.action-message')).toContainText('Oracle’s Acolyte');await expect(other.locator('.inspection [data-card-id]')).toHaveAttribute('data-card-id',reading!);expect(await flights(other)).toEqual([]);}}],{page:other,player:'Theseus'});
+    await steps.step('kept','Ariadne’s Action updates the table without interrupting Theseus’s reading',[{spec:'The same private card remains open and no travel runs over it.',check:async()=>{await expect(other.locator('.log-entries')).toContainText('Oracle’s Acolyte');await expect(other.locator('.inspection [data-card-id]')).toHaveAttribute('data-card-id',reading!);expect(await flights(other)).toEqual([]);}}],{page:other,player:'Theseus'});
     await other.keyboard.press('Escape');
     await steps.step('returned','Theseus returns to the same hand position',[{spec:'Focus returns to the inspected card and old travel is not replayed.',check:async()=>{await expect(other.getByTestId('hand-card').first()).toBeFocused();await expect(other.locator('.public-flight')).toHaveCount(0);expect(await flights(other)).toEqual([]);}}],{page:other,player:'Theseus'});
   }finally{await context.close();}

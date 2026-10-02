@@ -56,8 +56,8 @@ test('finish choices before automatically entering Treasures and browse every su
   const fixture=await actionTable(page,info,'seed-keeper','melia',{extra:['sea-trade']});
   const steps=new TestStepHelper(page,info,'Finish Actions automatically');
   await playCard(page,'seed-keeper');
-  await steps.step('choice','The last Action still completes its choice',[{spec:'The optional trash remains open before automatic advancement.',check:async()=>{await expect(page.getByRole('button',{name:'Trash none',exact:true})).toBeEnabled();expect(replaySetup(await readEvents(fixture.code)).turn.phase).toBe('actions');}}]);
-  await page.getByRole('button',{name:'Trash none',exact:true}).click();
+  await steps.step('choice','The last Action still completes its choice',[{spec:'The optional trash remains open before automatic advancement.',check:async()=>{await expect(page.getByRole('button',{name:'Done trashing',exact:true})).toBeEnabled();expect(replaySetup(await readEvents(fixture.code)).turn.phase).toBe('actions');}}]);
+  await page.getByRole('button',{name:'Done trashing',exact:true}).click();
   await steps.step('treasures','The resolved Action automatically enters Treasures',[{spec:'No phase button or prompt is needed, and the transition is recorded once.',check:async()=>{await expect(page.locator('.turn-marker')).toContainText('Treasures');await expect(page.locator('.hand [data-card-id="sea-trade"]')).toHaveCount(1);await expect(page.locator('.resources [data-resource=actions]')).toHaveAttribute('data-value','0');expect((await readEvents(fixture.code)).slice(fixture.events.length).filter(event=>event.type==='phase/advanced')).toHaveLength(1);}}]);
   await page.getByRole('button',{name:'Play all Treasures',exact:true}).click();
   await expect(page.getByRole('button',{name:'Play all Treasures',exact:true})).toHaveCount(0);

@@ -1,3 +1,4 @@
+import {openPlayers,closePlayers} from '../helpers/table-controls';
 import {setupSupply} from '../../../src/lib/game/setup';
 import {test,expect} from '../helpers/fixtures';
 import {actionTable,playCard} from '../helpers/action-history';
@@ -13,7 +14,7 @@ for(const viewport of [{width:320,height:568},{width:375,height:667},{width:430,
     // finish first so this story always opens the same completed move history.
     await expect(page.locator('.turn-marker')).toContainText('Treasures');
     const steps=new TestStepHelper(page,info,`Read public cards on a ${viewport.width} by ${viewport.height} phone`);
-    await page.getByRole('button',{name:'Chronicle',exact:true}).click();
+    await openPlayers(page);await page.getByRole('button',{name:'Chronicle',exact:true}).click();
     await steps.step('chronicle','Read the played Temple and the bloodline blessing',[{spec:'Both public effects and their paths fit beside the history controls.',check:async()=>{await expect(page.locator('.move')).toHaveCount(2);await expect(page.getByRole('button',{name:'First moves',exact:true})).toBeEnabled();}}]);
     await page.locator('.move[data-movement=play] button').click();
     await steps.step('portrait-card','Read the complete Temple card',[{spec:'The portrait card and return control are visible.',check:async()=>{await expect(page.locator('.inspected [data-card-id]')).toHaveAttribute('data-card-id','temple-of-athena');await expect(page.getByRole('button',{name:'Return to Chronicle',exact:true})).toBeVisible();}}]);
@@ -28,7 +29,8 @@ for(const viewport of [{width:320,height:568},{width:375,height:667},{width:430,
     await page.getByRole('button',{name:'Trash',exact:true}).click();
     await steps.step('trash','Read the shared trash',[{spec:'The shared tray is clearly named and can be closed.',check:async()=>{await expect(page.getByRole('dialog',{name:'Shared trash',exact:true})).toBeVisible();await expect(page.getByRole('button',{name:'Close',exact:true})).toBeVisible();}}]);
     await page.getByRole('button',{name:'Close',exact:true}).click();
-    await steps.step('table','Return to the table without scrolling',[{spec:'The private hand, turn controls, and public play area fit on the phone.',check:async()=>{await expect(page.getByRole('button',{name:'Chronicle',exact:true})).toBeVisible();await expect(page.getByTestId('hand-card')).toHaveCount(4);}}]);
+    await closePlayers(page);
+    await steps.step('table','Return to the table without scrolling',[{spec:'The private hand, turn controls, and public play area fit on the phone.',check:async()=>{await expect(page.getByRole('button',{name:'Players and Chronicle',exact:true})).toBeVisible();await expect(page.getByTestId('hand-card')).toHaveCount(4);}}]);
     await page.getByRole('button',{name:'Play all Treasures',exact:true}).click();
     await expect(page.locator('.supply-coverflow')).toBeVisible();
     await steps.step('supply','Browse the complete supply on a small phone',[{spec:'One face-up card, persistent side stacks, stock and navigation fit without overlap.',check:async()=>{await expect(page.locator('.buy-card[data-centered=true]')).toHaveCount(1);await expect(page.locator('.supply-face')).toHaveCount(setupSupply(2).length);}}]);

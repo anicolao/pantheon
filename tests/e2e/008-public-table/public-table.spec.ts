@@ -1,3 +1,4 @@
+import {openWorship,openPlayers,closePlayers,browseChoice} from '../helpers/table-controls';
 import {browseSupply,enterTreasures} from '../helpers/supply-controls';
 import {test,expect} from '../helpers/fixtures';
 import {newPlayerContext} from '../helpers/players';
@@ -29,7 +30,7 @@ test('follow a friend from the first Temple through Worship and cleanup while re
     await capture('temple','Ariadne reads her Temple before playing it',async()=>expect(page.getByRole('button',{name:'Play Temple of Poseidon',exact:true})).toBeEnabled());
     await page.getByRole('button',{name:'Play Temple of Poseidon',exact:true}).click();
     await capture('played','Theseus sees the Temple, Nereon’s blessing, and the resulting Coin',async()=>{await expect(other.locator('.played-cards [data-card-id]')).toHaveAttribute('data-card-id','temple-of-poseidon');await expect(other.locator('.resources [data-resource=coins]')).toHaveAttribute('data-value','1');await expect(other.locator('.turn-marker')).toContainText('Treasures');},true);
-    await other.getByRole('button',{name:'Chronicle',exact:true}).click();
+    await openPlayers(other);await other.getByRole('button',{name:'Chronicle',exact:true}).click();
     await capture('chronicle','The Chronicle keeps the played Temple before the leader’s blessing',async()=>{await expect(other.locator('.move')).toHaveCount(2);await expect(other.locator('.move').first()).toHaveAttribute('data-movement','play');await expect(other.locator('.move').last()).toHaveAttribute('data-movement','leader');await expect(other.locator('.result [data-resource=worship]')).toHaveAttribute('data-value','+1');},true);
     await other.getByRole('button',{name:'Inspect Temple of Poseidon, copy 1',exact:true}).click();
     await capture('public-inspector','A public card opens at reading size without offering a play command',async()=>{await expect(other.getByRole('button',{name:'Return to Chronicle',exact:true})).toBeFocused();await expect(other.getByRole('button',{name:'Play Temple of Poseidon',exact:true})).toHaveCount(0);},true);
@@ -63,22 +64,28 @@ test('follow a friend from the first Temple through Worship and cleanup while re
     await capture('play-pile','Five played cards and the purchase are available in a stable public tray',async()=>{await expect(other.locator('.public-table .pile-count')).toHaveText('6 cards');await expect(other.locator('.pile [data-card-id]')).toHaveCount(3);},true);
     await other.getByRole('button',{name:'Next',exact:true}).click();
     await capture('last-pile-page','The remaining played cards and purchase are reachable without leaving the table',async()=>{await expect(other.locator('.pile [data-card-id]')).toHaveCount(3);await expect(other.getByRole('button',{name:'Next',exact:true})).toBeDisabled();},true);
-    await expect(page.locator('.supply-coverflow')).toBeVisible();await page.getByRole('button',{name:'Inspect Counsel of Olympus',exact:true}).click();
+    const beforeWorship=(await readEvents(code)).length;
+    await expect(page.locator('.supply-coverflow')).toBeVisible();await openWorship(page,'Counsel of Olympus');
     await capture('worship','Ariadne can Worship Athena even after spending her last Buy',async()=>expect(page.getByRole('button',{name:'Worship Athena',exact:true})).toBeEnabled());
     await page.getByRole('button',{name:'Worship Athena',exact:true}).click();
-    await capture('gain-choice','Ariadne pays for Worship and chooses a topdeck gain',async()=>expect(page.locator('.choice-scene .destination')).toHaveText('Onto your deck'));
-    await page.getByRole('button',{name:'Select Oracle’s Acolyte, copy 1',exact:true}).click();
-    await capture('selected-gain','Oracle’s Acolyte is selected as the gift from Athena',async()=>expect(page.getByRole('button',{name:'Gain Oracle’s Acolyte',exact:true})).toBeEnabled());
-    await page.getByRole('button',{name:'Gain Oracle’s Acolyte',exact:true}).click();
-    await capture('kept-page','Theseus remains on the same last pile page through Worship and its choice',async()=>{await expect(other.locator('.pile [data-card-id]')).toHaveCount(3);await expect(other.getByRole('button',{name:'New moves · 2 · Refresh',exact:true})).toBeVisible();},true);
-    await other.getByRole('navigation',{name:'Public table',exact:true}).getByRole('button',{name:'Chronicle',exact:true}).click();await other.getByRole('button',{name:'New moves · 2 · Refresh',exact:true}).click();
+    await capture('gain-choice','Ariadne pays for Worship and chooses a topdeck gain',async()=>expect(page.locator('.card-controls [role=status]')).toHaveText('Choose an Action costing up to 3 from the offer'));
+    await (await browseChoice(page,'Oracle’s Acolyte')).click();
+    await capture('selected-gain','Oracle’s Acolyte is selected as the gift from Athena',async()=>expect(page.getByRole('button',{name:'Gain selected card',exact:true})).toBeEnabled());
+    await page.getByRole('button',{name:'Gain selected card',exact:true}).click();
+    await expect(page.locator('.worship-overlay')).toHaveCount(0);
+    const newMoves=(await readEvents(code)).length-beforeWorship;
+    await capture('kept-page','Theseus remains on the same last pile page through Worship and its choice',async()=>{await expect(other.locator('.pile [data-card-id]')).toHaveCount(3);await expect(other.getByRole('button',{name:`New moves · ${newMoves} · Refresh`,exact:true})).toBeVisible();},true);
+    await other.getByRole('navigation',{name:'Public table',exact:true}).getByRole('button',{name:'Chronicle',exact:true}).click();await other.getByRole('button',{name:`New moves · ${newMoves} · Refresh`,exact:true}).click();
     await capture('topdeck','Athena’s gift names Supply and Deck as its actual path',async()=>{await expect(other.locator('.path')).toHaveText('Supply → Deck');await expect(other.locator('.move [data-card-id]')).toHaveAttribute('data-card-id','oracles-acolyte');},true);
-    await other.getByRole('button',{name:'Earlier moves',exact:true}).click();
+    for(let index=0;index<newMoves-1;index++){
+      await other.getByRole('button',{name:'Earlier moves',exact:true}).click();
+      if(index<newMoves-2)await capture(`market-browse-${index}`,'The Chronicle also retains the shared market browsing',async()=>expect(other.locator('.chronicle')).toContainText('browsed'),true);
+    }
     await capture('payment','Worship has its own altar source and exact payment',async()=>{await expect(other.locator('.path')).toHaveText('Altar → In play');await expect(other.locator('.result [data-resource=coins]')).toHaveAttribute('data-value','-3');await expect(other.locator('.result [data-resource=worship]')).toHaveAttribute('data-value','-1');},true);
     await other.getByRole('button',{name:'Close',exact:true}).click();await expect(other.getByRole('button',{name:'Chronicle',exact:true})).toBeFocused();
-    await page.getByRole('button',{name:'Return',exact:true}).click();await page.getByRole('button',{name:'End turn',exact:true}).click();
+    await expect(page.locator('.worship-overlay')).toHaveCount(0);await page.getByRole('button',{name:'End turn',exact:true}).click();
     await capture('handoff','Theseus receives the turn while Ariadne’s new cards stay hidden',async()=>{await expect(other.locator('.turn-marker')).toContainText('Your turn');await expect(other.locator('.opponents [data-card-id]')).toHaveCount(0);},true);
-    await other.getByRole('button',{name:'Chronicle',exact:true}).click();
+    await openPlayers(other);await other.getByRole('button',{name:'Chronicle',exact:true}).click();
     await capture('cleanup','Cleanup and hidden draws persist as backs in the Chronicle',async()=>{await expect(other.locator('.move [data-card-id]')).toHaveCount(0);await expect(other.locator('.move').first()).toHaveAttribute('data-movement','cleanup');await expect(other.locator('.totals')).toContainText('Theseus');},true);
     await other.getByRole('button',{name:'First moves',exact:true}).click();
     await capture('first-move','The beginning of the table is retained alongside gameplay',async()=>expect(other.locator('.chronicle')).toContainText('created the table'),true);

@@ -76,7 +76,7 @@ export async function playCard(page:Page,id:string){
       await page.getByTestId('hand-card').nth(index).click();
       await expect(page.locator(`.played-cards [data-card-id="${id}"]`).last()).toBeAttached();
       // An Action can open an opaque choice scene, which covers the table.
-      await expect(page.locator(`.played-cards [data-card-id="${id}"]:visible, .choice-scene:visible`).first()).toBeVisible();
+      await expect(page.locator(`.played-cards [data-card-id="${id}"]:visible, .inline-choice:visible`).first()).toBeVisible();
       return;
     }
     const next=page.getByRole('button',{name:'Next hand cards',exact:true});if(!await next.isEnabled())break;await next.click();

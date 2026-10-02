@@ -1,3 +1,4 @@
+import {openPlayers,closePlayers} from '../helpers/table-controls';
 import {sortHand} from '../../../src/lib/components/play/hand-order';
 import {browseSupply} from '../helpers/supply-controls';
 import { newPlayerContext } from '../helpers/players';
@@ -67,7 +68,7 @@ for (const count of [2, 3, 4] as const) test(`${count} players draft unique bloo
       await steps.step('temple', 'Read the Temple linked to your bloodline', [
         { spec: 'Inspection uses the complete live card and can be dismissed with Escape.', check: async () => expect(choosing.getByRole('dialog')).toContainText('Temple of Athena') }
       ]);
-      await choosing.keyboard.press('Escape');
+      await choosing.keyboard.press('Escape');await closePlayers(choosing);
       await expect(choosing.getByRole('button', { name: 'Inspect Temple of Athena', exact: true })).toBeFocused();
       await choosing.reload(); await ready(choosing);
       expect(replaySetup(await eventsAt(code)).draftOrder).toEqual(game.draftOrder);
@@ -99,8 +100,8 @@ for (const count of [2, 3, 4] as const) test(`${count} players draft unique bloo
       await expect(client.getByTestId('opponent')).toHaveCount(count - 1);
       await expect(client.locator('.opponents [data-card-id]')).toHaveCount(0);
       await expect(client.locator('.opponents img[alt="Card back"]')).toHaveCount((count - 1) * 5);
-      await expect(client.locator('.altars [data-card-id]')).toHaveCount(count);
-      for (const id of game.sharedEvents) await expect(client.locator(`.altars [data-card-id="${id}"]`)).toHaveCount(1);
+      await expect(client.locator('.worship-drawer [data-card-id]')).toHaveCount(count);
+      for (const id of game.sharedEvents) await expect(client.locator(`.worship-drawer [data-card-id="${id}"]`)).toHaveCount(1);
       expect(await client.locator('.opponents').ariaSnapshot()).not.toMatch(/Obol|Hamlet|Temple of/);
       await steps.step(`hand-${player.name.toLowerCase().replaceAll(' ','-')}`,`${player.name} receives a private hand`,[{spec:'Only this player’s five faces are rendered; opponents have backs.',check:async()=>{await expect(client.getByTestId('hand-card')).toHaveCount(5);await expect(client.locator('.opponents [data-card-id]')).toHaveCount(0);}}],{page:client,player:player.name});
     }
@@ -117,12 +118,12 @@ for (const count of [2, 3, 4] as const) test(`${count} players draft unique bloo
     if (count === 2) {
       await choosing.getByTestId('hand-card').first().click({button:'right'});
       await steps.step('hand-inspection', 'Read a card in your hand', [{ spec: 'Inspection preserves the physical copy identifier.', check: async () => expect(choosing.getByRole('dialog').locator('[data-serial]')).toHaveAttribute('data-serial', hand[0]!) }]);
-      await choosing.keyboard.press('Escape');
+      await choosing.keyboard.press('Escape');await closePlayers(choosing);
       await expect(choosing.locator('.supply-coverflow')).toBeVisible();
       await steps.step('supply', 'Inspect supply without disturbing the deal', [{ spec: 'The complete supply retains its stock, separate from starting cards.', check: async () => expect(choosing.getByLabel('Obol: 40 remaining',{exact:true})).toBeVisible() }]);
       await browseSupply(choosing,'Acropolis');await expect(choosing.getByRole('button',{name:'Buy Acropolis',exact:true})).toBeVisible();
-      await choosing.keyboard.press('Escape');
-      await choosing.getByRole('button', { name: 'Chronicle', exact: true }).click(); await expect(choosing.getByRole('dialog')).toContainText('Five cards dealt to each player.'); await choosing.keyboard.press('Escape');
+      await choosing.keyboard.press('Escape');await closePlayers(choosing);
+      await openPlayers(choosing);await choosing.getByRole('button', { name: 'Chronicle', exact: true }).click(); await expect(choosing.getByRole('dialog')).toContainText('Five cards dealt to each player.'); await choosing.keyboard.press('Escape');await closePlayers(choosing);
       await choosing.context().setOffline(true); await expect(choosing.getByRole('status')).toContainText('Your place is kept.');
       await choosing.context().setOffline(false); await ready(choosing);
       expect(await eventsAt(code)).toEqual(before);
@@ -134,7 +135,7 @@ for (const count of [2, 3, 4] as const) test(`${count} players draft unique bloo
     }
     if(count===4 && info.project.name==='phone'){
       await choosing.setViewportSize({width:568,height:320});
-      await steps.step('landscape-table','Keep four players and the complete supply on a landscape phone',[{spec:'All four altars, the hand, and the inline supply fit without overlapping controls.',check:async()=>{await expect(choosing.locator('.altars button')).toHaveCount(4);await expect(choosing.locator('.supply-face')).toHaveCount(18);await expect(choosing.getByTestId('hand-card')).toHaveCount(5);}}]);
+      await steps.step('landscape-table','Keep four players and the complete supply on a landscape phone',[{spec:'All four altars, the hand, and the inline supply fit without overlapping controls.',check:async()=>{await expect(choosing.locator('.worship-drawer button')).toHaveCount(4);await expect(choosing.locator('.supply-face')).toHaveCount(18);await expect(choosing.getByTestId('hand-card')).toHaveCount(5);}}]);
     }
     expect(errors).toEqual([]);
   } finally { await Promise.all(contexts.map(context => context.close())); }

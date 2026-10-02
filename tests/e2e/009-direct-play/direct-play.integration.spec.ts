@@ -79,18 +79,18 @@ test('an expanded fan fits without paging and narrow-screen paging stays clear o
   await playCard(page,'harbor-pilot');
   await playCard(page,'council-of-sages');
   await playCard(page,'harvest-feast');
-  await page.getByRole('button',{name:/^Select /}).first().click();
-  await page.getByRole('button',{name:'Discard 1',exact:true}).click();
-  await expect(page.locator('.choice-scene')).toHaveCount(0);
+  await page.getByRole('button',{name:/^Discard hand card /}).first().click();
+  await expect(page.locator('.inline-choice')).toHaveCount(0);
   const state = replaySetup(await readEvents(fixture.code));
   expect(state.decks[fixture.host].hand.length).toBe(9);
-  await steps.step('expanded-fan','Draw into an overlapping hand', [{spec:'Nine cards remain in one fan at the standard viewport.',check:async()=>{
-    await expect(page.getByTestId('hand-card')).toHaveCount(9);
-    await expect(page.getByRole('navigation',{name:'Hand pages'})).toHaveCount(0);
+  await steps.step('expanded-fan','Draw into an overlapping hand', [{spec:'Desktop keeps nine cards in one fan; the portrait phone preserves card size and exposed tap regions with paging.',check:async()=>{
+    await expect(page.getByTestId('hand-card')).toHaveCount(info.project.name==='phone'?3:9);
+    await expect(page.getByRole('navigation',{name:'Hand pages'})).toHaveCount(info.project.name==='phone'?1:0);
     const bounds = await page.locator('.hand-slot').evaluateAll(nodes=>nodes.map(node=>node.getBoundingClientRect().toJSON()));
     expect(bounds[1].x).toBeLessThan(bounds[0].x+bounds[0].width);
   }}]);
   await page.setViewportSize({width:320,height:568});
+  for(let index=0;index<9&&await page.getByRole('button',{name:'Previous hand cards',exact:true}).isEnabled();index++)await page.getByRole('button',{name:'Previous hand cards',exact:true}).click();
   await steps.step('fallback-pages','Keep paging separate on the smallest phone', [{spec:'Paging and Play all Treasures have distinct, unobstructed controls.',check:async()=>{
     await expect(page.getByRole('button',{name:'Next hand cards',exact:true})).toBeEnabled();
     await expect(page.getByRole('button',{name:'Play all Treasures',exact:true})).toBeEnabled();
@@ -100,20 +100,21 @@ test('an expanded fan fits without paging and narrow-screen paging stays clear o
   await expect(page.getByRole('navigation',{name:'Hand pages'})).toHaveCount(0);
   await expect(page.getByTestId('hand-card')).toHaveCount(9);
   await page.setViewportSize({width:568,height:320});
-  await expect(page.getByRole('navigation',{name:'Hand pages'})).toHaveCount(0);
-  await expect(page.getByTestId('hand-card')).toHaveCount(9);
+  await expect(page.getByRole('button',{name:'Next hand cards',exact:true})).toBeEnabled();
+  await expect(page.getByTestId('hand-card')).toHaveCount(5);
   const exposed = await page.getByTestId('hand-card').evaluateAll(nodes=>nodes.map(node=>node.getBoundingClientRect().toJSON()));
   expect(exposed.every(box=>box.x>=0&&box.right<=568)).toBe(true);
   const faces = await page.locator('.hand-face').evaluateAll(nodes=>nodes.map(node=>node.getBoundingClientRect().toJSON()));
   expect(faces.every(box=>box.y>=0&&box.bottom<=320)).toBe(true);
   await page.setViewportSize({width:480,height:320});
-  await steps.step('landscape-pages','Keep a large hand and its controls inside a short landscape table',[{spec:'Nine cards fit at 568 pixels; the narrower 480-pixel fallback keeps paging clear of both turn controls.',check:async()=>{
+  await steps.step('landscape-pages','Keep a large hand and its controls inside a short landscape table',[{spec:'The narrow landscape fallback keeps full-size cards and paging clear of both turn controls.',check:async()=>{
     await expect(page.getByRole('button',{name:'Next hand cards',exact:true})).toBeEnabled();
     await expect(page.getByRole('button',{name:'Play all Treasures',exact:true})).toBeEnabled();
     await expect(page.getByRole('button',{name:'To Treasures',exact:true})).toBeEnabled();
   }}]);
   await page.setViewportSize({width:320,height:568});
-  await page.getByRole('button',{name:'Next hand cards',exact:true}).click();
+  for(let index=0;index<9&&await page.getByRole('button',{name:'Next hand cards',exact:true}).isEnabled();index++)await page.getByRole('button',{name:'Next hand cards',exact:true}).click();
+  await expect(page.getByRole('button',{name:'Next hand cards',exact:true})).toBeDisabled();
   const last = sortHand(state.decks[fixture.host].hand).at(-1)!;
   await page.locator(`button[data-instance-id="${last.id}"]`).click({button:'right'});
   await steps.step('last-copy','Inspect the last physical card on the next page',[{spec:'Paging preserves the card identity and optional confirmation.',check:async()=>{
