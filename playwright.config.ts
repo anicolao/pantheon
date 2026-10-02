@@ -14,6 +14,9 @@ export default defineConfig({
   // Isolate software rasterization so each capture owns its two-second CPU budget.
   workers: 1,
   reporter: [['list'], ['html', { open: 'never' }]],
+  // Historical screenshot blobs are huge in this partial clone. Keep the commit
+  // identity without downloading the PR's binary history for report metadata.
+  captureGitInfo: { commit: true, diff: false },
   use: {
     baseURL: `http://127.0.0.1:4193${base}/`,
     actionTimeout: 2_000,
@@ -21,10 +24,10 @@ export default defineConfig({
     // The story already captures every illustrated step; avoid a competing screencast.
     trace: { mode: 'retain-on-failure', screenshots: false, snapshots: false, sources: true },
     deviceScaleFactor: 1,
-    // Disable Linux Skia runtime dispatch; CI also pins ARM64 and browser userspace.
+    // Pin Linux raster concurrency and Skia dispatch alongside ARM64/userspace.
     // This flag alone cannot equalize Intel and AMD perspective rasterization.
     // Full rasterization avoids reload-dependent rounded-edge pixels on macOS.
-    launchOptions: { args: [...(process.platform==='linux'?['--disable-skia-runtime-opts']:[]), '--run-all-compositor-stages-before-draw', '--disable-checker-imaging', '--font-render-hinting=none', '--disable-font-subpixel-positioning', '--disable-lcd-text', '--force-device-scale-factor=1', '--disable-gpu', '--disable-partial-raster', '--use-gl=swiftshader'] },
+    launchOptions: { args: [...(process.platform==='linux'?['--disable-skia-runtime-opts','--num-raster-threads=1']:[]), '--run-all-compositor-stages-before-draw', '--disable-checker-imaging', '--font-render-hinting=none', '--disable-font-subpixel-positioning', '--disable-lcd-text', '--force-device-scale-factor=1', '--disable-gpu', '--disable-partial-raster', '--use-gl=swiftshader'] },
     timezoneId: 'America/Toronto',
     serviceWorkers: 'block',
     // Playwright's automatic failure capture has an unconfigurable five-second budget.
