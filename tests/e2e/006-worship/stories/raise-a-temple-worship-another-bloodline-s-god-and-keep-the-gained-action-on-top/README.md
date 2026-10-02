@@ -294,6 +294,27 @@ Viewpoint: **Ariadne**.
 
 - [x] The selected Action is ready to be placed on the deck
 
+## Theseus sees the same market position while Ariadne chooses
+
+Viewpoint: **Theseus**.
+
+<table>
+<tr><th>Desktop · 1440 × 1000</th><th>Phone · 393 × 852</th></tr>
+<tr>
+<td valign="top"><a href="../../screenshots/raise-a-temple-worship-another-bloodline-s-god-and-keep-the-gained-action-on-top/014-shared-market-desktop-darwin.png"><img src="../../screenshots/raise-a-temple-worship-another-bloodline-s-god-and-keep-the-gained-action-on-top/014-shared-market-desktop-darwin.png" alt="Theseus sees the same market position while Ariadne chooses — desktop" width="720"></a></td>
+<td valign="top"><a href="../../screenshots/raise-a-temple-worship-another-bloodline-s-god-and-keep-the-gained-action-on-top/014-shared-market-phone-darwin.png"><img src="../../screenshots/raise-a-temple-worship-another-bloodline-s-god-and-keep-the-gained-action-on-top/014-shared-market-phone-darwin.png" alt="Theseus sees the same market position while Ariadne chooses — phone" width="240"></a></td>
+</tr>
+</table>
+
+<details>
+<summary>Tabletop · 3840 × 2160 — expand screenshot</summary>
+
+<a href="../../screenshots/raise-a-temple-worship-another-bloodline-s-god-and-keep-the-gained-action-on-top/014-shared-market-tabletop-4k-darwin.png"><img src="../../screenshots/raise-a-temple-worship-another-bloodline-s-god-and-keep-the-gained-action-on-top/014-shared-market-tabletop-4k-darwin.png" alt="Theseus sees the same market position while Ariadne chooses — tabletop-4k" width="960"></a>
+
+</details>
+
+- [x] Theseus sees the same market position while Ariadne chooses
+
 ## The gained Action is public, the Buy is kept, and the Treasure phase remains open
 
 Viewpoint: **Ariadne**.
@@ -301,15 +322,15 @@ Viewpoint: **Ariadne**.
 <table>
 <tr><th>Desktop · 1440 × 1000</th><th>Phone · 393 × 852</th></tr>
 <tr>
-<td valign="top"><a href="../../screenshots/raise-a-temple-worship-another-bloodline-s-god-and-keep-the-gained-action-on-top/014-topdecked-desktop-darwin.png"><img src="../../screenshots/raise-a-temple-worship-another-bloodline-s-god-and-keep-the-gained-action-on-top/014-topdecked-desktop-darwin.png" alt="The gained Action is public, the Buy is kept, and the Treasure phase remains open — desktop" width="720"></a></td>
-<td valign="top"><a href="../../screenshots/raise-a-temple-worship-another-bloodline-s-god-and-keep-the-gained-action-on-top/014-topdecked-phone-darwin.png"><img src="../../screenshots/raise-a-temple-worship-another-bloodline-s-god-and-keep-the-gained-action-on-top/014-topdecked-phone-darwin.png" alt="The gained Action is public, the Buy is kept, and the Treasure phase remains open — phone" width="240"></a></td>
+<td valign="top"><a href="../../screenshots/raise-a-temple-worship-another-bloodline-s-god-and-keep-the-gained-action-on-top/015-topdecked-desktop-darwin.png"><img src="../../screenshots/raise-a-temple-worship-another-bloodline-s-god-and-keep-the-gained-action-on-top/015-topdecked-desktop-darwin.png" alt="The gained Action is public, the Buy is kept, and the Treasure phase remains open — desktop" width="720"></a></td>
+<td valign="top"><a href="../../screenshots/raise-a-temple-worship-another-bloodline-s-god-and-keep-the-gained-action-on-top/015-topdecked-phone-darwin.png"><img src="../../screenshots/raise-a-temple-worship-another-bloodline-s-god-and-keep-the-gained-action-on-top/015-topdecked-phone-darwin.png" alt="The gained Action is public, the Buy is kept, and the Treasure phase remains open — phone" width="240"></a></td>
 </tr>
 </table>
 
 <details>
 <summary>Tabletop · 3840 × 2160 — expand screenshot</summary>
 
-<a href="../../screenshots/raise-a-temple-worship-another-bloodline-s-god-and-keep-the-gained-action-on-top/014-topdecked-tabletop-4k-darwin.png"><img src="../../screenshots/raise-a-temple-worship-another-bloodline-s-god-and-keep-the-gained-action-on-top/014-topdecked-tabletop-4k-darwin.png" alt="The gained Action is public, the Buy is kept, and the Treasure phase remains open — tabletop-4k" width="960"></a>
+<a href="../../screenshots/raise-a-temple-worship-another-bloodline-s-god-and-keep-the-gained-action-on-top/015-topdecked-tabletop-4k-darwin.png"><img src="../../screenshots/raise-a-temple-worship-another-bloodline-s-god-and-keep-the-gained-action-on-top/015-topdecked-tabletop-4k-darwin.png" alt="The gained Action is public, the Buy is kept, and the Treasure phase remains open — tabletop-4k" width="960"></a>
 
 </details>
 
@@ -322,15 +343,15 @@ Viewpoint: **Theseus**.
 <table>
 <tr><th>Desktop · 1440 × 1000</th><th>Phone · 393 × 852</th></tr>
 <tr>
-<td valign="top"><a href="../../screenshots/raise-a-temple-worship-another-bloodline-s-god-and-keep-the-gained-action-on-top/015-gain-observer-desktop-darwin.png"><img src="../../screenshots/raise-a-temple-worship-another-bloodline-s-god-and-keep-the-gained-action-on-top/015-gain-observer-desktop-darwin.png" alt="Theseus sees the gained card and its topdeck destination — desktop" width="720"></a></td>
-<td valign="top"><a href="../../screenshots/raise-a-temple-worship-another-bloodline-s-god-and-keep-the-gained-action-on-top/015-gain-observer-phone-darwin.png"><img src="../../screenshots/raise-a-temple-worship-another-bloodline-s-god-and-keep-the-gained-action-on-top/015-gain-observer-phone-darwin.png" alt="Theseus sees the gained card and its topdeck destination — phone" width="240"></a></td>
+<td valign="top"><a href="../../screenshots/raise-a-temple-worship-another-bloodline-s-god-and-keep-the-gained-action-on-top/016-gain-observer-desktop-darwin.png"><img src="../../screenshots/raise-a-temple-worship-another-bloodline-s-god-and-keep-the-gained-action-on-top/016-gain-observer-desktop-darwin.png" alt="Theseus sees the gained card and its topdeck destination — desktop" width="720"></a></td>
+<td valign="top"><a href="../../screenshots/raise-a-temple-worship-another-bloodline-s-god-and-keep-the-gained-action-on-top/016-gain-observer-phone-darwin.png"><img src="../../screenshots/raise-a-temple-worship-another-bloodline-s-god-and-keep-the-gained-action-on-top/016-gain-observer-phone-darwin.png" alt="Theseus sees the gained card and its topdeck destination — phone" width="240"></a></td>
 </tr>
 </table>
 
 <details>
 <summary>Tabletop · 3840 × 2160 — expand screenshot</summary>
 
-<a href="../../screenshots/raise-a-temple-worship-another-bloodline-s-god-and-keep-the-gained-action-on-top/015-gain-observer-tabletop-4k-darwin.png"><img src="../../screenshots/raise-a-temple-worship-another-bloodline-s-god-and-keep-the-gained-action-on-top/015-gain-observer-tabletop-4k-darwin.png" alt="Theseus sees the gained card and its topdeck destination — tabletop-4k" width="960"></a>
+<a href="../../screenshots/raise-a-temple-worship-another-bloodline-s-god-and-keep-the-gained-action-on-top/016-gain-observer-tabletop-4k-darwin.png"><img src="../../screenshots/raise-a-temple-worship-another-bloodline-s-god-and-keep-the-gained-action-on-top/016-gain-observer-tabletop-4k-darwin.png" alt="Theseus sees the gained card and its topdeck destination — tabletop-4k" width="960"></a>
 
 </details>
 
@@ -343,15 +364,15 @@ Viewpoint: **Ariadne**.
 <table>
 <tr><th>Desktop · 1440 × 1000</th><th>Phone · 393 × 852</th></tr>
 <tr>
-<td valign="top"><a href="../../screenshots/raise-a-temple-worship-another-bloodline-s-god-and-keep-the-gained-action-on-top/016-no-refund-desktop-darwin.png"><img src="../../screenshots/raise-a-temple-worship-another-bloodline-s-god-and-keep-the-gained-action-on-top/016-no-refund-desktop-darwin.png" alt="The payment is kept and another Worship needs one more Coin — desktop" width="720"></a></td>
-<td valign="top"><a href="../../screenshots/raise-a-temple-worship-another-bloodline-s-god-and-keep-the-gained-action-on-top/016-no-refund-phone-darwin.png"><img src="../../screenshots/raise-a-temple-worship-another-bloodline-s-god-and-keep-the-gained-action-on-top/016-no-refund-phone-darwin.png" alt="The payment is kept and another Worship needs one more Coin — phone" width="240"></a></td>
+<td valign="top"><a href="../../screenshots/raise-a-temple-worship-another-bloodline-s-god-and-keep-the-gained-action-on-top/017-no-refund-desktop-darwin.png"><img src="../../screenshots/raise-a-temple-worship-another-bloodline-s-god-and-keep-the-gained-action-on-top/017-no-refund-desktop-darwin.png" alt="The payment is kept and another Worship needs one more Coin — desktop" width="720"></a></td>
+<td valign="top"><a href="../../screenshots/raise-a-temple-worship-another-bloodline-s-god-and-keep-the-gained-action-on-top/017-no-refund-phone-darwin.png"><img src="../../screenshots/raise-a-temple-worship-another-bloodline-s-god-and-keep-the-gained-action-on-top/017-no-refund-phone-darwin.png" alt="The payment is kept and another Worship needs one more Coin — phone" width="240"></a></td>
 </tr>
 </table>
 
 <details>
 <summary>Tabletop · 3840 × 2160 — expand screenshot</summary>
 
-<a href="../../screenshots/raise-a-temple-worship-another-bloodline-s-god-and-keep-the-gained-action-on-top/016-no-refund-tabletop-4k-darwin.png"><img src="../../screenshots/raise-a-temple-worship-another-bloodline-s-god-and-keep-the-gained-action-on-top/016-no-refund-tabletop-4k-darwin.png" alt="The payment is kept and another Worship needs one more Coin — tabletop-4k" width="960"></a>
+<a href="../../screenshots/raise-a-temple-worship-another-bloodline-s-god-and-keep-the-gained-action-on-top/017-no-refund-tabletop-4k-darwin.png"><img src="../../screenshots/raise-a-temple-worship-another-bloodline-s-god-and-keep-the-gained-action-on-top/017-no-refund-tabletop-4k-darwin.png" alt="The payment is kept and another Worship needs one more Coin — tabletop-4k" width="960"></a>
 
 </details>
 

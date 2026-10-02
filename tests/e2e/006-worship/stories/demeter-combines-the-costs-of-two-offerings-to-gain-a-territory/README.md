@@ -211,24 +211,24 @@ Recorded-history integration scenario. A legal event history prepares the starti
 
 - [x] Two plus three permits any available card costing up to five
 
-## The next choices include a Territory, not just Actions
+## The market includes a Territory, not just Actions
 
 <table>
 <tr><th>Desktop · 1440 × 1000</th><th>Phone · 393 × 852</th></tr>
 <tr>
-<td valign="top"><a href="../../screenshots/demeter-combines-the-costs-of-two-offerings-to-gain-a-territory/011-territory-desktop-darwin.png"><img src="../../screenshots/demeter-combines-the-costs-of-two-offerings-to-gain-a-territory/011-territory-desktop-darwin.png" alt="The next choices include a Territory, not just Actions — desktop" width="720"></a></td>
-<td valign="top"><a href="../../screenshots/demeter-combines-the-costs-of-two-offerings-to-gain-a-territory/011-territory-phone-darwin.png"><img src="../../screenshots/demeter-combines-the-costs-of-two-offerings-to-gain-a-territory/011-territory-phone-darwin.png" alt="The next choices include a Territory, not just Actions — phone" width="240"></a></td>
+<td valign="top"><a href="../../screenshots/demeter-combines-the-costs-of-two-offerings-to-gain-a-territory/011-territory-desktop-darwin.png"><img src="../../screenshots/demeter-combines-the-costs-of-two-offerings-to-gain-a-territory/011-territory-desktop-darwin.png" alt="The market includes a Territory, not just Actions — desktop" width="720"></a></td>
+<td valign="top"><a href="../../screenshots/demeter-combines-the-costs-of-two-offerings-to-gain-a-territory/011-territory-phone-darwin.png"><img src="../../screenshots/demeter-combines-the-costs-of-two-offerings-to-gain-a-territory/011-territory-phone-darwin.png" alt="The market includes a Territory, not just Actions — phone" width="240"></a></td>
 </tr>
 </table>
 
 <details>
 <summary>Tabletop · 3840 × 2160 — expand screenshot</summary>
 
-<a href="../../screenshots/demeter-combines-the-costs-of-two-offerings-to-gain-a-territory/011-territory-tabletop-4k-darwin.png"><img src="../../screenshots/demeter-combines-the-costs-of-two-offerings-to-gain-a-territory/011-territory-tabletop-4k-darwin.png" alt="The next choices include a Territory, not just Actions — tabletop-4k" width="960"></a>
+<a href="../../screenshots/demeter-combines-the-costs-of-two-offerings-to-gain-a-territory/011-territory-tabletop-4k-darwin.png"><img src="../../screenshots/demeter-combines-the-costs-of-two-offerings-to-gain-a-territory/011-territory-tabletop-4k-darwin.png" alt="The market includes a Territory, not just Actions — tabletop-4k" width="960"></a>
 
 </details>
 
-- [x] The next choices include a Territory, not just Actions
+- [x] The market includes a Territory, not just Actions
 
 ## Ariadne selects a Polis
 

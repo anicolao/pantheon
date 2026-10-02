@@ -11,7 +11,7 @@ Recorded-history scenarios prepare legal later turns, then exercise the real aut
 - [Demeter: combine two offerings to gain a Territory](stories/demeter-combines-the-costs-of-two-offerings-to-gain-a-territory/README.md)
 - [Ares: Standard upgrade by one](stories/ares-standard-upgrades-a-trashed-hamlet-by-1/README.md)
 - [Ares: Favored upgrade by three](stories/ares-favored-upgrades-a-trashed-hamlet-by-3/README.md)
-- [Four shared gods and three Devotion with paging](stories/four-shared-gods-and-three-devotion-remain-readable-with-paged-contributing-cards/README.md)
+- [Four shared gods and three Devotion in the vertical coverflow](stories/four-shared-gods-and-three-devotion-remain-readable-in-the-vertical-coverflow/README.md)
 - [Poseidon’s Favored Buy when Drachmas are exhausted](stories/poseidon-keeps-the-payment-and-grants-his-favored-buy-when-drachmas-are-exhausted/README.md)
 
 [Fidelity review](FIDELITY.md) compares the real interface with the accepted painting. All stories capture phone, desktop and 4K, audit clipping and intersecting controls, and compare every decoded pixel within the shared 2,000 ms capture deadline.
