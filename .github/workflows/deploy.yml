@@ -4,7 +4,7 @@ on:
   push:
     branches: [main]
   pull_request:
-    branches: [main]
+    # Stacked PRs also need their own playable preview.
   workflow_dispatch:
     inputs:
       preview_pr:
@@ -34,6 +34,9 @@ jobs:
             src
             static
             scripts
+            balance-checkpoint
+            historical-thaleia
+            standard-matrix
       - uses: oven-sh/setup-bun@v2
         with:
           bun-version: 1.3.10
