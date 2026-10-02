@@ -1,0 +1,35 @@
+Balance work stacked on PR #12, 2026-10-02
+
+Branch: stack/balance-on-pr12
+Base: cdbd52c380434b1942225fc4409caa4bf9a24690
+UI PR: https://github.com/anicolao/pantheon/pull/12
+Original balance checkpoint: fc3c46663178f2a593463f036ea1fb8b7fcd9f57
+Original branch/PR: docs/balancing-options / #10 (not rewritten)
+
+All 86 balance commits were replayed on the UI branch. Conflict resolutions keep
+the UI reducer's Undo rejection and gain browsing, automatic phase behavior, and
+its scoped test scripts alongside the balance variants and equal-turn support.
+CI retains PR12's renderer/deployment changes plus balance and practice checks.
+
+Follow-up integration changes initialize undo:null in the five synthetic game
+constructors used by simulations and scope test:simulation to ./tests/simulation.
+No bot objectives, opening books, simulation results, card effects, or screenshot
+baselines were retuned or regenerated.
+
+Validation (all commands through nix develop)
+- bun test ./tests/simulation ./tests/tooling: 203 tests, 41,386 assertions passed.
+- bun run check: zero errors and zero warnings.
+- bun run check:e2e-policy: passed.
+- PUBLIC_BASE_PATH=/pantheon/pr10 bun run build: passed.
+- PUBLIC_BASE_PATH=/pantheon/pr10 bun scripts/practice-browser-smoke.ts: passed;
+  bot opening turn, pause, save/restore, desktop and phone; no page errors.
+- bun run test:backend: 70 tests, 815 assertions passed, including Undo/replay.
+
+These checks ran on PR12's f9ac2c47 base plus the integration changes. PR12 then
+advanced by cdbd52c3, changing only E2E_GUIDE.md and playwright.config.ts to pin
+two raster workers. Rebase onto that commit was conflict-free; the E2E policy
+check was repeated. The full screenshot regression suite was not rerun locally.
+
+After PR12 merges, rebase this stack's balance commits onto origin/main; if PR12
+is squash-merged, use the recorded base with rebase --onto to avoid replaying the
+UI commits. Keep #10 as the original checkpoint until the stack is adopted.
