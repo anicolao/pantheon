@@ -19,7 +19,7 @@
     "test:policy": "bun run check:e2e-policy && bun test ./tests/tooling",
     "dev:curve-editor": "node tools/curve-editor/server.mjs",
     "simulate:balance": "bun scripts/balance-simulation.ts",
-    "test:simulation": "bun test tests/simulation",
+    "test:simulation": "bun test ./tests/simulation",
     "balance:study": "bun scripts/balance-study.ts",
     "balance:thaleia": "bun scripts/balance-thaleia.ts",
     "balance:counter": "bun scripts/balance-counter.ts",
