@@ -1,0 +1,57 @@
+Doreios historical Engine P1 vs Melia Money P2
+================================================
+Scope and unchanged policies
+----------------------------
+This is the most extreme ordered matchup after P1 selects its strongest tested strategy and P2 takes its strongest reply. It is not the lowest individual cell across knowingly weaker strategy choices.
+Original held-out cell: 200 games, Doreios share 17.75%, pointwise 95% interval [12.81,22.69]%, ties half.
+Reverse seats with the same policies: Doreios share 27.25%. Matched P2-minus-P1 change +9.50 points [1.55,17.45]. Seat order contributes, but does not remove the deficit.
+No policy, opening book, or game rule was changed for this diagnosis.
+
+Full 200-game final-deck evidence
+--------------------------------
+Mean card counts, Doreios / Melia:
+Obol 5.77 / 6.64; Drachma 4.51 / 2.53; Talent 0.50 / 1.76.
+Acropolis 2.12 / 3.42; Polis 2.97 / 1.26.
+Doreios has 1.54 Sacred Academies and 1.00 Council of Sages, but no Harbor Pilot, Merchant Fleet, Sea Trade or Victorious Procession in these final decks.
+Melia has 1.75 Harvest Feasts.
+Mean final scores 22.265 / 27.075; mean completed turns 13.805 each.
+The books alone are not a demonstrated cure: the 100-seed opening control changes historical Doreios P1 vs Melia Money from 16.0% to 17.5%, +1.5 points [-4.4,7.4].
+
+Diagnostic replication
+----------------------
+Replayed the first 20 fixed seeds, 400000–400019, in each seat orientation: 40 games.
+Each diagnostic game asserts exact original result equality AND original full command-trace SHA256 equality.
+All 40 pass. These are diagnostics on an existing subset, not new independent validation or a new win-rate estimate.
+run.py uses 16 available CPUs. diagnose.ts records only telemetry; it does not feed additional information into decisions.
+The forward 20 games contain 259 completed turns per player:
+- Doreios draws 6.96 cards/turn, reaches 51.2% of its starting-turn deck on average, and draws its whole original deck on only 2 turns.
+- Melia draws 6.42 cards/turn and generates 5.92 coins/turn, versus Doreios's 5.40.
+- Median first Acropolis acquisition: Doreios turn 7; Melia turn 6.
+- Doreios buys 73 Drachmas, 35 Academies, 20 Councils, only 3 Talents, and no +Buy cards.
+- Doreios triggers 104 times, 103 from Temple plays and one Forge play. It trashes 46 cards through its leader, including only 10 Obols. It declines 58 leader trash choices. Declining is not automatically a mistake.
+- Melia triggers 139 times. Harvest Feast is a repeatable nonterminal draw/discard card that also activates her extra draw.
+- Melia trashes/replaces an Acropolis through Worship in 13 games: 8 through Trial of the Spear, 5 through Blessing of the Fields. All are final-turn finishes: 11 wins, 2 ties.
+- Doreios never recycles an Acropolis in this subset.
+- Doreios triggers the game ending as P1 only twice; it wins both despite Melia's reply. Melia triggers the other 18 endings.
+
+Mechanisms supported by code inspection
+---------------------------------------
+1. Historical Engine purchases do not explicitly value the marginal frequency of Doreios's trash trigger on additional Ares cards. engineCapacity models leader Actions/draw; engineActionValue's payload uses printed features, not a marginal leader-trash benefit. Acquisition logic therefore has little incentive to acquire Bronze Recruit or Victorious Procession as income plus thinning.
+2. The engine buys draw but scarcely develops cash or extra Buys. Its +Buy premium appears only when optimistic whole-deck draw coverage is already sufficient. Combined with no practical whole-deck construction, this postpones the payoff indefinitely.
+3. Worship valuation is especially problematic at endings. Historical offering() values trashing an Acropolis and gaining an Acropolis as cardValue(14) minus loss(12) = 2. Trial costs $4; worshipOptions subtracts another 2 for cost plus foregone purchase utility. The resulting score fails its 0.5 threshold even when the conversion ends the game with a win. Current controllers evaluate the actual continuation and ending share.
+4. Historical endingShare still assumes immediate ending and the fewer-turn tiebreak. It does not model an equal-turn reply. That is a real compatibility limitation, but the sampled forward losses do not show P1 prematurely closing and then losing.
+5. The public-horizon threshold also shifts purchases rapidly toward points: in seed 400000, Doreios assigns Polis 9 versus Talent 6 on turn 9 and buys Polis with $7. This illustrates the rule; this study does not prove that particular purchase is inferior.
+
+Controlled closing fixture
+--------------------------
+closing-fixture.ts constructs a P2 decision with Doreios ahead 18–12, $4, an Acropolis in hand and one Acropolis in supply.
+Historical Engine chooses Drachma. Current Engine and Money choose Trial of the Spear.
+The production reducer verifies the legal continuation: worship Trial, trash Acropolis, gain Acropolis, end turn; Doreios wins with equal completed turns.
+This is a constructed mechanism test, not an additional observed missed win in the 200-game dataset. The reverse-seat diagnostic supports the need for this test but does not measure the counterfactual win-rate gain from fixing it.
+
+Interpretation and next test
+----------------------------
+The evidence supports a combination of weak engine construction and inconsistent endgame/Worship competence. It does not isolate how much of the 17.75% share is caused by each policy defect versus leader-power strength.
+Before buffing Doreios, the smallest well-defined experiment is to let historical Engine use the current controller's actual-continuation Worship/endgame evaluation, retaining historical economic purchase priorities and its frozen opening book.
+Verify the winning recycle fixture and P1 equal-turn reply behavior, then compare against unchanged Melia Money on matched fresh seeds in both seats.
+After that, separately test a generic acquisition valuation for the marginal benefit of leader triggers, rather than hardcoding an Ares-card priority.

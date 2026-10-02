@@ -1,0 +1,42 @@
+6000-GAME BENEFICIAL-TRASH RANDOM BOT MATRIX
+
+500 games per ordered matchup. Seeds 510000–510499; original 50 included and reproduced exactly.
+Rules/policy unchanged; shared startup Action piles, equal turns, original ties worth half.
+Finished: 6000/6000. Simulation seconds: 33.138; workers: 16.
+
+P1 / P2 | W/T/L | unfinished | P1 share [95% interval]
+thaleia / nereon | 186/56/258 | 0 | 42.8% [38.7, 46.9]
+thaleia / melia | 166/90/244 | 0 | 42.2% [38.3, 46.1]
+thaleia / doreios | 206/55/239 | 0 | 46.7% [42.6, 50.8]
+nereon / thaleia | 253/48/199 | 0 | 55.4% [51.2, 59.6]
+nereon / melia | 207/67/226 | 0 | 48.1% [44.0, 52.2]
+nereon / doreios | 292/30/178 | 0 | 61.4% [57.3, 65.5]
+melia / thaleia | 243/70/187 | 0 | 55.6% [51.6, 59.6]
+melia / nereon | 234/50/216 | 0 | 51.8% [47.6, 56.0]
+melia / doreios | 247/106/147 | 0 | 60.0% [56.2, 63.8]
+doreios / thaleia | 220/53/227 | 0 | 49.3% [45.1, 53.5]
+doreios / nereon | 196/36/268 | 0 | 42.8% [38.6, 47.0]
+doreios / melia | 167/106/227 | 0 | 44.0% [40.1, 47.9]
+
+NEREON SEAT EFFECT: all_500
+Opponent | P1 | P2 | paired P2-P1 pp [95%] | simultaneous 95% across three opponents | paired n
+thaleia | 55.4% | 57.2% | +1.8 [-4.1, +7.7] | [-5.5, +9.1] | 500
+melia | 48.1% | 48.2% | +0.1 [-5.7, +5.9] | [-7.0, +7.2] | 500
+doreios | 61.4% | 57.2% | -4.2 [-10.0, +1.6] | [-11.3, +2.9] | 500
+
+NEREON SEAT EFFECT: fresh_450
+Opponent | P1 | P2 | paired P2-P1 pp [95%] | simultaneous 95% across three opponents | paired n
+thaleia | 55.3% | 55.7% | +0.3 [-6.0, +6.6] | [-7.4, +8.0] | 450
+melia | 48.8% | 47.7% | -1.1 [-7.2, +5.0] | [-8.6, +6.4] | 450
+doreios | 62.4% | 56.1% | -6.3 [-12.5, -0.2] | [-13.9, +1.2] | 450
+
+METHOD / LIMITATIONS
+Cell intervals: mean of 0/0.5/1 outcomes, estimated SE and two-sided Student-t interval (quantile expansion).
+Seat differences pair reversed-seat games by seed; analyze per-seed differences, not independent proportions.
+Bonferroni intervals jointly cover the three Nereon opponent-specific seat effects at >=95% nominal confidence.
+Fresh 450 exclude the 50 seeds that motivated this follow-up. No policy tuning or optional stopping.
+Unfinished games are excluded from estimates; analysis.json also reports worst/best all-game bounds. Paired tests require both games finished.
+All 600 original records reproduced exactly. Every saved trace hash, shared setup, allowed purchase and equal-turn count checked.
+Runner fully replays each game and asserts legal beneficial trash choices and $3 post-trash floor.
+9 tests / 25 assertions pass. Production bots unchanged.
+Random play with an approximate trash evaluator is not optimal play. This test does not swap seat-specific RNG streams, so it cannot isolate a causal seat mechanism.

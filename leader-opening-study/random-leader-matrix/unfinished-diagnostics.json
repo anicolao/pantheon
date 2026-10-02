@@ -1,0 +1,128 @@
+[
+  {
+    "file": "nereon-melia-3-forward.json",
+    "drachmaRemaining": 0,
+    "cheapestPermittedPurchase": 6,
+    "income": [
+      4,
+      3
+    ]
+  },
+  {
+    "file": "nereon-melia-4-forward.json",
+    "drachmaRemaining": 0,
+    "cheapestPermittedPurchase": 6,
+    "income": [
+      4,
+      3
+    ]
+  },
+  {
+    "file": "nereon-melia-42-forward.json",
+    "drachmaRemaining": 0,
+    "cheapestPermittedPurchase": 6,
+    "income": [
+      3,
+      4
+    ]
+  },
+  {
+    "file": "melia-doreios-3-reverse.json",
+    "drachmaRemaining": 0,
+    "cheapestPermittedPurchase": 6,
+    "income": [
+      4,
+      3
+    ]
+  },
+  {
+    "file": "melia-doreios-4-reverse.json",
+    "drachmaRemaining": 0,
+    "cheapestPermittedPurchase": 6,
+    "income": [
+      4,
+      4
+    ]
+  },
+  {
+    "file": "melia-doreios-42-reverse.json",
+    "drachmaRemaining": 0,
+    "cheapestPermittedPurchase": 6,
+    "income": [
+      4,
+      4
+    ]
+  },
+  {
+    "file": "nereon-doreios-3-reverse.json",
+    "drachmaRemaining": 0,
+    "cheapestPermittedPurchase": 6,
+    "income": [
+      4,
+      4
+    ]
+  },
+  {
+    "file": "nereon-doreios-42-reverse.json",
+    "drachmaRemaining": 0,
+    "cheapestPermittedPurchase": 6,
+    "income": [
+      4,
+      3
+    ]
+  },
+  {
+    "file": "melia-doreios-3-forward.json",
+    "drachmaRemaining": 0,
+    "cheapestPermittedPurchase": 6,
+    "income": [
+      4,
+      4
+    ]
+  },
+  {
+    "file": "melia-doreios-4-forward.json",
+    "drachmaRemaining": 0,
+    "cheapestPermittedPurchase": 6,
+    "income": [
+      4,
+      4
+    ]
+  },
+  {
+    "file": "melia-doreios-42-forward.json",
+    "drachmaRemaining": 0,
+    "cheapestPermittedPurchase": 6,
+    "income": [
+      4,
+      4
+    ]
+  },
+  {
+    "file": "nereon-doreios-4-forward.json",
+    "drachmaRemaining": 0,
+    "cheapestPermittedPurchase": 6,
+    "income": [
+      4,
+      4
+    ]
+  },
+  {
+    "file": "melia-doreios-7-reverse.json",
+    "drachmaRemaining": 0,
+    "cheapestPermittedPurchase": 6,
+    "income": [
+      3,
+      3
+    ]
+  },
+  {
+    "file": "nereon-melia-4-reverse.json",
+    "drachmaRemaining": 0,
+    "cheapestPermittedPurchase": 6,
+    "income": [
+      4,
+      3
+    ]
+  }
+]

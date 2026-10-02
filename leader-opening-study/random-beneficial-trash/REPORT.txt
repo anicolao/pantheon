@@ -1,0 +1,41 @@
+BENEFICIAL TRASH: MATCHED RANDOM-BOT LEADER MATRIX
+
+600 games, seeds 510000–510049 in each ordered matchup, 50 per cell.
+Same shared 0–4 Action piles, standard powers/Worship, equal turns, ties half.
+All 600 completed (baseline 586); mean 30.78 turns/player; simulation 2.647s on 16 workers.
+
+P1 / P2 | New W/T/L | New share | Old all-50 bounds* | Paired change [95% CI], pp | Paired n
+thaleia / nereon | 12/5/33 | 29.0% | 45.0–45.0% | -16.0 [-31.3, -0.7] | 50
+thaleia / melia | 14/10/26 | 38.0% | 40.0–40.0% | -2.0 [-16.6, +12.6] | 50
+thaleia / doreios | 19/6/25 | 44.0% | 66.0–66.0% | -22.0 [-40.0, -4.0] | 50
+nereon / thaleia | 27/2/21 | 56.0% | 65.0–65.0% | -9.0 [-25.9, +7.9] | 50
+nereon / melia | 17/8/25 | 42.0% | 48.0–54.0% | -8.5 [-20.9, +3.9] | 47
+nereon / doreios | 25/2/23 | 52.0% | 66.0–68.0% | -14.3 [-30.6, +2.0] | 49
+melia / thaleia | 24/6/20 | 54.0% | 50.0–50.0% | +4.0 [-13.2, +21.2] | 50
+melia / nereon | 22/3/25 | 47.0% | 40.0–42.0% | +7.1 [-4.6, +18.9] | 49
+melia / doreios | 23/11/16 | 57.0% | 66.0–72.0% | -11.7 [-29.3, +5.9] | 47
+doreios / thaleia | 20/7/23 | 47.0% | 29.0–29.0% | +18.0 [+1.1, +34.9] | 50
+doreios / nereon | 14/5/31 | 33.0% | 27.0–31.0% | +6.2 [-11.4, +23.9] | 48
+doreios / melia | 12/12/26 | 36.0% | 32.0–40.0% | +3.3 [-14.6, +21.1] | 46
+
+* Baseline bounds assign unresolved games losses or wins; these are NOT confidence intervals.
+Pointwise paired t intervals over seed-level win-share changes; ties half. Censored baseline games excluded from paired comparisons only. No multiplicity correction.
+For incomplete baseline cells, paired changes describe only the common completed subset.
+
+POLICY
+Experimental only; production bots are unchanged. Keep the existing $3 income-capacity floor.
+Compare whole-deck analytic income proxies with legal Action capacity and net draw. This is an approximation, not shuffled-hand EV.
+Require income improvement > $0.02 and net score improvement > 0.1 over declining the trash.
+Net score = min(4, Acropolis supply) * income change + VP change - removed unplayed Treasure face value; horizon zero in final round.
+Forge/offering replacement gains are averaged uniformly across eligible gains, including optional decline where applicable.
+Choose randomly among beneficial legal trash subsets and declining; unchanged random purchases, play order, Worship, gain choices and RNG seeds.
+Uses public composition, not hidden deck order. Conditional reveal money, Worship and future gains are excluded from the income proxy.
+
+VALIDATION
+All startup selections and seeds match baseline; equal turns, permitted purchases, trace SHA256 checked for all 600. Runner also fully replays every game and asserts trash policy and floor at each trash.
+9 targeted tests, 25 assertions passed, including income floor, junk vs cash, draw/Action limits, late points, and Forge evaluation purity.
+
+INTERPRETATION
+Doreios vs Thaleia improves in both seats: P1 29% to 47%; P2 34% to 56%.
+Other substantial asymmetries remain. This tests leader sensitivity to a shared trash policy, not optimal play or human balance.
+The 12 intervals are exploratory and unadjusted; 50 games/cell gives wide uncertainty. No follow-up tuning or seed selection was performed.
