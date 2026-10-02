@@ -25,7 +25,8 @@
     "balance:counter": "bun scripts/balance-counter.ts",
     "balance:train-engine": "bun scripts/balance-engine-train.ts",
     "balance:matrix": "bun scripts/balance-matrix.ts",
-    "balance:audit-hands": "bun scripts/balance-deck-audit.ts"
+    "balance:audit-hands": "bun scripts/balance-deck-audit.ts",
+    "test:bot-table": "firebase emulators:exec --project demo-pantheon --only auth,firestore \"bun scripts/practice-browser-smoke.ts\""
   },
   "dependencies": {
     "@fontsource/atkinson-hyperlegible": "5.2.8",

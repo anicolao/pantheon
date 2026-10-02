@@ -4,10 +4,30 @@ service cloud.firestore {
     function signedIn() { return request.auth != null; }
     function room(id) { return /databases/$(database)/documents/games/$(id); }
     function event(id, revision) { return /databases/$(database)/documents/games/$(id)/events/$(string(revision)); }
+    function bots(data) { return data.get('bots', {}); }
+    function controls(data, actor) {
+      return actor == request.auth.uid || (data.owner == request.auth.uid && actor in bots(data));
+    }
+    function botChange(id) {
+      let next = request.resource.data;
+      let old = resource.data;
+      let e = getAfter(event(id, next.revision)).data;
+      return (e.type == 'player/joined' && 'botKind' in e)
+        ? request.auth.uid == old.owner && e.actorUid.matches('bot-[A-Za-z0-9_-]{1,100}')
+          && bots(next).diff(bots(old)).affectedKeys().hasOnly([e.actorUid])
+          && bots(next).get(e.actorUid, null) == e.botKind
+        : e.type == 'player/automated'
+          ? request.auth.uid == old.owner && e.actorUid == old.owner
+            && bots(next).diff(bots(old)).affectedKeys().hasOnly([old.owner])
+            && bots(next).get(old.owner, null) == e.botKind
+          : bots(next) == bots(old);
+    }
     function validRoom(data) {
-      return data.keys().hasOnly(['owner', 'members', 'playerCount', 'revision', 'phase'])
+      return data.keys().hasOnly(['owner', 'members', 'playerCount', 'revision', 'phase', 'bots'])
         && data.get('phase', 'gathering') in ['gathering', 'draft', 'playing']
         && data.playerCount in [2, 3, 4] && data.revision is int
+        && bots(data) is map && bots(data).keys().hasOnly(data.members)
+        && bots(data).values().hasOnly(['money', 'engine', 'classic-engine'])
         && data.members is list && data.revision >= data.members.size()
         && data.revision >= 1 && data.members.size() <= data.playerCount;
     }
@@ -15,20 +35,26 @@ service cloud.firestore {
       // Setup metadata contains only public seats. Collection discovery is denied.
       allow get: if signedIn();
       allow create: if signedIn() && validRoom(request.resource.data)
+        && bots(request.resource.data).size() == 0
         && request.resource.data.revision == 1
         && request.resource.data.get('phase', 'gathering') == 'gathering'
         && request.resource.data.owner == request.auth.uid
         && request.resource.data.members == [request.auth.uid]
         && getAfter(event(gameId, 1)).data.actorUid == request.auth.uid;
       allow update: if signedIn() && validRoom(request.resource.data)
+        && botChange(gameId)
         && request.resource.data.owner == resource.data.owner
         && request.resource.data.revision == resource.data.revision + 1
         && (((resource.data.get('phase', 'gathering') == 'gathering'
           && request.resource.data.get('phase', 'gathering') == 'gathering')
           && ((request.resource.data.playerCount == resource.data.playerCount
-            && !(request.auth.uid in resource.data.members)
-            && request.resource.data.members == resource.data.members.concat([request.auth.uid])
+            && !(getAfter(event(gameId, request.resource.data.revision)).data.actorUid in resource.data.members)
+            && request.resource.data.members == resource.data.members.concat([getAfter(event(gameId, request.resource.data.revision)).data.actorUid])
             && getAfter(event(gameId, request.resource.data.revision)).data.type == 'player/joined')
+          || (request.auth.uid == resource.data.owner
+            && request.resource.data.playerCount == resource.data.playerCount
+            && request.resource.data.members == resource.data.members
+            && getAfter(event(gameId, request.resource.data.revision)).data.type == 'player/automated')
           || (request.auth.uid == resource.data.owner
             && request.resource.data.members == resource.data.members
             && request.resource.data.playerCount != resource.data.playerCount
@@ -44,18 +70,21 @@ service cloud.firestore {
             && resource.data.phase == 'draft' && request.resource.data.phase in ['draft', 'playing'])
           || (getAfter(event(gameId, request.resource.data.revision)).data.type in ['action/played', 'choice/resolved', 'choice/browsed', 'phase/advanced', 'treasure/played', 'treasures/played', 'card/bought', 'god/worshipped', 'turn/ended', 'action/undone']
             && resource.data.phase == 'playing' && request.resource.data.phase == 'playing'))))
-        && getAfter(event(gameId, request.resource.data.revision)).data.actorUid == request.auth.uid;
+        && controls(request.resource.data, getAfter(event(gameId, request.resource.data.revision)).data.actorUid);
       match /events/{eventId} {
         allow read: if signedIn() && request.auth.uid in get(room(gameId)).data.members;
         allow create: if signedIn()
-          && request.resource.data.keys().hasOnly(['schemaVersion', 'sequence', 'actorUid', 'type', 'name', 'playerCount', 'createdAt', 'creationToken', 'reducerVersion', 'commandId', 'seed', 'leaderId', 'instanceId', 'choiceId', 'targets', 'cardId', 'targetSequence', 'automatic'])
+          && request.resource.data.keys().hasOnly(['schemaVersion', 'sequence', 'actorUid', 'type', 'name', 'playerCount', 'createdAt', 'creationToken', 'reducerVersion', 'commandId', 'seed', 'leaderId', 'instanceId', 'choiceId', 'targets', 'cardId', 'targetSequence', 'automatic', 'botKind'])
           && (!('creationToken' in request.resource.data) || (request.resource.data.type == 'game/created'
             && request.resource.data.creationToken is string
             && request.resource.data.creationToken.size() > 0 && request.resource.data.creationToken.size() <= 64))
           && (!('automatic' in request.resource.data) || (request.resource.data.type == 'phase/advanced' && request.resource.data.automatic is bool))
           && (!('targetSequence' in request.resource.data) || request.resource.data.type == 'action/undone')
+          && (!('botKind' in request.resource.data) ||
+            (request.resource.data.type in ['player/joined', 'player/automated'] &&
+              (request.resource.data.botKind in ['money', 'engine', 'classic-engine'] || (request.resource.data.type == 'player/automated' && request.resource.data.botKind == null))))
           && request.resource.data.schemaVersion == 1
-          && request.resource.data.actorUid == request.auth.uid
+          && controls(getAfter(room(gameId)).data, request.resource.data.actorUid)
           && request.resource.data.name is string && request.resource.data.name.size() > 0 && request.resource.data.name.size() <= 24
           && request.resource.data.name.matches('.*\\S.*')
           && request.resource.data.createdAt == request.time
@@ -64,8 +93,12 @@ service cloud.firestore {
           && eventId == string(request.resource.data.sequence)
           && ((request.resource.data.type == 'game/created' && !exists(room(gameId)) && request.resource.data.sequence == 1)
             || (request.resource.data.type == 'player/joined' && exists(room(gameId))
-              && !(request.auth.uid in get(room(gameId)).data.members)
-              && getAfter(room(gameId)).data.members == get(room(gameId)).data.members.concat([request.auth.uid]))
+              && !(request.resource.data.actorUid in get(room(gameId)).data.members)
+              && getAfter(room(gameId)).data.members == get(room(gameId)).data.members.concat([request.resource.data.actorUid]))
+            || (request.resource.data.type == 'player/automated' && exists(room(gameId))
+              && request.auth.uid == get(room(gameId)).data.owner
+              && request.resource.data.actorUid == request.auth.uid
+              && request.resource.data.name == get(event(gameId, 1)).data.name)
             || (request.resource.data.type == 'table/resized' && exists(room(gameId))
               && request.auth.uid == get(room(gameId)).data.owner
               && request.resource.data.name == get(event(gameId, 1)).data.name

@@ -1,6 +1,7 @@
 import { collection, doc, getDocFromServer, onSnapshot, orderBy, query, runTransaction, serverTimestamp, type Firestore } from 'firebase/firestore';
 import type { ActionCommand } from '$lib/game/actions';
 import { replaySetup, type SetupEvent, type SetupState } from '$lib/game/setup';
+import {isBotKind, type BotKind} from '$lib/game/bot-kind';
 
 // Committed immutable prefixes avoid downloading the whole match on every move.
 // A transaction still checks the live revision before appending.
@@ -44,7 +45,8 @@ export async function enterRoom(db: Firestore, id: string, uid: string, name: st
     const sequence = (previous?.revision ?? 0) + 1;
     const event: SetupEvent = { schemaVersion: 1, sequence, actorUid: uid, name, playerCount: count,
       type: previous ? 'player/joined' : 'game/created', ...(creationToken ? { creationToken } : {}) };
-    transaction.set(room, { owner: previous?.owner ?? uid, members: [...members, uid], playerCount: count, revision: sequence });
+    transaction.set(room, { owner: previous?.owner ?? uid, members: [...members, uid], playerCount: count, revision: sequence,
+      ...(previous?.bots ? {bots:previous.bots} : {}) });
     transaction.set(doc(room, 'events', String(sequence)), { ...event, createdAt: serverTimestamp() });
   }); } catch (error) {
     if (error instanceof SetupError) throw error;
@@ -115,13 +117,49 @@ export async function resizeRoom(db: Firestore, id: string, uid: string, playerC
 }
 
 export type DraftCommand = { type: 'draft/started'; seed: string } | { type: 'leader/chosen'; leaderId: string };
+
+/** Stable botUid makes an invitation retry idempotent, including a lost acknowledgement. */
+export async function inviteBot(db: Firestore, id: string, ownerUid: string, kind: BotKind, botUid: string) {
+  if (!isBotKind(kind) || !/^bot-[\w-]{1,100}$/.test(botUid)) throw new SetupError('choice', 'Choose a valid bot.');
+  await runTransaction(db, async transaction => {
+    const room=doc(db,'games',id), previous=(await transaction.get(room)).data();
+    if (!previous || previous.owner!==ownerUid) throw new SetupError('owner','Only the host can invite bots.');
+    if (previous.members.includes(botUid)) {
+      if (previous.bots?.[botUid]!==kind) throw new SetupError('choice','That bot invitation has changed.');
+      return;
+    }
+    if (previous.phase && previous.phase!=='gathering') throw new SetupError('started','The game has already begun.');
+    if (previous.members.length>=previous.playerCount) throw new SetupError('full','This table is full.');
+    const sequence=previous.revision+1;
+    const label=kind==='classic-engine'?'Classic Engine':kind==='engine'?'Engine':'Money';
+    const event:SetupEvent={schemaVersion:1,sequence,actorUid:botUid,name:`${label} bot ${previous.members.length+1}`,playerCount:previous.playerCount,type:'player/joined',botKind:kind};
+    transaction.update(room,{members:[...previous.members,botUid],bots:{...previous.bots,[botUid]:kind},revision:sequence});
+    transaction.set(doc(room,'events',String(sequence)),{...event,createdAt:serverTimestamp()});
+  });
+}
+
+export async function automateHost(db:Firestore,id:string,uid:string,kind:BotKind|null) {
+  if (kind!==null&&!isBotKind(kind)) throw new SetupError('choice','Choose a valid bot.');
+  await runTransaction(db,async transaction=>{
+    const room=doc(db,'games',id),previous=(await transaction.get(room)).data();
+    if (!previous || previous.owner!==uid) throw new SetupError('owner','Only the host can change their own seat.');
+    if (previous.phase && previous.phase!=='gathering') throw new SetupError('started','The game has already begun.');
+    if ((previous.bots?.[uid]??null)===kind) return;
+    const first=(await transaction.get(doc(room,'events','1'))).data()!;
+    const bots={...previous.bots}; if(kind)bots[uid]=kind;else delete bots[uid];
+    const sequence=previous.revision+1;
+    transaction.update(room,{bots,revision:sequence});
+    transaction.set(doc(room,'events',String(sequence)),{schemaVersion:1,sequence,actorUid:uid,name:first.name,playerCount:previous.playerCount,type:'player/automated',botKind:kind,createdAt:serverTimestamp()});
+  });
+}
 /** Trusted clients validate and replay; the transaction serializes the shared stream. */
 export type GameCommand = DraftCommand | ActionCommand;
-export async function appendGameCommand(db: Firestore, id: string, uid: string, commandId: string, command: GameCommand, expectedRevision?: number) {
+export async function appendGameCommand(db: Firestore, id: string, uid: string, commandId: string, command: GameCommand, expectedRevision?: number, actorUid = uid) {
   const room = doc(db, 'games', id);
   await runTransaction(db, async transaction => {
     const previous = (await transaction.get(room)).data();
     if (!previous || !previous.members.includes(uid)) throw new SetupError('missing', 'Your seat was not found.');
+    if (actorUid!==uid && (previous.owner!==uid || !isBotKind(previous.bots?.[actorUid]) || !previous.members.includes(actorUid))) throw new SetupError('owner','Only the host can play a bot seat.');
     const cached = historyCache(db).get(id) ?? [];
     const prefix = cached[0]?.actorUid === previous.owner && cached.length <= previous.revision ? cached : [];
     const snapshots = await Promise.all(Array.from({ length: previous.revision - prefix.length }, (_, i) => transaction.get(doc(room, 'events', String(prefix.length + i + 1)))));
@@ -129,15 +167,15 @@ export async function appendGameCommand(db: Firestore, id: string, uid: string, 
     historyCache(db).set(id, events);
     const acknowledged = events.find(event => event.commandId === commandId);
     if (acknowledged) {
-      if (acknowledged.actorUid !== uid || acknowledged.type !== command.type ||
+      if (acknowledged.actorUid !== actorUid || acknowledged.type !== command.type ||
         Object.entries(command).some(([key, value]) => JSON.stringify(acknowledged[key as keyof SetupEvent]) !== JSON.stringify(value))) throw new SetupError('choice', 'That choice has changed.');
       return;
     }
     // Automatic UI progression must not apply to a later turn or phase.
     if (expectedRevision !== undefined && previous.revision !== expectedRevision) return;
     const state = replaySetup(events);
-    const event: SetupEvent = { schemaVersion: 1, reducerVersion: 1, sequence: previous.revision + 1, actorUid: uid,
-      name: state.players.find(player => player.uid === uid)!.name, playerCount: state.playerCount, commandId, ...command };
+    const event: SetupEvent = { schemaVersion: 1, reducerVersion: 1, sequence: previous.revision + 1, actorUid,
+      name: state.players.find(player => player.uid === actorUid)!.name, playerCount: state.playerCount, commandId, ...command };
     let next: SetupState;
     try { next = replaySetup([...events, event]); }
     catch (error) { throw new SetupError('choice', (error as Error).message); }
