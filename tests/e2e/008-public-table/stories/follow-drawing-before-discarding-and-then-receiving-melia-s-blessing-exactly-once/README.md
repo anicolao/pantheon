@@ -65,26 +65,26 @@ Viewpoint: **Ariadne**.
 
 - [x] Ariadne must discard after drawing two cards
 
-## Ariadne reviews the card going to discard
+## The chosen card leaves the hand and enters discard
 
 Viewpoint: **Ariadne**.
 
 <table>
 <tr><th>Desktop · 1440 × 1000</th><th>Phone · 393 × 852</th></tr>
 <tr>
-<td valign="top"><a href="../../screenshots/follow-drawing-before-discarding-and-then-receiving-melia-s-blessing-exactly-once/003-selected-desktop-darwin.png"><img src="../../screenshots/follow-drawing-before-discarding-and-then-receiving-melia-s-blessing-exactly-once/003-selected-desktop-darwin.png" alt="Ariadne reviews the card going to discard — desktop" width="720"></a></td>
-<td valign="top"><a href="../../screenshots/follow-drawing-before-discarding-and-then-receiving-melia-s-blessing-exactly-once/003-selected-phone-darwin.png"><img src="../../screenshots/follow-drawing-before-discarding-and-then-receiving-melia-s-blessing-exactly-once/003-selected-phone-darwin.png" alt="Ariadne reviews the card going to discard — phone" width="240"></a></td>
+<td valign="top"><a href="../../screenshots/follow-drawing-before-discarding-and-then-receiving-melia-s-blessing-exactly-once/003-discarded-desktop-darwin.png"><img src="../../screenshots/follow-drawing-before-discarding-and-then-receiving-melia-s-blessing-exactly-once/003-discarded-desktop-darwin.png" alt="The chosen card leaves the hand and enters discard — desktop" width="720"></a></td>
+<td valign="top"><a href="../../screenshots/follow-drawing-before-discarding-and-then-receiving-melia-s-blessing-exactly-once/003-discarded-phone-darwin.png"><img src="../../screenshots/follow-drawing-before-discarding-and-then-receiving-melia-s-blessing-exactly-once/003-discarded-phone-darwin.png" alt="The chosen card leaves the hand and enters discard — phone" width="240"></a></td>
 </tr>
 </table>
 
 <details>
 <summary>Tabletop · 3840 × 2160 — expand screenshot</summary>
 
-<a href="../../screenshots/follow-drawing-before-discarding-and-then-receiving-melia-s-blessing-exactly-once/003-selected-tabletop-4k-darwin.png"><img src="../../screenshots/follow-drawing-before-discarding-and-then-receiving-melia-s-blessing-exactly-once/003-selected-tabletop-4k-darwin.png" alt="Ariadne reviews the card going to discard — tabletop-4k" width="960"></a>
+<a href="../../screenshots/follow-drawing-before-discarding-and-then-receiving-melia-s-blessing-exactly-once/003-discarded-tabletop-4k-darwin.png"><img src="../../screenshots/follow-drawing-before-discarding-and-then-receiving-melia-s-blessing-exactly-once/003-discarded-tabletop-4k-darwin.png" alt="The chosen card leaves the hand and enters discard — tabletop-4k" width="960"></a>
 
 </details>
 
-- [x] Ariadne reviews the card going to discard
+- [x] The chosen card leaves the hand and enters discard
 
 ## Every public movement arrived in order while hidden cards stayed backs
 

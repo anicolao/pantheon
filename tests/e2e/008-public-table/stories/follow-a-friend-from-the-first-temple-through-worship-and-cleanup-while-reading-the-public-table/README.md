@@ -588,6 +588,69 @@ Viewpoint: **Theseus**.
 
 - [x] Athena’s gift names Supply and Deck as its actual path
 
+## The Chronicle also retains the shared market browsing
+
+Viewpoint: **Theseus**.
+
+<table>
+<tr><th>Desktop · 1440 × 1000</th><th>Phone · 393 × 852</th></tr>
+<tr>
+<td valign="top"><a href="../../screenshots/follow-a-friend-from-the-first-temple-through-worship-and-cleanup-while-reading-the-public-table/028-market-browse-0-desktop-darwin.png"><img src="../../screenshots/follow-a-friend-from-the-first-temple-through-worship-and-cleanup-while-reading-the-public-table/028-market-browse-0-desktop-darwin.png" alt="The Chronicle also retains the shared market browsing — desktop" width="720"></a></td>
+<td valign="top"><a href="../../screenshots/follow-a-friend-from-the-first-temple-through-worship-and-cleanup-while-reading-the-public-table/028-market-browse-0-phone-darwin.png"><img src="../../screenshots/follow-a-friend-from-the-first-temple-through-worship-and-cleanup-while-reading-the-public-table/028-market-browse-0-phone-darwin.png" alt="The Chronicle also retains the shared market browsing — phone" width="240"></a></td>
+</tr>
+</table>
+
+<details>
+<summary>Tabletop · 3840 × 2160 — expand screenshot</summary>
+
+<a href="../../screenshots/follow-a-friend-from-the-first-temple-through-worship-and-cleanup-while-reading-the-public-table/028-market-browse-0-tabletop-4k-darwin.png"><img src="../../screenshots/follow-a-friend-from-the-first-temple-through-worship-and-cleanup-while-reading-the-public-table/028-market-browse-0-tabletop-4k-darwin.png" alt="The Chronicle also retains the shared market browsing — tabletop-4k" width="960"></a>
+
+</details>
+
+- [x] The Chronicle also retains the shared market browsing
+
+## The Chronicle also retains the shared market browsing
+
+Viewpoint: **Theseus**.
+
+<table>
+<tr><th>Desktop · 1440 × 1000</th><th>Phone · 393 × 852</th></tr>
+<tr>
+<td valign="top"><a href="../../screenshots/follow-a-friend-from-the-first-temple-through-worship-and-cleanup-while-reading-the-public-table/029-market-browse-1-desktop-darwin.png"><img src="../../screenshots/follow-a-friend-from-the-first-temple-through-worship-and-cleanup-while-reading-the-public-table/029-market-browse-1-desktop-darwin.png" alt="The Chronicle also retains the shared market browsing — desktop" width="720"></a></td>
+<td valign="top"><a href="../../screenshots/follow-a-friend-from-the-first-temple-through-worship-and-cleanup-while-reading-the-public-table/029-market-browse-1-phone-darwin.png"><img src="../../screenshots/follow-a-friend-from-the-first-temple-through-worship-and-cleanup-while-reading-the-public-table/029-market-browse-1-phone-darwin.png" alt="The Chronicle also retains the shared market browsing — phone" width="240"></a></td>
+</tr>
+</table>
+
+<details>
+<summary>Tabletop · 3840 × 2160 — expand screenshot</summary>
+
+<a href="../../screenshots/follow-a-friend-from-the-first-temple-through-worship-and-cleanup-while-reading-the-public-table/029-market-browse-1-tabletop-4k-darwin.png"><img src="../../screenshots/follow-a-friend-from-the-first-temple-through-worship-and-cleanup-while-reading-the-public-table/029-market-browse-1-tabletop-4k-darwin.png" alt="The Chronicle also retains the shared market browsing — tabletop-4k" width="960"></a>
+
+</details>
+
+- [x] The Chronicle also retains the shared market browsing
+
+## The Chronicle also retains the shared market browsing
+
+Viewpoint: **Theseus**.
+
+<table>
+<tr><th>Desktop · 1440 × 1000</th><th>Phone · 393 × 852</th></tr>
+<tr>
+<td valign="top"><a href="../../screenshots/follow-a-friend-from-the-first-temple-through-worship-and-cleanup-while-reading-the-public-table/030-market-browse-2-desktop-darwin.png"><img src="../../screenshots/follow-a-friend-from-the-first-temple-through-worship-and-cleanup-while-reading-the-public-table/030-market-browse-2-desktop-darwin.png" alt="The Chronicle also retains the shared market browsing — desktop" width="720"></a></td>
+<td valign="top"><a href="../../screenshots/follow-a-friend-from-the-first-temple-through-worship-and-cleanup-while-reading-the-public-table/030-market-browse-2-phone-darwin.png"><img src="../../screenshots/follow-a-friend-from-the-first-temple-through-worship-and-cleanup-while-reading-the-public-table/030-market-browse-2-phone-darwin.png" alt="The Chronicle also retains the shared market browsing — phone" width="240"></a></td>
+</tr>
+</table>
+
+<details>
+<summary>Tabletop · 3840 × 2160 — expand screenshot</summary>
+
+<a href="../../screenshots/follow-a-friend-from-the-first-temple-through-worship-and-cleanup-while-reading-the-public-table/030-market-browse-2-tabletop-4k-darwin.png"><img src="../../screenshots/follow-a-friend-from-the-first-temple-through-worship-and-cleanup-while-reading-the-public-table/030-market-browse-2-tabletop-4k-darwin.png" alt="The Chronicle also retains the shared market browsing — tabletop-4k" width="960"></a>
+
+</details>
+
+- [x] The Chronicle also retains the shared market browsing
+
 ## Worship has its own altar source and exact payment
 
 Viewpoint: **Theseus**.
@@ -595,15 +658,15 @@ Viewpoint: **Theseus**.
 <table>
 <tr><th>Desktop · 1440 × 1000</th><th>Phone · 393 × 852</th></tr>
 <tr>
-<td valign="top"><a href="../../screenshots/follow-a-friend-from-the-first-temple-through-worship-and-cleanup-while-reading-the-public-table/028-payment-desktop-darwin.png"><img src="../../screenshots/follow-a-friend-from-the-first-temple-through-worship-and-cleanup-while-reading-the-public-table/028-payment-desktop-darwin.png" alt="Worship has its own altar source and exact payment — desktop" width="720"></a></td>
-<td valign="top"><a href="../../screenshots/follow-a-friend-from-the-first-temple-through-worship-and-cleanup-while-reading-the-public-table/028-payment-phone-darwin.png"><img src="../../screenshots/follow-a-friend-from-the-first-temple-through-worship-and-cleanup-while-reading-the-public-table/028-payment-phone-darwin.png" alt="Worship has its own altar source and exact payment — phone" width="240"></a></td>
+<td valign="top"><a href="../../screenshots/follow-a-friend-from-the-first-temple-through-worship-and-cleanup-while-reading-the-public-table/031-payment-desktop-darwin.png"><img src="../../screenshots/follow-a-friend-from-the-first-temple-through-worship-and-cleanup-while-reading-the-public-table/031-payment-desktop-darwin.png" alt="Worship has its own altar source and exact payment — desktop" width="720"></a></td>
+<td valign="top"><a href="../../screenshots/follow-a-friend-from-the-first-temple-through-worship-and-cleanup-while-reading-the-public-table/031-payment-phone-darwin.png"><img src="../../screenshots/follow-a-friend-from-the-first-temple-through-worship-and-cleanup-while-reading-the-public-table/031-payment-phone-darwin.png" alt="Worship has its own altar source and exact payment — phone" width="240"></a></td>
 </tr>
 </table>
 
 <details>
 <summary>Tabletop · 3840 × 2160 — expand screenshot</summary>
 
-<a href="../../screenshots/follow-a-friend-from-the-first-temple-through-worship-and-cleanup-while-reading-the-public-table/028-payment-tabletop-4k-darwin.png"><img src="../../screenshots/follow-a-friend-from-the-first-temple-through-worship-and-cleanup-while-reading-the-public-table/028-payment-tabletop-4k-darwin.png" alt="Worship has its own altar source and exact payment — tabletop-4k" width="960"></a>
+<a href="../../screenshots/follow-a-friend-from-the-first-temple-through-worship-and-cleanup-while-reading-the-public-table/031-payment-tabletop-4k-darwin.png"><img src="../../screenshots/follow-a-friend-from-the-first-temple-through-worship-and-cleanup-while-reading-the-public-table/031-payment-tabletop-4k-darwin.png" alt="Worship has its own altar source and exact payment — tabletop-4k" width="960"></a>
 
 </details>
 
@@ -616,15 +679,15 @@ Viewpoint: **Theseus**.
 <table>
 <tr><th>Desktop · 1440 × 1000</th><th>Phone · 393 × 852</th></tr>
 <tr>
-<td valign="top"><a href="../../screenshots/follow-a-friend-from-the-first-temple-through-worship-and-cleanup-while-reading-the-public-table/029-handoff-desktop-darwin.png"><img src="../../screenshots/follow-a-friend-from-the-first-temple-through-worship-and-cleanup-while-reading-the-public-table/029-handoff-desktop-darwin.png" alt="Theseus receives the turn while Ariadne’s new cards stay hidden — desktop" width="720"></a></td>
-<td valign="top"><a href="../../screenshots/follow-a-friend-from-the-first-temple-through-worship-and-cleanup-while-reading-the-public-table/029-handoff-phone-darwin.png"><img src="../../screenshots/follow-a-friend-from-the-first-temple-through-worship-and-cleanup-while-reading-the-public-table/029-handoff-phone-darwin.png" alt="Theseus receives the turn while Ariadne’s new cards stay hidden — phone" width="240"></a></td>
+<td valign="top"><a href="../../screenshots/follow-a-friend-from-the-first-temple-through-worship-and-cleanup-while-reading-the-public-table/032-handoff-desktop-darwin.png"><img src="../../screenshots/follow-a-friend-from-the-first-temple-through-worship-and-cleanup-while-reading-the-public-table/032-handoff-desktop-darwin.png" alt="Theseus receives the turn while Ariadne’s new cards stay hidden — desktop" width="720"></a></td>
+<td valign="top"><a href="../../screenshots/follow-a-friend-from-the-first-temple-through-worship-and-cleanup-while-reading-the-public-table/032-handoff-phone-darwin.png"><img src="../../screenshots/follow-a-friend-from-the-first-temple-through-worship-and-cleanup-while-reading-the-public-table/032-handoff-phone-darwin.png" alt="Theseus receives the turn while Ariadne’s new cards stay hidden — phone" width="240"></a></td>
 </tr>
 </table>
 
 <details>
 <summary>Tabletop · 3840 × 2160 — expand screenshot</summary>
 
-<a href="../../screenshots/follow-a-friend-from-the-first-temple-through-worship-and-cleanup-while-reading-the-public-table/029-handoff-tabletop-4k-darwin.png"><img src="../../screenshots/follow-a-friend-from-the-first-temple-through-worship-and-cleanup-while-reading-the-public-table/029-handoff-tabletop-4k-darwin.png" alt="Theseus receives the turn while Ariadne’s new cards stay hidden — tabletop-4k" width="960"></a>
+<a href="../../screenshots/follow-a-friend-from-the-first-temple-through-worship-and-cleanup-while-reading-the-public-table/032-handoff-tabletop-4k-darwin.png"><img src="../../screenshots/follow-a-friend-from-the-first-temple-through-worship-and-cleanup-while-reading-the-public-table/032-handoff-tabletop-4k-darwin.png" alt="Theseus receives the turn while Ariadne’s new cards stay hidden — tabletop-4k" width="960"></a>
 
 </details>
 
@@ -637,15 +700,15 @@ Viewpoint: **Theseus**.
 <table>
 <tr><th>Desktop · 1440 × 1000</th><th>Phone · 393 × 852</th></tr>
 <tr>
-<td valign="top"><a href="../../screenshots/follow-a-friend-from-the-first-temple-through-worship-and-cleanup-while-reading-the-public-table/030-cleanup-desktop-darwin.png"><img src="../../screenshots/follow-a-friend-from-the-first-temple-through-worship-and-cleanup-while-reading-the-public-table/030-cleanup-desktop-darwin.png" alt="Cleanup and hidden draws persist as backs in the Chronicle — desktop" width="720"></a></td>
-<td valign="top"><a href="../../screenshots/follow-a-friend-from-the-first-temple-through-worship-and-cleanup-while-reading-the-public-table/030-cleanup-phone-darwin.png"><img src="../../screenshots/follow-a-friend-from-the-first-temple-through-worship-and-cleanup-while-reading-the-public-table/030-cleanup-phone-darwin.png" alt="Cleanup and hidden draws persist as backs in the Chronicle — phone" width="240"></a></td>
+<td valign="top"><a href="../../screenshots/follow-a-friend-from-the-first-temple-through-worship-and-cleanup-while-reading-the-public-table/033-cleanup-desktop-darwin.png"><img src="../../screenshots/follow-a-friend-from-the-first-temple-through-worship-and-cleanup-while-reading-the-public-table/033-cleanup-desktop-darwin.png" alt="Cleanup and hidden draws persist as backs in the Chronicle — desktop" width="720"></a></td>
+<td valign="top"><a href="../../screenshots/follow-a-friend-from-the-first-temple-through-worship-and-cleanup-while-reading-the-public-table/033-cleanup-phone-darwin.png"><img src="../../screenshots/follow-a-friend-from-the-first-temple-through-worship-and-cleanup-while-reading-the-public-table/033-cleanup-phone-darwin.png" alt="Cleanup and hidden draws persist as backs in the Chronicle — phone" width="240"></a></td>
 </tr>
 </table>
 
 <details>
 <summary>Tabletop · 3840 × 2160 — expand screenshot</summary>
 
-<a href="../../screenshots/follow-a-friend-from-the-first-temple-through-worship-and-cleanup-while-reading-the-public-table/030-cleanup-tabletop-4k-darwin.png"><img src="../../screenshots/follow-a-friend-from-the-first-temple-through-worship-and-cleanup-while-reading-the-public-table/030-cleanup-tabletop-4k-darwin.png" alt="Cleanup and hidden draws persist as backs in the Chronicle — tabletop-4k" width="960"></a>
+<a href="../../screenshots/follow-a-friend-from-the-first-temple-through-worship-and-cleanup-while-reading-the-public-table/033-cleanup-tabletop-4k-darwin.png"><img src="../../screenshots/follow-a-friend-from-the-first-temple-through-worship-and-cleanup-while-reading-the-public-table/033-cleanup-tabletop-4k-darwin.png" alt="Cleanup and hidden draws persist as backs in the Chronicle — tabletop-4k" width="960"></a>
 
 </details>
 
@@ -658,15 +721,15 @@ Viewpoint: **Theseus**.
 <table>
 <tr><th>Desktop · 1440 × 1000</th><th>Phone · 393 × 852</th></tr>
 <tr>
-<td valign="top"><a href="../../screenshots/follow-a-friend-from-the-first-temple-through-worship-and-cleanup-while-reading-the-public-table/031-first-move-desktop-darwin.png"><img src="../../screenshots/follow-a-friend-from-the-first-temple-through-worship-and-cleanup-while-reading-the-public-table/031-first-move-desktop-darwin.png" alt="The beginning of the table is retained alongside gameplay — desktop" width="720"></a></td>
-<td valign="top"><a href="../../screenshots/follow-a-friend-from-the-first-temple-through-worship-and-cleanup-while-reading-the-public-table/031-first-move-phone-darwin.png"><img src="../../screenshots/follow-a-friend-from-the-first-temple-through-worship-and-cleanup-while-reading-the-public-table/031-first-move-phone-darwin.png" alt="The beginning of the table is retained alongside gameplay — phone" width="240"></a></td>
+<td valign="top"><a href="../../screenshots/follow-a-friend-from-the-first-temple-through-worship-and-cleanup-while-reading-the-public-table/034-first-move-desktop-darwin.png"><img src="../../screenshots/follow-a-friend-from-the-first-temple-through-worship-and-cleanup-while-reading-the-public-table/034-first-move-desktop-darwin.png" alt="The beginning of the table is retained alongside gameplay — desktop" width="720"></a></td>
+<td valign="top"><a href="../../screenshots/follow-a-friend-from-the-first-temple-through-worship-and-cleanup-while-reading-the-public-table/034-first-move-phone-darwin.png"><img src="../../screenshots/follow-a-friend-from-the-first-temple-through-worship-and-cleanup-while-reading-the-public-table/034-first-move-phone-darwin.png" alt="The beginning of the table is retained alongside gameplay — phone" width="240"></a></td>
 </tr>
 </table>
 
 <details>
 <summary>Tabletop · 3840 × 2160 — expand screenshot</summary>
 
-<a href="../../screenshots/follow-a-friend-from-the-first-temple-through-worship-and-cleanup-while-reading-the-public-table/031-first-move-tabletop-4k-darwin.png"><img src="../../screenshots/follow-a-friend-from-the-first-temple-through-worship-and-cleanup-while-reading-the-public-table/031-first-move-tabletop-4k-darwin.png" alt="The beginning of the table is retained alongside gameplay — tabletop-4k" width="960"></a>
+<a href="../../screenshots/follow-a-friend-from-the-first-temple-through-worship-and-cleanup-while-reading-the-public-table/034-first-move-tabletop-4k-darwin.png"><img src="../../screenshots/follow-a-friend-from-the-first-temple-through-worship-and-cleanup-while-reading-the-public-table/034-first-move-tabletop-4k-darwin.png" alt="The beginning of the table is retained alongside gameplay — tabletop-4k" width="960"></a>
 
 </details>
 
@@ -679,15 +742,15 @@ Viewpoint: **Theseus**.
 <table>
 <tr><th>Desktop · 1440 × 1000</th><th>Phone · 393 × 852</th></tr>
 <tr>
-<td valign="top"><a href="../../screenshots/follow-a-friend-from-the-first-temple-through-worship-and-cleanup-while-reading-the-public-table/032-empty-trash-desktop-darwin.png"><img src="../../screenshots/follow-a-friend-from-the-first-temple-through-worship-and-cleanup-while-reading-the-public-table/032-empty-trash-desktop-darwin.png" alt="The shared trash is empty and never shows a private deck list — desktop" width="720"></a></td>
-<td valign="top"><a href="../../screenshots/follow-a-friend-from-the-first-temple-through-worship-and-cleanup-while-reading-the-public-table/032-empty-trash-phone-darwin.png"><img src="../../screenshots/follow-a-friend-from-the-first-temple-through-worship-and-cleanup-while-reading-the-public-table/032-empty-trash-phone-darwin.png" alt="The shared trash is empty and never shows a private deck list — phone" width="240"></a></td>
+<td valign="top"><a href="../../screenshots/follow-a-friend-from-the-first-temple-through-worship-and-cleanup-while-reading-the-public-table/035-empty-trash-desktop-darwin.png"><img src="../../screenshots/follow-a-friend-from-the-first-temple-through-worship-and-cleanup-while-reading-the-public-table/035-empty-trash-desktop-darwin.png" alt="The shared trash is empty and never shows a private deck list — desktop" width="720"></a></td>
+<td valign="top"><a href="../../screenshots/follow-a-friend-from-the-first-temple-through-worship-and-cleanup-while-reading-the-public-table/035-empty-trash-phone-darwin.png"><img src="../../screenshots/follow-a-friend-from-the-first-temple-through-worship-and-cleanup-while-reading-the-public-table/035-empty-trash-phone-darwin.png" alt="The shared trash is empty and never shows a private deck list — phone" width="240"></a></td>
 </tr>
 </table>
 
 <details>
 <summary>Tabletop · 3840 × 2160 — expand screenshot</summary>
 
-<a href="../../screenshots/follow-a-friend-from-the-first-temple-through-worship-and-cleanup-while-reading-the-public-table/032-empty-trash-tabletop-4k-darwin.png"><img src="../../screenshots/follow-a-friend-from-the-first-temple-through-worship-and-cleanup-while-reading-the-public-table/032-empty-trash-tabletop-4k-darwin.png" alt="The shared trash is empty and never shows a private deck list — tabletop-4k" width="960"></a>
+<a href="../../screenshots/follow-a-friend-from-the-first-temple-through-worship-and-cleanup-while-reading-the-public-table/035-empty-trash-tabletop-4k-darwin.png"><img src="../../screenshots/follow-a-friend-from-the-first-temple-through-worship-and-cleanup-while-reading-the-public-table/035-empty-trash-tabletop-4k-darwin.png" alt="The shared trash is empty and never shows a private deck list — tabletop-4k" width="960"></a>
 
 </details>
 
