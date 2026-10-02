@@ -1,3 +1,4 @@
+import {setMotionPreference} from '../helpers/motion-preference';
 import {createHash} from 'node:crypto';
 import {test,expect} from '../helpers/fixtures';
 import {TestStepHelper} from '../helpers/test-step-helper';
@@ -12,7 +13,7 @@ for(const scenario of [{count:2 as const,goal:'acropolis' as const,last:false},{
   const context=await newPlayerContext(browser,{viewport:info.project.use.viewport,baseURL:info.project.use.baseURL}),other=await context.newPage();
   try{
     const fixture=await finalTurn(page,info,{...scenario,other}),steps=new TestStepHelper(page,info,'Finish the empire');
-    if(scenario.goal==='acropolis'){await page.emulateMedia({reducedMotion:'no-preference'});await other.emulateMedia({reducedMotion:'no-preference'});}
+    if(scenario.goal==='acropolis'){await setMotionPreference(page,'no-preference');await setMotionPreference(other,'no-preference');}
     await steps.step('last-turn','The empty pile waits for the current turn to finish',[{spec:'Buys are spent, the table is still playable, and results are not shown early.',check:async()=>{await expect(page.locator('.resources [data-resource=buys]')).toHaveAttribute('data-value','0');await expect(page.locator('.victory-scene')).toHaveCount(0);await expect(page.getByRole('button',{name:'End turn',exact:true})).toBeEnabled();}}]);
     await page.getByRole('button',{name:'End turn',exact:true}).click();
     await expect.poll(async()=>await page.locator('.victory-scene').count()>0||await page.getByRole('button',{name:'Keep playing',exact:true}).isVisible()).toBe(true);

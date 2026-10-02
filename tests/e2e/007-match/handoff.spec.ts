@@ -1,3 +1,4 @@
+import {setMotionPreference} from '../helpers/motion-preference';
 import {openPlayers,closePlayers} from '../helpers/table-controls';
 import {enterTreasures,browseSupply} from '../helpers/supply-controls';
 import {test,expect} from '../helpers/fixtures';
@@ -44,7 +45,7 @@ test('keep playing a Temple, spend the last Buy, and hand the turn to a friend e
     await capture('last-buy','Spending the last Buy does not end the turn',page,'Ariadne',async()=>expect(page.locator('.resources [data-resource=buys]')).toHaveAttribute('data-value','0'));
     await expect(page.locator('.supply-coverflow')).toBeVisible();
     await capture('finish','Ariadne chooses when to finish her turn',page,'Ariadne',async()=>{await expect(page.locator('.turn-marker')).toContainText('Buys');await expect(page.getByRole('button',{name:'End turn',exact:true})).toBeEnabled();});
-    await page.emulateMedia({reducedMotion:'no-preference'});await other.emulateMedia({reducedMotion:'no-preference'});
+    await setMotionPreference(page,'no-preference');await setMotionPreference(other,'no-preference');
     let dropped=false;await page.context().route(url=>url.pathname.endsWith('/documents:commit'),async route=>{if(dropped){await route.continue();return;}const response=await route.fetch({timeout:2000});expect(response.ok()).toBe(true);dropped=true;await route.abort('connectionreset');});
     await openPlayers(other);await other.bringToFront();
     await page.getByRole('button',{name:'End turn',exact:true}).click();

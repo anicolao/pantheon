@@ -1,3 +1,4 @@
+import {setMotionPreference} from '../helpers/motion-preference';
 import { newPlayerContext } from '../helpers/players';
 import { test, expect } from '../helpers/fixtures';
 import { actionTable, playCard, readEvents } from '../helpers/action-history';
@@ -103,7 +104,7 @@ test('every simple Action and Temple uses real authenticated commands',async({br
     try { const fixture=await actionTable(page,info,id,leader);
     let lostAcknowledgement=false;
     if(id==='oracles-acolyte'){
-      await page.emulateMedia({reducedMotion:'no-preference'});
+      await setMotionPreference(page,'no-preference');
       await page.evaluate(()=>{const animate=Element.prototype.animate;(window as unknown as {draws:string[]}).draws=[];Element.prototype.animate=function(frames,options){if(this.matches('.public-flight[data-motion-kind="draw"]'))(window as unknown as {draws:string[]}).draws.push(this.getAttribute('data-motion-step')!);return animate.call(this,frames,options);};});
       await context.route(url=>url.pathname.endsWith('/documents:commit'),async route=>{if(lostAcknowledgement){await route.continue();return;}const response=await route.fetch({timeout:2_000});expect(response.ok()).toBe(true);lostAcknowledgement=true;await route.abort('connectionreset');});
     }

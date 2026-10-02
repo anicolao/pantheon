@@ -1,3 +1,4 @@
+import {setMotionPreference} from '../helpers/motion-preference';
 import {openWorship,openWorshipDrawer,browseChoice} from '../helpers/table-controls';
 import {enterTreasures,browseSupply} from '../helpers/supply-controls';
 import {createHash} from 'node:crypto';
@@ -57,8 +58,8 @@ test('Poseidon can be worshipped in Actions and again after a purchase without s
     await playCard(page,'temple-of-poseidon');await step(steps,'temple','Nereon’s Temple adds Worship and a Coin',async()=>expect(page.locator('.resources [data-resource=coins]')).toHaveAttribute('data-value','1'));
     await playCard(page,'sea-trade');await step(steps,'sea-trade','Sea Trade provides the third Coin before leaving Actions',async()=>expect(page.locator('.resources [data-resource=coins]')).toHaveAttribute('data-value','3'));
     await openWorship(page,'Tribute of the Tides');await step(steps,'favored','Poseidon’s two contributing Actions unlock his Favored effect',async()=>{await expect(page.locator('.card-controls').getByText('Favored · 2 Devotion',{exact:true})).toBeVisible();await expect(page.locator('.worship-overlay [data-favored-playable]')).toHaveAttribute('data-favored-playable','true');});
-    await page.emulateMedia({reducedMotion:'no-preference'});
-    await openWorshipDrawer(other);await other.emulateMedia({reducedMotion:'no-preference'});
+    await setMotionPreference(page,'no-preference');
+    await openWorshipDrawer(other);await setMotionPreference(other,'no-preference');
     await other.evaluate(()=>{const animate=Element.prototype.animate;(window as unknown as {altarFlashes:number}).altarFlashes=0;Element.prototype.animate=function(frames,options){if(this.matches('[data-god-event="tribute-of-the-tides"]'))(window as unknown as {altarFlashes:number}).altarFlashes++;return animate.call(this,frames,options);};});
     await page.evaluate(()=>{const animate=Element.prototype.animate;(window as unknown as {worshipFlashes:number}).worshipFlashes=0;Element.prototype.animate=function(frames,options){if(this.matches('.worship-overlay'))(window as unknown as {worshipFlashes:number}).worshipFlashes++;return animate.call(this,frames,options);};});
     await page.getByRole('button',{name:'Worship Poseidon',exact:true}).click();await expect(page.locator('.worship-overlay')).toHaveCount(0);await expect.poll(()=>page.evaluate(()=>(window as unknown as {worshipFlashes:number}).worshipFlashes)).toBe(1);await step(steps,'first-worship','A Drachma goes onto the deck and an extra Buy is granted',async()=>{await expect(page.locator('.resources [data-resource=buys]')).toHaveAttribute('data-value','3');await expect(page.locator('.resources [data-resource=coins]')).toHaveAttribute('data-value','0');await expect(page.locator('[data-god-event="tribute-of-the-tides"] [data-favored-playable]')).toHaveAttribute('data-favored-playable','false');});

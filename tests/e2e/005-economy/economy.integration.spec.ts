@@ -1,3 +1,4 @@
+import {setMotionPreference} from '../helpers/motion-preference';
 import {browseSupply,inspectSupply,enterTreasures} from '../helpers/supply-controls';
 import {test,expect} from '../helpers/fixtures';
 import type {Page} from '@playwright/test';
@@ -44,7 +45,7 @@ test('a lost purchase acknowledgement does not duplicate the card or its animati
   await expect(page.locator('.supply-coverflow')).toBeVisible();await browseSupply(page,'Obol');
   const before=replaySetup(await readEvents(fixture.code)),steps=new TestStepHelper(page,info,'Recover a purchase');
   await steps.step('before-purchase','Choose a supply card',[{spec:'Obol can be bought with one remaining Buy.',check:async()=>expect(page.getByRole('button',{name:'Buy Obol',exact:true})).toBeEnabled()}]);
-  await page.emulateMedia({reducedMotion:'no-preference'});
+  await setMotionPreference(page,'no-preference');
   await page.evaluate(()=>{const animate=Element.prototype.animate;(window as unknown as {gains:number[]}).gains=[];Element.prototype.animate=function(frames,options){if(this.matches('.public-flight[data-motion-kind="gain"]'))(window as unknown as {gains:number[]}).gains.push(typeof options==='number'?options:Number(options?.duration??0));return animate.call(this,frames,options);};});
   let dropped=false;
   await page.context().route(url=>url.pathname.endsWith('/documents:commit'),async route=>{if(dropped){await route.continue();return;}const response=await route.fetch({timeout:2000});expect(response.ok()).toBe(true);dropped=true;await route.abort('connectionreset');});

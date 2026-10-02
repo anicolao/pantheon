@@ -1,3 +1,4 @@
+import {setMotionPreference} from '../helpers/motion-preference';
 import {openWorship,openPlayers,closePlayers} from '../helpers/table-controls';
 import {browseSupply,enterTreasures} from '../helpers/supply-controls';
 import {test,expect} from '../helpers/fixtures';
@@ -9,7 +10,7 @@ import {definition,canPlayAction} from '../../../src/lib/game/actions';
 import type {Page} from '@playwright/test';
 
 async function observe(page:Page){
-  await page.emulateMedia({reducedMotion:'no-preference'});
+  await setMotionPreference(page,'no-preference');
   await page.evaluate(()=>{
     const animate=Element.prototype.animate;
     const recorded=new WeakSet<Element>();
@@ -120,7 +121,7 @@ test('follow Worship and a purchase once while reconnecting without an animation
     state=replaySetup(await readEvents(fixture.code));const bought=state.publicActivity.at(-1)!;
     await expectFlights(other,[...expected,...bought.steps.map(step=>step.id)]);await expect(other.locator('.public-flight')).toHaveCount(0);
     await capture('live-again','The next live purchase lands beside played cards',async()=>expect(other.getByRole('button',{name:'Inspect purchased Obol',exact:true})).toBeVisible(),true);
-    await other.emulateMedia({reducedMotion:'reduce'});const before=await flights(other);
+    await setMotionPreference(other,'reduce');const before=await flights(other);
     await page.getByRole('button',{name:'Buy Obol',exact:true}).click();await expect(other.locator('.log-entries')).toContainText('gained Obol');
     await expect(page.locator('.resources [data-resource=buys]')).toHaveAttribute('data-value','0');await expect(other.locator('.resources [data-resource=buys]')).toHaveAttribute('data-value','0');
     await openPlayers(other);await other.getByRole('button',{name:'Chronicle',exact:true}).click();

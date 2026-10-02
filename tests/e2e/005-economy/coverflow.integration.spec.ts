@@ -1,3 +1,4 @@
+import {setMotionPreference} from '../helpers/motion-preference';
 import {test,expect} from '../helpers/fixtures';
 import {actionTable,playCard,readEvents} from '../helpers/action-history';
 import {TestStepHelper} from '../helpers/test-step-helper';
@@ -65,13 +66,13 @@ test('finish choices before automatically entering Treasures and browse every su
   const piles=setupSupply(state.playerCount).sort((a,b)=>(definition(a.id).cost??0)-(definition(b.id).cost??0)||a.id.localeCompare(b.id));
   const best=piles.findLast(pile=>!purchaseReason(state,fixture.host,pile.id))!;
   await steps.step('affordable','The most expensive affordable card moves to the center',[{spec:'The supply responds to played Treasures on the table.',check:async()=>{await expect(page.locator('.buy-card[data-centered=true]')).toHaveAttribute('aria-label',`Buy ${definition(best.id).name}`);await expect(page.locator('.supply-face [data-card-id]')).toHaveCount(piles.length);}}]);
-  await page.emulateMedia({reducedMotion:'no-preference'});
+  await setMotionPreference(page,'no-preference');
   const faces=await page.locator('.supply-face').elementHandles();
   await page.locator('.buy-card[data-centered=true]').press('ArrowRight');
   await expect(page.locator('.supply-coverflow')).toHaveAttribute('aria-busy','true');
   await expect(page.locator('.supply-coverflow')).toHaveAttribute('aria-busy','false');
   for(const face of faces)expect(await face.evaluate(node=>node.isConnected)).toBe(true);
-  await page.emulateMedia({reducedMotion:'reduce'});
+  await setMotionPreference(page,'reduce');
   const seen=new Set<string>();
   await page.locator('.buy-card[data-centered=true]').press('Home');
   for(let index=0;index<piles.length;index++){
