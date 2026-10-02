@@ -3,8 +3,8 @@ import {openingBooks,currentOpeningBooks,type OpeningBook} from './opening-books
 import {command as currentCommand,type StandardView,type StandardMemory} from '../../../standard-matrix/policy';
 import {strategyCommand as historicalCommand} from '../../../historical-thaleia/source/scripts/balance/strategy';
 import profiles from '../../../historical-thaleia/profiles.json';
-export type BotKind='money'|'engine'|'classic-engine';
-export const botLabels:Record<BotKind,string>={money:'Money',engine:'Engine (current)', 'classic-engine':'Engine (historical v4)'};
+import type {BotKind} from '../game/bot-kind';
+export {botLabels,type BotKind} from '../game/bot-kind';
 export type BotMemory=StandardMemory & {openingOverride?:OpeningBook|null;openingLog?:{turn:number;key:string;card:string|null}[]};
 export function decide(view:StandardView,memory:BotMemory,kind:BotKind){
  if(kind==='classic-engine'){

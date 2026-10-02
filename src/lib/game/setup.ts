@@ -1,4 +1,5 @@
 import { UndoHistory, type UndoTarget } from './undo';
+import {isBotKind, type BotKind} from './bot-kind';
 import { cards } from './cards';
 import { createPrng, shuffle } from './random';
 import { initialTurn, type ActionCommand, type Movement, type TurnState } from './actions';
@@ -8,7 +9,8 @@ export type SetupEvent = {
   creationToken?: string;
   sequence: number;
   actorUid: string;
-  type: 'game/created' | 'player/joined' | 'table/resized' | 'draft/started' | 'leader/chosen' | ActionCommand['type'];
+  type: 'game/created' | 'player/joined' | 'player/automated' | 'table/resized' | 'draft/started' | 'leader/chosen' | ActionCommand['type'];
+  botKind?: BotKind | null;
   instanceId?: string;
   targetSequence?: number;
   automatic?: boolean;
@@ -48,7 +50,7 @@ export type SetupState = {
   resources: { actions: number; buys: number; worship: number; coins: number };
 
   playerCount: 2 | 3 | 4;
-  players: { uid: string; name: string }[];
+  players: { uid: string; name: string; botKind?: BotKind }[];
   activity: { sequence: number; message: string }[];
 };
 /** Replay only committed events. No clock, random source, or mutable projection. */
@@ -105,6 +107,14 @@ export function replaySetup(events: SetupEvent[]): SetupState {
       continue;
     }
     if (state.phase !== 'gathering') throw new Error('The gathering has already begun.');
+    if (event.type === 'player/automated') {
+      const host = state.players[0];
+      if (!host || event.actorUid !== host.uid || event.name !== host.name || event.playerCount !== state.playerCount ||
+        (event.botKind !== null && !isBotKind(event.botKind))) throw new Error('Only the host can automate their own seat before drafting.');
+      if (event.botKind === null) delete host.botKind; else host.botKind = event.botKind;
+      state.activity.push({sequence:event.sequence,message:`${host.name} ${event.botKind ? 'handed their seat to a bot' : 'will play their own seat'}.`});
+      continue;
+    }
     if (event.type === 'table/resized') {
       if (event.actorUid !== state.players[0]?.uid || event.name !== state.players[0]?.name ||
         event.playerCount < state.players.length || event.playerCount === state.playerCount) throw new Error('Invalid table resize event.');
@@ -119,7 +129,8 @@ export function replaySetup(events: SetupEvent[]): SetupState {
     } else if (event.type !== 'player/joined' || event.playerCount !== state.playerCount || state.players.length >= state.playerCount) {
       throw new Error('Invalid player join event.');
     }
-    state.players.push({ uid: event.actorUid, name: event.name });
+    if (event.botKind !== undefined && (event.type !== 'player/joined' || !isBotKind(event.botKind))) throw new Error('Invalid bot seat.');
+    state.players.push({ uid: event.actorUid, name: event.name, ...(event.botKind ? {botKind:event.botKind} : {}) });
     state.activity.push({ sequence: event.sequence, message: `${event.name} ${event.type === 'game/created' ? 'created the table' : 'joined the table'}.` });
   }
   return state;

@@ -8,8 +8,11 @@
   import { afterNavigate, goto } from '$app/navigation';
   import { connectFirebase } from '$lib/backend/firebase';
   import { rememberTable } from '$lib/navigation/return-table';
-  import { appendGameCommand, type GameCommand, createRoom, type CreationAttempt, resizeRoom, enterRoom, inspectRoom, SetupError, watchSetup } from '$lib/backend/setup-repository';
-  import { setupSupply, type SetupState } from '$lib/game/setup';
+  import { appendGameCommand, type GameCommand, createRoom, type CreationAttempt, resizeRoom, enterRoom, inspectRoom, SetupError, watchSetup, inviteBot, automateHost } from '$lib/backend/setup-repository';
+  import { setupSupply, type SetupState, type SetupEvent } from '$lib/game/setup';
+  import {activePlayer} from '$lib/game/actions';
+  import {botLabels,type BotKind} from '$lib/game/bot-kind';
+  import type {BotProposal} from '$lib/bots/table';
   import GatheringSeat from '$lib/components/GatheringSeat.svelte';
   import GameButton from '$lib/components/GameButton.svelte';
   import SanctuaryLink from '$lib/components/SanctuaryLink.svelte';
@@ -48,6 +51,50 @@
   let opener: HTMLElement | null = null;
   let stop: (() => void) | undefined;
   let alive = true;
+  let botKind=$state<BotKind>('engine');
+  let botError=$state('');
+  let hostSeat=$state('human');
+  let botInvitation:{uid:string;kind:BotKind}|undefined;
+  let botWorker:Worker|undefined,botRequest=0,botRevision=-1;
+  let committedEvents:readonly SetupEvent[]=[];
+  $effect(()=>{hostSeat=setup?.players[0]?.botKind??'human';});
+  function stopBots(){botWorker?.terminate();botWorker=undefined;botRequest++;botRevision=-1;committedEvents=[];botError='';}
+  function driveBots(events:readonly SetupEvent[]){
+    committedEvents=events;
+    if(!services||!setup||setup.players[0]?.uid!==services.uid||status!=='synced'||setup.phase==='gathering'||setup.turn.phase==='finished'||botError)return;
+    const actor=setup.phase==='draft'?setup.draftOrder[Object.keys(setup.leaders).length]:activePlayer(setup);
+    if(!setup.players.find(p=>p.uid===actor)?.botKind||botRevision===events.length)return;
+    if(!botWorker){
+      botWorker=new Worker(new URL('../../lib/bots/table-worker.ts',import.meta.url),{type:'module'});
+      botWorker.onmessage=async(event:MessageEvent<{id:number;proposal?:BotProposal;error?:string}>)=>{
+        if(!alive||event.data.id!==botRequest)return;
+        if(event.data.error){botError=event.data.error;return;}
+        const p=event.data.proposal,table=roomId,connection=services;
+        if(!p||!connection||status!=='synced'){botRevision=-1;return;}
+        if(setup?.activity.length!==p.revision){driveBots(committedEvents);return;}
+        try{await appendGameCommand(connection.db,table,connection.uid,p.commandId,p.command,p.revision,p.actorUid);}
+        catch{if(alive&&roomId===table){botError='The bot could not save its move. Retry to continue.';botRevision=-1;}}
+      };
+      botWorker.onerror=()=>{botError='The bot stopped. Retry to continue.';botRevision=-1;};
+    }
+    botRevision=events.length;
+    botWorker.postMessage({id:++botRequest,events:[...events],hostUid:services.uid});
+  }
+  function retryBot(){const events=committedEvents;stopBots();driveBots(events);}
+  async function addBot(){
+    if(!services||!setup||busy||!openSeats)return;
+    busy=true;capacityError='';
+    if(!botInvitation||botInvitation.kind!==botKind)botInvitation={uid:'bot-'+crypto.randomUUID(),kind:botKind};
+    try{await inviteBot(services.db,roomId,services.uid,botInvitation.kind,botInvitation.uid);botInvitation=undefined;}
+    catch(cause){capacityError=cause instanceof SetupError?cause.message:'The bot could not join. Try again.';}
+    finally{busy=false;}
+  }
+  async function changeHostSeat(value:string){
+    if(!services||busy)return;busy=true;capacityError='';
+    try{await automateHost(services.db,roomId,services.uid,value==='human'?null:value as BotKind);}
+    catch(cause){capacityError=cause instanceof SetupError?cause.message:'Your seat could not be changed.';hostSeat=setup?.players[0]?.botKind??'human';}
+    finally{busy=false;}
+  }
   const latest = $derived(setup?.activity.at(-1));
   const count = $derived(setup?.playerCount ?? playerCount);
   $effect(() => { if (!busy) capacityChoice = count; });
@@ -80,6 +127,7 @@
         busy = false;
       }
       if (synced && next.players.some(player => player.uid === services!.uid)) rememberTable(roomId, services!.uid);
+      if(synced)driveBots(events);
     }, fail);
   }
   async function connect() {
@@ -119,6 +167,7 @@
   }
   async function sendCommand(command: GameCommand, expectedRevision?: number) {
     if (!services || !setup || busy || status !== 'synced') return;
+    if(command.type!=='draft/started'&&setup.players.find(p=>p.uid===services!.uid)?.botKind)return;
     busy = true; playError = '';
     if (!pendingCommand || pendingCommand.expectedRevision !== expectedRevision || JSON.stringify(pendingCommand.command) !== JSON.stringify(command)) pendingCommand = { id: expectedRevision === undefined ? `${crypto.randomUUID()}:${setup.activity.length + 1}` : `auto-treasures:${services.uid}:${expectedRevision}`, command, expectedRevision };
     const attempt = pendingCommand;
@@ -180,7 +229,7 @@
   }
   afterNavigate(({ from, to }) => {
     if (from && to && from.url.pathname === to.url.pathname && from.url.search !== to.url.search) {
-      stop?.(); setup = null; unavailable = ''; pendingCommand = undefined; draftSeed = ''; playError = ''; nameError = ''; creationAttempt = undefined; joinCode = ''; codeError = ''; capacityError = ''; playerCount = 2; reservedSeats = 0;
+      stop?.(); stopBots(); setup = null; unavailable = ''; pendingCommand = undefined; draftSeed = ''; playError = ''; nameError = ''; creationAttempt = undefined; joinCode = ''; codeError = ''; capacityError = ''; playerCount = 2; reservedSeats = 0;botInvitation=undefined;
       roomId = to.url.searchParams.get('room') ?? '';
       void connect();
     }
@@ -188,20 +237,21 @@
   onMount(() => {
     const motion = matchMedia('(prefers-reduced-motion: reduce)');
     const updateMotion = () => { reducedMotion = motion.matches; };
-    const offline = () => { if (!unavailable) status = 'disconnected'; };
+    const offline = () => { stopBots(); if (!unavailable) status = 'disconnected'; };
     const online = () => { if (!unavailable && !busy) void connect(); };
     updateMotion(); motion.addEventListener('change', updateMotion);
     window.addEventListener('offline', offline); window.addEventListener('online', online);
     roomId = new URL(location.href).searchParams.get('room') ?? '';
     name = localStorage.getItem('pantheon:name') ?? '';
     void connect();
-    return () => { alive = false; stop?.(); motion.removeEventListener('change', updateMotion); window.removeEventListener('offline', offline); window.removeEventListener('online', online); };
+    return () => { alive = false; stop?.(); stopBots(); motion.removeEventListener('change', updateMotion); window.removeEventListener('offline', offline); window.removeEventListener('online', online); };
   });
 </script>
 
 <svelte:head><title>Gather at the Table — Pantheon: Bloodlines</title><link rel="preload" as="image" href={`${base}/assets/ui/sanctuary-button-secondary.png`} /></svelte:head>
 {#if setup && setup.phase !== 'gathering' && services}
   <GameSession game={setup} uid={services.uid} {roomId} {status} {busy} error={playError} command={sendCommand} retry={connect} again={playAgain} />
+  {#if botError}<div class="bot-error" role="alert">{botError}<button onclick={retryBot}>Retry bot</button></div>{/if}
 {:else}
 <main class="gathering" class:unavailable data-status={status}>
   <picture class="environment" aria-hidden="true">
@@ -285,12 +335,21 @@
       <GameButton type="submit" primary>Find table</GameButton>
     </form>
   {:else if modal === 'invite'}
-    <h2 id="dialog-title">Invite friends</h2><img class="dialog-seal" src={`${base}/assets/ui/gather-invite.webp`} alt="" />
+    <h2 id="dialog-title">Invite friends</h2>{#if !manualInvitation}<img class="dialog-seal" src={`${base}/assets/ui/gather-invite.webp`} alt="" />{/if}
     {#if /^[A-Z]{4,5}$/.test(roomId)}<p class="room-code">Game code <strong>{roomId}</strong></p>{/if}
     <p>Share your invitation. A seat awaits.</p>
     <GameButton primary onclick={copyInvitation}>{copied ? 'Invitation copied' : 'Copy invitation'}</GameButton>
     <p role="status">{copied ? 'Send it to the players you want at your table.' : manualInvitation ? 'Select and copy your invitation below.' : ''}</p>
     {#if manualInvitation}<label class="manual">Your invitation<input bind:this={invitationInput} readonly value={invitation} onclick={() => invitationInput?.select()} /></label>{/if}
+    {#if setup?.players[0]?.uid===services?.uid}
+      <section class="bot-invitation">
+        <h3>Invite a bot</h3>
+        <label for="bot-strategy">Bot strategy</label><select id="bot-strategy" bind:value={botKind} disabled={busy}>{#each Object.entries(botLabels) as [kind,label]}<option value={kind}>{label}</option>{/each}</select>
+        <GameButton onclick={addBot} disabled={busy||status!=='synced'||!openSeats}>{openSeats?'Invite bot':'Table full'}</GameButton>
+        <p>Bots take a seat and choose a random available leader. Keep this table open while they play.</p>
+        {#if capacityError}<p role="alert">{capacityError}</p>{/if}
+      </section>
+    {/if}
   {:else if modal === 'details'}
     <h2 id="dialog-title">Supply for {count} players</h2>
     {#if setup && setup.players[0]?.uid === services?.uid}
@@ -298,6 +357,8 @@
         {#each [2,3,4] as number}<label><input type="radio" name="capacity" aria-label={`${number} players`} value={number} bind:group={capacityChoice} disabled={busy || status !== 'synced' || number < setup.players.length} onchange={() => changeCapacity(number as 2 | 3 | 4)} /><span>{number}</span></label>{/each}
       </fieldset>
       <p class="capacity-hint">Occupied seats stay at the table.</p>
+      <div class="bot-invitation"><label for="host-seat">Your seat</label><select id="host-seat" bind:value={hostSeat} disabled={busy||status!=='synced'} onchange={()=>changeHostSeat(hostSeat)}><option value="human">I will play</option>{#each Object.entries(botLabels) as [kind,label]}<option value={kind}>{label}</option>{/each}</select></div>
+      {#if hostSeat!=='human'}<p>You will watch your bot play. Keep this table open to run the bots.</p>{/if}
       {#if capacityError}<p role="alert">{capacityError}</p>{/if}
     {/if}
     <dl class="supply"><div><dt>Each Territory</dt><dd>{count * 3}</dd></div><div><dt>Each regular Action</dt><dd>{count * 4}</dd></div><div><dt>Obol / Drachma / Talent</dt><dd>40 / 30 / 20</dd></div></dl>
@@ -311,6 +372,7 @@
 {/if}
 
 <style>
+  .bot-invitation{display:grid;gap:12px;margin-top:20px;border-top:1px solid #b58b4866;padding-top:12px;}.bot-invitation label{display:grid;gap:8px;}.bot-invitation select{min-height:44px;background:#07111c;color:#f2dfb9;border:1px solid #b58b48;border-radius:6px;padding:8px;width:100%;}.bot-error{position:fixed;top:8px;left:15%;right:15%;z-index:100;background:#401d1d;color:white;padding:12px;text-align:center;}.bot-error button{margin-left:12px;min-height:44px;}
   .begin{position:absolute;right:5%;bottom:3%;width:25%;}.play-error{position:absolute;top:73%;left:24%;width:52%;text-align:center;background:#401d1ded;padding:10px;border:1px solid #cb9872;}
   .room-code strong{display:inline-block;margin-left:.4em;letter-spacing:.15em;color:#ffe5a6;font-weight:700;user-select:all;} .heading .room-code{margin-top:.3em;font-size:clamp(16px,2svh,38px);}
   .join-form{display:grid;gap:16px;} .join-form input{width:100%;height:64px;border:1px solid #bd995e;border-radius:8px;background:#061321;color:#ffe5a6;text-align:center;font:600 34px 'Cormorant Garamond',serif;letter-spacing:.18em;text-transform:uppercase;}
