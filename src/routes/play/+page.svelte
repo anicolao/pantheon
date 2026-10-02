@@ -56,11 +56,14 @@
   let hostSeat=$state('human');
   let botInvitation:{uid:string;kind:BotKind}|undefined;
   let botWorker:Worker|undefined,botRequest=0,botRevision=-1;
+  let presentedRevision=-1;
   let committedEvents:readonly SetupEvent[]=[];
   $effect(()=>{hostSeat=setup?.players[0]?.botKind??'human';});
-  function stopBots(){botWorker?.terminate();botWorker=undefined;botRequest++;botRevision=-1;committedEvents=[];botError='';}
+  function stopBots(){botWorker?.terminate();botWorker=undefined;botRequest++;botRevision=-1;presentedRevision=-1;committedEvents=[];botError='';}
+  function tableSettled(revision:number){if(setup?.activity.length===revision){presentedRevision=revision;driveBots(committedEvents);}}
   function driveBots(events:readonly SetupEvent[]){
     committedEvents=events;
+    if(presentedRevision!==events.length)return;
     if(!services||!setup||setup.players[0]?.uid!==services.uid||status!=='synced'||setup.phase==='gathering'||setup.turn.phase==='finished'||botError)return;
     const actor=setup.phase==='draft'?setup.draftOrder[Object.keys(setup.leaders).length]:activePlayer(setup);
     if(!setup.players.find(p=>p.uid===actor)?.botKind||botRevision===events.length)return;
@@ -80,7 +83,7 @@
     botRevision=events.length;
     botWorker.postMessage({id:++botRequest,events:[...events],hostUid:services.uid});
   }
-  function retryBot(){const events=committedEvents;stopBots();driveBots(events);}
+  function retryBot(){const events=committedEvents,presented=presentedRevision;stopBots();presentedRevision=presented;driveBots(events);}
   async function addBot(){
     if(!services||!setup||busy||!openSeats)return;
     busy=true;capacityError='';
@@ -250,7 +253,7 @@
 
 <svelte:head><title>Gather at the Table — Pantheon: Bloodlines</title><link rel="preload" as="image" href={`${base}/assets/ui/sanctuary-button-secondary.png`} /></svelte:head>
 {#if setup && setup.phase !== 'gathering' && services}
-  <GameSession game={setup} uid={services.uid} {roomId} {status} {busy} error={playError} command={sendCommand} retry={connect} again={playAgain} />
+  <GameSession game={setup} uid={services.uid} {roomId} {status} {busy} error={playError} command={sendCommand} retry={connect} again={playAgain} onSettled={tableSettled} />
   {#if botError}<div class="bot-error" role="alert">{botError}<button onclick={retryBot}>Retry bot</button></div>{/if}
 {:else}
 <main class="gathering" class:unavailable data-status={status}>
