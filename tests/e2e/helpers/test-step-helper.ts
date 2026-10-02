@@ -64,11 +64,12 @@ export class TestStepHelper {
             for(const match of getComputedStyle(element).backgroundImage.matchAll(/url\(["']?(.*?)["']?\)/g))backgrounds.add(match[1]);
           }
           const discovered=performance.now();
-          const owner=window as Window&{__pantheonDecodedArtwork?:Map<string,Promise<void>>};
-          const decoded=owner.__pantheonDecodedArtwork??=new Map<string,Promise<void>>();
+          // decode() guarantees readiness for the next rendering update, not the
+          // lifetime of a document. Renew it for each capture while sharing copies.
+          const decoded=new Map<string,Promise<void>>();
           const decode=(image:HTMLImageElement)=>{
             const src=image.currentSrc||image.src;
-            // A new or failed load must complete itself; loaded copies share the immutable resource.
+            // New or failed loads complete themselves; loaded copies share this capture's request.
             if(!image.complete||!image.naturalWidth||!decoded.has(src))decoded.set(src,image.decode());
             return decoded.get(src)!;
           };

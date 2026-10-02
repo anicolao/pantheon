@@ -42,6 +42,7 @@ describe('weakening the policy fails before launching a browser', () => {
     ['readiness status bypass', helper, "scenes.length===1&&scenes[0].getAttribute('data-status')===status", 'true'],
     ['busy state bypass', helper, "(status!=='synced'||!document.querySelector('[aria-busy=\"true\"]'))", 'true'],
     ['readiness budget bypass', helper, 'polling:20,timeout:remaining()', 'polling:20'],
+    ['stale document decode cache', helper, 'const decoded=new Map<string,Promise<void>>();', 'const decoded=window.decoded??=new Map<string,Promise<void>>();'],
     ['clipping removal', helper, 'await page.evaluate(assertScreenFit,{document:view.document});', ''],
     ['commented clipping guard', helper, 'await page.evaluate(assertScreenFit,{document:view.document});', '// await page.evaluate(assertScreenFit,{document:view.document});'],
     ['commented CI guard', '.github/workflows/ci-and-deploy.yml', '- run: bun run test:policy', '# - run: bun run test:policy'],
