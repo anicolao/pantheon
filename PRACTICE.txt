@@ -19,6 +19,9 @@ Execution and recovery
 ----------------------
 The host browser runs bot decisions in a worker. Keep that table open while bots
 play. Other human clients receive the same committed moves as in any shared game.
+Before submitting the next bot command, the host waits for the current move's
+animations to finish and its destination cards to paint. Reduced motion skips
+travel. This keeps fast bot turns from clearing slots while cards are still flying.
 A host refresh rebuilds observations and policy memory from the event log and
 resumes bot turns. Offline progress waits for the host to reconnect; a failed
 worker or write offers Retry bot. Multiple host tabs cannot duplicate a move:

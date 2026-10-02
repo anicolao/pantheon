@@ -31,9 +31,10 @@
   import SupplyCoverflow from './SupplyCoverflow.svelte';
   import { activePlayer, canPlayAction, canPlayTreasure, departureReminder, definition, standings, eligibleGains } from '$lib/game/actions';
 
-  let { game, uid, roomId, status, busy, error, command, retry, again }: {
+  let { game, uid, roomId, status, busy, error, command, retry, again, onSettled }: {
     game: SetupState; uid: string; roomId: string; status: string; busy: boolean; error: string;
     command: (command: GameCommand, expectedRevision?: number) => Promise<void>; retry: () => void; again: () => void;
+    onSettled?: (revision:number)=>void;
   } = $props();
   const initialRevision = untrack(() => game.activity.length);
   let motionRevision = -1;
@@ -335,7 +336,7 @@
   {/if}
 </dialog>
 {#if modal === 'chronicle' || modal === 'zone'}<PublicTable {game} {uid} initialTab={modal === 'zone' ? zone!.kind : 'chronicle'} owner={modal === 'zone' ? zone!.uid : uid} {close}/>{/if}
-<PublicMotion previousLayout={()=>motionBefore} {game} {status} {reduced} localChoices={localChoices} visible={!modal && !supplyWarning && (!ownChoice || !!inlineChoice) && !showResults}/>
+<PublicMotion previousLayout={()=>motionBefore} {game} {status} {reduced} {onSettled} localChoices={localChoices} visible={!modal && !supplyWarning && (!ownChoice || !!inlineChoice) && !showResults}/>
 
 
 

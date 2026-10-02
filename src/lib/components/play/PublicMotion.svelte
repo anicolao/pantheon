@@ -8,7 +8,7 @@
   import CardFace from '../CardFace.svelte';
   import CardBack from '../CardBack.svelte';
 
-  let { game, status, reduced, visible, previousLayout, localChoices=[] }: { game: SetupState; status: string; reduced: boolean; visible: boolean; previousLayout: () => Layout; localChoices?:string[] } = $props();
+  let { game, status, reduced, visible, previousLayout, localChoices=[], onSettled }: { game: SetupState; status: string; reduced: boolean; visible: boolean; previousLayout: () => Layout; localChoices?:string[]; onSettled?:(revision:number)=>void } = $props();
   type Flight = { card?: CardInstance; id: string; step: PublicStep; from: Pose; to: Pose; width: number; stack: number; sequence: number };
   const cursor = new PublicMotionCursor(untrack(() => game.activity.length));
   let foreground = $state(true), flights = $state<Flight[]>([]);
@@ -22,6 +22,25 @@
   const activeFlights = new Set<ActiveFlight>();
   const transform = (pose: Pose) => `translate(${pose.x}px,${pose.y}px) translate(-50%,-50%) rotate(${pose.angle}deg)`;
   const hidden = new Map<HTMLElement, { opacity: string; count: number }>();
+  let settlement=0,alive=true;
+  const frame=()=>new Promise<void>(resolve=>requestAnimationFrame(()=>resolve()));
+  async function settle(paint=true) {
+    if(!alive||!onSettled)return;
+    const token=++settlement, sequence=game.activity.length;
+    await tick();
+    if(paint){
+      // Include the initial deal and layout transitions as well as public flights.
+      // Two frames let Svelte start its transitions and paint the revealed slots.
+      do {
+        await frame();await frame();
+        if(!alive||token!==settlement||sequence!==game.activity.length)return;
+        const pending=document.getAnimations().filter(animation=>animation.playState==='running'||animation.pending);
+        if(!pending.length)break;
+        await Promise.all(pending.map(animation=>animation.finished.catch(()=>undefined)));
+      }while(true);
+    }
+    if(alive&&token===settlement&&sequence===game.activity.length&&!running&&!queue.length)onSettled(sequence);
+  }
   function flightNode(node: HTMLDivElement, id: string) { nodes.set(id,node); return {destroy:()=>{nodes.delete(id);}}; }
   function mask(node: HTMLElement) {
     const existing=hidden.get(node);
@@ -34,7 +53,7 @@
     node.style.opacity=saved.opacity;hidden.delete(node);
   }
   function stop() {
-    generation++;queue=[];
+    generation++;settlement++;queue=[];
     for(const animation of [...animations,...layoutAnimations])animation.cancel();
     animations.clear();layoutAnimations.clear();
     for(const [node,saved] of hidden)node.style.opacity=saved.opacity;
@@ -160,7 +179,7 @@
           flights=[];
         }
       }
-    }finally{running=false;flights=[];if(queue.length)void drain();}
+    }finally{running=false;flights=[];if(queue.length)void drain();else void settle(visible&&foreground&&!reduced);}
   }
   // Read departing cards before Svelte removes them or closes gaps in the hand.
   $effect.pre(()=>{
@@ -186,17 +205,17 @@
         active.redirect={transform:getComputedStyle(active.node).transform,duration:Math.max(motionDuration(100),Number(timing?.duration??motionDuration(450))*(1-(timing?.progress??0)))};
         active.target=target;active.animation?.cancel();
       }
-      if(!canShow){stop();return;}
+      if(!canShow){stop();void settle(false);return;}
       if(fresh.length){
         for(const entry of fresh){const planned=plan(entry,before,current);if(planned.length)queue.push(planned);}
         reposition(before,current);void drain();
-      }
+      }else if(!running)void settle();
     });
   });
   onMount(()=>{
     const update=()=>{foreground=document.visibilityState==='visible';};
     update();document.addEventListener('visibilitychange',update);
-    return()=>{document.removeEventListener('visibilitychange',update);stop();};
+    return()=>{alive=false;document.removeEventListener('visibilitychange',update);stop();};
   });
 </script>
 
