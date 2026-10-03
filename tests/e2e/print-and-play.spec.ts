@@ -3,6 +3,38 @@ import { getDocument } from 'pdfjs-dist/legacy/build/pdf.mjs';
 import { cards } from '../../src/lib/game/cards';
 import { cardSerial, copyCount } from '../../src/lib/game/presentation';
 
+test('one-sided jobs preserve matching sheet order and back calibration', async ({ page }) => {
+  await page.goto('./gallery/print/');
+  await page.getByLabel('Copies', { exact: true }).selectOption('catalog');
+  const fronts = page.getByLabel('One-sided — fronts only');
+  const backs = page.getByLabel('One-sided — backs only');
+  await expect(fronts).not.toBeChecked();
+  await expect(backs).not.toBeChecked();
+  await expect(page.locator('.print-sheet')).toHaveCount(10);
+  await fronts.check();
+  await expect(page.locator('.print-sheet')).toHaveCount(5);
+  await expect(page.locator('.print-sheet[data-side="back"]')).toHaveCount(0);
+  const frontCopies = await page.locator('.print-sheet').evaluateAll(sheets => sheets.map(sheet => ({
+    sheet: sheet.getAttribute('data-sheet'),
+    copies: [...sheet.querySelectorAll<HTMLElement>('.print-card')].map(card => `${card.dataset.cardId}:${card.dataset.copy}`)
+  })));
+  await page.getByText('Adjust double-sided alignment', { exact: true }).click();
+  await page.getByLabel('Back horizontal offset (mm)', { exact: true }).fill('-1');
+  await backs.check();
+  await expect(fronts).not.toBeChecked();
+  await expect(page.locator('.print-sheet')).toHaveCount(5);
+  await expect(page.locator('.print-sheet[data-side="front"]')).toHaveCount(0);
+  expect(await page.locator('.print-sheet').evaluateAll(sheets => sheets.map(sheet => ({
+    sheet: sheet.getAttribute('data-sheet'),
+    copies: [...sheet.querySelectorAll<HTMLElement>('.print-card')].map(card => `${card.dataset.cardId}:${card.dataset.copy}`)
+  })))).toEqual(frontCopies);
+  expect(await page.locator('.print-card').first().evaluate(card => (card as HTMLElement).style.left)).toBe('135.5mm');
+  await expect(page.getByRole('status')).toHaveText('30 cards · 5 sheets · 5 PDF pages');
+  await expect(page.getByRole('button', { name: 'Print / save PDF', exact: true })).toBeEnabled();
+  await backs.uncheck();
+  await expect(page.locator('.print-sheet')).toHaveCount(10);
+});
+
 test('gallery print selection produces readable low-ink cards and matching duplex backs', async ({ page }) => {
   await page.goto('./gallery/');
   await page.getByLabel('Players', { exact: true }).selectOption('4');
@@ -17,7 +49,7 @@ test('gallery print selection produces readable low-ink cards and matching duple
     const face = page.locator(`.print-sheet[data-side="front"] [data-card-id="${card.id}"]`);
     await expect(face).toContainText(card.effect);
     await expect(face).toContainText(card.favored!);
-    await expect(face).toContainText(`${card.cost} Coins + 1 Worship`);
+    await expect(face).toContainText(`Cost: ${card.cost} + 1 Worship`);
   }
   await page.getByRole('button', { name: 'Next →', exact: true }).click();
   await expect(page.locator('.current')).toHaveAttribute('data-side', 'back');

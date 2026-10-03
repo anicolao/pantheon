@@ -40,12 +40,12 @@ test('physical sizes, artwork proportions, bleed and crop marks fit both papers'
   expect([formats.event.height, formats.event.width]).toEqual([120, 86]);
   expect([formats.leader.height, formats.leader.width]).toEqual([120, 75]);
   for (const paper of ['a4', 'letter'] as const) {
-    for (const sheet of printSheets(cards, 2, 'catalog', paper)) {
-      const size = formats[sheet.format], art = artworkSize(sheet.format);
+    for (const sheet of printSheets(cards, 2, 'catalog', paper)) for (const style of ['mono', 'colour'] as const) {
+      const size = formats[sheet.format], art = artworkSize(sheet.format, style);
       expect(art.width / art.height).toBe(size.ratio);
       const [w, h] = art.rotation ? [art.height, art.width] : [art.width, art.height];
-      expect(w).toBeLessThanOrEqual(size.width - 2 * trimBorder);
-      expect(h).toBeLessThanOrEqual(size.height - 2 * trimBorder);
+      expect(w).toBeLessThanOrEqual(size.width - 2 * trimBorder[style]);
+      expect(h).toBeLessThanOrEqual(size.height - 2 * trimBorder[style]);
       for (const mark of cropMarks(sheet)) for (const [x, y] of [[mark.x1, mark.y1], [mark.x2, mark.y2]]) {
         expect(x).toBeGreaterThanOrEqual(4);
         expect(y).toBeGreaterThanOrEqual(4);
@@ -64,4 +64,19 @@ test('catalog and filtered selections never silently add other cards', () => {
   expect(pages[0].cards.map(item => item.card.id)).toEqual(selected.map(card => card.id));
   expect(pages[0].cards.every(item => item.copy === 1)).toBe(true);
   expect(printSheets([], 2, 'setup', 'a4')).toEqual([]);
+});
+
+test('duplex calibration translates only backs and their crop marks in both axes', () => {
+  for (const paper of ['a4', 'letter'] as const) {
+    const original = printSheets(cards, 2, 'catalog', paper);
+    const adjusted = printSheets(cards, 2, 'catalog', paper, { x: -2, y: 1 });
+    for (let i = 0; i < original.length; i++) {
+      const before = original[i], after = adjusted[i];
+      if (before.side === 'front') { expect(after).toEqual(before); continue; }
+      expect(after.cards).toEqual(before.cards.map(card => ({ ...card, x: card.x - 2, y: card.y + 1 })));
+      expect(cropMarks(after)).toEqual(cropMarks(before).map(mark => ({
+        x1: mark.x1 - 2, x2: mark.x2 - 2, y1: mark.y1 + 1, y2: mark.y2 + 1
+      })));
+    }
+  }
 });
