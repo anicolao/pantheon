@@ -1,6 +1,7 @@
 <script lang="ts">
   import { canUndo } from '$lib/game/undo';
   import ResourceFrame from '../ResourceFrame.svelte';
+  import BuildInfo from '../BuildInfo.svelte';
   import { cardGesture } from './card-gesture';
   import { recentLog } from './recent-log';
   import { latestMoveIndex } from '$lib/game/public-table';
@@ -217,7 +218,7 @@
 <main class="session" class:drafting={game.phase === 'draft'} data-status={status} aria-busy={busy || (status === 'synced' && automaticTreasures)}>
   <picture class="environment" aria-hidden="true"><source media="(max-aspect-ratio:3/4)" srcset={`${base}/assets/ui/table-mobile.webp`} /><img src={`${base}/assets/ui/table-desktop.webp`} alt="" draggable="false" /></picture>
   <div class="composition" class:covered={showResults} class:choosing={!!inlineChoice} inert={status !== 'synced' || modal === 'chronicle' || modal === 'zone'} data-e2e-layout={(modal && modal!=='worship') || supplyWarning || (ownChoice && !inlineChoice && !worshipChoice) || showResults || status !== 'synced' ? undefined : true}>
-    {#if game.phase === 'draft'}<header><a href={`${base}/`} aria-label="Back to sanctuary">‹ Sanctuary</a>{#if /^[A-Z]{4,5}$/.test(roomId)}<span><span class="code-label">Game code </span><strong>{roomId}</strong></span>{:else}<span>{game.playerCount} players</span>{/if}</header>{/if}
+    {#if game.phase === 'draft'}<header><a href={`${base}/`} aria-label="Back to sanctuary">‹ Sanctuary</a>{#if /^[A-Z]{4,5}$/.test(roomId)}<span><span class="code-label">Game code </span><strong>{roomId}</strong><BuildInfo /></span>{:else}<span>{game.playerCount} players<BuildInfo /></span>{/if}</header>{/if}
     {#if game.phase === 'draft'}
       <div class="draft-title"><h1>Choose your<br />Bloodline</h1><p aria-live="polite">{isChoice ? 'Your choice' : `${nameOf(chooser)} chooses`}</p></div>
       {#key selected}<img class="hero" src={`${base}/assets/ui/hero-${selected}.webp`} alt="" draggable="false" in:arrive />{/key}
@@ -245,7 +246,7 @@
       <div class="drawer-toggles"><button aria-label="Players and Chronicle" aria-controls="player-drawer" aria-expanded={drawer === 'players'} onclick={()=>toggleDrawer('players')}>{drawer === 'players' ? '×' : '☰'}<span>Players</span></button><button aria-label="Worship" aria-controls="worship-drawer" aria-expanded={drawer === 'worship'} onclick={()=>toggleDrawer('worship')}>{drawer === 'worship' ? '×' : '☷'}<span>Worship</span></button></div>
       {#if portraitLayout && drawer}<button class="drawer-scrim" class:players-open={drawer==='players'} aria-label="Close sidebar" onclick={()=>drawer=''}></button>{/if}
       <aside id="player-drawer" class="player-sidebar" class:drawer-open={drawer === 'players'} inert={portraitLayout && drawer !== 'players'} aria-label="Players and Chronicle">
-      <header class="table-navigation"><a href={`${base}/`} aria-label="Back to sanctuary">‹ Sanctuary</a>{#if /^[A-Z]{4,5}$/.test(roomId)}<span><span class="code-label">Game code </span><strong>{roomId}</strong></span>{:else}<span>{game.playerCount} players</span>{/if}</header>
+      <header class="table-navigation"><a href={`${base}/`} aria-label="Back to sanctuary">‹ Sanctuary</a>{#if /^[A-Z]{4,5}$/.test(roomId)}<span><span class="code-label">Game code </span><strong>{roomId}</strong><BuildInfo /></span>{:else}<span>{game.playerCount} players<BuildInfo /></span>{/if}</header>
 
       <section class="opponents" aria-label="Other players">
         {#each opponents as id}

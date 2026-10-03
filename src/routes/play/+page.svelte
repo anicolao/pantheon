@@ -16,6 +16,7 @@
   import GatheringSeat from '$lib/components/GatheringSeat.svelte';
   import GameButton from '$lib/components/GameButton.svelte';
   import SanctuaryLink from '$lib/components/SanctuaryLink.svelte';
+  import BuildInfo from '$lib/components/BuildInfo.svelte';
   import CardFace from '$lib/components/CardFace.svelte';
   import { cards } from '$lib/game/cards';
   import GameSession from '$lib/components/play/GameSession.svelte';
@@ -355,6 +356,7 @@
     {/if}
   {:else if modal === 'details'}
     <h2 id="dialog-title">Supply for {count} players</h2>
+    <BuildInfo />
     {#if setup && setup.players[0]?.uid === services?.uid}
       <fieldset class="capacity"><legend>Players at your table</legend>
         {#each [2,3,4] as number}<label><input type="radio" name="capacity" aria-label={`${number} players`} value={number} bind:group={capacityChoice} disabled={busy || status !== 'synced' || number < setup.players.length} onchange={() => changeCapacity(number as 2 | 3 | 4)} /><span>{number}</span></label>{/each}

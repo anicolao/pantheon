@@ -1,5 +1,11 @@
 Bots at the shared table
 ========================
+Deployed builds show Build <commit> beside the game code (inside Players and
+Chronicle on phones), and in the gathering's Table details. The label is embedded
+in the loaded app bundle and links to its deployment run. Its tooltip includes
+the full PR head and actual source revision; an already-open older tab retains
+its old label. Local builds without deployment metadata omit the label.
+
 Open /play/ beneath the deployed site base. The old /practice/ URL redirects here.
 Create a two-, three-, or four-player table, then open Invite friends.
 Choose Money, Engine (current), or Engine (historical v4) and select Invite bot.
