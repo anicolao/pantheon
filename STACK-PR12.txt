@@ -30,6 +30,16 @@ advanced by cdbd52c3, changing only E2E_GUIDE.md and playwright.config.ts to pin
 two raster workers. Rebase onto that commit was conflict-free; the E2E policy
 check was repeated. The full screenshot regression suite was not rerun locally.
 
-After PR12 merges, rebase this stack's balance commits onto origin/main; if PR12
-is squash-merged, use the recorded base with rebase --onto to avoid replaying the
-UI commits. Keep #10 as the original checkpoint until the stack is adopted.
+Rebase and inclusion audit after PR12 merged, 2026-10-02
+------------------------------------------------------
+Rebased all 95 stack commits from cdbd52c3 onto origin/main at 6e7df343.
+The rebase had no conflicts. The resulting tree differs from the approved
+b28e3a1a preview only in the six test-harness/documentation files changed by
+PR12's final commit; gameplay and bot code are unchanged.
+
+PR10 inclusion was checked against fc3c466: all 86 original commit subjects
+are preserved in order, and no files are missing. Of its 7,257 changed files,
+7,245 retain identical content. The remaining 12 are the documented UI/bot
+integration changes (Undo-aware synthetic constructors, shared-table bot UI,
+game command compatibility, test scripts, CI, and practice documentation).
+PR10 can be closed as superseded once PR13 is merged into main.
