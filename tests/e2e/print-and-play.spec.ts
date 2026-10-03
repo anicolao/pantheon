@@ -76,8 +76,8 @@ for (const { paper, style } of [{ paper: 'a4', style: 'mono' }, { paper: 'letter
     expect(overflow).toEqual([]);
     if (testInfo.project.name === 'desktop') {
       const pdf = await page.pdf({ path: testInfo.outputPath(`pantheon-${paper}-${style}.pdf`), printBackground: true, preferCSSPageSize: true });
-      const document = await test.step('Open the generated PDF within 2,000 ms', async () =>
-        getDocument({ data: new Uint8Array(pdf), useSystemFonts: false }).promise, { timeout: 2000 });
+      const loading = getDocument({ data: new Uint8Array(pdf), useSystemFonts: false });
+      const document = await test.step('Open the generated PDF within 2,000 ms', async () => loading.promise, { timeout: 2000 });
       expect(document.numPages).toBe(10);
       try {
         for (let index = 0; index < document.numPages; index++) {
@@ -103,7 +103,7 @@ for (const { paper, style } of [{ paper: 'a4', style: 'mono' }, { paper: 'letter
             expect(viewport.height).toBeCloseTo((paper === 'a4' ? 297 : 279.4) * 72 / 25.4, 0);
           }, { timeout: 2000 });
         }
-      } finally { await document.destroy(); }
+      } finally { await loading.destroy(); }
       await testInfo.attach(`${paper} ${style} print-and-play PDF`, { body: pdf, contentType: 'application/pdf' });
     }
   });

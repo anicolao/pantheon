@@ -122,13 +122,13 @@
   nav { justify-content: space-between; font-size: 0.8rem; }
   .preview { max-width: 100%; margin: auto; }
   .sheets { width: var(--page-width); height: var(--page-height); zoom: var(--preview-scale); }
-  .print-sheet { display: none; position: relative; width: var(--page-width); height: var(--page-height); background: white; color: black; isolation: isolate; print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+  .print-sheet { display: none; position: relative; width: var(--page-width); height: var(--page-height); background: white; color: black; isolation: isolate; overflow: hidden; print-color-adjust: exact; -webkit-print-color-adjust: exact; }
   .print-sheet.current { display: block; }
   .print-bleed, .print-card { position: absolute; background: black; }
   .print-bleed { z-index: -1; }
   /* Bound rotated artwork to its physical card. Unbounded transformed image
      overflow makes Chromium silently shrink the whole colour PDF to fit. */
-  .print-card { contain: paint; }
+  .print-card { contain: paint; overflow: hidden; }
   .crop-marks { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; fill: none; stroke: black; stroke-width: 0.15; }
   .sheet-label { position: absolute; bottom: 1.2mm; left: 0; width: 100%; margin: 0; font: 5pt/1 sans-serif; text-align: center; }
   @media print {
