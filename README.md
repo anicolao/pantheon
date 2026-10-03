@@ -45,3 +45,11 @@ To adjust the invitation lettering, run `bun run dev:curve-editor` and open `htt
 The project is licensed under [GPLv3](LICENSE). Original card art was created with image generation; the [asset notes](docs/ASSETS.md) include the full prompt set and provenance.
 
 The first online-play milestone adds anonymous sign-in and shared game setup at `/play/`, backed by Firestore events. See [event-sourced setup](docs/EVENT_SOURCING.md) for emulator instructions and the remaining gameplay milestones.
+
+### Print & play
+
+Choose **Print cards** in the gallery to open `/gallery/print/`. Gallery filters and player count carry over. Choose a full setup (including starting decks) or one of each card, A4 or US Letter, and either the in-game colour artwork or plain black-and-white rules to save ink. A full set includes all kingdom piles and spare leaders/Temples; set aside the cards not used in your chosen game.
+
+Deck cards trim to **63 × 88 mm**, events to **120 × 86 mm**, and leaders to **120 × 75 mm**. The landscape cards are rotated on the sheets. Each front page is immediately followed by its matching back page, with columns mirrored for long-edge duplex printing, including partially filled sheets. Shared cut lines, 2 mm black trim borders and 1 mm black bleed simplify cutting and conceal small errors.
+
+Use **Print / save PDF** to open the browser's print dialog. Select your printer or **Save as PDF**, the matching paper size, portrait orientation, **100% / actual size**, background graphics on, and browser headers/footers off. Print duplex with **flip on long edge**. The crop marks require a printable area within 4 mm of the paper edge. Test the first front/back pair before printing a full set; physical feed alignment varies by printer. Keep actual-size scaling when printing a saved PDF.

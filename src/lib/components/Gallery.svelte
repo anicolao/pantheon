@@ -82,7 +82,7 @@
         <label class="player-filter"><span>Players</span><select aria-label="Players" disabled={!ready} bind:value={players}><option value={2}>2 players</option><option value={3}>3 players</option><option value={4}>4 players</option></select></label>
         <label class="view-toggle"><input disabled={!ready} type="checkbox" bind:checked={tabletop} /><span>Tabletop view</span></label>
         <label class="view-toggle"><input disabled={!ready} type="checkbox" bind:checked={showBacks} /><span>Show backs</span></label>
-        <button disabled={!ready} class="print" onclick={() => window.print()}>Print cards ↗</button>
+        <button disabled={!ready || !visible.length} class="print" onclick={() => location.href = `${base}/gallery/print/?players=${players}${visible.length === cards.length ? '' : `&cards=${visible.map(card => card.id).join(',')}`}`}>Print cards ↗</button>
       </div>
       <div class="collection-meta"><p aria-live="polite" role="status">{visible.length} of {cards.length} cards <span>· {tabletop ? 'Large faces for a shared display' : 'Select a card to inspect'}</span></p><span class="prototype">GALLERY PROTOTYPE · NO ACTIVE GAME</span></div>
 
