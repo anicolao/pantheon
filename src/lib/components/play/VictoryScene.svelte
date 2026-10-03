@@ -8,7 +8,7 @@
   import CardFace from '../CardFace.svelte';
   import ResourceIcon from '../ResourceIcon.svelte';
   import GameButton from '../GameButton.svelte';
-  let { game, uid, busy, status, error, again, retry, close, chronicle }: { game:SetupState; uid:string; busy:boolean; status:string; error:string; again:()=>void; retry:()=>void; close:()=>void; chronicle:()=>void }=$props();
+  let { game, uid, busy, status, error, again, retry, close, chronicle, celebrate }: { game:SetupState; uid:string; busy:boolean; status:string; error:string; again:()=>void; retry:()=>void; close:()=>void; chronicle:()=>void; celebrate:boolean }=$props();
   const scores=$derived(standings(game));
   const winners=$derived(scores.filter(row=>row.winner));
   const tiedScore=$derived(scores.filter(row=>row.score===scores[0].score).length>1);
@@ -17,7 +17,8 @@
   let dialog=$state<HTMLDialogElement>(),detail=$state<HTMLDialogElement>(),inspected=$state<string>();
   let opener:HTMLElement|null=null;
   $effect(()=>{if(dialog&&!dialog.open)dialog.showModal();});
-  onMount(()=>{if(!matchMedia('(prefers-reduced-motion: reduce)').matches)dialog?.animate([{opacity:0},{opacity:1}],{duration:motionDuration(450),easing:MOTION_EASING});});
+  // Reopening a saved result is not another victory: show it immediately.
+  onMount(()=>{if(celebrate&&!matchMedia('(prefers-reduced-motion: reduce)').matches)dialog?.animate([{opacity:0},{opacity:1}],{duration:motionDuration(450),easing:MOTION_EASING});});
   async function inspect(id:string){opener=document.activeElement as HTMLElement;inspected=id;await tick();detail!.showModal();}
 </script>
 <dialog class="victory-scene" bind:this={dialog} aria-labelledby="victory-title" oncancel={event=>{event.preventDefault();close();}}>
