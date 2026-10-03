@@ -10,7 +10,7 @@ export const paperSizes = {
 } as const;
 
 // Millimetres throughout. Adjacent black borders share a cut: no gutter to trim.
-export const trimBorder = 2;
+export const trimBorder = { mono: 2, colour: 1 } as const;
 export const bleed = 1;
 export const formats = {
   deck: { width: 63, height: 88, columns: 3, rows: 3, label: 'Player deck', ratio: 5 / 7 },
@@ -36,11 +36,11 @@ export interface PrintSheet {
 }
 
 /** Preserve the artwork's aspect ratio inside a solid black trim border. */
-export function artworkSize(format: CardFormat) {
+export function artworkSize(format: CardFormat, style: PrintStyle = 'mono') {
   const size = formats[format];
   const rotated = format !== 'deck';
-  const availableWidth = (rotated ? size.height : size.width) - 2 * trimBorder;
-  const availableHeight = (rotated ? size.width : size.height) - 2 * trimBorder;
+  const availableWidth = (rotated ? size.height : size.width) - 2 * trimBorder[style];
+  const availableHeight = (rotated ? size.width : size.height) - 2 * trimBorder[style];
   const width = Math.min(availableWidth, availableHeight * size.ratio);
   return { width, height: width / size.ratio, rotation: rotated ? 90 : 0 };
 }
@@ -48,7 +48,7 @@ export function artworkSize(format: CardFormat) {
 /** Alternate fronts and backs, reflecting each slot around the paper's long edge.
  * Use the full grid even on partial sheets, so empty slots are mirrored too.
  */
-export function printSheets(cards: CardDefinition[], players: PlayerCount, quantity: PrintQuantity, paper: Paper): PrintSheet[] {
+export function printSheets(cards: CardDefinition[], players: PlayerCount, quantity: PrintQuantity, paper: Paper, backOffset = { x: 0, y: 0 }): PrintSheet[] {
   const result: PrintSheet[] = [];
   for (const format of ['deck', 'event', 'leader'] as const) {
     const size = formats[format];
@@ -64,7 +64,10 @@ export function printSheets(cards: CardDefinition[], players: PlayerCount, quant
         ...copy, x: x + index % size.columns * size.width, y: y + Math.floor(index / size.columns) * size.height
       }));
       result.push({ format, side: 'front', sheet, cards: front, x, y, width, height });
-      result.push({ format, side: 'back', sheet, cards: front.map(copy => ({ ...copy, x: paperSizes[paper].width - copy.x - size.width })), x, y, width, height });
+      // Adjust the entire back (including bleed and cut marks) in paper coordinates.
+      result.push({ format, side: 'back', sheet, cards: front.map(copy => ({
+        ...copy, x: paperSizes[paper].width - copy.x - size.width + backOffset.x, y: copy.y + backOffset.y
+      })), x: x + backOffset.x, y: y + backOffset.y, width, height });
     }
   }
   return result;
