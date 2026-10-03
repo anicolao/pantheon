@@ -161,3 +161,31 @@ test('complete quantities include starting decks and colour printing waits for a
   await expect(page.locator('body')).toHaveAttribute('data-printed', 'true');
   await expect(page.getByRole('button', { name: 'Print / save PDF', exact: true })).toBeEnabled();
 });
+
+test('print options preserve rules and provide a labelled, single-sheet lamination ramp', async ({ page }) => {
+  await page.goto('./gallery/print/?cards=oracles-acolyte');
+  await page.getByLabel('Copies', { exact: true }).selectOption('catalog');
+  await page.getByLabel('Low-ink rules', { exact: true }).selectOption({ label: 'Black & white icons' });
+  const acolyte = cards.find(card => card.id === 'oracles-acolyte')!;
+  await expect(page.locator('.simple-front .rules > p > span')).toHaveAttribute('aria-label', acolyte.effect);
+  await expect(page.locator('.simple-front .rules svg')).toHaveCount(2);
+  await page.getByLabel('Artwork', { exact: true }).selectOption('colour');
+  await page.getByLabel('Colour profile', { exact: true }).selectOption('lamination');
+  await expect(page.getByLabel('Lightening strength', { exact: true })).toHaveValue('20');
+  await expect(page.locator('.current .sheet-label')).toContainText('Gloss curve v2 · Midtone lift 20%');
+  await page.getByLabel('One-sided — backs only').check();
+  const calibration = page.getByLabel('Oracle’s Acolyte · lamination calibration sheet', { exact: true });
+  await calibration.check();
+  await expect(page.locator('.print-sheet')).toHaveCount(1);
+  await expect(page.locator('.print-sheet')).toHaveAttribute('data-side', 'front');
+  await expect(page.locator('.print-card[data-card-id="oracles-acolyte"]')).toHaveCount(9);
+  await expect(page.locator('.sample-label')).toHaveText([
+    'Standard · 0%', ...[5, 10, 15, 20, 25, 30, 40, 50].map(strength => `Gloss v2 · Midtone lift ${strength}%`)
+  ]);
+  await expect(page.getByRole('status')).toHaveText('9 cards · 1 sheets · 1 PDF pages');
+  await expect(page.locator('.artwork.laminated')).toHaveCount(8);
+  await calibration.uncheck();
+  await expect(page.getByLabel('One-sided — backs only')).toBeChecked();
+  await expect(page.locator('.print-sheet')).toHaveAttribute('data-side', 'back');
+  await expect(page.locator('.current .sheet-label')).toContainText('Gloss curve v2 · Midtone lift 20%');
+});

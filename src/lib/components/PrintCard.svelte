@@ -1,12 +1,14 @@
 <script lang="ts">
+  import PrintRuleText from './PrintRuleText.svelte';
+  import PrintIcon from './PrintIcon.svelte';
   import CardFace from './CardFace.svelte';
   import CardBack from './CardBack.svelte';
   import { cardFormat, cardSerial, copyCount, type PlayerCount } from '$lib/game/presentation';
   import type { CardDefinition } from '$lib/game/types';
   import { artworkSize, formats, type PrintStyle } from '$lib/print/layout';
 
-  let { card, copy, players, side, style }: {
-    card: CardDefinition; copy: number; players: PlayerCount; side: 'front' | 'back'; style: PrintStyle;
+  let { card, copy, players, side, style, monoIcons = false, lamination = 0, filterId = 'print-lamination-tones' }: {
+    card: CardDefinition; copy: number; players: PlayerCount; side: 'front' | 'back'; style: PrintStyle; monoIcons?: boolean; lamination?: number; filterId?: string;
   } = $props();
   const format = $derived(cardFormat(card));
   const art = $derived(artworkSize(format, style));
@@ -14,7 +16,7 @@
 
 <!-- Centre with physical offsets, not translateY: Chromium paginates the
      untransformed text box and can otherwise split a bottom-row card's footer. -->
-<div class="artwork" data-format={format} style:width={`${art.width}mm`} style:height={`${art.height}mm`}
+<div class="artwork" style:--lamination-filter={`url(#${filterId})`} class:laminated={style === 'colour' && lamination > 0} data-format={format} style:width={`${art.width}mm`} style:height={`${art.height}mm`}
   style:left={`${(formats[format].width - art.width) / 2}mm`}
   style:top={`${(formats[format].height - art.height) / 2}mm`} style:--rotation={`${art.rotation}deg`}>
   {#if style === 'colour'}
@@ -23,13 +25,13 @@
     <div class="simple-back"><strong>PANTHEON</strong><span>BLOODLINES</span><hr /><b>{formats[format].label}</b></div>
   {:else}
     <article class="simple-front" aria-label={`${card.name}, copy ${copy}`}>
-      <header><h2>{card.name}</h2>{#if card.cost !== null}<b class="cost">Cost: {card.cost}{card.type === 'Event' ? ' + 1 Worship' : ''}</b>{/if}</header>
+      <header><h2>{card.name}</h2>{#if card.cost !== null}<b class="cost">{#if monoIcons}<PrintIcon resource="coins" value={card.cost} />{#if card.type === 'Event'} + <PrintIcon resource="worship" value={1} />{/if}{:else}Cost: {card.cost}{card.type === 'Event' ? ' + 1 Worship' : ''}{/if}</b>{/if}</header>
       <p class="type">{card.god} · {card.type}{card.uniqueStartingCard ? ' · Starting card' : ''}</p>
       <div class="rules">
         {#if card.type === 'Leader'}<h3>Bloodline · once per turn</h3>{/if}
         {#if card.type === 'Event'}<h3>Standard</h3>{/if}
-        <p>{card.effect}</p>
-        {#if card.favored}<h3>Favored · 2+ Devotion</h3><p>{card.favored}</p>{/if}
+        <p>{#if monoIcons}<PrintRuleText text={card.effect} />{:else}{card.effect}{/if}</p>
+        {#if card.favored}<h3>Favored · 2+ Devotion</h3><p>{#if monoIcons}<PrintRuleText text={card.favored} />{:else}{card.favored}{/if}</p>{/if}
       </div>
       <footer><span>{cardSerial(card, copy)}</span><span>{copy}/{copyCount(card, players)}</span></footer>
     </article>
@@ -39,6 +41,7 @@
 <style>
   .artwork { position: absolute; transform: rotate(var(--rotation)); transform-origin: center; color: black; break-inside: avoid; }
   .artwork :global(.card), .artwork :global(.card-back) { filter: none; }
+  .laminated :global(img), .laminated :global(.tag-substrate) { filter: var(--lamination-filter); }
   .simple-front, .simple-back { width: 100%; height: 100%; background: white; color: black; padding: 3mm; font: 13pt/1.22 'Atkinson Hyperlegible', sans-serif; }
   .simple-front { display: flex; flex-direction: column; }
   h2 { font: 700 18pt/1.05 'Cormorant Garamond', serif; margin: 0; }
