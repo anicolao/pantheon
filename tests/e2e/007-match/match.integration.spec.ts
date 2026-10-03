@@ -38,6 +38,7 @@ for(const scenario of [{count:2 as const,goal:'acropolis' as const,last:false},{
     await steps.step('returned','Return to the same score breakdown',[{spec:'Focus returns to Hamlet without changing the selected empire.',check:async()=>expect(page.getByRole('button',{name:'Inspect Hamlet',exact:true})).toBeFocused()}]);
     await page.reload();
     await expect(page.locator('.victory-scene')).toHaveCSS('opacity','1');
+    expect(await page.locator('.victory-scene').evaluate(dialog=>dialog.getAnimations().length)).toBe(0);
     await steps.step('restored','The finished table keeps its result on return',[{spec:'The same winners and totals return without another cleanup.',check:async()=>expect(page.locator('#victory-title')).toHaveText(scenario.goal==='actions'?(scenario.last?'Shared victory':'Theseus wins'):'Ariadne wins')}]);
     expect(await readEvents(fixture.code)).toHaveLength(game.activity.length);
     if(scenario.goal==='acropolis'){

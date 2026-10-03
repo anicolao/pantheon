@@ -341,7 +341,7 @@
 
 
 
-{#if showResults}<VictoryScene {game} {uid} {busy} {status} {error} {again} {retry} close={()=>void leaveResults()} chronicle={()=>void leaveResults(true)}/>{/if}
+{#if showResults}<VictoryScene {game} {uid} {busy} {status} {error} {again} {retry} celebrate={game.activity.length > initialRevision} close={()=>void leaveResults()} chronicle={()=>void leaveResults(true)}/>{/if}
 
 <style>
   .session .chronicle-titlebar{flex-shrink:0;}
