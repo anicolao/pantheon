@@ -8,7 +8,7 @@
 
 {#if commit}
   <span class="build-info" data-build-commit={commit} data-build-source={source}>
-    <a href={run || `https://github.com/anicolao/pantheon/commit/${source}`} target="_blank" rel="noreferrer" title={`Loaded app: ${commit}\nBuilt source: ${source}\nOpen deployment details`}>Build {commit.slice(0, 8)}</a>
+    <a href={run || `https://github.com/anicolao/pantheon/commit/${source}`} target="_blank" rel="noreferrer" title={`PR head: ${commit}\nBuilt source: ${source}\nOpen deployment details`}>Build {source.slice(0, 8)}</a>
   </span>
 {/if}
 
