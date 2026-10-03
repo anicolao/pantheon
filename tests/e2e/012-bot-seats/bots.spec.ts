@@ -51,15 +51,23 @@ test('invite an Engine bot to the real table and take turns together',async({pag
  // an entire deliberately slowed-down turn. Destinations must paint mid-turn.
  let progress=0;
  for(let step=0;step<60;step++){
-  await expect.poll(()=>page.evaluate(()=>(window as Window&{botMotion?:{progress:number}}).botMotion!.progress)).toBeGreaterThan(progress);
+  // The turn label can update after the final flight mutation. Include that
+  // terminal state in the same bounded wait: there may be no next flight.
+  await expect.poll(()=>page.evaluate(previous=>{
+   const audit=(window as Window&{botMotion?:{progress:number;landings:unknown[]}}).botMotion!;
+   const returned=audit.landings.length>0&&!!document.querySelector('.turn-marker')?.textContent?.includes('Your turn')&&!document.querySelector('.public-flight');
+   return audit.progress>previous||returned;
+  },progress)).toBe(true);
   const audit=await page.evaluate(()=>(window as Window&{botMotion?:{progress:number;landings:{kind:string;painted:boolean}[]}}).botMotion!);
   progress=audit.progress;
   expect(audit.landings.every(landing=>landing.painted)).toBe(true);
-  if(audit.landings.length && (await page.locator('.turn-marker').textContent())?.includes('Your turn'))break;
+  if(audit.landings.length && (await page.locator('.turn-marker').textContent())?.includes('Your turn') && await page.locator('.public-flight').count()===0)break;
  }
  const landed=await page.evaluate(()=>(window as Window&{botMotion?:{landings:{kind:string;painted:boolean}[]}}).botMotion!.landings);
  expect(landed.some(landing=>landing.kind==='play')).toBe(true);
  expect(landed.some(landing=>landing.kind==='gain')).toBe(true);
+ await expect(page.locator('.turn-marker')).toContainText('Your turn');
+ await expect(page.locator('.public-flight')).toHaveCount(0);
  await setMotionPreference(page,'reduce');
  await closePlayers(page);
  await expect(page.getByRole('button',{name:'Play all Treasures',exact:true})).toBeEnabled();
