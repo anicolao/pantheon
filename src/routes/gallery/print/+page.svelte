@@ -54,7 +54,7 @@
 
 <svelte:head><title>Print & play — Pantheon: Bloodlines</title></svelte:head>
 
-<main>
+<main style:--page-width={`${dimensions.width}mm`} style:--page-height={`${dimensions.height}mm`}>
   <header class="controls">
     <a href={`${base}/gallery/`}>← Card gallery</a>
     <h1>Print & play</h1>

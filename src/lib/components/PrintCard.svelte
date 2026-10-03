@@ -15,8 +15,8 @@
 <!-- Centre with physical offsets, not translateY: Chromium paginates the
      untransformed text box and can otherwise split a bottom-row card's footer. -->
 <div class="artwork" data-format={format} style:width={`${art.width}mm`} style:height={`${art.height}mm`}
-  style:left={`${art.rotation ? (formats[format].width + art.height) / 2 : (formats[format].width - art.width) / 2}mm`}
-  style:top={`${(formats[format].height - (art.rotation ? art.width : art.height)) / 2}mm`} style:--rotation={`${art.rotation}deg`}>
+  style:left={`${(formats[format].width - art.width) / 2}mm`}
+  style:top={`${(formats[format].height - art.height) / 2}mm`} style:--rotation={`${art.rotation}deg`}>
   {#if style === 'colour'}
     {#if side === 'front'}<CardFace {card} {players} {copy} />{:else}<CardBack {format} />{/if}
   {:else if side === 'back'}
@@ -37,7 +37,7 @@
 </div>
 
 <style>
-  .artwork { position: absolute; transform: rotate(var(--rotation)); transform-origin: top left; color: black; break-inside: avoid; }
+  .artwork { position: absolute; transform: rotate(var(--rotation)); transform-origin: center; color: black; break-inside: avoid; }
   .artwork :global(.card), .artwork :global(.card-back) { filter: none; }
   .simple-front, .simple-back { width: 100%; height: 100%; background: white; color: black; padding: 3mm; font: 9pt/1.22 'Atkinson Hyperlegible', sans-serif; }
   .simple-front { display: flex; flex-direction: column; }
