@@ -9,7 +9,7 @@
   import { cardGesture } from './card-gesture';
   import { coverflowLayout } from './coverflow-layout';
   import { motionDuration } from './motion';
-  let {game,uid,ready,visible,inspect,onDialog,command,sharedCardWidth,selection,followAffordable=true,motionRate=1}:{selection?:{options:{id:string;cardId:string;copy:number}[];selected:string[];choose:(id:string)=>void;kind:string;choiceId:string;browsedCardId?:string;readOnly?:boolean};followAffordable?:boolean;motionRate?:number;game:SetupState;sharedCardWidth?:number;uid:string;ready:boolean;visible:boolean;inspect:(id:string)=>void;onDialog:(open:boolean)=>void;command:(command:GameCommand)=>Promise<void>}=$props();
+  let {game,uid,ready,visible,inspect,onDialog,command,sharedCardWidth,selection,followAffordable=true,motionRate=1,rotation=0,warnOnActions=true}:{rotation?:number;warnOnActions?:boolean;selection?:{options:{id:string;cardId:string;copy:number}[];selected:string[];choose:(id:string)=>void;kind:string;choiceId:string;browsedCardId?:string;readOnly?:boolean};followAffordable?:boolean;motionRate?:number;game:SetupState;sharedCardWidth?:number;uid:string;ready:boolean;visible:boolean;inspect:(id:string)=>void;onDialog:(open:boolean)=>void;command:(command:GameCommand)=>Promise<void>}=$props();
   const piles=$derived(selection ? selection.options : setupSupply(game.playerCount).map(pile=>({...pile,cardId:pile.id,copy:1})).sort((a,b)=>(definition(a.id).cost??0)-(definition(b.id).cost??0)||a.id.localeCompare(b.id)));
   const affordable=$derived(selection ? (selection.kind==='gain' ? piles.length-1 : 0) : piles.findLastIndex(pile=>!purchaseReason(game,uid,pile.id)));
   let target=$state(untrack(()=>Math.max(0,affordable))),position=$state(untrack(()=>target));
@@ -79,7 +79,7 @@
     if(!ready || selection?.readOnly || sendingBrowse || queuedBrowse)return;
     if(selection){selection.choose(id);return;}
     const blocked=purchaseReason(game,uid,id);if(blocked){notice=blocked;return;}
-    if(playable.length){pending=id;onDialog(true);await tick();warning!.showModal();return;}
+    if(warnOnActions&&playable.length){pending=id;onDialog(true);await tick();warning!.showModal();return;}
     await command({type:'card/bought',cardId:id});
   }
   function dismiss(){warning?.close();pending='';onDialog(false);}
@@ -91,9 +91,10 @@
     if(index>right){move(index);return;}
     if(!moving)void buy(piles[index].id);
   }
+  function pointerAxis(event:PointerEvent){const angle=rotation*Math.PI/180;return event.clientX*Math.cos(angle)+event.clientY*Math.sin(angle);}
   let pointer:number|undefined,startX=0,startPosition=0,lastWheel=0;
-  function down(event:PointerEvent){if(event.button!==0 || selection?.readOnly)return;pointer=event.pointerId;startX=event.clientX;startPosition=position;dragged=false;((event.target as HTMLElement).closest('button')??event.currentTarget as HTMLElement).setPointerCapture(event.pointerId);}
-  function drag(event:PointerEvent){if(event.pointerId!==pointer)return;const delta=event.clientX-startX;if(Math.abs(delta)>10)dragged=true;if(dragged){dragging=true;position=Math.max(0,Math.min(piles.length-1,startPosition-delta/(cardWidth*1.055)));target=position;}}
+  function down(event:PointerEvent){if(event.button!==0 || selection?.readOnly)return;pointer=event.pointerId;startX=pointerAxis(event);startPosition=position;dragged=false;((event.target as HTMLElement).closest('button')??event.currentTarget as HTMLElement).setPointerCapture(event.pointerId);}
+  function drag(event:PointerEvent){if(event.pointerId!==pointer)return;const delta=pointerAxis(event)-startX;if(Math.abs(delta)>10)dragged=true;if(dragged){dragging=true;position=Math.max(0,Math.min(piles.length-1,startPosition-delta/(cardWidth*1.055)));target=position;}}
   function up(event:PointerEvent){if(event.pointerId!==pointer)return;pointer=undefined;const wasDragging=dragging;dragging=false;if(wasDragging)move(Math.round(position));}
   function wheel(event:WheelEvent){event.preventDefault();if(Math.abs(event.deltaX)+Math.abs(event.deltaY)<4||performance.now()-lastWheel<110)return;lastWheel=performance.now();move(Math.round(target)+Math.sign(event.deltaX||event.deltaY));}
   function key(event:KeyboardEvent){dragged=false;if(!['ArrowLeft','ArrowRight','Home','End'].includes(event.key))return;event.preventDefault();move(event.key==='Home'?0:event.key==='End'?piles.length-1:Math.round(target)+(event.key==='ArrowRight'?1:-1));}
