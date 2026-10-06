@@ -119,7 +119,7 @@ export class TestStepHelper {
         }
         expect(performance.now()-start,`Capture exceeded 2,000 ms: preparation ${Math.round(prepared-start)} (foreground ${Math.round(foreground-start)}, ack ${Math.round(acknowledged-foreground)}, assets/animations ${Math.round(ready-acknowledged)} ${JSON.stringify(assetTimings)}, layout ${Math.round(prepared-ready)}), image ${Math.round(photographed-prepared)}, comparison ${Math.round(performance.now()-photographed)}`).toBeLessThanOrEqual(OPERATION_BUDGET);
       },{timeout:OPERATION_BUDGET});
-      const views=renderStoryImages(story.slug,stem,description);
+      const views=renderStoryImages(story.slug,stem,description,this.info.annotations.some(item=>item.type==='display'&&item.description==='Shared tabletop: desktop and 4K displays only.'));
       story.steps.push(`## ${description}\n\n${view.player?`Viewpoint: **${view.player}**.\n\n`:''}${views}\n\n${verifications.map(item=>`- [x] ${item.spec}`).join('\n')}`);
     });
   }
@@ -129,6 +129,6 @@ export function finishStory(info:TestInfo){
   const story=stories.get(info);
   if(!story||info.status!=='passed'||info.project.name!=='desktop'||process.platform!=='darwin')return;
   const folder=join(dirname(info.file),'stories',story.slug);mkdirSync(folder,{recursive:true});
-  const setup=info.annotations.filter(item=>item.type==='setup').map(item=>item.description).join('\n\n');
+  const setup=info.annotations.filter(item=>item.type==='setup'||item.type==='display').map(item=>item.description).join('\n\n');
   writeFileSync(join(folder,'README.md'),`# ${story.title}\n\n${setup?setup+'\n\n':''}${story.steps.join('\n\n')}\n`);
 }

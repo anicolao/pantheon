@@ -20,7 +20,8 @@ test('every committed illustrated step has both inline views and valid screensho
     const doc = readFileSync(path, 'utf8');
     for (const step of doc.split(/^## /m).slice(1)) {
       expect(step, path).toContain('<table>');
-      expect(step, path).toContain('-phone-darwin.png');
+      if (!doc.includes('Shared tabletop: desktop and 4K displays only.')) expect(step, path).toContain('-phone-darwin.png');
+      expect(step, path).toContain('-tabletop-4k-darwin.png');
       expect(step, path).toContain('-desktop-darwin.png');
       expect(step, path).toContain('<details>');
       for (const match of step.matchAll(/(?:src|href)="([^"]+\.png)"/g)) expect(existsSync(resolve(dirname(path), match[1])), `${path}: ${match[1]}`).toBe(true);
@@ -28,4 +29,12 @@ test('every committed illustrated step has both inline views and valid screensho
     }
   }
   expect(steps).toBeGreaterThanOrEqual(163);
+});
+
+test('a shared tabletop story links its two supported display sizes', () => {
+  const html = renderStoryImages('shared-table', '000-join', 'Join the table', true);
+  expect(html.match(/<img /g)).toHaveLength(2);
+  expect(html).toContain('-desktop-darwin.png');
+  expect(html).toContain('-tabletop-4k-darwin.png');
+  expect(html).not.toContain('-phone-darwin.png');
 });
