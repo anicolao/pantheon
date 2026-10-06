@@ -1,6 +1,6 @@
 import { treasuresRightToLeft } from '$lib/components/play/hand-order';
 import { replaySetup, leaderIds, type SetupEvent } from '$lib/game/setup';
-import { activePlayer, definition, eligibleGains, type ActionCommand } from '$lib/game/actions';
+import { activePlayer, applyPlayCommand, definition, eligibleGains, type ActionCommand } from '$lib/game/actions';
 import type { GameCommand } from '$lib/backend/setup-repository';
 
 export const scenarios = [
@@ -29,7 +29,15 @@ export function fixture(id: string, count: 2 | 3 | 4): Fixture {
     const actor = uid ?? activePlayer(game);
     const sequence = events.length + 1;
     const event: SetupEvent = { schemaVersion: 1, reducerVersion: 1, commandId: `lab-${sequence}`, sequence, actorUid: actor, name: names[Number(actor.split('-')[1])], playerCount: count, ...command };
-    const next = [...events, event]; projected = replaySetup(next); events = next;
+    const next = [...events, event];
+    if (projected.phase === 'playing') {
+      // Plan with the shared rules reducer instead of replaying the growing
+      // history for every move. The emitted stream is still fully replayed by
+      // GameSession and the fixture regression tests.
+      projected = structuredClone(projected);
+      projected.activity.push({sequence, message:applyPlayCommand(projected,actor,command as ActionCommand,sequence)});
+    } else projected = replaySetup(next);
+    events = next;
   }
   append({ type: 'draft/started', seed: id==='treasure' || id==='treasures' ? 'animation-treasures-v1' : 'animation-lab-v1' }, 'lab-0');
   const order = replaySetup(events).draftOrder;
