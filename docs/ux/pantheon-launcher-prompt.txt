@@ -1,0 +1,12 @@
+Generated with the built-in image_gen tool.
+Launcher reference: tt.png (radial launcher with small rotated cover-art tiles).
+Output: static/assets/ui/pantheon-launcher.png
+
+Use case: logo-brand.
+Asset type: final square raster game launcher icon for "Pantheon: Bloodlines", 1024 x 1024.
+Create a polished board-game cover emblem that remains instantly readable at 180–240 pixels square and when the launcher rotates the tile. The launcher has dark near-black teal backgrounds, thin cyan/gold outlines, and small square game-cover images. Output ONLY the finished square icon, no launcher mockup, no surrounding whitespace, no device.
+
+Brand art direction: classical Greek antiquity, rich midnight navy enamel/stone, warm sculpted antique gold with bright clean edges, restrained gold laurel leaves and Greek-key decoration. Match the visual language of a luxurious navy and gold playing-card back. Strong, simple silhouette and hierarchy rather than microscopic filigree.
+Composition: straight-on centered substantial golden Greek temple with four powerful columns and triangular pediment, embraced by a broad open golden laurel wreath, occupying the upper approximately 60% of the square. Deep navy negative space separates every major shape. At the bottom, prominent perfectly legible classical inscription-style serif typography in warm luminous ivory-gold: large "PANTHEON" on one line, beneath it smaller but still bold and readable "BLOODLINES" with generous letter spacing. The title must not collide with the emblem. A restrained thin gold square frame with slight softened corners and a simple Greek-key accent at corners, inset about 4%; preserve a safe inset for launcher cropping. Rich dimensional hand-painted/embossed finish, crisp edge highlights, readable relief, softly darker interior shadows. Background is opaque midnight navy, slightly lighter behind the temple, very subtle stone texture. Gold lettering and emblem must have strong contrast, not washed-out bronze.
+
+Exact text: "PANTHEON" and "BLOODLINES". No other text, no tiny captions, no tagline, no extra letters. No portraits, no swords, no skulls, no modern app gloss or neon, no tabletop screenshot, no extraneous symbols. Full square artwork with opaque background.
