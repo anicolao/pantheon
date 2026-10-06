@@ -16,7 +16,11 @@
   const reason=$derived(worshipReason(game,uid,selected));
   const instruction=$derived(!choice ? '' : choice.kind==='gain' ? `Choose ${choice.actionOnly?'an Action':'a card'} costing up to ${choice.limit} from the offer` : `Choose ${choice.min ? choice.min : 'up to '+choice.max} to ${choice.kind} from the offer`);
   function transform(rect:DOMRect){const end=node!.getBoundingClientRect();return `translate(${rect.x-end.x}px,${rect.y-end.y}px) scale(${rect.width/end.width},${rect.height/end.height})`;}
-  onMount(()=>{if(sourceRect&&node&&!matchMedia('(prefers-reduced-motion: reduce)').matches)node.animate([{transform:transform(sourceRect)},{transform:'none'}],{duration:motionDuration(300),easing:MOTION_EASING});});
+  onMount(()=>{
+    if(!sourceRect || !node || matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+    const animation=node.animate([{transform:transform(sourceRect)},{transform:'none'}],{duration:motionDuration(300),easing:MOTION_EASING,fill:'backwards'});
+    return ()=>animation.cancel();
+  });
   async function leave(){
     if(returning||choice)return;returning=true;
     await prepareReturn();await tick();

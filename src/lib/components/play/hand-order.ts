@@ -22,3 +22,8 @@ export function sortHand(hand: readonly CardInstance[]): CardInstance[] {
     return definition(a.cardId).number - definition(b.cardId).number || a.copy - b.copy || a.id.localeCompare(b.id);
   });
 }
+
+/** Departure order for Play all, matching the displayed fan rather than draw order. */
+export function treasuresRightToLeft(hand: readonly CardInstance[]): CardInstance[] {
+  return sortHand(hand).filter(card => definition(card.cardId).type === 'Treasure').reverse();
+}

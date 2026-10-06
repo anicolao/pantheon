@@ -9,7 +9,7 @@
   import { cardGesture } from './card-gesture';
   import { coverflowLayout } from './coverflow-layout';
   import { motionDuration } from './motion';
-  let {game,uid,ready,visible,inspect,onDialog,command,sharedCardWidth,selection}:{selection?:{options:{id:string;cardId:string;copy:number}[];selected:string[];choose:(id:string)=>void;kind:string;choiceId:string;browsedCardId?:string;readOnly?:boolean};game:SetupState;sharedCardWidth?:number;uid:string;ready:boolean;visible:boolean;inspect:(id:string)=>void;onDialog:(open:boolean)=>void;command:(command:GameCommand)=>Promise<void>}=$props();
+  let {game,uid,ready,visible,inspect,onDialog,command,sharedCardWidth,selection,followAffordable=true,motionRate=1}:{selection?:{options:{id:string;cardId:string;copy:number}[];selected:string[];choose:(id:string)=>void;kind:string;choiceId:string;browsedCardId?:string;readOnly?:boolean};followAffordable?:boolean;motionRate?:number;game:SetupState;sharedCardWidth?:number;uid:string;ready:boolean;visible:boolean;inspect:(id:string)=>void;onDialog:(open:boolean)=>void;command:(command:GameCommand)=>Promise<void>}=$props();
   const piles=$derived(selection ? selection.options : setupSupply(game.playerCount).map(pile=>({...pile,cardId:pile.id,copy:1})).sort((a,b)=>(definition(a.id).cost??0)-(definition(b.id).cost??0)||a.id.localeCompare(b.id)));
   const affordable=$derived(selection ? (selection.kind==='gain' ? piles.length-1 : 0) : piles.findLastIndex(pile=>!purchaseReason(game,uid,pile.id)));
   let target=$state(untrack(()=>Math.max(0,affordable))),position=$state(untrack(()=>target));
@@ -28,16 +28,17 @@
   const reason=$derived(selection ? `Choose cards to ${selection.kind}` : notice||(centered ? purchaseReason(game,uid,centered.id) : '')||(affordable>=0?`Affordable through ${definition(piles[affordable].id).name}`:''));
   const moving=$derived(position!==target || dragging);
   const optionKey=$derived(selection ? selection.choiceId+':'+selection.options.map(card=>card.id).join(',') : 'supply');
-  $effect(()=>{optionKey;target=Math.max(0,affordable>=0?affordable:untrack(()=>Math.min(piles.length-1,target)));notice='';});
+  $effect(()=>{optionKey;if(!selection && !followAffordable)return;target=Math.max(0,affordable>=0?affordable:untrack(()=>Math.min(piles.length-1,target)));notice='';});
   $effect(()=>{
     const end=target, snap=reduced||!visible;
     if(dragging)return;
     if(snap){position=end;return;}
-    const start=performance.now(),from=untrack(()=>position);
+    let previous=performance.now(),elapsed=0;
+    const from=untrack(()=>position);
     let frame=0;
     // Keep the prototype's exponential ease, but finish in one glide at the shared preview speed.
     // A fractional tail must not leave purchases busy on a slower renderer.
-    function animate(now:number){const progress=Math.min(1,(now-start)/motionDuration(520));position=progress===1?end:from+(end-from)*(1-Math.exp(-5*progress))/(1-Math.exp(-5));if(position!==end)frame=requestAnimationFrame(animate);}
+    function animate(now:number){elapsed+=(now-previous)*untrack(()=>motionRate);previous=now;const progress=Math.min(1,elapsed/motionDuration(520));position=progress===1?end:from+(end-from)*(1-Math.exp(-5*progress))/(1-Math.exp(-5));if(position!==end)frame=requestAnimationFrame(animate);}
     frame=requestAnimationFrame(animate);return()=>cancelAnimationFrame(frame);
   });
   onMount(()=>{const media=matchMedia('(prefers-reduced-motion: reduce)'),update=()=>{reduced=media.matches;};update();media.addEventListener('change',update);return()=>media.removeEventListener('change',update);});

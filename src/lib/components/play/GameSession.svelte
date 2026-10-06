@@ -9,8 +9,9 @@
   import { onMount, tick, untrack } from 'svelte';
   import { fly } from 'svelte/transition';
   import { cubicOut } from 'svelte/easing';
-  import { motionDuration } from './motion';
+  import { motionDuration, MOTION_SPEED } from './motion';
   import { sortHand } from './hand-order';
+  import { tablePlayed } from './table-play';
   import { tablePurchases } from './table-purchases';
   import { measureLayout, type Layout } from './motion-layout';
   import { base } from '$app/paths';
@@ -32,18 +33,56 @@
   import SupplyCoverflow from './SupplyCoverflow.svelte';
   import { activePlayer, canPlayAction, canPlayTreasure, departureReminder, definition, standings, eligibleGains } from '$lib/game/actions';
 
-  let { game, uid, roomId, status, busy, error, command, retry, again, onSettled }: {
+  let { game, uid, roomId, status, busy, error, command, retry, again, onSettled, motionRate = 1 }: {
     game: SetupState; uid: string; roomId: string; status: string; busy: boolean; error: string;
     command: (command: GameCommand, expectedRevision?: number) => Promise<void>; retry: () => void; again: () => void;
-    onSettled?: (revision:number)=>void;
+    onSettled?: (revision:number)=>void; motionRate?: number;
   } = $props();
   const initialRevision = untrack(() => game.activity.length);
+  let settledRevision = $state(initialRevision);
+  let pendingDraws = $state<{step:string;card:string;uid:string;sequence:number}[]>([]);
+  let drawRevision = $state(initialRevision);
+  // Wait for the command that opened a choice, without hiding it again
+  // for subsequent shared market-browsing commands.
+  let choiceRevision = $state(initialRevision);
+  let pendingChoiceId = untrack(() => game.turn.choice?.id);
+  function openDraw(step: string) {
+    const draw=pendingDraws.find(draw=>draw.step===step);
+    pendingDraws = pendingDraws.filter(draw => draw.step !== step);
+    if(draw?.uid===uid) {
+      const hand=sortHand(presentedHand(uid));
+      resizeHand(hand.length);
+      const index=hand.findIndex(card=>card.id===draw.card);
+      if(index>=0 && (index<handPage*handCapacity || index>=(handPage+1)*handCapacity))handPage=Math.floor(index/handCapacity);
+    }
+  }
+  function presentedHand(player: string) {
+    return (game.decks[player]?.hand ?? []).filter(card => !pendingDraws.some(draw => draw.uid === player && draw.card === card.id));
+  }
+  function flightsSettled(revision: number) {
+    settledRevision = Math.max(settledRevision, revision);
+    pendingDraws = pendingDraws.filter(draw => draw.sequence > revision);
+  }
   let motionRevision = -1;
   let motionBefore: Layout = { poses: [], width: 100 };
   $effect.pre(() => {
     const revision = game.activity.length;
     if (revision === motionRevision) return;
-    untrack(() => { motionBefore = measureLayout(); motionRevision = revision; });
+    untrack(() => {
+      motionBefore = measureLayout();
+      if(game.turn.choice?.id !== pendingChoiceId) {
+        pendingChoiceId = game.turn.choice?.id;
+        choiceRevision = revision;
+      }
+      if(motionRevision >= initialRevision && !reduced && status === 'synced' && document.visibilityState === 'visible') {
+        const draws=game.movements.filter(move=>move.sequence>motionRevision && move.kind==='draw' && move.card);
+        if(draws.length) {
+          pendingDraws=[...pendingDraws,...draws.map(move=>({step:`${move.sequence}:${move.index}`,card:move.card!.id,uid:move.uid,sequence:move.sequence}))];
+          drawRevision=revision;
+        }
+      }
+      motionRevision = revision;
+    });
   });
   const animatedHand = new Set<string>();
   let selected = $state<string>('thaleia');
@@ -57,7 +96,12 @@
   const worshipEvents=$derived([...game.sharedEvents].sort((a,b)=>(definition(a).cost??0)-(definition(b).cost??0)||definition(a).name.localeCompare(definition(b).name)));
   let worshipSource = $state<DOMRect>();
   function worship(id: string) { worshipSource=document.querySelector<HTMLElement>(`[data-god-event="${id}"]`)?.getBoundingClientRect(); worshipEvent=id; drawer=''; void open('worship'); }
-  async function prepareWorshipReturn(){if(portraitLayout){drawer='worship';await tick();await new Promise(resolve=>setTimeout(resolve,reduced?0:350));}}
+  async function prepareWorshipReturn(){
+    if(!portraitLayout)return;
+    drawer='worship';await tick();
+    const panel=document.getElementById('worship-drawer');
+    if(!reduced && panel)await Promise.all(panel.getAnimations().map(animation=>animation.finished.catch(()=>undefined)));
+  }
   async function finishWorshipReturn(){
     if(!portraitLayout){close();return;}
     modal='';
@@ -74,7 +118,7 @@
   const turnUid = $derived(activePlayer(game));
   const choice = $derived(game.turn.choice);
   const automated = $derived(!!game.players.find(player=>player.uid===uid)?.botKind);
-  const ownChoice = $derived(choice && turnUid === uid && !automated ? choice : null);
+  const ownChoice = $derived(choice && turnUid === uid && !automated && settledRevision >= Math.max(drawRevision, choiceRevision) ? choice : null);
   const inlineChoice = $derived(ownChoice && definition(ownChoice.source).type!=='Event' ? ownChoice : null);
   let interaction=$state<InlineChoice>();
   let interactionTargets=$state<string[]>([]),interactionBusy=$state(false);
@@ -82,10 +126,11 @@
   const inlineChoiceId=$derived(inlineChoice?.id);
   $effect(()=>{inlineChoiceId;interactionTargets=[];interactionBusy=false;if(inlineChoiceId)drawer='';});
   const worshipChoice = $derived(ownChoice && definition(ownChoice.source).type==='Event' ? ownChoice : null);
-  const worshipVisible = $derived(modal==='worship' || !!worshipChoice);
+  // Mount only after worship() captures the sidebar card's starting pose.
+  const worshipVisible = $derived(modal==='worship');
   let worshipTargets = $state<string[]>([]);
   const worshipChoiceId = $derived(worshipChoice?.id);
-  $effect(()=>{if(worshipChoice && !modal){worshipEvent=worshipChoice.source;modal='worship';}});
+  $effect(()=>{if(worshipChoice && !modal)worship(worshipChoice.source);});
   $effect(()=>{worshipChoiceId;worshipTargets=[];});
   // Gain options are public. Never project another player's private trash/discard choices.
   const marketChoice = $derived(choice?.kind==='gain' ? choice : worshipChoice);
@@ -100,21 +145,19 @@
   const own = $derived(game.decks[uid]);
   const purchases = $derived(Object.fromEntries(game.players.map(player=>[player.uid,tablePurchases(game,player.uid)])));
   const playedCount = $derived(game.decks[turnUid]?.play.length ?? 0);
-  const tablePlay = $derived([...(game.decks[turnUid]?.play ?? []),...(purchases[turnUid] ?? [])]);
+  const tablePlay = $derived([...tablePlayed(game,turnUid),...(purchases[turnUid] ?? [])]);
   let handElement = $state<HTMLElement>();
   let handCapacity = $state(5);
   let tableCardWidth = $state(100);
   let playAreaWidth = $state(0);
   const separatePurchases=$derived(playedCount > 0 && (purchases[turnUid]?.length ?? 0) > 0 && playAreaWidth >= 2*tableCardWidth+32);
   let handMinPeek = $state(44);
-  const orderedHand = $derived(sortHand(own?.hand ?? []));
+  const orderedHand = $derived(sortHand(presentedHand(uid)));
   const visibleHand = $derived(orderedHand.slice(handPage * handCapacity, (handPage + 1) * handCapacity));
-  $effect(() => { if (own && handPage * handCapacity >= own.hand.length) handPage = Math.max(0, Math.ceil(own.hand.length / handCapacity) - 1); });
-  $effect(() => {
-    const count = own?.hand.length ?? 0;
-    if (!handElement) return;
-    const element = handElement;
-    const resize = new ResizeObserver(() => {
+  $effect(() => { if (own && handPage * handCapacity >= orderedHand.length) handPage = Math.max(0, Math.ceil(orderedHand.length / handCapacity) - 1); });
+  function resizeHand(count:number) {
+    const element=handElement;
+    if(!element)return;
       const card = element.querySelector<HTMLElement>('.hand-slot');
       if (!card) return;
       const phone = matchMedia('(max-aspect-ratio:3/4)').matches;
@@ -130,9 +173,13 @@
       // Measure the full fan first so a shrinking hand never gets stuck paging.
       const pagedRoom = Math.max(cardWidth, width - 88);
       handCapacity = count > capacity(width) ? capacity(pagedRoom) : capacity(width);
-    });
-    resize.observe(element.parentElement!);
-    return () => resize.disconnect();
+  }
+  $effect(() => {
+    const count=orderedHand.length;
+    if(!handElement)return;
+    const resize=new ResizeObserver(()=>resizeHand(count));
+    resize.observe(handElement.parentElement!);
+    return()=>resize.disconnect();
   });
   let dialog = $state<HTMLDialogElement>();
   let opener: HTMLElement | null = null;
@@ -152,7 +199,7 @@
   const showResults=$derived(game.turn.phase==='finished'&&resultsOpen);
   $effect(()=>{if(game.turn.phase==='finished')untrack(()=>{resultsOpen=!modal;});});
   async function leaveResults(chronicle=false){resultsOpen=false;await tick();document.querySelector<HTMLButtonElement>('.final-control button')?.focus();if(chronicle)await open('chronicle');}
-  const ready = $derived(status === 'synced' && !busy && !automated);
+  const ready = $derived(status === 'synced' && !busy && !automated && settledRevision >= Math.max(drawRevision, choiceRevision));
   const automaticTreasures = $derived(game.phase === 'playing' && turnUid === uid && game.turn.phase === 'actions' && !choice && !game.turn.queue.length && !own.hand.some(card => canPlayAction(game, uid, card.id)));
   let automaticPhaseRevision = -1;
   $effect(() => {
@@ -215,7 +262,7 @@
 
 <svelte:window onkeydown={event => { if(event.key === 'Escape' && !modal && !supplyWarning && !showResults) drawer = ''; }} />
 
-<main class="session" class:drafting={game.phase === 'draft'} data-status={status} aria-busy={busy || (status === 'synced' && automaticTreasures)}>
+<main style:--motion-speed={MOTION_SPEED} class="session" class:drafting={game.phase === 'draft'} data-status={status} aria-busy={busy || (status === 'synced' && automaticTreasures)}>
   <picture class="environment" aria-hidden="true"><source media="(max-aspect-ratio:3/4)" srcset={`${base}/assets/ui/table-mobile.webp`} /><img src={`${base}/assets/ui/table-desktop.webp`} alt="" draggable="false" /></picture>
   <div class="composition" class:covered={showResults} class:choosing={!!inlineChoice} inert={status !== 'synced' || modal === 'chronicle' || modal === 'zone'} data-e2e-layout={(modal && modal!=='worship') || supplyWarning || (ownChoice && !inlineChoice && !worshipChoice) || showResults || status !== 'synced' ? undefined : true}>
     {#if game.phase === 'draft'}<header><a href={`${base}/`} aria-label="Back to sanctuary">‹ Sanctuary</a>{#if /^[A-Z]{4,5}$/.test(roomId)}<span><span class="code-label">Game code </span><strong>{roomId}</strong><BuildInfo /></span>{:else}<span>{game.playerCount} players<BuildInfo /></span>{/if}</header>{/if}
@@ -254,7 +301,7 @@
             <button class="opponent-portrait" class:blessed={latestMoves.some(move => move.kind === 'leader' && move.uid === id)} aria-label={`Inspect ${nameOf(id)}’s leader, ${leaderLinks(game.leaders[id]).leader.name}`} onclick={()=>inspect(game.leaders[id])}><Portrait leader={game.leaders[id]} name={nameOf(id)} active={id === turnUid} /></button>
             <div class="opponent-deck" data-public-zone="deck" data-public-uid={id}><ResourceIcon resource="cards" value={game.decks[id].deck.length} label={`${nameOf(id)}’s deck: ${game.decks[id].deck.length} cards`}/></div>
             <div data-public-zone="hand" data-public-uid={id} class="hidden-hand" aria-label={`${nameOf(id)} has ${game.decks[id].hand.length} cards in hand`}>
-              {#each game.decks[id].hand.slice(0, 5) as _, index}<img data-motion-key={`hidden:${id}:${index}`} data-motion-zone="hand" data-motion-uid={id} src={`${base}/assets/backs/back-deck-icon.webp`} alt="Card back" style:--index={index} draggable="false" in:dealBack|global={index} />{/each}
+              {#each presentedHand(id).slice(0, 5) as _, index}<img data-motion-key={`hidden:${id}:${index}`} data-motion-zone="hand" data-motion-uid={id} src={`${base}/assets/backs/back-deck-icon.webp`} alt="Card back" style:--index={index} draggable="false" in:dealBack|global={index} />{/each}
               {#if game.decks[id].hand.length > 5}<span class="hand-count">{game.decks[id].hand.length}</span>{/if}
             </div>
             <button data-public-zone="discard" data-public-uid={id} class="opponent-discard" aria-label={`Inspect ${nameOf(id)}’s discard pile, ${(game.decks[id].discard.length-purchases[id].length)} cards`} onclick={() => inspectZone(id, 'discard', `${nameOf(id)}’s discard`)}><ResourceIcon resource="discard" value={(game.decks[id].discard.length-purchases[id].length)} label={`${nameOf(id)}’s discard: ${(game.decks[id].discard.length-purchases[id].length)} cards`}/></button>
@@ -275,7 +322,7 @@
       {#if worshipVisible}<WorshipOverlay {game} {uid} selected={worshipChoice?.source ?? worshipEvent} {ready} {error} {command} close={()=>void finishWorshipReturn()} sourceRect={worshipSource} prepareReturn={prepareWorshipReturn} choice={worshipChoice} targets={worshipTargets} resolve={resolveWorship}/>{/if}
       {#if inlineChoice}{#key inlineChoice.id}<InlineChoice bind:this={interaction} {game} {uid} choice={inlineChoice} {ready} {error} {reduced} {command} bind:targets={interactionTargets} bind:busy={interactionBusy} handled={id=>localChoices=[...localChoices.slice(-15),id]}/>{/key}{/if}
       <div class="table-card-measure" bind:clientWidth={tableCardWidth} aria-hidden="true"></div>
-      <div class="table-supply" inert={!!drawer || (worshipVisible && !worshipChoice) || (!!inlineChoice && inlineChoice.kind!=='gain')}><SupplyCoverflow sharedCardWidth={tableCardWidth} {game} {uid} ready={ready && !interactionBusy} {command} selection={marketChoice ? {options:worshipOptions,selected:turnUid===uid?worshipTargets:[],choose:selectWorshipTarget,kind:marketChoice.kind,choiceId:marketChoice.id,browsedCardId:marketChoice.browsedCardId,readOnly:turnUid!==uid} : undefined} visible={(!modal || worshipVisible) && !supplyWarning && (!ownChoice || !!worshipChoice || !!inlineChoice) && !showResults && !drawer} inspect={id=>inspect(id)} onDialog={open=>supplyWarning=open}/></div>
+      <div class="table-supply" inert={!!drawer || (worshipVisible && !worshipChoice) || (!!inlineChoice && inlineChoice.kind!=='gain')}><SupplyCoverflow followAffordable={settledRevision >= game.activity.length} {motionRate} sharedCardWidth={tableCardWidth} {game} {uid} ready={ready && !interactionBusy} {command} selection={marketChoice ? {options:worshipOptions,selected:turnUid===uid?worshipTargets:[],choose:selectWorshipTarget,kind:marketChoice.kind,choiceId:marketChoice.id,browsedCardId:marketChoice.browsedCardId,readOnly:turnUid!==uid} : undefined} visible={(!modal || worshipVisible) && !supplyWarning && (!ownChoice || !!worshipChoice || !!inlineChoice) && !showResults && !drawer} inspect={id=>inspect(id)} onDialog={open=>supplyWarning=open}/></div>
       <aside class="action-sidebar" class:many-gods={game.sharedEvents.length > 2} aria-label="Worship, turn status, and controls" style:--god-count={game.sharedEvents.length}>
       <div id="worship-drawer" class="worship-drawer" class:drawer-open={drawer === 'worship'} inert={portraitLayout && drawer !== 'worship'}>
       <h2 class="drawer-title">Worship</h2>
@@ -310,16 +357,17 @@
           </div>
         {:else}<span>Your play area</span>{/if}
       </div>
-      {#if (revealed || lastPublic) && game.publicActivity.find(entry=>entry.sequence===latestActivity?.sequence)?.command!=='card/bought'}{#key game.activity.length}<button inert={!!inlineChoice || worshipVisible || !!drawer} class="outcome" data-motion-key={revealed ? `reveal:${revealed.card!.id}` : undefined} data-motion-card={revealed?.card?.id} data-public-zone={revealed ? 'reveal' : undefined} data-public-uid={turnUid} aria-label={`Inspect ${revealed ? 'revealed' : lastPublic!.kind === 'trash' ? 'trashed' : 'gained'} ${definition((revealed ?? lastPublic)!.card!.cardId).name}`} onclick={() => inspect((revealed ?? lastPublic)!.card!.cardId, (revealed ?? lastPublic)!.card!.copy)}><div class="outcome-card"><CardFace card={definition((revealed ?? lastPublic)!.card!.cardId)} players={game.playerCount} copy={(revealed ?? lastPublic)!.card!.copy} /></div><span class="outcome-icons"><ResourceIcon resource={lastPublic?.kind === 'topdeck' ? 'topdeck' : lastPublic?.kind === 'trash' ? 'trash' : 'discard'} />{#if revealed && lastPublic?.kind === 'discard'}<ResourceIcon resource="coins" value="+2" />{/if}</span></button>{/key}{/if}
+      <!-- Phase advances and market browsing must not replace a masked reveal slot mid-flight. -->
+      {#if (revealed || lastPublic) && game.publicActivity.find(entry=>entry.sequence===latestActivity?.sequence)?.command!=='card/bought'}{#key latestActivity?.sequence}<button inert={!!inlineChoice || worshipVisible || !!drawer} class="outcome" style:visibility={revealed && settledRevision >= revealed.sequence ? 'hidden' : undefined} data-motion-key={revealed ? `reveal:${revealed.card!.id}` : undefined} data-motion-card={revealed?.card?.id} data-public-zone={revealed ? 'reveal' : undefined} data-public-uid={turnUid} aria-label={`Inspect ${revealed ? 'revealed' : lastPublic!.kind === 'trash' ? 'trashed' : 'gained'} ${definition((revealed ?? lastPublic)!.card!.cardId).name}`} onclick={() => inspect((revealed ?? lastPublic)!.card!.cardId, (revealed ?? lastPublic)!.card!.copy)}><div class="outcome-card"><CardFace card={definition((revealed ?? lastPublic)!.card!.cardId)} players={game.playerCount} copy={(revealed ?? lastPublic)!.card!.copy} /></div><span class="outcome-icons"><ResourceIcon resource={lastPublic?.kind === 'topdeck' ? 'topdeck' : lastPublic?.kind === 'trash' ? 'trash' : 'discard'} />{#if revealed && lastPublic?.kind === 'discard'}<ResourceIcon resource="coins" value="+2" />{/if}</span></button>{/key}{/if}
 
-      <section inert={worshipVisible || inlineChoice?.kind==='gain' || !!drawer} bind:this={handElement} data-public-zone="hand" data-public-uid={uid} class="hand" aria-label="Your hand" style:--hand-count={visibleHand.length} style:--hand-spaces={Math.max(1,visibleHand.length-1)} style:--hand-min-peek={`${handMinPeek}px`}>
+      <section inert={worshipVisible || inlineChoice?.kind==='gain' || !!drawer} bind:this={handElement} data-public-zone="hand" data-public-uid={uid} class="hand" aria-label="Your hand" data-hand-total={orderedHand.length} style:--hand-count={visibleHand.length} style:--hand-spaces={Math.max(1,visibleHand.length-1)} style:--hand-min-peek={`${handMinPeek}px`}>
         {#each visibleHand as card, index (`${card.id}:${handRevision(card.id)}`)}
           <div class="hand-slot" class:staged={interactionTargets.includes(card.id)} data-motion-key={`hand:${card.id}`} data-motion-card={card.id} data-motion-face={card.cardId} data-motion-copy={card.copy} data-motion-zone="hand" data-motion-uid={uid} data-instance-id={card.id} style:--card-index={index} style:--fan-angle={`${(index-(visibleHand.length-1)/2)*Math.min(3,16/Math.max(1,visibleHand.length-1))}deg`} style:--fan-drop={`${Math.abs(index-(visibleHand.length-1)/2)*3}px`} in:deal|global={index}><div class="hand-face"><CardFace card={definition(card.cardId)} players={game.playerCount} copy={card.copy} /></div></div>
-          <button data-motion-key={`hand-hit:${card.id}`} data-testid="hand-card" data-instance-id={card.id} disabled={!!inlineChoice && (!ready || interactionBusy || interactionTargets.includes(card.id))} aria-pressed={inlineChoice && inlineChoice.kind!=='gain' ? interactionTargets.includes(card.id) : undefined} aria-label={`${inlineChoice && inlineChoice.kind!=='gain' ? inlineChoice.kind==='trash'?'Trash':'Discard' : canPlayAction(game,uid,card.id)||canPlayTreasure(game,uid,card.id)?'Play':'Inspect'} hand card ${handPage * handCapacity + index + 1}: ${definition(card.cardId).name}`} aria-describedby="hand-help" style:--card-index={index} use:cardGesture={{activate:()=>playHand(card.cardId,card.copy,card.id),inspect:()=>inspect(card.cardId,card.copy,card.id)}}></button>
+          <button data-motion-key={`hand-hit:${card.id}`} data-testid="hand-card" data-instance-id={card.id} disabled={!ready || (!!inlineChoice && (interactionBusy || interactionTargets.includes(card.id)))} aria-pressed={inlineChoice && inlineChoice.kind!=='gain' ? interactionTargets.includes(card.id) : undefined} aria-label={`${inlineChoice && inlineChoice.kind!=='gain' ? inlineChoice.kind==='trash'?'Trash':'Discard' : canPlayAction(game,uid,card.id)||canPlayTreasure(game,uid,card.id)?'Play':'Inspect'} hand card ${handPage * handCapacity + index + 1}: ${definition(card.cardId).name}`} aria-describedby="hand-help" style:--card-index={index} use:cardGesture={{activate:()=>playHand(card.cardId,card.copy,card.id),inspect:()=>inspect(card.cardId,card.copy,card.id)}}></button>
         {/each}
         <span id="hand-help" class="sr-only">{inlineChoice && inlineChoice.kind!=='gain' ? `Click or tap a card to ${inlineChoice.kind}.` : 'Click or tap to play.'} Right-click, hold, or press Shift+F10 to inspect.</span>
       </section>
-      {#if own.hand.length > handCapacity}<nav inert={!!drawer} class="hand-pages" aria-label="Hand pages"><button aria-label="Previous hand cards" disabled={handPage === 0} onclick={() => handPage--}>‹</button><span>{handPage + 1} / {Math.ceil(own.hand.length / handCapacity)}</span><button aria-label="Next hand cards" disabled={(handPage + 1) * handCapacity >= own.hand.length} onclick={() => handPage++}>›</button></nav>{/if}
+      {#if orderedHand.length > handCapacity}<nav inert={!!drawer} class="hand-pages" aria-label="Hand pages"><button aria-label="Previous hand cards" disabled={handPage === 0} onclick={() => handPage--}>‹</button><span>{handPage + 1} / {Math.ceil(orderedHand.length / handCapacity)}</span><button aria-label="Next hand cards" disabled={(handPage + 1) * handCapacity >= orderedHand.length} onclick={() => handPage++}>›</button></nav>{/if}
 
 
 
@@ -337,7 +385,7 @@
   {/if}
 </dialog>
 {#if modal === 'chronicle' || modal === 'zone'}<PublicTable {game} {uid} initialTab={modal === 'zone' ? zone!.kind : 'chronicle'} owner={modal === 'zone' ? zone!.uid : uid} {close}/>{/if}
-<PublicMotion previousLayout={()=>motionBefore} {game} {status} {reduced} {onSettled} localChoices={localChoices} visible={!modal && !supplyWarning && (!ownChoice || !!inlineChoice) && !showResults}/>
+<PublicMotion {uid} {openDraw} previousLayout={()=>motionBefore} {game} {status} {reduced} {onSettled} onFlightsSettled={flightsSettled} localChoices={localChoices} visible={!modal && !supplyWarning && (!ownChoice || definition(ownChoice.source).type!=='Event') && !showResults}/>
 
 
 
@@ -709,7 +757,7 @@
     .drawer-toggles span{font-size:10px;}
     .drawer-scrim{position:absolute;top:72px;bottom:0;left:0;width:calc(100% - min(84vw,380px) - 8px);z-index:29;border:0;background:#02081266;backdrop-filter:blur(3px);}
     .drawer-scrim.players-open{left:auto;right:0;}
-    .session .player-sidebar,.session .action-sidebar .worship-drawer{position:absolute;top:76px;bottom:8px;width:min(84vw,380px);box-sizing:border-box;padding:14px;display:flex;flex-direction:column;gap:12px;background:#081523f2;border:1px solid #ae915675;border-radius:16px;box-shadow:0 12px 36px #0009;z-index:30;transition:transform 350ms cubic-bezier(.2,.8,.2,1),visibility 350ms;visibility:hidden;overflow:auto;}
+    .session .player-sidebar,.session .action-sidebar .worship-drawer{position:absolute;top:76px;bottom:8px;width:min(84vw,380px);box-sizing:border-box;padding:14px;display:flex;flex-direction:column;gap:12px;background:#081523f2;border:1px solid #ae915675;border-radius:16px;box-shadow:0 12px 36px #0009;z-index:30;transition:transform calc(350ms / var(--motion-speed)) cubic-bezier(.2,.8,.2,1),visibility calc(350ms / var(--motion-speed));visibility:hidden;overflow:auto;}
     .session .player-sidebar{left:8px;transform:translateX(calc(-100% - 16px));}
     .session .action-sidebar .worship-drawer{right:8px;transform:translateX(calc(100% + 16px));}
     .session .player-sidebar.drawer-open,.session .action-sidebar .worship-drawer.drawer-open{transform:translateX(0);visibility:visible;}

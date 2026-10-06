@@ -3,18 +3,21 @@
   import type { SetupState, CardInstance } from '$lib/game/setup';
   import { definition } from '$lib/game/actions';
   import { PublicMotionCursor, type PublicActivity, type PublicAnchor, type PublicStep } from '$lib/game/public-table';
-  import { motionDuration, MOTION_EASING } from './motion';
+  import { motionDuration, cardFlightTiming, MOTION_EASING, FLIGHT_EASING, DRAW_MOTION, TABLE_PAUSE } from './motion';
   import { measureLayout, type Pose, type Layout } from './motion-layout';
+  import { treasuresRightToLeft } from './hand-order';
   import CardFace from '../CardFace.svelte';
   import CardBack from '../CardBack.svelte';
 
-  let { game, status, reduced, visible, previousLayout, localChoices=[], onSettled }: { game: SetupState; status: string; reduced: boolean; visible: boolean; previousLayout: () => Layout; localChoices?:string[]; onSettled?:(revision:number)=>void } = $props();
+  let { game, uid, openDraw, status, reduced, visible, previousLayout, localChoices=[], onSettled, onFlightsSettled }: { game: SetupState; uid: string; openDraw: (step:string)=>void; status: string; reduced: boolean; visible: boolean; previousLayout: () => Layout; localChoices?:string[]; onSettled?:(revision:number)=>void; onFlightsSettled?:(revision:number)=>void } = $props();
   type Flight = { card?: CardInstance; id: string; step: PublicStep; from: Pose; to: Pose; width: number; stack: number; sequence: number };
   const cursor = new PublicMotionCursor(untrack(() => game.activity.length));
+  let drawPhases = $state<Record<string,'reveal'|'space'|'travel'>>({});
   let foreground = $state(true), flights = $state<Flight[]>([]);
   let before: Layout = { poses: [], width: 100 }, current: Layout = before;
   let revision = -1, running = false, generation = 0;
   let queue: Flight[][] = [];
+  const departedTableNodes = new Set<HTMLElement>();
   const nodes = new Map<string, HTMLDivElement>();
   const animations = new Set<Animation>();
   const layoutAnimations = new Set<Animation>();
@@ -41,7 +44,7 @@
     }
     if(alive&&token===settlement&&sequence===game.activity.length&&!running&&!queue.length)onSettled(sequence);
   }
-  function flightNode(node: HTMLDivElement, id: string) { nodes.set(id,node); return {destroy:()=>{nodes.delete(id);}}; }
+  function flightNode(node: HTMLDivElement, flight: Flight) { node.style.zIndex=String(20+flight.stack);nodes.set(flight.id,node); return {destroy:()=>{nodes.delete(flight.id);node.remove();}}; }
   function mask(node: HTMLElement) {
     const existing=hidden.get(node);
     if(existing){existing.count++;return;}
@@ -57,7 +60,7 @@
     for(const animation of [...animations,...layoutAnimations])animation.cancel();
     animations.clear();layoutAnimations.clear();
     for(const [node,saved] of hidden)node.style.opacity=saved.opacity;
-    hidden.clear();activeFlights.clear();flights=[];
+    hidden.clear();departedTableNodes.clear();activeFlights.clear();flights=[];drawPhases={};
   }
   function anchor(layout: Layout, value: PublicAnchor, card?: string): Pose | undefined {
     const matches=layout.poses.filter(pose=>pose.zone===value.zone&&(!value.uid||pose.uid===value.uid)&&(!value.cardId||pose.pile===value.cardId));
@@ -65,26 +68,33 @@
     if(value.zone==='supply')return matches.find(pose=>pose.node.dataset.motionPile)??matches[0];
     return matches.find(pose=>!pose.key)??matches[0];
   }
-  function reposition(previous: Layout, next: Layout) {
+  function reposition(previous: Layout, next: Layout, duration=motionDuration(450)) {
+    const moved: Animation[]=[];
     for(const pose of next.poses){
       if(!pose.key)continue;
       const old=previous.poses.find(candidate=>candidate.key===pose.key);if(!old)continue;
       const dx=old.x-pose.x,dy=old.y-pose.y;
       if(Math.abs(dx)+Math.abs(dy)>.5){
-        const animation=pose.node.animate([{translate:`${dx}px ${dy}px`},{translate:'0px 0px'}],{duration:motionDuration(450),easing:MOTION_EASING});
-        layoutAnimations.add(animation);void animation.finished.catch(()=>undefined).finally(()=>layoutAnimations.delete(animation));
+        const animation=pose.node.animate([{translate:`${dx}px ${dy}px`},{translate:'0px 0px'}],{duration,easing:MOTION_EASING});
+        moved.push(animation);layoutAnimations.add(animation);void animation.finished.catch(()=>undefined).finally(()=>layoutAnimations.delete(animation));
       }
       const face=pose.node.querySelector<HTMLElement>('.hand-face');
       if(face&&old.transform!==pose.transform){
-        const animation=face.animate([{transform:old.transform},{transform:pose.transform}],{duration:motionDuration(450),easing:MOTION_EASING});
-        layoutAnimations.add(animation);void animation.finished.catch(()=>undefined).finally(()=>layoutAnimations.delete(animation));
+        const animation=face.animate([{transform:old.transform},{transform:pose.transform}],{duration,easing:MOTION_EASING});
+        moved.push(animation);layoutAnimations.add(animation);void animation.finished.catch(()=>undefined).finally(()=>layoutAnimations.delete(animation));
       }
     }
+    return moved;
   }
   function plan(entry: PublicActivity, previous: Layout, next: Layout): Flight[] {
     const result: Flight[]=[];
     const newHands=next.poses.filter(pose=>pose.zone==='hand'&&pose.key&&(entry.command==='turn/ended'||!previous.poses.some(old=>old.key===pose.key)));
     const steps=entry.steps.map(step=>entry.command==='card/bought'&&step.kind==='gain'?{...step,to:{zone:'play' as const,uid:entry.actor.uid}}:step);
+    if(entry.command==='treasures/played') {
+      const order=treasuresRightToLeft(steps.flatMap(step=>step.card?[step.card]:[]));
+      const positions=new Map(order.map((card,index)=>[card.id,index]));
+      steps.sort((a,b)=>(positions.get(a.card?.id??'')??Infinity)-(positions.get(b.card?.id??'')??Infinity));
+    }
     if(entry.command==='turn/ended'&&!steps.some(step=>step.kind==='cleanup'&&step.from.zone==='play')){
       const waiting=previous.poses.filter(pose=>pose.zone==='play'&&pose.uid===entry.actor.uid&&pose.card);
       if(waiting.length)steps.unshift({id:`${entry.sequence}:cleanup:purchases`,kind:'cleanup',from:{zone:'play',uid:entry.actor.uid},to:{zone:'discard',uid:entry.actor.uid},count:waiting.length,backs:false,effect:'Cleanup'});
@@ -104,7 +114,8 @@
       const oldCards=step.kind==='cleanup'?previous.poses.filter(pose=>pose.zone===step.from.zone&&pose.uid===step.from.uid&&pose.key&&!pose.key.startsWith('hand-hit:')):[];
       const count=step.kind==='cleanup'?Math.max(1,oldCards.length):1;
       for(let index=0;index<count;index++){
-        const from=oldCards[index]??anchor(previous,step.from,step.card?.id)??anchor(next,step.from,step.card?.id);
+        const arrived=step.card?result.findLast(flight=>flight.card?.id===step.card!.id && flight.step.to.zone===step.from.zone && flight.step.to.uid===step.from.uid):undefined;
+        const from=arrived?.to??oldCards[index]??anchor(previous,step.from,step.card?.id)??anchor(next,step.from,step.card?.id);
         const drawn=step.kind==='draw'?game.movements.find(move=>`${move.sequence}:${move.index}`===step.id)?.card:undefined;
         // Match visible hand cards to their sorted slots, including a card that
         // was discarded, shuffled and drawn again during this same turn end.
@@ -113,20 +124,95 @@
         const to=arriving??anchor(next,step.to,step.card?.id);
         // A hidden or absent destination must not turn into a flight to an unrelated spot.
         if(!from||!to)continue;
-        const card=step.card??(step.kind==='draw'?arriving?.face:step.kind==='cleanup'?from.face:undefined);
+        const card=step.card??(step.kind==='draw'?(step.to.uid===uid?drawn:undefined):step.kind==='cleanup'?from.face:undefined);
         // Hidden draws beyond the five painted hand slots, and shuffles between
         // piles, have no keyed destination. Use that player's sidebar card size
         // rather than falling back to the full-size cards in the central table.
         const owner=step.to.uid??step.from.uid;
         const sidebarCard=!card?[...next.poses,...previous.poses].find(pose=>pose.uid===owner&&pose.zone==='hand'&&pose.key?.startsWith('hidden:')):undefined;
         const sidebarDeck=!card?anchor(next,{zone:'deck',uid:owner})??anchor(previous,{zone:'deck',uid:owner}):undefined;
-        const width=card?(from.key?from.width:to.key?to.width:next.width):(sidebarCard?.width??sidebarDeck?.width??Math.min(from.width,to.width));
+        const width=card?(step.kind==='draw'?next.width:from.key?from.width:to.key?to.width:next.width):(sidebarCard?.width??sidebarDeck?.width??Math.min(from.width,to.width));
         const flight={card,stack:to.stack,id:`${step.id}:${index}`,step,from,to,width,sequence:entry.sequence};
-        if(to.key)mask(to.node);
+        if(to.key && step.kind!=='draw')mask(to.node);
         result.push(flight);
       }
     }
     return result;
+  }
+  function retargetFlights() {
+      // Another play can move a landing slot while a card is still in flight.
+      // Continue from its current visual position toward that slot, without a jump.
+      for(const active of activeFlights){
+        const target=current.poses.find(pose=>pose.key&&pose.key===active.flight.to.key);
+        if(!target)continue;
+        if(active.node.parentElement?.classList.contains('hand'))active.node.style.zIndex=String(target.stack);
+        if(Math.abs(target.x-active.target.x)+Math.abs(target.y-active.target.y)<.5&&Math.abs(target.angle-active.target.angle)<.1)continue;
+        const timing=active.animation?.effect?.getComputedTiming();
+        const policy=cardFlightTiming(active.flight.step);
+        active.redirect={transform:getComputedStyle(active.node).transform,duration:Math.max(policy.minimumRedirectDuration,Number(timing?.duration??policy.duration)*(1-(timing?.progress??0)))};
+        active.target=target;active.animation?.cancel();
+      }
+  }
+  async function drawCard(flight: Flight, token: number, revealed:()=>void) {
+    const node=nodes.get(flight.id)!;
+    const held:Animation[]=[];
+    const valid=()=>alive && token===generation;
+    function animate(element:HTMLElement,frames:Keyframe[],duration:number) {
+      const animation=element.animate(frames,{duration,easing:FLIGHT_EASING,fill:'both'});
+      animations.add(animation);held.push(animation);return animation;
+    }
+    try {
+      // Only the owner has a face to flip. Observers see a small card back.
+      const height=flight.width*1.4;
+      const source=anchor(current,flight.step.from)??flight.from;
+      const raised={...source,x:Math.max(flight.width/2+8,Math.min(innerWidth-flight.width/2-8,source.x)),y:Math.max(height/2+8,source.y-height*.65),angle:0};
+      const flip=node.querySelector<HTMLElement>('.draw-flip');
+      await Promise.all([
+        animate(node,[{transform:`${transform(source)} scale(${source.width/flight.width})`,opacity:1},{transform:transform(raised),opacity:1}],DRAW_MOTION.reveal),
+        ...(flip?[animate(flip,[{transform:'rotateY(180deg)'},{transform:'rotateY(0deg)'}],DRAW_MOTION.reveal)]:[])
+      ].map(animation=>animation.finished.catch(()=>undefined)));
+      revealed();
+      if(!valid())return;
+      const previous=measureLayout();
+      flushSync(()=>{drawPhases[flight.id]='space';openDraw(flight.step.id);});
+      current=measureLayout();
+      retargetFlights();
+      const added=(flight.card?current.poses.find(pose=>pose.zone==='hand'&&pose.uid===flight.step.to.uid&&pose.card===flight.card!.id&&!!pose.key):undefined)
+        ??current.poses.find(pose=>pose.zone==='hand'&&pose.uid===flight.step.to.uid&&pose.key&&!previous.poses.some(old=>old.key===pose.key))
+        ??anchor(current,flight.step.to);
+      if(!added)return;
+      flight.to=added;
+      if(added.key)mask(added.node);
+      await Promise.all(reposition(previous,current,DRAW_MOTION.space).map(animation=>animation.finished.catch(()=>undefined)));
+      if(!valid())return;
+      drawPhases[flight.id]='travel';
+      // Re-measure after opening this slot, not against the final future hand.
+      const destination=measureLayout().poses.find(pose=>pose.key&&pose.key===added.key)??added;
+      flight.stack=destination.stack;
+      // Share the real hand's stacking context before entering the fan. A
+      // viewport overlay cannot interleave with its cards, whatever its z-index.
+      const hand=destination.node.closest<HTMLElement>('.hand');
+      if(hand){hand.append(node);node.style.zIndex=String(destination.stack);}
+      const active:ActiveFlight={flight,node,target:destination};activeFlights.add(active);
+      let start=transform(raised),duration=DRAW_MOTION.travel;
+      try {
+        while(valid()) {
+          active.redirect=undefined;
+          const animation=animate(node,[{transform:start,opacity:1},{transform:transform(active.target),opacity:1}],duration);
+          active.animation=animation;
+          await animation.finished.catch(()=>undefined);
+          const redirect=active.redirect as ActiveFlight['redirect'];
+          if(!redirect)break;
+          animation.cancel();
+          start=redirect.transform;duration=redirect.duration;
+        }
+      } finally { activeFlights.delete(active); }
+      if(valid())reveal(added.node);
+    } finally {
+      for(const animation of held){animation.cancel();animations.delete(animation);}
+      revealed();
+      if(valid()){flights=flights.filter(item=>item.id!==flight.id);delete drawPhases[flight.id];await tick();}
+    }
   }
   async function drain() {
     if(running)return;
@@ -141,6 +227,26 @@
           if(['play','draw','cleanup'].includes(batch[0].step.kind)){
             while(index<entry.length&&entry[index].step.kind===batch[0].step.kind)batch.push(entry[index++]);
           }
+          if(batch[0].step.kind==='draw') {
+            const landing:Promise<void>[]=[];
+            for(const flight of batch) {
+              if(token!==generation)break;
+              let release!:()=>void;
+              const revealed=new Promise<void>(resolve=>{release=resolve;});
+              flushSync(()=>{drawPhases[flight.id]='reveal';flights=[...flights,flight];});
+              landing.push(drawCard(flight,token,release));
+              // The actual flip completion starts the next reveal. Landing and
+              // hand reflow continue concurrently, with each slot added alone.
+              await revealed;
+            }
+            await Promise.all(landing);
+            continue;
+          }
+          // A table reveal must disappear from its stationary slot as its
+          // onward flight begins, rather than leaving a duplicate behind.
+          for(const flight of batch)if(flight.step.from.zone==='reveal'){
+            mask(flight.from.node);departedTableNodes.add(flight.from.node);
+          }
           flushSync(()=>{flights=batch;});
           // Schedule the whole batch on one timeline instant. Otherwise each
           // pending animation starts on a later compositor frame under load,
@@ -152,19 +258,30 @@
             // Use the actual card slot when available, otherwise the real pile icon.
             const destination=current.poses.find(pose=>pose.key&&pose.key===flight.to.key)??anchor(current,flight.step.to,flight.step.card?.id)??flight.to;
             const active:ActiveFlight={flight,node,target:destination};activeFlights.add(active);
-            let start=transform(flight.from),duration=motionDuration(flight.step.kind==='reveal'?680:450),delay=motionDuration(Math.min(offset*70,280)),initial=true;
+            let {duration,delay}=cardFlightTiming(flight.step,offset);
+            let start=transform(flight.from),initial=true;
             try{
               while(token===generation){
                 active.redirect=undefined;
                 const animation=node.animate([
                   {transform:start,opacity:1},
                   {transform:transform(active.target),opacity:1}
-                ],{duration,delay,easing:MOTION_EASING,fill:'both'});
+                ],{duration,delay,easing:FLIGHT_EASING,fill:'both'});
                 if(initial){animation.startTime=batchStart;initial=false;}
                 active.animation=animation;animations.add(animation);
                 await animation.finished.catch(()=>undefined);
                 const redirect=active.redirect as ActiveFlight['redirect'];
-                if(!redirect){landed.push(animation);break;}
+                if(!redirect){
+                  const onward=entry[index];
+                  if(token===generation && onward && flight.to.key && flight.card && flight.to.key===onward.from.key && flight.card.id===onward.card?.id){
+                    node.dataset.motionPhase='pause';
+                    const pause=node.animate([{opacity:1},{opacity:1}],{duration:TABLE_PAUSE});
+                    animations.add(pause);
+                    await pause.finished.catch(()=>undefined);
+                    pause.cancel();animations.delete(pause);
+                  }
+                  landed.push(animation);break;
+                }
                 animation.cancel();animations.delete(animation);
                 start=redirect.transform;duration=redirect.duration;delay=0;
               }
@@ -179,7 +296,19 @@
           flights=[];
         }
       }
-    }finally{running=false;flights=[];if(queue.length)void drain();else void settle(visible&&foreground&&!reduced);}
+    }finally{
+      running=false;flights=[];
+      for(const node of departedTableNodes)reveal(node);
+      departedTableNodes.clear();
+      if(queue.length)void drain();
+      else {
+        // Release dependent motion as soon as the last flight lands. The broader
+        // settlement check below also waits for layout/paint, and is for callers
+        // that need the whole view at rest rather than the next animation cue.
+        if(alive && token===generation)onFlightsSettled?.(game.activity.length);
+        void settle(visible&&foreground&&!reduced);
+      }
+    }
   }
   // Read departing cards before Svelte removes them or closes gaps in the hand.
   $effect.pre(()=>{
@@ -196,20 +325,12 @@
     const fresh=cursor.take(game.publicActivity,status==='synced',canShow);
     untrack(()=>{
       current=measureLayout();
-      // Another play can move a landing slot while a card is still in flight.
-      // Continue from its current visual position toward that slot, without a jump.
-      for(const active of activeFlights){
-        const target=current.poses.find(pose=>pose.key&&pose.key===active.flight.to.key);
-        if(!target||Math.abs(target.x-active.target.x)+Math.abs(target.y-active.target.y)<.5)continue;
-        const timing=active.animation?.effect?.getComputedTiming();
-        active.redirect={transform:getComputedStyle(active.node).transform,duration:Math.max(motionDuration(100),Number(timing?.duration??motionDuration(450))*(1-(timing?.progress??0)))};
-        active.target=target;active.animation?.cancel();
-      }
-      if(!canShow){stop();void settle(false);return;}
+      retargetFlights();
+      if(!canShow){stop();onFlightsSettled?.(game.activity.length);void settle(false);return;}
       if(fresh.length){
         for(const entry of fresh){const planned=plan(entry,before,current);if(planned.length)queue.push(planned);}
         reposition(before,current);void drain();
-      }else if(!running)void settle();
+      }else if(!running){onFlightsSettled?.(game.activity.length);void settle();}
     });
   });
   onMount(()=>{
@@ -220,11 +341,16 @@
 </script>
 
 {#each flights as flight (flight.id)}
-  <div use:flightNode={flight.id} class="public-flight" style:width={`${flight.width}px`} style:z-index={20+flight.stack} data-motion-sequence={flight.sequence} data-motion-step={flight.step.id} data-motion-kind={flight.step.kind} aria-hidden="true">
-    {#if flight.card}<CardFace card={definition(flight.card.cardId)} players={game.playerCount} copy={flight.card.copy}/>{:else}<CardBack format="deck"/>{/if}
+  <div use:flightNode={flight} class="public-flight" style:width={`${flight.width}px`} data-motion-sequence={flight.sequence} data-motion-step={flight.step.id} data-motion-card={flight.card?.id} data-motion-kind={flight.step.kind} data-draw-phase={drawPhases[flight.id]} aria-hidden="true">
+    {#if flight.step.kind==='draw' && flight.card}<div class="draw-flip"><div class="draw-front"><CardFace card={definition(flight.card.cardId)} players={game.playerCount} copy={flight.card.copy}/></div><div class="draw-back"><CardBack format="deck"/></div></div>
+    {:else if flight.card}<CardFace card={definition(flight.card.cardId)} players={game.playerCount} copy={flight.card.copy}/>{:else}<CardBack format="deck"/>{/if}
   </div>
 {/each}
 
 <style>
+  .public-flight:has(.draw-flip){perspective:900px;}
+  .draw-flip{position:relative;width:100%;aspect-ratio:5/7;transform-style:preserve-3d;}
+  .draw-front,.draw-back{position:absolute;inset:0;backface-visibility:hidden;}
+  .draw-back{transform:rotateY(180deg);}
   .public-flight{position:fixed;left:0;top:0;z-index:20;pointer-events:none;opacity:0;transform-origin:center;}
 </style>
