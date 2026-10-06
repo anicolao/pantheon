@@ -101,4 +101,9 @@ test('tabletop motion hands off controls after rotating and accepts a rotated ma
   await expect(board).toHaveCSS('transform','matrix(0, -1, 1, 0, 0, 0)');
   await expect(page.locator('[data-edge="east"] .flip').first()).toHaveCSS('transform','matrix(1, 0, 0, 1, 0, 0)');
   await expect(page.locator('[data-edge="east"]').getByRole('button',{name:'End turn',exact:true})).toBeEnabled();
+  await board.getByRole('button',{name:'New table',exact:true}).click();
+  await page.locator('.reset-confirm').getByRole('button',{name:'New table',exact:true}).click();
+  await expect(page.locator('main')).toHaveAttribute('data-tabletop-phase','gathering');
+  await expect(board).toHaveCSS('transform','matrix(1, 0, 0, 1, 0, 0)');
+  await expect(page.getByRole('button',{name:/^Join .* as/})).toHaveCount(4);
 });
