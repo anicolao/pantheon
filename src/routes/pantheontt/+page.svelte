@@ -49,7 +49,7 @@
   function newTable() {
     generation++; request++; worker?.terminate(); worker = undefined;
     table = freshTable(); targets = []; inspected = ''; pending = null; confirmReset = false;
-    moving = false; working = false; error = ''; save();
+    rotation = 0; showLog = false; moving = false; working = false; error = ''; save();
   }
   function start() {
     try { table = advanceEmptyActions(begin(table, crypto.randomUUID())); error = ''; save(); }
