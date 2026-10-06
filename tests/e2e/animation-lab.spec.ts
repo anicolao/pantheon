@@ -206,7 +206,8 @@ test('Sacred Grove gains land on the table, pause, then enter discard', async ({
   const outcome = page.locator('.outcome');
   await expect(arrival).toBeVisible();
   await expect(outcome).toHaveCSS('opacity', '0');
-  await expect(arrival).toHaveAttribute('data-motion-phase', 'pause');
+  // Sample the real short pause each frame; assertion backoff can skip it.
+  await page.waitForFunction(() => document.querySelector('.public-flight[data-motion-kind="gain"]')?.getAttribute('data-motion-phase') === 'pause', undefined, { polling: 'raf', timeout: 2000 });
   const landing = await arrival.evaluate(node => {
     const flight = node.getBoundingClientRect();
     const target = document.querySelector('.outcome-card')!.getBoundingClientRect();
