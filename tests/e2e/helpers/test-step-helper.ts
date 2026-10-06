@@ -7,7 +7,7 @@ import { renderStoryImages } from './story-images';
 
 export const OPERATION_BUDGET = 2_000;
 type Verification = { spec: string; check: () => Promise<unknown> };
-type View = { page?: Page; player?: string; status?: string; document?: boolean };
+type View = { page?: Page; player?: string; status?: string; document?: boolean; animationCheckpoint?: boolean };
 type Story = { slug: string; title: string; steps: string[]; ids: Set<string> };
 const stories = new WeakMap<TestInfo, Story>();
 const cameras = new WeakMap<Page, CDPSession>();
@@ -54,7 +54,7 @@ export class TestStepHelper {
           return transitions.size===0;
         },undefined,{polling:20,timeout:remaining()});
         await transitioned.dispose();
-        const assetTimings=await page.evaluate(async()=>{
+        const assetTimings=await page.evaluate(async(checkpoint)=>{
           const start=performance.now();
           await document.fonts.ready;
           const fonts=performance.now();
@@ -83,16 +83,18 @@ export class TestStepHelper {
           })]);
           const artwork=performance.now();
           let animations:Animation[];
-          while((animations=document.getAnimations().filter(animation=>animation.playState!=='finished')).length){
+          if(checkpoint && !document.getAnimations().some(animation=>animation.playState==='paused'))throw new Error('An animation checkpoint requires a paused native animation');
+          while((animations=document.getAnimations().filter(animation=>animation.playState!=='finished' && !(checkpoint && animation.playState==='paused'))).length){
             await Promise.all(animations.map(animation=>animation.finished.catch(()=>undefined)));
           }
           // Capture flushes the complete compositor frame; another rAF would render it twice.
           return {fonts:Math.round(fonts-start),discovery:Math.round(discovered-fonts),decode:Math.round(artwork-discovered),animations:Math.round(performance.now()-artwork)};
-        });
+        },view.animationCheckpoint??false);
         const ready=performance.now();
         await page.evaluate(assertScreenFit,{document:view.document});
         const prepared=performance.now();
-        // One capture after semantic readiness; no screenshot polling or animation fast-forward.
+        // One capture after semantic readiness. Only explicit animation checkpoints
+        // retain paused poses; ordinary stories still wait for every animation.
         let camera=cameras.get(page);
         if(!camera){camera=await page.context().newCDPSession(page);cameras.set(page,camera);}
         let capture:Buffer;
