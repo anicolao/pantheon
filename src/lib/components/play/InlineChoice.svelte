@@ -13,6 +13,7 @@
       command:(command:ActionCommand)=>Promise<void>;targets:string[];busy:boolean;
       handled:(choiceId:string)=>void}=$props();
   let pack=$state<HTMLDivElement>();
+  let overlay=$state<HTMLElement>();
   const cards=$derived(targets.map(id=>game.decks[uid].hand.find(card=>card.id===id)).filter(card=>!!card));
   const instruction=$derived(choice.kind==='gain'
     ? `Choose ${choice.actionOnly?'an Action':'a card'} costing up to ${choice.limit} from the market`
@@ -50,7 +51,10 @@
   onMount(()=>{
     targets=[];busy=true;
     const rect=home();
-    void (rect&&pack?animate(pack,[{transform:at(rect,pack,true)},{transform:'none'}],240):Promise.resolve()).finally(()=>{if(alive)busy=false;});
+    void Promise.all([
+      overlay?animate(overlay,[{opacity:0},{opacity:1}],180):Promise.resolve(),
+      rect&&pack?animate(pack,[{transform:at(rect,pack,true)},{transform:'none'}],240):Promise.resolve()
+    ]).finally(()=>{if(alive)busy=false;});
   });
   onDestroy(()=>{alive=false;for(const animation of animations)animation.cancel();});
 
@@ -89,7 +93,7 @@
   }
 </script>
 
-<section class="inline-choice" aria-label={`${definition(choice.source).name} choice`} aria-busy={busy} data-choice-kind={choice.kind}>
+<section bind:this={overlay} class="inline-choice" aria-label={`${definition(choice.source).name} choice`} aria-busy={busy} data-choice-kind={choice.kind}>
   <div class="choice-pack" bind:this={pack}>
     <ResourceIcon resource={choice.kind} value={choice.kind==='gain'?choice.limit:undefined} label={instruction}/>
     {#each cards as card,index (card.id)}
@@ -113,7 +117,7 @@
 <style>
   .inline-choice{position:absolute;left:var(--center-left);width:var(--center-width);top:var(--play-top);height:var(--table-card-height);z-index:45;display:flex;align-items:center;justify-content:center;gap:clamp(8px,2vw,36px);color:#ffe9bb;pointer-events:none;}
   .choice-pack{position:relative;flex:0 0 auto;width:min(35%,var(--table-card-height));height:min(90%,var(--table-card-height));display:grid;place-items:center;--icon-size:calc(var(--table-card-height)*.32);transform-origin:center;}
-  .staged-card{position:absolute;z-index:5;left:calc(50% - var(--table-card-width)/2 + (var(--index) - (var(--count) - 1)/2)*22px);top:50%;margin-top:calc(var(--table-card-height)*-.5);width:var(--table-card-width);border:0;padding:0;background:none;pointer-events:auto;filter:drop-shadow(0 4px 8px #0009);transition:left .5s ease-out;}
+  .staged-card{position:absolute;z-index:5;left:calc(50% - var(--table-card-width)/2 + (var(--index) - (var(--count) - 1)/2)*22px);top:50%;margin-top:calc(var(--table-card-height)*-.5);width:var(--table-card-width);border:0;padding:0;background:none;pointer-events:auto;filter:drop-shadow(0 4px 8px #0009);transition:left calc(.5s / var(--motion-speed)) ease-out;}
   @media(prefers-reduced-motion:reduce){.staged-card{transition:none;}}
   .choice-controls{max-width:60%;text-align:center;padding:10px;border-radius:12px;background:#071321ed;border:1px solid #c6a25f80;pointer-events:auto;--control-height:clamp(34px,4.5svh,76px);--control-font:clamp(14px,1.8svh,32px);}
   p{margin:0 0 8px;}.source{font-size:clamp(12px,1.8svh,30px);color:#d6b46f;}.instruction{font-size:clamp(16px,2.4svh,42px);line-height:1.15;}.buttons{display:grid;grid-template-columns:1fr;gap:6px;}
