@@ -13,7 +13,7 @@ const CARD_TO_TABLE_SPEED = 2;
 
 /** One timing policy for Action/Treasure plays and purchases into the play area. */
 export function cardFlightTiming(step: Pick<PublicStep, 'kind' | 'to'>, offset = 0) {
-  const speed = step.to.zone === 'play' ? CARD_TO_TABLE_SPEED : 1;
+  const speed = (step.to.zone === 'play' || (step.kind === 'gain' && step.to.zone === 'reveal')) ? CARD_TO_TABLE_SPEED : 1;
   return {
     duration: motionDuration(step.kind === 'reveal' ? 680 : 450) / speed,
     delay: motionDuration(Math.min(offset * 70, 280)) / speed,
