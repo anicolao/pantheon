@@ -54,7 +54,12 @@ test('keep playing a Temple, spend the last Buy, and hand the turn to a friend e
     const cleanupStarts=await other.locator('.public-flight[data-motion-kind="cleanup"]').evaluateAll(nodes=>nodes.flatMap(node=>node.getAnimations().map(animation=>animation.startTime)));
     expect(cleanupStarts.length).toBeGreaterThan(0);expect(cleanupStarts).not.toContain(null);expect(new Set(cleanupStarts).size).toBe(1);
     await other.waitForFunction(()=>!document.querySelector('.public-flight[data-motion-kind="cleanup"]'),undefined,{polling:'raf',timeout:2000});
-    await expect(other.locator('.public-flight[data-motion-kind="draw"]').first()).toBeAttached();
+    const firstDraw=other.locator('.public-flight[data-motion-kind="draw"]').first();
+    await expect(firstDraw).toBeAttached();
+    const firstDrawStep=await firstDraw.getAttribute('data-motion-step');
+    // The first card lands while subsequent reveals continue. Observe that real
+    // milestone before the rest of the hand; neither operation exceeds two seconds.
+    await expect(other.locator(`.public-flight[data-motion-step="${firstDrawStep}"]`)).toHaveCount(0);
     await other.waitForFunction(()=>!document.querySelector('.public-flight'),undefined,{polling:20,timeout:2000});
     await closePlayers(other);
     await capture('handoff','Theseus receives fresh counters after public cleanup finishes',other,'Theseus',async()=>{await expect(other.locator('.turn-marker')).toContainText('Your turn');await expect(other.locator('.resources [data-resource=actions]')).toHaveAttribute('data-value','1');await expect(other.locator('.resources [data-resource=coins]')).toHaveAttribute('data-value','0');await expect(other.locator('.resources [data-resource=worship]')).toHaveAttribute('data-value','1');await expect(other.getByRole('button',{name:'End turn',exact:true})).toBeEnabled();await other.waitForFunction(()=>!document.querySelector('.public-flight'),undefined,{polling:20,timeout:2000});});
