@@ -1,4 +1,5 @@
 import { expect, test } from '@playwright/test';
+import { browseSupply } from './helpers/supply-controls';
 
 test('draw reveals overlap earlier landings but open only one slot at a time', async ({ page }) => {
   await page.emulateMedia({ reducedMotion: 'no-preference' });
@@ -174,4 +175,19 @@ test('observer draws remain private and Reset removes in-flight cards', async ({
   await page.getByRole('button', { name: 'Reset', exact: true }).click();
   await expect(page.locator('.public-flight')).toHaveCount(0);
   await expect(trigger).toBeEnabled();
+});
+
+
+test('a zero-cost purchase preserves the browsed market position', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await page.goto('./dev/animations/?scenario=victorious-procession');
+  const trigger = page.getByRole('button', { name: 'Trigger', exact: true });
+  await expect(trigger).toBeEnabled();
+  await trigger.click();
+  await expect(page.getByRole('button', { name: 'Replay', exact: true })).toBeEnabled();
+  await expect(page.locator('.resources [data-resource="buys"]')).toHaveAttribute('data-value', '2');
+  const obol = await browseSupply(page, 'Obol');
+  await obol.click();
+  await expect(page.locator('.resources [data-resource="buys"]')).toHaveAttribute('data-value', '1');
+  await expect(page.locator('.buy-card[data-centered="true"]')).toHaveAttribute('data-supply-id', 'obol');
 });

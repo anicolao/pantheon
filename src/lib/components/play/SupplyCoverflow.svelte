@@ -28,7 +28,17 @@
   const reason=$derived(selection ? `Choose cards to ${selection.kind}` : notice||(centered ? purchaseReason(game,uid,centered.id) : '')||(affordable>=0?`Affordable through ${definition(piles[affordable].id).name}`:''));
   const moving=$derived(position!==target || dragging);
   const optionKey=$derived(selection ? selection.choiceId+':'+selection.options.map(card=>card.id).join(',') : 'supply');
-  $effect(()=>{optionKey;if(!selection && !followAffordable)return;target=Math.max(0,affordable>=0?affordable:untrack(()=>Math.min(piles.length-1,target)));notice='';});
+  let followed=untrack(()=>({key:optionKey,affordable}));
+  $effect(()=>{
+    const key=optionKey;
+    if(!selection && !followAffordable)return;
+    // Completion releases a pending affordability change; it must not reset a
+    // manually browsed card after a command that leaves affordability unchanged.
+    if(selection || key!==followed.key || affordable!==followed.affordable){
+      target=Math.max(0,affordable>=0?affordable:untrack(()=>Math.min(piles.length-1,target)));notice='';
+    }
+    followed={key,affordable};
+  });
   $effect(()=>{
     const end=target, snap=reduced||!visible;
     if(dragging)return;
