@@ -1,6 +1,6 @@
 import { test, expect } from './helpers/fixtures';
 import { TestStepHelper } from './helpers/test-step-helper';
-import { freshTable, occupy, begin, advanceEmptyActions, seatUid, type Edge } from '../../src/lib/tabletop/table';
+import { freshTable, occupy, begin, append, actor, advanceEmptyActions, seatUid, type Edge } from '../../src/lib/tabletop/table';
 const names={south:'Thaleia',west:'Nereon',north:'Melia',east:'Doreios'};
 import { replaySetup } from '../../src/lib/game/setup';
 
@@ -108,11 +108,7 @@ test('tabletop motion hands off controls after rotating and accepts a rotated ma
   await expect.poll(()=>board.evaluate(node=>{const m=new DOMMatrixReadOnly(getComputedStyle(node).transform);return [m.a,m.b,m.c,m.d];})).toEqual([0,-1,1,0]);
   await expect(page.locator('[data-edge="east"] .flip').first()).toHaveCSS('transform','matrix(1, 0, 0, 1, 0, 0)');
   await expect(page.locator('[data-edge="east"]').getByRole('button',{name:'End turn',exact:true})).toBeEnabled();
-  await board.getByRole('button',{name:'New table',exact:true}).click();
-  await page.locator('.reset-confirm').getByRole('button',{name:'New table',exact:true}).click();
-  await expect(page.locator('main')).toHaveAttribute('data-tabletop-phase','gathering');
-  await expect(board).toHaveCSS('transform','none');
-  await expect(page.getByRole('button',{name:/^Join /})).toHaveCount(4);
+
 });
 
 test('tabletop exits face the tapped edge and leader names identify the log',async({page},info)=>{
@@ -128,7 +124,7 @@ test('tabletop exits face the tapped edge and leader names identify the log',asy
   await page.getByRole('button',{name:'Chronicle for Nereon',exact:true}).click();
   await expect(page.locator('.chronicle')).toContainText('Nereon');
   await expect(page.locator('.chronicle')).not.toContainText(/South|West|North|East/);
-  await page.getByRole('button',{name:'Close Chronicle',exact:true}).click();
+  await page.getByRole('button',{name:'Close Chronicle for Nereon',exact:true}).click();
   for(const edge of ['south','west','north','east'] as Edge[]) {
     await page.getByRole('button',{name:`Exit from ${names[edge]} edge`,exact:true}).click();
     await expect(page.getByRole('dialog',{name:'Leave the table?',exact:true})).toHaveAttribute('data-exit-edge',edge);
@@ -159,4 +155,106 @@ test('tabletop bot cards visibly fly before the next command',async({page},info)
   await page.locator('[data-corner="north"]').getByRole('button',{name:/Chronicle/}).click();
   await expect(page.locator(`.public-flight[data-motion-sequence="${sequence}"][data-motion-kind="play"]`)).toHaveCount(0);
   await expect(page.locator('.chronicle')).toBeVisible();
+});
+
+test('tabletop corner readers face their player and stay outside the playable table',async({page},info)=>{
+  test.skip(info.project.name==='phone','A shared four-edge table is designed for a large display.');
+  info.annotations.push({type:'setup',description:'Restore the legal seeded four-seat game to make the reading panels and turn handoff reproducible.'},{type:'display',description:'Shared tabletop: desktop and 4K displays only.'});
+  let table=freshTable();for(const edge of ['south','north','east','west'] as Edge[])table=occupy(table,edge,'human');
+  table=advanceEmptyActions(begin(table,'tabletop-visual-1'));
+  await page.goto('./pantheontt/');
+  await page.evaluate(saved=>localStorage.setItem('pantheon-tabletop-v1',saved),JSON.stringify(table));
+  await page.reload();
+  await expect(page.getByRole('link',{name:'Sanctuary',exact:true})).toHaveCount(0);
+  await expect(page.getByRole('button',{name:'New table',exact:true})).toHaveCount(0);
+  for(const edge of ['south','west','north','east'] as Edge[]) {
+    for(const kind of ['Chronicle','Trash']) {
+      await page.getByRole('button',{name:`${kind} for ${names[edge]}`,exact:true}).click();
+      const panel=page.locator(`[data-reader-edge="${edge}"] .reader-panel`);
+      const expected={south:[1,0,0,1],west:[0,1,-1,0],north:[-1,0,0,-1],east:[0,-1,1,0]}[edge];
+      expect(await panel.evaluate(node=>{const m=new DOMMatrixReadOnly(getComputedStyle(node).transform);return [m.a,m.b,m.c,m.d];})).toEqual(expected);
+      const bounds=await panel.boundingBox(), surface=await page.locator('.play-surface').boundingBox();
+      expect(bounds && surface && (bounds.x+bounds.width<=surface.x || surface.x+surface.width<=bounds.x || bounds.y+bounds.height<=surface.y || surface.y+surface.height<=bounds.y)).toBe(true);
+      await expect(page.locator('[data-edge="west"]').getByRole('button',{name:'End turn',exact:true})).toBeEnabled();
+      await page.getByRole('button',{name:`Close ${kind} for ${names[edge]}`,exact:true}).click();
+    }
+  }
+  await page.getByRole('button',{name:'Chronicle for Thaleia',exact:true}).click();
+  await page.getByRole('button',{name:'Trash for Doreios',exact:true}).click();
+  const story=new TestStepHelper(page,info,'Read beside the shared table');
+  await story.step('readers','Two players can read without covering the table',[
+    {spec:'Chronicle is docked at Thaleia’s edge',check:()=>expect(page.locator('[data-reader-edge="south"]')).toHaveAttribute('data-reader-kind','chronicle')},
+    {spec:'The trash pile opens and explains an empty pile',check:()=>expect(page.locator('[data-reader-edge="east"]')).toContainText('No cards have been trashed.')}
+  ]);
+  await page.locator('[data-edge="west"]').getByRole('button',{name:'End turn',exact:true}).click();
+  await expect(page.getByRole('region',{name:'Shared table'})).toHaveAttribute('data-facing','east');
+  await expect(page.locator('.reader-dock')).toHaveCount(2);
+  await expect(page.locator('[data-reader-edge="south"]')).toContainText('Doreios');
+});
+
+for(const edge of ['south','west','north','east'] as Edge[])test(`tabletop ${edge} card flights retain their facing while playing and drawing`,async({page},info)=>{
+  test.skip(info.project.name==='phone','A shared four-edge table is designed for a large display.');
+  info.annotations.push({type:'setup',description:'Restore a legal fixed-seed game with the inspected edge first; inspect actual browser animation keyframes.'});
+  await page.emulateMedia({reducedMotion:'no-preference'});
+  let table=freshTable();for(const seat of [edge==='south'?'west':'south',edge] as Edge[])table=occupy(table,seat,'human');
+  table=advanceEmptyActions(begin(table,'tabletop-facing-1'));
+  await page.goto('./pantheontt/');
+  await page.evaluate(saved=>localStorage.setItem('pantheon-tabletop-v1',saved),JSON.stringify(table));
+  await page.reload();
+  const board=page.getByRole('region',{name:'Shared table'});
+  await expect(board).toHaveAttribute('aria-busy','false');
+  await page.locator(`[data-edge="${edge}"]`).getByRole('button',{name:'Play all Treasures',exact:true}).click();
+  const expected=['south','west','north','east'].indexOf(edge)*90;
+  const play=page.locator('.public-flight[data-motion-kind="play"]').first();
+  await expect(play).toBeAttached();
+  const angles=await play.evaluate(node=>node.getAnimations().flatMap(animation=>(animation.effect as KeyframeEffect).getKeyframes().flatMap(frame=>typeof frame.transform==='string'?[...frame.transform.matchAll(/rotate\(([-\d.]+)deg\)/g)].map(match=>Number(match[1])):[])));
+  expect(angles.length).toBeGreaterThanOrEqual(2);
+  expect(angles.every(angle=>angle===angles[0] && (angle%360+360)%360===expected)).toBe(true);
+  await expect(page.locator(`[data-edge="${edge}"]`).getByRole('button',{name:'End turn',exact:true})).toBeEnabled();
+  await page.locator(`[data-edge="${edge}"]`).getByRole('button',{name:'End turn',exact:true}).click();
+  const draw=page.locator('.public-flight[data-motion-kind="draw"]').first();
+  await expect(draw).toHaveAttribute('data-draw-phase','reveal');
+  const card=await draw.getAttribute('data-motion-card');
+  const revealing=await draw.evaluate(node=>node.getAnimations().flatMap(animation=>(animation.effect as KeyframeEffect).getKeyframes().flatMap(frame=>typeof frame.transform==='string'?[...frame.transform.matchAll(/rotate\(([-\d.]+)deg\)/g)].map(match=>Number(match[1])):[])));
+  expect(revealing.length).toBeGreaterThanOrEqual(2);
+  expect(revealing.every(angle=>angle===revealing[0] && (angle%360+360)%360===expected)).toBe(true);
+  const travelling=page.locator(`.public-flight[data-motion-card="${card}"]`);
+  await expect(travelling).toHaveAttribute('data-draw-phase','travel');
+  const landing=await travelling.evaluate(node=>node.getAnimations().flatMap(animation=>(animation.effect as KeyframeEffect).getKeyframes().flatMap(frame=>typeof frame.transform==='string'?[...frame.transform.matchAll(/rotate\(([-\d.]+)deg\)/g)].map(match=>Number(match[1])):[])));
+  expect(landing.length).toBeGreaterThanOrEqual(2);
+  expect(landing.every(angle=>angle===revealing[0])).toBe(true);
+});
+
+
+test('tabletop trash reader shows and inspects cards from legal trash events',async({page},info)=>{
+  test.skip(info.project.name==='phone','A shared four-edge table is designed for a large display.');
+  info.annotations.push({type:'setup',description:'Legal recorded prelude: purchase Seed Keeper, cycle the deck through ordinary turns, and trash a Hamlet.'});
+  let table=advanceEmptyActions(begin(occupy(occupy(freshTable(),'west','human'),'south','human'),'tabletop-trash-reader'));
+  let bought=false;
+  for(let turn=0;turn<30;turn++) {
+    const game=replaySetup(table.events),uid=actor(game),hand=game.decks[uid].hand;
+    const seed=hand.find(card=>card.cardId==='seed-keeper'),hamlet=hand.find(card=>card.cardId==='hamlet');
+    if(seed&&hamlet) {
+      table=append(table,uid,{type:'action/played',instanceId:seed.id});
+      const choice=replaySetup(table.events).turn.choice!;
+      table=advanceEmptyActions(append(table,uid,{type:'choice/resolved',choiceId:choice.id,targets:[hamlet.id]}));
+      break;
+    }
+    table=append(table,uid,{type:'treasures/played'});
+    if(!bought && uid===seatUid('south') && replaySetup(table.events).resources.coins>=2) {
+      table=append(table,uid,{type:'card/bought',cardId:'seed-keeper'});bought=true;
+    }
+    table=advanceEmptyActions(append(table,uid,{type:'turn/ended'}));
+  }
+  expect(replaySetup(table.events).trash.map(card=>card.cardId)).toContain('hamlet');
+  await page.goto('./pantheontt/');
+  await page.evaluate(saved=>localStorage.setItem('pantheon-tabletop-v1',saved),JSON.stringify(table));
+  await page.reload();
+  await page.getByRole('button',{name:'Trash for Thaleia',exact:true}).click();
+  const reader=page.locator('[data-reader-edge="south"]');
+  await reader.getByRole('button',{name:'Inspect trashed Hamlet',exact:true}).click();
+  await expect(reader.locator('[data-card-id="hamlet"]')).toBeVisible();
+  await expect(page.locator('[data-edge="south"]').getByRole('button',{name:'End turn',exact:true})).toBeEnabled();
+  await reader.getByRole('button',{name:'All trashed cards',exact:true}).click();
+  await expect(reader.getByRole('button',{name:'Inspect trashed Hamlet',exact:true})).toBeVisible();
 });

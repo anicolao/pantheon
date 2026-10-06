@@ -9,7 +9,7 @@
   import CardFace from '../CardFace.svelte';
   import CardBack from '../CardBack.svelte';
 
-  let { game, uid, openDraw, status, reduced, visible, previousLayout, localChoices=[], onSettled, onFlightsSettled }: { game: SetupState; uid: string; openDraw: (step:string)=>void; status: string; reduced: boolean; visible: boolean; previousLayout: () => Layout; localChoices?:string[]; onSettled?:(revision:number)=>void; onFlightsSettled?:(revision:number)=>void } = $props();
+  let { game, uid, openDraw, status, reduced, visible, previousLayout, localChoices=[], onSettled, onFlightsSettled, preserveFacing=false, layoutRevision=0 }: { preserveFacing?:boolean; layoutRevision?:number; game: SetupState; uid: string; openDraw: (step:string)=>void; status: string; reduced: boolean; visible: boolean; previousLayout: () => Layout; localChoices?:string[]; onSettled?:(revision:number)=>void; onFlightsSettled?:(revision:number)=>void } = $props();
   type Flight = { card?: CardInstance; id: string; step: PublicStep; from: Pose; to: Pose; width: number; stack: number; sequence: number };
   const cursor = new PublicMotionCursor(untrack(() => game.activity.length));
   let drawPhases = $state<Record<string,'reveal'|'space'|'travel'>>({});
@@ -131,7 +131,8 @@
         // was discarded, shuffled and drawn again during this same turn end.
         const arriving=step.kind==='draw'?(next.poses.find(pose=>pose.zone==='hand'&&pose.uid===step.to.uid&&pose.card===drawn?.id&&!!pose.face)??newHands.find(pose=>pose.uid===step.to.uid)):undefined;
         if(arriving&&newHands.includes(arriving))newHands.splice(newHands.indexOf(arriving),1);
-        const to=arriving??anchor(next,step.to,step.card?.id);
+        const destination=preserveFacing && step.to.zone==='trash'?{...step.to,uid:entry.actor.uid}:step.to;
+        const to=arriving??anchor(next,destination,step.card?.id);
         // A hidden or absent destination must not turn into a flight to an unrelated spot.
         if(!from||!to)continue;
         const card=step.card??(step.kind==='draw'?(step.to.uid===uid?drawn:undefined):step.kind==='cleanup'?from.face:undefined);
@@ -142,19 +143,21 @@
         const sidebarCard=!card?[...next.poses,...previous.poses].find(pose=>pose.uid===owner&&pose.zone==='hand'&&pose.key?.startsWith('hidden:')):undefined;
         const sidebarDeck=!card?anchor(next,{zone:'deck',uid:owner})??anchor(previous,{zone:'deck',uid:owner}):undefined;
         const width=card?(step.kind==='draw'?next.width:from.key?from.width:to.key?to.width:next.width):(sidebarCard?.width??sidebarDeck?.width??Math.min(from.width,to.width));
-        const flight={card,stack:to.stack,id:`${step.id}:${index}`,step,from,to,width,sequence:entry.sequence};
+        const flight={card,stack:to.stack,id:`${step.id}:${index}`,step,from,to:facing(to,from),width,sequence:entry.sequence};
         if(to.key && step.kind!=='draw')mask(to.node);
         result.push(flight);
       }
     }
     return result;
   }
+  function facing(pose: Pose, source: Pose): Pose { return preserveFacing ? {...pose,angle:source.angle} : pose; }
   function retargetFlights() {
       // Another play can move a landing slot while a card is still in flight.
       // Continue from its current visual position toward that slot, without a jump.
       for(const active of activeFlights){
-        const target=current.poses.find(pose=>pose.key&&pose.key===active.flight.to.key);
-        if(!target)continue;
+        const measured=current.poses.find(pose=>pose.key&&pose.key===active.flight.to.key);
+        if(!measured)continue;
+        const target=facing(measured,active.flight.from);
         if(active.node.parentElement?.classList.contains('hand'))active.node.style.zIndex=String(target.stack);
         if(Math.abs(target.x-active.target.x)+Math.abs(target.y-active.target.y)<.5&&Math.abs(target.angle-active.target.angle)<.1)continue;
         const timing=active.animation?.effect?.getComputedTiming();
@@ -175,7 +178,10 @@
       // Only the owner has a face to flip. Observers see a small card back.
       const height=flight.width*1.4;
       const source=anchor(current,flight.step.from)??flight.from;
-      const raised={...source,x:Math.max(flight.width/2+8,Math.min(innerWidth-flight.width/2-8,source.x)),y:Math.max(height/2+8,source.y-height*.65),angle:0};
+      const angle=preserveFacing?source.angle:0, radians=angle*Math.PI/180;
+      const halfX=(Math.abs(Math.cos(radians))*flight.width+Math.abs(Math.sin(radians))*height)/2;
+      const halfY=(Math.abs(Math.sin(radians))*flight.width+Math.abs(Math.cos(radians))*height)/2;
+      const raised={...source,x:Math.max(halfX+8,Math.min(innerWidth-halfX-8,source.x+Math.sin(radians)*height*.65)),y:Math.max(halfY+8,Math.min(innerHeight-halfY-8,source.y-Math.cos(radians)*height*.65)),angle};
       const flip=node.querySelector<HTMLElement>('.draw-flip');
       await Promise.all([
         animate(node,[{transform:`${transform(source)} scale(${source.width/flight.width})`,opacity:1},{transform:transform(raised),opacity:1}],DRAW_MOTION.reveal),
@@ -191,13 +197,13 @@
         ??current.poses.find(pose=>pose.zone==='hand'&&pose.uid===flight.step.to.uid&&pose.key&&!previous.poses.some(old=>old.key===pose.key))
         ??anchor(current,flight.step.to);
       if(!added)return;
-      flight.to=added;
+      flight.to=facing(added,flight.from);
       if(added.key)mask(added.node);
       await Promise.all(reposition(previous,current,DRAW_MOTION.space).map(animation=>animation.finished.catch(()=>undefined)));
       if(!valid())return;
       drawPhases[flight.id]='travel';
       // Re-measure after opening this slot, not against the final future hand.
-      const destination=measureLayout().poses.find(pose=>pose.key&&pose.key===added.key)??added;
+      const destination=facing(measureLayout().poses.find(pose=>pose.key&&pose.key===added.key)??added,flight.from);
       flight.stack=destination.stack;
       // Share the real hand's stacking context before entering the fan. A
       // viewport overlay cannot interleave with its cards, whatever its z-index.
@@ -266,7 +272,8 @@
           await Promise.all(batch.map(async(flight,offset)=>{
             const node=nodes.get(flight.id)!;
             // Use the actual card slot when available, otherwise the real pile icon.
-            const destination=current.poses.find(pose=>pose.key&&pose.key===flight.to.key)??anchor(current,flight.step.to,flight.step.card?.id)??flight.to;
+            const targetAnchor=preserveFacing && flight.step.to.zone==='trash'?{...flight.step.to,uid:flight.step.from.uid??uid}:flight.step.to;
+            const destination=facing(current.poses.find(pose=>pose.key&&pose.key===flight.to.key)??anchor(current,targetAnchor,flight.step.card?.id)??flight.to,flight.from);
             const active:ActiveFlight={flight,node,target:destination};activeFlights.add(active);
             let {duration,delay}=cardFlightTiming(flight.step,offset);
             let start=transform(flight.from),initial=true;
@@ -331,6 +338,7 @@
     });
   });
   $effect(()=>{
+    void layoutRevision;
     const canShow=visible&&foreground&&!reduced&&status==='synced';
     const fresh=cursor.take(game.publicActivity,status==='synced',canShow);
     untrack(()=>{
