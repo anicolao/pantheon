@@ -90,6 +90,12 @@ export class TestStepHelper {
           // Capture flushes the complete compositor frame; another rAF would render it twice.
           return {fonts:Math.round(fonts-start),discovery:Math.round(discovered-fonts),decode:Math.round(artwork-discovered),animations:Math.round(performance.now()-artwork)};
         },view.animationCheckpoint??false);
+        // A flight's completion can start the market's requestAnimationFrame glide.
+        // Native-animation settlement alone does not mean that dependent UI is idle.
+        if(!view.document){
+          const idle=await page.waitForFunction(()=>!document.querySelector('[aria-busy="true"]'),undefined,{polling:20,timeout:remaining()});
+          await idle.dispose();
+        }
         const ready=performance.now();
         await page.evaluate(assertScreenFit,{document:view.document});
         const prepared=performance.now();

@@ -34,7 +34,7 @@
     if(!selection && !followAffordable)return;
     // Completion releases a pending affordability change; it must not reset a
     // manually browsed card after a command that leaves affordability unchanged.
-    if(selection || key!==followed.key || affordable!==followed.affordable){
+    if(key!==followed.key || affordable!==followed.affordable){
       target=Math.max(0,affordable>=0?affordable:untrack(()=>Math.min(piles.length-1,target)));notice='';
     }
     followed={key,affordable};
