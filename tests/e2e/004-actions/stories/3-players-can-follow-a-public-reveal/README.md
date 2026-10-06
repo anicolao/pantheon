@@ -19,4 +19,4 @@ Recorded-history integration scenario. A legal event history prepares the starti
 
 </details>
 
-- [x] Every opponent and chosen altar remains visible beside the public result.
+- [x] Every opponent and chosen altar remains visible after the revealed card departs.
