@@ -299,7 +299,7 @@
       <section class="opponents" aria-label="Other players">
         {#each opponents as id}
           <div data-public-zone="seat" data-public-uid={id} class="opponent" data-testid="opponent" class:first={id === turnUid}>
-            <button class="opponent-portrait" class:blessed={latestMoves.some(move => move.kind === 'leader' && move.uid === id)} aria-label={`Inspect ${nameOf(id)}’s leader, ${leaderLinks(game.leaders[id]).leader.name}`} onclick={()=>inspect(game.leaders[id])}><Portrait leader={game.leaders[id]} name={nameOf(id)} active={id === turnUid} /></button>
+            <button class="opponent-portrait" class:blessed={latestMoves.some(move => move.kind === 'leader' && move.uid === id)} aria-label={`Inspect ${nameOf(id)}’s leader, ${leaderLinks(game.leaders[id]).leader.name}`} onclick={()=>inspect(game.leaders[id])}><Portrait leader={game.leaders[id]} name={nameOf(id)} active={id === turnUid} points={liveScores[id]} /></button>
             <div class="opponent-deck" data-public-zone="deck" data-public-uid={id}><ResourceIcon resource="cards" value={game.decks[id].deck.length} label={`${nameOf(id)}’s deck: ${game.decks[id].deck.length} cards`}/></div>
             <div data-public-zone="hand" data-public-uid={id} class="hidden-hand" aria-label={`${nameOf(id)} has ${game.decks[id].hand.length} cards in hand`}>
               {#each presentedHand(id).slice(0, 5) as _, index}<img data-motion-key={`hidden:${id}:${index}`} data-motion-zone="hand" data-motion-uid={id} src={`${base}/assets/backs/back-deck-icon.webp`} alt="Card back" style:--index={index} draggable="false" in:dealBack|global={index} />{/each}
@@ -316,7 +316,7 @@
           </div>
         </section>
 
-      <button data-public-zone="leader" data-public-uid={uid} class="own-leader" class:blessed={latestMoves.some(move => move.kind === 'leader' && move.uid === uid)} aria-label={`Inspect your leader, ${leaderLinks(game.leaders[uid]).leader.name}`} onclick={() => inspect(game.leaders[uid])}><div class="leader-face"><CardFace card={leaderLinks(game.leaders[uid]).leader} players={game.playerCount} points={liveScores[uid]} /></div><div class="leader-portrait"><Portrait leader={game.leaders[uid]} name={leaderLinks(game.leaders[uid]).leader.name.split(',')[0]} active={uid === turnUid} /></div></button>
+      <button data-public-zone="leader" data-public-uid={uid} class="own-leader" class:blessed={latestMoves.some(move => move.kind === 'leader' && move.uid === uid)} aria-label={`Inspect your leader, ${leaderLinks(game.leaders[uid]).leader.name}`} onclick={() => inspect(game.leaders[uid])}><div class="leader-face"><CardFace card={leaderLinks(game.leaders[uid]).leader} players={game.playerCount} points={liveScores[uid]} /></div><div class="leader-portrait"><Portrait leader={game.leaders[uid]} name={leaderLinks(game.leaders[uid]).leader.name.split(',')[0]} active={uid === turnUid} points={liveScores[uid]} /></div></button>
 
       </aside>
       <div data-public-zone="deck" data-public-uid={uid} class="deck-pile"><ResourceIcon resource="cards" value={own.deck.length} label={`Your deck: ${own.deck.length} cards`} /></div>

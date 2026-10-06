@@ -1,0 +1,6 @@
+{
+  "asset": "static/assets/ui/avatar-vp-wreath.png",
+  "generation": "Built-in image_gen; transparent background",
+  "purpose": "Live victory-point counter at the upper right of table avatars, behind the portrait; score rendered separately as accessible text.",
+  "prompt": "Create one production-ready square transparent PNG game UI asset: a compact, circular ancient Greek victory-point wreath for the upper-left corner of a player avatar. Use richly shaded antique gold laurel leaves around a large, opaque dark forest-green circular center, matching the ornate painted gold-and-green VP wells on Pantheon leader cards; keep the silhouette round, symmetrical and readable at 32–48 pixels, with a very small gold tie at the bottom. Center it with a narrow transparent margin; no letters, numbers, banners, extra objects, backdrop, or cast shadow outside the wreath."
+}
