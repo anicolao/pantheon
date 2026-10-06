@@ -26,7 +26,7 @@ async function playCard(page:Page,id:string){
   for(const event of after.filter(event=>!before.includes(event))){
     const glint=page.locator(`[data-god-event="${event}"] .glint`);
     await expect(glint).toHaveCount(1);
-    await expect(glint).toHaveCSS('animation-duration','1.375s');
+    await expect(glint).toHaveCSS('animation-duration','0.916667s');
     await expect.poll(()=>glint.evaluate(node=>node.getAnimations().every(animation=>animation.playState==='finished'))).toBe(true);
   }
 }

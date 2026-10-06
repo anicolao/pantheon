@@ -1,3 +1,4 @@
+import {cardFlightTiming,DRAW_MOTION,motionDuration} from '../../../src/lib/components/play/motion';
 import {setMotionPreference} from '../helpers/motion-preference';
 import {openWorship,openPlayers,closePlayers} from '../helpers/table-controls';
 import {browseSupply,enterTreasures} from '../helpers/supply-controls';
@@ -72,12 +73,18 @@ for(const scenario of [
     const moves=state.publicActivity.filter(entry=>entry.sequence>fixture.events.length).flatMap(entry=>entry.steps);
     await expectFlights(other,moves.filter(move=>!['leader','worship'].includes(move.kind)).flatMap(move=>Array.from({length:move.kind==='cleanup'?(move.from.zone==='hand'?Math.min(5,move.count):move.count):1},()=>move.id)));
     await expect(other.locator('.public-flight')).toHaveCount(0);
-    const observed=await flights(other);expect(observed.every(move=>move.duration>=450)).toBe(true);expect(observed.every(move=>move.delay<=700)).toBe(true);
+    const observed=await flights(other);
+    for(const move of observed){
+      const step=moves.find(step=>step.id===move.id)!;
+      expect(move.duration).toBe(step.kind==='draw'?DRAW_MOTION.reveal:cardFlightTiming(step).duration);
+      expect(move.delay).toBeLessThanOrEqual(motionDuration(280));
+    }
     expect(observed.filter(move=>['draw','shuffle'].includes(move.kind)).every(move=>move.faces===0)).toBe(true);
     if(scenario.cleanup)expect(observed.some(move=>move.kind==='shuffle')).toBe(true);
     if(scenario.reveal){
-      const target=await other.locator('.outcome-card').boundingBox();
-      expect(observed.find(move=>move.kind==='reveal')!.end).toContain(`translate(${target!.x+target!.width/2}px,${target!.y+target!.height/2}px)`);
+      const target=await other.locator('.outcome-card').evaluate(node=>{const box=node.getBoundingClientRect();return {x:box.x+box.width/2,y:box.y+box.height/2};});
+      expect(observed.find(move=>move.kind==='reveal')!.end).toContain(`translate(${target.x}px,${target.y}px)`);
+      await expect(other.locator('.outcome')).toBeHidden();
     }
     await capture('result','Every public movement arrived in order while hidden cards stayed backs',async()=>expect(other.locator('.opponents [data-card-id]')).toHaveCount(0),true);
     await openPlayers(other);await other.getByRole('button',{name:'Chronicle',exact:true}).click();
