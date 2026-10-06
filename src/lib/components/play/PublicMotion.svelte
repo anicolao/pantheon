@@ -75,7 +75,9 @@
       const old=previous.poses.find(candidate=>candidate.key===pose.key);if(!old)continue;
       const dx=old.x-pose.x,dy=old.y-pose.y;
       if(Math.abs(dx)+Math.abs(dy)>.5){
-        const animation=pose.node.animate([{translate:`${dx}px ${dy}px`},{translate:'0px 0px'}],{duration,easing:MOTION_EASING});
+        const angle=pose.node.dataset.motionAngle!==undefined?pose.angle*Math.PI/180:0;
+        const localX=dx*Math.cos(angle)+dy*Math.sin(angle),localY=-dx*Math.sin(angle)+dy*Math.cos(angle);
+        const animation=pose.node.animate([{translate:`${localX}px ${localY}px`},{translate:'0px 0px'}],{duration,easing:MOTION_EASING});
         moved.push(animation);layoutAnimations.add(animation);void animation.finished.catch(()=>undefined).finally(()=>layoutAnimations.delete(animation));
       }
       const face=pose.node.querySelector<HTMLElement>('.hand-face');
