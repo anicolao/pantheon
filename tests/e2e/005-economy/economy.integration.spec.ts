@@ -67,7 +67,7 @@ test('a lost purchase acknowledgement does not duplicate the card or its animati
   expect(dropped).toBe(true);
   const events=await readEvents(fixture.code),after=replaySetup(events);
   expect(events.filter(event=>event.type==='card/bought')).toHaveLength(1);expect(after.decks[fixture.host].discard.length).toBe(before.decks[fixture.host].discard.length+1);
-  if(info.project.name!=='phone')expect(await page.evaluate(()=>(window as unknown as {gains:number[]}).gains.filter(duration=>duration===1125).length)).toBe(1);
+  if(info.project.name!=='phone')expect(await page.evaluate(()=>(window as unknown as {gains:number[]}).gains.filter(duration=>duration===375).length)).toBe(1);
   await page.reload();
   await steps.step('purchase-restored','Return to the same turn with the purchased card kept',[{spec:'Returning does not spend another Buy.',check:async()=>expect(page.locator('.resources [data-resource=buys]')).toHaveAttribute('data-value','0')}]);
   expect(await readEvents(fixture.code)).toEqual(events);expect(await page.evaluate(()=>document.getAnimations().length)).toBe(0);
