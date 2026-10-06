@@ -17,6 +17,9 @@ test('table avatar wreath updates when an opponent trashes victory points', asyn
     await playCard(page, 'seed-keeper');
     await page.getByRole('button', { name: /^Trash hand card .*Hamlet$/ }).first().click();
     await page.getByRole('button', { name: 'Done trashing (1)', exact: true }).click();
+    // The score updates on the trash event; the automatic phase advance is a
+    // separate replicated event. Capture the completed action, including that transition.
+    await expect(other.locator('.turn-marker')).toContainText('Treasures');
     const steps = new TestStepHelper(other, info, 'Live victory wreath');
     await steps.step('score-updated', 'The avatar shows the current victory points after trashing a Hamlet', [{
       spec: 'The opponent’s wreath loses one VP and stays at the upper right of their avatar',
