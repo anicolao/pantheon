@@ -1,5 +1,6 @@
 import { expect, test } from '@playwright/test';
 import { browseSupply } from './helpers/supply-controls';
+import { browseChoice } from './helpers/table-controls';
 
 test('draw reveals overlap earlier landings but open only one slot at a time', async ({ page }) => {
   await page.emulateMedia({ reducedMotion: 'no-preference' });
@@ -190,4 +191,33 @@ test('a zero-cost purchase preserves the browsed market position', async ({ page
   await obol.click();
   await expect(page.locator('.resources [data-resource="buys"]')).toHaveAttribute('data-value', '1');
   await expect(page.locator('.buy-card[data-centered="true"]')).toHaveAttribute('data-supply-id', 'obol');
+});
+
+
+test('Sacred Grove gains land on the table, pause, then enter discard', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'no-preference' });
+  await page.goto('./dev/animations/?scenario=sacred-grove');
+  await page.getByRole('button', { name: 'Trigger', exact: true }).click();
+  await expect(page.locator('.inline-choice')).toBeVisible();
+  const discard = page.locator('[data-public-zone="discard"][data-public-uid="lab-0"]');
+  const count = Number((await discard.getAttribute('aria-label'))!.match(/\d+/)![0]);
+  await (await browseChoice(page, 'Obol')).click();
+  const arrival = page.locator('.public-flight[data-motion-kind="gain"]');
+  const outcome = page.locator('.outcome');
+  await expect(arrival).toBeVisible();
+  await expect(outcome).toHaveCSS('opacity', '0');
+  await expect(arrival).toHaveAttribute('data-motion-phase', 'pause');
+  const landing = await arrival.evaluate(node => {
+    const flight = node.getBoundingClientRect();
+    const target = document.querySelector('.outcome-card')!.getBoundingClientRect();
+    return { x: flight.x + flight.width / 2, y: flight.y + flight.height / 2, tx: target.x + target.width / 2, ty: target.y + target.height / 2 };
+  });
+  expect(landing.x).toBeCloseTo(landing.tx, 3);
+  expect(landing.y).toBeCloseTo(landing.ty, 3);
+  const departure = page.locator('.public-flight[data-motion-kind="discard"]');
+  await expect(departure).toBeVisible();
+  await expect(outcome).toHaveCSS('opacity', '0');
+  await expect(page.locator('.public-flight')).toHaveCount(0);
+  await expect(outcome).toBeHidden();
+  await expect(discard).toHaveAttribute('aria-label', `Inspect your discard pile: ${count + 1} cards`);
 });

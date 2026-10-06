@@ -89,7 +89,15 @@
   function plan(entry: PublicActivity, previous: Layout, next: Layout): Flight[] {
     const result: Flight[]=[];
     const newHands=next.poses.filter(pose=>pose.zone==='hand'&&pose.key&&(entry.command==='turn/ended'||!previous.poses.some(old=>old.key===pose.key)));
-    const steps=entry.steps.map(step=>entry.command==='card/bought'&&step.kind==='gain'?{...step,to:{zone:'play' as const,uid:entry.actor.uid}}:step);
+    const steps=entry.steps.flatMap((step):PublicStep[]=>{
+      if(entry.command==='card/bought' && step.kind==='gain')return [{...step,to:{zone:'play',uid:entry.actor.uid}}];
+      const movement=game.movements.find(move=>`${move.sequence}:${move.index}`===step.id);
+      if(step.kind==='gain' && movement?.source==='sacred-grove'){
+        const table:PublicAnchor={zone:'reveal',uid:entry.actor.uid};
+        return [{...step,to:table},{...step,id:`${step.id}:from-table`,kind:'discard',from:table}];
+      }
+      return [step];
+    });
     if(entry.command==='treasures/played') {
       const order=treasuresRightToLeft(steps.flatMap(step=>step.card?[step.card]:[]));
       const positions=new Map(order.map((card,index)=>[card.id,index]));
