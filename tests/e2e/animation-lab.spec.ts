@@ -1,3 +1,4 @@
+import { observeDraws, waitForDraws, drawFrames } from './helpers/draw-observer';
 import { expect, test } from '@playwright/test';
 import { browseSupply } from './helpers/supply-controls';
 import { browseChoice } from './helpers/table-controls';
@@ -7,32 +8,26 @@ test('draw reveals overlap earlier landings but open only one slot at a time', a
   await page.goto('./dev/animations/?scenario=council-of-sages');
   const trigger = page.getByRole('button', { name: 'Trigger', exact: true });
   await expect(trigger).toBeEnabled();
+  await observeDraws(page);
   await trigger.click();
-  const seen = new Set<string>();
-  let previousStep: string | undefined;
-  for (const count of [4, 5, 6]) {
-    const reveal = page.locator('[data-motion-kind="draw"][data-draw-phase="reveal"]');
-    await expect(reveal).toBeVisible();
-    const step = (await reveal.getAttribute('data-motion-step'))!;
-    expect(seen.has(step)).toBe(false);
-    seen.add(step);
-    if (previousStep) {
-      const previous = page.locator(`[data-motion-step="${previousStep}"]`);
-      await expect(previous).toBeVisible();
-      await expect(previous).not.toHaveAttribute('data-draw-phase', 'reveal');
-    }
-    await expect(page.locator('.hand')).toHaveAttribute('data-hand-total', String(count));
-    const flight = page.locator(`[data-motion-kind="draw"][data-motion-step="${step}"]`);
-    await expect(flight).toHaveAttribute('data-draw-phase', 'space');
-    await expect(page.locator('.hand')).toHaveAttribute('data-hand-total', String(count + 1));
-    await expect(flight).toHaveAttribute('data-draw-phase', 'travel');
-    const instance = await flight.getAttribute('data-motion-card');
-    const slot = page.locator(`.hand-slot[data-instance-id="${instance}"]`);
-    await expect(slot).toHaveCount(1);
-    await expect(page.locator(`.hand > [data-motion-step="${step}"]`)).toHaveCount(1);
-    const stack = await slot.evaluate(node => getComputedStyle(node).zIndex);
-    await expect(flight).toHaveCSS('z-index', stack);
-    previousStep = step;
+  await expect(page.locator('[data-motion-kind="draw"]').first()).toBeVisible();
+  for (const count of [1, 2, 3]) await waitForDraws(page, count);
+  const frames = await drawFrames(page);
+  const steps = [...new Set(frames.flatMap(frame => frame.cards.map(card => card.step)))];
+  expect(steps).toHaveLength(3);
+  for (const [index, step] of steps.entries()) {
+    const reveal = frames.find(frame => frame.cards.some(card => card.step === step && card.phase === 'reveal'))!;
+    expect(reveal).toBeDefined();
+    expect(reveal.hand).toBe(4 + index);
+    if (index) expect(reveal.cards.some(card => card.step === steps[index - 1] && card.phase !== 'reveal')).toBe(true);
+    const space = frames.find(frame => frame.cards.some(card => card.step === step && card.phase === 'space'))!;
+    expect(space).toBeDefined();
+    expect(space.hand).toBe(5 + index);
+    const travel = frames.flatMap(frame => frame.cards).find(card => card.step === step && card.phase === 'travel')!;
+    expect(travel).toBeDefined();
+    expect(travel.inHand).toBe(true);
+    expect(travel.slotStack).not.toBeNull();
+    expect(travel.stack).toBe(travel.slotStack);
   }
   await expect(page.locator('.public-flight')).toHaveCount(0);
   await expect(page.locator('.hand')).toHaveAttribute('data-hand-total', '7');

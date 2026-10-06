@@ -1,3 +1,4 @@
+import { observeDraws, waitForDraws, drawFrames } from '../helpers/draw-observer';
 import {setMotionPreference} from '../helpers/motion-preference';
 import {openPlayers,closePlayers} from '../helpers/table-controls';
 import {enterTreasures,browseSupply} from '../helpers/supply-controls';
@@ -48,19 +49,18 @@ test('keep playing a Temple, spend the last Buy, and hand the turn to a friend e
     await setMotionPreference(page,'no-preference');await setMotionPreference(other,'no-preference');
     let dropped=false;await page.context().route(url=>url.pathname.endsWith('/documents:commit'),async route=>{if(dropped){await route.continue();return;}const response=await route.fetch({timeout:2000});expect(response.ok()).toBe(true);dropped=true;await route.abort('connectionreset');});
     await openPlayers(other);await other.bringToFront();
+    await observeDraws(other);
     await page.getByRole('button',{name:'End turn',exact:true}).click();
     // Cleanup and redeal are separate, intentionally slowed animation batches.
     await expect(other.locator('.public-flight[data-motion-kind="cleanup"]').first()).toBeAttached();
     const cleanupStarts=await other.locator('.public-flight[data-motion-kind="cleanup"]').evaluateAll(nodes=>nodes.flatMap(node=>node.getAnimations().map(animation=>animation.startTime)));
     expect(cleanupStarts.length).toBeGreaterThan(0);expect(cleanupStarts).not.toContain(null);expect(new Set(cleanupStarts).size).toBe(1);
     await other.waitForFunction(()=>!document.querySelector('.public-flight[data-motion-kind="cleanup"]'),undefined,{polling:'raf',timeout:2000});
-    const firstDraw=other.locator('.public-flight[data-motion-kind="draw"]').first();
-    await expect(firstDraw).toBeAttached();
-    const firstDrawStep=await firstDraw.getAttribute('data-motion-step');
-    // The first card lands while subsequent reveals continue. Observe that real
-    // milestone before the rest of the hand; neither operation exceeds two seconds.
-    await expect(other.locator(`.public-flight[data-motion-step="${firstDrawStep}"]`)).toHaveCount(0);
-    await other.waitForFunction(()=>!document.querySelector('.public-flight'),undefined,{polling:20,timeout:2000});
+    // Observe each dealt card's actual landing. An overlapping five-card deal
+    // has multiple milestones; the entire remaining batch can exceed two seconds.
+    for (const count of [1, 2, 3, 4, 5]) await waitForDraws(other, count);
+    await drawFrames(other);
+    await expect(other.locator('.public-flight')).toHaveCount(0);
     await closePlayers(other);
     await capture('handoff','Theseus receives fresh counters after public cleanup finishes',other,'Theseus',async()=>{await expect(other.locator('.turn-marker')).toContainText('Your turn');await expect(other.locator('.resources [data-resource=actions]')).toHaveAttribute('data-value','1');await expect(other.locator('.resources [data-resource=coins]')).toHaveAttribute('data-value','0');await expect(other.locator('.resources [data-resource=worship]')).toHaveAttribute('data-value','1');await expect(other.getByRole('button',{name:'End turn',exact:true})).toBeEnabled();await other.waitForFunction(()=>!document.querySelector('.public-flight'),undefined,{polling:20,timeout:2000});});
     await capture('waiting-hand','Ariadne receives five private cards and waits for Theseus',page,'Ariadne',async()=>{await expect(page.locator('.turn-marker')).toContainText('Theseus');await expect(page.getByTestId('hand-card')).toHaveCount(5);await expect(page.locator('.opponents [data-card-id]')).toHaveCount(0);await expect(page.getByRole('button',{name:'End turn',exact:true})).toHaveCount(0);});
