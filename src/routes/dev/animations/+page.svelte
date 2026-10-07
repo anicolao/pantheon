@@ -1,11 +1,15 @@
 <script lang="ts">
   import { onMount, tick, untrack } from 'svelte';
   import { base } from '$app/paths';
+  import TabletopSession from '$lib/components/play/TabletopSession.svelte';
+  import {freshTable,edges,seatUid,type Edge,type Tabletop} from '$lib/tabletop/table';
   import GameSession from '$lib/components/play/GameSession.svelte';
   import { replaySetup, type SetupEvent } from '$lib/game/setup';
   import type { GameCommand } from '$lib/backend/setup-repository';
   import { fixture, scenarios } from './scenarios';
 
+  let surface=$state('game'), edge=$state<Edge>('south'), tableView=$state<TabletopSession>();
+  let preparedTable=$state<Tabletop>(freshTable());
   let subject=$state('treasure'), players=$state<2|3|4>(2), observer=$state(false);
   let prepared=$state(fixture('treasure',2)), events=$state<SetupEvent[]>(untrack(()=>prepared.events));
   let generation=$state(0), error=$state(''), ready=$state(false), replayPending=$state(false);
@@ -18,10 +22,15 @@
 
   function reset(replay=false) {
     try {
-      const next=fixture(subject,players);
+      const seats=Array.from({length:players},(_,i)=>edges[(edges.indexOf(edge)+i)%4]);
+      const next=surface==='tabletop'?fixture(subject,players,seats.map(seatUid)):fixture(subject,players);
+      if(surface==='tabletop'){
+        const state=replaySetup(next.events),table=freshTable();
+        preparedTable={...table,events:next.events,seats:table.seats.map(seat=>({...seat,mode:seats.includes(seat.edge)?'human':'empty',joined:seats.indexOf(seat.edge)+1,leader:(state.leaders[seatUid(seat.edge)]??seat.leader) as typeof seat.leader}))};
+      }
       prepared=next;events=next.events;generation++;error='';ready=false;triggered=false;
       replayPending=replay;latest='Preparing table';
-      const url=new URL(location.href);url.searchParams.set('scenario',subject);url.searchParams.set('players',String(players));url.searchParams.set('observer',String(observer));history.replaceState(null,'',url);
+      const url=new URL(location.href);url.searchParams.set('surface',surface);url.searchParams.set('edge',edge);url.searchParams.set('scenario',subject);url.searchParams.set('players',String(players));url.searchParams.set('observer',String(observer));history.replaceState(null,'',url);
     } catch(cause) {error=String(cause);}
   }
   async function send(command:GameCommand, actor:string, expectedRevision?:number) {
@@ -36,7 +45,7 @@
   async function trigger() {
     if(!prepared.trigger||!ready)return;
     toolsOpen=false;triggered=true;
-    await send(prepared.trigger,prepared.actor);
+    if(surface==='tabletop'){ready=false;await tableView?.play(prepared.trigger);}else await send(prepared.trigger,prepared.actor);
   }
   function settled(revision:number) {
     if(revision!==events.length)return;
@@ -45,6 +54,8 @@
   }
   onMount(()=>{
     const params=new URLSearchParams(location.search);
+    if(params.get('surface')==='tabletop')surface='tabletop';
+    if(edges.includes(params.get('edge') as Edge))edge=params.get('edge') as Edge;
     if(scenarios.some(item=>item.id===params.get('scenario')))subject=params.get('scenario')!;
     const n=Number(params.get('players'));if(n===2||n===3||n===4)players=n;
     observer=params.get('observer')==='true';reset();mounted=true;
@@ -63,7 +74,11 @@
 
 <svelte:head><title>Animation lab · Pantheon</title></svelte:head>
 {#key generation}
+  {#if surface==='tabletop'}
+    <TabletopSession bind:this={tableView} initialTable={preparedTable} persist={false} motionRate={speed} onState={table=>{events=table.events;}} onReady={(revision,available)=>{if(available)settled(revision);else ready=false;}}/>
+  {:else}
   <GameSession motionRate={speed} {game} {uid} roomId="MOTION" status="synced" busy={false} {error} command={(command,revision)=>send(command,uid,revision)} retry={()=>{error='';}} again={()=>reset()} onSettled={settled}/>
+  {/if}
 {/key}
 <aside class="lab-tools" aria-label="Animation lab">
   <div class="quick-controls">
@@ -74,13 +89,15 @@
   </div>
   {#if toolsOpen}
     <div class="settings">
-      <label>Scenario<select disabled={!mounted} aria-label="Animation scenario" bind:value={subject} onchange={()=>reset()}>{#each scenarios as item}<option value={item.id}>{item.name}</option>{/each}</select></label>
+      <div class="row"><label>Surface<select aria-label="Animation surface" bind:value={surface} onchange={()=>reset()}><option value="game">Main game</option><option value="tabletop">Tabletop</option></select></label>
+      {#if surface==='tabletop'}<label>Acting edge<select aria-label="Acting edge" bind:value={edge} onchange={()=>reset()}>{#each edges as side}<option value={side}>{side}</option>{/each}</select></label>{/if}</div>
+      <label>Scenario<select disabled={!mounted} aria-label="Animation scenario" bind:value={subject} onchange={()=>reset()}>{#each scenarios as item}<option value={item.id}>{surface==='tabletop'&&['cleanup','shuffle'].includes(item.id)?item.id==='cleanup'?'Cleanup and rotate':'Cleanup with exhausted deck':item.name}</option>{/each}</select></label>
       <div class="row">
         <label>Players<select disabled={!mounted} aria-label="Players" bind:value={players} onchange={()=>reset()}><option value={2}>2</option><option value={3}>3</option><option value={4}>4</option></select></label>
-        <label>View<select disabled={!mounted} aria-label="View" bind:value={observer} onchange={()=>reset()}><option value={false}>Acting player</option><option value={true}>Observer</option></select></label>
+        {#if surface==='game'}<label>View<select disabled={!mounted} aria-label="View" bind:value={observer} onchange={()=>reset()}><option value={false}>Acting player</option><option value={true}>Observer</option></select></label>{/if}
         <label>Playback speed<select disabled={!mounted} aria-label="Playback speed" bind:value={speed}><option value={0.25}>¼×</option><option value={0.5}>½×</option><option value={1}>Current game speed</option><option value={2}>2×</option></select></label>
       </div>
-      <p>{description.hint}</p>
+      <p>{surface==='tabletop' && ['cleanup','shuffle'].includes(subject)?'Discard the old hand and played cards, keep the new hand concealed, then rotate to the next player. There is no cleanup redeal animation.':description.hint}</p>
       <p class="note">Same game components, seeded deals and legal commands. Click Trigger once, or use the table normally. Replay resets first. Playback speed affects flights, transitions and the market glide. Automatic market recentering waits for the card animations to complete.</p>
       {#if reduced}<p class="warning">Your system requests reduced motion. Disable that preference to review animations.</p>{/if}
       <p class="note">Last command: {latest} · revision {events.length} · viewing {game.players.find(player=>player.uid===uid)?.name}</p>

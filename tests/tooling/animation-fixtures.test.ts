@@ -1,6 +1,7 @@
 import { expect, test } from 'bun:test';
 import { fixture, scenarios } from '../../src/routes/dev/animations/scenarios';
 import { replaySetup, type SetupEvent } from '../../src/lib/game/setup';
+import { edges, seatUid } from '../../src/lib/tabletop/table';
 import { standings } from '../../src/lib/game/actions';
 
 for (const count of [2, 3, 4] as const) test(`${count}-player animation scenarios replay legal commands and distinct victory scores`, () => {
@@ -21,5 +22,15 @@ for (const count of [2, 3, 4] as const) test(`${count}-player animation scenario
       expect(after.turn.phase).toBe('finished');
       expect(new Set(standings(after).map(row => row.score)).size).toBe(count);
     }
+  }
+});
+
+for(const edge of edges)test(`tabletop animation fixtures remain legal from ${edge}`,()=>{
+  const ids=Array.from({length:4},(_,i)=>seatUid(edges[(edges.indexOf(edge)+i)%4]));
+  for(const scenario of scenarios){
+    const prepared=fixture(scenario.id,4,ids),before=replaySetup(prepared.events);
+    expect(before.players.map(player=>player.uid)).toEqual(ids);
+    const trigger=prepared.trigger;
+    if(trigger)expect(()=>replaySetup([...prepared.events,{schemaVersion:1,reducerVersion:1,sequence:prepared.events.length+1,commandId:`tabletop-lab-${scenario.id}`,actorUid:prepared.actor,name:before.players.find(player=>player.uid===prepared.actor)!.name,playerCount:4,...trigger}])).not.toThrow();
   }
 });
