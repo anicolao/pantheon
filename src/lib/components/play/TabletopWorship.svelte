@@ -4,7 +4,7 @@
   import { definition, devotionCards, worshipReason } from '$lib/game/actions';
   import WorshipFace from './WorshipFace.svelte';
   import { motionDuration, MOTION_EASING } from './motion';
-  let {game,uid,cardId,rotation,source,ready,busy,submit,close,onOpened,selectedCount,resolve}:{game:SetupState;uid:string;cardId:string;rotation:number;source?:HTMLElement;ready:boolean;busy:boolean;submit:()=>void;close:()=>void;onOpened:()=>void;selectedCount:number;resolve:()=>void}=$props();
+  let {game,uid,cardId,rotation,source,ready,busy,submit,close,onOpened,selectedCount,resolve,covered=false}:{game:SetupState;uid:string;cardId:string;rotation:number;source?:HTMLElement;ready:boolean;busy:boolean;submit:()=>void;close:()=>void;onOpened:()=>void;selectedCount:number;resolve:()=>void;covered?:boolean}=$props();
   let node:HTMLElement, returning=$state(false);
   const devotion=$derived(devotionCards(game,uid,cardId).length);
   function origin(){
@@ -24,7 +24,7 @@
     void animation.finished.then(onOpened).catch(()=>{});return()=>animation.cancel();
   });
 </script>
-<section class="temple-zoom" bind:this={node} aria-label={`${definition(cardId).god} worship`}>
+<section style:visibility={covered?'hidden':undefined} class="temple-zoom" bind:this={node} aria-label={`${definition(cardId).god} worship`}>
   <WorshipFace {game} {uid} {cardId}/>
   <div class="worship-controls">
     <p>{devotion >= 2 ? 'Favored' : 'Standard'} · {devotion} Devotion</p>

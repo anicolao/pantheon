@@ -8,10 +8,10 @@
   import GameButton from '../GameButton.svelte';
   import { motionDuration, MOTION_EASING } from './motion';
 
-  let {game,uid,choice,ready,error,reduced,command,targets=$bindable([]),busy=$bindable(false),handled}:
+  let {game,uid,choice,ready,error,reduced,command,targets=$bindable([]),busy=$bindable(false),handled,rotation=0,homeSelector,autoConfirm=true}:
     {game:SetupState;uid:string;choice:Choice;ready:boolean;error:string;reduced:boolean;
       command:(command:ActionCommand)=>Promise<void>;targets:string[];busy:boolean;
-      handled:(choiceId:string)=>void}=$props();
+      handled:(choiceId:string)=>void;rotation?:number;homeSelector?:string;autoConfirm?:boolean}=$props();
   let pack=$state<HTMLDivElement>();
   let overlay=$state<HTMLElement>();
   const cards=$derived(targets.map(id=>game.decks[uid].hand.find(card=>card.id===id)).filter(card=>!!card));
@@ -23,7 +23,7 @@
   let alive=true;
   // A closed phone drawer has no visible trash icon; its handle is the destination.
   function home() {
-    const selector=choice.kind==='trash'?'.trash-control [data-resource="trash"]':'.discard-pile [data-resource="discard"]';
+    const selector=homeSelector??(choice.kind==='trash'?'.trash-control [data-resource="trash"]':'.discard-pile [data-resource="discard"]');
     const icon=document.querySelector<HTMLElement>(selector);
     const rect=icon?.getBoundingClientRect();
     if(rect && rect.width && rect.left>=0 && rect.right<=innerWidth && rect.top>=0 && rect.bottom<=innerHeight)return rect;
@@ -31,7 +31,8 @@
   }
   function at(rect:DOMRect,node:HTMLElement,scale=false) {
     const end=node.getBoundingClientRect();
-    return `translate(${rect.x+rect.width/2-end.x-end.width/2}px,${rect.y+rect.height/2-end.y-end.height/2}px) scale(${scale?rect.width/end.width:1})`;
+    const dx=rect.x+rect.width/2-end.x-end.width/2,dy=rect.y+rect.height/2-end.y-end.height/2,radians=rotation*Math.PI/180;
+    return `translate(${dx*Math.cos(radians)+dy*Math.sin(radians)}px,${-dx*Math.sin(radians)+dy*Math.cos(radians)}px) scale(${scale?rect.width/end.width:1})`;
   }
   function handPose(id:string) {
     const slot=[...document.querySelectorAll<HTMLElement>('.hand-slot')].find(node=>node.dataset.instanceId===id);
@@ -39,7 +40,7 @@
     if(!face)return;
     const transform=getComputedStyle(face).transform;
     const matrix=new DOMMatrixReadOnly(transform==='none'?undefined:transform);
-    return {rect:face.getBoundingClientRect(),angle:Math.atan2(matrix.b,matrix.a)*180/Math.PI};
+    return {rect:face.getBoundingClientRect(),angle:(((slot?.dataset.motionAngle===undefined?Math.atan2(matrix.b,matrix.a)*180/Math.PI:Number(slot.dataset.motionAngle))-rotation+540)%360)-180};
   }
   async function animate(node:HTMLElement,frames:Keyframe[],duration:number,hold=false) {
     if(reduced || !alive)return;
@@ -68,7 +69,7 @@
     if(source&&card)await animate(card,[{transform:`${at(source.rect,card)} rotate(${source.angle}deg)`},{transform:'none'}],300);
     if(!alive)return;
     busy=false;
-    if(targets.length===choice.max)await finish();
+    if(autoConfirm&&targets.length===choice.max)await finish();
   }
   async function remove(id:string) {
     if(!ready || busy)return;
@@ -97,9 +98,10 @@
   <div class="choice-pack" bind:this={pack}>
     <ResourceIcon resource={choice.kind} value={choice.kind==='gain'?choice.limit:undefined} label={instruction}/>
     {#each cards as card,index (card.id)}
-      <button class="staged-card" data-staged-id={card.id} style:--index={index} style:--count={cards.length} disabled={busy||!ready} aria-label={`Return ${definition(card.cardId).name} to hand`} onclick={()=>remove(card.id)}>
+      <div class="staged-card" data-staged-id={card.id} style:--index={index} style:--count={cards.length}>
         <CardFace card={definition(card.cardId)} copy={card.copy} players={game.playerCount}/>
-      </button>
+      </div>
+      <button class="staged-hit" style:--index={index} style:--count={cards.length} disabled={busy||!ready} aria-label={`Return ${definition(card.cardId).name} to hand`} onclick={()=>remove(card.id)}></button>
     {/each}
   </div>
   <div class="choice-controls">
@@ -107,6 +109,7 @@
     <p class="instruction" role="status">{instruction}</p>
     <div class="buttons">
       {#if choice.kind==='trash'}<GameButton primary disabled={!ready||busy} onclick={()=>finish()}>Done trashing{targets.length?` (${targets.length})`:''}</GameButton>{/if}
+      {#if choice.kind==='discard'&&!autoConfirm}<GameButton primary disabled={!ready||busy||targets.length<choice.min} onclick={()=>finish()}>Discard selected ({targets.length})</GameButton>{/if}
       {#if choice.kind==='gain'&&choice.min===0}<GameButton disabled={!ready||busy} onclick={()=>finish([])}>Gain none</GameButton>{/if}
       {#if canUndo(game,uid)}<GameButton disabled={!ready||busy} onclick={()=>command({type:'action/undone',targetSequence:game.undo!.sequence})}>Undo</GameButton>{/if}
     </div>
@@ -117,8 +120,9 @@
 <style>
   .inline-choice{position:absolute;left:var(--center-left);width:var(--center-width);top:var(--play-top);height:var(--table-card-height);z-index:45;display:flex;align-items:center;justify-content:center;gap:clamp(8px,2vw,36px);color:#ffe9bb;pointer-events:none;}
   .choice-pack{position:relative;flex:0 0 auto;width:min(35%,var(--table-card-height));height:min(90%,var(--table-card-height));display:grid;place-items:center;--icon-size:calc(var(--table-card-height)*.32);transform-origin:center;}
-  .staged-card{position:absolute;z-index:5;left:calc(50% - var(--table-card-width)/2 + (var(--index) - (var(--count) - 1)/2)*22px);top:50%;margin-top:calc(var(--table-card-height)*-.5);width:var(--table-card-width);border:0;padding:0;background:none;pointer-events:auto;filter:drop-shadow(0 4px 8px #0009);transition:left calc(.5s / var(--motion-speed)) ease-out;}
-  @media(prefers-reduced-motion:reduce){.staged-card{transition:none;}}
+  .staged-card,.staged-hit{position:absolute;z-index:5;left:calc(50% - var(--table-card-width)/2 + (var(--index) - (var(--count) - 1)/2)*22px);top:50%;margin-top:calc(var(--table-card-height)*-.5);width:var(--table-card-width);border:0;padding:0;background:none;pointer-events:none;transition:left calc(.5s / var(--motion-speed)) ease-out;}
+  .staged-card{filter:drop-shadow(0 4px 8px #0009);z-index:calc(5 + var(--index)*2);}.staged-hit{height:var(--table-card-height);width:22px;pointer-events:auto;z-index:calc(6 + var(--index)*2);}.staged-hit:last-child{width:var(--table-card-width);}
+  @media(prefers-reduced-motion:reduce){.staged-card,.staged-hit{transition:none;}}
   .choice-controls{max-width:60%;text-align:center;padding:10px;border-radius:12px;background:#071321ed;border:1px solid #c6a25f80;pointer-events:auto;--control-height:clamp(34px,4.5svh,76px);--control-font:clamp(14px,1.8svh,32px);}
   p{margin:0 0 8px;}.source{font-size:clamp(12px,1.8svh,30px);color:#d6b46f;}.instruction{font-size:clamp(16px,2.4svh,42px);line-height:1.15;}.buttons{display:grid;grid-template-columns:1fr;gap:6px;}
   @media(max-aspect-ratio:3/4){.choice-controls{padding:8px;flex:1;min-width:0;max-width:none;--control-height:38px;--control-font:13px;}.instruction{font-size:17px;}.source{font-size:12px;}.buttons{flex-wrap:wrap;}.choice-pack{width:calc(var(--table-card-width) + 22px);--icon-size:calc(var(--table-card-height)*.27);}}
