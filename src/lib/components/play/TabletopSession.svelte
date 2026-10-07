@@ -8,6 +8,7 @@
   import ResourceIcon from '$lib/components/ResourceIcon.svelte';
   import Portrait from '$lib/components/play/Portrait.svelte';
   import SupplyCoverflow from '$lib/components/play/SupplyCoverflow.svelte';
+  import InlineChoice from './InlineChoice.svelte';
   import TabletopWorship from '$lib/components/play/TabletopWorship.svelte';
   import WorshipFace from '$lib/components/play/WorshipFace.svelte';
   import { sortHand } from '$lib/components/play/hand-order';
@@ -29,6 +30,7 @@
   let surfaceWidth=$state(1440),surfaceHeight=$state(1000);
   let selectedTemple=$state(''), templeBusy=$state(false), templeSource=$state<HTMLElement>(), templeOverlay=$state<TabletopWorship>(), templeOpened:(()=>void)|undefined;
   let board = $state<HTMLElement>(), rotation = $state(0), moving = $state(false), working = $state(false);
+  let interaction=$state<InlineChoice>(),interactionBusy=$state(false),localChoices=$state<string[]>([]);
   let targets = $state<string[]>([]), inspected = $state(''), confirmReset = $state(false);
   let pending = $state<GameCommand | null>(null), pendingText = $state('');
   let readers = $state<Record<Edge, 'chronicle' | 'trash' | null>>({south:null,west:null,north:null,east:null});
@@ -57,6 +59,7 @@
   const tableWidth=$derived(Math.max(58*unit,Math.min(150*unit,horizontal-(templeDock==='right'?56:30)*unit)));
   const ready = $derived(mounted && !moving && !working && !animating && !exitEdge && !finished && !templeBusy);
   const choice = $derived(game?.turn.choice);
+  const inlineChoice=$derived(choice&&choice.kind!=='gain'&&!animating&&!templeBusy?choice:null);
   const scores = $derived(game?.phase === 'playing' ? standings(game) : []);
   const occupied = $derived(table.seats.filter(seat => seat.mode !== 'empty'));
   const gains = $derived(game && choice?.kind === 'gain' ? eligibleGains(game, choice.limit!, choice.actionOnly) : []);
@@ -93,7 +96,7 @@
   function newTable() {
     generation++; request++; worker?.terminate(); worker = undefined;
     flightsSettled(); displayedUid=''; exitEdge=null; selectedTemple='';templeBusy=false;templeOpened?.();
-    table = freshTable(); targets = []; inspected = ''; pending = null; confirmReset = false;
+    table = freshTable(); targets = [];localChoices=[];interactionBusy=false; inspected = ''; pending = null; confirmReset = false;
     rotation = 0; readers={south:null,west:null,north:null,east:null}; readerCards={}; moving = false; working = false; error = ''; save();
   }
   function start() {
@@ -145,11 +148,7 @@
   }
   function handCard(id: string) {
     if (!game || !ready || !human) return;
-    if (choice && choice.kind !== 'gain') {
-      if (targets.includes(id)) targets = targets.filter(target => target !== id);
-      else if (targets.length < choice.max) targets = [...targets, id];
-      return;
-    }
+    if (choice && choice.kind !== 'gain') {void interaction?.select(id);return;}
     if (canPlayAction(game, uid, id)) void send({ type: 'action/played', instanceId: id });
     else if (canPlayTreasure(game, uid, id)) void send({ type: 'treasure/played', instanceId: id });
   }
@@ -230,8 +229,8 @@
           {#if game.phase === 'playing'}
             <div class="edge-deck" data-public-zone="deck" data-public-uid={id} data-motion-angle={index*90}><ResourceIcon resource="cards" value={game.decks[id].deck.length} label={`${playerName(id)} deck`}/></div>
             <div class="table-hand" data-public-zone="hand" data-public-uid={id} data-motion-angle={index*90} data-hand-total={presentedHand(id).length} data-hand-owner={id} data-face-up={faceUp} style:visibility={active && !faceUp && animating ? 'hidden' : undefined} style:--count={game.decks[id].hand.length}>
-              <HandFan cards={sortHand(presentedHand(id))} uid={id} players={game.playerCount} {faceUp} angle={index*90} measure={active} selected={active?targets:[]}
-                disabled={()=>!active||!ready||!human}
+              <HandFan cards={sortHand(presentedHand(id))} uid={id} players={game.playerCount} {faceUp} angle={index*90} measure={active} staged={active?targets:[]}
+                disabled={card=>!active||!ready||!human||interactionBusy||targets.includes(card.id)}
                 label={card=>faceUp ? `${choice && choice.kind!=='gain'?'Select':'Play'} ${definition(card.cardId).name}` : `${playerName(id)} face-down card`}
                 activate={card=>handCard(card.id)} inspect={card=>inspect(card.cardId)}/>
 
@@ -271,18 +270,19 @@
       <div class="table-status"><strong>{playerName(uid)}’s turn</strong><span>{game.turn.phase} · Turn {game.turn.number}</span><div class="counters">{#each ['actions','coins','buys','worship'] as resource}<ResourceIcon resource={resource as 'actions'|'coins'|'buys'|'worship'} value={game.resources[resource as keyof typeof game.resources]}/>{/each}</div></div>
       <div class="market"><SupplyCoverflow {motionRate} {game} {uid} sharedCardWidth={cardWidth} ready={ready && human && (!selectedTemple || !!choice) && (!choice || choice.kind==='gain')} visible={true} {inspect} onDialog={()=>{}} command={send} selection={marketSelection} {rotation} followAffordable={!animating} warnOnActions={false}/></div>
       <div class="temples" class:side={templeDock!=='inline'} aria-label="Worship actions">{#each [...game.sharedEvents].sort((a,b)=>(definition(a).cost??0)-(definition(b).cost??0)||definition(a).name.localeCompare(definition(b).name)) as event}<button disabled={!ready || !human || !!selectedTemple || !!worshipReason(game,uid,event)} data-temple-id={event} class:zoomed={selectedTemple===event} data-public-zone="altar" data-public-card={event} data-motion-angle={rotation} aria-label={`Worship ${definition(event).god}`} onclick={()=>openTemple(event)}><WorshipFace {game} {uid} cardId={event} dimUnavailable/></button>{/each}</div>
-      <div class="play-area" inert={!!selectedTemple} data-public-zone="play" data-public-uid={uid} data-motion-angle={rotation} aria-label="Played cards"><span class="reveal-anchor" data-public-zone="reveal" data-public-uid={uid} data-motion-angle={rotation} aria-hidden="true"></span>
+      <div class="play-area" class:choosing={!!inlineChoice} inert={!!selectedTemple||!!inlineChoice} data-public-zone="play" data-public-uid={uid} data-motion-angle={rotation} aria-label="Played cards"><span class="reveal-anchor" data-public-zone="reveal" data-public-uid={uid} data-motion-angle={rotation} aria-hidden="true"></span>
         {#if !game.decks[uid].play.length && !tablePurchases(game,uid).length}<span class="empty-play">Your play area</span>{/if}
         <div class="played" style:--count={tablePlayed(game,uid).length}>{#each tablePlayed(game,uid) as card,index (card.id)}<div class="table-card" style:--index={index} data-motion-key={`play:${card.id}`} data-motion-zone="play" data-motion-uid={uid} data-motion-card={card.id} data-motion-face={card.cardId} data-motion-copy={card.copy} data-motion-angle={rotation}><CardFace card={definition(card.cardId)} copy={card.copy} players={game.playerCount}/></div><button style:--index={index} aria-label={`Inspect played ${definition(card.cardId).name}`} onclick={()=>inspect(card.cardId)}></button>{/each}</div>
         <div class="purchased" style:--count={tablePurchases(game,uid).length}>{#each tablePurchases(game,uid) as card,index (card.id)}<div class="table-card" style:--index={index} data-motion-key={`purchase:${card.id}`} data-motion-zone="play" data-motion-uid={uid} data-motion-card={card.id} data-motion-face={card.cardId} data-motion-copy={card.copy} data-motion-angle={rotation}><CardFace card={definition(card.cardId)} copy={card.copy} players={game.playerCount}/></div><button style:--index={index} aria-label={`Inspect purchased ${definition(card.cardId).name}`} onclick={()=>inspect(card.cardId)}></button>{/each}</div>
       </div>
       <div class="table-message">
         {#if pending}<p>{pendingText}</p><button class="primary" disabled={!ready} onclick={acceptPending}>Confirm</button><button onclick={()=>pending=null}>Keep playing</button>
-        {:else if choice && !selectedTemple}<p class="choice-instruction" role="status">{definition(choice.source).name}: {instruction}</p>{#if choice.kind!=='gain'}<button class="primary" disabled={!ready || !human || targets.length<choice.min} onclick={()=>resolve()}>{choice.kind==='trash'?'Done trashing':'Discard selected'} ({targets.length})</button>{:else if choice.min===0}<button disabled={!ready || !human} onclick={()=>resolve([])}>Gain none</button>{/if}
+        {:else if choice?.kind==='gain' && !selectedTemple}<p class="choice-instruction" role="status">{definition(choice.source).name}: {instruction}</p>{#if choice.min===0}<button disabled={!ready || !human} onclick={()=>resolve([])}>Gain none</button>{/if}
         {:else}<p>{message(game.activity.at(-1)?.message ?? '')}</p>{/if}
       </div>
     {/if}
-    {#if selectedTemple && game}<TabletopWorship bind:this={templeOverlay} {game} {uid} cardId={selectedTemple} {rotation} source={templeSource} selectedCount={targets.length} resolve={()=>resolve()} ready={ready&&human} busy={templeBusy||working||animating} submit={()=>send({type:'god/worshipped',cardId:selectedTemple})} close={()=>selectedTemple=''} onOpened={()=>{templeOpened?.();templeOpened=undefined;}}/>{/if}
+    {#if inlineChoice && game}{#key inlineChoice.id}<div class="choice-stage"><InlineChoice bind:this={interaction} {game} {uid} choice={inlineChoice} ready={ready&&human} {error} {reduced} {rotation} autoConfirm={false} homeSelector={`[data-public-zone="${inlineChoice.kind==='trash'?'trash':'discard'}"][data-public-uid="${uid}"] [data-resource="${inlineChoice.kind}"]`} command={send} bind:targets bind:busy={interactionBusy} handled={id=>localChoices=[...localChoices.slice(-15),id]}/></div>{/key}{/if}
+    {#if selectedTemple && game}<TabletopWorship covered={!!inlineChoice} bind:this={templeOverlay} {game} {uid} cardId={selectedTemple} {rotation} source={templeSource} selectedCount={targets.length} resolve={()=>resolve()} ready={ready&&human} busy={templeBusy||working||animating} submit={()=>send({type:'god/worshipped',cardId:selectedTemple})} close={()=>selectedTemple=''} onOpened={()=>{templeOpened?.();templeOpened=undefined;}}/>{/if}
     {#if inspected}<div class="inspection"><CardFace card={definition(inspected)} players={game?.playerCount??4}/><button class="primary" onclick={()=>inspected=''}>Return to table</button></div>{/if}
     {#if confirmReset}<div class="reset-confirm"><p>Finish this table and start a new one?</p><button onclick={newTable}>New table</button><button onclick={()=>confirmReset=false}>Keep playing</button></div>{/if}
     {#if error}<div class="error" role="alert">{error}{#if activeSeat?.mode==='bot'}<button onclick={()=>{worker?.terminate();worker=undefined;error='';working=false;}}>Continue bot turn</button>{/if}<button onclick={()=>confirmReset=true}>New table</button></div>{/if}
@@ -312,7 +312,7 @@
   {/each}
   {#if exitEdge}<div class="exit-shade" aria-hidden="true"></div><div class="exit-confirm" tabindex="-1" role="dialog" aria-modal="true" aria-label="Leave the table?" data-exit-edge={exitEdge} style:transform={`translate(-50%,-50%) rotate(${edges.indexOf(exitEdge)*90}deg)`}><h2>Leave the table?</h2><p>Your game is saved in this browser.</p><button onclick={closeWindow}>Exit</button><button class="primary" onclick={()=>exitEdge=null}>Keep playing</button></div>{/if}
   {#if closeNotice}<p class="close-notice" role="status">If your browser keeps this window open, close its tab to leave.</p>{/if}
-  {#if game?.phase==='playing'}<PublicMotion drawCardWidth={cardWidth} preserveFacing skipCleanupDeal {layoutRevision} {game} {uid} {openDraw} previousLayout={()=>motionBefore} status="synced" {reduced} visible={true} onFlightsSettled={flightsSettled}/>{/if}
+  {#if game?.phase==='playing'}<PublicMotion {localChoices} drawCardWidth={cardWidth} preserveFacing skipCleanupDeal {layoutRevision} {game} {uid} {openDraw} previousLayout={()=>motionBefore} status="synced" {reduced} visible={true} onFlightsSettled={flightsSettled}/>{/if}
 </main>
 
 <style>
@@ -334,6 +334,8 @@
   .shared-table.playing[data-temple-dock=top] .temples.side{left:0;bottom:calc(100% + 2cqmin);width:100%;height:14cqmin;}.shared-table.playing:has(.temples.side) .play-area{height:23cqmin;}.temples button.zoomed{visibility:hidden;}
   .welcome{position:absolute;inset:19cqmin 10cqmin;text-align:center;white-space:nowrap;line-height:1.1;}.welcome h1{font-size:6.5cqmin;}.welcome p,.welcome span{font-size:1.3cqmin;}.start-control{position:absolute;left:50%;top:50%;width:19cqmin;margin-left:-9.5cqmin;transform:rotate(var(--start-angle)) translateY(15cqmin);transform-origin:50% 0;display:grid;justify-items:center;gap:.8cqmin;}.start{width:12cqmin;font-size:2.3cqmin;min-height:5cqmin;}.start-control label{display:flex;gap:.4cqmin;align-items:center;font-size:1cqmin;white-space:nowrap;}.start-control input{width:1.5cqmin;height:1.5cqmin;accent-color:#dab672;}.setup-note{position:absolute;top:35cqmin;left:17cqmin;width:24cqmin;text-align:center;font-size:1cqmin;line-height:1.5;}
   .shared-table.playing[data-temple-dock=inline] .table-status{height:4cqmin;} .shared-table.playing[data-temple-dock=inline] .market{height:21cqmin;} .shared-table.playing[data-temple-dock=inline] .temples{height:10cqmin;} .shared-table.playing[data-temple-dock=inline] .play-area{height:19cqmin;}
+  .play-area.choosing{opacity:.16;}
+  .choice-stage{position:absolute;left:0;bottom:4cqmin;width:100%;height:calc(var(--card-width)*1.4);z-index:10;--center-left:0px;--center-width:100%;--play-top:0px;--table-card-width:var(--card-width);--table-card-height:calc(var(--card-width)*1.4);--motion-speed:1.5;}
   .table-status{height:7cqmin;flex-shrink:0;text-align:center;display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:0 1cqmin;font-size:1.25cqmin;}.table-status strong{font-family:'Cormorant Garamond',serif;font-size:2.5cqmin;}.counters{display:flex;gap:1cqmin;justify-content:center;width:100%;--icon-size:1.7cqmin;}.market{height:23cqmin;flex-shrink:0;width:100%;}.temples{height:8.5cqmin;display:flex;align-items:center;justify-content:center;gap:1cqmin;}.temples button{width:10cqmin;padding:0;background:none;border:0;}.play-area{height:17cqmin;display:flex;justify-content:center;align-items:center;gap:3cqmin;position:relative;}.played,.purchased{position:relative;flex:var(--count) 1 0;min-width:var(--card-width);max-width:calc(var(--card-width) * (1 + (var(--count) - 1)*1.04));height:calc(var(--card-width)*1.4);--step:calc((100% - var(--card-width))/max(1,var(--count) - 1));}.played:empty,.purchased:empty{display:none;}.table-card,.played button,.purchased button{position:absolute;left:calc(var(--index)*var(--step));top:0;}.table-card{width:var(--card-width);z-index:calc(var(--index)*2);pointer-events:none;}.played button,.purchased button{width:var(--step);height:100%;z-index:calc(var(--index)*2 + 1);padding:0;border:0;background:none;}.played button:last-child,.purchased button:last-child{width:var(--card-width);}.reveal-anchor{position:absolute;width:var(--card-width);height:calc(var(--card-width)*1.4);pointer-events:none;}.empty-play{font:2.3cqmin 'Cormorant Garamond',serif;color:#dfc18a66;}.table-message{height:5.5cqmin;text-align:center;font-size:1.1cqmin;line-height:1.3;}.table-message button{min-height:2.8cqmin;font-size:1.1cqmin;padding:.4cqmin .8cqmin;}.table-message p{margin:.2cqmin 1cqmin;}.choice-instruction{color:#ffe69e;}
   .shared-table:has(.welcome){width:58cqmin;height:58cqmin;margin:-29cqmin 0 0 -29cqmin;transform:none;}
   .draft,.results{padding:7cqmin 4cqmin;text-align:center;font-size:1.3cqmin;}.draft-leaders{display:grid;grid-template-columns:1fr 1fr;gap:1.5cqmin;margin:2cqmin 0;}.draft-leaders button{border:0;padding:0;background:none;}.draft-leaders button:disabled{opacity:.4;}.results p{display:flex;justify-content:center;align-items:center;gap:2cqmin;font-size:2cqmin;}

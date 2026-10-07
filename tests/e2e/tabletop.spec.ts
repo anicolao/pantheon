@@ -304,9 +304,10 @@ for(const layout of ['wide','square'] as const)test(`tabletop ${layout} temples 
   await page.getByRole('button',{name:'Worship Demeter',exact:true}).click();
   const demeter=page.getByRole('region',{name:'Demeter worship',exact:true});
   await demeter.getByRole('button',{name:'Worship Demeter',exact:true}).click();
-  await expect(demeter).toContainText('Choose from your hand.');
+  const target=page.locator('.inline-choice');
+  await expect(target).toContainText('Choose up to 1 card to trash');
   await page.locator('[data-edge="south"]').getByRole('button',{name:'Select Hamlet',exact:true}).click();
-  await demeter.getByRole('button',{name:'Done trashing (1)',exact:true}).click();
+  await target.getByRole('button',{name:'Done trashing (1)',exact:true}).click();
   await expect(demeter).toHaveCount(0);
   expect(replaySetup(await page.evaluate(()=>JSON.parse(localStorage.getItem('pantheon-tabletop-v1')!).events)).trash.map(card=>card.cardId)).toContain('hamlet');
   const purchase=append(table,actor(game),{type:'card/bought',cardId:'obol'});
@@ -316,4 +317,38 @@ for(const layout of ['wide','square'] as const)test(`tabletop ${layout} temples 
   expect(purchased!.x).toBeGreaterThan(played!.x+played!.width);
 
 
+});
+
+for(const edge of ['south','west','north','east'])for(const scenario of ['seed-keeper','harvest-feast'])test(`tabletop ${edge} ${scenario} stages cards centrally before confirmation`,async({page},info)=>{
+  test.skip(info.project.name==='phone','The shared tabletop needs a large display.');
+  await page.emulateMedia({reducedMotion:'no-preference'});
+  await page.goto(`./dev/animations/?surface=tabletop&edge=${edge}&scenario=${scenario}&players=4`);
+  await page.getByRole('button',{name:'Trigger',exact:true}).click();
+  const target=page.locator('.inline-choice');
+  await expect(target).toBeVisible();await expect(target).toHaveAttribute('aria-busy','false');
+  const hand=page.locator(`[data-edge="${edge}"] .table-hand`);
+  const count=scenario==='seed-keeper'?2:1;
+  for(let i=0;i<count;i++){
+    await hand.getByRole('button',{name:/^Select /}).and(hand.locator('button:not(:disabled)')).first().click();
+    await expect(target).toHaveAttribute('aria-busy','false');
+    await expect(target.locator('.staged-card')).toHaveCount(i+1);
+    await expect(hand.locator('.hand-slot.staged')).toHaveCount(i+1);
+    if(i===0&&scenario==='seed-keeper'){
+      await target.getByRole('button',{name:/^Return .* to hand$/}).click();
+      await expect(target).toHaveAttribute('aria-busy','false');
+      await expect(hand.locator('.hand-slot.staged')).toHaveCount(0);
+      await hand.getByRole('button',{name:/^Select /}).and(hand.locator('button:not(:disabled)')).first().click();
+      await expect(target).toHaveAttribute('aria-busy','false');
+    }
+
+  }
+  await expect(target).toBeVisible();
+  if(edge==='south'){
+    info.annotations.push({type:'display',description:'Shared tabletop: desktop and 4K displays only.'},{type:'setup',description:'The animation lab prepares a seeded legal card history using the real tabletop surface.'});
+    const story=new TestStepHelper(page,info,'Choose cards at the table');
+    await story.step('staged','Selected cards gather on the central target before confirmation',[]);
+  }
+  await target.getByRole('button',{name:scenario==='seed-keeper'?'Done trashing (2)':'Discard selected (1)',exact:true}).click();
+  await expect(target).toHaveCount(0);
+  await expect(hand.locator('.hand-slot.staged')).toHaveCount(0);
 });

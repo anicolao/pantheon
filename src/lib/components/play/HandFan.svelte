@@ -6,9 +6,9 @@
   import CardBack from '../CardBack.svelte';
   import { cardGesture } from './card-gesture';
 
-  let {cards,uid,players,faceUp=true,angle,measure=false,selected=[],staged=[],disabled=()=>false,label,pressed,activate,inspect,revision=()=>0,deal=()=>({duration:0}),helpId}: {
+  let {cards,uid,players,faceUp=true,angle,measure=false,staged=[],disabled=()=>false,label,pressed,activate,inspect,revision=()=>0,deal=()=>({duration:0}),helpId}: {
     cards:CardInstance[];uid:string;players:2|3|4;faceUp?:boolean;angle?:number;measure?:boolean;
-    selected?:string[];staged?:string[];disabled?:(card:CardInstance)=>boolean;
+    staged?:string[];disabled?:(card:CardInstance)=>boolean;
     label:(card:CardInstance,index:number)=>string;pressed?:(card:CardInstance)=>boolean;
     activate:(card:CardInstance)=>void;inspect:(card:CardInstance)=>void;
     revision?:(id:string)=>number;deal?:(node:Element,index:number)=>TransitionConfig;helpId?:string;
@@ -17,7 +17,7 @@
 </script>
 <div class="fan" style:--hand-count={cards.length} style:--hand-spaces={Math.max(1,cards.length-1)}>
   {#each cards as card,index (`${card.id}:${revision(card.id)}`)}
-    <div class="hand-slot" class:table-card-measure={measure} class:staged={staged.includes(card.id)} class:selected={selected.includes(card.id)} data-motion-key={`hand:${card.id}`} data-motion-card={card.id} data-motion-face={faceUp?card.cardId:undefined} data-motion-copy={card.copy} data-motion-zone="hand" data-motion-uid={uid} data-motion-parent-angle={angle} data-motion-angle={angle===undefined?undefined:angle+fanAngle(index)} data-instance-id={card.id} style:--card-index={index} style:--fan-angle={`${fanAngle(index)}deg`} style:--fan-drop={`${Math.abs(index-(cards.length-1)/2)*3}px`} in:deal|global={index}>
+    <div class="hand-slot" class:table-card-measure={measure} class:staged={staged.includes(card.id)} data-motion-key={`hand:${card.id}`} data-motion-card={card.id} data-motion-face={faceUp?card.cardId:undefined} data-motion-copy={card.copy} data-motion-zone="hand" data-motion-uid={uid} data-motion-parent-angle={angle} data-motion-angle={angle===undefined?undefined:angle+fanAngle(index)} data-instance-id={card.id} style:--card-index={index} style:--fan-angle={`${fanAngle(index)}deg`} style:--fan-drop={`${Math.abs(index-(cards.length-1)/2)*3}px`} in:deal|global={index}>
       <div class="hand-face">{#if faceUp}<CardFace card={definition(card.cardId)} {players} copy={card.copy}/>{:else}<CardBack format="deck"/>{/if}</div>
     </div>
     <button data-motion-key={`hand-hit:${card.id}`} data-testid="hand-card" data-instance-id={card.id} disabled={!faceUp||disabled(card)} aria-pressed={pressed?.(card)} aria-label={label(card,index)} aria-describedby={helpId} style:--card-index={index} use:cardGesture={{activate:()=>activate(card),inspect:()=>inspect(card)}}></button>
@@ -34,6 +34,6 @@
   button:focus-visible{outline:3px solid #ffdf8e;outline-offset:3px;border-radius:8px;}
   .hand-slot:has(+ button:hover),.fan:not(:has(button:hover)) .hand-slot:has(+ button:focus-visible){filter:brightness(1.13) drop-shadow(0 0 5px #eebd63);}
   .fan:has(button:hover) button:focus-visible{outline:none;}
-  .staged{visibility:hidden;}.selected .hand-face{outline:3px solid #f6dd8b;}
+  .staged{visibility:hidden;}
   @media(max-height:500px) and (min-aspect-ratio:3/4){.hand-face{transform:translateY(min(var(--fan-drop),max(0px,calc(4svh - var(--hand-card-width)*.15)))) rotate(var(--fan-angle));}}
 </style>
