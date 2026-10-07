@@ -9,7 +9,7 @@
   import CardFace from '../CardFace.svelte';
   import CardBack from '../CardBack.svelte';
 
-  let { game, uid, openDraw, status, reduced, visible, previousLayout, localChoices=[], onSettled, onFlightsSettled, preserveFacing=false, layoutRevision=0 }: { preserveFacing?:boolean; layoutRevision?:number; game: SetupState; uid: string; openDraw: (step:string)=>void; status: string; reduced: boolean; visible: boolean; previousLayout: () => Layout; localChoices?:string[]; onSettled?:(revision:number)=>void; onFlightsSettled?:(revision:number)=>void } = $props();
+  let { game, uid, openDraw, status, reduced, visible, previousLayout, localChoices=[], onSettled, onFlightsSettled, preserveFacing=false, skipCleanupDeal=false, layoutRevision=0 }: { skipCleanupDeal?:boolean; preserveFacing?:boolean; layoutRevision?:number; game: SetupState; uid: string; openDraw: (step:string)=>void; status: string; reduced: boolean; visible: boolean; previousLayout: () => Layout; localChoices?:string[]; onSettled?:(revision:number)=>void; onFlightsSettled?:(revision:number)=>void } = $props();
   type Flight = { card?: CardInstance; id: string; step: PublicStep; from: Pose; to: Pose; width: number; stack: number; sequence: number };
   const cursor = new PublicMotionCursor(untrack(() => game.activity.length));
   let drawPhases = $state<Record<string,'reveal'|'space'|'travel'>>({});
@@ -110,6 +110,8 @@
       if(waiting.length)steps.unshift({id:`${entry.sequence}:cleanup:purchases`,kind:'cleanup',from:{zone:'play',uid:entry.actor.uid},to:{zone:'discard',uid:entry.actor.uid},count:waiting.length,backs:false,effect:'Cleanup'});
     }
     for(const step of steps){
+      // Shared-screen tables conceal the next hand and hand off after discarding.
+      if(skipCleanupDeal && entry.command==='turn/ended' && (step.kind==='draw'||step.kind==='shuffle'))continue;
       // The inline target already carried these cards from hand to their pile.
       // Keep later effects (including draws and gains) in the public animation.
       if(entry.choiceId && localChoices.includes(entry.choiceId) && ['trash','discard'].includes(step.kind))continue;

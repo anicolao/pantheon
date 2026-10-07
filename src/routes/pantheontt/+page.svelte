@@ -207,6 +207,7 @@
   {#each table.seats as seat, index (seat.edge)}
     {@const id = seatUid(seat.edge)}
     {@const active = uid === id && !finished}
+    {@const faceUp = active && !!game && actor(game) === id}
     {@const leader = game?.leaders[id] ?? seat.leader}
     <section class="edge" class:gathering={!game} class:active class:inactive={!!game && !active} data-edge={seat.edge} data-active={active} style:--angle={`${index * 90}deg`} aria-label={`${playerName(id)} seat`}>
       {#if !game}
@@ -222,17 +223,17 @@
           <button class="leader" data-public-card={leader} data-public-zone="leader" data-public-uid={id} data-motion-angle={index*90} aria-label={`Inspect ${playerName(id)} leader`} onclick={() => inspect(leader)}><Portrait {leader} name={playerName(id)} {active} points={scores.find(score=>score.uid===id)?.score}/></button>
           {#if game.phase === 'playing'}
             <div class="edge-deck" data-public-zone="deck" data-public-uid={id} data-motion-angle={index*90}><ResourceIcon resource="cards" value={game.decks[id].deck.length} label={`${playerName(id)} deck`}/></div>
-            <div class="table-hand" data-hand-owner={id} data-face-up={active} style:--count={game.decks[id].hand.length}>
+            <div class="table-hand" data-hand-owner={id} data-face-up={faceUp} style:visibility={active && !faceUp && animating ? 'hidden' : undefined} style:--count={game.decks[id].hand.length}>
               {#each sortHand(game.decks[id].hand) as card, position (card.id)}
-                <div class="hand-slot" class:table-card-measure={active} data-motion-key={`hand:${card.id}`} data-motion-zone="hand" data-motion-uid={id} data-motion-card={card.id} data-motion-face={active ? card.cardId : undefined} data-motion-copy={card.copy} data-motion-angle={index*90} class:selected={active && targets.includes(card.id)} style:--position={position} style:--stack={position}>
-                  <span class="flip" class:faceup={active}>
-                    <span class="front" aria-hidden={!active}><CardFace card={definition(card.cardId)} copy={card.copy} players={game.playerCount}/></span>
-                    <span class="back" aria-hidden={active}><CardBack format="deck"/></span>
+                <div class="hand-slot" class:table-card-measure={active} data-motion-key={`hand:${card.id}`} data-motion-zone="hand" data-motion-uid={id} data-motion-card={card.id} data-motion-face={faceUp ? card.cardId : undefined} data-motion-copy={card.copy} data-motion-angle={index*90} class:selected={active && targets.includes(card.id)} style:--position={position} style:--stack={position}>
+                  <span class="flip" class:faceup={faceUp}>
+                    <span class="front" aria-hidden={!faceUp}>{#if faceUp}<CardFace card={definition(card.cardId)} copy={card.copy} players={game.playerCount}/>{/if}</span>
+                    <span class="back" aria-hidden={faceUp}><CardBack format="deck"/></span>
                   </span>
                 </div>
                 <button class="hand-card" class:playable={active && playable(game,card.id)}
                   disabled={!active || !ready || !human} style:--position={position} style:--stack={position}
-                  aria-label={active ? `${choice && choice.kind !== 'gain' ? 'Select' : 'Play'} ${definition(card.cardId).name}` : `${playerName(id)} face-down card`}
+                  aria-label={faceUp ? `${choice && choice.kind !== 'gain' ? 'Select' : 'Play'} ${definition(card.cardId).name}` : `${playerName(id)} face-down card`}
                   use:cardGesture={{ activate: () => handCard(card.id), inspect: () => inspect(card.cardId) }}></button>
               {/each}
             </div>
@@ -312,7 +313,7 @@
   {/each}
   {#if exitEdge}<div class="exit-shade" aria-hidden="true"></div><div class="exit-confirm" tabindex="-1" role="dialog" aria-modal="true" aria-label="Leave the table?" data-exit-edge={exitEdge} style:transform={`translate(-50%,-50%) rotate(${edges.indexOf(exitEdge)*90}deg)`}><h2>Leave the table?</h2><p>Your game is saved in this browser.</p><button onclick={closeWindow}>Exit</button><button class="primary" onclick={()=>exitEdge=null}>Keep playing</button></div>{/if}
   {#if closeNotice}<p class="close-notice" role="status">If your browser keeps this window open, close its tab to leave.</p>{/if}
-  {#if game?.phase==='playing'}<PublicMotion preserveFacing {layoutRevision} {game} {uid} openDraw={()=>{}} previousLayout={()=>motionBefore} status="synced" {reduced} visible={true} onFlightsSettled={flightsSettled}/>{/if}
+  {#if game?.phase==='playing'}<PublicMotion preserveFacing skipCleanupDeal {layoutRevision} {game} {uid} openDraw={()=>{}} previousLayout={()=>motionBefore} status="synced" {reduced} visible={true} onFlightsSettled={flightsSettled}/>{/if}
 </main>
 
 <style>

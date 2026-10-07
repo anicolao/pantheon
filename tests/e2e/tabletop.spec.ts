@@ -99,10 +99,9 @@ test('tabletop motion hands off controls after rotating and accepts a rotated ma
   await page.locator('[data-edge="west"]').getByRole('button',{name:'End turn',exact:true}).click();
   await expect(page.locator('.public-flight[data-motion-kind="cleanup"]').first()).toBeAttached();
   const dealt=await page.evaluate(()=>JSON.parse(localStorage.getItem('pantheon-tabletop-v1')!));
-  const ended=dealt.events.findLast((event:{type:string})=>event.type==='turn/ended').sequence;
-  for(const move of replaySetup(dealt.events).movements.filter(move=>move.sequence===ended&&move.kind==='draw')) {
-    await expect(page.locator(`.public-flight[data-motion-kind="draw"][data-motion-card="${move.card!.id}"]`)).toBeAttached();
-  }
+  expect(replaySetup(dealt.events).decks[seatUid('west')].hand).toHaveLength(5);
+  await expect(page.locator('[data-edge="west"] .table-hand')).toHaveAttribute('data-face-up','false');
+  await expect(page.locator('.public-flight[data-motion-kind="draw"]')).toHaveCount(0);
   await expect(board).toHaveAttribute('data-facing','east');
   await expect(board).toHaveAttribute('aria-busy','false');
   await expect.poll(()=>board.evaluate(node=>{const m=new DOMMatrixReadOnly(getComputedStyle(node).transform);return [m.a,m.b,m.c,m.d];})).toEqual([0,-1,1,0]);
@@ -192,7 +191,7 @@ test('tabletop corner readers face their player and stay outside the playable ta
   await expect(page.locator('[data-reader-edge="south"]')).toContainText('Doreios');
 });
 
-for(const edge of ['south','west','north','east'] as Edge[])test(`tabletop ${edge} card flights retain their facing while playing and drawing`,async({page},info)=>{
+for(const edge of ['south','west','north','east'] as Edge[])test(`tabletop ${edge} card flights retain their facing and cleanup conceals the next hand`,async({page},info)=>{
   test.skip(info.project.name==='phone','A shared four-edge table is designed for a large display.');
   info.annotations.push({type:'setup',description:'Restore a legal fixed-seed game with the inspected edge first; inspect actual browser animation keyframes.'});
   await page.emulateMedia({reducedMotion:'no-preference'});
@@ -212,17 +211,15 @@ for(const edge of ['south','west','north','east'] as Edge[])test(`tabletop ${edg
   expect(angles.every(angle=>angle===angles[0] && (angle%360+360)%360===expected)).toBe(true);
   await expect(page.locator(`[data-edge="${edge}"]`).getByRole('button',{name:'End turn',exact:true})).toBeEnabled();
   await page.locator(`[data-edge="${edge}"]`).getByRole('button',{name:'End turn',exact:true}).click();
-  const draw=page.locator('.public-flight[data-motion-kind="draw"]').first();
-  await expect(draw).toHaveAttribute('data-draw-phase','reveal');
-  const card=await draw.getAttribute('data-motion-card');
-  const revealing=await draw.evaluate(node=>node.getAnimations().flatMap(animation=>(animation.effect as KeyframeEffect).getKeyframes().flatMap(frame=>typeof frame.transform==='string'?[...frame.transform.matchAll(/rotate\(([-\d.]+)deg\)/g)].map(match=>Number(match[1])):[])));
-  expect(revealing.length).toBeGreaterThanOrEqual(2);
-  expect(revealing.every(angle=>angle===revealing[0] && (angle%360+360)%360===expected)).toBe(true);
-  const travelling=page.locator(`.public-flight[data-motion-card="${card}"]`);
-  await expect(travelling).toHaveAttribute('data-draw-phase','travel');
-  const landing=await travelling.evaluate(node=>node.getAnimations().flatMap(animation=>(animation.effect as KeyframeEffect).getKeyframes().flatMap(frame=>typeof frame.transform==='string'?[...frame.transform.matchAll(/rotate\(([-\d.]+)deg\)/g)].map(match=>Number(match[1])):[])));
-  expect(landing.length).toBeGreaterThanOrEqual(2);
-  expect(landing.every(angle=>angle===revealing[0])).toBe(true);
+  const cleanup=page.locator('.public-flight[data-motion-kind="cleanup"]').first();
+  await expect(cleanup).toBeAttached();
+  await expect(page.locator(`[data-edge="${edge}"] .table-hand`)).toHaveAttribute('data-face-up','false');
+  await expect(page.locator(`[data-edge="${edge}"] .front .card`)).toHaveCount(0);
+  await expect(page.locator('.public-flight[data-motion-kind="draw"]')).toHaveCount(0);
+  await expect(board).not.toHaveAttribute('data-facing',edge);
+  await expect(board).toHaveAttribute('aria-busy','false');
+  await expect(page.locator(`[data-edge="${edge}"] .table-hand`)).toHaveAttribute('data-face-up','false');
+  await expect(page.locator('.public-flight')).toHaveCount(0);
 });
 
 
