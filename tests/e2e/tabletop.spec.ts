@@ -258,3 +258,58 @@ test('tabletop trash reader shows and inspects cards from legal trash events',as
   await reader.getByRole('button',{name:'All trashed cards',exact:true}).click();
   await expect(reader.getByRole('button',{name:'Inspect trashed Hamlet',exact:true})).toBeVisible();
 });
+
+for(const layout of ['wide','square'] as const)test(`tabletop ${layout} temples enlarge for worship and share card sizing with the hand`,async({page},info)=>{
+  test.skip(info.project.name==='phone','A shared four-edge table is designed for a large display.');
+  info.annotations.push({type:'setup',description:'Legal four-seat history cycles ordinary turns until Thaleia has the three coins needed to worship Athena.'});
+  if(layout==='square'){const size=page.viewportSize()!.height;await page.setViewportSize({width:size,height:size});}
+  let table=freshTable();for(const edge of ['west','north','east','south'] as Edge[])table=occupy(table,edge,'human');
+  table=advanceEmptyActions(begin(table,'tabletop-worship-layout'));
+  for(let turn=0;turn<20;turn++) {
+    const game=replaySetup(table.events),uid=actor(game);
+    const temple=game.decks[uid].hand.find(card=>card.cardId==='temple-of-athena');
+    if(uid===seatUid('south')&&temple)table=append(table,uid,{type:'action/played',instanceId:temple.id});
+    table=append(table,uid,{type:'treasures/played'});
+    if(uid===seatUid('south')&&replaySetup(table.events).resources.coins>=3)break;
+    table=advanceEmptyActions(append(table,uid,{type:'turn/ended'}));
+  }
+  const game=replaySetup(table.events);expect(actor(game)).toBe(seatUid('south'));expect(game.resources.coins).toBeGreaterThanOrEqual(3);
+  await page.goto('./pantheontt/');
+  await page.evaluate(saved=>localStorage.setItem('pantheon-tabletop-v1',saved),JSON.stringify(table));await page.reload();
+  await expect(page.getByRole('region',{name:'Shared table'})).toHaveAttribute('data-temple-dock',layout==='wide'?'right':'inline');
+  const handWidth=await page.locator('[data-edge="south"] .hand-slot').first().evaluate(node=>(node as HTMLElement).offsetWidth);
+  const offerWidth=await page.locator('.supply-face').first().evaluate(node=>(node as HTMLElement).offsetWidth);
+  expect(handWidth).toBe(offerWidth);
+  if(layout==='wide')expect(Number(await page.getByRole('region',{name:'Supply',exact:true}).getAttribute('data-face-up-count'))).toBeGreaterThan(1);
+  info.annotations.push({type:'display',description:'Shared tabletop: desktop and 4K displays only.'});
+  const story=new TestStepHelper(page,info,'Room for temples and readable worship');
+  if(layout==='wide')await story.step('wide-table','Larger hand and offer with temples beside the table',[]);
+  const source=page.locator('[data-temple-id="counsel-of-olympus"]');
+  const sourceWidth=await source.evaluate(node=>(node as HTMLElement).offsetWidth);
+  await page.getByRole('button',{name:'Worship Athena',exact:true}).click();
+  const zoom=page.getByRole('region',{name:'Athena worship',exact:true});
+  await expect(zoom).toBeVisible();
+  expect(await zoom.evaluate(node=>(node as HTMLElement).offsetWidth)).toBeGreaterThan(sourceWidth*1.5);
+  const devotion=game.decks[seatUid('south')].play.filter(card=>card.cardId==='temple-of-athena').length;
+  await expect(zoom).toContainText(`${devotion} Devotion`);
+  if(layout==='wide')await story.step('temple-zoom','Chosen temple exposes its rules and devotion',[]);
+  await zoom.getByRole('button',{name:'Worship Athena',exact:true}).click();
+  await expect(zoom).toContainText('Choose from the offer.');
+  const center=page.getByRole('button',{name:'Center Oracle’s Acolyte',exact:true});
+  if(await center.count())await center.click();
+  await page.getByRole('button',{name:'Select Oracle’s Acolyte',exact:true}).click();
+  await expect(zoom).toHaveCount(0);
+  await expect(source).toBeVisible();
+  expect(replaySetup(await page.evaluate(()=>JSON.parse(localStorage.getItem('pantheon-tabletop-v1')!).events)).resources.worship).toBe(game.resources.worship-1);
+  // Replay the same legal starting position to exercise hand selection and completion on the temple.
+  await page.evaluate(saved=>localStorage.setItem('pantheon-tabletop-v1',saved),JSON.stringify(table));await page.reload();
+  await page.getByRole('button',{name:'Worship Demeter',exact:true}).click();
+  const demeter=page.getByRole('region',{name:'Demeter worship',exact:true});
+  await demeter.getByRole('button',{name:'Worship Demeter',exact:true}).click();
+  await expect(demeter).toContainText('Choose from your hand.');
+  await page.locator('[data-edge="south"]').getByRole('button',{name:'Select Hamlet',exact:true}).click();
+  await demeter.getByRole('button',{name:'Done trashing (1)',exact:true}).click();
+  await expect(demeter).toHaveCount(0);
+  expect(replaySetup(await page.evaluate(()=>JSON.parse(localStorage.getItem('pantheon-tabletop-v1')!).events)).trash.map(card=>card.cardId)).toContain('hamlet');
+
+});

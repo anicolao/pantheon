@@ -8,6 +8,7 @@
   import ResourceIcon from '$lib/components/ResourceIcon.svelte';
   import Portrait from '$lib/components/play/Portrait.svelte';
   import SupplyCoverflow from '$lib/components/play/SupplyCoverflow.svelte';
+  import TabletopWorship from '$lib/components/play/TabletopWorship.svelte';
   import WorshipFace from '$lib/components/play/WorshipFace.svelte';
   import { cardGesture } from '$lib/components/play/card-gesture';
   import { sortHand } from '$lib/components/play/hand-order';
@@ -22,6 +23,8 @@
 
   const storageKey = 'pantheon-tabletop-v1';
   let table = $state(freshTable()), mounted = $state(false), error = $state('');
+  let surfaceWidth=$state(1440),surfaceHeight=$state(1000);
+  let selectedTemple=$state(''), templeBusy=$state(false), templeSource=$state<HTMLElement>(), templeOverlay=$state<TabletopWorship>(), templeOpened:(()=>void)|undefined;
   let board = $state<HTMLElement>(), rotation = $state(0), moving = $state(false), working = $state(false);
   let targets = $state<string[]>([]), inspected = $state(''), confirmReset = $state(false);
   let pending = $state<GameCommand | null>(null), pendingText = $state('');
@@ -40,7 +43,12 @@
   const activeSeat = $derived(table.seats.find(seat => seatUid(seat.edge) === uid));
   const finished = $derived(game?.turn.phase === 'finished');
   const human = $derived(activeSeat?.mode === 'human');
-  const ready = $derived(mounted && !moving && !working && !animating && !exitEdge && !finished);
+  const unit=$derived(Math.min(surfaceWidth,surfaceHeight)/100);
+  const horizontal=$derived(activeSeat?.edge==='west'||activeSeat?.edge==='east'?surfaceHeight:surfaceWidth);
+  const vertical=$derived(activeSeat?.edge==='west'||activeSeat?.edge==='east'?surfaceWidth:surfaceHeight);
+  const templeDock=$derived(horizontal/unit>=130?'right':vertical/unit>=130?'top':'inline');
+  const tableWidth=$derived(Math.max(58*unit,Math.min(150*unit,horizontal-(templeDock==='right'?56:30)*unit)));
+  const ready = $derived(mounted && !moving && !working && !animating && !exitEdge && !finished && !templeBusy);
   const choice = $derived(game?.turn.choice);
   const scores = $derived(game?.phase === 'playing' ? standings(game) : []);
   const occupied = $derived(table.seats.filter(seat => seat.mode !== 'empty'));
@@ -52,6 +60,13 @@
   } : undefined);
   const instruction = $derived(!choice ? '' : choice.kind === 'gain' ? `Choose ${choice.actionOnly ? 'an Action' : 'a card'} costing up to ${choice.limit} from the market` : `Choose ${choice.min === choice.max ? choice.max : `up to ${choice.max}`} to ${choice.kind} from your hand`);
 
+  async function openTemple(cardId:string){
+    if(selectedTemple===cardId)return;
+    templeBusy=true;templeSource=document.querySelector<HTMLElement>(`[data-temple-id="${cardId}"]`)??undefined;
+    const opened=new Promise<void>(resolve=>templeOpened=resolve);selectedTemple=cardId;
+    await tick();await opened;templeBusy=false;
+  }
+  async function returnTemple(){if(!selectedTemple)return;templeBusy=true;await templeOverlay?.returnToPile();templeBusy=false;}
   function playerName(id: string) {
     const seat = table.seats.find(seat=>seatUid(seat.edge)===id);
     return definition(game?.leaders[id] ?? seat!.leader).name.split(',')[0];
@@ -69,7 +84,7 @@
   function seatMode(edge: Edge, mode: Seat['mode']) { table = occupy(table, edge, mode); save(); }
   function newTable() {
     generation++; request++; worker?.terminate(); worker = undefined;
-    flightsSettled(); displayedUid=''; exitEdge=null;
+    flightsSettled(); displayedUid=''; exitEdge=null; selectedTemple='';templeBusy=false;templeOpened?.();
     table = freshTable(); targets = []; inspected = ''; pending = null; confirmReset = false;
     rotation = 0; readers={south:null,west:null,north:null,east:null}; readerCards={}; moving = false; working = false; error = ''; save();
   }
@@ -80,6 +95,7 @@
   async function commit(command: GameCommand, player = uid) {
     const current = generation;
     try {
+      if(command.type==='god/worshipped')await openTemple(command.cardId);
       const next = advanceEmptyActions(append(table, player, command));
       motionBefore = measureLayout();
       const animate = game?.phase==='playing' && !reduced;
@@ -90,6 +106,7 @@
       await tick();
       await settled;
       if(current!==generation)return;
+      if(selectedTemple && !replaySetup(table.events).turn.choice)await returnTemple();
       displayedUid=actor(replaySetup(table.events));
       await tick();
     } catch (cause) { error = cause instanceof Error ? cause.message : String(cause); }
@@ -102,7 +119,7 @@
     await commit(command);
   }
   async function finishTurn() {
-    if (!ready || !human || !game || choice) return;
+    if (!ready || !human || !game || choice || selectedTemple) return;
     if (game.turn.phase === 'actions') {
       pending = { type: 'turn/ended' }; pendingText = 'You still have playable Actions. Finish your turn?'; return;
     }
@@ -185,7 +202,7 @@
 
 <svelte:head><title>Pantheon · Tabletop</title><meta name="description" content="Four edges, one shared table. Join a leader, draft, and play Pantheon together on a tabletop display."/></svelte:head>
 <main class="tabletop" data-e2e-layout data-status="synced" data-tabletop-phase={game?.phase ?? 'gathering'} style:--table-art={`url('${base}/assets/ui/table-desktop.webp')`}>
-  <div class="play-surface" style:inset={`${readers.east ? 28 : reading ? 6 : 0}vmin ${readers.south ? 28 : reading ? 6 : 0}vmin ${readers.west ? 28 : reading ? 6 : 0}vmin ${readers.north ? 28 : reading ? 6 : 0}vmin`}>
+  <div class="play-surface" bind:clientWidth={surfaceWidth} bind:clientHeight={surfaceHeight} style:inset={`${readers.east ? 28 : reading ? 6 : 0}vmin ${readers.south ? 28 : reading ? 6 : 0}vmin ${readers.west ? 28 : reading ? 6 : 0}vmin ${readers.north ? 28 : reading ? 6 : 0}vmin`}>
   <div class="table-inlay" aria-hidden="true"></div>
   {#each table.seats as seat, index (seat.edge)}
     {@const id = seatUid(seat.edge)}
@@ -226,14 +243,14 @@
           {#if active && game.phase === 'playing' && human}
             <button disabled={!ready || !!choice || !game.decks[id].hand.some(card=>canPlayTreasure(game!,id,card.id))} onclick={()=>send({type:'treasures/played'})}>Play all Treasures</button>
             {#if canUndo(game,id)}<button disabled={!ready} onclick={()=>send({type:'action/undone',targetSequence:game!.undo!.sequence})}>Undo</button>{/if}
-            <button class="primary" disabled={!ready || !!choice} onclick={finishTurn}>End turn</button>
+            <button class="primary" disabled={!ready || !!choice || !!selectedTemple} onclick={finishTurn}>End turn</button>
           {:else}<span>{finished ? 'Final score' : active ? 'Bot is playing' : `Turn ${game.turnOrder.indexOf(id)+1}`}</span>{/if}
         </div>
       {/if}
     </section>
   {/each}
 
-  <section class="shared-table" bind:this={board} style:--rotation={`${rotation}deg`} aria-label="Shared table" aria-busy={moving || working || animating} data-facing={activeSeat?.edge ?? 'south'}>
+  <section class="shared-table" class:playing={game?.phase==='playing'&&!finished} data-temple-dock={templeDock} style:--table-width={`${tableWidth}px`} bind:this={board} style:--rotation={`${rotation}deg`} aria-label="Shared table" aria-busy={moving || working || animating} data-facing={activeSeat?.edge ?? 'south'}>
     {#if !game}
       <div class="welcome"><p class="eyebrow">One table · Four bloodlines</p><h1>Pantheon</h1><p>Choose your edge. Tap your leader.</p><span>{occupied.length} of 4 seats joined</span></div>
       {#each edges as edge, index}
@@ -252,8 +269,8 @@
       </div>
     {:else}
       <div class="table-status"><strong>{playerName(uid)}’s turn</strong><span>{game.turn.phase} · Turn {game.turn.number}</span><div class="counters">{#each ['actions','coins','buys','worship'] as resource}<ResourceIcon resource={resource as 'actions'|'coins'|'buys'|'worship'} value={game.resources[resource as keyof typeof game.resources]}/>{/each}</div></div>
-      <div class="market"><SupplyCoverflow {game} {uid} ready={ready && human && (!choice || choice.kind==='gain')} visible={true} {inspect} onDialog={()=>{}} command={send} selection={marketSelection} {rotation} followAffordable={!animating} warnOnActions={false}/></div>
-      <div class="temples" aria-label="Worship actions">{#each [...game.sharedEvents].sort((a,b)=>(definition(a).cost??0)-(definition(b).cost??0)||definition(a).name.localeCompare(definition(b).name)) as event}<button disabled={!ready || !human || !!worshipReason(game,uid,event)} data-public-zone="altar" data-public-card={event} data-motion-angle={rotation} aria-label={`Worship ${definition(event).god}`} onclick={()=>send({type:'god/worshipped',cardId:event})}><WorshipFace {game} {uid} cardId={event} dimUnavailable/></button>{/each}</div>
+      <div class="market"><SupplyCoverflow {game} {uid} sharedCardWidth={unit*16} ready={ready && human && (!selectedTemple || !!choice) && (!choice || choice.kind==='gain')} visible={true} {inspect} onDialog={()=>{}} command={send} selection={marketSelection} {rotation} followAffordable={!animating} warnOnActions={false}/></div>
+      <div class="temples" class:side={templeDock!=='inline'} aria-label="Worship actions">{#each [...game.sharedEvents].sort((a,b)=>(definition(a).cost??0)-(definition(b).cost??0)||definition(a).name.localeCompare(definition(b).name)) as event}<button disabled={!ready || !human || !!selectedTemple || !!worshipReason(game,uid,event)} data-temple-id={event} class:zoomed={selectedTemple===event} data-public-zone="altar" data-public-card={event} data-motion-angle={rotation} aria-label={`Worship ${definition(event).god}`} onclick={()=>openTemple(event)}><WorshipFace {game} {uid} cardId={event} dimUnavailable/></button>{/each}</div>
       <div class="play-area" data-public-zone="play" data-public-uid={uid} data-motion-angle={rotation} aria-label="Played cards"><span class="reveal-anchor" data-public-zone="reveal" data-public-uid={uid} data-motion-angle={rotation} aria-hidden="true"></span>
         {#if !game.decks[uid].play.length && !tablePurchases(game,uid).length}<span class="empty-play">Your play area</span>{/if}
         <div class="played">{#each tablePlayed(game,uid) as card}<button data-motion-key={`play:${card.id}`} data-motion-zone="play" data-motion-uid={uid} data-motion-card={card.id} data-motion-face={card.cardId} data-motion-copy={card.copy} data-motion-angle={rotation} aria-label={`Inspect played ${definition(card.cardId).name}`} onclick={()=>inspect(card.cardId)}><CardFace card={definition(card.cardId)} copy={card.copy} players={game.playerCount}/></button>{/each}</div>
@@ -261,10 +278,11 @@
       </div>
       <div class="table-message">
         {#if pending}<p>{pendingText}</p><button class="primary" disabled={!ready} onclick={acceptPending}>Confirm</button><button onclick={()=>pending=null}>Keep playing</button>
-        {:else if choice}<p class="choice-instruction" role="status">{definition(choice.source).name}: {instruction}</p>{#if choice.kind!=='gain'}<button class="primary" disabled={!ready || !human || targets.length<choice.min} onclick={()=>resolve()}>{choice.kind==='trash'?'Done trashing':'Discard selected'} ({targets.length})</button>{:else if choice.min===0}<button disabled={!ready || !human} onclick={()=>resolve([])}>Gain none</button>{/if}
+        {:else if choice && !selectedTemple}<p class="choice-instruction" role="status">{definition(choice.source).name}: {instruction}</p>{#if choice.kind!=='gain'}<button class="primary" disabled={!ready || !human || targets.length<choice.min} onclick={()=>resolve()}>{choice.kind==='trash'?'Done trashing':'Discard selected'} ({targets.length})</button>{:else if choice.min===0}<button disabled={!ready || !human} onclick={()=>resolve([])}>Gain none</button>{/if}
         {:else}<p>{message(game.activity.at(-1)?.message ?? '')}</p>{/if}
       </div>
     {/if}
+    {#if selectedTemple && game}<TabletopWorship bind:this={templeOverlay} {game} {uid} cardId={selectedTemple} {rotation} source={templeSource} selectedCount={targets.length} resolve={()=>resolve()} ready={ready&&human} busy={templeBusy||working||animating} submit={()=>send({type:'god/worshipped',cardId:selectedTemple})} close={()=>selectedTemple=''} onOpened={()=>{templeOpened?.();templeOpened=undefined;}}/>{/if}
     {#if inspected}<div class="inspection"><CardFace card={definition(inspected)} players={game?.playerCount??4}/><button class="primary" onclick={()=>inspected=''}>Return to table</button></div>{/if}
     {#if confirmReset}<div class="reset-confirm"><p>Finish this table and start a new one?</p><button onclick={newTable}>New table</button><button onclick={()=>confirmReset=false}>Keep playing</button></div>{/if}
     {#if error}<div class="error" role="alert">{error}{#if activeSeat?.mode==='bot'}<button onclick={()=>{worker?.terminate();worker=undefined;error='';working=false;}}>Continue bot turn</button>{/if}<button onclick={()=>confirmReset=true}>New table</button></div>{/if}
@@ -298,17 +316,23 @@
 </main>
 
 <style>
-  .tabletop{container-type:size;position:fixed;inset:0;overflow:hidden;background:radial-gradient(ellipse at center,#112a36cc,#071321e8 70%),var(--table-art) center/cover;color:#f4e4bf;font-family:'Atkinson Hyperlegible',sans-serif;--unit:1cqmin;--gold:#c9a663;--card-width:11cqmin;}
+  .tabletop{container-type:size;position:fixed;inset:0;overflow:hidden;background:radial-gradient(ellipse at center,#112a36cc,#071321e8 70%),var(--table-art) center/cover;color:#f4e4bf;font-family:'Atkinson Hyperlegible',sans-serif;--unit:1cqmin;--gold:#c9a663;--card-width:16cqmin;}
   .play-surface{position:absolute;container-type:size;}
   .table-inlay{position:absolute;inset:3cqmin;border:1px solid #b6965744;border-radius:18%;box-shadow:inset 0 0 0 1cqmin #050b1277,inset 0 0 0 1.1cqmin #d7b97422;pointer-events:none;}
   button{touch-action:manipulation;}button{font:inherit;color:inherit;background:#102632;border:1px solid #c9a66388;border-radius:.8cqmin;padding:.7cqmin 1.2cqmin;cursor:pointer;min-height:3.6cqmin;font-size:clamp(10px,1.25cqmin,24px);}button:disabled{cursor:default;filter:brightness(.65) saturate(.65);}button:not(:disabled):hover,button:focus-visible{outline:2px solid #f6dc9b;outline-offset:2px;}.primary{background:linear-gradient(#f0d89a,#a5803f);color:#15212a;font-weight:700;box-shadow:0 .4cqmin 1cqmin #0008;}p{margin:.6cqmin 0;}h1,h2{font-family:'Cormorant Garamond',serif;font-weight:600;margin:0;}h1{font-size:4.5cqmin;}.eyebrow{text-transform:uppercase;letter-spacing:.14em;font-size:1.1cqmin;color:#d3b47a;}
   .edge{position:absolute;width:62cqmin;height:20cqmin;left:50%;top:calc(100% - var(--edge-inset,10.5cqmin));transform:translate(-50%,-50%) rotate(var(--angle));transform-origin:center;z-index:3;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.7cqmin;}
   .edge[data-edge=west]{left:var(--edge-inset,10.5cqmin);top:50%;}.edge[data-edge=north]{top:var(--edge-inset,10.5cqmin);}.edge[data-edge=east]{left:calc(100% - var(--edge-inset,10.5cqmin));top:50%;}
+  .edge.active{width:66cqmin;height:27cqmin;--edge-inset:14cqmin;}
   .edge.gathering{height:26cqmin;--edge-inset:14cqmin;}.join-portrait{width:16cqmin;border:0;background:none;padding:0;filter:drop-shadow(0 1cqmin 1cqmin #0008);}.join-portrait span{display:block;font-size:1.3cqmin;white-space:nowrap;}.seat-mode{font-size:1.2cqmin;min-height:3.5cqmin;}.edge-line{width:100%;display:flex;align-items:center;gap:1.5cqmin;}.leader{width:9cqmin;flex-shrink:0;background:none;border:0;padding:0;}.edge-deck{--icon-size:2.3cqmin;flex-shrink:0;}.edge-controls{display:flex;justify-content:center;align-items:center;gap:1cqmin;height:3.8cqmin;font-size:1.3cqmin;}.draft-wait{font-size:1.8cqmin;}
-  .table-hand{position:relative;height:15.4cqmin;flex:1;min-width:0;perspective:100cqmin;}.hand-slot,.hand-card{position:absolute;padding:0;width:var(--card-width);height:15.4cqmin;top:0;left:calc(var(--position) * (100% - var(--card-width)) / max(1,var(--count) - 1));border:0;background:none;z-index:var(--stack);border-radius:.6cqmin;transition:top 180ms ease-out;}.hand-slot{pointer-events:none;}.hand-card{width:calc((100% - var(--card-width)) / max(1,var(--count) - 1));border-radius:0;}.hand-card:last-child{width:var(--card-width);}.hand-slot:has(+ .hand-card:not(:disabled):hover){filter:brightness(1.13);}.hand-slot.selected{outline:.3cqmin solid #f6dd8b;top:-1cqmin;}.hand-card:disabled{filter:none;}.flip{display:block;width:100%;height:100%;position:relative;transform:rotateY(180deg);transform-style:preserve-3d;transition:transform 450ms ease-out;}.flip.faceup{transform:rotateY(0);}.front,.back{position:absolute;inset:0;backface-visibility:hidden;}.back{transform:rotateY(180deg);}
+  .table-hand{position:relative;height:22.4cqmin;flex:1;min-width:0;perspective:100cqmin;}.hand-slot,.hand-card{position:absolute;padding:0;width:var(--card-width);height:22.4cqmin;top:0;left:calc(var(--position) * (100% - var(--card-width)) / max(1,var(--count) - 1));border:0;background:none;z-index:var(--stack);border-radius:.6cqmin;transition:top 180ms ease-out;}.hand-slot{pointer-events:none;}.hand-card{width:calc((100% - var(--card-width)) / max(1,var(--count) - 1));border-radius:0;}.hand-card:last-child{width:var(--card-width);}.hand-slot:has(+ .hand-card:not(:disabled):hover){filter:brightness(1.13);}.hand-slot.selected{outline:.3cqmin solid #f6dd8b;top:-1cqmin;}.hand-card:disabled{filter:none;}.flip{display:block;width:100%;height:100%;position:relative;transform:rotateY(180deg);transform-style:preserve-3d;transition:transform 450ms ease-out;}.flip.faceup{transform:rotateY(0);}.front,.back{position:absolute;inset:0;backface-visibility:hidden;}.back{transform:rotateY(180deg);}
   .shared-table{position:absolute;left:50%;top:50%;width:66cqmin;height:66cqmin;margin:-33cqmin 0 0 -33cqmin;transform:rotate(var(--rotation)) translateY(-4cqmin);transition:transform 650ms cubic-bezier(.2,.7,.2,1);border:1px solid #c9a66355;border-radius:50%;background:radial-gradient(ellipse,#16333c44,#05141b55);display:flex;flex-direction:column;align-items:stretch;z-index:2;--icon-size:2cqmin;}
+  .shared-table.playing{width:var(--table-width);height:58cqmin;margin: -29cqmin 0 0 calc(var(--table-width) / -2);transform:rotate(var(--rotation)) translateY(-8cqmin);border-radius:4cqmin;}
+  .shared-table.playing[data-temple-dock=right]{translate:calc(-13cqmin * cos(var(--rotation))) calc(-13cqmin * sin(var(--rotation)));}
+  .shared-table.playing .market{height:24cqmin;}.shared-table.playing .temples{height:11cqmin;gap:1cqmin;}.shared-table.playing .temples button{width:16cqmin;}.shared-table.playing .play-area{height:12cqmin;}.shared-table.playing .table-message{height:4cqmin;}
+  .shared-table.playing .temples.side{position:absolute;}.shared-table.playing[data-temple-dock=right] .temples.side{left:calc(100% + 2cqmin);top:0;width:24cqmin;height:58cqmin;flex-direction:column;justify-content:center;gap:1cqmin;}.shared-table.playing[data-temple-dock=right] .temples button{width:22cqmin;}
+  .shared-table.playing[data-temple-dock=top] .temples.side{left:0;bottom:calc(100% + 2cqmin);width:100%;height:14cqmin;}.shared-table.playing:has(.temples.side) .play-area{height:23cqmin;}.temples button.zoomed{visibility:hidden;}
   .welcome{position:absolute;inset:19cqmin 10cqmin;text-align:center;white-space:nowrap;line-height:1.1;}.welcome h1{font-size:6.5cqmin;}.welcome p,.welcome span{font-size:1.3cqmin;}.start-control{position:absolute;left:50%;top:50%;width:19cqmin;margin-left:-9.5cqmin;transform:rotate(var(--start-angle)) translateY(15cqmin);transform-origin:50% 0;display:grid;justify-items:center;gap:.8cqmin;}.start{width:12cqmin;font-size:2.3cqmin;min-height:5cqmin;}.start-control label{display:flex;gap:.4cqmin;align-items:center;font-size:1cqmin;white-space:nowrap;}.start-control input{width:1.5cqmin;height:1.5cqmin;accent-color:#dab672;}.setup-note{position:absolute;top:35cqmin;left:17cqmin;width:24cqmin;text-align:center;font-size:1cqmin;line-height:1.5;}
-  .table-status{height:7cqmin;flex-shrink:0;text-align:center;display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:0 1cqmin;font-size:1.25cqmin;}.table-status strong{font-family:'Cormorant Garamond',serif;font-size:2.5cqmin;}.counters{display:flex;gap:1cqmin;justify-content:center;width:100%;--icon-size:1.7cqmin;}.market{height:23cqmin;flex-shrink:0;width:100%;}.temples{height:8.5cqmin;display:flex;align-items:center;justify-content:center;gap:1cqmin;}.temples button{width:10cqmin;padding:0;background:none;border:0;}.play-area{height:17cqmin;display:flex;justify-content:center;align-items:center;gap:3cqmin;position:relative;}.played,.purchased{display:flex;max-width:72%;align-items:center;justify-content:center;}.played button,.purchased button{width:8cqmin;flex:0 1 8cqmin;min-width:0;padding:0;border:0;background:none;}.played button+button,.purchased button+button{margin-left:.35cqmin;}.reveal-anchor{position:absolute;width:11cqmin;height:15.4cqmin;pointer-events:none;}.empty-play{font:2.3cqmin 'Cormorant Garamond',serif;color:#dfc18a66;}.table-message{height:5.5cqmin;text-align:center;font-size:1.1cqmin;line-height:1.3;}.table-message button{min-height:2.8cqmin;font-size:1.1cqmin;padding:.4cqmin .8cqmin;}.table-message p{margin:.2cqmin 1cqmin;}.choice-instruction{color:#ffe69e;}
+  .table-status{height:7cqmin;flex-shrink:0;text-align:center;display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:0 1cqmin;font-size:1.25cqmin;}.table-status strong{font-family:'Cormorant Garamond',serif;font-size:2.5cqmin;}.counters{display:flex;gap:1cqmin;justify-content:center;width:100%;--icon-size:1.7cqmin;}.market{height:23cqmin;flex-shrink:0;width:100%;}.temples{height:8.5cqmin;display:flex;align-items:center;justify-content:center;gap:1cqmin;}.temples button{width:10cqmin;padding:0;background:none;border:0;}.play-area{height:17cqmin;display:flex;justify-content:center;align-items:center;gap:3cqmin;position:relative;}.played,.purchased{display:flex;max-width:72%;align-items:center;justify-content:center;}.played button,.purchased button{width:8cqmin;flex:0 1 8cqmin;min-width:0;padding:0;border:0;background:none;}.played button+button,.purchased button+button{margin-left:.35cqmin;}.reveal-anchor{position:absolute;width:11cqmin;height:22.4cqmin;pointer-events:none;}.empty-play{font:2.3cqmin 'Cormorant Garamond',serif;color:#dfc18a66;}.table-message{height:5.5cqmin;text-align:center;font-size:1.1cqmin;line-height:1.3;}.table-message button{min-height:2.8cqmin;font-size:1.1cqmin;padding:.4cqmin .8cqmin;}.table-message p{margin:.2cqmin 1cqmin;}.choice-instruction{color:#ffe69e;}
   .shared-table:has(.welcome){width:58cqmin;height:58cqmin;margin:-29cqmin 0 0 -29cqmin;transform:none;}
   .draft,.results{padding:7cqmin 4cqmin;text-align:center;font-size:1.3cqmin;}.draft-leaders{display:grid;grid-template-columns:1fr 1fr;gap:1.5cqmin;margin:2cqmin 0;}.draft-leaders button{border:0;padding:0;background:none;}.draft-leaders button:disabled{opacity:.4;}.results p{display:flex;justify-content:center;align-items:center;gap:2cqmin;font-size:2cqmin;}
   .inspection,.reset-confirm,.error{position:absolute;z-index:10;left:7%;top:10%;width:86%;padding:2cqmin;border:1px solid var(--gold);border-radius:2cqmin;background:#091b25f5;box-sizing:border-box;text-align:center;font-size:1.5cqmin;}.inspection{width:45%;left:27.5%;top:5%;}.inspection button{margin-top:1cqmin;}.error{top:38%;color:#ffd19b;}.reset-confirm{top:38%;}.reset-confirm button,.error button{margin:1cqmin;}
