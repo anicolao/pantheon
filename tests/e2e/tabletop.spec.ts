@@ -277,6 +277,7 @@ for(const layout of ['wide','square'] as const)test(`tabletop ${layout} temples 
   const handWidth=await page.locator('[data-edge="south"] .hand-slot').first().evaluate(node=>(node as HTMLElement).offsetWidth);
   const offerWidth=await page.locator('.supply-face').first().evaluate(node=>(node as HTMLElement).offsetWidth);
   expect(handWidth).toBe(offerWidth);
+  for(const card of await page.locator('.play-area .table-card').all())expect(await card.evaluate(node=>(node as HTMLElement).offsetWidth)).toBe(handWidth);
   if(layout==='wide')expect(Number(await page.getByRole('region',{name:'Supply',exact:true}).getAttribute('data-face-up-count'))).toBeGreaterThan(1);
   info.annotations.push({type:'display',description:'Shared tabletop: desktop and 4K displays only.'});
   const story=new TestStepHelper(page,info,'Room for temples and readable worship');
@@ -308,5 +309,11 @@ for(const layout of ['wide','square'] as const)test(`tabletop ${layout} temples 
   await demeter.getByRole('button',{name:'Done trashing (1)',exact:true}).click();
   await expect(demeter).toHaveCount(0);
   expect(replaySetup(await page.evaluate(()=>JSON.parse(localStorage.getItem('pantheon-tabletop-v1')!).events)).trash.map(card=>card.cardId)).toContain('hamlet');
+  const purchase=append(table,actor(game),{type:'card/bought',cardId:'obol'});
+  await page.evaluate(saved=>localStorage.setItem('pantheon-tabletop-v1',saved),JSON.stringify(purchase));await page.reload();
+  expect(await page.locator('.purchased .table-card').evaluate(node=>(node as HTMLElement).offsetWidth)).toBe(handWidth);
+  const played=await page.locator('.played').boundingBox(),purchased=await page.locator('.purchased').boundingBox();
+  expect(purchased!.x).toBeGreaterThan(played!.x+played!.width);
+
 
 });
