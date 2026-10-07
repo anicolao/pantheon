@@ -8,12 +8,12 @@ type DrawWindow = Window & { drawObservation: { frames: DrawFrame[]; completed: 
 
 /** Record coherent DOM states in the browser, without racing several protocol
  * round trips against an overlapping reveal. This only observes presentation. */
-export async function observeDraws(page: Page) {
-  await page.evaluate(() => {
+export async function observeDraws(page: Page, handSelector = '.hand') {
+  await page.evaluate(handSelector => {
     const frames: DrawFrame[] = [], completed: string[] = [];
     let previous: string[] = [], signature = '';
     const sample = () => {
-      const hand = document.querySelector('.hand');
+      const hand = document.querySelector(handSelector);
       const cards = [...document.querySelectorAll<HTMLElement>('[data-motion-kind="draw"]')].map(node => {
         const slot = [...document.querySelectorAll<HTMLElement>('.hand-slot')].find(slot => slot.dataset.instanceId === node.dataset.motionCard);
         return { step: node.dataset.motionStep!, phase: node.dataset.drawPhase!, inHand: node.parentElement === hand,
@@ -29,7 +29,7 @@ export async function observeDraws(page: Page) {
     observer.observe(document.body, { subtree: true, childList: true, attributes: true, attributeFilter: ['data-draw-phase', 'data-hand-total', 'style'] });
     (window as unknown as DrawWindow).drawObservation = { frames, completed, stop: () => observer.disconnect() };
     sample();
-  });
+  },handSelector);
 }
 export async function waitForDraws(page: Page, count: number) {
   await page.waitForFunction(count => (window as unknown as DrawWindow).drawObservation.completed.length >= count, count, { polling: 'raf', timeout: 2000 });

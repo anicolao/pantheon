@@ -236,3 +236,29 @@ for(const edge of ['south','west','north','east'])test(`tabletop animation lab r
   await expect(page.locator('.public-flight')).toHaveCount(0);
   expect(await page.evaluate(()=>localStorage.getItem('pantheon-tabletop-v1'))).toBe(original);
 });
+
+for(const edge of ['south','west','north','east'])test(`tabletop ${edge} draw reveals before opening each sorted hand slot`,async({page},info)=>{
+  test.skip(info.project.name==='phone','The shared tabletop needs a large display.');
+  await page.emulateMedia({reducedMotion:'no-preference'});
+  await page.goto(`./dev/animations/?surface=tabletop&edge=${edge}&scenario=council-of-sages&players=4`);
+  const trigger=page.getByRole('button',{name:'Trigger',exact:true});
+  await expect(trigger).toBeEnabled();
+  const selector=`[data-edge="${edge}"] .table-hand`;
+  const initial=Number(await page.locator(selector).getAttribute('data-hand-total'));
+  await observeDraws(page,selector);
+  await trigger.click();
+  for(const count of [1,2,3])await waitForDraws(page,count);
+  const frames=await drawFrames(page),steps=[...new Set(frames.flatMap(frame=>frame.cards.map(card=>card.step)))];
+  expect(steps).toHaveLength(3);
+  for(const [index,step] of steps.entries()){
+    const reveal=frames.find(frame=>frame.cards.some(card=>card.step===step&&card.phase==='reveal'))!;
+    expect(reveal.hand).toBe(initial-1+index);
+    expect(reveal.cards.find(card=>card.step===step)!.slotStack).toBeNull();
+    const space=frames.find(frame=>frame.cards.some(card=>card.step===step&&card.phase==='space'))!;
+    expect(space.hand).toBe(initial+index);
+    const travel=frames.flatMap(frame=>frame.cards).find(card=>card.step===step&&card.phase==='travel')!;
+    expect(travel.inHand).toBe(true);expect(travel.stack).toBe(travel.slotStack);
+  }
+  await expect(page.locator(selector)).toHaveAttribute('data-hand-total',String(initial+2));
+  await expect(page.locator('.public-flight')).toHaveCount(0);
+});
