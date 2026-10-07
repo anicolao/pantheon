@@ -39,6 +39,9 @@
     await tick(); layoutRevision++;
   }
   let displayedUid = $state(''), animating = $state(false), reduced = $state(true), exitEdge = $state<Edge | null>(null), closeNotice = $state(false);
+  let pendingDraws=$state<{step:string;card:string;uid:string;sequence:number}[]>([]);
+  function openDraw(step:string){pendingDraws=pendingDraws.filter(draw=>draw.step!==step);}
+  function presentedHand(id:string){return (game?.decks[id]?.hand??[]).filter(card=>!pendingDraws.some(draw=>draw.uid===id&&draw.card===card.id));}
   let motionBefore: Layout = {poses:[],width:100}, settleMotion: (()=>void) | undefined;
   let worker: Worker | undefined, request = 0, generation = 0;
   const game = $derived(table.events.length ? replaySetup(table.events) : null);
@@ -77,7 +80,7 @@
   function message(text: string) {
     return text.replace(/\b(South|West|North|East)\b/g, name=>playerName(seatUid(name.toLowerCase() as Edge)));
   }
-  function flightsSettled() { animating=false; settleMotion?.(); settleMotion=undefined; }
+  function flightsSettled(revision=Infinity) { pendingDraws=pendingDraws.filter(draw=>draw.sequence>revision);animating=false; settleMotion?.(); settleMotion=undefined; }
   function closeWindow() { window.close(); closeNotice=true; exitEdge=null; }
   function requestExit(edge: Edge) { if(game && !finished) exitEdge=edge; else closeWindow(); }
   function save() {
@@ -105,6 +108,7 @@
       const animate = game?.phase==='playing' && !reduced;
       const settled = animate ? new Promise<void>(resolve=>{settleMotion=resolve;animating=true;}) : Promise.resolve();
       if(game?.phase==='playing') displayedUid=player;
+      if(animate && command.type!=='turn/ended')pendingDraws=replaySetup(next.events).movements.filter(move=>move.sequence>table.events.length&&move.kind==='draw'&&move.card).map(move=>({step:`${move.sequence}:${move.index}`,card:move.card!.id,uid:move.uid,sequence:move.sequence}));
       table = next;
       targets = []; inspected = ''; pending = null; error = ''; save();
       await tick();
@@ -224,8 +228,8 @@
           <button class="leader" data-public-card={leader} data-public-zone="leader" data-public-uid={id} data-motion-angle={index*90} aria-label={`Inspect ${playerName(id)} leader`} onclick={() => inspect(leader)}><Portrait {leader} name={playerName(id)} {active} points={scores.find(score=>score.uid===id)?.score}/></button>
           {#if game.phase === 'playing'}
             <div class="edge-deck" data-public-zone="deck" data-public-uid={id} data-motion-angle={index*90}><ResourceIcon resource="cards" value={game.decks[id].deck.length} label={`${playerName(id)} deck`}/></div>
-            <div class="table-hand" data-hand-owner={id} data-face-up={faceUp} style:visibility={active && !faceUp && animating ? 'hidden' : undefined} style:--count={game.decks[id].hand.length}>
-              <HandFan cards={sortHand(game.decks[id].hand)} uid={id} players={game.playerCount} {faceUp} angle={index*90} measure={active} selected={active?targets:[]}
+            <div class="table-hand" data-public-zone="hand" data-public-uid={id} data-motion-angle={index*90} data-hand-total={presentedHand(id).length} data-hand-owner={id} data-face-up={faceUp} style:visibility={active && !faceUp && animating ? 'hidden' : undefined} style:--count={game.decks[id].hand.length}>
+              <HandFan cards={sortHand(presentedHand(id))} uid={id} players={game.playerCount} {faceUp} angle={index*90} measure={active} selected={active?targets:[]}
                 disabled={()=>!active||!ready||!human}
                 label={card=>faceUp ? `${choice && choice.kind!=='gain'?'Select':'Play'} ${definition(card.cardId).name}` : `${playerName(id)} face-down card`}
                 activate={card=>handCard(card.id)} inspect={card=>inspect(card.cardId)}/>
@@ -307,7 +311,7 @@
   {/each}
   {#if exitEdge}<div class="exit-shade" aria-hidden="true"></div><div class="exit-confirm" tabindex="-1" role="dialog" aria-modal="true" aria-label="Leave the table?" data-exit-edge={exitEdge} style:transform={`translate(-50%,-50%) rotate(${edges.indexOf(exitEdge)*90}deg)`}><h2>Leave the table?</h2><p>Your game is saved in this browser.</p><button onclick={closeWindow}>Exit</button><button class="primary" onclick={()=>exitEdge=null}>Keep playing</button></div>{/if}
   {#if closeNotice}<p class="close-notice" role="status">If your browser keeps this window open, close its tab to leave.</p>{/if}
-  {#if game?.phase==='playing'}<PublicMotion preserveFacing skipCleanupDeal {layoutRevision} {game} {uid} openDraw={()=>{}} previousLayout={()=>motionBefore} status="synced" {reduced} visible={true} onFlightsSettled={flightsSettled}/>{/if}
+  {#if game?.phase==='playing'}<PublicMotion drawCardWidth={unit*16} preserveFacing skipCleanupDeal {layoutRevision} {game} {uid} {openDraw} previousLayout={()=>motionBefore} status="synced" {reduced} visible={true} onFlightsSettled={flightsSettled}/>{/if}
 </main>
 
 <style>
