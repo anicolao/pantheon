@@ -19,16 +19,16 @@ export const scenarios = [
 export type Fixture = { events: SetupEvent[]; actor: string; trigger?: GameCommand };
 
 /** Seeded legal event histories, not fabricated zones. Reset always restores the same deal. */
-export function fixture(id: string, count: 2 | 3 | 4): Fixture {
+export function fixture(id: string, count: 2 | 3 | 4, playerIds = Array.from({length:count},(_,i)=>`lab-${i}`)): Fixture {
   const leader = id === 'bronze-recruit' || id === 'forge-of-heroes' ? 'doreios' : id === 'favor' ? 'thaleia' : definitionOrGod(id);
   const names = ['Ariadne', 'Theseus', 'Iris', 'Leon'];
-  let events: SetupEvent[] = names.slice(0, count).map((name, i) => ({ schemaVersion: 1, sequence: i + 1, actorUid: `lab-${i}`, name, playerCount: count, type: i ? 'player/joined' : 'game/created' }));
+  let events: SetupEvent[] = names.slice(0, count).map((name, i) => ({ schemaVersion: 1, sequence: i + 1, actorUid: playerIds[i], name, playerCount: count, type: i ? 'player/joined' : 'game/created' }));
   let projected = replaySetup(events);
   function append(command: GameCommand, uid?: string) {
     const game = projected;
     const actor = uid ?? activePlayer(game);
     const sequence = events.length + 1;
-    const event: SetupEvent = { schemaVersion: 1, reducerVersion: 1, commandId: `lab-${sequence}`, sequence, actorUid: actor, name: names[Number(actor.split('-')[1])], playerCount: count, ...command };
+    const event: SetupEvent = { schemaVersion: 1, reducerVersion: 1, commandId: `lab-${sequence}`, sequence, actorUid: actor, name: names[playerIds.indexOf(actor)], playerCount: count, ...command };
     const next = [...events, event];
     if (projected.phase === 'playing') {
       // Plan with the shared rules reducer instead of replaying the growing
@@ -39,10 +39,10 @@ export function fixture(id: string, count: 2 | 3 | 4): Fixture {
     } else projected = replaySetup(next);
     events = next;
   }
-  append({ type: 'draft/started', seed: id==='treasure' || id==='treasures' ? 'animation-treasures-v1' : 'animation-lab-v1' }, 'lab-0');
+  append({ type: 'draft/started', seed: id==='treasure' || id==='treasures' ? 'animation-treasures-v1' : 'animation-lab-v1' }, playerIds[0]);
   const order = replaySetup(events).draftOrder;
   const others = leaderIds.filter(value => value !== leader);
-  const chosen = Object.fromEntries(['lab-0', ...names.slice(1,count).map((_,i)=>`lab-${i+1}`)].map((uid,i)=>[uid,i ? others[i-1] : leader]));
+  const chosen = Object.fromEntries(playerIds.map((uid,i)=>[uid,i ? others[i-1] : leader]));
   for (const uid of order) {
     if (id === 'deal' && uid === order.at(-1)) return { events, actor: uid, trigger: { type: 'leader/chosen', leaderId: chosen[uid] } };
     append({ type: 'leader/chosen', leaderId: chosen[uid] }, uid);
@@ -57,19 +57,19 @@ export function fixture(id: string, count: 2 | 3 | 4): Fixture {
   }
   function money() { if (state().decks[activePlayer(state())].hand.some(card=>definition(card.cardId).type==='Treasure')) append({type:'treasures/played'}); else if(state().turn.phase==='actions')append({type:'phase/advanced'}); }
   function end() { resolveChoices(); money(); append({type:'turn/ended'}); }
-  for(let i=0;activePlayer(state())!=='lab-0' && i<count;i++)end();
+  for(let i=0;activePlayer(state())!==playerIds[0] && i<count;i++)end();
   if (id==='treasure' || id==='treasures') {
     const kinds=['obol','drachma','talent'];
     // Acquire the higher denominations through normal purchases, then keep the
     // first seeded deal containing exactly one of each and two non-Treasures.
     for(let i=0;i<400;i++) {
       const game=state(), actor=activePlayer(game), hand=game.decks[actor].hand;
-      if(actor==='lab-0' && kinds.every(kind=>hand.filter(card=>card.cardId===kind).length===1)) {
+      if(actor===playerIds[0] && kinds.every(kind=>hand.filter(card=>card.cardId===kind).length===1)) {
         return {events,actor,trigger:id==='treasure'
           ? {type:'treasure/played',instanceId:treasuresRightToLeft(hand)[0].id}
           : {type:'treasures/played'}};
       }
-      if(actor==='lab-0') {
+      if(actor===playerIds[0]) {
         const temple=hand.find(card=>definition(card.cardId).uniqueStartingCard);
         if(temple)append({type:'action/played',instanceId:temple.id});
         money();
@@ -89,7 +89,7 @@ export function fixture(id: string, count: 2 | 3 | 4): Fixture {
     for(let i=0;i<250;i++) {
       money();
       const game=state();
-      const player=Number(activePlayer(game).split('-')[1]);
+      const player=playerIds.indexOf(activePlayer(game));
       const reserved=quotas.reduce((sum,quota,index)=>sum+Math.max(0,quota-purchased[index]),0);
       const canBuyHamlet=player===0?game.supply.hamlet>reserved:purchased[player]<quotas[player];
       const pile=['obol','hamlet','seed-keeper'].find(card=>game.supply[card]>0 && definition(card).cost!<=game.resources.coins && (card!=='hamlet'||canBuyHamlet));
@@ -106,13 +106,13 @@ export function fixture(id: string, count: 2 | 3 | 4): Fixture {
       const game=state(), uid=activePlayer(game), hand=game.decks[uid].hand;
       const card=hand.find(card=>card.cardId===action);
       const temple=hand.find(card=>definition(card.cardId).uniqueStartingCard);
-      if(uid==='lab-0' && card && (id!=='favor'||temple)) {
+      if(uid===playerIds[0] && card && (id!=='favor'||temple)) {
         if(id==='favor')append({type:'action/played',instanceId:temple!.id});
         return {events,actor:uid,trigger:{type:'action/played',instanceId:card.id}};
       }
-      if(uid==='lab-0' && temple) { append({type:'action/played',instanceId:temple.id}); resolveChoices(); }
+      if(uid===playerIds[0] && temple) { append({type:'action/played',instanceId:temple.id}); resolveChoices(); }
       money();
-      if(uid==='lab-0' && !bought) {
+      if(uid===playerIds[0] && !bought) {
         if(state().resources.coins>=definition(action).cost!) {append({type:'card/bought',cardId:action});bought=true;}
         else if(state().resources.coins>=3)append({type:'card/bought',cardId:'drachma'});
       }
@@ -123,12 +123,12 @@ export function fixture(id: string, count: 2 | 3 | 4): Fixture {
   if (['counsel-of-olympus','tribute-of-the-tides','blessing-of-the-fields','trial-of-the-spear'].includes(id)) {
     for(let i=0;i<100;i++) {
       money();
-      if(activePlayer(state())==='lab-0' && state().resources.coins>=definition(id).cost!)return {events,actor:'lab-0',trigger:{type:'god/worshipped',cardId:id}};
+      if(activePlayer(state())===playerIds[0] && state().resources.coins>=definition(id).cost!)return {events,actor:playerIds[0],trigger:{type:'god/worshipped',cardId:id}};
       end();
     }
     throw Error(`Could not prepare ${id}`);
   }
-  if(id==='shuffle') { for(let i=0;i<100 && !(activePlayer(state())==='lab-0' && state().decks['lab-0'].deck.length<5);i++)end(); }
+  if(id==='shuffle') { for(let i=0;i<100 && !(activePlayer(state())===playerIds[0] && state().decks[playerIds[0]].deck.length<5);i++)end(); }
   if(['buy','cleanup','shuffle'].includes(id))money();
   if(id==='cleanup')append({type:'card/bought',cardId:'obol'});
   const game=state(), actor=activePlayer(game);

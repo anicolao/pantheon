@@ -217,3 +217,22 @@ test('Sacred Grove gains land on the table, pause, then enter discard', async ({
   await expect(outcome).toBeHidden();
   await expect(discard).toHaveAttribute('aria-label', `Inspect your discard pile: ${count + 1} cards`);
 });
+
+for(const edge of ['south','west','north','east'])test(`tabletop animation lab replays hand motion from ${edge} without changing the saved table`,async({page},info)=>{
+  test.skip(info.project.name==='phone','The shared tabletop needs a large display.');
+  await page.emulateMedia({reducedMotion:'no-preference'});
+  await page.goto(`./dev/animations/?surface=tabletop&edge=${edge}&scenario=treasures&players=4`);
+  const original=await page.evaluate(()=>localStorage.getItem('pantheon-tabletop-v1'));
+  const board=page.getByRole('region',{name:'Shared table'});
+  await expect(board).toHaveAttribute('data-facing',edge);
+  const trigger=page.getByRole('button',{name:'Trigger',exact:true});
+  await expect(trigger).toBeEnabled();
+  await page.getByRole('combobox',{name:'Playback speed',exact:true}).selectOption('0.5');
+  await trigger.click();
+  await expect(page.locator('.public-flight[data-motion-kind="play"]').first()).toBeVisible();
+  await expect(page.getByRole('button',{name:'Replay',exact:true})).toBeEnabled();
+  await page.getByRole('button',{name:'Reset',exact:true}).click();
+  await expect(trigger).toBeEnabled();
+  await expect(page.locator('.public-flight')).toHaveCount(0);
+  expect(await page.evaluate(()=>localStorage.getItem('pantheon-tabletop-v1'))).toBe(original);
+});
