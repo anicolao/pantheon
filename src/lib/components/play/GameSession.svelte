@@ -2,7 +2,7 @@
   import { canUndo } from '$lib/game/undo';
   import ResourceFrame from '../ResourceFrame.svelte';
   import BuildInfo from '../BuildInfo.svelte';
-  import { cardGesture } from './card-gesture';
+  import HandFan from './HandFan.svelte';
   import { recentLog } from './recent-log';
   import { latestMoveIndex } from '$lib/game/public-table';
   import DialogFrame from "$lib/components/DialogFrame.svelte";
@@ -361,11 +361,12 @@
       <!-- Phase advances and market browsing must not replace a masked reveal slot mid-flight. -->
       {#if (revealed || lastPublic) && game.publicActivity.find(entry=>entry.sequence===latestActivity?.sequence)?.command!=='card/bought'}{#key latestActivity?.sequence}<button inert={!!inlineChoice || worshipVisible || !!drawer} class="outcome" style:visibility={tableStop && settledRevision >= tableStop.sequence ? 'hidden' : undefined} data-motion-key={tableStop ? `reveal:${tableStop.card!.id}` : undefined} data-motion-card={tableStop?.card?.id} data-public-zone={tableStop ? 'reveal' : undefined} data-public-uid={turnUid} aria-label={`Inspect ${revealed ? 'revealed' : lastPublic!.kind === 'trash' ? 'trashed' : 'gained'} ${definition((revealed ?? lastPublic)!.card!.cardId).name}`} onclick={() => inspect((revealed ?? lastPublic)!.card!.cardId, (revealed ?? lastPublic)!.card!.copy)}><div class="outcome-card"><CardFace card={definition((revealed ?? lastPublic)!.card!.cardId)} players={game.playerCount} copy={(revealed ?? lastPublic)!.card!.copy} /></div><span class="outcome-icons"><ResourceIcon resource={lastPublic?.kind === 'topdeck' ? 'topdeck' : lastPublic?.kind === 'trash' ? 'trash' : 'discard'} />{#if revealed && lastPublic?.kind === 'discard'}<ResourceIcon resource="coins" value="+2" />{/if}</span></button>{/key}{/if}
 
-      <section inert={worshipVisible || inlineChoice?.kind==='gain' || !!drawer} bind:this={handElement} data-public-zone="hand" data-public-uid={uid} class="hand" aria-label="Your hand" data-hand-total={orderedHand.length} style:--hand-count={visibleHand.length} style:--hand-spaces={Math.max(1,visibleHand.length-1)} style:--hand-min-peek={`${handMinPeek}px`}>
-        {#each visibleHand as card, index (`${card.id}:${handRevision(card.id)}`)}
-          <div class="hand-slot" class:staged={interactionTargets.includes(card.id)} data-motion-key={`hand:${card.id}`} data-motion-card={card.id} data-motion-face={card.cardId} data-motion-copy={card.copy} data-motion-zone="hand" data-motion-uid={uid} data-instance-id={card.id} style:--card-index={index} style:--fan-angle={`${(index-(visibleHand.length-1)/2)*Math.min(3,16/Math.max(1,visibleHand.length-1))}deg`} style:--fan-drop={`${Math.abs(index-(visibleHand.length-1)/2)*3}px`} in:deal|global={index}><div class="hand-face"><CardFace card={definition(card.cardId)} players={game.playerCount} copy={card.copy} /></div></div>
-          <button data-motion-key={`hand-hit:${card.id}`} data-testid="hand-card" data-instance-id={card.id} disabled={!ready || (!!inlineChoice && (interactionBusy || interactionTargets.includes(card.id)))} aria-pressed={inlineChoice && inlineChoice.kind!=='gain' ? interactionTargets.includes(card.id) : undefined} aria-label={`${inlineChoice && inlineChoice.kind!=='gain' ? inlineChoice.kind==='trash'?'Trash':'Discard' : canPlayAction(game,uid,card.id)||canPlayTreasure(game,uid,card.id)?'Play':'Inspect'} hand card ${handPage * handCapacity + index + 1}: ${definition(card.cardId).name}`} aria-describedby="hand-help" style:--card-index={index} use:cardGesture={{activate:()=>playHand(card.cardId,card.copy,card.id),inspect:()=>inspect(card.cardId,card.copy,card.id)}}></button>
-        {/each}
+      <section inert={worshipVisible || inlineChoice?.kind==='gain' || !!drawer} bind:this={handElement} data-public-zone="hand" data-public-uid={uid} class="hand" aria-label="Your hand" data-hand-total={orderedHand.length} style:--hand-min-peek={`${handMinPeek}px`}>
+        <HandFan cards={visibleHand} {uid} players={game.playerCount} staged={interactionTargets} revision={handRevision} {deal} helpId="hand-help"
+          disabled={card=>!ready || (!!inlineChoice && (interactionBusy || interactionTargets.includes(card.id)))}
+          pressed={inlineChoice && inlineChoice.kind!=='gain' ? card=>interactionTargets.includes(card.id) : undefined}
+          label={(card,index)=>`${inlineChoice && inlineChoice.kind!=='gain' ? inlineChoice.kind==='trash'?'Trash':'Discard' : canPlayAction(game,uid,card.id)||canPlayTreasure(game,uid,card.id)?'Play':'Inspect'} hand card ${handPage * handCapacity + index + 1}: ${definition(card.cardId).name}`}
+          activate={card=>playHand(card.cardId,card.copy,card.id)} inspect={card=>inspect(card.cardId,card.copy,card.id)}/>
         <span id="hand-help" class="sr-only">{inlineChoice && inlineChoice.kind!=='gain' ? `Click or tap a card to ${inlineChoice.kind}.` : 'Click or tap to play.'} Right-click, hold, or press Shift+F10 to inspect.</span>
       </section>
       {#if orderedHand.length > handCapacity}<nav inert={!!drawer} class="hand-pages" aria-label="Hand pages"><button aria-label="Previous hand cards" disabled={handPage === 0} onclick={() => handPage--}>‹</button><span>{handPage + 1} / {Math.ceil(orderedHand.length / handCapacity)}</span><button aria-label="Next hand cards" disabled={(handPage + 1) * handCapacity >= orderedHand.length} onclick={() => handPage++}>›</button></nav>{/if}
@@ -398,9 +399,6 @@
   .session .action-sidebar .turn-marker strong{line-height:1.4;}
   .composition.choosing .player-controls{visibility:hidden;}
   .composition.choosing .play-area,.composition.choosing .outcome{opacity:.16;pointer-events:none;}
-  .hand .hand-slot.staged{visibility:hidden;}
-  .hand button:disabled{pointer-events:none;}
-  .composition.choosing .hand button:not(:disabled):hover{filter:brightness(1.12);}
 
   @media(min-aspect-ratio:3/4){.composition:has(.treasures-control) .hand-pages{left:85%;width:14%;bottom:24%;}}
 
@@ -414,7 +412,7 @@
   .composition.covered{visibility:hidden;}
   .session{height:100svh;min-height:600px;position:relative;isolation:isolate;overflow:clip;background:#071321;}.environment{position:absolute;inset:0;z-index:-2;}.environment img{height:100%;width:100%;object-fit:cover;}.composition{height:100%;position:relative;--control-height:clamp(50px,6.5svh,128px);--control-font:clamp(22px,3svh,58px);}
   header{position:absolute;top:1.2%;left:2%;right:2%;display:flex;justify-content:space-between;align-items:center;z-index:6;font-size:clamp(12px,1.6svh,30px);}header a,header>span{padding:8px 14px;background:#071522d9;border:1px solid #ae91516b;border-radius:24px;color:#ecd5a1;text-decoration:none;}header a{min-height:44px;display:flex;align-items:center;}header strong{letter-spacing:.12em;}
-  button{color:inherit;}button.draft-card,.leaders button,.altars button,.own-leader,.hand button{position:relative;border:0;background:none;padding:0;}button:focus-visible{outline:3px solid #ffdf8e;outline-offset:3px;border-radius:8px;}.draft-card:hover,.altars button:hover{filter:brightness(1.13);}
+  button{color:inherit;}button.draft-card,.leaders button,.altars button,.own-leader{position:relative;border:0;background:none;padding:0;}button:focus-visible{outline:3px solid #ffdf8e;outline-offset:3px;border-radius:8px;}.draft-card:hover,.altars button:hover{filter:brightness(1.13);}
   .draft-title{position:absolute;left:5%;top:10%;width:28%;text-align:center;z-index:2;text-shadow:0 2px 5px #000;}h1{font:500 clamp(36px,5.4svh,110px)/.95 'Cormorant Garamond',serif;text-transform:uppercase;color:#f4db9f;margin:0;}.draft-title p{font:500 clamp(22px,3svh,58px)/1.2 'Cormorant Garamond',serif;margin:20px 0;}
   .hero{position:absolute;top:3%;left:26%;width:43%;height:52%;object-fit:contain;object-position:center bottom;pointer-events:none;}
   button.leader-card{position:absolute;left:17%;top:37%;width:min(37vw,57svh);z-index:2;}button.temple-card{position:absolute;left:57%;top:41%;width:min(13vw,20svh);z-index:2;}button.event-card{position:absolute;left:72%;top:43%;width:min(22vw,31svh);z-index:2;}
@@ -428,14 +426,7 @@
   .play-area{position:absolute;left:24%;top:46%;height:14%;width:52%;display:grid;place-items:center;}.play-area span{font:500 clamp(20px,3svh,54px)/1 'Cormorant Garamond',serif;color:#ead8b4b0;text-shadow:0 2px 4px #000;}
   .chronicle-control{position:absolute;right:2%;top:65%;width:15%;--control-height:clamp(44px,5svh,100px);--control-font:clamp(20px,2.6svh,50px);}
   .turn-rail{position:absolute;left:23%;top:63%;width:54%;height:10%;isolation:isolate;padding:0 3%;display:flex;align-items:center;justify-content:center;} .turn-marker{width:35%;display:grid;text-align:center;font:600 clamp(18px,2.6svh,52px)/1.1 'Cormorant Garamond',serif;color:#f6dfac;}.turn-marker span{font-size:.65em;margin-top:4px;}.resources{display:flex;justify-content:space-evenly;width:65%;--icon-size:clamp(20px,3svh,64px);--icon-number-scale:.8;}
-  .hand{position:absolute;left:29%;bottom:3%;width:calc(var(--hand-room) * 1%);--hand-room:54;height:clamp(130px,23svh,460px);--hand-card-width:clamp(94px,15svh,300px);--fan-width:min(calc(100% - var(--fan-inset,12px)),max(calc(var(--hand-card-width) * (1 + (var(--hand-count) - 1) * .48)),calc(var(--hand-card-width) + (var(--hand-count) - 1) * var(--hand-min-peek))));--fan-step:calc((var(--fan-width) - var(--hand-card-width)) / var(--hand-spaces));}
-  .hand-slot,.hand button{position:absolute;left:calc((100% - var(--fan-width))/2 + var(--card-index)*var(--fan-step));bottom:0;}
-  .hand-slot{width:var(--hand-card-width);z-index:calc(var(--card-index)*2);pointer-events:none;}
-  .hand-face{transform:translateY(var(--fan-drop)) rotate(var(--fan-angle));transform-origin:50% 100%;pointer-events:none;}
-  .hand button{height:calc(var(--hand-card-width) * 1.2);width:var(--fan-step);z-index:calc(var(--card-index)*2 + 1);min-width:0;}
-  .hand button:last-of-type{width:var(--hand-card-width);}
-  .hand-slot:has(+ button:hover),.hand:not(:has(button:hover)) .hand-slot:has(+ button:focus-visible){filter:brightness(1.13) drop-shadow(0 0 5px #eebd63);}
-  .hand:has(button:hover) button:focus-visible{outline:none;}
+  .hand{position:absolute;left:29%;bottom:3%;width:calc(var(--hand-room) * 1%);--hand-room:54;height:clamp(130px,23svh,460px);--hand-card-width:clamp(94px,15svh,300px);}
   .own-leader{position:absolute!important;left:1%;bottom:3%;width:17%;}.leader-portrait{display:none;}.deck-pile{position:absolute;left:19%;bottom:3%;width:7%;}.discard-pile{position:absolute;right:3%;bottom:4%;width:10%;text-align:center;font-size:clamp(12px,1.8svh,34px);}
   .error{position:absolute;left:24%;width:52%;top:29%;text-align:center;padding:12px;background:#481f18ee;border:1px solid #cb9872;border-radius:12px;color:#fff0cd;z-index:9;}.connection{position:absolute;left:30%;top:42%;width:40%;background:#071321ef;border:1px solid #b2914f;border-radius:16px;padding:20px;text-align:center;z-index:10;}.connection p{margin:0 0 16px;}
   dialog{width:min(900px,94vw);max-height:95svh;padding:28px;border:2px solid #b58b48;border-radius:20px;background:linear-gradient(#132431f5,#07111cfb);color:#f2dfb9;text-align:center;box-shadow:0 20px 80px #000b;}dialog::backdrop{background:#020811bb;backdrop-filter:blur(6px);}dialog h2{font:600 30px/1 'Cormorant Garamond',serif;margin:14px 32px 24px;}.close{position:absolute;right:7px;top:7px;width:44px;height:44px;border:0;background:none;font-size:28px;}.inspected{width:min(360px,49svh,78vw);margin:auto;}.inspected.landscape{width:min(680px,102svh,80vw);}
@@ -485,7 +476,6 @@
     .composition .turn-marker{font-size:14px;}
   }
   @media(max-height:500px) and (min-aspect-ratio:3/4){
-    .hand-face{transform:translateY(min(var(--fan-drop),max(0px,calc(4svh - var(--hand-card-width)*.15)))) rotate(var(--fan-angle));}
     .composition:has(.hand-pages) .hand{left:32%;width:36%;}
     .composition .hand-pages,.composition:has(.treasures-control) .hand-pages{left:21%;width:58%;bottom:3%;justify-content:space-between;pointer-events:none;z-index:4;}
     .hand-pages button{pointer-events:auto;}.hand-pages span{position:absolute;left:0;bottom:-8px;width:44px;text-align:center;font-size:8px;line-height:8px;}

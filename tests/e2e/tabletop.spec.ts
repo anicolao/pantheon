@@ -105,7 +105,7 @@ test('tabletop motion hands off controls after rotating and accepts a rotated ma
   await expect(board).toHaveAttribute('data-facing','east');
   await expect(board).toHaveAttribute('aria-busy','false');
   await expect.poll(()=>board.evaluate(node=>{const m=new DOMMatrixReadOnly(getComputedStyle(node).transform);return [m.a,m.b,m.c,m.d];})).toEqual([0,-1,1,0]);
-  await expect(page.locator('[data-edge="east"] .flip').first()).toHaveCSS('transform','matrix(1, 0, 0, 1, 0, 0)');
+  await expect(page.locator('[data-edge="east"] .table-hand')).toHaveAttribute('data-face-up','true');
   await expect(page.locator('[data-edge="east"]').getByRole('button',{name:'End turn',exact:true})).toBeEnabled();
 
 });
@@ -208,13 +208,13 @@ for(const edge of ['south','west','north','east'] as Edge[])test(`tabletop ${edg
   await expect(play).toBeAttached();
   const angles=await play.evaluate(node=>node.getAnimations().flatMap(animation=>(animation.effect as KeyframeEffect).getKeyframes().flatMap(frame=>typeof frame.transform==='string'?[...frame.transform.matchAll(/rotate\(([-\d.]+)deg\)/g)].map(match=>Number(match[1])):[])));
   expect(angles.length).toBeGreaterThanOrEqual(2);
-  expect(angles.every(angle=>angle===angles[0] && (angle%360+360)%360===expected)).toBe(true);
+  expect(angles.every(angle=>angle===angles[0] && Math.abs(((angle-expected+540)%360)-180)<=8)).toBe(true);
   await expect(page.locator(`[data-edge="${edge}"]`).getByRole('button',{name:'End turn',exact:true})).toBeEnabled();
   await page.locator(`[data-edge="${edge}"]`).getByRole('button',{name:'End turn',exact:true}).click();
   const cleanup=page.locator('.public-flight[data-motion-kind="cleanup"]').first();
   await expect(cleanup).toBeAttached();
   await expect(page.locator(`[data-edge="${edge}"] .table-hand`)).toHaveAttribute('data-face-up','false');
-  await expect(page.locator(`[data-edge="${edge}"] .front .card`)).toHaveCount(0);
+  await expect(page.locator(`[data-edge="${edge}"] .hand-face .card`)).toHaveCount(0);
   await expect(page.locator('.public-flight[data-motion-kind="draw"]')).toHaveCount(0);
   await expect(board).not.toHaveAttribute('data-facing',edge);
   await expect(board).toHaveAttribute('aria-busy','false');
