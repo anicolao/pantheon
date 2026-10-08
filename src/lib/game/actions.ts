@@ -6,6 +6,9 @@ export type ActionCommand =
   | { type: 'action/played'; instanceId: string }
   | { type: 'choice/resolved'; choiceId: string; targets: string[] }
   | { type: 'choice/browsed'; choiceId: string; cardId: string }
+  | { type: 'market/browsed'; cardId: string }
+  | { type: 'worship/focused'; cardId: string }
+  | { type: 'choice/staged'; choiceId: string; count: number }
   | { type: 'phase/advanced'; automatic?: boolean }
   | { type: 'action/undone'; targetSequence: number }
   | { type: 'treasure/played'; instanceId: string }
@@ -19,9 +22,9 @@ export type Effect =
   | { kind: 'trash' | 'discard'; amount: number; source: string; forge?: boolean; offering?: 'sum' | 1 | 3 }
   | { kind: 'gain'; limit: number; source: string; actionOnly?: boolean; topdeck?: boolean; optional?: boolean; cardId?: string }
   | { kind: 'reveal'; source: string };
-export type Choice = { id: string; kind: 'trash' | 'discard' | 'gain'; source: string; min: number; max: number; limit?: number; forge?: boolean; offering?: 'sum' | 1 | 3; actionOnly?: boolean; topdeck?: boolean; browsedCardId?: string };
+export type Choice = { id: string; kind: 'trash' | 'discard' | 'gain'; source: string; min: number; max: number; limit?: number; forge?: boolean; offering?: 'sum' | 1 | 3; actionOnly?: boolean; topdeck?: boolean; browsedCardId?: string; selectedCount?: number };
 export type Movement = { sequence: number; index: number; uid: string; kind: 'play' | 'draw' | 'trash' | 'discard' | 'gain' | 'reveal' | 'topdeck' | 'shuffle' | 'leader' | 'worship'; card?: CardInstance; source: string; amount?: number };
-export type TurnState = { equalTurns?: boolean; finalRound?: boolean; endTriggeredBy?: string; number: number; index: number; phase: 'actions' | 'treasures' | 'buys' | 'finished'; leaderUsed: boolean; queue: Effect[]; choice: Choice | null; shuffles: Record<string, number>; turns: Record<string, number> };
+export type TurnState = { marketFocus?: {cardId:string;sequence:number}; worshipFocus?: string; equalTurns?: boolean; finalRound?: boolean; endTriggeredBy?: string; number: number; index: number; phase: 'actions' | 'treasures' | 'buys' | 'finished'; leaderUsed: boolean; queue: Effect[]; choice: Choice | null; shuffles: Record<string, number>; turns: Record<string, number> };
 export function initialTurn(): TurnState { return { number: 1, index: 0, phase: 'actions', leaderUsed: false, queue: [], choice: null, shuffles: {}, turns: {} }; }
 export const definition = (id: string) => { const card = cards.find(card => card.id === id); if (!card) throw new Error('Unknown card.'); return card; };
 export const activePlayer = (game: SetupState) => game.turnOrder[game.turn.index];
@@ -126,6 +129,22 @@ export function leaderEffects(id: string, variant: PlayVariant = 'standard'): Ef
 export function applyPlayCommand(game: SetupState, uid: string, command: ActionCommand, sequence: number, variant: PlayVariant = 'standard'): string {
   if (command.type === 'action/undone') throw new Error('Undo requires the committed command history.');
   if (game.phase !== 'playing' || activePlayer(game) !== uid || game.turn.phase === 'finished') throw new Error('Wait for your turn.');
+  if (command.type === 'market/browsed') {
+    if (game.turn.choice || !Object.hasOwn(game.supply, command.cardId)) throw new Error('Choose a market pile outside a pending choice.');
+    game.turn.marketFocus = {cardId:command.cardId,sequence};
+    return `${game.players.find(player=>player.uid===uid)!.name} browsed ${definition(command.cardId).name}.`;
+  }
+  if (command.type === 'worship/focused') {
+    if (game.turn.choice || (command.cardId && !game.sharedEvents.includes(command.cardId))) throw new Error('Choose a shared worship card outside a pending choice.');
+    if(command.cardId)game.turn.worshipFocus=command.cardId;else delete game.turn.worshipFocus;
+    return `${game.players.find(player=>player.uid===uid)!.name} ${command.cardId?'focused on '+definition(command.cardId).god:'returned the worship card'}.`;
+  }
+  if (command.type === 'choice/staged') {
+    const choice=game.turn.choice;
+    if(!choice || choice.id!==command.choiceId || choice.kind==='gain' || !Number.isInteger(command.count) || command.count<0 || command.count>choice.max) throw new Error('Choose a valid count for the current hand choice.');
+    choice.selectedCount=command.count;
+    return `${game.players.find(player=>player.uid===uid)!.name} selected ${command.count} cards to ${choice.kind}.`;
+  }
   if (command.type === 'choice/browsed') {
     const choice = game.turn.choice;
     if (!choice || choice.id !== command.choiceId || choice.kind !== 'gain' ||
@@ -133,6 +152,7 @@ export function applyPlayCommand(game: SetupState, uid: string, command: ActionC
     choice.browsedCardId = command.cardId;
     return `${game.players.find(player => player.uid === uid)!.name} browsed ${definition(command.cardId).name}.`;
   }
+  delete game.turn.marketFocus;
   const zones = game.decks[uid], name = game.players.find(player => player.uid === uid)!.name;
   const messages: string[] = [];
   const move = (kind: Movement['kind'], source: string, card?: CardInstance, amount?: number) => game.movements.push({ sequence, index: game.movements.length, uid, kind, source, ...(card ? { card: { ...card } } : {}), ...(amount !== undefined ? { amount } : {}) });
@@ -261,6 +281,7 @@ export function applyPlayCommand(game: SetupState, uid: string, command: ActionC
       game.resources.buys--; game.resources.coins -= card.cost; gain(card.id, card.id); break;
     }
     case 'turn/ended': {
+      delete game.turn.worshipFocus;
       if (!['treasures', 'buys'].includes(game.turn.phase)) throw new Error('Finish the Action phase first.');
       zones.discard.push(...zones.hand, ...zones.play); zones.hand = []; zones.play = []; draw(5, game.leaders[uid]);
       game.turn.turns[uid] = (game.turn.turns[uid] ?? 0) + 1;

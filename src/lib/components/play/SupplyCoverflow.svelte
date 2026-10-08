@@ -4,14 +4,16 @@
   import CardFace from '../CardFace.svelte';
   import GameButton from '../GameButton.svelte';
   import { setupSupply, type SetupState } from '$lib/game/setup';
-  import { definition, purchaseReason, canPlayAction } from '$lib/game/actions';
+  import { activePlayer, definition, purchaseReason, canPlayAction } from '$lib/game/actions';
   import type { GameCommand } from '$lib/backend/setup-repository';
   import { cardGesture } from './card-gesture';
   import { coverflowLayout } from './coverflow-layout';
   import { motionDuration } from './motion';
-  let {game,uid,ready,visible,inspect,onDialog,command,sharedCardWidth,selection,followAffordable=true,motionRate=1,rotation=0,warnOnActions=true}:{rotation?:number;warnOnActions?:boolean;selection?:{options:{id:string;cardId:string;copy:number}[];selected:string[];choose:(id:string)=>void;kind:string;choiceId:string;browsedCardId?:string;readOnly?:boolean};followAffordable?:boolean;motionRate?:number;game:SetupState;sharedCardWidth?:number;uid:string;ready:boolean;visible:boolean;inspect:(id:string)=>void;onDialog:(open:boolean)=>void;command:(command:GameCommand)=>Promise<void>}=$props();
+  let {game,uid,ready,visible,inspect,onDialog,command,sharedCardWidth,selection,followAffordable=true,motionRate=1,rotation=0,warnOnActions=true,sharedBrowsing=false}:{sharedBrowsing?:boolean;rotation?:number;warnOnActions?:boolean;selection?:{options:{id:string;cardId:string;copy:number}[];selected:string[];choose:(id:string)=>void;kind:string;choiceId:string;browsedCardId?:string;readOnly?:boolean};followAffordable?:boolean;motionRate?:number;game:SetupState;sharedCardWidth?:number;uid:string;ready:boolean;visible:boolean;inspect:(id:string)=>void;onDialog:(open:boolean)=>void;command:(command:GameCommand)=>Promise<void>}=$props();
   const piles=$derived(selection ? selection.options : setupSupply(game.playerCount).map(pile=>({...pile,cardId:pile.id,copy:1})).sort((a,b)=>(definition(a.id).cost??0)-(definition(b.id).cost??0)||a.id.localeCompare(b.id)));
-  const affordable=$derived(selection ? (selection.kind==='gain' ? piles.length-1 : 0) : piles.findLastIndex(pile=>!purchaseReason(game,uid,pile.id)));
+  const viewingUid=$derived(sharedBrowsing?activePlayer(game):uid);
+  const observer=$derived(sharedBrowsing&&viewingUid!==uid);
+  const affordable=$derived(selection ? (selection.kind==='gain' ? piles.length-1 : 0) : piles.findLastIndex(pile=>!purchaseReason(game,viewingUid,pile.id)));
   let target=$state(untrack(()=>Math.max(0,affordable))),position=$state(untrack(()=>target));
   let width=$state(600),height=$state(200),reduced=$state(true),dragged=false,dragging=$state(false);
   const cardWidth=$derived(sharedCardWidth??Math.max(28,Math.min((height-2)/1.4,(width-24)/2.4)));
@@ -62,28 +64,30 @@
     frame=requestAnimationFrame(animate);return()=>cancelAnimationFrame(frame);
   });
   onMount(()=>{const media=matchMedia('(prefers-reduced-motion: reduce)'),update=()=>{reduced=media.matches;};update();media.addEventListener('change',update);return()=>media.removeEventListener('change',update);});
-  let queuedBrowse=$state<{choiceId:string;cardId:string}>(), sendingBrowse=$state(false);
+  let queuedBrowse=$state<{choiceId?:string;cardId:string}>(), sendingBrowse=$state(false);
   // Commit discrete navigation destinations, never per-frame animation positions.
   // Coalesce rapid gestures while a command is in flight; send the final intent once ready.
   $effect(()=>{
     const next=queuedBrowse;
     if(!next || sendingBrowse || !ready)return;
     queuedBrowse=undefined;
-    if(selection?.readOnly || selection?.choiceId!==next.choiceId)return;
+    if(observer || selection?.readOnly || selection?.choiceId!==next.choiceId)return;
     sendingBrowse=true;
-    void command({type:'choice/browsed',...next}).finally(()=>{sendingBrowse=false;});
+    void command(next.choiceId?{type:'choice/browsed',choiceId:next.choiceId,cardId:next.cardId}:{type:'market/browsed',cardId:next.cardId}).finally(()=>{sendingBrowse=false;});
   });
   $effect(()=>{
-    const id=selection?.browsedCardId;
+    const focus=sharedBrowsing?game.turn.marketFocus:undefined;
+    const id=selection?.browsedCardId??focus?.cardId;
     if(!id || sendingBrowse || queuedBrowse)return;
     const index=piles.findIndex(pile=>pile.id===id);
     if(index>=0)target=index;
   });
   function move(index:number){
-    if(selection?.readOnly||focusSettled)return;
+    if(observer||selection?.readOnly||focusSettled)return;
     target=Math.max(0,Math.min(piles.length-1,index));notice='';
     const cardId=piles[Math.round(target)]?.id;
     if(selection?.kind==='gain' && cardId && (sendingBrowse || queuedBrowse || cardId!==(selection.browsedCardId ?? piles.at(-1)?.id)))queuedBrowse={choiceId:selection.choiceId,cardId};
+    else if(sharedBrowsing&&!selection&&cardId)queuedBrowse={cardId};
   }
   async function buy(id:string){
     if(!ready || selection?.readOnly || sendingBrowse || queuedBrowse)return;
@@ -95,7 +99,7 @@
   function dismiss(){warning?.close();pending='';onDialog(false);}
   async function confirm(){const id=pending;dismiss();if(ready&&!purchaseReason(game,uid,id))await command({type:'card/bought',cardId:id});}
   function activate(index:number){
-    if(dragged || selection?.readOnly)return;
+    if(dragged || observer || selection?.readOnly)return;
     const right=Math.round(target),left=right-faces+1;
     if(index<left){move(index+faces-1);return;}
     if(index>right){move(index);return;}
@@ -103,7 +107,7 @@
   }
   function pointerAxis(event:PointerEvent){const angle=rotation*Math.PI/180;return event.clientX*Math.cos(angle)+event.clientY*Math.sin(angle);}
   let pointer:number|undefined,startX=0,startPosition=0,lastWheel=0;
-  function down(event:PointerEvent){if(event.button!==0 || selection?.readOnly || focusSettled)return;pointer=event.pointerId;startX=pointerAxis(event);startPosition=position;dragged=false;((event.target as HTMLElement).closest('button')??event.currentTarget as HTMLElement).setPointerCapture(event.pointerId);}
+  function down(event:PointerEvent){if(event.button!==0 || observer || selection?.readOnly || focusSettled)return;pointer=event.pointerId;startX=pointerAxis(event);startPosition=position;dragged=false;((event.target as HTMLElement).closest('button')??event.currentTarget as HTMLElement).setPointerCapture(event.pointerId);}
   function drag(event:PointerEvent){if(event.pointerId!==pointer)return;const delta=pointerAxis(event)-startX;if(Math.abs(delta)>10)dragged=true;if(dragged){dragging=true;position=Math.max(0,Math.min(piles.length-1,startPosition-delta/(cardWidth*1.055)));target=position;}}
   function up(event:PointerEvent){if(event.pointerId!==pointer)return;pointer=undefined;const wasDragging=dragging;dragging=false;if(wasDragging)move(Math.round(position));}
   function wheel(event:WheelEvent){event.preventDefault();if(Math.abs(event.deltaX)+Math.abs(event.deltaY)<4||performance.now()-lastWheel<110)return;lastWheel=performance.now();move(Math.round(target)+Math.sign(event.deltaX||event.deltaY));}
@@ -112,8 +116,8 @@
 <section class="supply-coverflow" class:moving aria-label="Supply" aria-busy={moving || sendingBrowse || !!queuedBrowse} data-face-up-count={faces} bind:clientWidth={width} bind:clientHeight={height} style={`--card-width:${cardWidth}px`}>
   <section class="coverflow" aria-label="Supply piles" onwheel={wheel} onpointerdown={down} onpointermove={drag} onpointerup={up} onpointercancel={up}>
     {#each piles as pile,index (pile.id)}
-      <div data-motion-angle={rotation} data-motion-zone="supply" data-motion-pile={pile.id} class="supply-face" class:unavailable={!selection && !!purchaseReason(game,uid,pile.id)} class:selected={selection?.selected.includes(pile.id)} style:transform={layout[index].transform} style:z-index={layout[index].z}><CardFace card={definition(pile.cardId)} copy={pile.copy} players={game.playerCount}/>{#if !selection || selection.kind==='gain'}<span class="pile-count" id={`pile-count-${pile.id}`} aria-label={`${definition(pile.id).name}: ${game.supply[pile.id]} remaining`}>{game.supply[pile.id]}</span>{/if}{#if selection?.selected.includes(pile.id)}<span class="selection-badge" aria-hidden="true">✓ Selected</span>{/if}</div>
-      <button class="buy-card" aria-describedby={!selection || selection.kind==='gain' ? `supply-help pile-count-${pile.id}` : 'supply-help'} data-supply-id={pile.id} data-centered={index===Math.round(target)} data-face-up={faceUp(index)} data-public-zone="supply" data-public-card={pile.id} aria-label={`${faceUp(index)?selection?'Select':'Buy':'Center'} ${definition(pile.cardId).name}`} aria-disabled={faceUp(index)&&(!ready||selection?.readOnly||(!selection && !!purchaseReason(game,uid,pile.id)))} style:left={`${layout[index].hitLeft}px`} style:width={`${layout[index].hitWidth}px`} style:z-index={1100+index} onkeydown={key} aria-pressed={selection ? selection.selected.includes(pile.id) : undefined} onfocus={()=>notice=selection ? '' : purchaseReason(game,uid,pile.id)} use:cardGesture={{activate:()=>activate(index),inspect:()=>inspect(pile.cardId)}}></button>
+      <div data-motion-angle={rotation} data-motion-zone="supply" data-motion-pile={pile.id} class="supply-face" class:unavailable={!selection && !!purchaseReason(game,viewingUid,pile.id)} class:selected={selection?.selected.includes(pile.id)} style:transform={layout[index].transform} style:z-index={layout[index].z}><CardFace card={definition(pile.cardId)} copy={pile.copy} players={game.playerCount}/>{#if !selection || selection.kind==='gain'}<span class="pile-count" id={`pile-count-${pile.id}`} aria-label={`${definition(pile.id).name}: ${game.supply[pile.id]} remaining`}>{game.supply[pile.id]}</span>{/if}{#if selection?.selected.includes(pile.id)}<span class="selection-badge" aria-hidden="true">✓ Selected</span>{/if}</div>
+      <button class="buy-card" aria-describedby={!selection || selection.kind==='gain' ? `supply-help pile-count-${pile.id}` : 'supply-help'} data-supply-id={pile.id} data-centered={index===Math.round(target)} data-face-up={faceUp(index)} data-public-zone="supply" data-public-card={pile.id} aria-label={`${faceUp(index)?selection?'Select':'Buy':'Center'} ${definition(pile.cardId).name}`} aria-disabled={faceUp(index)&&(!ready||selection?.readOnly||(!selection && !!purchaseReason(game,viewingUid,pile.id)))} style:left={`${layout[index].hitLeft}px`} style:width={`${layout[index].hitWidth}px`} style:z-index={1100+index} onkeydown={key} aria-pressed={selection ? selection.selected.includes(pile.id) : undefined} onfocus={()=>notice=selection ? '' : purchaseReason(game,viewingUid,pile.id)} use:cardGesture={{activate:()=>activate(index),inspect:()=>inspect(pile.cardId)}}></button>
     {/each}
   </section>
   <span id="supply-help" class="sr-only">Scroll or drag to browse. Tap a stacked card to bring it forward; tap a face-up card to {selection ? 'select it' : 'buy' }. Right-click, hold, or press Shift+F10 to inspect.</span>

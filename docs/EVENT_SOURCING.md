@@ -59,3 +59,11 @@ Manual workflow runs may set `story_filter` to a Playwright test-title pattern f
 CI publishes the web client but does not deploy cloud rules or authentication configuration. A build without Firebase variables displays an explicit unavailable message. After changing repository variables, rebuild the PR preview to embed the new configuration.
 
 Implementation references: [Firebase anonymous authentication](https://firebase.google.com/docs/auth/web/anonymous-auth), [transaction validation with getAfter](https://firebase.google.com/docs/firestore/security/rules-conditions), and [Firestore rules emulator testing](https://firebase.google.com/docs/firestore/security/test-rules-emulator). Jaipur informed the event repository and user-story test structure; Pantheon adds transaction-enforced setup transitions and strictly zero-pixel screenshot comparison.
+
+### Shared interaction presentation
+
+The active player commits discrete `market/browsed` and `worship/focused` destinations and `choice/staged` counts. These events replay for every client but do not create gameplay undo checkpoints or spend resources. Gain choices retain `choice/browsed`. Staging carries only a count, never a card instance or identity; the committed choice supplies the public trash/discard movements.
+
+Observers render read-only worship and choice scenes. Temple arrival completes before an automatic worship gift centers the market and flies to its destination. A closed phone Players drawer serves as the visible destination for the opponent's concealed zones. Personal inspections and Chronicle reading remain local; reconnecting does not replay an animation backlog.
+
+The paired-browser observer interaction stories cover public focus, gain browsing, private staging, deselection and completion on all three viewports. The animation lab also verifies automatic worship arrival → market focus → gift flight. Renderer baselines retain zero-pixel comparison.

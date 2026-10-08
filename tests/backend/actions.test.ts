@@ -344,3 +344,30 @@ test('buying directly from Actions closes both play phases atomically', () => {
   expect(()=>run(state,{type:'action/played',instanceId:'h-0'})).toThrow();
   expect(()=>run(state,{type:'treasures/played'})).toThrow();
 });
+
+test('public focus and selection counts validate actor and choice without revealing cards or changing rules',()=>{
+  const state=game('nereon',['seed-keeper','hamlet','obol']);
+  const initial=structuredClone({decks:state.decks,resources:state.resources,supply:state.supply});
+  run(state,{type:'market/browsed',cardId:'acropolis'});
+  expect(state.turn.marketFocus?.cardId).toBe('acropolis');
+  run(state,{type:'worship/focused',cardId:state.sharedEvents[0]});
+  expect(state.turn.worshipFocus).toBe(state.sharedEvents[0]);
+  run(state,{type:'worship/focused',cardId:''});
+  expect(state.turn.worshipFocus).toBeUndefined();
+  expect({decks:state.decks,resources:state.resources,supply:state.supply}).toEqual(initial);
+  expect(()=>applyPlayCommand(state,'b',{type:'market/browsed',cardId:'obol'},99)).toThrow('turn');
+  expect(()=>run(state,{type:'market/browsed',cardId:'missing'})).toThrow();
+  expect(()=>run(state,{type:'worship/focused',cardId:'obol'})).toThrow();
+  play(state);
+  expect(state.turn.marketFocus).toBeUndefined();
+  const choiceId=state.turn.choice!.id;
+  run(state,{type:'choice/staged',choiceId,count:1});
+  expect(state.turn.choice?.selectedCount).toBe(1);
+  expect(state.decks.a.hand.map(card=>card.cardId)).toEqual(['hamlet','obol']);
+  run(state,{type:'choice/staged',choiceId,count:0});
+  for(const count of [-1,3,1.5])expect(()=>run(state,{type:'choice/staged',choiceId,count})).toThrow();
+  expect(()=>run(state,{type:'choice/staged',choiceId:'stale',count:1})).toThrow();
+  expect(()=>run(state,{type:'market/browsed',cardId:'obol'})).toThrow();
+  choose(state,[]);
+  expect(()=>run(state,{type:'choice/staged',choiceId,count:1})).toThrow();
+});

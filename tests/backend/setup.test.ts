@@ -243,6 +243,12 @@ test('Worship commands authenticate, serialize payment, and retry a topdeck choi
     if(state.decks[uid].hand.some(card=>card.cardId==='obol'))await appendGameCommand(db,'worship-stream',uid,`money-${counter++}`,{type:'treasures/played'});
     state=replaySetup(await history());
     if(state.resources.coins>=3){
+      await appendGameCommand(db,'worship-stream',uid,'market-focus',{type:'market/browsed',cardId:'drachma'});
+      await appendGameCommand(db,'worship-stream',uid,'temple-focus',{type:'worship/focused',cardId:'counsel-of-olympus'});
+      const focused=replaySetup(await history());
+      expect(focused.turn.marketFocus?.cardId).toBe('drachma');
+      expect(focused.turn.worshipFocus).toBe('counsel-of-olympus');
+      await expect(appendGameCommand(uid==='worship-a'?b:a,'worship-stream',uid==='worship-a'?'worship-b':'worship-a','wrong-focus',{type:'worship/focused',cardId:''})).rejects.toThrow();
       const worship={type:'god/worshipped' as const,cardId:'counsel-of-olympus'};
       await expect(appendGameCommand(uid==='worship-a'?b:a,'worship-stream',uid==='worship-a'?'worship-b':'worship-a','wrong-worship',worship)).rejects.toThrow();
       await appendGameCommand(db,'worship-stream',uid,'worship',worship);await appendGameCommand(db,'worship-stream',uid,'worship',worship);

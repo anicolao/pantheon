@@ -7,7 +7,7 @@
   import WorshipFace from './WorshipFace.svelte';
   import GameButton from '../GameButton.svelte';
   import { motionDuration, MOTION_EASING } from './motion';
-  let {game,uid,selected,ready,error,command,close,sourceRect,prepareReturn,choice,targets,resolve}:{game:SetupState;uid:string;selected:string;ready:boolean;error:string;command:(command:GameCommand)=>Promise<void>;close:()=>void;sourceRect?:DOMRect;prepareReturn:()=>Promise<void>;choice?:Choice|null;targets:string[];resolve:()=>Promise<void>}=$props();
+  let {game,uid,selected,ready,error,command,close,sourceRect,prepareReturn,choice,targets,resolve,effectsSettled=true}:{effectsSettled?:boolean;game:SetupState;uid:string;selected:string;ready:boolean;error:string;command:(command:GameCommand)=>Promise<void>;close:()=>void;sourceRect?:DOMRect;prepareReturn:()=>Promise<void>;choice?:Choice|null;targets:string[];resolve:()=>Promise<void>}=$props();
   let node=$state<HTMLElement>();
   let submitting=$state(false),returning=$state(false);
   let submittedRevision=$state(-1);
@@ -35,7 +35,7 @@
     try{await command({type:'action/undone',targetSequence});await tick();}finally{submitting=false;}
     if(!game.turn.choice)await leave();
   }
-  $effect(()=>{if(submittedRevision>=0&&game.activity.length>submittedRevision&&!game.turn.choice&&!game.turn.queue.length&&!submitting)void leave();});
+  $effect(()=>{if(submittedRevision>=0&&game.activity.length>submittedRevision&&!game.turn.choice&&!game.turn.queue.length&&!submitting&&effectsSettled)void leave();});
   $effect(()=>{if(choice)submittedRevision=game.activity.length-1;});
 </script>
 <svelte:window onkeydown={event=>{if(event.key==='Escape'&&!choice)void leave();}} />

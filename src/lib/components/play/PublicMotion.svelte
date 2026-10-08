@@ -9,14 +9,14 @@
   import CardFace from '../CardFace.svelte';
   import CardBack from '../CardBack.svelte';
 
-  let { game, uid, openDraw, status, reduced, visible, previousLayout, localChoices=[], onSettled, onFlightsSettled, preserveFacing=false, skipCleanupDeal=false, drawCardWidth, layoutRevision=0 }: { drawCardWidth?:number; skipCleanupDeal?:boolean; preserveFacing?:boolean; layoutRevision?:number; game: SetupState; uid: string; openDraw: (step:string)=>void; status: string; reduced: boolean; visible: boolean; previousLayout: () => Layout; localChoices?:string[]; onSettled?:(revision:number)=>void; onFlightsSettled?:(revision:number)=>void } = $props();
+  let { game, uid, openDraw, status, reduced, visible, previousLayout, localChoices=[], onSettled, onFlightsSettled, preserveFacing=false, skipCleanupDeal=false, drawCardWidth, layoutRevision=0, prepareActivity }: { prepareActivity?:(entry:PublicActivity)=>Promise<void>; drawCardWidth?:number; skipCleanupDeal?:boolean; preserveFacing?:boolean; layoutRevision?:number; game: SetupState; uid: string; openDraw: (step:string)=>void; status: string; reduced: boolean; visible: boolean; previousLayout: () => Layout; localChoices?:string[]; onSettled?:(revision:number)=>void; onFlightsSettled?:(revision:number)=>void } = $props();
   type Flight = { card?: CardInstance; id: string; step: PublicStep; from: Pose; to: Pose; width: number; stack: number; sequence: number };
   const cursor = new PublicMotionCursor(untrack(() => game.activity.length));
   let drawPhases = $state<Record<string,'reveal'|'space'|'travel'>>({});
   let foreground = $state(true), flights = $state<Flight[]>([]);
   let before: Layout = { poses: [], width: 100 }, current: Layout = before;
   let revision = -1, running = false, generation = 0;
-  let queue: Flight[][] = [];
+  let queue: {flights:Flight[];activity:PublicActivity}[] = [];
   const departedTableNodes = new Set<HTMLElement>();
   const nodes = new Map<string, HTMLDivElement>();
   const animations = new Set<Animation>();
@@ -66,7 +66,12 @@
     const matches=layout.poses.filter(pose=>pose.zone===value.zone&&(!value.uid||pose.uid===value.uid)&&(!value.cardId||pose.pile===value.cardId));
     if(card){const exact=matches.find(pose=>pose.card===card);if(exact)return exact;}
     if(value.zone==='supply')return matches.find(pose=>pose.node.dataset.motionPile)??matches[0];
-    return matches.find(pose=>!pose.key)??matches[0];
+    const match=matches.find(pose=>!pose.key)??matches[0];
+    if(match)return match;
+    // A closed portrait drawer is the visible home of the opponent's zones.
+    if(['hand','deck','discard','leader','trash'].includes(value.zone) && (!value.uid || value.uid!==uid))
+      return layout.poses.find(pose=>pose.zone==='players-handle');
+    return undefined;
   }
   function reposition(previous: Layout, next: Layout, duration=motionDuration(450)) {
     const moved: Animation[]=[];
@@ -117,7 +122,7 @@
       if(entry.choiceId && localChoices.includes(entry.choiceId) && ['trash','discard'].includes(step.kind))continue;
       // Worship and Bloodline effects stay on their cards: they are not transfers.
       if(step.kind==='worship'||step.kind==='leader'){
-        const source=anchor(next,step.from);if(source){
+        const source=anchor(next,step.from);if(source && step.kind==='worship' && !prepareActivity){
           const animation=source.node.animate([{filter:'brightness(1.25)'},{filter:'brightness(1)'}],{duration:motionDuration(450),easing:MOTION_EASING});
           animations.add(animation);void animation.finished.catch(()=>undefined).finally(()=>animations.delete(animation));
         }
@@ -127,7 +132,9 @@
       const count=step.kind==='cleanup'?Math.max(1,oldCards.length):1;
       for(let index=0;index<count;index++){
         const arrived=step.card?result.findLast(flight=>flight.card?.id===step.card!.id && flight.step.to.zone===step.from.zone && flight.step.to.uid===step.from.uid):undefined;
-        const from=arrived?.to??oldCards[index]??anchor(previous,step.from,step.card?.id)??anchor(next,step.from,step.card?.id);
+        const staged=entry.choiceId && ['trash','discard'].includes(step.kind)?previous.poses.find(pose=>pose.node.dataset.observerTarget===step.kind&&pose.uid===entry.actor.uid):undefined;
+        if(staged){mask(staged.node);departedTableNodes.add(staged.node);}
+        const from=staged??arrived?.to??oldCards[index]??anchor(previous,step.from,step.card?.id)??anchor(next,step.from,step.card?.id);
         const drawn=step.kind==='draw'?game.movements.find(move=>`${move.sequence}:${move.index}`===step.id)?.card:undefined;
         // Match visible hand cards to their sorted slots, including a card that
         // was discarded, shuffled and drawn again during this same turn end.
@@ -248,8 +255,29 @@
     try{
       await tick();
       while(queue.length&&token===generation){
-        const entry=queue.shift()!;
+        const queued=queue.shift()!;
+        if(prepareActivity)await prepareActivity(queued.activity);
+        if(token!==generation)break;
+        current=measureLayout();
+        const entry=queued.flights;
+        for(const flight of entry)if(flight.step.from.zone==='supply'){
+          const source=anchor(current,flight.step.from,flight.card?.id);
+          if(source)flight.from=facing(source,flight.from);
+        }
+        const pendingCues=queued.activity.steps.filter(step=>step.kind==='leader');
+        async function blessingsBefore(step?:PublicStep){
+          const nextIndex=step?queued.activity.steps.findIndex(candidate=>candidate.id===step.id):Infinity;
+          while(pendingCues.length && queued.activity.steps.indexOf(pendingCues[0])<nextIndex){
+            const cueStep=pendingCues.shift()!,source=anchor(current,cueStep.from);
+            if(source){
+              const cue=source.node.animate([{filter:'brightness(1)',scale:'1'},{filter:'brightness(1.5)',scale:'1.06'},{filter:'brightness(1)',scale:'1'}],{duration:motionDuration(450),easing:MOTION_EASING});
+              animations.add(cue);await cue.finished.catch(()=>undefined);cue.cancel();animations.delete(cue);
+            }
+          }
+        }
         for(let index=0;index<entry.length;){
+          if(token!==generation)break;
+          await blessingsBefore(entry[index].step);
           if(token!==generation)break;
           const batch=[entry[index++]];
           if(['play','draw','cleanup'].includes(batch[0].step.kind)){
@@ -324,6 +352,7 @@
           for(const animation of landed){animation.cancel();animations.delete(animation);}
           flights=[];
         }
+        if(token===generation)await blessingsBefore();
       }
     }finally{
       running=false;flights=[];
@@ -358,7 +387,7 @@
       retargetFlights();
       if(!canShow){stop();onFlightsSettled?.(game.activity.length);void settle(false);return;}
       if(fresh.length){
-        for(const entry of fresh){const planned=plan(entry,before,current);if(planned.length)queue.push(planned);}
+        for(const entry of fresh){const planned=plan(entry,before,current);queue.push({flights:planned,activity:entry});}
         reposition(before,current);void drain();
       }else if(!running){onFlightsSettled?.(game.activity.length);void settle();}
     });

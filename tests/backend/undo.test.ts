@@ -150,3 +150,19 @@ test('recorded undo replays identically after refresh without deleting or rewrit
   expect(game.activity.at(-1)?.message).toContain('undid playing all Treasures');
   expect(()=>append({type:'action/undone',targetSequence})).toThrow('no longer');
 });
+
+test('observer presentation commands preserve undo and never restore stale selection staging',()=>{
+  const {game,run,undo}=table(['seed-keeper','obol','hamlet']);
+  run({type:'action/played',instanceId:'h-0'});
+  const target=game.undo!.sequence,choiceId=game.turn.choice!.id;
+  run({type:'choice/staged',choiceId,count:1});
+  expect(game.undo?.sequence).toBe(target);
+  run({type:'choice/resolved',choiceId,targets:['h-1']});
+  undo();
+  expect(game.turn.choice?.id).toBe(choiceId);
+  expect(game.turn.choice?.selectedCount).toBeUndefined();
+  undo();
+  run({type:'market/browsed',cardId:'drachma'});
+  run({type:'worship/focused',cardId:game.sharedEvents[0]});
+  expect(game.undo).toBeNull();
+});

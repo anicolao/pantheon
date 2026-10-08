@@ -29,6 +29,8 @@
   import WorshipCoverflow from './WorshipCoverflow.svelte';
   import VictoryScene from './VictoryScene.svelte';
   import PublicTable from './PublicTable.svelte';
+  import ObservedInteraction from './ObservedInteraction.svelte';
+  import type { PublicActivity } from '$lib/game/public-table';
   import PublicMotion from './PublicMotion.svelte';
   import SupplyCoverflow from './SupplyCoverflow.svelte';
   import { activePlayer, canPlayAction, canPlayTreasure, departureReminder, definition, standings, eligibleGains } from '$lib/game/actions';
@@ -61,6 +63,7 @@
   }
   function flightsSettled(revision: number) {
     settledRevision = Math.max(settledRevision, revision);
+    transientTemple=undefined;
     pendingDraws = pendingDraws.filter(draw => draw.sequence > revision);
   }
   let motionRevision = -1;
@@ -95,7 +98,7 @@
   let worshipEvent = $state('counsel-of-olympus');
   const worshipEvents=$derived([...game.sharedEvents].sort((a,b)=>(definition(a).cost??0)-(definition(b).cost??0)||definition(a).name.localeCompare(definition(b).name)));
   let worshipSource = $state<DOMRect>();
-  function worship(id: string) { worshipSource=document.querySelector<HTMLElement>(`[data-god-event="${id}"]`)?.getBoundingClientRect(); worshipEvent=id; drawer=''; void open('worship'); }
+  function worship(id: string) { if(turnUid===uid && !game.turn.choice)void command({type:'worship/focused',cardId:id}); worshipSource=document.querySelector<HTMLElement>(`[data-god-event="${id}"]`)?.getBoundingClientRect(); worshipEvent=id; drawer=''; void open('worship'); }
   async function prepareWorshipReturn(){
     if(!portraitLayout)return;
     drawer='worship';await tick();
@@ -103,6 +106,7 @@
     if(!reduced && panel)await Promise.all(panel.getAnimations().map(animation=>animation.finished.catch(()=>undefined)));
   }
   async function finishWorshipReturn(){
+    if(turnUid===uid && game.turn.worshipFocus)await command({type:'worship/focused',cardId:''});
     if(!portraitLayout){close();return;}
     modal='';
     await tick();
@@ -119,6 +123,21 @@
   const choice = $derived(game.turn.choice);
   const automated = $derived(!!game.players.find(player=>player.uid===uid)?.botKind);
   const ownChoice = $derived(choice && turnUid === uid && !automated && settledRevision >= Math.max(drawRevision, choiceRevision) ? choice : null);
+  let supply=$state<SupplyCoverflow>();
+  let observedInteraction=$state<ObservedInteraction>();
+  let transientTemple=$state<string>();
+  const observing=$derived(turnUid!==uid||automated);
+  const observedChoice=$derived(observing && settledRevision>=Math.max(drawRevision,choiceRevision)?choice:null);
+  const observedTemple=$derived(observing ? game.turn.worshipFocus ?? (choice && definition(choice.source).type==='Event'?choice.source:undefined) ?? transientTemple : undefined);
+  async function preparePublicActivity(entry:PublicActivity){
+    const temple=entry.steps.find(step=>step.kind==='worship')?.from.cardId;
+    if((entry.actor.uid!==uid||automated) && temple){
+      transientTemple=temple;await tick();
+      await observedInteraction?.arrived();
+    }
+    const gained=entry.steps.find(step=>['gain','topdeck'].includes(step.kind)&&step.from.zone==='supply')?.card?.cardId;
+    if(gained)await supply?.centerPile(gained);
+  }
   const inlineChoice = $derived(ownChoice && definition(ownChoice.source).type!=='Event' ? ownChoice : null);
   let interaction=$state<InlineChoice>();
   let interactionTargets=$state<string[]>([]),interactionBusy=$state(false);
@@ -135,7 +154,7 @@
   // Gain options are public. Never project another player's private trash/discard choices.
   const marketChoice = $derived(choice?.kind==='gain' ? choice : worshipChoice);
   const worshipOptions = $derived(marketChoice ? (marketChoice.kind==='gain' ? eligibleGains(game,marketChoice.limit!,marketChoice.actionOnly).map(card=>({id:card.id,cardId:card.id,copy:card.supply[game.playerCount]-game.supply[card.id]+1})) : game.decks[uid].hand.slice().sort((a,b)=>(definition(a.cardId).cost??0)-(definition(b.cardId).cost??0))) : []);
-  function selectWorshipTarget(id:string){if(inlineChoice?.kind==='gain'){void interaction?.select(id);return;}if(!worshipChoice)return;worshipTargets=worshipTargets.includes(id)?worshipTargets.filter(value=>value!==id):worshipChoice.max===1?[id]:worshipTargets.length<worshipChoice.max?[...worshipTargets,id]:worshipTargets;}
+  async function selectWorshipTarget(id:string){if(inlineChoice?.kind==='gain'){void interaction?.select(id);return;}if(!worshipChoice)return;worshipTargets=worshipTargets.includes(id)?worshipTargets.filter(value=>value!==id):worshipChoice.max===1?[id]:worshipTargets.length<worshipChoice.max?[...worshipTargets,id]:worshipTargets;if(worshipChoice.kind!=='gain')await command({type:'choice/staged',choiceId:worshipChoice.id,count:worshipTargets.length});}
   async function resolveWorship(){if(ready&&worshipChoice)await command({type:'choice/resolved',choiceId:worshipChoice.id,targets:worshipTargets});}
 
   const latestActivity = $derived(game.activity[latestMoveIndex(game)]);
@@ -291,7 +310,7 @@
       </section>
       <div class="choose">{#if isChoice}<GameButton primary onclick={choose} disabled={!ready || !!ownerOf(selected)}>{busy ? 'Choosing…' : `Choose ${links.leader.name.split(',')[0]}`}</GameButton>{:else}<p role="status">Waiting for {nameOf(chooser)}</p>{/if}</div>
     {:else if own}
-      <div class="drawer-toggles"><button aria-label="Players and Chronicle" aria-controls="player-drawer" aria-expanded={drawer === 'players'} onclick={()=>toggleDrawer('players')}>{drawer === 'players' ? '×' : '☰'}<span>Players</span></button><button aria-label="Worship" aria-controls="worship-drawer" aria-expanded={drawer === 'worship'} onclick={()=>toggleDrawer('worship')}>{drawer === 'worship' ? '×' : '☷'}<span>Worship</span></button></div>
+      <div class="drawer-toggles"><button data-public-zone="players-handle" aria-label="Players and Chronicle" aria-controls="player-drawer" aria-expanded={drawer === 'players'} onclick={()=>toggleDrawer('players')}>{drawer === 'players' ? '×' : '☰'}<span>Players</span></button><button aria-label="Worship" aria-controls="worship-drawer" aria-expanded={drawer === 'worship'} onclick={()=>toggleDrawer('worship')}>{drawer === 'worship' ? '×' : '☷'}<span>Worship</span></button></div>
       {#if portraitLayout && drawer}<button class="drawer-scrim" class:players-open={drawer==='players'} aria-label="Close sidebar" onclick={()=>drawer=''}></button>{/if}
       <aside id="player-drawer" class="player-sidebar" class:drawer-open={drawer === 'players'} inert={portraitLayout && drawer !== 'players'} aria-label="Players and Chronicle">
       <header class="table-navigation"><a href={`${base}/`} aria-label="Back to sanctuary">‹ Sanctuary</a>{#if /^[A-Z]{4,5}$/.test(roomId)}<span><span class="code-label">Game code </span><strong>{roomId}</strong><BuildInfo /></span>{:else}<span>{game.playerCount} players<BuildInfo /></span>{/if}</header>
@@ -299,7 +318,7 @@
       <section class="opponents" aria-label="Other players">
         {#each opponents as id}
           <div data-public-zone="seat" data-public-uid={id} class="opponent" data-testid="opponent" class:first={id === turnUid}>
-            <button class="opponent-portrait" class:blessed={latestMoves.some(move => move.kind === 'leader' && move.uid === id)} aria-label={`Inspect ${nameOf(id)}’s leader, ${leaderLinks(game.leaders[id]).leader.name}`} onclick={()=>inspect(game.leaders[id])}><Portrait leader={game.leaders[id]} name={nameOf(id)} active={id === turnUid} points={liveScores[id]} /></button>
+            <button data-public-zone="leader" data-public-uid={id} data-public-card={game.leaders[id]} class="opponent-portrait" class:blessed={latestMoves.some(move => move.kind === 'leader' && move.uid === id)} aria-label={`Inspect ${nameOf(id)}’s leader, ${leaderLinks(game.leaders[id]).leader.name}`} onclick={()=>inspect(game.leaders[id])}><Portrait leader={game.leaders[id]} name={nameOf(id)} active={id === turnUid} points={liveScores[id]} /></button>
             <div class="opponent-deck" data-public-zone="deck" data-public-uid={id}><ResourceIcon resource="cards" value={game.decks[id].deck.length} label={`${nameOf(id)}’s deck: ${game.decks[id].deck.length} cards`}/></div>
             <div data-public-zone="hand" data-public-uid={id} class="hidden-hand" aria-label={`${nameOf(id)} has ${game.decks[id].hand.length} cards in hand`}>
               {#each presentedHand(id).slice(0, 5) as _, index}<img data-motion-key={`hidden:${id}:${index}`} data-motion-zone="hand" data-motion-uid={id} src={`${base}/assets/backs/back-deck-icon.webp`} alt="Card back" style:--index={index} draggable="false" in:dealBack|global={index} />{/each}
@@ -316,22 +335,25 @@
           </div>
         </section>
 
-      <button data-public-zone="leader" data-public-uid={uid} class="own-leader" class:blessed={latestMoves.some(move => move.kind === 'leader' && move.uid === uid)} aria-label={`Inspect your leader, ${leaderLinks(game.leaders[uid]).leader.name}`} onclick={() => inspect(game.leaders[uid])}><div class="leader-face"><CardFace card={leaderLinks(game.leaders[uid]).leader} players={game.playerCount} points={liveScores[uid]} /></div><div class="leader-portrait"><Portrait leader={game.leaders[uid]} name={leaderLinks(game.leaders[uid]).leader.name.split(',')[0]} active={uid === turnUid} points={liveScores[uid]} /></div></button>
+      <button data-public-zone="leader" data-public-uid={uid} data-public-card={game.leaders[uid]} class="own-leader" class:blessed={latestMoves.some(move => move.kind === 'leader' && move.uid === uid)} aria-label={`Inspect your leader, ${leaderLinks(game.leaders[uid]).leader.name}`} onclick={() => inspect(game.leaders[uid])}><div class="leader-face"><CardFace card={leaderLinks(game.leaders[uid]).leader} players={game.playerCount} points={liveScores[uid]} /></div><div class="leader-portrait"><Portrait leader={game.leaders[uid]} name={leaderLinks(game.leaders[uid]).leader.name.split(',')[0]} active={uid === turnUid} points={liveScores[uid]} /></div></button>
 
       </aside>
       <div data-public-zone="deck" data-public-uid={uid} class="deck-pile"><ResourceIcon resource="cards" value={own.deck.length} label={`Your deck: ${own.deck.length} cards`} /></div>
-      {#if worshipVisible}<WorshipOverlay {game} {uid} selected={worshipChoice?.source ?? worshipEvent} {ready} {error} {command} close={()=>void finishWorshipReturn()} sourceRect={worshipSource} prepareReturn={prepareWorshipReturn} choice={worshipChoice} targets={worshipTargets} resolve={resolveWorship}/>{/if}
-      {#if inlineChoice}{#key inlineChoice.id}<InlineChoice bind:this={interaction} {game} {uid} choice={inlineChoice} {ready} {error} {reduced} {command} bind:targets={interactionTargets} bind:busy={interactionBusy} handled={id=>localChoices=[...localChoices.slice(-15),id]}/>{/key}{/if}
+      {#if observing && !modal && !showResults && (observedTemple || observedChoice)}
+        {#key observedTemple??observedChoice?.id}<ObservedInteraction bind:this={observedInteraction} {game} temple={observedTemple} choice={observedChoice} {reduced}/>{/key}
+      {/if}
+      {#if worshipVisible}<WorshipOverlay effectsSettled={settledRevision>=game.activity.length} {game} {uid} selected={worshipChoice?.source ?? worshipEvent} {ready} {error} {command} close={()=>void finishWorshipReturn()} sourceRect={worshipSource} prepareReturn={prepareWorshipReturn} choice={worshipChoice} targets={worshipTargets} resolve={resolveWorship}/>{/if}
+      {#if inlineChoice}{#key inlineChoice.id}<InlineChoice shareSelection bind:this={interaction} {game} {uid} choice={inlineChoice} {ready} {error} {reduced} {command} bind:targets={interactionTargets} bind:busy={interactionBusy} handled={id=>localChoices=[...localChoices.slice(-15),id]}/>{/key}{/if}
       <div class="table-card-measure" bind:clientWidth={tableCardWidth} aria-hidden="true"></div>
-      <div class="table-supply" inert={!!drawer || (worshipVisible && !worshipChoice) || (!!inlineChoice && inlineChoice.kind!=='gain')}><SupplyCoverflow followAffordable={settledRevision >= game.activity.length} {motionRate} sharedCardWidth={tableCardWidth} {game} {uid} ready={ready && !interactionBusy} {command} selection={marketChoice ? {options:worshipOptions,selected:turnUid===uid?worshipTargets:[],choose:selectWorshipTarget,kind:marketChoice.kind,choiceId:marketChoice.id,browsedCardId:marketChoice.browsedCardId,readOnly:turnUid!==uid} : undefined} visible={(!modal || worshipVisible) && !supplyWarning && (!ownChoice || !!worshipChoice || !!inlineChoice) && !showResults && !drawer} inspect={id=>inspect(id)} onDialog={open=>supplyWarning=open}/></div>
+      <div class="table-supply" inert={!!drawer || (worshipVisible && !worshipChoice) || (!!inlineChoice && inlineChoice.kind!=='gain')}><SupplyCoverflow bind:this={supply} sharedBrowsing followAffordable={settledRevision >= game.activity.length} {motionRate} sharedCardWidth={tableCardWidth} {game} {uid} ready={ready && !interactionBusy} {command} selection={marketChoice ? {options:worshipOptions,selected:turnUid===uid?worshipTargets:[],choose:selectWorshipTarget,kind:marketChoice.kind,choiceId:marketChoice.id,browsedCardId:marketChoice.browsedCardId,readOnly:turnUid!==uid} : undefined} visible={(!modal || worshipVisible) && !supplyWarning && (!ownChoice || !!worshipChoice || !!inlineChoice) && !showResults && !drawer} inspect={id=>inspect(id)} onDialog={open=>supplyWarning=open}/></div>
       <aside class="action-sidebar" class:many-gods={game.sharedEvents.length > 2} aria-label="Worship, turn status, and controls" style:--god-count={game.sharedEvents.length}>
       <div id="worship-drawer" class="worship-drawer" class:drawer-open={drawer === 'worship'} inert={portraitLayout && drawer !== 'worship'}>
       <h2 class="drawer-title">Worship</h2>
       {#if game.sharedEvents.length > 2}
-        <WorshipCoverflow {game} {uid} events={worshipEvents} hidden={worshipVisible ? worshipChoice?.source ?? worshipEvent : undefined} disabled={worshipVisible || !!inlineChoice} open={worship}/>
+        <WorshipCoverflow {game} {uid} events={worshipEvents} hidden={worshipVisible ? worshipChoice?.source ?? worshipEvent : observedTemple} disabled={worshipVisible || !!inlineChoice} open={worship}/>
       {:else}
       <section class="altars" aria-label="Shared god events" class:four={game.sharedEvents.length > 2}>
-        {#each worshipEvents as id, index}<button data-public-zone="altar" data-public-card={id} data-god-event={id} style:visibility={worshipVisible && id === (worshipChoice?.source ?? worshipEvent) ? 'hidden' : undefined} disabled={worshipVisible} style:--altar-index={index} aria-label={`Inspect ${cards.find(card => card.id === id)!.name}`} onclick={() => worship(id)} in:arrive><WorshipFace {game} {uid} cardId={id} dimUnavailable /></button>{/each}
+        {#each worshipEvents as id, index}<button data-public-zone="altar" data-public-card={id} data-god-event={id} style:visibility={(worshipVisible && id === (worshipChoice?.source ?? worshipEvent)) || id===observedTemple ? 'hidden' : undefined} disabled={worshipVisible} style:--altar-index={index} aria-label={`Inspect ${cards.find(card => card.id === id)!.name}`} onclick={() => worship(id)} in:arrive><WorshipFace {game} {uid} cardId={id} dimUnavailable /></button>{/each}
       </section>
       {/if}
 
@@ -387,7 +409,7 @@
   {/if}
 </dialog>
 {#if modal === 'chronicle' || modal === 'zone'}<PublicTable {game} {uid} initialTab={modal === 'zone' ? zone!.kind : 'chronicle'} owner={modal === 'zone' ? zone!.uid : uid} {close}/>{/if}
-<PublicMotion {uid} {openDraw} previousLayout={()=>motionBefore} {game} {status} {reduced} {onSettled} onFlightsSettled={flightsSettled} localChoices={localChoices} visible={!modal && !supplyWarning && (!ownChoice || definition(ownChoice.source).type!=='Event') && !showResults}/>
+<PublicMotion prepareActivity={preparePublicActivity} {uid} {openDraw} previousLayout={()=>motionBefore} {game} {status} {reduced} {onSettled} onFlightsSettled={flightsSettled} localChoices={localChoices} visible={(!modal || worshipVisible) && !supplyWarning && !showResults}/>
 
 
 

@@ -47,12 +47,14 @@ test('follow a friend from the first Temple through Worship and cleanup while re
     await capture('last-effect','Every Treasure remains reachable at the end of the move',async()=>{await expect(other.locator('.move')).toHaveCount(1);await expect(other.getByRole('button',{name:'Next effects',exact:true})).toBeDisabled();},true);
     await other.getByRole('button',{name:'Discard',exact:true}).click();await other.getByLabel('Player',{exact:true}).selectOption({label:'Ariadne'});
     await capture('empty-pile','Ariadne’s empty discard and hidden deck count are explicit',async()=>{await expect(other.locator('.pile')).toHaveText('No cards here.');await expect(other.locator('.deck-count')).toHaveText('Deck · 5 cards');},true);
+    const beforePurchase=(await readEvents(code)).length;
     await expect(page.locator('.supply-coverflow')).toBeVisible();await browseSupply(page,'Hamlet');
     await capture('purchase','Ariadne chooses a Hamlet for two Coins',async()=>expect(page.getByRole('button',{name:'Buy Hamlet',exact:true})).toBeEnabled());
     await page.getByRole('button',{name:'Buy Hamlet',exact:true}).click();
     await capture('bought','Ariadne’s purchase goes to discard and leaves three Coins',async()=>expect(page.locator('.resources [data-resource=coins]')).toHaveAttribute('data-value','3'));
-    await capture('stable-pile','Incoming cards do not reorder or replace the open tray',async()=>{await expect(other.locator('.pile')).toHaveText('No cards here.');await expect(other.getByRole('button',{name:'New moves · 1 · Refresh',exact:true})).toBeVisible();},true);
-    await other.getByRole('button',{name:'New moves · 1 · Refresh',exact:true}).click();
+    const purchaseMoves=(await readEvents(code)).length-beforePurchase;
+    await capture('stable-pile','Incoming cards do not reorder or replace the open tray',async()=>{await expect(other.locator('.pile')).toHaveText('No cards here.');await expect(other.getByRole('button',{name:`New moves · ${purchaseMoves} · Refresh`,exact:true})).toBeVisible();},true);
+    await other.getByRole('button',{name:`New moves · ${purchaseMoves} · Refresh`,exact:true}).click();
     await expect(other.locator('.pile')).toHaveText('No cards here.');
     await other.getByRole('button',{name:'In play',exact:true}).click();
     await other.getByRole('button',{name:'Next',exact:true}).click();
@@ -77,9 +79,9 @@ test('follow a friend from the first Temple through Worship and cleanup while re
     await capture('kept-page','Theseus remains on the same last pile page through Worship and its choice',async()=>{await expect(other.locator('.pile [data-card-id]')).toHaveCount(3);await expect(other.getByRole('button',{name:`New moves · ${newMoves} · Refresh`,exact:true})).toBeVisible();},true);
     await other.getByRole('navigation',{name:'Public table',exact:true}).getByRole('button',{name:'Chronicle',exact:true}).click();await other.getByRole('button',{name:`New moves · ${newMoves} · Refresh`,exact:true}).click();
     await capture('topdeck','Athena’s gift names Supply and Deck as its actual path',async()=>{await expect(other.locator('.path')).toHaveText('Supply → Deck');await expect(other.locator('.move [data-card-id]')).toHaveAttribute('data-card-id','oracles-acolyte');},true);
-    for(let index=0;index<newMoves-1;index++){
+    for(let index=0;index<newMoves-3;index++){
       await other.getByRole('button',{name:'Earlier moves',exact:true}).click();
-      if(index<newMoves-2)await capture(`market-browse-${index}`,'The Chronicle also retains the shared market browsing',async()=>expect(other.locator('.chronicle')).toContainText('browsed'),true);
+      if(index<newMoves-4)await capture(`market-browse-${index}`,'The Chronicle also retains the shared market browsing',async()=>expect(other.locator('.chronicle')).toContainText('browsed'),true);
     }
     await capture('payment','Worship has its own altar source and exact payment',async()=>{await expect(other.locator('.path')).toHaveText('Altar → In play');await expect(other.locator('.result [data-resource=coins]')).toHaveAttribute('data-value','-3');await expect(other.locator('.result [data-resource=worship]')).toHaveAttribute('data-value','-1');},true);
     await other.getByRole('button',{name:'Close',exact:true}).click();await expect(other.getByRole('button',{name:'Chronicle',exact:true})).toBeFocused();

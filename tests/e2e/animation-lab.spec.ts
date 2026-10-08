@@ -330,3 +330,20 @@ for(const scenario of ['harvest-feast','seed-keeper'])test(`tabletop hand unlock
   expect(await cards.count()).toBeGreaterThan(0);
   for(const card of await cards.all())await expect(card).toBeEnabled();
 });
+
+test('an observed automatic worship lands its temple and centers the gift before flying it',async({page})=>{
+  await page.emulateMedia({reducedMotion:'no-preference'});
+  await page.goto('./dev/animations/?scenario=tribute-of-the-tides&observer=true');
+  await page.getByRole('button',{name:'Trigger',exact:true}).click();
+  const temple=page.locator('[data-observed-temple="tribute-of-the-tides"]');
+  await expect(temple).toBeVisible();
+  await expect(page.locator('.public-flight')).toHaveCount(0);
+  await expect(temple).toHaveCSS('transform','none');
+  const gift=page.locator('.public-flight[data-motion-kind="gain"],.public-flight[data-motion-kind="topdeck"]');
+  await expect(gift).toBeVisible();
+  await expect(page.locator('.buy-card[data-centered=true]')).toHaveAttribute('data-supply-id','drachma');
+  await expect(page.locator('.supply-coverflow')).toHaveAttribute('aria-busy','false');
+  await expect(gift).toHaveCount(0);
+  await expect(temple).toHaveCount(0);
+  await expect(page.getByRole('button',{name:'Replay',exact:true})).toBeEnabled();
+});
