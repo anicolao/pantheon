@@ -8,7 +8,7 @@
   let { game, uid, cardId, dimUnavailable=false }: { game: SetupState; uid: string; cardId: string; dimUnavailable?:boolean } = $props();
   const actor = $derived(activePlayer(game));
   const favored = $derived(devotionCards(game, actor, cardId).length >= 2);
-  const unavailable = $derived(!!worshipReason(game, uid, cardId));
+  const unavailable = $derived(!!worshipReason(game, actor, cardId));
   const playable = $derived(favored && !unavailable);
   let previous = untrack(() => ({ actor, cardId, favored }));
   let glint = $state(0);

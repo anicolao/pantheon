@@ -8,10 +8,10 @@
   import GameButton from '../GameButton.svelte';
   import { motionDuration, MOTION_EASING } from './motion';
 
-  let {game,uid,choice,ready,error,reduced,command,targets=$bindable([]),busy=$bindable(false),handled,rotation=0,homeSelector,autoConfirm=true}:
+  let {game,uid,choice,ready,error,reduced,command,targets=$bindable([]),busy=$bindable(false),handled,rotation=0,homeSelector,autoConfirm=true,shareSelection=false}:
     {game:SetupState;uid:string;choice:Choice;ready:boolean;error:string;reduced:boolean;
       command:(command:ActionCommand)=>Promise<void>;targets:string[];busy:boolean;
-      handled:(choiceId:string)=>void;rotation?:number;homeSelector?:string;autoConfirm?:boolean}=$props();
+      handled:(choiceId:string)=>void;rotation?:number;homeSelector?:string;autoConfirm?:boolean;shareSelection?:boolean}=$props();
   let pack=$state<HTMLDivElement>();
   let overlay=$state<HTMLElement>();
   const cards=$derived(targets.map(id=>game.decks[uid].hand.find(card=>card.id===id)).filter(card=>!!card));
@@ -66,7 +66,10 @@
     if(choice.kind==='gain'){await finish([id]);return;}
     if(!game.decks[uid].hand.some(card=>card.id===id) || targets.includes(id) || targets.length>=choice.max)return;
     const source=handPose(id);
-    busy=true;targets=[...targets,id];await tick();
+    busy=true;
+    if(shareSelection){try{await command({type:'choice/staged',choiceId:choice.id,count:targets.length+1});}catch{busy=false;return;}}
+    if(!alive)return;
+    targets=[...targets,id];await tick();
     const card=pack?.querySelector<HTMLElement>(`[data-staged-id="${CSS.escape(id)}"]`);
     if(source&&card)await animate(card,[{transform:`${at(source.rect,card)} rotate(${source.angle}deg)`},{transform:'none'}],300);
     if(!alive)return;
@@ -80,6 +83,7 @@
     const destination=handPose(id);
     if(card&&destination)await animate(card,[{transform:'none'},{transform:`${at(destination.rect,card)} rotate(${destination.angle}deg)`}],250,true);
     if(!alive)return;
+    if(shareSelection){try{await command({type:'choice/staged',choiceId:choice.id,count:targets.length-1});}catch{busy=false;return;}}
     targets=targets.filter(target=>target!==id);busy=false;
   }
   async function finish(selected=targets) {

@@ -13,11 +13,13 @@ export class UndoHistory {
   private checkpoints: { target: UndoTarget; before: Position }[] = [];
   apply(game: SetupState, uid: string, command: ActionCommand, sequence: number): string {
     // Public view changes are replayable, but are not gameplay undo checkpoints.
-    if (command.type === 'choice/browsed') return applyPlayCommand(game, uid, command, sequence);
+    if (['choice/browsed','market/browsed','worship/focused','choice/staged'].includes(command.type)) return applyPlayCommand(game, uid, command, sequence);
     if (command.type === 'action/undone') {
       const checkpoint = this.checkpoints.at(-1);
       if (!canUndo(game, uid) || !checkpoint || checkpoint.target.sequence !== command.targetSequence) throw new Error('That action can no longer be undone.');
       Object.assign(game, structuredClone(checkpoint.before));
+      delete game.turn.worshipFocus;delete game.turn.marketFocus;
+      if(game.turn.choice)delete game.turn.choice.selectedCount;
       this.checkpoints.pop();
       game.undo = this.checkpoints.at(-1)?.target ?? null;
       return `${game.players.find(player => player.uid === uid)!.name} undid ${checkpoint.target.label}.`;
@@ -43,7 +45,7 @@ function undoLabel(before: Position, uid: string, command: Exclude<ActionCommand
     case 'card/bought': return `buying ${definition(command.cardId).name}`;
     case 'god/worshipped': return `worshipping ${definition(command.cardId).god}`;
     case 'choice/resolved': return `the ${definition(before.turn.choice!.source).name} choice`;
-    case 'choice/browsed': return 'browsing the market';
+    case 'market/browsed': case 'worship/focused': case 'choice/staged': case 'choice/browsed': return 'browsing the market';
     case 'phase/advanced': return 'advancing the phase';
     case 'turn/ended': return 'ending the turn';
   }

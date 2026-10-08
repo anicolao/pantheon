@@ -16,6 +16,7 @@ export type SetupEvent = {
   automatic?: boolean;
   choiceId?: string;
   targets?: string[];
+  count?: number;
   cardId?: string;
   reducerVersion?: 1;
   commandId?: string;
@@ -62,7 +63,7 @@ export function replaySetup(events: SetupEvent[]): SetupState {
     if (event.schemaVersion !== 1 || event.sequence !== state.activity.length + 1 ||
       ![2, 3, 4].includes(event.playerCount) || !event.actorUid ||
       typeof event.name !== 'string' || !event.name.trim() || event.name.length > 24) throw new Error('Invalid setup event stream.');
-    if (event.type === 'draft/started' || event.type === 'leader/chosen' || ['action/played', 'choice/resolved', 'choice/browsed', 'phase/advanced', 'treasure/played', 'treasures/played', 'card/bought', 'god/worshipped', 'turn/ended', 'action/undone'].includes(event.type)) {
+    if (event.type === 'draft/started' || event.type === 'leader/chosen' || ['action/played', 'choice/resolved', 'choice/browsed', 'market/browsed', 'worship/focused', 'choice/staged', 'phase/advanced', 'treasure/played', 'treasures/played', 'card/bought', 'god/worshipped', 'turn/ended', 'action/undone'].includes(event.type)) {
       if (event.reducerVersion !== 1 || !event.commandId || event.commandId.length > 64 ||
         commandIds.has(event.commandId) ||
         event.playerCount !== state.playerCount || !state.players.some(player => player.uid === event.actorUid && player.name === event.name)) throw new Error('Invalid play event.');

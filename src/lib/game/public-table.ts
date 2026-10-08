@@ -134,6 +134,6 @@ export class PublicReadingCursor {
 /** Keep a bookkeeping phase transition from hiding the card effect it follows. */
 export function latestMoveIndex(game: SetupState): number {
   let index=game.activity.length-1;
-  while(index>0 && ['phase/advanced','choice/browsed'].includes(game.publicActivity.find(entry=>entry.sequence===game.activity[index].sequence)?.command ?? '')) index--;
+  while(index>0 && ['phase/advanced','choice/browsed','market/browsed','worship/focused','choice/staged'].includes(game.publicActivity.find(entry=>entry.sequence===game.activity[index].sequence)?.command ?? '')) index--;
   return Math.max(0,index);
 }

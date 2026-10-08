@@ -1,12 +1,12 @@
 <script lang="ts">
   import { onDestroy, tick, untrack } from 'svelte';
   import type { SetupState } from '$lib/game/setup';
-  import { definition, worshipReason } from '$lib/game/actions';
+  import { activePlayer, definition, worshipReason } from '$lib/game/actions';
   import WorshipFace from './WorshipFace.svelte';
   import { motionDuration, MOTION_EASING } from './motion';
   let { game, uid, events, hidden, disabled=false, open }: { game:SetupState;uid:string;events:string[];hidden?:string;disabled?:boolean;open:(id:string)=>void }=$props();
   let focused=$state(0),width=$state(300),height=$state(500);
-  const lastAvailable=$derived(events.findLastIndex(id=>!worshipReason(game,uid,id)));
+  const lastAvailable=$derived(events.findLastIndex(id=>!worshipReason(game,activePlayer(game),id)));
   $effect(()=>{
     if(disabled)return;
     const next=lastAvailable;
