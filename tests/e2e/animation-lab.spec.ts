@@ -304,3 +304,21 @@ for(const edge of ['south','west','north','east'])test(`Poseidon centers Drachma
   expect(audit.card).toBe('drachma');
   expect(audit.distance).toBeLessThan(0.01);
 });
+
+for(const scenario of ['harvest-feast','seed-keeper'])test(`tabletop hand unlocks after confirming ${scenario}`,async({page},info)=>{
+  test.skip(info.project.name==='phone','The shared tabletop needs a large display.');
+  await page.emulateMedia({reducedMotion:'no-preference'});
+  await page.goto(`./dev/animations/?surface=tabletop&edge=south&scenario=${scenario}&players=4`);
+  await page.getByRole('button',{name:'Trigger',exact:true}).click();
+  const choice=page.locator('.inline-choice');
+  await expect(choice).toBeVisible();
+  await expect(choice).toHaveAttribute('aria-busy','false');
+  const hand=page.locator('[data-edge="south"] .table-hand');
+  await hand.getByRole('button',{name:/^Select /}).first().click();
+  await expect(choice).toHaveAttribute('aria-busy','false');
+  await choice.getByRole('button',{name:scenario==='harvest-feast'?'Discard selected (1)':'Done trashing (1)',exact:true}).click();
+  await expect(choice).toHaveCount(0);
+  const cards=hand.getByRole('button',{name:/^Play /});
+  expect(await cards.count()).toBeGreaterThan(0);
+  for(const card of await cards.all())await expect(card).toBeEnabled();
+});

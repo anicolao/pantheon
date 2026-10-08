@@ -57,7 +57,9 @@
       rect&&pack?animate(pack,[{transform:at(rect,pack,true)},{transform:'none'}],240):Promise.resolve()
     ]).finally(()=>{if(alive)busy=false;});
   });
-  onDestroy(()=>{alive=false;for(const animation of animations)animation.cancel();});
+  // Resolving a choice unmounts this component before command() returns.
+  // Release the parent-bound lock here; the async finally only runs while alive.
+  onDestroy(()=>{alive=false;for(const animation of animations)animation.cancel();busy=false;});
 
   export async function select(id:string) {
     if(!ready || busy || !alive)return;
