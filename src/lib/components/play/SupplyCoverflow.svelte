@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { onMount, tick, untrack } from 'svelte';
+  import { onMount, onDestroy, tick, untrack } from 'svelte';
   import DialogFrame from '../DialogFrame.svelte';
   import CardFace from '../CardFace.svelte';
   import GameButton from '../GameButton.svelte';
@@ -27,6 +27,16 @@
   let notice=$state(''),pending=$state(''),warning=$state<HTMLDialogElement>();
   const reason=$derived(selection ? `Choose cards to ${selection.kind}` : notice||(centered ? purchaseReason(game,uid,centered.id) : '')||(affordable>=0?`Affordable through ${definition(piles[affordable].id).name}`:''));
   const moving=$derived(position!==target || dragging);
+  let focusSettled=$state<(()=>void)>();
+  // Scripted gains wait for the same speed-controlled glide as ordinary browsing.
+  export async function centerPile(cardId:string){
+    const index=piles.findIndex(pile=>pile.id===cardId);if(index<0)return;
+    focusSettled?.();
+    await new Promise<void>(resolve=>{focusSettled=resolve;target=index;});
+    await tick();
+  }
+  $effect(()=>{if(focusSettled && position===target&&!dragging)untrack(()=>{const resolve=focusSettled;focusSettled=undefined;resolve?.();});});
+  onDestroy(()=>focusSettled?.());
   const optionKey=$derived(selection ? selection.choiceId+':'+selection.options.map(card=>card.id).join(',') : 'supply');
   let followed=untrack(()=>({key:optionKey,affordable}));
   $effect(()=>{
@@ -70,7 +80,7 @@
     if(index>=0)target=index;
   });
   function move(index:number){
-    if(selection?.readOnly)return;
+    if(selection?.readOnly||focusSettled)return;
     target=Math.max(0,Math.min(piles.length-1,index));notice='';
     const cardId=piles[Math.round(target)]?.id;
     if(selection?.kind==='gain' && cardId && (sendingBrowse || queuedBrowse || cardId!==(selection.browsedCardId ?? piles.at(-1)?.id)))queuedBrowse={choiceId:selection.choiceId,cardId};
@@ -93,7 +103,7 @@
   }
   function pointerAxis(event:PointerEvent){const angle=rotation*Math.PI/180;return event.clientX*Math.cos(angle)+event.clientY*Math.sin(angle);}
   let pointer:number|undefined,startX=0,startPosition=0,lastWheel=0;
-  function down(event:PointerEvent){if(event.button!==0 || selection?.readOnly)return;pointer=event.pointerId;startX=pointerAxis(event);startPosition=position;dragged=false;((event.target as HTMLElement).closest('button')??event.currentTarget as HTMLElement).setPointerCapture(event.pointerId);}
+  function down(event:PointerEvent){if(event.button!==0 || selection?.readOnly || focusSettled)return;pointer=event.pointerId;startX=pointerAxis(event);startPosition=position;dragged=false;((event.target as HTMLElement).closest('button')??event.currentTarget as HTMLElement).setPointerCapture(event.pointerId);}
   function drag(event:PointerEvent){if(event.pointerId!==pointer)return;const delta=pointerAxis(event)-startX;if(Math.abs(delta)>10)dragged=true;if(dragged){dragging=true;position=Math.max(0,Math.min(piles.length-1,startPosition-delta/(cardWidth*1.055)));target=position;}}
   function up(event:PointerEvent){if(event.pointerId!==pointer)return;pointer=undefined;const wasDragging=dragging;dragging=false;if(wasDragging)move(Math.round(position));}
   function wheel(event:WheelEvent){event.preventDefault();if(Math.abs(event.deltaX)+Math.abs(event.deltaY)<4||performance.now()-lastWheel<110)return;lastWheel=performance.now();move(Math.round(target)+Math.sign(event.deltaX||event.deltaY));}
