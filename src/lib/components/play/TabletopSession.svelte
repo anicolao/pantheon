@@ -27,6 +27,7 @@
   $effect(()=>{onReady?.(game?.activity.length??0,ready);});
   const storageKey = 'pantheon-tabletop-v1';
   let table = $state(untrack(()=>initialTable??freshTable())), mounted = $state(false), error = $state('');
+  let market=$state<SupplyCoverflow>();
   let surfaceWidth=$state(1440),surfaceHeight=$state(1000);
   let selectedTemple=$state(''), templeBusy=$state(false), templeSource=$state<HTMLElement>(), templeOverlay=$state<TabletopWorship>(), templeOpened:(()=>void)|undefined;
   let board = $state<HTMLElement>(), rotation = $state(0), moving = $state(false), working = $state(false);
@@ -108,6 +109,9 @@
     try {
       if(command.type==='god/worshipped')await openTemple(command.cardId);
       const next = advanceEmptyActions(append(table, player, command));
+      const gain=replaySetup(next.events).movements.find(move=>move.sequence>table.events.length&&move.source==='tribute-of-the-tides'&&move.card?.cardId==='drachma'&&(move.kind==='gain'||move.kind==='topdeck'));
+      if(gain){templeBusy=true;try{await market?.centerPile('drachma');}finally{templeBusy=false;}}
+      if(current!==generation)return;
       motionBefore = measureLayout();
       const animate = game?.phase==='playing' && !reduced;
       const settled = animate ? new Promise<void>(resolve=>{settleMotion=resolve;animating=true;}) : Promise.resolve();
@@ -268,7 +272,7 @@
       </div>
     {:else}
       <div class="table-status"><strong>{playerName(uid)}’s turn</strong><span>{game.turn.phase} · Turn {game.turn.number}</span><div class="counters">{#each ['actions','coins','buys','worship'] as resource}<ResourceIcon resource={resource as 'actions'|'coins'|'buys'|'worship'} value={game.resources[resource as keyof typeof game.resources]}/>{/each}</div></div>
-      <div class="market"><SupplyCoverflow {motionRate} {game} {uid} sharedCardWidth={cardWidth} ready={ready && human && (!selectedTemple || !!choice) && (!choice || choice.kind==='gain')} visible={true} {inspect} onDialog={()=>{}} command={send} selection={marketSelection} {rotation} followAffordable={!animating} warnOnActions={false}/></div>
+      <div class="market"><SupplyCoverflow bind:this={market} {motionRate} {game} {uid} sharedCardWidth={cardWidth} ready={ready && human && (!selectedTemple || !!choice) && (!choice || choice.kind==='gain')} visible={true} {inspect} onDialog={()=>{}} command={send} selection={marketSelection} {rotation} followAffordable={!animating&&!templeBusy} warnOnActions={false}/></div>
       <div class="temples" class:side={templeDock!=='inline'} aria-label="Worship actions">{#each [...game.sharedEvents].sort((a,b)=>(definition(a).cost??0)-(definition(b).cost??0)||definition(a).name.localeCompare(definition(b).name)) as event}<button disabled={!ready || !human || !!selectedTemple || !!worshipReason(game,uid,event)} data-temple-id={event} class:zoomed={selectedTemple===event} data-public-zone="altar" data-public-card={event} data-motion-angle={rotation} aria-label={`Worship ${definition(event).god}`} onclick={()=>openTemple(event)}><WorshipFace {game} {uid} cardId={event} dimUnavailable/></button>{/each}</div>
       <div class="play-area" class:choosing={!!inlineChoice} inert={!!selectedTemple||!!inlineChoice} data-public-zone="play" data-public-uid={uid} data-motion-angle={rotation} aria-label="Played cards"><span class="reveal-anchor" data-public-zone="reveal" data-public-uid={uid} data-motion-angle={rotation} aria-hidden="true"></span>
         {#if !game.decks[uid].play.length && !tablePurchases(game,uid).length}<span class="empty-play">Your play area</span>{/if}

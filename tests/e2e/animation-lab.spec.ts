@@ -262,3 +262,45 @@ for(const edge of ['south','west','north','east'])test(`tabletop ${edge} draw re
   await expect(page.locator(selector)).toHaveAttribute('data-hand-total',String(initial+2));
   await expect(page.locator('.public-flight')).toHaveCount(0);
 });
+
+for(const edge of ['south','west','north','east'])test(`Poseidon centers Drachma before gaining to the ${edge} discard`,async({page},info)=>{
+  test.skip(info.project.name==='phone','The shared tabletop needs a large display.');
+  await page.emulateMedia({reducedMotion:'no-preference'});
+  await page.goto(`./dev/animations/?surface=tabletop&edge=${edge}&scenario=tribute-of-the-tides&players=4`);
+  const trigger=page.getByRole('button',{name:'Trigger',exact:true});
+  await expect(trigger).toBeEnabled();
+  await page.locator('.buy-card[data-centered="true"]').press('Home');
+  await expect(page.locator('.supply-coverflow')).toHaveAttribute('aria-busy','false');
+  await page.getByRole('combobox',{name:'Playback speed',exact:true}).selectOption('0.5');
+  await page.evaluate((edge)=>{
+    const audit={centered:false,settled:false,card:'',landed:false,distance:Infinity};
+    (window as Window & {poseidonAudit?:typeof audit}).poseidonAudit=audit;
+    const original=Element.prototype.animate;
+    Element.prototype.animate=function(...args){
+      const animation=original.apply(this,args);
+      if(this.matches('.public-flight[data-motion-kind="gain"]')){
+        audit.card=this.querySelector<HTMLElement>('[data-card-id]')!.dataset.cardId!;
+        audit.centered=document.querySelector('.buy-card[data-centered="true"]')?.getAttribute('data-supply-id')==='drachma';
+        audit.settled=document.querySelector('.supply-coverflow')?.getAttribute('aria-busy')==='false';
+        const node=this;
+        void animation.finished.then(()=>{
+          const flight=node.getBoundingClientRect();
+          const pile=document.querySelector(`[data-public-zone="discard"][data-public-uid="tabletop-${edge}"]`)!.getBoundingClientRect();
+          audit.distance=Math.hypot(flight.x+flight.width/2-pile.x-pile.width/2,flight.y+flight.height/2-pile.y-pile.height/2);
+          audit.landed=true;
+        },()=>undefined);
+      }
+      return animation;
+    };
+  },edge);
+  await trigger.click();
+  await expect(page.locator('.temple-zoom')).toBeVisible();
+  await expect(page.locator('.supply-coverflow')).toHaveAttribute('aria-busy','true');
+  await expect(page.locator('.public-flight[data-motion-kind="gain"]')).toBeVisible();
+  await expect.poll(()=>page.evaluate(()=>(window as Window & {poseidonAudit?:{landed:boolean}}).poseidonAudit!.landed)).toBe(true);
+  const audit=await page.evaluate(()=>(window as Window & {poseidonAudit?:{centered:boolean;settled:boolean;card:string;distance:number}}).poseidonAudit!);
+  expect(audit.centered).toBe(true);
+  expect(audit.settled).toBe(true);
+  expect(audit.card).toBe('drachma');
+  expect(audit.distance).toBeLessThan(0.01);
+});
