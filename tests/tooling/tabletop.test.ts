@@ -1,5 +1,6 @@
+import { fixture } from '../../src/routes/dev/animations/scenarios';
 import { describe, expect, test } from 'bun:test';
-import { freshTable, occupy, begin, append, advanceEmptyActions, restoreTable, edges, seatUid, actor, type Edge } from '../../src/lib/tabletop/table';
+import { freshTable, occupy, begin, rematch, append, advanceEmptyActions, restoreTable, edges, seatUid, actor, type Edge } from '../../src/lib/tabletop/table';
 import { leaderIds, replaySetup } from '../../src/lib/game/setup';
 import { createPrng } from '../../src/lib/game/random';
 import { TableBotDriver } from '../../src/lib/bots/table';
@@ -64,4 +65,21 @@ test('rejects invalid seat counts, stale choices, and corrupt saved seating',()=
   expect(()=>append(table,seatUid('south'),{type:'treasures/played'})).toThrow();
   const saved=JSON.parse(JSON.stringify(table));saved.seats[1].edge='south';
   expect(()=>restoreTable(JSON.stringify(saved))).toThrow();
+});
+
+for(const count of [2,3,4] as const)for(const randomize of [false,true])test(`rematch keeps ${count} seats and changes first player, draft ${randomize}`,()=>{
+  const seats=edges.slice(0,count);
+  const prepared=fixture('victory',count,seats.map(seatUid));
+  let table={...seated(seats),events:prepared.events,randomize};
+  table=append(table,prepared.actor,prepared.trigger!);
+  const before=replaySetup(table.events);
+  const next=rematch(table,'fresh-rematch');
+  const after=replaySetup(next.events);
+  expect(next.seats).toEqual(table.seats);
+  expect(after.turnOrder[0]).toBe(before.turnOrder[1]);
+  expect(after.turnOrder[0]).not.toBe(before.turnOrder[0]);
+  expect(after.phase).toBe(randomize?'draft':'playing');
+  expect(after.turn.number).toBe(1);
+  expect(after.trash).toHaveLength(0);
+  expect(restoreTable(JSON.stringify(next))).toEqual(next);
 });

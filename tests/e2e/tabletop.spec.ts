@@ -120,7 +120,7 @@ test('tabletop exits face the tapped edge and leader names identify the log',asy
   await page.reload();
   for(const name of ['Thaleia','Nereon'])await page.getByRole('button',{name:`Join ${name}`,exact:true}).click();
   await page.getByRole('button',{name:'Play facing Thaleia',exact:true}).click();
-  await expect(page.locator('.table-status')).toContainText('Nereon’s turn');
+  await expect(page.locator('[aria-label="Nereon turn status"]')).toContainText('Your turn –');
   await page.getByRole('button',{name:'Chronicle for Nereon',exact:true}).click();
   await expect(page.locator('.chronicle')).toContainText('Nereon');
   await expect(page.locator('.chronicle')).not.toContainText(/South|West|North|East/);
