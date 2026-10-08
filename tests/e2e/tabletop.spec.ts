@@ -1,3 +1,4 @@
+import { observeDraws, waitForDraws, drawFrames } from './helpers/draw-observer';
 import { test, expect } from './helpers/fixtures';
 import { TestStepHelper } from './helpers/test-step-helper';
 import { freshTable, occupy, begin, append, actor, advanceEmptyActions, seatUid, type Edge } from '../../src/lib/tabletop/table';
@@ -323,7 +324,15 @@ for(const edge of ['south','west','north','east'])for(const scenario of ['seed-k
   test.skip(info.project.name==='phone','The shared tabletop needs a large display.');
   await page.emulateMedia({reducedMotion:'no-preference'});
   await page.goto(`./dev/animations/?surface=tabletop&edge=${edge}&scenario=${scenario}&players=4`);
+  if(scenario==='harvest-feast')await observeDraws(page,'.table-hand[data-face-up="true"]');
   await page.getByRole('button',{name:'Trigger',exact:true}).click();
+  if(scenario==='harvest-feast'){
+    // The discard prompt follows both draws, not the initial card play.
+    await expect(page.locator('[data-motion-kind="draw"]').first()).toBeVisible();
+    await waitForDraws(page,1);
+    await waitForDraws(page,2);
+    await drawFrames(page);
+  }
   const target=page.locator('.inline-choice');
   await expect(target).toBeVisible();await expect(target).toHaveAttribute('aria-busy','false');
   const hand=page.locator(`[data-edge="${edge}"] .table-hand`);

@@ -309,7 +309,15 @@ for(const scenario of ['harvest-feast','seed-keeper'])test(`tabletop hand unlock
   test.skip(info.project.name==='phone','The shared tabletop needs a large display.');
   await page.emulateMedia({reducedMotion:'no-preference'});
   await page.goto(`./dev/animations/?surface=tabletop&edge=south&scenario=${scenario}&players=4`);
+  if(scenario==='harvest-feast')await observeDraws(page,'.table-hand[data-face-up="true"]');
   await page.getByRole('button',{name:'Trigger',exact:true}).click();
+  if(scenario==='harvest-feast'){
+    // The discard prompt follows both draws, not the initial card play.
+    await expect(page.locator('[data-motion-kind="draw"]').first()).toBeVisible();
+    await waitForDraws(page,1);
+    await waitForDraws(page,2);
+    await drawFrames(page);
+  }
   const choice=page.locator('.inline-choice');
   await expect(choice).toBeVisible();
   await expect(choice).toHaveAttribute('aria-busy','false');
