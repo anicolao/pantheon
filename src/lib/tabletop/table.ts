@@ -31,17 +31,22 @@ export function append(table: Tabletop, uid: string, command: GameCommand): Tabl
   replaySetup(next.events); // Commit only commands accepted by the ordinary game rules.
   return next;
 }
-export function begin(table: Tabletop, seed: string): Tabletop {
+export function begin(table: Tabletop, seed: string, startingUid?: string): Tabletop {
   if (table.events.length) throw Error('This game has already begun.');
   const occupied = table.seats.filter(seat => seat.mode !== 'empty');
   if (occupied.length < 2 || occupied.length > 4) throw Error('Join at least two edges to play.');
   const count = occupied.length as 2 | 3 | 4;
   const first = Math.floor(createPrng(`${seed}:first-player`)() * count);
-  const desired = table.randomize ? occupied : [...occupied].sort((a, b) => b.joined - a.joined);
+  let desired = table.randomize ? occupied : [...occupied].sort((a, b) => b.joined - a.joined);
+  if (startingUid) {
+    const index = desired.findIndex(seat => seatUid(seat.edge) === startingUid);
+    if (index < 0) throw Error('The starting seat is not playing.');
+    desired = [...desired.slice(index), ...desired.slice(0, index)];
+  }
   // The ordinary reducer rotates its seating list by the seeded first-player
   // index. For preset play, arrange that list so the rotation produces reverse
   // join order. No reducer state overrides, special rules, or seed searching.
-  const players = table.randomize ? desired : [...desired.slice(count - first), ...desired.slice(0, count - first)];
+  const players = table.randomize && !startingUid ? desired : [...desired.slice(count - first), ...desired.slice(0, count - first)];
   let events: SetupEvent[] = players.map((seat, i) => ({ schemaVersion: 1, sequence: i + 1, actorUid: seatUid(seat.edge),
     name: seatName(seat.edge), playerCount: count, type: i === 0 ? 'game/created' : 'player/joined',
     ...(seat.mode === 'bot' && i > 0 ? { botKind: 'engine' as const } : {}) }));
@@ -82,4 +87,11 @@ export function restoreTable(raw: string): Tabletop {
     if (game.players.length !== occupied.length || game.players.some(player => !occupied.some(seat => seatUid(seat.edge) === player.uid && (seat.mode === 'bot') === !!player.botKind))) throw Error('The saved players do not match their seats.');
   }
   return table;
+}
+
+/** Pass first-player responsibility to the next player without moving any seats. */
+export function rematch(table: Tabletop, seed: string): Tabletop {
+  const game = replaySetup(table.events);
+  if (game.turn.phase !== 'finished') throw Error('Finish this game before starting a rematch.');
+  return begin({ ...table, events: [], seed: '' }, seed, game.turnOrder[1]);
 }

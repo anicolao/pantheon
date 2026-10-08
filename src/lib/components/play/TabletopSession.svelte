@@ -9,6 +9,7 @@
   import Portrait from '$lib/components/play/Portrait.svelte';
   import SupplyCoverflow from '$lib/components/play/SupplyCoverflow.svelte';
   import InlineChoice from './InlineChoice.svelte';
+  import TabletopVictory from './TabletopVictory.svelte';
   import TabletopWorship from '$lib/components/play/TabletopWorship.svelte';
   import WorshipFace from '$lib/components/play/WorshipFace.svelte';
   import { sortHand } from '$lib/components/play/hand-order';
@@ -19,7 +20,7 @@
   import { canUndo } from '$lib/game/undo';
   import type { GameCommand } from '$lib/backend/setup-repository';
   import type { BotProposal } from '$lib/bots/table';
-  import { freshTable, occupy, begin, append, advanceEmptyActions, restoreTable, actor, edges, seatUid, seatName, type Edge, type Seat, type Tabletop } from '$lib/tabletop/table';
+  import { freshTable, occupy, begin, rematch, append, advanceEmptyActions, restoreTable, actor, edges, seatUid, seatName, type Edge, type Seat, type Tabletop } from '$lib/tabletop/table';
 
   let {initialTable,persist=true,motionRate=1,onState,onReady}:{initialTable?:Tabletop;persist?:boolean;motionRate?:number;onState?:(table:Tabletop)=>void;onReady?:(revision:number,available:boolean)=>void}=$props();
   export async function play(command:GameCommand){if(ready)await commit(command);}
@@ -56,7 +57,7 @@
   const horizontal=$derived(activeSeat?.edge==='west'||activeSeat?.edge==='east'?surfaceHeight:surfaceWidth);
   const vertical=$derived(activeSeat?.edge==='west'||activeSeat?.edge==='east'?surfaceWidth:surfaceHeight);
   const templeDock=$derived(horizontal/unit>=130?'right':vertical/unit>=130?'top':'inline');
-  const cardWidth=$derived(unit*(templeDock==='inline'?13.5:16));
+  const cardWidth=$derived(unit*(templeDock==='inline'?15:17));
   const tableWidth=$derived(Math.max(58*unit,Math.min(150*unit,horizontal-(templeDock==='right'?56:30)*unit)));
   const ready = $derived(mounted && !moving && !working && !animating && !exitEdge && !finished && !templeBusy);
   const choice = $derived(game?.turn.choice);
@@ -99,6 +100,12 @@
     flightsSettled(); displayedUid=''; exitEdge=null; selectedTemple='';templeBusy=false;templeOpened?.();
     table = freshTable(); targets = [];localChoices=[];interactionBusy=false; inspected = ''; pending = null; confirmReset = false;
     rotation = 0; readers={south:null,west:null,north:null,east:null}; readerCards={}; moving = false; working = false; error = ''; save();
+  }
+  function playAgain() {
+    try {
+      const next=advanceEmptyActions(rematch(table,crypto.randomUUID()));
+      newTable();table=next;displayedUid=actor(replaySetup(next.events));save();
+    } catch(cause) {error=cause instanceof Error?cause.message:String(cause);}
   }
   function start() {
     try { table = advanceEmptyActions(begin(table, crypto.randomUUID())); displayedUid=actor(replaySetup(table.events)); error = ''; save(); }
@@ -229,7 +236,15 @@
         <button class="seat-mode" disabled={!mounted} onclick={() => seatMode(seat.edge, seat.mode === 'bot' ? 'human' : 'bot')}>{seat.mode === 'bot' ? `Play ${playerName(id)} yourself` : `Add bot as ${playerName(id)}`}</button>
       {:else if seat.mode !== 'empty'}
         <div class="edge-line">
+          <div class="leader-status">
           <button class="leader" data-public-card={leader} data-public-zone="leader" data-public-uid={id} data-motion-angle={index*90} aria-label={`Inspect ${playerName(id)} leader`} onclick={() => inspect(leader)}><Portrait {leader} name={playerName(id)} {active} points={scores.find(score=>score.uid===id)?.score}/></button>
+          {#if active && game.phase==='playing' && !finished}
+            <div class="turn-status" aria-label={`${playerName(id)} turn status`}>
+              <strong>Your turn – {game.turn.phase}</strong>
+              <div class="counters">{#each ['actions','coins','buys','worship'] as resource}<ResourceIcon resource={resource as 'actions'|'coins'|'buys'|'worship'} value={game.resources[resource as keyof typeof game.resources]}/>{/each}</div>
+            </div>
+          {/if}
+          </div>
           {#if game.phase === 'playing'}
             <div class="edge-deck" data-public-zone="deck" data-public-uid={id} data-motion-angle={index*90}><ResourceIcon resource="cards" value={game.decks[id].deck.length} label={`${playerName(id)} deck`}/></div>
             <div class="table-hand" data-public-zone="hand" data-public-uid={id} data-motion-angle={index*90} data-hand-total={presentedHand(id).length} data-hand-owner={id} data-face-up={faceUp} style:visibility={active && !faceUp && animating ? 'hidden' : undefined} style:--count={game.decks[id].hand.length}>
@@ -253,7 +268,7 @@
     </section>
   {/each}
 
-  <section class="shared-table" class:playing={game?.phase==='playing'&&!finished} data-temple-dock={templeDock} style:--table-width={`${tableWidth}px`} bind:this={board} style:--rotation={`${rotation}deg`} aria-label="Shared table" aria-busy={moving || working || animating} data-facing={activeSeat?.edge ?? 'south'}>
+  <section class="shared-table" class:finished class:playing={game?.phase==='playing'&&!finished} data-temple-dock={templeDock} style:--table-width={`${tableWidth}px`} bind:this={board} style:--rotation={`${rotation}deg`} aria-label="Shared table" aria-busy={moving || working || animating} data-facing={activeSeat?.edge ?? 'south'}>
     {#if !game}
       <div class="welcome"><p class="eyebrow">One table · Four bloodlines</p><h1>Pantheon</h1><p>Choose your edge. Tap your leader.</p><span>{occupied.length} of 4 seats joined</span></div>
       {#each edges as edge, index}
@@ -264,14 +279,13 @@
       {/each}
       <p class="setup-note">{table.randomize ? 'Choose player 1 at random. Draft in reverse; play clockwise.' : 'Keep your leaders. Last to join goes first; play in reverse join order.'}</p>
     {:else if finished}
-      <div class="results"><p class="eyebrow">The empires of Olympus</p><h1>Final standing</h1>{#each scores as score}<p><strong>{playerName(score.uid)}</strong><ResourceIcon resource="victory" value={score.score}/></p>{/each}<button class="primary" onclick={newTable}>New table</button></div>
+      <TabletopVictory {game} again={playAgain}/>
     {:else if game.phase === 'draft'}
       <div class="draft"><p class="eyebrow">{playerName(uid)} chooses · {human ? 'Tap your bloodline' : 'Bot is choosing'}</p><h1>Choose your leader</h1><p>Play starts at {playerName(game.turnOrder[0])}, then goes clockwise.</p>
         <div class="draft-leaders">{#each leaderIds as leader}<button disabled={!ready || !human || Object.values(game.leaders).includes(leader)} aria-label={`Choose ${definition(leader).name.split(',')[0]}`} onclick={()=>send({type:'leader/chosen',leaderId:leader})}><CardFace card={definition(leader)} players={game.playerCount}/></button>{/each}</div>
         <p>Draft: {game.draftOrder.map(playerName).join(' → ')}</p>
       </div>
     {:else}
-      <div class="table-status"><strong>{playerName(uid)}’s turn</strong><span>{game.turn.phase} · Turn {game.turn.number}</span><div class="counters">{#each ['actions','coins','buys','worship'] as resource}<ResourceIcon resource={resource as 'actions'|'coins'|'buys'|'worship'} value={game.resources[resource as keyof typeof game.resources]}/>{/each}</div></div>
       <div class="market"><SupplyCoverflow bind:this={market} {motionRate} {game} {uid} sharedCardWidth={cardWidth} ready={ready && human && (!selectedTemple || !!choice) && (!choice || choice.kind==='gain')} visible={true} {inspect} onDialog={()=>{}} command={send} selection={marketSelection} {rotation} followAffordable={!animating&&!templeBusy} warnOnActions={false}/></div>
       <div class="temples" class:side={templeDock!=='inline'} aria-label="Worship actions">{#each [...game.sharedEvents].sort((a,b)=>(definition(a).cost??0)-(definition(b).cost??0)||definition(a).name.localeCompare(definition(b).name)) as event}<button disabled={!ready || !human || !!selectedTemple || !!worshipReason(game,uid,event)} data-temple-id={event} class:zoomed={selectedTemple===event} data-public-zone="altar" data-public-card={event} data-motion-angle={rotation} aria-label={`Worship ${definition(event).god}`} onclick={()=>openTemple(event)}><WorshipFace {game} {uid} cardId={event} dimUnavailable/></button>{/each}</div>
       <div class="play-area" class:choosing={!!inlineChoice} inert={!!selectedTemple||!!inlineChoice} data-public-zone="play" data-public-uid={uid} data-motion-angle={rotation} aria-label="Played cards"><span class="reveal-anchor" data-public-zone="reveal" data-public-uid={uid} data-motion-angle={rotation} aria-hidden="true"></span>
@@ -279,11 +293,13 @@
         <div class="played" style:--count={tablePlayed(game,uid).length}>{#each tablePlayed(game,uid) as card,index (card.id)}<div class="table-card" style:--index={index} data-motion-key={`play:${card.id}`} data-motion-zone="play" data-motion-uid={uid} data-motion-card={card.id} data-motion-face={card.cardId} data-motion-copy={card.copy} data-motion-angle={rotation}><CardFace card={definition(card.cardId)} copy={card.copy} players={game.playerCount}/></div><button style:--index={index} aria-label={`Inspect played ${definition(card.cardId).name}`} onclick={()=>inspect(card.cardId)}></button>{/each}</div>
         <div class="purchased" style:--count={tablePurchases(game,uid).length}>{#each tablePurchases(game,uid) as card,index (card.id)}<div class="table-card" style:--index={index} data-motion-key={`purchase:${card.id}`} data-motion-zone="play" data-motion-uid={uid} data-motion-card={card.id} data-motion-face={card.cardId} data-motion-copy={card.copy} data-motion-angle={rotation}><CardFace card={definition(card.cardId)} copy={card.copy} players={game.playerCount}/></div><button style:--index={index} aria-label={`Inspect purchased ${definition(card.cardId).name}`} onclick={()=>inspect(card.cardId)}></button>{/each}</div>
       </div>
+      {#if pending || (choice?.kind==='gain' && !selectedTemple)}
       <div class="table-message">
         {#if pending}<p>{pendingText}</p><button class="primary" disabled={!ready} onclick={acceptPending}>Confirm</button><button onclick={()=>pending=null}>Keep playing</button>
         {:else if choice?.kind==='gain' && !selectedTemple}<p class="choice-instruction" role="status">{definition(choice.source).name}: {instruction}</p>{#if choice.min===0}<button disabled={!ready || !human} onclick={()=>resolve([])}>Gain none</button>{/if}
-        {:else}<p>{message(game.activity.at(-1)?.message ?? '')}</p>{/if}
+        {/if}
       </div>
+      {/if}
     {/if}
     {#if inlineChoice && game}{#key inlineChoice.id}<div class="choice-stage"><InlineChoice bind:this={interaction} {game} {uid} choice={inlineChoice} ready={ready&&human} {error} {reduced} {rotation} autoConfirm={false} homeSelector={`[data-public-zone="${inlineChoice.kind==='trash'?'trash':'discard'}"][data-public-uid="${uid}"] [data-resource="${inlineChoice.kind}"]`} command={send} bind:targets bind:busy={interactionBusy} handled={id=>localChoices=[...localChoices.slice(-15),id]}/></div>{/key}{/if}
     {#if selectedTemple && game}<TabletopWorship covered={!!inlineChoice} bind:this={templeOverlay} {game} {uid} cardId={selectedTemple} {rotation} source={templeSource} selectedCount={targets.length} resolve={()=>resolve()} ready={ready&&human} busy={templeBusy||working||animating} submit={()=>send({type:'god/worshipped',cardId:selectedTemple})} close={()=>selectedTemple=''} onOpened={()=>{templeOpened?.();templeOpened=undefined;}}/>{/if}
@@ -326,26 +342,28 @@
   button{touch-action:manipulation;}button{font:inherit;color:inherit;background:#102632;border:1px solid #c9a66388;border-radius:.8cqmin;padding:.7cqmin 1.2cqmin;cursor:pointer;min-height:3.6cqmin;font-size:clamp(10px,1.25cqmin,24px);}button:disabled{cursor:default;filter:brightness(.65) saturate(.65);}button:not(:disabled):hover,button:focus-visible{outline:2px solid #f6dc9b;outline-offset:2px;}.primary{background:linear-gradient(#f0d89a,#a5803f);color:#15212a;font-weight:700;box-shadow:0 .4cqmin 1cqmin #0008;}p{margin:.6cqmin 0;}h1,h2{font-family:'Cormorant Garamond',serif;font-weight:600;margin:0;}h1{font-size:4.5cqmin;}.eyebrow{text-transform:uppercase;letter-spacing:.14em;font-size:1.1cqmin;color:#d3b47a;}
   .edge{position:absolute;width:62cqmin;height:20cqmin;left:50%;top:calc(100% - var(--edge-inset,10.5cqmin));transform:translate(-50%,-50%) rotate(var(--angle));transform-origin:center;z-index:3;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.7cqmin;}
   .edge[data-edge=west]{left:var(--edge-inset,10.5cqmin);top:50%;}.edge[data-edge=north]{top:var(--edge-inset,10.5cqmin);}.edge[data-edge=east]{left:calc(100% - var(--edge-inset,10.5cqmin));top:50%;}
-  .edge.active{width:66cqmin;height:27cqmin;--edge-inset:14cqmin;}
-  .edge.gathering{height:26cqmin;--edge-inset:14cqmin;}.join-portrait{width:16cqmin;border:0;background:none;padding:0;filter:drop-shadow(0 1cqmin 1cqmin #0008);}.join-portrait span{display:block;font-size:1.3cqmin;white-space:nowrap;}.seat-mode{font-size:1.2cqmin;min-height:3.5cqmin;}.edge-line{width:100%;display:flex;align-items:center;gap:1.5cqmin;}.leader{width:9cqmin;flex-shrink:0;background:none;border:0;padding:0;}.edge-deck{--icon-size:2.3cqmin;flex-shrink:0;}.edge-controls{display:flex;justify-content:center;align-items:center;gap:1cqmin;height:3.8cqmin;font-size:1.3cqmin;}.draft-wait{font-size:1.8cqmin;}
-  .table-hand{position:relative;height:22.4cqmin;flex:1;min-width:0;--hand-card-width:var(--card-width);--hand-min-peek:2cqmin;}
+  .edge.active{width:66cqmin;height:29cqmin;--edge-inset:15cqmin;}
+  .edge.gathering{height:26cqmin;--edge-inset:14cqmin;}.join-portrait{width:16cqmin;border:0;background:none;padding:0;filter:drop-shadow(0 1cqmin 1cqmin #0008);}.join-portrait span{display:block;font-size:1.3cqmin;white-space:nowrap;}.seat-mode{font-size:1.2cqmin;min-height:3.5cqmin;}.edge-line{width:100%;display:flex;align-items:center;gap:1.5cqmin;}.leader-status{width:9cqmin;flex-shrink:0;display:flex;flex-direction:column;align-items:center;gap:.5cqmin;}.edge.active .leader-status{width:13cqmin;}.leader{width:9cqmin;flex-shrink:0;background:none;border:0;padding:0;}.edge-deck{--icon-size:2.3cqmin;flex-shrink:0;}.edge-controls{display:flex;justify-content:center;align-items:center;gap:1cqmin;height:3.8cqmin;font-size:1.3cqmin;}.draft-wait{font-size:1.8cqmin;}
+  .table-hand{position:relative;height:calc(var(--card-width)*1.4);flex:1;min-width:0;--hand-card-width:var(--card-width);--hand-min-peek:2cqmin;}
 
   .shared-table{position:absolute;left:50%;top:50%;width:66cqmin;height:66cqmin;margin:-33cqmin 0 0 -33cqmin;transform:rotate(var(--rotation)) translateY(-4cqmin);transition:transform 650ms cubic-bezier(.2,.7,.2,1);border:1px solid #c9a66355;border-radius:50%;background:radial-gradient(ellipse,#16333c44,#05141b55);display:flex;flex-direction:column;align-items:stretch;z-index:2;--icon-size:2cqmin;}
+  .shared-table.finished{transform:none;transition:none;}
   .shared-table.playing{width:var(--table-width);height:58cqmin;margin: -29cqmin 0 0 calc(var(--table-width) / -2);transform:rotate(var(--rotation)) translateY(-8cqmin);border-radius:4cqmin;}
   .shared-table.playing[data-temple-dock=right]{translate:calc(-13cqmin * cos(var(--rotation))) calc(-13cqmin * sin(var(--rotation)));}
-  .shared-table.playing .market{height:24cqmin;}.shared-table.playing .temples{height:11cqmin;gap:1cqmin;}.shared-table.playing .temples button{width:16cqmin;}.shared-table.playing .play-area{height:23cqmin;}.shared-table.playing .table-message{height:4cqmin;}
+  .shared-table.playing .market{height:27cqmin;}.shared-table.playing .temples{height:11cqmin;gap:1cqmin;}.shared-table.playing .temples button{width:16cqmin;}.shared-table.playing .play-area{height:27cqmin;}.shared-table.playing .table-message{height:4cqmin;}
   .shared-table.playing .temples.side{position:absolute;}.shared-table.playing[data-temple-dock=right] .temples.side{left:calc(100% + 2cqmin);top:0;width:24cqmin;height:58cqmin;flex-direction:column;justify-content:center;gap:1cqmin;}.shared-table.playing[data-temple-dock=right] .temples button{width:22cqmin;}
-  .shared-table.playing[data-temple-dock=top] .temples.side{left:0;bottom:calc(100% + 2cqmin);width:100%;height:14cqmin;}.shared-table.playing:has(.temples.side) .play-area{height:23cqmin;}.temples button.zoomed{visibility:hidden;}
+  .shared-table.playing[data-temple-dock=top] .temples.side{left:0;bottom:calc(100% + 2cqmin);width:100%;height:14cqmin;}.temples button.zoomed{visibility:hidden;}
   .welcome{position:absolute;inset:19cqmin 10cqmin;text-align:center;white-space:nowrap;line-height:1.1;}.welcome h1{font-size:6.5cqmin;}.welcome p,.welcome span{font-size:1.3cqmin;}.start-control{position:absolute;left:50%;top:50%;width:19cqmin;margin-left:-9.5cqmin;transform:rotate(var(--start-angle)) translateY(15cqmin);transform-origin:50% 0;display:grid;justify-items:center;gap:.8cqmin;}.start{width:12cqmin;font-size:2.3cqmin;min-height:5cqmin;}.start-control label{display:flex;gap:.4cqmin;align-items:center;font-size:1cqmin;white-space:nowrap;}.start-control input{width:1.5cqmin;height:1.5cqmin;accent-color:#dab672;}.setup-note{position:absolute;top:35cqmin;left:17cqmin;width:24cqmin;text-align:center;font-size:1cqmin;line-height:1.5;}
-  .shared-table.playing[data-temple-dock=inline] .table-status{height:4cqmin;} .shared-table.playing[data-temple-dock=inline] .market{height:21cqmin;} .shared-table.playing[data-temple-dock=inline] .temples{height:10cqmin;} .shared-table.playing[data-temple-dock=inline] .play-area{height:19cqmin;}
+  .shared-table.playing[data-temple-dock=inline] .market{height:24cqmin;} .shared-table.playing[data-temple-dock=inline] .temples{height:10cqmin;} .shared-table.playing[data-temple-dock=inline] .play-area{height:24cqmin;}
   .play-area.choosing{opacity:.16;}
   .choice-stage{position:absolute;left:0;bottom:4cqmin;width:100%;height:calc(var(--card-width)*1.4);z-index:10;--center-left:0px;--center-width:100%;--play-top:0px;--table-card-width:var(--card-width);--table-card-height:calc(var(--card-width)*1.4);--motion-speed:1.5;}
-  .table-status{height:7cqmin;flex-shrink:0;text-align:center;display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:0 1cqmin;font-size:1.25cqmin;}.table-status strong{font-family:'Cormorant Garamond',serif;font-size:2.5cqmin;}.counters{display:flex;gap:1cqmin;justify-content:center;width:100%;--icon-size:1.7cqmin;}.market{height:23cqmin;flex-shrink:0;width:100%;}.temples{height:8.5cqmin;display:flex;align-items:center;justify-content:center;gap:1cqmin;}.temples button{width:10cqmin;padding:0;background:none;border:0;}.play-area{height:17cqmin;display:flex;justify-content:center;align-items:center;gap:3cqmin;position:relative;}.played,.purchased{position:relative;flex:var(--count) 1 0;min-width:var(--card-width);max-width:calc(var(--card-width) * (1 + (var(--count) - 1)*1.04));height:calc(var(--card-width)*1.4);--step:calc((100% - var(--card-width))/max(1,var(--count) - 1));}.played:empty,.purchased:empty{display:none;}.table-card,.played button,.purchased button{position:absolute;left:calc(var(--index)*var(--step));top:0;}.table-card{width:var(--card-width);z-index:calc(var(--index)*2);pointer-events:none;}.played button,.purchased button{width:var(--step);height:100%;z-index:calc(var(--index)*2 + 1);padding:0;border:0;background:none;}.played button:last-child,.purchased button:last-child{width:var(--card-width);}.reveal-anchor{position:absolute;width:var(--card-width);height:calc(var(--card-width)*1.4);pointer-events:none;}.empty-play{font:2.3cqmin 'Cormorant Garamond',serif;color:#dfc18a66;}.table-message{height:5.5cqmin;text-align:center;font-size:1.1cqmin;line-height:1.3;}.table-message button{min-height:2.8cqmin;font-size:1.1cqmin;padding:.4cqmin .8cqmin;}.table-message p{margin:.2cqmin 1cqmin;}.choice-instruction{color:#ffe69e;}
+  .turn-status{width:100%;text-align:center;}.turn-status strong{display:block;font-size:1.35cqmin;line-height:1.3;font-weight:600;text-transform:capitalize;white-space:nowrap;}.counters{display:grid;grid-template-columns:repeat(2,1fr);justify-items:center;gap:0;--icon-size:3.25cqmin;--icon-number-scale:.8;}
+  .market{height:23cqmin;flex-shrink:0;width:100%;}.temples{height:8.5cqmin;display:flex;align-items:center;justify-content:center;gap:1cqmin;}.temples button{width:10cqmin;padding:0;background:none;border:0;}.play-area{height:17cqmin;display:flex;justify-content:center;align-items:center;gap:3cqmin;position:relative;}.played,.purchased{position:relative;flex:var(--count) 1 0;min-width:var(--card-width);max-width:calc(var(--card-width) * (1 + (var(--count) - 1)*1.04));height:calc(var(--card-width)*1.4);--step:calc((100% - var(--card-width))/max(1,var(--count) - 1));}.played:empty,.purchased:empty{display:none;}.table-card,.played button,.purchased button{position:absolute;left:calc(var(--index)*var(--step));top:0;}.table-card{width:var(--card-width);z-index:calc(var(--index)*2);pointer-events:none;}.played button,.purchased button{width:var(--step);height:100%;z-index:calc(var(--index)*2 + 1);padding:0;border:0;background:none;}.played button:last-child,.purchased button:last-child{width:var(--card-width);}.reveal-anchor{position:absolute;width:var(--card-width);height:calc(var(--card-width)*1.4);pointer-events:none;}.empty-play{font:2.3cqmin 'Cormorant Garamond',serif;color:#dfc18a66;}.table-message{position:absolute;bottom:0;left:0;right:0;z-index:4;background:#091b25ee;border-radius:1cqmin;height:5.5cqmin;text-align:center;font-size:1.1cqmin;line-height:1.3;}.table-message button{min-height:2.8cqmin;font-size:1.1cqmin;padding:.4cqmin .8cqmin;}.table-message p{margin:.2cqmin 1cqmin;}.choice-instruction{color:#ffe69e;}
   .shared-table:has(.welcome){width:58cqmin;height:58cqmin;margin:-29cqmin 0 0 -29cqmin;transform:none;}
-  .draft,.results{padding:7cqmin 4cqmin;text-align:center;font-size:1.3cqmin;}.draft-leaders{display:grid;grid-template-columns:1fr 1fr;gap:1.5cqmin;margin:2cqmin 0;}.draft-leaders button{border:0;padding:0;background:none;}.draft-leaders button:disabled{opacity:.4;}.results p{display:flex;justify-content:center;align-items:center;gap:2cqmin;font-size:2cqmin;}
+  .draft{padding:7cqmin 4cqmin;text-align:center;font-size:1.3cqmin;}.draft-leaders{display:grid;grid-template-columns:1fr 1fr;gap:1.5cqmin;margin:2cqmin 0;}.draft-leaders button{border:0;padding:0;background:none;}.draft-leaders button:disabled{opacity:.4;}
   .inspection,.reset-confirm,.error{position:absolute;z-index:10;left:7%;top:10%;width:86%;padding:2cqmin;border:1px solid var(--gold);border-radius:2cqmin;background:#091b25f5;box-sizing:border-box;text-align:center;font-size:1.5cqmin;}.inspection{width:45%;left:27.5%;top:5%;}.inspection button{margin-top:1cqmin;}.error{top:38%;color:#ffd19b;}.reset-confirm{top:38%;}.reset-confirm button,.error button{margin:1cqmin;}
   .edge{transition:width 400ms ease-out,height 400ms ease-out,top 400ms ease-out,left 400ms ease-out;}.table-hand,.leader{transition:width 400ms ease-out,height 400ms ease-out;}
-  .edge.inactive{width:43cqmin;height:12cqmin;--edge-inset:6.5cqmin;--card-width:6.5cqmin;}.edge.inactive .table-hand{height:9.1cqmin;}.edge.inactive .leader{width:6cqmin;}.edge.inactive .edge-controls{height:2cqmin;}.edge.inactive .edge-line{gap:1cqmin;}
+  .edge.inactive{width:43cqmin;height:12cqmin;--edge-inset:6.5cqmin;--card-width:6.5cqmin;}.edge.inactive .table-hand{height:9.1cqmin;}.edge.inactive .leader,.edge.inactive .leader-status{width:6cqmin;}.edge.inactive .edge-controls{height:2cqmin;}.edge.inactive .edge-line{gap:1cqmin;}
   .corner-controls{position:absolute;z-index:12;display:flex;align-items:center;gap:1cqmin;transform:rotate(var(--corner-angle));transform-origin:calc(100% - 2.25cqmin) 2.25cqmin;}.corner-controls[data-corner=south]{right:1cqmin;bottom:1cqmin;}.corner-controls[data-corner=west]{right:calc(100% - 5.5cqmin);bottom:1cqmin;}.corner-controls[data-corner=north]{right:calc(100% - 5.5cqmin);top:1cqmin;}.corner-controls[data-corner=east]{right:1cqmin;top:1cqmin;}.exit{font-size:3cqmin;width:4.5cqmin;height:4.5cqmin;padding:0;}.exit-shade{position:absolute;inset:0;background:#0009;z-index:29;}.exit-confirm{position:absolute;z-index:30;left:50%;top:50%;width:40cqmin;background:#091b25;border:1px solid var(--gold);border-radius:2cqmin;padding:3cqmin;text-align:center;box-shadow:0 1cqmin 4cqmin #000b;}.exit-confirm button{margin:1cqmin;}.close-notice{position:absolute;bottom:0;left:25%;width:50%;text-align:center;z-index:40;background:#091b25;}
   .corner-controls{--icon-size:1.5vmin;height:4.5vmin;}.corner-controls button{height:4.5vmin;box-sizing:border-box;}.corner-controls button[aria-pressed=true]{border-color:#ffe3a3;background:#24454d;}
   .reader-dock{position:absolute;z-index:8;container-type:size;box-sizing:border-box;}
