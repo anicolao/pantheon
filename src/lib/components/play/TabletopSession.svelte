@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { pileIsMoving } from './motion';
   import { onMount, tick, untrack } from 'svelte';
   import { base } from '$app/paths';
   import PublicMotion from '$lib/components/play/PublicMotion.svelte';
@@ -31,6 +32,8 @@
   let market=$state<SupplyCoverflow>();
   let surfaceWidth=$state(1440),surfaceHeight=$state(1000);
   let selectedTemple=$state(''), templeBusy=$state(false), templeSource=$state<HTMLElement>(), templeOverlay=$state<TabletopWorship>(), templeOpened:(()=>void)|undefined;
+  let pileRevision=$state(0);
+  function pilePending(player:string,zone:'deck'|'discard') {return animating && !!game && pileIsMoving(game.publicActivity,pileRevision,player,zone);}
   let board = $state<HTMLElement>(), rotation = $state(0), moving = $state(false), working = $state(false);
   let interaction=$state<InlineChoice>(),interactionBusy=$state(false),localChoices=$state<string[]>([]);
   let targets = $state<string[]>([]), inspected = $state(''), confirmReset = $state<Edge | null>(null);
@@ -121,6 +124,7 @@
       if(gain){templeBusy=true;try{await market?.centerPile('drachma');}finally{templeBusy=false;}}
       if(current!==generation)return;
       motionBefore = measureLayout();
+      pileRevision=table.events.length;
       const animate = game?.phase==='playing' && !reduced;
       const settled = animate ? new Promise<void>(resolve=>{settleMotion=resolve;animating=true;}) : Promise.resolve();
       if(game?.phase==='playing') displayedUid=player;
@@ -247,7 +251,7 @@
           {/if}
           </div>
           {#if game.phase === 'playing'}
-            <div class="edge-deck" data-public-zone="deck" data-public-uid={id} data-motion-angle={index*90}><ResourceIcon resource="cards" value={game.decks[id].deck.length} label={`${playerName(id)} deck`}/></div>
+            <div class="edge-deck" data-public-zone="deck" data-public-uid={id} data-motion-angle={index*90}><ResourceIcon resource="cards" pending={pilePending(id,'deck')} value={game.decks[id].deck.length} label={`${playerName(id)} deck`}/></div>
             <div class="table-hand" data-public-zone="hand" data-public-uid={id} data-motion-angle={index*90} data-hand-total={presentedHand(id).length} data-hand-owner={id} data-face-up={faceUp} style:visibility={active && !faceUp && animating ? 'hidden' : undefined} style:--count={game.decks[id].hand.length}>
               <HandFan cards={sortHand(presentedHand(id))} uid={id} players={game.playerCount} {faceUp} angle={index*90} measure={active} staged={active?targets:[]}
                 disabled={card=>!active||!ready||!human||interactionBusy||targets.includes(card.id)}
@@ -255,7 +259,7 @@
                 activate={card=>handCard(card.id)} inspect={card=>inspect(card.cardId)}/>
 
             </div>
-            <div class="edge-deck" data-public-zone="discard" data-public-uid={id} data-motion-angle={index*90}><ResourceIcon resource="discard" value={game.decks[id].discard.length} label={`${playerName(id)} discard`}/></div>
+            <div class="edge-deck" data-public-zone="discard" data-public-uid={id} data-motion-angle={index*90}><ResourceIcon resource="discard" pending={pilePending(id,'discard')} value={game.decks[id].discard.length-tablePurchases(game,id).length} label={`${playerName(id)} discard`}/></div>
           {:else}<p class="draft-wait">{active ? 'Choose a leader from the table' : game.leaders[id] ? 'Leader chosen' : 'Waiting to draft'}</p>{/if}
         </div>
         <div class="edge-controls">

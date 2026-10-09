@@ -28,9 +28,10 @@ test('invite an Engine bot to the real table and take turns together',async({pag
  await expect(page.getByRole('button',{name:'Play all Treasures',exact:true})).toHaveCount(0);
  await setMotionPreference(page,'no-preference');
  await page.evaluate(()=>{
-  const state={progress:0,landings:[] as {kind:string;painted:boolean}[]};
+  const state={overlapped:false,progress:0,landings:[] as {kind:string;painted:boolean}[]};
   (window as Window&{botMotion?:typeof state}).botMotion=state;
   new MutationObserver(records=>{
+   if(document.querySelector('.public-flight[data-motion-kind="draw"]') && document.querySelector('.public-flight[data-motion-kind="play"]'))state.overlapped=true;
    for(const record of records)for(const node of [...record.addedNodes,...record.removedNodes]){
     if(!(node instanceof HTMLElement)||!node.matches('.public-flight'))continue;
     state.progress++;
@@ -64,6 +65,7 @@ test('invite an Engine bot to the real table and take turns together',async({pag
   if(audit.landings.length && (await page.locator('.turn-marker').textContent())?.includes('Your turn') && await page.locator('.public-flight').count()===0)break;
  }
  const landed=await page.evaluate(()=>(window as Window&{botMotion?:{landings:{kind:string;painted:boolean}[]}}).botMotion!.landings);
+ expect(await page.evaluate(()=>(window as Window&{botMotion?:{overlapped:boolean}}).botMotion!.overlapped)).toBe(true);
  expect(landed.some(landing=>landing.kind==='play')).toBe(true);
  expect(landed.some(landing=>landing.kind==='gain')).toBe(true);
  await expect(page.locator('.turn-marker')).toContainText('Your turn');

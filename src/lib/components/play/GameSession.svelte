@@ -9,7 +9,7 @@
   import { onMount, tick, untrack } from 'svelte';
   import { fly } from 'svelte/transition';
   import { cubicOut } from 'svelte/easing';
-  import { motionDuration, MOTION_SPEED } from './motion';
+  import { motionDuration, MOTION_SPEED, pileIsMoving } from './motion';
   import { sortHand } from './hand-order';
   import { tablePlayed } from './table-play';
   import { tablePurchases } from './table-purchases';
@@ -35,15 +35,20 @@
   import SupplyCoverflow from './SupplyCoverflow.svelte';
   import { activePlayer, canPlayAction, canPlayTreasure, departureReminder, definition, standings, eligibleGains } from '$lib/game/actions';
 
-  let { game, uid, roomId, status, busy, error, command, retry, again, onSettled, motionRate = 1 }: {
+  let { game, uid, roomId, status, busy, error, command, retry, again, onSettled, onReady, motionRate = 1 }: {
     game: SetupState; uid: string; roomId: string; status: string; busy: boolean; error: string;
     command: (command: GameCommand, expectedRevision?: number) => Promise<void>; retry: () => void; again: () => void;
-    onSettled?: (revision:number)=>void; motionRate?: number;
+    onSettled?: (revision:number)=>void; onReady?: (revision:number)=>void; motionRate?: number;
   } = $props();
   const initialRevision = untrack(() => game.activity.length);
   let settledRevision = $state(initialRevision);
   let pendingDraws = $state<{step:string;card:string;uid:string;sequence:number}[]>([]);
   let drawRevision = $state(initialRevision);
+  let handoffRevision = $state(initialRevision), handoffSettled = $state(initialRevision);
+  function turnReady(revision:number) { handoffSettled=Math.max(handoffSettled,revision); }
+  function pilePending(player:string,zone:'deck'|'discard') {
+    return !reduced && status==='synced' && pileIsMoving(game.publicActivity,settledRevision,player,zone);
+  }
   // Wait for the command that opened a choice, without hiding it again
   // for subsequent shared market-browsing commands.
   let choiceRevision = $state(initialRevision);
@@ -63,6 +68,7 @@
   }
   function flightsSettled(revision: number) {
     settledRevision = Math.max(settledRevision, revision);
+    handoffSettled = Math.max(handoffSettled, revision);
     transientTemple=undefined;
     pendingDraws = pendingDraws.filter(draw => draw.sequence > revision);
   }
@@ -78,10 +84,12 @@
         choiceRevision = revision;
       }
       if(motionRevision >= initialRevision && !reduced && status === 'synced' && document.visibilityState === 'visible') {
+        const ended=game.publicActivity.findLast(entry=>entry.sequence>motionRevision && entry.command==='turn/ended');
+        if(ended)handoffRevision=ended.sequence;
         const draws=game.movements.filter(move=>move.sequence>motionRevision && move.kind==='draw' && move.card);
         if(draws.length) {
           pendingDraws=[...pendingDraws,...draws.map(move=>({step:`${move.sequence}:${move.index}`,card:move.card!.id,uid:move.uid,sequence:move.sequence}))];
-          drawRevision=revision;
+          if(draws.some(draw=>draw.uid===uid))drawRevision=revision;
         }
       }
       motionRevision = revision;
@@ -228,7 +236,7 @@
   const showResults=$derived(game.turn.phase==='finished'&&resultsOpen);
   $effect(()=>{if(game.turn.phase==='finished')untrack(()=>{resultsOpen=!modal;});});
   async function leaveResults(chronicle=false){resultsOpen=false;await tick();document.querySelector<HTMLButtonElement>('.final-control button')?.focus();if(chronicle)await open('chronicle');}
-  const ready = $derived(status === 'synced' && !busy && !automated && settledRevision >= Math.max(drawRevision, choiceRevision));
+  const ready = $derived(status === 'synced' && !busy && !automated && handoffSettled>=handoffRevision && settledRevision >= Math.max(drawRevision, choiceRevision));
   const automaticTreasures = $derived(game.phase === 'playing' && turnUid === uid && game.turn.phase === 'actions' && !choice && !game.turn.queue.length && !own.hand.some(card => canPlayAction(game, uid, card.id)));
   let automaticPhaseRevision = -1;
   $effect(() => {
@@ -328,12 +336,12 @@
         {#each opponents as id}
           <div data-public-zone="seat" data-public-uid={id} class="opponent" data-testid="opponent" class:first={id === turnUid}>
             <button data-public-zone="leader" data-public-uid={id} data-public-card={game.leaders[id]} class="opponent-portrait" class:blessed={latestMoves.some(move => move.kind === 'leader' && move.uid === id)} aria-label={`Inspect ${nameOf(id)}’s leader, ${leaderLinks(game.leaders[id]).leader.name}`} onclick={()=>inspect(game.leaders[id])}><Portrait leader={game.leaders[id]} name={nameOf(id)} active={id === turnUid} points={liveScores[id]} /></button>
-            <div class="opponent-deck" data-public-zone="deck" data-public-uid={id}><ResourceIcon resource="cards" value={game.decks[id].deck.length} label={`${nameOf(id)}’s deck: ${game.decks[id].deck.length} cards`}/></div>
+            <div class="opponent-deck" data-public-zone="deck" data-public-uid={id}><ResourceIcon resource="cards" pending={pilePending(id,'deck')} value={game.decks[id].deck.length} label={`${nameOf(id)}’s deck: ${game.decks[id].deck.length} cards`}/></div>
             <div data-public-zone="hand" data-public-uid={id} class="hidden-hand" aria-label={`${nameOf(id)} has ${game.decks[id].hand.length} cards in hand`}>
               {#each presentedHand(id).slice(0, 5) as _, index}<img data-motion-key={`hidden:${id}:${index}`} data-motion-zone="hand" data-motion-uid={id} src={`${base}/assets/backs/back-deck-icon.webp`} alt="Card back" style:--index={index} draggable="false" in:dealBack|global={index} />{/each}
               {#if game.decks[id].hand.length > 5}<span class="hand-count">{game.decks[id].hand.length}</span>{/if}
             </div>
-            <button data-public-zone="discard" data-public-uid={id} class="opponent-discard" aria-label={`Inspect ${nameOf(id)}’s discard pile, ${(game.decks[id].discard.length-purchases[id].length)} cards`} onclick={() => inspectZone(id, 'discard', `${nameOf(id)}’s discard`)}><ResourceIcon resource="discard" value={(game.decks[id].discard.length-purchases[id].length)} label={`${nameOf(id)}’s discard: ${(game.decks[id].discard.length-purchases[id].length)} cards`}/></button>
+            <button data-public-zone="discard" data-public-uid={id} class="opponent-discard" aria-label={pilePending(id,'discard') ? `Inspect ${nameOf(id)}’s discard pile, cards moving` : `Inspect ${nameOf(id)}’s discard pile, ${(game.decks[id].discard.length-purchases[id].length)} cards`} onclick={() => inspectZone(id, 'discard', `${nameOf(id)}’s discard`)}><ResourceIcon resource="discard" pending={pilePending(id,'discard')} value={(game.decks[id].discard.length-purchases[id].length)} label={`${nameOf(id)}’s discard: ${(game.decks[id].discard.length-purchases[id].length)} cards`}/></button>
           </div>
         {/each}
       </section>
@@ -347,7 +355,7 @@
       <button data-public-zone="leader" data-public-uid={uid} data-public-card={game.leaders[uid]} class="own-leader" class:blessed={latestMoves.some(move => move.kind === 'leader' && move.uid === uid)} aria-label={`Inspect your leader, ${leaderLinks(game.leaders[uid]).leader.name}`} onclick={() => inspect(game.leaders[uid])}><div class="leader-face"><CardFace card={leaderLinks(game.leaders[uid]).leader} players={game.playerCount} points={liveScores[uid]} /></div><div class="leader-portrait"><Portrait leader={game.leaders[uid]} name={leaderLinks(game.leaders[uid]).leader.name.split(',')[0]} active={uid === turnUid} points={liveScores[uid]} /></div></button>
 
       </aside>
-      <div data-public-zone="deck" data-public-uid={uid} class="deck-pile"><ResourceIcon resource="cards" value={own.deck.length} label={`Your deck: ${own.deck.length} cards`} /></div>
+      <div data-public-zone="deck" data-public-uid={uid} class="deck-pile"><ResourceIcon resource="cards" pending={pilePending(uid,'deck')} value={own.deck.length} label={`Your deck: ${own.deck.length} cards`} /></div>
       {#if observing && !modal && !showResults && (observedTemple || observedChoice)}
         {#key observedTemple??observedChoice?.id}<ObservedInteraction bind:this={observedInteraction} {game} temple={observedTemple} choice={observedChoice} {reduced}/>{/key}
       {/if}
@@ -378,7 +386,7 @@
         </div>
 
       </aside>
-      <button inert={!!drawer} data-public-zone="discard" data-public-uid={uid} class="discard-pile" aria-label={`Inspect your discard pile: ${(own.discard.length-purchases[uid].length)} cards`} onclick={() => inspectZone(uid, 'discard', 'Your discard')}><ResourceIcon resource="discard" value={own.discard.length-purchases[uid].length} label={`Your discard: ${own.discard.length-purchases[uid].length} cards`} /></button>
+      <button inert={!!drawer} data-public-zone="discard" data-public-uid={uid} class="discard-pile" aria-label={pilePending(uid,'discard') ? 'Inspect your discard pile: cards moving' : `Inspect your discard pile: ${(own.discard.length-purchases[uid].length)} cards`} onclick={() => inspectZone(uid, 'discard', 'Your discard')}><ResourceIcon resource="discard" pending={pilePending(uid,'discard')} value={own.discard.length-purchases[uid].length} label={`Your discard: ${own.discard.length-purchases[uid].length} cards`} /></button>
       <div bind:clientWidth={playAreaWidth} data-public-zone="play" data-public-uid={turnUid} class="play-area" inert={!!inlineChoice || worshipVisible || !!drawer} aria-label="Active play area">
         {#if tablePlay.length}
           <div class="played-cards" class:with-purchases={separatePurchases} style:--played-count={tablePlay.length}>
@@ -418,7 +426,7 @@
   {/if}
 </dialog>
 {#if modal === 'chronicle' || modal === 'zone'}<PublicTable {game} {uid} initialTab={modal === 'zone' ? zone!.kind : 'chronicle'} owner={modal === 'zone' ? zone!.uid : uid} {close}/>{/if}
-<PublicMotion prepareActivity={preparePublicActivity} {uid} {openDraw} previousLayout={()=>motionBefore} {game} {status} {reduced} {onSettled} onFlightsSettled={flightsSettled} localChoices={localChoices} visible={(!modal || worshipVisible) && !supplyWarning && !showResults}/>
+<PublicMotion {onReady} onTurnReady={turnReady} prepareActivity={preparePublicActivity} {uid} {openDraw} previousLayout={()=>motionBefore} {game} {status} {reduced} {onSettled} onFlightsSettled={flightsSettled} localChoices={localChoices} visible={(!modal || worshipVisible) && !supplyWarning && !showResults}/>
 
 
 

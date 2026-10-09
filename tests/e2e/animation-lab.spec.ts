@@ -2,6 +2,79 @@ import { observeDraws, waitForDraws, drawFrames } from './helpers/draw-observer'
 import { expect, test } from '@playwright/test';
 import { browseSupply } from './helpers/supply-controls';
 import { browseChoice } from './helpers/table-controls';
+import { CLEANUP_DRAW_MOTION } from '../../src/lib/components/play/motion';
+
+test('cleanup hides future pile counts and redeals at twice the ordinary draw speed', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'no-preference' });
+  await page.goto('./dev/animations/?scenario=shuffle');
+  const trigger=page.getByRole('button',{name:'Trigger',exact:true});
+  await expect(trigger).toBeEnabled();
+  await observeDraws(page);
+  await page.evaluate(()=>{
+    const audit=window as unknown as {cleanupRevealDurations:number[]};audit.cleanupRevealDurations=[];
+    const animate=Element.prototype.animate;
+    Element.prototype.animate=function(frames,options){
+      if(this.matches('.public-flight[data-draw-phase="reveal"]'))audit.cleanupRevealDurations.push(Number(typeof options==='number'?options:options?.duration));
+      return animate.call(this,frames,options);
+    };
+  });
+  await trigger.click();
+  await expect(page.locator('.public-flight[data-motion-kind="cleanup"]').first()).toBeVisible();
+  for(const pile of ['.deck-pile','.discard-pile']) {
+    await expect(page.locator(`${pile} [data-count-pending]`)).toHaveCount(1);
+    await expect(page.locator(`${pile} .resource-number`)).toHaveCount(0);
+    await expect(page.locator(`${pile} [role="img"]`)).toHaveAttribute('aria-label',/cards moving$/);
+  }
+  await expect(page.locator('.public-flight[data-motion-kind="cleanup"]')).toHaveCount(0);
+  await expect(page.locator('.public-flight[data-motion-kind="shuffle"]')).toBeVisible();
+  await expect(page.locator('.public-flight[data-motion-kind="shuffle"]')).toHaveCount(0);
+  for(const count of [1,2,3,4,5])await waitForDraws(page,count);
+  expect(await page.evaluate(()=>(window as unknown as {cleanupRevealDurations:number[]}).cleanupRevealDurations)).toEqual(Array(5).fill(CLEANUP_DRAW_MOTION.reveal));
+  await expect(page.locator('.public-flight')).toHaveCount(0);
+  await expect(page.locator('[data-count-pending]')).toHaveCount(0);
+  await expect(page.locator('.deck-pile .resource-number')).toHaveCount(1);
+  await expect(page.locator('.discard-pile .resource-number')).toHaveCount(1);
+  await expect(page.locator('.hand')).toHaveAttribute('data-hand-total','5');
+});
+
+test('the next player can play while the outgoing cleanup hand is still being dealt', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion:'no-preference' });
+  await page.goto('./dev/animations/?scenario=cleanup&observer=true');
+  await expect(page.getByRole('button',{name:'Trigger',exact:true})).toBeEnabled();
+  await page.evaluate(()=>{
+    const audit=window as unknown as {overlappedTurns:boolean};audit.overlappedTurns=false;
+    new MutationObserver(()=>{
+      if(document.querySelector('.public-flight[data-motion-kind="draw"]') && document.querySelector('.public-flight[data-motion-kind="play"]'))audit.overlappedTurns=true;
+    }).observe(document.body,{subtree:true,childList:true});
+  });
+  await page.getByRole('button',{name:'Trigger',exact:true}).click();
+  await expect(page.locator('.public-flight[data-motion-kind="cleanup"]').first()).toBeVisible();
+  await expect(page.locator('.public-flight[data-motion-kind="cleanup"]')).toHaveCount(0);
+  await expect(page.locator('.public-flight[data-motion-kind="draw"]').first()).toBeVisible();
+  const play=page.getByRole('button',{name:'Play all Treasures',exact:true});
+  await expect(play).toBeEnabled();
+  await play.click();
+  await expect.poll(()=>page.evaluate(()=>(window as unknown as {overlappedTurns:boolean}).overlappedTurns)).toBe(true);
+  await expect(page.locator('.public-flight')).toHaveCount(0);
+  await expect(page.locator('[data-count-pending]')).toHaveCount(0);
+  await expect(page.locator('.played-card')).toHaveCount(4);
+  await expect(page.getByRole('button',{name:'End turn',exact:true})).toBeEnabled();
+});
+
+test('reducing motion during cleanup restores pile totals and releases the handoff',async({page})=>{
+  await page.emulateMedia({reducedMotion:'no-preference'});
+  await page.goto('./dev/animations/?scenario=cleanup&observer=true');
+  await expect(page.getByRole('button',{name:'Trigger',exact:true})).toBeEnabled();
+  await page.getByRole('button',{name:'Trigger',exact:true}).click();
+  await expect(page.locator('.public-flight[data-motion-kind="cleanup"]').first()).toBeVisible();
+  await expect(page.locator('.public-flight[data-motion-kind="cleanup"]')).toHaveCount(0);
+  await expect(page.locator('.public-flight[data-motion-kind="draw"]').first()).toBeVisible();
+  await page.emulateMedia({reducedMotion:'reduce'});
+  await expect(page.locator('.public-flight')).toHaveCount(0);
+  await expect(page.locator('[data-count-pending]')).toHaveCount(0);
+  await expect(page.getByRole('button',{name:'Play all Treasures',exact:true})).toBeEnabled();
+  await expect(page.getByRole('button',{name:'Replay',exact:true})).toBeEnabled();
+});
 
 test('draw reveals overlap earlier landings but open only one slot at a time', async ({ page }) => {
   await page.emulateMedia({ reducedMotion: 'no-preference' });
