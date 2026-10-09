@@ -9,6 +9,14 @@ import {browseSupply} from '../helpers/supply-controls';
 test('buy from one cost-sorted coverflow and warn before skipping playable Actions',async({page},info)=>{
   const fixture=await actionTable(page,info,'temple-of-athena','thaleia');
   const steps=new TestStepHelper(page,info,'Browse and buy on the table');
+  async function expectOnlyBrowsing(){
+    const events=await readEvents(fixture.code);
+    expect(events.slice(0,fixture.events.length)).toEqual(fixture.events);
+    expect(events.slice(fixture.events.length).every(event=>event.type==='market/browsed')).toBe(true);
+    const before=replaySetup(fixture.events),after=replaySetup(events);
+    expect({decks:after.decks,supply:after.supply,resources:after.resources}).toEqual({decks:before.decks,supply:before.supply,resources:before.resources});
+    expect(after.turn.marketFocus?.cardId).toBe(await page.locator('.buy-card[data-centered=true]').getAttribute('data-supply-id'));
+  }
   await steps.step('supply','The complete supply is already on the table',[{spec:'Every pile stays mounted beside the hand, with no Supply button, page selector, or purchase screen.',check:async()=>{
     await expect(page.getByRole('button',{name:'Supply',exact:true})).toHaveCount(0);
     await expect(page.getByRole('navigation',{name:'Supply pages'})).toHaveCount(0);
@@ -23,10 +31,10 @@ test('buy from one cost-sorted coverflow and warn before skipping playable Actio
   await expect(page.locator('.supply-coverflow')).toHaveAttribute('aria-busy','true');
   await page.mouse.up();
   await expect(page.locator('.supply-coverflow')).toHaveAttribute('aria-busy','false');
-  expect(await readEvents(fixture.code)).toEqual(fixture.events);
+  await expectOnlyBrowsing();
   await browseSupply(page,'Obol');
   await browseSupply(page,'Hamlet');
-  expect(await readEvents(fixture.code)).toEqual(fixture.events);
+  await expectOnlyBrowsing();
   await browseSupply(page,'Obol');
   const originalFaces=await page.locator('.supply-face').elementHandles();
   const touch=await page.context().newCDPSession(page),box=(await page.getByRole('button',{name:'Buy Obol',exact:true}).boundingBox())!;
@@ -35,16 +43,17 @@ test('buy from one cost-sorted coverflow and warn before skipping playable Actio
   await touch.send('Input.dispatchTouchEvent',{type:'touchMove',touchPoints:[{x:point.x-60,y:point.y}]});
   await touch.send('Input.dispatchTouchEvent',{type:'touchEnd',touchPoints:[]});
   await expect(page.locator('.supply-coverflow')).toHaveAttribute('aria-busy','false');
-  expect(await readEvents(fixture.code)).toEqual(fixture.events);
+  await expectOnlyBrowsing();
   for(const face of originalFaces)expect(await face.evaluate(node=>node.isConnected)).toBe(true);
   await touch.detach();await browseSupply(page,'Obol');
   await page.getByRole('button',{name:'Buy Obol',exact:true}).click();
-  await steps.step('warning','Buying warns about a playable Action',[{spec:'The framed warning names the remaining Action and commits no purchase.',check:async()=>{await expect(page.getByRole('dialog',{name:'Skip playable Actions?'})).toContainText('Temple of Athena');expect(await readEvents(fixture.code)).toEqual(fixture.events);}}]);
+  await steps.step('warning','Buying warns about a playable Action',[{spec:'The framed warning names the remaining Action and commits no purchase.',check:async()=>{await expect(page.getByRole('dialog',{name:'Skip playable Actions?'})).toContainText('Temple of Athena');await expectOnlyBrowsing();}}]);
   await page.getByRole('button',{name:'Keep playing',exact:true}).click();
   await expect(page.locator('dialog:modal')).toHaveCount(0);
   await page.getByRole('button',{name:'Buy Obol',exact:true}).click();
+  const beforePurchase=await readEvents(fixture.code);
   await page.getByRole('button',{name:'Buy Obol now',exact:true}).click();
-  await steps.step('bought','A purchase stays on the same table',[{spec:'One purchase enters Buys while the hand, supply, and turn controls stay visible.',check:async()=>{await expect(page.locator('.resources [data-resource=buys]')).toHaveAttribute('data-value','0');await expect(page.locator('dialog:modal')).toHaveCount(0);await expect(page.locator('.hand')).toBeVisible();await expect(page.getByRole('button',{name:'End turn',exact:true})).toBeVisible();const events=await readEvents(fixture.code);expect(events.slice(fixture.events.length).map(event=>event.type)).toEqual(['card/bought']);expect(replaySetup(events).turn.phase).toBe('buys');}}]);
+  await steps.step('bought','A purchase stays on the same table',[{spec:'One purchase enters Buys while the hand, supply, and turn controls stay visible.',check:async()=>{await expect(page.locator('.resources [data-resource=buys]')).toHaveAttribute('data-value','0');await expect(page.locator('dialog:modal')).toHaveCount(0);await expect(page.locator('.hand')).toBeVisible();await expect(page.getByRole('button',{name:'End turn',exact:true})).toBeVisible();const events=await readEvents(fixture.code);expect(events.slice(beforePurchase.length).map(event=>event.type)).toEqual(['card/bought']);expect(replaySetup(events).turn.phase).toBe('buys');}}]);
   if(info.project.name==='phone'){
     await page.setViewportSize({width:852,height:393});
     await steps.step('landscape','Buy on a short landscape table',[{spec:'Supply, hand, and resources remain together without a screen transition.',check:async()=>{await expect(page.locator('.buy-card[data-centered=true]')).toHaveCount(1);await expect(page.locator('.hand')).toBeVisible();}}]);

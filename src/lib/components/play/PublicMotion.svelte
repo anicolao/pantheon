@@ -281,7 +281,12 @@
           if(token!==generation)break;
           const batch=[entry[index++]];
           if(['play','draw','cleanup'].includes(batch[0].step.kind)){
-            while(index<entry.length&&entry[index].step.kind===batch[0].step.kind)batch.push(entry[index++]);
+            while(index<entry.length&&entry[index].step.kind===batch[0].step.kind){
+              const previousIndex=queued.activity.steps.findIndex(step=>step.id===batch.at(-1)!.step.id);
+              const nextIndex=queued.activity.steps.findIndex(step=>step.id===entry[index].step.id);
+              if(queued.activity.steps.slice(previousIndex+1,nextIndex).some(step=>step.kind==='leader'))break;
+              batch.push(entry[index++]);
+            }
           }
           if(batch[0].step.kind==='draw') {
             const landing:Promise<void>[]=[];

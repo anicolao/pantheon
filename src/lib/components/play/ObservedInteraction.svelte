@@ -28,7 +28,9 @@
     return {duration:reduced?0:motionDuration(300),easing:cubicOut,css:(t:number)=>`transform:translate(${x*(1-t)}px,${y*(1-t)}px) scale(${scale+(1-scale)*t});opacity:${t};`};
   }
   function fromHand(node:HTMLElement){
-    const hand=document.querySelector<HTMLElement>(`[data-public-zone="hand"][data-public-uid="${actor}"]`)?.getBoundingClientRect(),end=node.getBoundingClientRect();
+    let hand=document.querySelector<HTMLElement>(`[data-public-zone="hand"][data-public-uid="${actor}"]`)?.getBoundingClientRect();
+    if(!hand || hand.left<0 || hand.right>innerWidth)hand=document.querySelector<HTMLElement>('[aria-controls="player-drawer"]')?.getBoundingClientRect();
+    const end=node.getBoundingClientRect();
     return {duration:reduced?0:motionDuration(300),easing:cubicOut,css:(t:number)=>`transform:translate(${hand?(hand.x-end.x)*(1-t):0}px,${hand?(hand.y-end.y)*(1-t):0}px);opacity:${t};`};
   }
 </script>
