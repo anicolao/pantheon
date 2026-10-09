@@ -33,7 +33,7 @@
   let selectedTemple=$state(''), templeBusy=$state(false), templeSource=$state<HTMLElement>(), templeOverlay=$state<TabletopWorship>(), templeOpened:(()=>void)|undefined;
   let board = $state<HTMLElement>(), rotation = $state(0), moving = $state(false), working = $state(false);
   let interaction=$state<InlineChoice>(),interactionBusy=$state(false),localChoices=$state<string[]>([]);
-  let targets = $state<string[]>([]), inspected = $state(''), confirmReset = $state(false);
+  let targets = $state<string[]>([]), inspected = $state(''), confirmReset = $state<Edge | null>(null);
   let pending = $state<GameCommand | null>(null), pendingText = $state('');
   let readers = $state<Record<Edge, 'chronicle' | 'trash' | null>>({south:null,west:null,north:null,east:null});
   const reading = $derived(Object.values(readers).some(Boolean));
@@ -59,7 +59,7 @@
   const templeDock=$derived(horizontal/unit>=130?'right':vertical/unit>=130?'top':'inline');
   const cardWidth=$derived(unit*(templeDock==='inline'?15:17));
   const tableWidth=$derived(Math.max(58*unit,Math.min(150*unit,horizontal-(templeDock==='right'?56:30)*unit)));
-  const ready = $derived(mounted && !moving && !working && !animating && !exitEdge && !finished && !templeBusy);
+  const ready = $derived(mounted && !moving && !working && !animating && !exitEdge && !confirmReset && !finished && !templeBusy);
   const choice = $derived(game?.turn.choice);
   const inlineChoice=$derived(choice&&choice.kind!=='gain'&&!animating&&!templeBusy?choice:null);
   const scores = $derived(game?.phase === 'playing' ? standings(game) : []);
@@ -95,10 +95,11 @@
     catch { error = 'This browser could not save the table. Keep this tab open to continue.'; }
   }
   function seatMode(edge: Edge, mode: Seat['mode']) { table = occupy(table, edge, mode); save(); }
+  function requestNewTable(edge:Edge) { if(finished)newTable();else confirmReset=edge; }
   function newTable() {
     generation++; request++; worker?.terminate(); worker = undefined;
     flightsSettled(); displayedUid=''; exitEdge=null; selectedTemple='';templeBusy=false;templeOpened?.();
-    table = freshTable(); targets = [];localChoices=[];interactionBusy=false; inspected = ''; pending = null; confirmReset = false;
+    table = freshTable(); targets = [];localChoices=[];interactionBusy=false; inspected = ''; pending = null; confirmReset = null;
     rotation = 0; readers={south:null,west:null,north:null,east:null}; readerCards={}; moving = false; working = false; error = ''; save();
   }
   function playAgain() {
@@ -279,7 +280,7 @@
       {/each}
       <p class="setup-note">{table.randomize ? 'Choose player 1 at random. Draft in reverse; play clockwise.' : 'Keep your leaders. Last to join goes first; play in reverse join order.'}</p>
     {:else if finished}
-      <TabletopVictory {game} again={playAgain}/>
+      <TabletopVictory {game} again={playAgain} fresh={newTable}/>
     {:else if game.phase === 'draft'}
       <div class="draft"><p class="eyebrow">{playerName(uid)} chooses · {human ? 'Tap your bloodline' : 'Bot is choosing'}</p><h1>Choose your leader</h1><p>Play starts at {playerName(game.turnOrder[0])}, then goes clockwise.</p>
         <div class="draft-leaders">{#each leaderIds as leader}<button disabled={!ready || !human || Object.values(game.leaders).includes(leader)} aria-label={`Choose ${definition(leader).name.split(',')[0]}`} onclick={()=>send({type:'leader/chosen',leaderId:leader})}><CardFace card={definition(leader)} players={game.playerCount}/></button>{/each}</div>
@@ -304,8 +305,7 @@
     {#if inlineChoice && game}{#key inlineChoice.id}<div class="choice-stage"><InlineChoice bind:this={interaction} {game} {uid} choice={inlineChoice} ready={ready&&human} {error} {reduced} {rotation} autoConfirm={false} homeSelector={`[data-public-zone="${inlineChoice.kind==='trash'?'trash':'discard'}"][data-public-uid="${uid}"] [data-resource="${inlineChoice.kind}"]`} command={send} bind:targets bind:busy={interactionBusy} handled={id=>localChoices=[...localChoices.slice(-15),id]}/></div>{/key}{/if}
     {#if selectedTemple && game}<TabletopWorship covered={!!inlineChoice} bind:this={templeOverlay} {game} {uid} cardId={selectedTemple} {rotation} source={templeSource} selectedCount={targets.length} resolve={()=>resolve()} ready={ready&&human} busy={templeBusy||working||animating} submit={()=>send({type:'god/worshipped',cardId:selectedTemple})} close={()=>selectedTemple=''} onOpened={()=>{templeOpened?.();templeOpened=undefined;}}/>{/if}
     {#if inspected}<div class="inspection"><CardFace card={definition(inspected)} players={game?.playerCount??4}/><button class="primary" onclick={()=>inspected=''}>Return to table</button></div>{/if}
-    {#if confirmReset}<div class="reset-confirm"><p>Finish this table and start a new one?</p><button onclick={newTable}>New table</button><button onclick={()=>confirmReset=false}>Keep playing</button></div>{/if}
-    {#if error}<div class="error" role="alert">{error}{#if activeSeat?.mode==='bot'}<button onclick={()=>{worker?.terminate();worker=undefined;error='';working=false;}}>Continue bot turn</button>{/if}<button onclick={()=>confirmReset=true}>New table</button></div>{/if}
+    {#if error}<div class="error" role="alert">{error}{#if activeSeat?.mode==='bot'}<button onclick={()=>{worker?.terminate();worker=undefined;error='';working=false;}}>Continue bot turn</button>{/if}<button onclick={()=>requestNewTable(activeSeat?.edge??'south')}>New game</button></div>{/if}
   </section>
   </div>
   {#each edges as edge, index}
@@ -320,7 +320,7 @@
       <aside class="reader-dock" data-reader-edge={edge} data-reader-kind={readers[edge]} style:--reader-angle={`${index*90}deg`} style:--reader-top={`${readers.east ? 28 : 0}vmin`} style:--reader-right={`${readers.south ? 28 : 0}vmin`} style:--reader-bottom={`${readers.west ? 28 : 0}vmin`} style:--reader-left={`${readers.north ? 28 : 0}vmin`} aria-label={`${readers[edge]==='chronicle'?'Chronicle':'Trash'} for ${playerName(seatUid(edge))}`}>
         <div class="reader-panel">
           <header><h2>{readers[edge]==='chronicle'?'Chronicle':`Trash · ${game.trash.length}`}</h2><button aria-label={`Close ${readers[edge]==='chronicle'?'Chronicle':'Trash'} for ${playerName(seatUid(edge))}`} onclick={()=>toggleReader(edge,readers[edge]!)}>×</button></header>
-          {#if readers[edge]==='chronicle'}<ol class="reader-scroll chronicle">{#each game.activity.slice().reverse() as entry}<li>{message(entry.message)}</li>{/each}</ol>
+          {#if readers[edge]==='chronicle'}<button class="new-game" onclick={()=>requestNewTable(edge)}>New game</button><ol class="reader-scroll chronicle">{#each game.activity.slice().reverse() as entry}<li>{message(entry.message)}</li>{/each}</ol>
           {:else}<div class="reader-scroll trash-reader">
             {#if readerCards[edge]}<button onclick={()=>delete readerCards[edge]}>All trashed cards</button><CardFace card={definition(readerCards[edge]!)} players={game.playerCount}/>
             {:else if !game.trash.length}<p>No cards have been trashed.</p>
@@ -330,6 +330,7 @@
       </aside>
     {/if}
   {/each}
+  {#if confirmReset}<div class="exit-shade" aria-hidden="true"></div><div class="exit-confirm" tabindex="-1" role="dialog" aria-modal="true" aria-label="Start a new game?" data-reset-edge={confirmReset} style:transform={`translate(-50%,-50%) rotate(${edges.indexOf(confirmReset)*90}deg)`}><h2>Start a new game?</h2><p>This replaces the saved game and clears all seats. Everyone can choose a leader again.</p><button onclick={newTable}>New game</button><button class="primary" onclick={()=>confirmReset=null}>Keep playing</button></div>{/if}
   {#if exitEdge}<div class="exit-shade" aria-hidden="true"></div><div class="exit-confirm" tabindex="-1" role="dialog" aria-modal="true" aria-label="Leave the table?" data-exit-edge={exitEdge} style:transform={`translate(-50%,-50%) rotate(${edges.indexOf(exitEdge)*90}deg)`}><h2>Leave the table?</h2><p>Your game is saved in this browser.</p><button onclick={closeWindow}>Exit</button><button class="primary" onclick={()=>exitEdge=null}>Keep playing</button></div>{/if}
   {#if closeNotice}<p class="close-notice" role="status">If your browser keeps this window open, close its tab to leave.</p>{/if}
   {#if game?.phase==='playing'}<PublicMotion {localChoices} drawCardWidth={cardWidth} preserveFacing skipCleanupDeal {layoutRevision} {game} {uid} {openDraw} previousLayout={()=>motionBefore} status="synced" {reduced} visible={true} onFlightsSettled={flightsSettled}/>{/if}
@@ -361,7 +362,7 @@
   .market{height:23cqmin;flex-shrink:0;width:100%;}.temples{height:8.5cqmin;display:flex;align-items:center;justify-content:center;gap:1cqmin;}.temples button{width:10cqmin;padding:0;background:none;border:0;}.play-area{height:17cqmin;display:flex;justify-content:center;align-items:center;gap:3cqmin;position:relative;}.played,.purchased{position:relative;flex:var(--count) 1 0;min-width:var(--card-width);max-width:calc(var(--card-width) * (1 + (var(--count) - 1)*1.04));height:calc(var(--card-width)*1.4);--step:calc((100% - var(--card-width))/max(1,var(--count) - 1));}.played:empty,.purchased:empty{display:none;}.table-card,.played button,.purchased button{position:absolute;left:calc(var(--index)*var(--step));top:0;}.table-card{width:var(--card-width);z-index:calc(var(--index)*2);pointer-events:none;}.played button,.purchased button{width:var(--step);height:100%;z-index:calc(var(--index)*2 + 1);padding:0;border:0;background:none;}.played button:last-child,.purchased button:last-child{width:var(--card-width);}.reveal-anchor{position:absolute;width:var(--card-width);height:calc(var(--card-width)*1.4);pointer-events:none;}.empty-play{font:2.3cqmin 'Cormorant Garamond',serif;color:#dfc18a66;}.table-message{position:absolute;bottom:0;left:0;right:0;z-index:4;background:#091b25ee;border-radius:1cqmin;height:5.5cqmin;text-align:center;font-size:1.1cqmin;line-height:1.3;}.table-message button{min-height:2.8cqmin;font-size:1.1cqmin;padding:.4cqmin .8cqmin;}.table-message p{margin:.2cqmin 1cqmin;}.choice-instruction{color:#ffe69e;}
   .shared-table:has(.welcome){width:58cqmin;height:58cqmin;margin:-29cqmin 0 0 -29cqmin;transform:none;}
   .draft{padding:7cqmin 4cqmin;text-align:center;font-size:1.3cqmin;}.draft-leaders{display:grid;grid-template-columns:1fr 1fr;gap:1.5cqmin;margin:2cqmin 0;}.draft-leaders button{border:0;padding:0;background:none;}.draft-leaders button:disabled{opacity:.4;}
-  .inspection,.reset-confirm,.error{position:absolute;z-index:10;left:7%;top:10%;width:86%;padding:2cqmin;border:1px solid var(--gold);border-radius:2cqmin;background:#091b25f5;box-sizing:border-box;text-align:center;font-size:1.5cqmin;}.inspection{width:45%;left:27.5%;top:5%;}.inspection button{margin-top:1cqmin;}.error{top:38%;color:#ffd19b;}.reset-confirm{top:38%;}.reset-confirm button,.error button{margin:1cqmin;}
+  .inspection,.error{position:absolute;z-index:10;left:7%;top:10%;width:86%;padding:2cqmin;border:1px solid var(--gold);border-radius:2cqmin;background:#091b25f5;box-sizing:border-box;text-align:center;font-size:1.5cqmin;}.inspection{width:45%;left:27.5%;top:5%;}.inspection button{margin-top:1cqmin;}.error{top:38%;color:#ffd19b;}.error button{margin:1cqmin;}
   .edge{transition:width 400ms ease-out,height 400ms ease-out,top 400ms ease-out,left 400ms ease-out;}.table-hand,.leader{transition:width 400ms ease-out,height 400ms ease-out;}
   .edge.inactive{width:43cqmin;height:12cqmin;--edge-inset:6.5cqmin;--card-width:6.5cqmin;}.edge.inactive .table-hand{height:9.1cqmin;}.edge.inactive .leader,.edge.inactive .leader-status{width:6cqmin;}.edge.inactive .edge-controls{height:2cqmin;}.edge.inactive .edge-line{gap:1cqmin;}
   .corner-controls{position:absolute;z-index:12;display:flex;align-items:center;gap:1cqmin;transform:rotate(var(--corner-angle));transform-origin:calc(100% - 2.25cqmin) 2.25cqmin;}.corner-controls[data-corner=south]{right:1cqmin;bottom:1cqmin;}.corner-controls[data-corner=west]{right:calc(100% - 5.5cqmin);bottom:1cqmin;}.corner-controls[data-corner=north]{right:calc(100% - 5.5cqmin);top:1cqmin;}.corner-controls[data-corner=east]{right:1cqmin;top:1cqmin;}.exit{font-size:3cqmin;width:4.5cqmin;height:4.5cqmin;padding:0;}.exit-shade{position:absolute;inset:0;background:#0009;z-index:29;}.exit-confirm{position:absolute;z-index:30;left:50%;top:50%;width:40cqmin;background:#091b25;border:1px solid var(--gold);border-radius:2cqmin;padding:3cqmin;text-align:center;box-shadow:0 1cqmin 4cqmin #000b;}.exit-confirm button{margin:1cqmin;}.close-notice{position:absolute;bottom:0;left:25%;width:50%;text-align:center;z-index:40;background:#091b25;}

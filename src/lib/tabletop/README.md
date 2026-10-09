@@ -7,7 +7,7 @@ Open `/pantheontt/` on a large shared display (locally, `http://localhost:5193/p
 - Each hand stays at its physical edge. Only the active hand faces up and accepts input. The market, temples, status, and play area turn toward that player; controls wait for the actual rotation to finish.
 - Tap to play or buy; long-press/right-click a hand or market card to inspect it. Worship and card choices use the shared table and active hand. The market accepts swipes in the current player's orientation.
 
-This is a local shared-screen game, saved automatically in this browser under `pantheon-tabletop-v1`. Reload resumes it; **New table** resets it after confirmation. It does not create a network room or synchronize separate devices. The ordinary network game remains at `/play/`.
+This is a local shared-screen game, saved automatically in this browser under `pantheon-tabletop-v1`. Reload resumes it; **New game** in any edge’s Chronicle resets it after confirmation. The victory screen also offers **New game** to choose seats and leaders again, alongside **Rematch**, which keeps the seats. It does not create a network room or synchronize separate devices. The ordinary network game remains at `/play/`.
 
 `table.ts` creates and appends ordinary game events and validates them through the existing reducer. The preset order adapter compensates for the reducer's seeded first-player rotation by ordering the creation events, without overriding game state. Bots use the production table worker. Game rules, event schemas, and backend authorization are unchanged.
 

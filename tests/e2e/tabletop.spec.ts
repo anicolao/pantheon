@@ -132,10 +132,26 @@ test('tabletop exits face the tapped edge and leader names identify the log',asy
     expect(await page.getByRole('dialog',{name:'Leave the table?',exact:true}).evaluate(node=>{const m=new DOMMatrixReadOnly(getComputedStyle(node).transform);return [m.a,m.b,m.c,m.d];})).toEqual(expected);
     await expect(page.locator('html')).not.toHaveAttribute('data-close-requested','true');
     await page.getByRole('button',{name:'Keep playing',exact:true}).click();
+    const saved=await page.evaluate(()=>localStorage.getItem('pantheon-tabletop-v1'));
+    await page.getByRole('button',{name:`Chronicle for ${names[edge]}`,exact:true}).click();
+    await page.getByRole('button',{name:'New game',exact:true}).click();
+    const reset=page.getByRole('dialog',{name:'Start a new game?',exact:true});
+    await expect(reset).toHaveAttribute('data-reset-edge',edge);
+    expect(await reset.evaluate(node=>{const m=new DOMMatrixReadOnly(getComputedStyle(node).transform);return [m.a,m.b,m.c,m.d];})).toEqual(expected);
+    await reset.getByRole('button',{name:'Keep playing',exact:true}).click();
+    expect(await page.evaluate(()=>localStorage.getItem('pantheon-tabletop-v1'))).toBe(saved);
+    await page.getByRole('button',{name:`Close Chronicle for ${names[edge]}`,exact:true}).click();
   }
   await page.getByRole('button',{name:'Exit from Nereon edge',exact:true}).click();
   await page.getByRole('button',{name:'Exit',exact:true}).click();
   await expect(page.locator('html')).toHaveAttribute('data-close-requested','true');
+  await page.getByRole('button',{name:'Chronicle for Nereon',exact:true}).click();
+  await page.getByRole('button',{name:'New game',exact:true}).click();
+  await page.getByRole('dialog',{name:'Start a new game?',exact:true}).getByRole('button',{name:'New game',exact:true}).click();
+  await expect(page.getByRole('button',{name:/^Join /})).toHaveCount(4);
+  expect(JSON.parse((await page.evaluate(()=>localStorage.getItem('pantheon-tabletop-v1')))!)).toEqual(freshTable());
+  await page.reload();
+  await expect(page.getByRole('button',{name:/^Join /})).toHaveCount(4);
 });
 
 test('tabletop bot cards visibly fly before the next command',async({page},info)=>{
