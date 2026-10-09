@@ -3,7 +3,7 @@
   import { standings, definition } from '$lib/game/actions';
   import type { SetupState } from '$lib/game/setup';
   import ResourceIcon from '../ResourceIcon.svelte';
-  let {game,again}:{game:SetupState;again:()=>void}=$props();
+  let {game,again,fresh}:{game:SetupState;again:()=>void;fresh:()=>void}=$props();
   const scores=$derived(standings(game));
   const metals=['gold','silver','bronze','lead'];
   const placements=$derived(scores.map(score=>scores.findIndex(other=>other.score===score.score&&other.turns===score.turns)));
@@ -30,6 +30,8 @@
     <h1>{winners} {scores.filter(score=>score.winner).length===1?'wins':'share victory'}</h1>
     <button class="rematch" onclick={again}>Rematch</button>
     <p>Same seats · New starting player</p>
+    <button class="new-game" onclick={fresh}>New game</button>
+    <p>Choose seats and leaders again</p>
   </div>
 </section>
 <style>
@@ -41,6 +43,7 @@
   [data-metal=silver]{--metal-filter:grayscale(1) brightness(1.02);}[data-metal=bronze]{--metal-filter:sepia(1) saturate(1.65) hue-rotate(-25deg) brightness(.88);}[data-metal=lead]{--metal-filter:grayscale(1) brightness(.62);}
   .name{position:absolute;left:15%;width:70%;top:79%;height:10%;display:grid;place-items:center;color:#36230d;font:700 2.3cqmin/1 'Cormorant Garamond',serif;}[data-metal=lead] .name{color:#fff4da;text-shadow:0 1px 2px #000;}.points{position:absolute;right:3%;top:9%;--icon-size:3.1cqmin;--icon-number-scale:.8;}.standing p{text-align:center;margin:0;font:600 1.7cqmin 'Cormorant Garamond',serif;}
   .summary{position:absolute;left:50%;top:50%;width:30cqmin;translate:-50% -50%;text-align:center;}.summary h1{font:600 3.5cqmin/1.1 'Cormorant Garamond',serif;margin:0 0 2cqmin;}.summary p{font-size:1.3cqmin;}.rematch{font:700 3cqmin 'Cormorant Garamond',serif;color:#15212a;background:linear-gradient(#f0d89a,#a5803f);border:1px solid #ffe3a3;border-radius:1cqmin;padding:1.2cqmin 3cqmin;cursor:pointer;box-shadow:0 .5cqmin 2cqmin #0008;}.rematch:focus-visible{outline:3px solid white;outline-offset:4px;}
+  .new-game{font:600 2cqmin 'Cormorant Garamond',serif;color:#ffe5ad;background:#102632;border:1px solid #c9a66388;border-radius:.8cqmin;padding:.7cqmin 2cqmin;cursor:pointer;}.new-game:focus-visible{outline:3px solid white;outline-offset:4px;}
   @keyframes orbit{to{transform:rotate(360deg);}}@keyframes arrive{from{opacity:0;translate:0 12cqmin;scale:.7;}to{opacity:1;translate:0 27cqmin;scale:1;}}
   @media(prefers-reduced-motion:reduce){.orbit,.standing{animation:none;}}
 </style>
