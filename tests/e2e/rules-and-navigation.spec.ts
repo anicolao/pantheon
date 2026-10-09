@@ -78,5 +78,7 @@ test('illustrated rules explain leaders, Worship, and the compact operation nota
   await expect(page.locator('#cards')).toContainText('Gains go to your discard pile by default');
   await expect(page.locator('#cards')).toContainText('Σ means up to the combined cost');
   await expect(page.locator('#winning')).toContainText('any three supply piles are empty');
+  await expect(page.locator('#winning')).toContainText('every player takes the same number of turns');
+  await expect(page.locator('#winning')).toContainText('Players tied for the most VP share victory');
   await expect(page.locator('figure .card')).toHaveCount(10);
 });

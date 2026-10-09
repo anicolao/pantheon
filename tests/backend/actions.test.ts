@@ -151,9 +151,9 @@ test('cleanup includes retained Treasures and played cards, draws through seeded
 });
 
 
-test('both endings occur only after cleanup; scoring excludes trash and uses fewer-turn and shared ties',()=>{
+test('the explicit immediate-ending variant retains fewer-turn and shared score ties',()=>{
   for(const end of ['acropolis','three']) {
-    const state=game('thaleia',['hamlet','polis','acropolis'],[]);state.decks.b={hand:instances(['hamlet','polis','acropolis'],'b'),deck:[],discard:[],play:[]};state.trash=instances(['acropolis'],'trash');
+    const state=game('thaleia',['hamlet','polis','acropolis'],[]);state.turn.equalTurns=false;state.decks.b={hand:instances(['hamlet','polis','acropolis'],'b'),deck:[],discard:[],play:[]};state.trash=instances(['acropolis'],'trash');
     if(end==='acropolis')state.supply.acropolis=0;else for(const id of ['obol','drachma','talent'])state.supply[id]=0;
     expect(state.turn.phase).toBe('actions');run(state,{type:'phase/advanced'});run(state,{type:'phase/advanced'});run(state,{type:'turn/ended'});
     expect(state.turn.phase).toBe('finished');expect(state.decks.a.play).toHaveLength(0);expect(standings(state).find(row=>row.uid==='b')?.winner).toBe(true);
@@ -292,7 +292,7 @@ test('Ares requires an actual trash and upgrades by one or three without trigger
 
 
 test('finished tables clear every resource and reject every play command without mutation',()=>{
-  const state=game('thaleia',['temple-of-athena','hamlet','obol']);state.supply.acropolis=0;
+  const state=game('thaleia',['temple-of-athena','hamlet','obol']);state.supply.acropolis=0;state.turn.index=state.turnOrder.length-1;state.turnOrder=[...state.turnOrder.filter(uid=>uid!=='a'),'a'];
   run(state,{type:'phase/advanced'});run(state,{type:'turn/ended'});
   expect(state.resources).toEqual({actions:0,coins:0,buys:0,worship:0});
   const before=structuredClone(state);

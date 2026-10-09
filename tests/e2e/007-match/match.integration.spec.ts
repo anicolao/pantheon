@@ -1,3 +1,5 @@
+import {observeDraws,waitForDraws} from '../helpers/draw-observer';
+import {enterTreasures} from '../helpers/supply-controls';
 import {setMotionPreference} from '../helpers/motion-preference';
 import {createHash} from 'node:crypto';
 import {test,expect} from '../helpers/fixtures';
@@ -9,14 +11,14 @@ import {standings} from '../../../src/lib/game/actions';
 import {roomCodeFixture} from '../helpers/room-code-fixture';
 import {newPlayerContext} from '../helpers/players';
 
-for(const scenario of [{count:2 as const,goal:'acropolis' as const,last:false},{count:2 as const,goal:'actions' as const,last:false},{count:3 as const,goal:'actions' as const,last:true},{count:4 as const,goal:'actions' as const,last:true}])test(`${scenario.count} empires finish ${scenario.goal==='acropolis'?'at the last Acropolis':scenario.last?'with shared victory':'with fewer turns deciding victory'}`,async({page,browser},info)=>{
+for(const scenario of [{count:2 as const,goal:'acropolis' as const,last:false},{count:2 as const,goal:'actions' as const,last:false},{count:3 as const,goal:'actions' as const,last:true},{count:4 as const,goal:'actions' as const,last:true}])test(`${scenario.count} empires finish ${scenario.goal==='acropolis'?'at the last Acropolis':'with shared victory'}`,async({page,browser},info)=>{
   const context=await newPlayerContext(browser,{viewport:info.project.use.viewport,baseURL:info.project.use.baseURL}),other=await context.newPage();
   try{
     const fixture=await finalTurn(page,info,{...scenario,other}),steps=new TestStepHelper(page,info,'Finish the empire');
-    if(scenario.goal==='acropolis'){await setMotionPreference(page,'no-preference');await setMotionPreference(other,'no-preference');}
+    if(scenario.goal==='acropolis'){await setMotionPreference(page,'no-preference');await setMotionPreference(other,'no-preference');await observeDraws(other);}
     await steps.step('last-turn','The empty pile waits for the current turn to finish',[{spec:'Buys are spent, the table is still playable, and results are not shown early.',check:async()=>{await expect(page.locator('.resources [data-resource=buys]')).toHaveAttribute('data-value','0');await expect(page.locator('.victory-scene')).toHaveCount(0);await expect(page.getByRole('button',{name:'End turn',exact:true})).toBeEnabled();}}]);
     await page.getByRole('button',{name:'End turn',exact:true}).click();
-    await expect.poll(async()=>await page.locator('.victory-scene').count()>0||await page.getByRole('button',{name:'Keep playing',exact:true}).isVisible()).toBe(true);
+    await expect.poll(async()=>await page.locator('.victory-scene').count()>0||await page.getByRole('button',{name:'Keep playing',exact:true}).isVisible()||(!scenario.last && (await other.locator('.turn-marker').textContent())?.includes('Your turn'))).toBe(true);
     if(await page.getByRole('button',{name:'Keep playing',exact:true}).isVisible()){
       await steps.step('remaining','The last affordable Worship is still available before cleanup',[{spec:'The confirmation names a remaining god.',check:async()=>expect(page.getByRole('dialog')).toContainText('You can still worship')}]);
       await page.getByRole('button',{name:'Keep playing',exact:true}).click();
@@ -24,6 +26,15 @@ for(const scenario of [{count:2 as const,goal:'acropolis' as const,last:false},{
       await page.getByRole('button',{name:'End turn',exact:true}).click();
       await steps.step('confirm-ending','Choose to finish without spending the remaining Worship',[{spec:'The same meaningful choice is offered.',check:async()=>expect(page.getByRole('button',{name:'Keep playing',exact:true})).toBeEnabled()}]);
       await page.getByRole('dialog').getByRole('button',{name:'End turn',exact:true}).click();
+    }
+    if(!scenario.last){
+      await expect(other.locator('.turn-marker')).toContainText('Your turn');
+      if(scenario.goal==='acropolis'){await expect(other.locator('.public-flight[data-motion-kind=draw]').first()).toBeVisible();for(const count of [1,2,3,4,5])await waitForDraws(other,count);}
+      await steps.step('final-reply','Theseus takes the remaining turn of the final round',[{spec:'The empty supply does not skip the second player; scoring waits for equal turns.',check:async()=>{await expect(other.locator('.victory-scene')).toHaveCount(0);const state=replaySetup(await readEvents(fixture.code));expect(state.turn.finalRound).toBe(true);expect(state.turn.turns[fixture.host]).toBe((state.turn.turns[state.turnOrder[1]]??0)+1);}}],{page:other,player:'Theseus'});
+      await enterTreasures(other);
+      await other.getByRole('button',{name:'End turn',exact:true}).click();
+      await expect.poll(async()=>await other.locator('.victory-scene').count()>0||await other.getByRole('button',{name:'Keep playing',exact:true}).isVisible()).toBe(true);
+      if(await other.getByRole('button',{name:'Keep playing',exact:true}).isVisible())await other.getByRole('dialog').getByRole('button',{name:'End turn',exact:true}).click();
     }
     await expect(page.locator('.victory-scene')).toHaveCSS('opacity','1');
     if(scenario.goal==='acropolis'){
@@ -37,8 +48,8 @@ for(const scenario of [{count:2 as const,goal:'acropolis' as const,last:false},{
       await page.waitForFunction(()=>[...document.querySelectorAll('.victory-scene *')].every(node=>node.getAnimations().every(animation=>animation.playState==='finished')),undefined,{polling:'raf',timeout:2000});
     }
     await steps.step('results','Cleanup completes and every empire receives its final score',[{spec:'Every player has a visible score and turn count; no turn controls remain.',check:async()=>{await expect(page.locator('.victory-scene')).toBeVisible();await expect(page.locator('.standing')).toHaveCount(scenario.count);await expect(page.locator('.end-reason')).toHaveText(scenario.goal==='acropolis'?'Acropolis pile depleted':'3 supply piles depleted');await expect(page.getByRole('button',{name:'End turn',exact:true})).toHaveCount(0);}}]);
-    const game=replaySetup(await readEvents(fixture.code)),scores=standings(game);expect(game.turn.phase).toBe('finished');expect(game.resources).toEqual({actions:0,coins:0,buys:0,worship:0});expect(game.decks[fixture.host].play).toHaveLength(0);expect(game.decks[fixture.host].hand).toHaveLength(5);
-    if(scenario.goal==='actions'){expect(scores.every(s=>s.score===3)).toBe(true);await expect(page.locator('#victory-title')).toHaveText(scenario.last?'Shared victory':'Theseus wins');}
+    const game=replaySetup(await readEvents(fixture.code)),scores=standings(game);expect(game.turn.phase).toBe('finished');expect(new Set(scores.map(score=>score.turns)).size).toBe(1);expect(game.resources).toEqual({actions:0,coins:0,buys:0,worship:0});expect(game.decks[fixture.host].play).toHaveLength(0);expect(game.decks[fixture.host].hand).toHaveLength(5);
+    if(scenario.goal==='actions'){expect(scores.every(s=>s.score===3)).toBe(true);await expect(page.locator('#victory-title')).toHaveText('Shared victory');}
     await steps.step('observer','Theseus sees the same persistent result',[{spec:'Both players see the same ending and all ranked empires.',check:async()=>{await expect(other.locator('.standing')).toHaveCount(scenario.count);await expect(other.locator('#victory-title')).toHaveText(await page.locator('#victory-title').innerText());}}],{page:other,player:'Theseus'});
     await page.locator('.standing').last().click();
     await steps.step('other-score','Inspect another empire’s Territory arithmetic',[{spec:'The selected player’s owned Territories and total are shown.',check:async()=>expect(page.locator('.breakdown')).toHaveAttribute('aria-label',`${scores.at(-1)!.name}'s Territory score`)}]);
@@ -49,7 +60,7 @@ for(const scenario of [{count:2 as const,goal:'acropolis' as const,last:false},{
     await page.reload();
     await expect(page.locator('.victory-scene')).toHaveCSS('opacity','1');
     expect(await page.locator('.victory-scene').evaluate(dialog=>dialog.getAnimations().length)).toBe(0);
-    await steps.step('restored','The finished table keeps its result on return',[{spec:'The same winners and totals return without another cleanup.',check:async()=>expect(page.locator('#victory-title')).toHaveText(scenario.goal==='actions'?(scenario.last?'Shared victory':'Theseus wins'):'Ariadne wins')}]);
+    await steps.step('restored','The finished table keeps its result on return',[{spec:'The same winners and totals return without another cleanup.',check:async()=>expect(page.locator('#victory-title')).toHaveText(scenario.goal==='actions'?'Shared victory':'Ariadne wins')}]);
     expect(await readEvents(fixture.code)).toHaveLength(game.activity.length);
     if(scenario.goal==='acropolis'){
       await page.getByRole('button',{name:'View chronicle',exact:true}).click();

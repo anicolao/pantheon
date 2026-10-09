@@ -22,7 +22,7 @@ export function initialGame(config:PracticeConfig):SetupState{
  }
  const ready=replaySetup(events);
  for(const uid of ready.draftOrder)add(uid,{type:'leader/chosen',leaderId:uid==='human'?config.humanLeader:config.botLeader});
- const g=replaySetup(events);g.turn.equalTurns=true;return g;
+ return replaySetup(events);
 }
 export class BotTracker{
  inventory:ReturnType<typeof inventoryAtSetup>;

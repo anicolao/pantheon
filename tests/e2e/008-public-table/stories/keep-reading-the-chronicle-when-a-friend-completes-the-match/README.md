@@ -42,20 +42,39 @@ Viewpoint: **Theseus**.
 
 - [x] Creation remains on the first page of the Chronicle.
 
-## Ariadne receives the final standings
+## Ariadne can confirm leaving her remaining option
 
 <table>
 <tr><th>Desktop · 1440 × 1000</th><th>Phone · 393 × 852</th></tr>
 <tr>
-<td valign="top"><a href="../../screenshots/keep-reading-the-chronicle-when-a-friend-completes-the-match/002-finished-desktop-darwin.png"><img src="../../screenshots/keep-reading-the-chronicle-when-a-friend-completes-the-match/002-finished-desktop-darwin.png" alt="Ariadne receives the final standings — desktop" width="720"></a></td>
-<td valign="top"><a href="../../screenshots/keep-reading-the-chronicle-when-a-friend-completes-the-match/002-finished-phone-darwin.png"><img src="../../screenshots/keep-reading-the-chronicle-when-a-friend-completes-the-match/002-finished-phone-darwin.png" alt="Ariadne receives the final standings — phone" width="240"></a></td>
+<td valign="top"><a href="../../screenshots/keep-reading-the-chronicle-when-a-friend-completes-the-match/002-confirm-desktop-darwin.png"><img src="../../screenshots/keep-reading-the-chronicle-when-a-friend-completes-the-match/002-confirm-desktop-darwin.png" alt="Ariadne can confirm leaving her remaining option — desktop" width="720"></a></td>
+<td valign="top"><a href="../../screenshots/keep-reading-the-chronicle-when-a-friend-completes-the-match/002-confirm-phone-darwin.png"><img src="../../screenshots/keep-reading-the-chronicle-when-a-friend-completes-the-match/002-confirm-phone-darwin.png" alt="Ariadne can confirm leaving her remaining option — phone" width="240"></a></td>
 </tr>
 </table>
 
 <details>
 <summary>Tabletop · 3840 × 2160 — expand screenshot</summary>
 
-<a href="../../screenshots/keep-reading-the-chronicle-when-a-friend-completes-the-match/002-finished-tabletop-4k-darwin.png"><img src="../../screenshots/keep-reading-the-chronicle-when-a-friend-completes-the-match/002-finished-tabletop-4k-darwin.png" alt="Ariadne receives the final standings — tabletop-4k" width="960"></a>
+<a href="../../screenshots/keep-reading-the-chronicle-when-a-friend-completes-the-match/002-confirm-tabletop-4k-darwin.png"><img src="../../screenshots/keep-reading-the-chronicle-when-a-friend-completes-the-match/002-confirm-tabletop-4k-darwin.png" alt="Ariadne can confirm leaving her remaining option — tabletop-4k" width="960"></a>
+
+</details>
+
+- [x] The final turn can still be kept open.
+
+## Ariadne receives the final standings
+
+<table>
+<tr><th>Desktop · 1440 × 1000</th><th>Phone · 393 × 852</th></tr>
+<tr>
+<td valign="top"><a href="../../screenshots/keep-reading-the-chronicle-when-a-friend-completes-the-match/003-finished-desktop-darwin.png"><img src="../../screenshots/keep-reading-the-chronicle-when-a-friend-completes-the-match/003-finished-desktop-darwin.png" alt="Ariadne receives the final standings — desktop" width="720"></a></td>
+<td valign="top"><a href="../../screenshots/keep-reading-the-chronicle-when-a-friend-completes-the-match/003-finished-phone-darwin.png"><img src="../../screenshots/keep-reading-the-chronicle-when-a-friend-completes-the-match/003-finished-phone-darwin.png" alt="Ariadne receives the final standings — phone" width="240"></a></td>
+</tr>
+</table>
+
+<details>
+<summary>Tabletop · 3840 × 2160 — expand screenshot</summary>
+
+<a href="../../screenshots/keep-reading-the-chronicle-when-a-friend-completes-the-match/003-finished-tabletop-4k-darwin.png"><img src="../../screenshots/keep-reading-the-chronicle-when-a-friend-completes-the-match/003-finished-tabletop-4k-darwin.png" alt="Ariadne receives the final standings — tabletop-4k" width="960"></a>
 
 </details>
 
@@ -68,15 +87,15 @@ Viewpoint: **Theseus**.
 <table>
 <tr><th>Desktop · 1440 × 1000</th><th>Phone · 393 × 852</th></tr>
 <tr>
-<td valign="top"><a href="../../screenshots/keep-reading-the-chronicle-when-a-friend-completes-the-match/003-undisturbed-desktop-darwin.png"><img src="../../screenshots/keep-reading-the-chronicle-when-a-friend-completes-the-match/003-undisturbed-desktop-darwin.png" alt="The finished game does not tear Theseus away from the Chronicle — desktop" width="720"></a></td>
-<td valign="top"><a href="../../screenshots/keep-reading-the-chronicle-when-a-friend-completes-the-match/003-undisturbed-phone-darwin.png"><img src="../../screenshots/keep-reading-the-chronicle-when-a-friend-completes-the-match/003-undisturbed-phone-darwin.png" alt="The finished game does not tear Theseus away from the Chronicle — phone" width="240"></a></td>
+<td valign="top"><a href="../../screenshots/keep-reading-the-chronicle-when-a-friend-completes-the-match/004-undisturbed-desktop-darwin.png"><img src="../../screenshots/keep-reading-the-chronicle-when-a-friend-completes-the-match/004-undisturbed-desktop-darwin.png" alt="The finished game does not tear Theseus away from the Chronicle — desktop" width="720"></a></td>
+<td valign="top"><a href="../../screenshots/keep-reading-the-chronicle-when-a-friend-completes-the-match/004-undisturbed-phone-darwin.png"><img src="../../screenshots/keep-reading-the-chronicle-when-a-friend-completes-the-match/004-undisturbed-phone-darwin.png" alt="The finished game does not tear Theseus away from the Chronicle — phone" width="240"></a></td>
 </tr>
 </table>
 
 <details>
 <summary>Tabletop · 3840 × 2160 — expand screenshot</summary>
 
-<a href="../../screenshots/keep-reading-the-chronicle-when-a-friend-completes-the-match/003-undisturbed-tabletop-4k-darwin.png"><img src="../../screenshots/keep-reading-the-chronicle-when-a-friend-completes-the-match/003-undisturbed-tabletop-4k-darwin.png" alt="The finished game does not tear Theseus away from the Chronicle — tabletop-4k" width="960"></a>
+<a href="../../screenshots/keep-reading-the-chronicle-when-a-friend-completes-the-match/004-undisturbed-tabletop-4k-darwin.png"><img src="../../screenshots/keep-reading-the-chronicle-when-a-friend-completes-the-match/004-undisturbed-tabletop-4k-darwin.png" alt="The finished game does not tear Theseus away from the Chronicle — tabletop-4k" width="960"></a>
 
 </details>
 
@@ -89,15 +108,15 @@ Viewpoint: **Theseus**.
 <table>
 <tr><th>Desktop · 1440 × 1000</th><th>Phone · 393 × 852</th></tr>
 <tr>
-<td valign="top"><a href="../../screenshots/keep-reading-the-chronicle-when-a-friend-completes-the-match/004-last-move-desktop-darwin.png"><img src="../../screenshots/keep-reading-the-chronicle-when-a-friend-completes-the-match/004-last-move-desktop-darwin.png" alt="Theseus chooses to read the final cleanup — desktop" width="720"></a></td>
-<td valign="top"><a href="../../screenshots/keep-reading-the-chronicle-when-a-friend-completes-the-match/004-last-move-phone-darwin.png"><img src="../../screenshots/keep-reading-the-chronicle-when-a-friend-completes-the-match/004-last-move-phone-darwin.png" alt="Theseus chooses to read the final cleanup — phone" width="240"></a></td>
+<td valign="top"><a href="../../screenshots/keep-reading-the-chronicle-when-a-friend-completes-the-match/005-last-move-desktop-darwin.png"><img src="../../screenshots/keep-reading-the-chronicle-when-a-friend-completes-the-match/005-last-move-desktop-darwin.png" alt="Theseus chooses to read the final cleanup — desktop" width="720"></a></td>
+<td valign="top"><a href="../../screenshots/keep-reading-the-chronicle-when-a-friend-completes-the-match/005-last-move-phone-darwin.png"><img src="../../screenshots/keep-reading-the-chronicle-when-a-friend-completes-the-match/005-last-move-phone-darwin.png" alt="Theseus chooses to read the final cleanup — phone" width="240"></a></td>
 </tr>
 </table>
 
 <details>
 <summary>Tabletop · 3840 × 2160 — expand screenshot</summary>
 
-<a href="../../screenshots/keep-reading-the-chronicle-when-a-friend-completes-the-match/004-last-move-tabletop-4k-darwin.png"><img src="../../screenshots/keep-reading-the-chronicle-when-a-friend-completes-the-match/004-last-move-tabletop-4k-darwin.png" alt="Theseus chooses to read the final cleanup — tabletop-4k" width="960"></a>
+<a href="../../screenshots/keep-reading-the-chronicle-when-a-friend-completes-the-match/005-last-move-tabletop-4k-darwin.png"><img src="../../screenshots/keep-reading-the-chronicle-when-a-friend-completes-the-match/005-last-move-tabletop-4k-darwin.png" alt="Theseus chooses to read the final cleanup — tabletop-4k" width="960"></a>
 
 </details>
 
@@ -110,15 +129,15 @@ Viewpoint: **Theseus**.
 <table>
 <tr><th>Desktop · 1440 × 1000</th><th>Phone · 393 × 852</th></tr>
 <tr>
-<td valign="top"><a href="../../screenshots/keep-reading-the-chronicle-when-a-friend-completes-the-match/005-scores-desktop-darwin.png"><img src="../../screenshots/keep-reading-the-chronicle-when-a-friend-completes-the-match/005-scores-desktop-darwin.png" alt="Theseus opens the same final standings when ready — desktop" width="720"></a></td>
-<td valign="top"><a href="../../screenshots/keep-reading-the-chronicle-when-a-friend-completes-the-match/005-scores-phone-darwin.png"><img src="../../screenshots/keep-reading-the-chronicle-when-a-friend-completes-the-match/005-scores-phone-darwin.png" alt="Theseus opens the same final standings when ready — phone" width="240"></a></td>
+<td valign="top"><a href="../../screenshots/keep-reading-the-chronicle-when-a-friend-completes-the-match/006-scores-desktop-darwin.png"><img src="../../screenshots/keep-reading-the-chronicle-when-a-friend-completes-the-match/006-scores-desktop-darwin.png" alt="Theseus opens the same final standings when ready — desktop" width="720"></a></td>
+<td valign="top"><a href="../../screenshots/keep-reading-the-chronicle-when-a-friend-completes-the-match/006-scores-phone-darwin.png"><img src="../../screenshots/keep-reading-the-chronicle-when-a-friend-completes-the-match/006-scores-phone-darwin.png" alt="Theseus opens the same final standings when ready — phone" width="240"></a></td>
 </tr>
 </table>
 
 <details>
 <summary>Tabletop · 3840 × 2160 — expand screenshot</summary>
 
-<a href="../../screenshots/keep-reading-the-chronicle-when-a-friend-completes-the-match/005-scores-tabletop-4k-darwin.png"><img src="../../screenshots/keep-reading-the-chronicle-when-a-friend-completes-the-match/005-scores-tabletop-4k-darwin.png" alt="Theseus opens the same final standings when ready — tabletop-4k" width="960"></a>
+<a href="../../screenshots/keep-reading-the-chronicle-when-a-friend-completes-the-match/006-scores-tabletop-4k-darwin.png"><img src="../../screenshots/keep-reading-the-chronicle-when-a-friend-completes-the-match/006-scores-tabletop-4k-darwin.png" alt="Theseus opens the same final standings when ready — tabletop-4k" width="960"></a>
 
 </details>
 

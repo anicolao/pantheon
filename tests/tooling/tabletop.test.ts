@@ -11,7 +11,7 @@ describe('shared tabletop uses legal game events for both seating modes',()=>{
   for(const order of orders) for(let sample=0;sample<8;sample++) {
     test(`preset ${order.join('/')} seed ${sample}`,()=>{
       const table=begin(seated(order),`tabletop-${sample}`),game=replaySetup(table.events);
-      expect(game.phase).toBe('playing');
+      expect(game.phase).toBe('playing');expect(game.turn.equalTurns).toBe(true);
       expect(game.turnOrder).toEqual([...order].reverse().map(seatUid));
       expect(game.draftOrder).toEqual(order.map(seatUid));
       for(const seat of table.seats.filter(seat=>seat.mode!=='empty')) {
@@ -23,7 +23,7 @@ describe('shared tabletop uses legal game events for both seating modes',()=>{
     test(`random ${order.join('/')} seed ${sample}`,()=>{
       const prepared={...seated(order),randomize:true};
       let table=begin(prepared,`tabletop-${sample}`),game=replaySetup(table.events);
-      expect(game.phase).toBe('draft');expect(game.leaders).toEqual({});
+      expect(game.phase).toBe('draft');expect(game.turn.equalTurns).toBe(true);expect(game.leaders).toEqual({});
       const occupied=edges.filter(edge=>order.includes(edge)).map(seatUid);
       const first=Math.floor(createPrng(`tabletop-${sample}:first-player`)()*occupied.length);
       expect(game.turnOrder).toEqual([...occupied.slice(first),...occupied.slice(0,first)]);

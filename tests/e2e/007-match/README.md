@@ -5,7 +5,7 @@ The [ordinary two-player journey](stories/keep-playing-a-temple-spend-the-last-b
 Recorded-history scenarios prepare the last turn of a complete legal match, then use the real UI to finish and inspect it:
 
 - [Two empires: the last Acropolis, score inspection, Chronicle, and Play again](stories/2-empires-finish-at-the-last-acropolis/README.md)
-- [Two empires: three empty Action piles and fewer turns deciding victory](stories/2-empires-finish-with-fewer-turns-deciding-victory/README.md)
+- [Two empires: three empty Action piles and equal turns sharing victory](stories/2-empires-finish-with-shared-victory/README.md)
 - [Three empires: equal scores and turns share victory](stories/3-empires-finish-with-shared-victory/README.md)
 - [Four empires: every score remains visible on a phone](stories/4-empires-finish-with-shared-victory/README.md)
 

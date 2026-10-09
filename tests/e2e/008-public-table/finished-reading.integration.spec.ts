@@ -9,7 +9,7 @@ test('keep reading the Chronicle when a friend completes the match',async({page,
   const context=await newPlayerContext(browser,{viewport:info.project.use.viewport,baseURL:info.project.use.baseURL}),other=await context.newPage();
   const steps=new TestStepHelper(page,info,'Finish reading before opening final scores');
   try{
-    await finalTurn(page,info,{other});
+    await finalTurn(page,info,{other,last:true});
     await steps.step('last-turn','Ariadne is about to complete a legal recorded match',[{spec:'The last cleanup has not happened yet.',check:async()=>expect(page.getByRole('button',{name:'End turn',exact:true})).toBeEnabled()}]);
     await openPlayers(other);await other.getByRole('button',{name:'Chronicle',exact:true}).click();await other.getByRole('button',{name:'First moves',exact:true}).click();
     await steps.step('reading','Theseus reads the beginning of the match',[{spec:'Creation remains on the first page of the Chronicle.',check:async()=>expect(other.locator('.chronicle')).toContainText('created the table')}],{page:other,player:'Theseus'});

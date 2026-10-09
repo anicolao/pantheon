@@ -94,7 +94,7 @@ export function fixture(id: string, count: 2 | 3 | 4, playerIds = Array.from({le
       const canBuyHamlet=player===0?game.supply.hamlet>reserved:purchased[player]<quotas[player];
       const pile=['obol','hamlet','seed-keeper'].find(card=>game.supply[card]>0 && definition(card).cost!<=game.resources.coins && (card!=='hamlet'||canBuyHamlet));
       if(pile){append({type:'card/bought',cardId:pile});if(pile==='hamlet')purchased[player]++;}
-      if(Object.values(state().supply).filter(n=>n===0).length>=3)return {events,actor:activePlayer(state()),trigger:{type:'turn/ended'}};
+      if(Object.values(state().supply).filter(n=>n===0).length>=3 && state().turn.index===count-1)return {events,actor:activePlayer(state()),trigger:{type:'turn/ended'}};
       end();
     }
     throw Error('Could not prepare victory');

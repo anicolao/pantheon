@@ -300,6 +300,7 @@ for(const count of [2,3,4] as const)for(const goal of ['acropolis','actions'] as
       playerCount:count,commandId,...command
     }));
   }
+  expect(new Set(Object.values(state.turn.turns)).size).toBe(1);expect(Object.keys(state.turn.turns)).toHaveLength(count);
   expect(state.turn.phase).toBe('finished');expect(state.decks[last!.uid].hand).toHaveLength(5);expect(state.resources).toEqual({actions:0,coins:0,buys:0,worship:0});
   expect(goal==='acropolis'?state.supply.acropolis===0:Object.values(state.supply).filter(n=>n===0).length>=3).toBe(true);
   const before=await history(clients.get(uids[0])!,id);

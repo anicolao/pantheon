@@ -81,7 +81,7 @@ test('P1 closing the supply grants exactly one P2 reply; P2 closing ends immedia
   expect(String(g.turn.phase)).toBe('finished');expect(g.turn.turns).toEqual({human:1,bot:1});
  }
 });
-test('ordinary multiplayer keeps its immediate-ending rule',()=>{
+test('an explicit equal-turns opt-out keeps the immediate-ending variant',()=>{
  const s=new PracticeSession({seed:'ordinary-ending',humanLeader:'thaleia',botLeader:'nereon',humanFirst:true,bot:'classic-engine'});
  s.game.turn.equalTurns=false;s.game.turn.phase='buys';s.game.supply.acropolis=0;
  s.apply({type:'turn/ended'});expect(String(s.game.turn.phase)).toBe('finished');expect(s.game.turn.turns.bot??0).toBe(0);

@@ -117,10 +117,10 @@
 
     <section id="winning">
       <h2>6. End of the game and scoring</h2>
-      <p>After cleanup, the game ends if the <strong>Acropolis supply pile is empty</strong> or <strong>any three supply piles are empty</strong>. Finish the whole turn; there is no final round. Temples, leaders, events, and the trash are not supply piles.</p>
+      <p>After cleanup, the final round is triggered if the <strong>Acropolis supply pile is empty</strong> or <strong>any three supply piles are empty</strong>. Finish the current round in turn order so every player takes the same number of turns. Players who have already taken their turn this round do not take another. Temples, leaders, events, and the trash are not supply piles.</p>
       <div class="card-row">{#each ['hamlet', 'polis', 'acropolis'] as id}<figure><CardFace card={card(id)} /><figcaption>{card(id).name}: {card(id).vp} VP each</figcaption></figure>{/each}</div>
       <p>Count all Territories you own, wherever they are: hand, deck, discard pile, or play area. Starting Hamlets count. Trashed cards and all other card types score nothing.</p>
-      <p><strong>Most VP wins.</strong> Ties go to the tied player who took fewer turns. If they took the same number, they share victory.</p>
+      <p><strong>Most VP wins.</strong> Players tied for the most VP share victory.</p>
     </section>
 
     <section id="reminders">

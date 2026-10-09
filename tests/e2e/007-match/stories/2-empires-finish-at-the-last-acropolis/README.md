@@ -21,20 +21,41 @@ Recorded-history integration scenario. A complete legal match prepares the last 
 
 - [x] Buys are spent, the table is still playable, and results are not shown early.
 
-## Cleanup completes and every empire receives its final score
+## Theseus takes the remaining turn of the final round
+
+Viewpoint: **Theseus**.
 
 <table>
 <tr><th>Desktop · 1440 × 1000</th><th>Phone · 393 × 852</th></tr>
 <tr>
-<td valign="top"><a href="../../screenshots/2-empires-finish-at-the-last-acropolis/001-results-desktop-darwin.png"><img src="../../screenshots/2-empires-finish-at-the-last-acropolis/001-results-desktop-darwin.png" alt="Cleanup completes and every empire receives its final score — desktop" width="720"></a></td>
-<td valign="top"><a href="../../screenshots/2-empires-finish-at-the-last-acropolis/001-results-phone-darwin.png"><img src="../../screenshots/2-empires-finish-at-the-last-acropolis/001-results-phone-darwin.png" alt="Cleanup completes and every empire receives its final score — phone" width="240"></a></td>
+<td valign="top"><a href="../../screenshots/2-empires-finish-at-the-last-acropolis/001-final-reply-desktop-darwin.png"><img src="../../screenshots/2-empires-finish-at-the-last-acropolis/001-final-reply-desktop-darwin.png" alt="Theseus takes the remaining turn of the final round — desktop" width="720"></a></td>
+<td valign="top"><a href="../../screenshots/2-empires-finish-at-the-last-acropolis/001-final-reply-phone-darwin.png"><img src="../../screenshots/2-empires-finish-at-the-last-acropolis/001-final-reply-phone-darwin.png" alt="Theseus takes the remaining turn of the final round — phone" width="240"></a></td>
 </tr>
 </table>
 
 <details>
 <summary>Tabletop · 3840 × 2160 — expand screenshot</summary>
 
-<a href="../../screenshots/2-empires-finish-at-the-last-acropolis/001-results-tabletop-4k-darwin.png"><img src="../../screenshots/2-empires-finish-at-the-last-acropolis/001-results-tabletop-4k-darwin.png" alt="Cleanup completes and every empire receives its final score — tabletop-4k" width="960"></a>
+<a href="../../screenshots/2-empires-finish-at-the-last-acropolis/001-final-reply-tabletop-4k-darwin.png"><img src="../../screenshots/2-empires-finish-at-the-last-acropolis/001-final-reply-tabletop-4k-darwin.png" alt="Theseus takes the remaining turn of the final round — tabletop-4k" width="960"></a>
+
+</details>
+
+- [x] The empty supply does not skip the second player; scoring waits for equal turns.
+
+## Cleanup completes and every empire receives its final score
+
+<table>
+<tr><th>Desktop · 1440 × 1000</th><th>Phone · 393 × 852</th></tr>
+<tr>
+<td valign="top"><a href="../../screenshots/2-empires-finish-at-the-last-acropolis/002-results-desktop-darwin.png"><img src="../../screenshots/2-empires-finish-at-the-last-acropolis/002-results-desktop-darwin.png" alt="Cleanup completes and every empire receives its final score — desktop" width="720"></a></td>
+<td valign="top"><a href="../../screenshots/2-empires-finish-at-the-last-acropolis/002-results-phone-darwin.png"><img src="../../screenshots/2-empires-finish-at-the-last-acropolis/002-results-phone-darwin.png" alt="Cleanup completes and every empire receives its final score — phone" width="240"></a></td>
+</tr>
+</table>
+
+<details>
+<summary>Tabletop · 3840 × 2160 — expand screenshot</summary>
+
+<a href="../../screenshots/2-empires-finish-at-the-last-acropolis/002-results-tabletop-4k-darwin.png"><img src="../../screenshots/2-empires-finish-at-the-last-acropolis/002-results-tabletop-4k-darwin.png" alt="Cleanup completes and every empire receives its final score — tabletop-4k" width="960"></a>
 
 </details>
 
@@ -47,15 +68,15 @@ Viewpoint: **Theseus**.
 <table>
 <tr><th>Desktop · 1440 × 1000</th><th>Phone · 393 × 852</th></tr>
 <tr>
-<td valign="top"><a href="../../screenshots/2-empires-finish-at-the-last-acropolis/002-observer-desktop-darwin.png"><img src="../../screenshots/2-empires-finish-at-the-last-acropolis/002-observer-desktop-darwin.png" alt="Theseus sees the same persistent result — desktop" width="720"></a></td>
-<td valign="top"><a href="../../screenshots/2-empires-finish-at-the-last-acropolis/002-observer-phone-darwin.png"><img src="../../screenshots/2-empires-finish-at-the-last-acropolis/002-observer-phone-darwin.png" alt="Theseus sees the same persistent result — phone" width="240"></a></td>
+<td valign="top"><a href="../../screenshots/2-empires-finish-at-the-last-acropolis/003-observer-desktop-darwin.png"><img src="../../screenshots/2-empires-finish-at-the-last-acropolis/003-observer-desktop-darwin.png" alt="Theseus sees the same persistent result — desktop" width="720"></a></td>
+<td valign="top"><a href="../../screenshots/2-empires-finish-at-the-last-acropolis/003-observer-phone-darwin.png"><img src="../../screenshots/2-empires-finish-at-the-last-acropolis/003-observer-phone-darwin.png" alt="Theseus sees the same persistent result — phone" width="240"></a></td>
 </tr>
 </table>
 
 <details>
 <summary>Tabletop · 3840 × 2160 — expand screenshot</summary>
 
-<a href="../../screenshots/2-empires-finish-at-the-last-acropolis/002-observer-tabletop-4k-darwin.png"><img src="../../screenshots/2-empires-finish-at-the-last-acropolis/002-observer-tabletop-4k-darwin.png" alt="Theseus sees the same persistent result — tabletop-4k" width="960"></a>
+<a href="../../screenshots/2-empires-finish-at-the-last-acropolis/003-observer-tabletop-4k-darwin.png"><img src="../../screenshots/2-empires-finish-at-the-last-acropolis/003-observer-tabletop-4k-darwin.png" alt="Theseus sees the same persistent result — tabletop-4k" width="960"></a>
 
 </details>
 
@@ -66,15 +87,15 @@ Viewpoint: **Theseus**.
 <table>
 <tr><th>Desktop · 1440 × 1000</th><th>Phone · 393 × 852</th></tr>
 <tr>
-<td valign="top"><a href="../../screenshots/2-empires-finish-at-the-last-acropolis/003-other-score-desktop-darwin.png"><img src="../../screenshots/2-empires-finish-at-the-last-acropolis/003-other-score-desktop-darwin.png" alt="Inspect another empire’s Territory arithmetic — desktop" width="720"></a></td>
-<td valign="top"><a href="../../screenshots/2-empires-finish-at-the-last-acropolis/003-other-score-phone-darwin.png"><img src="../../screenshots/2-empires-finish-at-the-last-acropolis/003-other-score-phone-darwin.png" alt="Inspect another empire’s Territory arithmetic — phone" width="240"></a></td>
+<td valign="top"><a href="../../screenshots/2-empires-finish-at-the-last-acropolis/004-other-score-desktop-darwin.png"><img src="../../screenshots/2-empires-finish-at-the-last-acropolis/004-other-score-desktop-darwin.png" alt="Inspect another empire’s Territory arithmetic — desktop" width="720"></a></td>
+<td valign="top"><a href="../../screenshots/2-empires-finish-at-the-last-acropolis/004-other-score-phone-darwin.png"><img src="../../screenshots/2-empires-finish-at-the-last-acropolis/004-other-score-phone-darwin.png" alt="Inspect another empire’s Territory arithmetic — phone" width="240"></a></td>
 </tr>
 </table>
 
 <details>
 <summary>Tabletop · 3840 × 2160 — expand screenshot</summary>
 
-<a href="../../screenshots/2-empires-finish-at-the-last-acropolis/003-other-score-tabletop-4k-darwin.png"><img src="../../screenshots/2-empires-finish-at-the-last-acropolis/003-other-score-tabletop-4k-darwin.png" alt="Inspect another empire’s Territory arithmetic — tabletop-4k" width="960"></a>
+<a href="../../screenshots/2-empires-finish-at-the-last-acropolis/004-other-score-tabletop-4k-darwin.png"><img src="../../screenshots/2-empires-finish-at-the-last-acropolis/004-other-score-tabletop-4k-darwin.png" alt="Inspect another empire’s Territory arithmetic — tabletop-4k" width="960"></a>
 
 </details>
 
@@ -85,15 +106,15 @@ Viewpoint: **Theseus**.
 <table>
 <tr><th>Desktop · 1440 × 1000</th><th>Phone · 393 × 852</th></tr>
 <tr>
-<td valign="top"><a href="../../screenshots/2-empires-finish-at-the-last-acropolis/004-territory-desktop-darwin.png"><img src="../../screenshots/2-empires-finish-at-the-last-acropolis/004-territory-desktop-darwin.png" alt="Read the actual Hamlet card behind the score — desktop" width="720"></a></td>
-<td valign="top"><a href="../../screenshots/2-empires-finish-at-the-last-acropolis/004-territory-phone-darwin.png"><img src="../../screenshots/2-empires-finish-at-the-last-acropolis/004-territory-phone-darwin.png" alt="Read the actual Hamlet card behind the score — phone" width="240"></a></td>
+<td valign="top"><a href="../../screenshots/2-empires-finish-at-the-last-acropolis/005-territory-desktop-darwin.png"><img src="../../screenshots/2-empires-finish-at-the-last-acropolis/005-territory-desktop-darwin.png" alt="Read the actual Hamlet card behind the score — desktop" width="720"></a></td>
+<td valign="top"><a href="../../screenshots/2-empires-finish-at-the-last-acropolis/005-territory-phone-darwin.png"><img src="../../screenshots/2-empires-finish-at-the-last-acropolis/005-territory-phone-darwin.png" alt="Read the actual Hamlet card behind the score — phone" width="240"></a></td>
 </tr>
 </table>
 
 <details>
 <summary>Tabletop · 3840 × 2160 — expand screenshot</summary>
 
-<a href="../../screenshots/2-empires-finish-at-the-last-acropolis/004-territory-tabletop-4k-darwin.png"><img src="../../screenshots/2-empires-finish-at-the-last-acropolis/004-territory-tabletop-4k-darwin.png" alt="Read the actual Hamlet card behind the score — tabletop-4k" width="960"></a>
+<a href="../../screenshots/2-empires-finish-at-the-last-acropolis/005-territory-tabletop-4k-darwin.png"><img src="../../screenshots/2-empires-finish-at-the-last-acropolis/005-territory-tabletop-4k-darwin.png" alt="Read the actual Hamlet card behind the score — tabletop-4k" width="960"></a>
 
 </details>
 
@@ -104,15 +125,15 @@ Viewpoint: **Theseus**.
 <table>
 <tr><th>Desktop · 1440 × 1000</th><th>Phone · 393 × 852</th></tr>
 <tr>
-<td valign="top"><a href="../../screenshots/2-empires-finish-at-the-last-acropolis/005-returned-desktop-darwin.png"><img src="../../screenshots/2-empires-finish-at-the-last-acropolis/005-returned-desktop-darwin.png" alt="Return to the same score breakdown — desktop" width="720"></a></td>
-<td valign="top"><a href="../../screenshots/2-empires-finish-at-the-last-acropolis/005-returned-phone-darwin.png"><img src="../../screenshots/2-empires-finish-at-the-last-acropolis/005-returned-phone-darwin.png" alt="Return to the same score breakdown — phone" width="240"></a></td>
+<td valign="top"><a href="../../screenshots/2-empires-finish-at-the-last-acropolis/006-returned-desktop-darwin.png"><img src="../../screenshots/2-empires-finish-at-the-last-acropolis/006-returned-desktop-darwin.png" alt="Return to the same score breakdown — desktop" width="720"></a></td>
+<td valign="top"><a href="../../screenshots/2-empires-finish-at-the-last-acropolis/006-returned-phone-darwin.png"><img src="../../screenshots/2-empires-finish-at-the-last-acropolis/006-returned-phone-darwin.png" alt="Return to the same score breakdown — phone" width="240"></a></td>
 </tr>
 </table>
 
 <details>
 <summary>Tabletop · 3840 × 2160 — expand screenshot</summary>
 
-<a href="../../screenshots/2-empires-finish-at-the-last-acropolis/005-returned-tabletop-4k-darwin.png"><img src="../../screenshots/2-empires-finish-at-the-last-acropolis/005-returned-tabletop-4k-darwin.png" alt="Return to the same score breakdown — tabletop-4k" width="960"></a>
+<a href="../../screenshots/2-empires-finish-at-the-last-acropolis/006-returned-tabletop-4k-darwin.png"><img src="../../screenshots/2-empires-finish-at-the-last-acropolis/006-returned-tabletop-4k-darwin.png" alt="Return to the same score breakdown — tabletop-4k" width="960"></a>
 
 </details>
 
@@ -123,15 +144,15 @@ Viewpoint: **Theseus**.
 <table>
 <tr><th>Desktop · 1440 × 1000</th><th>Phone · 393 × 852</th></tr>
 <tr>
-<td valign="top"><a href="../../screenshots/2-empires-finish-at-the-last-acropolis/006-restored-desktop-darwin.png"><img src="../../screenshots/2-empires-finish-at-the-last-acropolis/006-restored-desktop-darwin.png" alt="The finished table keeps its result on return — desktop" width="720"></a></td>
-<td valign="top"><a href="../../screenshots/2-empires-finish-at-the-last-acropolis/006-restored-phone-darwin.png"><img src="../../screenshots/2-empires-finish-at-the-last-acropolis/006-restored-phone-darwin.png" alt="The finished table keeps its result on return — phone" width="240"></a></td>
+<td valign="top"><a href="../../screenshots/2-empires-finish-at-the-last-acropolis/007-restored-desktop-darwin.png"><img src="../../screenshots/2-empires-finish-at-the-last-acropolis/007-restored-desktop-darwin.png" alt="The finished table keeps its result on return — desktop" width="720"></a></td>
+<td valign="top"><a href="../../screenshots/2-empires-finish-at-the-last-acropolis/007-restored-phone-darwin.png"><img src="../../screenshots/2-empires-finish-at-the-last-acropolis/007-restored-phone-darwin.png" alt="The finished table keeps its result on return — phone" width="240"></a></td>
 </tr>
 </table>
 
 <details>
 <summary>Tabletop · 3840 × 2160 — expand screenshot</summary>
 
-<a href="../../screenshots/2-empires-finish-at-the-last-acropolis/006-restored-tabletop-4k-darwin.png"><img src="../../screenshots/2-empires-finish-at-the-last-acropolis/006-restored-tabletop-4k-darwin.png" alt="The finished table keeps its result on return — tabletop-4k" width="960"></a>
+<a href="../../screenshots/2-empires-finish-at-the-last-acropolis/007-restored-tabletop-4k-darwin.png"><img src="../../screenshots/2-empires-finish-at-the-last-acropolis/007-restored-tabletop-4k-darwin.png" alt="The finished table keeps its result on return — tabletop-4k" width="960"></a>
 
 </details>
 
@@ -142,15 +163,15 @@ Viewpoint: **Theseus**.
 <table>
 <tr><th>Desktop · 1440 × 1000</th><th>Phone · 393 × 852</th></tr>
 <tr>
-<td valign="top"><a href="../../screenshots/2-empires-finish-at-the-last-acropolis/007-chronicle-desktop-darwin.png"><img src="../../screenshots/2-empires-finish-at-the-last-acropolis/007-chronicle-desktop-darwin.png" alt="The finished game’s final moves remain available — desktop" width="720"></a></td>
-<td valign="top"><a href="../../screenshots/2-empires-finish-at-the-last-acropolis/007-chronicle-phone-darwin.png"><img src="../../screenshots/2-empires-finish-at-the-last-acropolis/007-chronicle-phone-darwin.png" alt="The finished game’s final moves remain available — phone" width="240"></a></td>
+<td valign="top"><a href="../../screenshots/2-empires-finish-at-the-last-acropolis/008-chronicle-desktop-darwin.png"><img src="../../screenshots/2-empires-finish-at-the-last-acropolis/008-chronicle-desktop-darwin.png" alt="The finished game’s final moves remain available — desktop" width="720"></a></td>
+<td valign="top"><a href="../../screenshots/2-empires-finish-at-the-last-acropolis/008-chronicle-phone-darwin.png"><img src="../../screenshots/2-empires-finish-at-the-last-acropolis/008-chronicle-phone-darwin.png" alt="The finished game’s final moves remain available — phone" width="240"></a></td>
 </tr>
 </table>
 
 <details>
 <summary>Tabletop · 3840 × 2160 — expand screenshot</summary>
 
-<a href="../../screenshots/2-empires-finish-at-the-last-acropolis/007-chronicle-tabletop-4k-darwin.png"><img src="../../screenshots/2-empires-finish-at-the-last-acropolis/007-chronicle-tabletop-4k-darwin.png" alt="The finished game’s final moves remain available — tabletop-4k" width="960"></a>
+<a href="../../screenshots/2-empires-finish-at-the-last-acropolis/008-chronicle-tabletop-4k-darwin.png"><img src="../../screenshots/2-empires-finish-at-the-last-acropolis/008-chronicle-tabletop-4k-darwin.png" alt="The finished game’s final moves remain available — tabletop-4k" width="960"></a>
 
 </details>
 
@@ -161,15 +182,15 @@ Viewpoint: **Theseus**.
 <table>
 <tr><th>Desktop · 1440 × 1000</th><th>Phone · 393 × 852</th></tr>
 <tr>
-<td valign="top"><a href="../../screenshots/2-empires-finish-at-the-last-acropolis/008-first-moves-desktop-darwin.png"><img src="../../screenshots/2-empires-finish-at-the-last-acropolis/008-first-moves-desktop-darwin.png" alt="The beginning of the game is still part of its Chronicle — desktop" width="720"></a></td>
-<td valign="top"><a href="../../screenshots/2-empires-finish-at-the-last-acropolis/008-first-moves-phone-darwin.png"><img src="../../screenshots/2-empires-finish-at-the-last-acropolis/008-first-moves-phone-darwin.png" alt="The beginning of the game is still part of its Chronicle — phone" width="240"></a></td>
+<td valign="top"><a href="../../screenshots/2-empires-finish-at-the-last-acropolis/009-first-moves-desktop-darwin.png"><img src="../../screenshots/2-empires-finish-at-the-last-acropolis/009-first-moves-desktop-darwin.png" alt="The beginning of the game is still part of its Chronicle — desktop" width="720"></a></td>
+<td valign="top"><a href="../../screenshots/2-empires-finish-at-the-last-acropolis/009-first-moves-phone-darwin.png"><img src="../../screenshots/2-empires-finish-at-the-last-acropolis/009-first-moves-phone-darwin.png" alt="The beginning of the game is still part of its Chronicle — phone" width="240"></a></td>
 </tr>
 </table>
 
 <details>
 <summary>Tabletop · 3840 × 2160 — expand screenshot</summary>
 
-<a href="../../screenshots/2-empires-finish-at-the-last-acropolis/008-first-moves-tabletop-4k-darwin.png"><img src="../../screenshots/2-empires-finish-at-the-last-acropolis/008-first-moves-tabletop-4k-darwin.png" alt="The beginning of the game is still part of its Chronicle — tabletop-4k" width="960"></a>
+<a href="../../screenshots/2-empires-finish-at-the-last-acropolis/009-first-moves-tabletop-4k-darwin.png"><img src="../../screenshots/2-empires-finish-at-the-last-acropolis/009-first-moves-tabletop-4k-darwin.png" alt="The beginning of the game is still part of its Chronicle — tabletop-4k" width="960"></a>
 
 </details>
 
@@ -180,15 +201,15 @@ Viewpoint: **Theseus**.
 <table>
 <tr><th>Desktop · 1440 × 1000</th><th>Phone · 393 × 852</th></tr>
 <tr>
-<td valign="top"><a href="../../screenshots/2-empires-finish-at-the-last-acropolis/009-last-moves-desktop-darwin.png"><img src="../../screenshots/2-empires-finish-at-the-last-acropolis/009-last-moves-desktop-darwin.png" alt="Return to the final cleanup at the end of the Chronicle — desktop" width="720"></a></td>
-<td valign="top"><a href="../../screenshots/2-empires-finish-at-the-last-acropolis/009-last-moves-phone-darwin.png"><img src="../../screenshots/2-empires-finish-at-the-last-acropolis/009-last-moves-phone-darwin.png" alt="Return to the final cleanup at the end of the Chronicle — phone" width="240"></a></td>
+<td valign="top"><a href="../../screenshots/2-empires-finish-at-the-last-acropolis/010-last-moves-desktop-darwin.png"><img src="../../screenshots/2-empires-finish-at-the-last-acropolis/010-last-moves-desktop-darwin.png" alt="Return to the final cleanup at the end of the Chronicle — desktop" width="720"></a></td>
+<td valign="top"><a href="../../screenshots/2-empires-finish-at-the-last-acropolis/010-last-moves-phone-darwin.png"><img src="../../screenshots/2-empires-finish-at-the-last-acropolis/010-last-moves-phone-darwin.png" alt="Return to the final cleanup at the end of the Chronicle — phone" width="240"></a></td>
 </tr>
 </table>
 
 <details>
 <summary>Tabletop · 3840 × 2160 — expand screenshot</summary>
 
-<a href="../../screenshots/2-empires-finish-at-the-last-acropolis/009-last-moves-tabletop-4k-darwin.png"><img src="../../screenshots/2-empires-finish-at-the-last-acropolis/009-last-moves-tabletop-4k-darwin.png" alt="Return to the final cleanup at the end of the Chronicle — tabletop-4k" width="960"></a>
+<a href="../../screenshots/2-empires-finish-at-the-last-acropolis/010-last-moves-tabletop-4k-darwin.png"><img src="../../screenshots/2-empires-finish-at-the-last-acropolis/010-last-moves-tabletop-4k-darwin.png" alt="Return to the final cleanup at the end of the Chronicle — tabletop-4k" width="960"></a>
 
 </details>
 
@@ -199,15 +220,15 @@ Viewpoint: **Theseus**.
 <table>
 <tr><th>Desktop · 1440 × 1000</th><th>Phone · 393 × 852</th></tr>
 <tr>
-<td valign="top"><a href="../../screenshots/2-empires-finish-at-the-last-acropolis/010-finished-table-desktop-darwin.png"><img src="../../screenshots/2-empires-finish-at-the-last-acropolis/010-finished-table-desktop-darwin.png" alt="The table remains inspectable after scoring — desktop" width="720"></a></td>
-<td valign="top"><a href="../../screenshots/2-empires-finish-at-the-last-acropolis/010-finished-table-phone-darwin.png"><img src="../../screenshots/2-empires-finish-at-the-last-acropolis/010-finished-table-phone-darwin.png" alt="The table remains inspectable after scoring — phone" width="240"></a></td>
+<td valign="top"><a href="../../screenshots/2-empires-finish-at-the-last-acropolis/011-finished-table-desktop-darwin.png"><img src="../../screenshots/2-empires-finish-at-the-last-acropolis/011-finished-table-desktop-darwin.png" alt="The table remains inspectable after scoring — desktop" width="720"></a></td>
+<td valign="top"><a href="../../screenshots/2-empires-finish-at-the-last-acropolis/011-finished-table-phone-darwin.png"><img src="../../screenshots/2-empires-finish-at-the-last-acropolis/011-finished-table-phone-darwin.png" alt="The table remains inspectable after scoring — phone" width="240"></a></td>
 </tr>
 </table>
 
 <details>
 <summary>Tabletop · 3840 × 2160 — expand screenshot</summary>
 
-<a href="../../screenshots/2-empires-finish-at-the-last-acropolis/010-finished-table-tabletop-4k-darwin.png"><img src="../../screenshots/2-empires-finish-at-the-last-acropolis/010-finished-table-tabletop-4k-darwin.png" alt="The table remains inspectable after scoring — tabletop-4k" width="960"></a>
+<a href="../../screenshots/2-empires-finish-at-the-last-acropolis/011-finished-table-tabletop-4k-darwin.png"><img src="../../screenshots/2-empires-finish-at-the-last-acropolis/011-finished-table-tabletop-4k-darwin.png" alt="The table remains inspectable after scoring — tabletop-4k" width="960"></a>
 
 </details>
 
@@ -218,15 +239,15 @@ Viewpoint: **Theseus**.
 <table>
 <tr><th>Desktop · 1440 × 1000</th><th>Phone · 393 × 852</th></tr>
 <tr>
-<td valign="top"><a href="../../screenshots/2-empires-finish-at-the-last-acropolis/011-scores-again-desktop-darwin.png"><img src="../../screenshots/2-empires-finish-at-the-last-acropolis/011-scores-again-desktop-darwin.png" alt="Return to the same final standings — desktop" width="720"></a></td>
-<td valign="top"><a href="../../screenshots/2-empires-finish-at-the-last-acropolis/011-scores-again-phone-darwin.png"><img src="../../screenshots/2-empires-finish-at-the-last-acropolis/011-scores-again-phone-darwin.png" alt="Return to the same final standings — phone" width="240"></a></td>
+<td valign="top"><a href="../../screenshots/2-empires-finish-at-the-last-acropolis/012-scores-again-desktop-darwin.png"><img src="../../screenshots/2-empires-finish-at-the-last-acropolis/012-scores-again-desktop-darwin.png" alt="Return to the same final standings — desktop" width="720"></a></td>
+<td valign="top"><a href="../../screenshots/2-empires-finish-at-the-last-acropolis/012-scores-again-phone-darwin.png"><img src="../../screenshots/2-empires-finish-at-the-last-acropolis/012-scores-again-phone-darwin.png" alt="Return to the same final standings — phone" width="240"></a></td>
 </tr>
 </table>
 
 <details>
 <summary>Tabletop · 3840 × 2160 — expand screenshot</summary>
 
-<a href="../../screenshots/2-empires-finish-at-the-last-acropolis/011-scores-again-tabletop-4k-darwin.png"><img src="../../screenshots/2-empires-finish-at-the-last-acropolis/011-scores-again-tabletop-4k-darwin.png" alt="Return to the same final standings — tabletop-4k" width="960"></a>
+<a href="../../screenshots/2-empires-finish-at-the-last-acropolis/012-scores-again-tabletop-4k-darwin.png"><img src="../../screenshots/2-empires-finish-at-the-last-acropolis/012-scores-again-tabletop-4k-darwin.png" alt="Return to the same final standings — tabletop-4k" width="960"></a>
 
 </details>
 
@@ -237,15 +258,15 @@ Viewpoint: **Theseus**.
 <table>
 <tr><th>Desktop · 1440 × 1000</th><th>Phone · 393 × 852</th></tr>
 <tr>
-<td valign="top"><a href="../../screenshots/2-empires-finish-at-the-last-acropolis/012-ready-again-desktop-darwin.png"><img src="../../screenshots/2-empires-finish-at-the-last-acropolis/012-ready-again-desktop-darwin.png" alt="Ariadne can gather a fresh table from the finished game — desktop" width="720"></a></td>
-<td valign="top"><a href="../../screenshots/2-empires-finish-at-the-last-acropolis/012-ready-again-phone-darwin.png"><img src="../../screenshots/2-empires-finish-at-the-last-acropolis/012-ready-again-phone-darwin.png" alt="Ariadne can gather a fresh table from the finished game — phone" width="240"></a></td>
+<td valign="top"><a href="../../screenshots/2-empires-finish-at-the-last-acropolis/013-ready-again-desktop-darwin.png"><img src="../../screenshots/2-empires-finish-at-the-last-acropolis/013-ready-again-desktop-darwin.png" alt="Ariadne can gather a fresh table from the finished game — desktop" width="720"></a></td>
+<td valign="top"><a href="../../screenshots/2-empires-finish-at-the-last-acropolis/013-ready-again-phone-darwin.png"><img src="../../screenshots/2-empires-finish-at-the-last-acropolis/013-ready-again-phone-darwin.png" alt="Ariadne can gather a fresh table from the finished game — phone" width="240"></a></td>
 </tr>
 </table>
 
 <details>
 <summary>Tabletop · 3840 × 2160 — expand screenshot</summary>
 
-<a href="../../screenshots/2-empires-finish-at-the-last-acropolis/012-ready-again-tabletop-4k-darwin.png"><img src="../../screenshots/2-empires-finish-at-the-last-acropolis/012-ready-again-tabletop-4k-darwin.png" alt="Ariadne can gather a fresh table from the finished game — tabletop-4k" width="960"></a>
+<a href="../../screenshots/2-empires-finish-at-the-last-acropolis/013-ready-again-tabletop-4k-darwin.png"><img src="../../screenshots/2-empires-finish-at-the-last-acropolis/013-ready-again-tabletop-4k-darwin.png" alt="Ariadne can gather a fresh table from the finished game — tabletop-4k" width="960"></a>
 
 </details>
 
@@ -256,15 +277,15 @@ Viewpoint: **Theseus**.
 <table>
 <tr><th>Desktop · 1440 × 1000</th><th>Phone · 393 × 852</th></tr>
 <tr>
-<td valign="top"><a href="../../screenshots/2-empires-finish-at-the-last-acropolis/013-new-table-desktop-darwin.png"><img src="../../screenshots/2-empires-finish-at-the-last-acropolis/013-new-table-desktop-darwin.png" alt="Play again creates a separate two-player gathering — desktop" width="720"></a></td>
-<td valign="top"><a href="../../screenshots/2-empires-finish-at-the-last-acropolis/013-new-table-phone-darwin.png"><img src="../../screenshots/2-empires-finish-at-the-last-acropolis/013-new-table-phone-darwin.png" alt="Play again creates a separate two-player gathering — phone" width="240"></a></td>
+<td valign="top"><a href="../../screenshots/2-empires-finish-at-the-last-acropolis/014-new-table-desktop-darwin.png"><img src="../../screenshots/2-empires-finish-at-the-last-acropolis/014-new-table-desktop-darwin.png" alt="Play again creates a separate two-player gathering — desktop" width="720"></a></td>
+<td valign="top"><a href="../../screenshots/2-empires-finish-at-the-last-acropolis/014-new-table-phone-darwin.png"><img src="../../screenshots/2-empires-finish-at-the-last-acropolis/014-new-table-phone-darwin.png" alt="Play again creates a separate two-player gathering — phone" width="240"></a></td>
 </tr>
 </table>
 
 <details>
 <summary>Tabletop · 3840 × 2160 — expand screenshot</summary>
 
-<a href="../../screenshots/2-empires-finish-at-the-last-acropolis/013-new-table-tabletop-4k-darwin.png"><img src="../../screenshots/2-empires-finish-at-the-last-acropolis/013-new-table-tabletop-4k-darwin.png" alt="Play again creates a separate two-player gathering — tabletop-4k" width="960"></a>
+<a href="../../screenshots/2-empires-finish-at-the-last-acropolis/014-new-table-tabletop-4k-darwin.png"><img src="../../screenshots/2-empires-finish-at-the-last-acropolis/014-new-table-tabletop-4k-darwin.png" alt="Play again creates a separate two-player gathering — tabletop-4k" width="960"></a>
 
 </details>
 
@@ -277,15 +298,15 @@ Viewpoint: **Theseus**.
 <table>
 <tr><th>Desktop · 1440 × 1000</th><th>Phone · 393 × 852</th></tr>
 <tr>
-<td valign="top"><a href="../../screenshots/2-empires-finish-at-the-last-acropolis/014-old-result-desktop-darwin.png"><img src="../../screenshots/2-empires-finish-at-the-last-acropolis/014-old-result-desktop-darwin.png" alt="Theseus can still review the original finished match — desktop" width="720"></a></td>
-<td valign="top"><a href="../../screenshots/2-empires-finish-at-the-last-acropolis/014-old-result-phone-darwin.png"><img src="../../screenshots/2-empires-finish-at-the-last-acropolis/014-old-result-phone-darwin.png" alt="Theseus can still review the original finished match — phone" width="240"></a></td>
+<td valign="top"><a href="../../screenshots/2-empires-finish-at-the-last-acropolis/015-old-result-desktop-darwin.png"><img src="../../screenshots/2-empires-finish-at-the-last-acropolis/015-old-result-desktop-darwin.png" alt="Theseus can still review the original finished match — desktop" width="720"></a></td>
+<td valign="top"><a href="../../screenshots/2-empires-finish-at-the-last-acropolis/015-old-result-phone-darwin.png"><img src="../../screenshots/2-empires-finish-at-the-last-acropolis/015-old-result-phone-darwin.png" alt="Theseus can still review the original finished match — phone" width="240"></a></td>
 </tr>
 </table>
 
 <details>
 <summary>Tabletop · 3840 × 2160 — expand screenshot</summary>
 
-<a href="../../screenshots/2-empires-finish-at-the-last-acropolis/014-old-result-tabletop-4k-darwin.png"><img src="../../screenshots/2-empires-finish-at-the-last-acropolis/014-old-result-tabletop-4k-darwin.png" alt="Theseus can still review the original finished match — tabletop-4k" width="960"></a>
+<a href="../../screenshots/2-empires-finish-at-the-last-acropolis/015-old-result-tabletop-4k-darwin.png"><img src="../../screenshots/2-empires-finish-at-the-last-acropolis/015-old-result-tabletop-4k-darwin.png" alt="Theseus can still review the original finished match — tabletop-4k" width="960"></a>
 
 </details>
 
