@@ -124,6 +124,7 @@ test('follow Worship and a purchase once while reconnecting without an animation
     await expect(other.locator('.supply-coverflow')).toHaveAttribute('aria-busy','false');
     await expectFlights(other,expected);await expect(other.locator('.public-flight')).toHaveCount(0);
     await expect(other.locator('.observed-interaction')).toHaveCount(0);
+    await expect(other.locator('.buy-card[data-centered=true]')).toHaveAttribute('data-supply-id','drachma');
     await capture('observer','Theseus sees the public gift without an extra leader blessing',async()=>{await expect(other.locator('.outcome [data-card-id]')).toHaveAttribute('data-card-id','drachma');expect((await flights(other)).filter(move=>move.kind==='leader')).toHaveLength(0);},true);
     await context.setOffline(true);
     await capture('interrupted','Theseus keeps his table when the connection is interrupted',async()=>expect(other.locator('.connection')).toContainText('Your place is kept'),true,'disconnected');
