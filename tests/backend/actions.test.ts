@@ -4,7 +4,7 @@ import { replaySetup, type CardInstance, type SetupEvent, type SetupState } from
 
 function game(leader = 'thaleia', hand = ['oracles-acolyte', 'hamlet', 'obol'], deck = ['obol', 'hamlet', 'drachma', 'talent']): SetupState {
   const events: SetupEvent[] = [
-    { schemaVersion: 1, sequence: 1, actorUid: 'a', name: 'Ariadne', playerCount: 2, type: 'game/created' },
+    { schemaVersion: 1, sequence: 1, actorUid: 'a', name: 'Ariadne', playerCount: 2, type: 'game/created', equalTurns:true },
     { schemaVersion: 1, sequence: 2, actorUid: 'b', name: 'Theseus', playerCount: 2, type: 'player/joined' },
     { schemaVersion: 1, reducerVersion: 1, commandId: 'start', sequence: 3, actorUid: 'a', name: 'Ariadne', playerCount: 2, type: 'draft/started', seed: 'actions' }
   ];

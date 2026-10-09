@@ -19,7 +19,9 @@ test('transactions append ordered events; replay and repeat joins retain identit
   const events = (await getDocs(collection(host, 'games/replay/events'))).docs.map(doc => doc.data() as SetupEvent);
   const replay = replaySetup(events.reverse());
   expect(replay.players.map(player => player.name)).toEqual(['Ariadne', 'Theseus']);
-  expect(replay.activity).toHaveLength(2);
+  expect(replay.activity).toHaveLength(2);expect(replay.turn.equalTurns).toBe(true);
+  expect(events.find(event=>event.type==='game/created')?.equalTurns).toBe(true);
+  expect(events.find(event=>event.type==='player/joined')?.equalTurns).toBeUndefined();
   expect(setupSupply(2)).toHaveLength(18);
   expect(setupSupply(4).find(card => card.id === 'polis')?.count).toBe(12);
   expect(() => replaySetup([...events, events[0]])).toThrow();
@@ -47,7 +49,7 @@ test('rules reject unauthenticated reads, outsider event reads, mutation and for
   await assertFails(setDoc(doc(outsider, 'games/secure/events/2'), { schemaVersion: 1, sequence: 2, actorUid: 'secure-host', type: 'player/joined', name: 'Spoof', playerCount: 3, createdAt: serverTimestamp() }));
   await assertFails(updateDoc(doc(outsider, 'games/secure'), { members: ['secure-host', 'outsider'], revision: 2 }));
   await assertFails(setDoc(doc(host, 'games/no-event'), { owner: 'secure-host', members: ['secure-host'], revision: 1, playerCount: 2 }));
-  for (const [id, field] of [['bad-count', { playerCount: 5 }], ['bad-name', { name: ' ' }], ['bad-version', { schemaVersion: 2 }], ['private-data', { hand: ['obol'] }]] as const) {
+  for (const [id, field] of [['bad-ending-rule', { equalTurns: 'yes' }], ['bad-count', { playerCount: 5 }], ['bad-name', { name: ' ' }], ['bad-version', { schemaVersion: 2 }], ['private-data', { hand: ['obol'] }]] as const) {
     const batch = writeBatch(host);
     batch.set(doc(host, 'games', id), { owner: 'secure-host', members: ['secure-host'], revision: 1, playerCount: 2 });
     batch.set(doc(host, 'games', id, 'events', '1'), { schemaVersion: 1, sequence: 1, actorUid: 'secure-host', type: 'game/created', name: 'Host', playerCount: 2, createdAt: serverTimestamp(), ...field as Record<string, unknown> });

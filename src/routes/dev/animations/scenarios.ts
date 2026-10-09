@@ -1,6 +1,6 @@
 import { treasuresRightToLeft } from '$lib/components/play/hand-order';
 import { replaySetup, leaderIds, type SetupEvent } from '$lib/game/setup';
-import { activePlayer, applyPlayCommand, definition, eligibleGains, type ActionCommand } from '$lib/game/actions';
+import { initialTurn, activePlayer, applyPlayCommand, definition, eligibleGains, type ActionCommand } from '$lib/game/actions';
 import type { GameCommand } from '$lib/backend/setup-repository';
 
 export const scenarios = [
@@ -22,7 +22,7 @@ export type Fixture = { events: SetupEvent[]; actor: string; trigger?: GameComma
 export function fixture(id: string, count: 2 | 3 | 4, playerIds = Array.from({length:count},(_,i)=>`lab-${i}`)): Fixture {
   const leader = id === 'bronze-recruit' || id === 'forge-of-heroes' ? 'doreios' : id === 'favor' ? 'thaleia' : definitionOrGod(id);
   const names = ['Ariadne', 'Theseus', 'Iris', 'Leon'];
-  let events: SetupEvent[] = names.slice(0, count).map((name, i) => ({ schemaVersion: 1, sequence: i + 1, actorUid: playerIds[i], name, playerCount: count, type: i ? 'player/joined' : 'game/created' }));
+  let events: SetupEvent[] = names.slice(0, count).map((name, i) => ({ schemaVersion: 1, sequence: i + 1, actorUid: playerIds[i], name, playerCount: count, type: i ? 'player/joined' : 'game/created', ...(i ? {} : {equalTurns:initialTurn().equalTurns}) }));
   let projected = replaySetup(events);
   function append(command: GameCommand, uid?: string) {
     const game = projected;

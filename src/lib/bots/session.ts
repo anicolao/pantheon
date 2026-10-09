@@ -1,5 +1,5 @@
 import {openingBooks,currentOpeningBooks} from './opening-books';
-import {activePlayer,applyPlayCommand,type ActionCommand} from '../game/actions';
+import {initialTurn,activePlayer,applyPlayCommand,type ActionCommand} from '../game/actions';
 import {replaySetup,type SetupState,type SetupEvent} from '../game/setup';
 import {publicCommandContext,describePublicCommand} from '../game/public-table';
 import {inventoryAtSetup,updateInventory,strategyView} from '../../../balance-checkpoint/equal-turns/source/scripts/balance/strategy';
@@ -10,7 +10,7 @@ export type RecordGame={version:1;config:PracticeConfig;commands:ActionCommand[]
 export function initialGame(config:PracticeConfig):SetupState{
  const events:SetupEvent[]=[];
  const add=(uid:string,data:Partial<SetupEvent>)=>events.push({schemaVersion:1,sequence:events.length+1,actorUid:uid,name:uid==='human'?'You':botLabels[config.bot],playerCount:2,reducerVersion:1,commandId:'practice-'+(events.length+1),type:'player/joined',...data});
- add('human',{type:'game/created'});add('bot',{});add('human',{type:'draft/started',seed:config.seed});
+ add('human',{type:'game/created',equalTurns:initialTurn().equalTurns});add('bot',{});add('human',{type:'draft/started',seed:config.seed});
  const draft=replaySetup(events);
  // Seat order is selected before dealing; this seed suffix changes only the
  // first-player lottery, preserving the selected seed's shuffle reproducibility.

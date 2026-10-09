@@ -1,5 +1,5 @@
 import { collection, doc, getDocFromServer, onSnapshot, orderBy, query, runTransaction, serverTimestamp, type Firestore } from 'firebase/firestore';
-import type { ActionCommand } from '$lib/game/actions';
+import { initialTurn, type ActionCommand } from '$lib/game/actions';
 import { replaySetup, type SetupEvent, type SetupState } from '$lib/game/setup';
 import {isBotKind, type BotKind} from '$lib/game/bot-kind';
 
@@ -44,7 +44,7 @@ export async function enterRoom(db: Firestore, id: string, uid: string, name: st
     if (members.length >= count) throw new SetupError('full', 'This table is full.');
     const sequence = (previous?.revision ?? 0) + 1;
     const event: SetupEvent = { schemaVersion: 1, sequence, actorUid: uid, name, playerCount: count,
-      type: previous ? 'player/joined' : 'game/created', ...(creationToken ? { creationToken } : {}) };
+      type: previous ? 'player/joined' : 'game/created', ...(!previous ? {equalTurns: initialTurn().equalTurns} : {}), ...(creationToken ? { creationToken } : {}) };
     transaction.set(room, { owner: previous?.owner ?? uid, members: [...members, uid], playerCount: count, revision: sequence,
       ...(previous?.bots ? {bots:previous.bots} : {}) });
     transaction.set(doc(room, 'events', String(sequence)), { ...event, createdAt: serverTimestamp() });

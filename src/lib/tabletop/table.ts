@@ -1,6 +1,6 @@
 import { createPrng } from '../game/random';
 import { leaderIds, replaySetup, type SetupEvent, type SetupState } from '../game/setup';
-import { activePlayer, canPlayAction } from '../game/actions';
+import { initialTurn, activePlayer, canPlayAction } from '../game/actions';
 import type { GameCommand } from '../backend/setup-repository';
 
 /** Clockwise as seen from above, starting at the bottom of the display. */
@@ -49,6 +49,7 @@ export function begin(table: Tabletop, seed: string, startingUid?: string): Tabl
   const players = table.randomize && !startingUid ? desired : [...desired.slice(count - first), ...desired.slice(0, count - first)];
   let events: SetupEvent[] = players.map((seat, i) => ({ schemaVersion: 1, sequence: i + 1, actorUid: seatUid(seat.edge),
     name: seatName(seat.edge), playerCount: count, type: i === 0 ? 'game/created' : 'player/joined',
+    ...(i === 0 ? {equalTurns: initialTurn().equalTurns} : {}),
     ...(seat.mode === 'bot' && i > 0 ? { botKind: 'engine' as const } : {}) }));
   if (players[0].mode === 'bot') events.push({ schemaVersion: 1, sequence: events.length + 1, actorUid: events[0].actorUid,
     name: events[0].name, playerCount: count, type: 'player/automated', botKind: 'engine' });

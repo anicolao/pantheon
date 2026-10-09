@@ -74,10 +74,11 @@ service cloud.firestore {
       match /events/{eventId} {
         allow read: if signedIn() && request.auth.uid in get(room(gameId)).data.members;
         allow create: if signedIn()
-          && request.resource.data.keys().hasOnly(['schemaVersion', 'sequence', 'actorUid', 'type', 'name', 'playerCount', 'createdAt', 'creationToken', 'reducerVersion', 'commandId', 'seed', 'leaderId', 'instanceId', 'choiceId', 'targets', 'cardId', 'targetSequence', 'automatic', 'botKind', 'count'])
+          && request.resource.data.keys().hasOnly(['schemaVersion', 'sequence', 'actorUid', 'type', 'name', 'playerCount', 'createdAt', 'creationToken', 'reducerVersion', 'commandId', 'seed', 'leaderId', 'instanceId', 'choiceId', 'targets', 'cardId', 'targetSequence', 'automatic', 'botKind', 'count', 'equalTurns'])
           && (!('creationToken' in request.resource.data) || (request.resource.data.type == 'game/created'
             && request.resource.data.creationToken is string
             && request.resource.data.creationToken.size() > 0 && request.resource.data.creationToken.size() <= 64))
+          && (!('equalTurns' in request.resource.data) || (request.resource.data.type == 'game/created' && request.resource.data.equalTurns is bool))
           && (!('count' in request.resource.data) || request.resource.data.type == 'choice/staged')
           && (!('automatic' in request.resource.data) || (request.resource.data.type == 'phase/advanced' && request.resource.data.automatic is bool))
           && (!('targetSequence' in request.resource.data) || request.resource.data.type == 'action/undone')

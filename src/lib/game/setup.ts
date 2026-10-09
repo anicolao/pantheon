@@ -7,6 +7,7 @@ import { describePublicCommand, publicCommandContext, type PublicActivity } from
 export type SetupEvent = {
   schemaVersion: 1;
   creationToken?: string;
+  equalTurns?: boolean;
   sequence: number;
   actorUid: string;
   type: 'game/created' | 'player/joined' | 'player/automated' | 'table/resized' | 'draft/started' | 'leader/chosen' | ActionCommand['type'];
@@ -63,6 +64,7 @@ export function replaySetup(events: SetupEvent[]): SetupState {
     if (event.schemaVersion !== 1 || event.sequence !== state.activity.length + 1 ||
       ![2, 3, 4].includes(event.playerCount) || !event.actorUid ||
       typeof event.name !== 'string' || !event.name.trim() || event.name.length > 24) throw new Error('Invalid setup event stream.');
+    if (event.equalTurns !== undefined && (event.type !== 'game/created' || typeof event.equalTurns !== 'boolean')) throw new Error('Invalid end-of-game rule.');
     if (event.type === 'draft/started' || event.type === 'leader/chosen' || ['action/played', 'choice/resolved', 'choice/browsed', 'market/browsed', 'worship/focused', 'choice/staged', 'phase/advanced', 'treasure/played', 'treasures/played', 'card/bought', 'god/worshipped', 'turn/ended', 'action/undone'].includes(event.type)) {
       if (event.reducerVersion !== 1 || !event.commandId || event.commandId.length > 64 ||
         commandIds.has(event.commandId) ||
@@ -127,6 +129,8 @@ export function replaySetup(events: SetupEvent[]): SetupState {
     if (event.sequence === 1) {
       if (event.type !== 'game/created') throw new Error('Missing game creation event.');
       state.playerCount = event.playerCount;
+      // Old event histories retain their original ending, including completed matches.
+      state.turn.equalTurns = event.equalTurns ?? false;
     } else if (event.type !== 'player/joined' || event.playerCount !== state.playerCount || state.players.length >= state.playerCount) {
       throw new Error('Invalid player join event.');
     }
