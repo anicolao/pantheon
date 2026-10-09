@@ -92,6 +92,7 @@ for(const scenario of [
       expect(observed.find(move=>move.kind==='reveal')!.end).toContain(`translate(${target.x}px,${target.y}px)`);
       await expect(other.locator('.outcome')).toBeHidden();
     }
+    await expect(other.locator('.supply-coverflow')).toHaveAttribute('aria-busy','false');
     await capture('result','Every public movement arrived in order while hidden cards stayed backs',async()=>expect(other.locator('.opponents [data-card-id]')).toHaveCount(0),true);
     await openPlayers(other);await other.getByRole('button',{name:'Chronicle',exact:true}).click();
     await capture('history','The same source, destination, and resource result remain after motion',async()=>expect(other.locator('.chronicle .actor')).toContainText('Ariadne'),true);
