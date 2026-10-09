@@ -375,6 +375,7 @@
   .reader-panel{position:absolute;left:50%;top:50%;width:100cqw;height:100cqh;transform:translate(-50%,-50%) rotate(var(--reader-angle));background:#091b25f5;border:1px solid var(--gold);border-radius:1vmin;padding:1.2vmin;box-sizing:border-box;display:flex;flex-direction:column;gap:1vmin;box-shadow:0 .5vmin 2vmin #0008;}
   .reader-dock[data-reader-edge=west] .reader-panel,.reader-dock[data-reader-edge=east] .reader-panel{width:100cqh;height:100cqw;}
   .reader-panel header{display:flex;align-items:center;justify-content:space-between;gap:1vmin;}.reader-panel h2{font-size:2.4vmin;}.reader-panel button{font-size:1.5vmin;min-height:3.6vmin;padding:.5vmin 1vmin;}
+  .reader-panel header:has(.new-game){gap:.5vmin;}.reader-panel header:has(.new-game) h2{font-size:2vmin;}.reader-panel header:has(.new-game) button{padding:.5vmin;}.reader-panel .new-game{font-size:1.3vmin;white-space:nowrap;}
   .reader-scroll{flex:1;min-height:0;overflow:auto;overscroll-behavior:contain;font-size:clamp(12px,1.5vmin,28px);line-height:1.5;margin:0;padding:0;}.chronicle{list-style:none;}.chronicle li{padding:1vmin 0;border-bottom:1px solid #c9a66333;}.trash-cards{display:grid;grid-template-columns:1fr 1fr;gap:.8vmin;}.trash-cards button{border:0;padding:0;background:none;}.trash-reader>button{margin-bottom:1vmin;}
   @media(prefers-reduced-motion:reduce){.shared-table,.edge,.table-hand,.leader{transition:none;}}
 </style>
