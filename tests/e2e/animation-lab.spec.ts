@@ -346,4 +346,5 @@ test('an observed automatic worship lands its temple and centers the gift before
   await expect(gift).toHaveCount(0);
   await expect(temple).toHaveCount(0);
   await expect(page.getByRole('button',{name:'Replay',exact:true})).toBeEnabled();
+  await expect(page.locator('.buy-card[data-centered=true]')).toHaveAttribute('data-supply-id','drachma');
 });

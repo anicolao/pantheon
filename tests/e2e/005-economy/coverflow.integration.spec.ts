@@ -84,9 +84,11 @@ test('finish choices before automatically entering Treasures and browse every su
   await setMotionPreference(page,'reduce');
   const seen=new Set<string>();
   await page.locator('.buy-card[data-centered=true]').press('Home');
+  await expect(page.locator('.supply-coverflow')).toHaveAttribute('aria-busy','false');
   for(let index=0;index<piles.length;index++){
     for(const id of await page.locator('.buy-card[data-face-up=true]').evaluateAll(nodes=>nodes.map(node=>node.getAttribute('data-supply-id')!)))seen.add(id);
     await page.locator('.buy-card[data-centered=true]').press('ArrowRight');
+    await expect(page.locator('.supply-coverflow')).toHaveAttribute('aria-busy','false');
   }
   expect([...seen].sort()).toEqual(piles.map(pile=>pile.id).sort());
   await steps.step('expensive','Every pile is reachable in the same table',[{spec:'The costliest Territory is centered while the hand stays visible.',check:async()=>{await expect(page.getByRole('button',{name:'Buy Acropolis',exact:true})).toBeVisible();await expect(page.locator('.hand')).toBeVisible();await expect(page.locator('dialog:modal')).toHaveCount(0);}}]);

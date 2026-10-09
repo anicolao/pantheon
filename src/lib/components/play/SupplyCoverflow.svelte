@@ -34,6 +34,9 @@
   export async function centerPile(cardId:string){
     const index=piles.findIndex(pile=>pile.id===cardId);if(index<0)return;
     focusSettled?.();
+    // This public gain owns the destination, including affordability changes
+    // deferred until its flight lands. Do not replay that older auto-focus afterward.
+    followed={key:optionKey,affordable};
     await new Promise<void>(resolve=>{focusSettled=resolve;target=index;});
     await tick();
   }
