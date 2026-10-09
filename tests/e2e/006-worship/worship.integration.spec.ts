@@ -31,7 +31,15 @@ async function playCard(page:Page,id:string){
   }
 }
 const step=(steps:TestStepHelper,id:string,text:string,check:()=>Promise<unknown>)=>steps.step(id,text,[{spec:text,check}]);
-async function wealth(page:Page){await page.bringToFront();await enterTreasures(page);await page.getByRole('button',{name:'Play all Treasures',exact:true}).click();await expect(page.getByRole('button',{name:'Play all Treasures',exact:true})).toHaveCount(0);await expect(page.locator('.supply-coverflow')).toHaveAttribute('aria-busy','false');}
+async function wealth(page:Page){
+  await page.bringToFront();await enterTreasures(page);
+  await page.getByRole('button',{name:'Play all Treasures',exact:true}).click();
+  await expect(page.getByRole('button',{name:'Play all Treasures',exact:true})).toHaveCount(0);
+  // The market follows the completed card flights, not the command acknowledgement.
+  await expect(page.locator('.played-card').last()).toHaveCSS('opacity','1');
+  await expect(page.locator('.public-flight')).toHaveCount(0);
+  await expect(page.locator('.supply-coverflow')).toHaveAttribute('aria-busy','false');
+}
 
 test('Athena rewards two matching Actions with a five-cost topdeck gain',async({page},info)=>{
   const fixture=await worshipTable(page,info,'oracles-acolyte','thaleia',{extra:['temple-of-athena'],wealth:3});
