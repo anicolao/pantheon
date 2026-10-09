@@ -270,7 +270,7 @@
           while(pendingCues.length && queued.activity.steps.indexOf(pendingCues[0])<nextIndex){
             const cueStep=pendingCues.shift()!,source=anchor(current,cueStep.from);
             if(source){
-              const cue=source.node.animate([{filter:'brightness(1)',scale:'1'},{filter:'brightness(1.5)',scale:'1.06'},{filter:'brightness(1)',scale:'1'}],{duration:motionDuration(450),easing:MOTION_EASING});
+              const cue=source.node.animate([{boxShadow:'0 0 0 0 #ffe29800'},{boxShadow:'0 0 22px 10px #ffe298bb'},{boxShadow:'0 0 0 0 #ffe29800'}],{duration:motionDuration(450),easing:MOTION_EASING});
               animations.add(cue);await cue.finished.catch(()=>undefined);cue.cancel();animations.delete(cue);
             }
           }
