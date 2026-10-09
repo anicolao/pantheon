@@ -319,8 +319,8 @@
     {#if game && readers[edge]}
       <aside class="reader-dock" data-reader-edge={edge} data-reader-kind={readers[edge]} style:--reader-angle={`${index*90}deg`} style:--reader-top={`${readers.east ? 28 : 0}vmin`} style:--reader-right={`${readers.south ? 28 : 0}vmin`} style:--reader-bottom={`${readers.west ? 28 : 0}vmin`} style:--reader-left={`${readers.north ? 28 : 0}vmin`} aria-label={`${readers[edge]==='chronicle'?'Chronicle':'Trash'} for ${playerName(seatUid(edge))}`}>
         <div class="reader-panel">
-          <header><h2>{readers[edge]==='chronicle'?'Chronicle':`Trash · ${game.trash.length}`}</h2><button aria-label={`Close ${readers[edge]==='chronicle'?'Chronicle':'Trash'} for ${playerName(seatUid(edge))}`} onclick={()=>toggleReader(edge,readers[edge]!)}>×</button></header>
-          {#if readers[edge]==='chronicle'}<button class="new-game" onclick={()=>requestNewTable(edge)}>New game</button><ol class="reader-scroll chronicle">{#each game.activity.slice().reverse() as entry}<li>{message(entry.message)}</li>{/each}</ol>
+          <header><h2>{readers[edge]==='chronicle'?'Chronicle':`Trash · ${game.trash.length}`}</h2>{#if readers[edge]==='chronicle'}<button class="new-game" onclick={()=>requestNewTable(edge)}>New game</button>{/if}<button aria-label={`Close ${readers[edge]==='chronicle'?'Chronicle':'Trash'} for ${playerName(seatUid(edge))}`} onclick={()=>toggleReader(edge,readers[edge]!)}>×</button></header>
+          {#if readers[edge]==='chronicle'}<ol class="reader-scroll chronicle">{#each game.activity.slice().reverse() as entry}<li>{message(entry.message)}</li>{/each}</ol>
           {:else}<div class="reader-scroll trash-reader">
             {#if readerCards[edge]}<button onclick={()=>delete readerCards[edge]}>All trashed cards</button><CardFace card={definition(readerCards[edge]!)} players={game.playerCount}/>
             {:else if !game.trash.length}<p>No cards have been trashed.</p>
