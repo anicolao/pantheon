@@ -1,4 +1,4 @@
-import {cardFlightTiming,DRAW_MOTION,motionDuration} from '../../../src/lib/components/play/motion';
+import {cardFlightTiming,DRAW_MOTION,CLEANUP_DRAW_MOTION,motionDuration} from '../../../src/lib/components/play/motion';
 import {setMotionPreference} from '../helpers/motion-preference';
 import {openWorship,openPlayers,closePlayers} from '../helpers/table-controls';
 import {browseSupply,enterTreasures} from '../helpers/supply-controls';
@@ -82,7 +82,7 @@ for(const scenario of [
     const observed=await flights(other);
     for(const move of observed){
       const step=moves.find(step=>step.id===move.id)!;
-      expect(move.duration).toBe(step.kind==='draw'?DRAW_MOTION.reveal:cardFlightTiming(step).duration);
+      expect(move.duration).toBe(step.kind==='draw'?(state.publicActivity.find(entry=>entry.steps.some(candidate=>candidate.id===step.id))?.command==='turn/ended'?CLEANUP_DRAW_MOTION.reveal:DRAW_MOTION.reveal):cardFlightTiming(step).duration);
       expect(move.delay).toBeLessThanOrEqual(motionDuration(280));
     }
     expect(observed.filter(move=>['draw','shuffle'].includes(move.kind)).every(move=>move.faces===0)).toBe(true);

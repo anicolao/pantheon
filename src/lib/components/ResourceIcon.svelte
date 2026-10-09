@@ -1,8 +1,8 @@
 <script lang="ts">
   import { base } from '$app/paths';
   import { iconNames, type IconKind } from '$lib/game/presentation';
-  let { resource, value, label }: { resource: IconKind; value?: string | number; label?: string } = $props();
-  const description = $derived(label ?? (
+  let { resource, value, label, pending = false }: { resource: IconKind; value?: string | number; label?: string; pending?: boolean } = $props();
+  const description = $derived(pending ? `${label?.replace(/:.*$/, '') ?? iconNames[resource]}: cards moving` : label ?? (
     resource === 'trash' && value !== undefined ? `Trash up to ${value} cards from your hand` :
     resource === 'gain' && value === 'Σ' ? 'Gain a card costing up to the total cost of cards trashed by this effect, to your discard pile unless topdeck is shown' :
     resource === 'gain' && String(value).startsWith('+') ? `Gain a card costing up to ${String(value).slice(1)} more than the trashed card, to your discard pile unless topdeck is shown` :
@@ -12,9 +12,9 @@
   const hasPlus = $derived(String(value ?? '').startsWith('+'));
 </script>
 
-<span class="resource-icon" data-resource={resource} data-value={value} role="img" aria-label={description} title={description}>
+<span class="resource-icon" data-resource={resource} data-value={pending ? undefined : value} data-count-pending={pending || undefined} aria-busy={pending || undefined} role="img" aria-label={description} title={description}>
   <img class="component-image" src={resource === 'cards' ? `${base}/assets/backs/back-deck-icon.webp` : `${base}/assets/icons/${resource === 'discard' ? 'discard-v2' : resource}.webp`} alt="" draggable="false" />
-  {#if value !== undefined}<b class="resource-number">{#if hasPlus}<span class="math-plus">+</span>{String(value).slice(1)}{:else}{value}{/if}</b>{/if}
+  {#if !pending && value !== undefined}<b class="resource-number">{#if hasPlus}<span class="math-plus">+</span>{String(value).slice(1)}{:else}{value}{/if}</b>{/if}
 </span>
 
 <style>

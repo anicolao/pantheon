@@ -254,7 +254,7 @@
 
 <svelte:head><title>Gather at the Table — Pantheon: Bloodlines</title><link rel="preload" as="image" href={`${base}/assets/ui/sanctuary-button-secondary.png`} /></svelte:head>
 {#if setup && setup.phase !== 'gathering' && services}
-  <GameSession game={setup} uid={services.uid} {roomId} {status} {busy} error={playError} command={sendCommand} retry={connect} again={playAgain} onSettled={tableSettled} />
+  <GameSession game={setup} uid={services.uid} {roomId} {status} {busy} error={playError} command={sendCommand} retry={connect} again={playAgain} onSettled={tableSettled} onReady={tableSettled} />
   {#if botError}<div class="bot-error" role="alert">{botError}<button onclick={retryBot}>Retry bot</button></div>{/if}
 {:else}
 <main class="gathering" class:unavailable data-status={status}>

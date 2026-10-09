@@ -3,20 +3,22 @@
   import type { SetupState, CardInstance } from '$lib/game/setup';
   import { definition } from '$lib/game/actions';
   import { PublicMotionCursor, type PublicActivity, type PublicAnchor, type PublicStep } from '$lib/game/public-table';
-  import { motionDuration, cardFlightTiming, MOTION_EASING, FLIGHT_EASING, DRAW_MOTION, TABLE_PAUSE } from './motion';
+  import { motionDuration, cardFlightTiming, MOTION_EASING, FLIGHT_EASING, DRAW_MOTION, CLEANUP_DRAW_MOTION, TABLE_PAUSE } from './motion';
   import { measureLayout, type Pose, type Layout } from './motion-layout';
   import { treasuresRightToLeft } from './hand-order';
   import CardFace from '../CardFace.svelte';
   import CardBack from '../CardBack.svelte';
 
-  let { game, uid, openDraw, status, reduced, visible, previousLayout, localChoices=[], onSettled, onFlightsSettled, preserveFacing=false, skipCleanupDeal=false, drawCardWidth, layoutRevision=0, prepareActivity }: { prepareActivity?:(entry:PublicActivity)=>Promise<void>; drawCardWidth?:number; skipCleanupDeal?:boolean; preserveFacing?:boolean; layoutRevision?:number; game: SetupState; uid: string; openDraw: (step:string)=>void; status: string; reduced: boolean; visible: boolean; previousLayout: () => Layout; localChoices?:string[]; onSettled?:(revision:number)=>void; onFlightsSettled?:(revision:number)=>void } = $props();
-  type Flight = { card?: CardInstance; id: string; step: PublicStep; from: Pose; to: Pose; width: number; stack: number; sequence: number };
+  let { game, uid, openDraw, status, reduced, visible, previousLayout, localChoices=[], onSettled, onFlightsSettled, onTurnReady, onReady, preserveFacing=false, skipCleanupDeal=false, drawCardWidth, layoutRevision=0, prepareActivity }: { prepareActivity?:(entry:PublicActivity)=>Promise<void>; drawCardWidth?:number; skipCleanupDeal?:boolean; preserveFacing?:boolean; layoutRevision?:number; game: SetupState; uid: string; openDraw: (step:string)=>void; status: string; reduced: boolean; visible: boolean; previousLayout: () => Layout; localChoices?:string[]; onSettled?:(revision:number)=>void; onFlightsSettled?:(revision:number)=>void; onTurnReady?:(revision:number)=>void; onReady?:(revision:number)=>void } = $props();
+  type Flight = { card?: CardInstance; id: string; step: PublicStep; from: Pose; to: Pose; width: number; stack: number; sequence: number; cleanupDraw: boolean };
   const cursor = new PublicMotionCursor(untrack(() => game.activity.length));
   let drawPhases = $state<Record<string,'reveal'|'space'|'travel'>>({});
   let foreground = $state(true), flights = $state<Flight[]>([]);
   let before: Layout = { poses: [], width: 100 }, current: Layout = before;
   let revision = -1, running = false, generation = 0;
-  let queue: {flights:Flight[];activity:PublicActivity}[] = [];
+  type Queued = {flights:Flight[];activity:PublicActivity};
+  let queue: Queued[] = [];
+  const background = new Set<Promise<void>>();
   const departedTableNodes = new Set<HTMLElement>();
   const nodes = new Map<string, HTMLDivElement>();
   const animations = new Set<Animation>();
@@ -42,7 +44,7 @@
         await Promise.all(pending.map(animation=>animation.finished.catch(()=>undefined)));
       }while(true);
     }
-    if(alive&&token===settlement&&sequence===game.activity.length&&!running&&!queue.length)onSettled(sequence);
+    if(alive&&token===settlement&&sequence===game.activity.length&&!running&&!queue.length&&!background.size)onSettled(sequence);
   }
   function flightNode(node: HTMLDivElement, flight: Flight) { node.style.zIndex=String(20+flight.stack);nodes.set(flight.id,node); return {destroy:()=>{nodes.delete(flight.id);node.remove();}}; }
   function mask(node: HTMLElement) {
@@ -56,7 +58,7 @@
     node.style.opacity=saved.opacity;hidden.delete(node);
   }
   function stop() {
-    generation++;settlement++;queue=[];
+    generation++;settlement++;running=false;queue=[];background.clear();
     for(const animation of [...animations,...layoutAnimations])animation.cancel();
     animations.clear();layoutAnimations.clear();
     for(const [node,saved] of hidden)node.style.opacity=saved.opacity;
@@ -152,7 +154,7 @@
         const sidebarCard=!card?[...next.poses,...previous.poses].find(pose=>pose.uid===owner&&pose.zone==='hand'&&pose.key?.startsWith('hidden:')):undefined;
         const sidebarDeck=!card?anchor(next,{zone:'deck',uid:owner})??anchor(previous,{zone:'deck',uid:owner}):undefined;
         const width=card?(step.kind==='draw'?(drawCardWidth??next.width):from.key?from.width:to.key?to.width:next.width):(sidebarCard?.width??sidebarDeck?.width??Math.min(from.width,to.width));
-        const flight={card,stack:to.stack,id:`${step.id}:${index}`,step,from,to:facing(to,from),width,sequence:entry.sequence};
+        const flight={card,stack:to.stack,id:`${step.id}:${index}`,step,from,to:facing(to,from),width,sequence:entry.sequence,cleanupDraw:entry.command==='turn/ended'&&step.kind==='draw'};
         if(to.key && step.kind!=='draw')mask(to.node);
         result.push(flight);
       }
@@ -181,11 +183,12 @@
         if(Math.abs(target.x-active.target.x)+Math.abs(target.y-active.target.y)<.5&&Math.abs(target.angle-active.target.angle)<.1)continue;
         const timing=active.animation?.effect?.getComputedTiming();
         const policy=cardFlightTiming(active.flight.step);
-        active.redirect={transform:getComputedStyle(active.node).transform,duration:Math.max(policy.minimumRedirectDuration,Number(timing?.duration??policy.duration)*(1-(timing?.progress??0)))};
+        active.redirect={transform:getComputedStyle(active.node).transform,duration:Math.max(policy.minimumRedirectDuration/(active.flight.cleanupDraw?2:1),Number(timing?.duration??policy.duration)*(1-(timing?.progress??0)))};
         active.target=target;active.animation?.cancel();
       }
   }
   async function drawCard(flight: Flight, token: number, revealed:()=>void) {
+    const timing=flight.cleanupDraw?CLEANUP_DRAW_MOTION:DRAW_MOTION;
     const node=nodes.get(flight.id)!;
     const held:Animation[]=[];
     const valid=()=>alive && token===generation;
@@ -203,8 +206,8 @@
       const raised={...source,x:Math.max(halfX+8,Math.min(innerWidth-halfX-8,source.x+Math.sin(radians)*height*.65)),y:Math.max(halfY+8,Math.min(innerHeight-halfY-8,source.y-Math.cos(radians)*height*.65)),angle};
       const flip=node.querySelector<HTMLElement>('.draw-flip');
       await Promise.all([
-        animate(node,[{transform:`${transform(source)} scale(${source.width/flight.width})`,opacity:1},{transform:transform(raised),opacity:1}],DRAW_MOTION.reveal),
-        ...(flip?[animate(flip,[{transform:'rotateY(180deg)'},{transform:'rotateY(0deg)'}],DRAW_MOTION.reveal)]:[])
+        animate(node,[{transform:`${transform(source)} scale(${source.width/flight.width})`,opacity:1},{transform:transform(raised),opacity:1}],timing.reveal),
+        ...(flip?[animate(flip,[{transform:'rotateY(180deg)'},{transform:'rotateY(0deg)'}],timing.reveal)]:[])
       ].map(animation=>animation.finished.catch(()=>undefined)));
       revealed();
       if(!valid())return;
@@ -218,7 +221,7 @@
       if(!added)return;
       flight.to=drawFacing(added,flight.from);
       if(added.key)mask(added.node);
-      await Promise.all(reposition(previous,current,DRAW_MOTION.space).map(animation=>animation.finished.catch(()=>undefined)));
+      await Promise.all(reposition(previous,current,timing.space).map(animation=>animation.finished.catch(()=>undefined)));
       if(!valid())return;
       drawPhases[flight.id]='travel';
       // Re-measure after opening this slot, not against the final future hand.
@@ -229,7 +232,7 @@
       const hand=destination.node.closest<HTMLElement>('.hand,.table-hand');
       if(hand){hand.append(node);node.style.zIndex=String(destination.stack);if(hand.classList.contains('table-hand'))node.style.position='absolute';}
       const active:ActiveFlight={flight,node,target:destination};activeFlights.add(active);
-      let start=drawTransform(raised,node),duration=DRAW_MOTION.travel;
+      let start=drawTransform(raised,node),duration=timing.travel;
       try {
         while(valid()) {
           active.redirect=undefined;
@@ -249,127 +252,152 @@
       if(valid()){flights=flights.filter(item=>item.id!==flight.id);delete drawPhases[flight.id];await tick();}
     }
   }
+  async function playEntry(queued:Queued, token:number, prepare=true) {
+    await tick();
+    if(prepare && prepareActivity)await prepareActivity(queued.activity);
+    if(token!==generation)return;
+    current=measureLayout();
+    const entry=queued.flights;
+    for(const flight of entry)if(flight.step.from.zone==='supply'){
+      const source=anchor(current,flight.step.from,flight.card?.id);
+      if(source)flight.from=facing(source,flight.from);
+    }
+    const pendingCues=queued.activity.steps.filter(step=>step.kind==='leader');
+    async function blessingsBefore(step?:PublicStep){
+      const nextIndex=step?queued.activity.steps.findIndex(candidate=>candidate.id===step.id):Infinity;
+      while(pendingCues.length && queued.activity.steps.indexOf(pendingCues[0])<nextIndex){
+        const cueStep=pendingCues.shift()!,source=anchor(current,cueStep.from);
+        if(source){
+          const cue=source.node.animate([{boxShadow:'0 0 0 0 #ffe29800'},{boxShadow:'0 0 22px 10px #ffe298bb'},{boxShadow:'0 0 0 0 #ffe29800'}],{duration:motionDuration(450),easing:MOTION_EASING});
+          animations.add(cue);await cue.finished.catch(()=>undefined);cue.cancel();animations.delete(cue);
+        }
+      }
+    }
+    for(let index=0;index<entry.length;){
+      if(token!==generation)break;
+      await blessingsBefore(entry[index].step);
+      if(token!==generation)break;
+      const batch=[entry[index++]];
+      if(['play','draw','cleanup'].includes(batch[0].step.kind)){
+        while(index<entry.length&&entry[index].step.kind===batch[0].step.kind){
+          const previousIndex=queued.activity.steps.findIndex(step=>step.id===batch.at(-1)!.step.id);
+          const nextIndex=queued.activity.steps.findIndex(step=>step.id===entry[index].step.id);
+          if(queued.activity.steps.slice(previousIndex+1,nextIndex).some(step=>step.kind==='leader'))break;
+          batch.push(entry[index++]);
+        }
+      }
+      if(batch[0].step.kind==='draw') {
+        const landing:Promise<void>[]=[];
+        for(const flight of batch) {
+          if(token!==generation)break;
+          let release!:()=>void;
+          const revealed=new Promise<void>(resolve=>{release=resolve;});
+          flushSync(()=>{drawPhases[flight.id]='reveal';flights=[...flights,flight];});
+          landing.push(drawCard(flight,token,release));
+          // The actual flip completion starts the next reveal. Landing and
+          // hand reflow continue concurrently, with each slot added alone.
+          await revealed;
+        }
+        await Promise.all(landing);
+        continue;
+      }
+      // A table reveal must disappear from its stationary slot as its
+      // onward flight begins, rather than leaving a duplicate behind.
+      for(const flight of batch)if(flight.step.from.zone==='reveal'){
+        mask(flight.from.node);departedTableNodes.add(flight.from.node);
+      }
+      flushSync(()=>{flights=[...flights,...batch];});
+      // Schedule the whole batch on one timeline instant. Otherwise each
+      // pending animation starts on a later compositor frame under load,
+      // adding renderer latency to the intended stagger and landing time.
+      const batchStart=document.timeline.currentTime;
+      const landed:Animation[]=[];
+      await Promise.all(batch.map(async(flight,offset)=>{
+        const node=nodes.get(flight.id)!;
+        // Use the actual card slot when available, otherwise the real pile icon.
+        const targetAnchor=preserveFacing && flight.step.to.zone==='trash'?{...flight.step.to,uid:flight.step.from.uid??uid}:flight.step.to;
+        const destination=facing(current.poses.find(pose=>pose.key&&pose.key===flight.to.key)??anchor(current,targetAnchor,flight.step.card?.id)??flight.to,flight.from);
+        const active:ActiveFlight={flight,node,target:destination};activeFlights.add(active);
+        let {duration,delay}=cardFlightTiming(flight.step,offset);
+        let start=transform(flight.from),initial=true;
+        try{
+          while(token===generation){
+            active.redirect=undefined;
+            const animation=node.animate([
+              {transform:start,opacity:1},
+              {transform:transform(active.target),opacity:1}
+            ],{duration,delay,easing:FLIGHT_EASING,fill:'both'});
+            if(initial){animation.startTime=batchStart;initial=false;}
+            active.animation=animation;animations.add(animation);
+            await animation.finished.catch(()=>undefined);
+            const redirect=active.redirect as ActiveFlight['redirect'];
+            if(!redirect){
+              const onward=entry[index];
+              if(token===generation && onward && flight.to.key && flight.card && flight.to.key===onward.from.key && flight.card.id===onward.card?.id){
+                node.dataset.motionPhase='pause';
+                const pause=node.animate([{opacity:1},{opacity:1}],{duration:TABLE_PAUSE});
+                animations.add(pause);
+                await pause.finished.catch(()=>undefined);
+                pause.cancel();animations.delete(pause);
+              }
+              landed.push(animation);break;
+            }
+            animation.cancel();animations.delete(animation);
+            start=redirect.transform;duration=redirect.duration;delay=0;
+          }
+        }finally{
+          activeFlights.delete(active);
+        }
+      }));
+      // Keep all arrivals in the flight layer until the batch completes. A later
+      // deal must not cover a card that belongs above it in the sorted hand.
+      if(token!==generation)return;
+      for(const flight of batch)reveal(flight.to.node);
+      for(const animation of landed){animation.cancel();animations.delete(animation);}
+      flights=flights.filter(flight=>!batch.some(candidate=>candidate.id===flight.id));
+    }
+    if(token===generation)await blessingsBefore();
+  }
+  function finishIfIdle(token:number) {
+    if(!alive || token!==generation || running || queue.length || background.size)return;
+    for(const node of departedTableNodes)reveal(node);
+    departedTableNodes.clear();
+    onFlightsSettled?.(game.activity.length);
+    void settle(visible&&foreground&&!reduced);
+  }
   async function drain() {
     if(running)return;
     running=true;const token=generation;
-    try{
-      await tick();
-      while(queue.length&&token===generation){
+    try {
+      while(queue.length && token===generation){
         const queued=queue.shift()!;
-        if(prepareActivity)await prepareActivity(queued.activity);
-        if(token!==generation)break;
-        current=measureLayout();
-        const entry=queued.flights;
-        for(const flight of entry)if(flight.step.from.zone==='supply'){
-          const source=anchor(current,flight.step.from,flight.card?.id);
-          if(source)flight.from=facing(source,flight.from);
-        }
-        const pendingCues=queued.activity.steps.filter(step=>step.kind==='leader');
-        async function blessingsBefore(step?:PublicStep){
-          const nextIndex=step?queued.activity.steps.findIndex(candidate=>candidate.id===step.id):Infinity;
-          while(pendingCues.length && queued.activity.steps.indexOf(pendingCues[0])<nextIndex){
-            const cueStep=pendingCues.shift()!,source=anchor(current,cueStep.from);
-            if(source){
-              const cue=source.node.animate([{boxShadow:'0 0 0 0 #ffe29800'},{boxShadow:'0 0 22px 10px #ffe298bb'},{boxShadow:'0 0 0 0 #ffe29800'}],{duration:motionDuration(450),easing:MOTION_EASING});
-              animations.add(cue);await cue.finished.catch(()=>undefined);cue.cancel();animations.delete(cue);
-            }
-          }
-        }
-        for(let index=0;index<entry.length;){
+        if(queued.activity.command==='turn/ended' && !skipCleanupDeal){
+          const cleanup=queued.flights.filter(flight=>flight.step.kind==='cleanup');
+          const redeal=queued.flights.filter(flight=>flight.step.kind!=='cleanup');
+          await playEntry({...queued,flights:cleanup},token);
           if(token!==generation)break;
-          await blessingsBefore(entry[index].step);
-          if(token!==generation)break;
-          const batch=[entry[index++]];
-          if(['play','draw','cleanup'].includes(batch[0].step.kind)){
-            while(index<entry.length&&entry[index].step.kind===batch[0].step.kind){
-              const previousIndex=queued.activity.steps.findIndex(step=>step.id===batch.at(-1)!.step.id);
-              const nextIndex=queued.activity.steps.findIndex(step=>step.id===entry[index].step.id);
-              if(queued.activity.steps.slice(previousIndex+1,nextIndex).some(step=>step.kind==='leader'))break;
-              batch.push(entry[index++]);
-            }
+          // Redeal belongs to the outgoing player. It can coexist with the next
+          // player's flights, without dropping either set of animated cards.
+          if(redeal.length){
+            const task=playEntry({...queued,flights:redeal},token,false).finally(()=>{
+              background.delete(task);finishIfIdle(token);
+            });
+            background.add(task);
           }
-          if(batch[0].step.kind==='draw') {
-            const landing:Promise<void>[]=[];
-            for(const flight of batch) {
-              if(token!==generation)break;
-              let release!:()=>void;
-              const revealed=new Promise<void>(resolve=>{release=resolve;});
-              flushSync(()=>{drawPhases[flight.id]='reveal';flights=[...flights,flight];});
-              landing.push(drawCard(flight,token,release));
-              // The actual flip completion starts the next reveal. Landing and
-              // hand reflow continue concurrently, with each slot added alone.
-              await revealed;
-            }
-            await Promise.all(landing);
-            continue;
-          }
-          // A table reveal must disappear from its stationary slot as its
-          // onward flight begins, rather than leaving a duplicate behind.
-          for(const flight of batch)if(flight.step.from.zone==='reveal'){
-            mask(flight.from.node);departedTableNodes.add(flight.from.node);
-          }
-          flushSync(()=>{flights=batch;});
-          // Schedule the whole batch on one timeline instant. Otherwise each
-          // pending animation starts on a later compositor frame under load,
-          // adding renderer latency to the intended stagger and landing time.
-          const batchStart=document.timeline.currentTime;
-          const landed:Animation[]=[];
-          await Promise.all(batch.map(async(flight,offset)=>{
-            const node=nodes.get(flight.id)!;
-            // Use the actual card slot when available, otherwise the real pile icon.
-            const targetAnchor=preserveFacing && flight.step.to.zone==='trash'?{...flight.step.to,uid:flight.step.from.uid??uid}:flight.step.to;
-            const destination=facing(current.poses.find(pose=>pose.key&&pose.key===flight.to.key)??anchor(current,targetAnchor,flight.step.card?.id)??flight.to,flight.from);
-            const active:ActiveFlight={flight,node,target:destination};activeFlights.add(active);
-            let {duration,delay}=cardFlightTiming(flight.step,offset);
-            let start=transform(flight.from),initial=true;
-            try{
-              while(token===generation){
-                active.redirect=undefined;
-                const animation=node.animate([
-                  {transform:start,opacity:1},
-                  {transform:transform(active.target),opacity:1}
-                ],{duration,delay,easing:FLIGHT_EASING,fill:'both'});
-                if(initial){animation.startTime=batchStart;initial=false;}
-                active.animation=animation;animations.add(animation);
-                await animation.finished.catch(()=>undefined);
-                const redirect=active.redirect as ActiveFlight['redirect'];
-                if(!redirect){
-                  const onward=entry[index];
-                  if(token===generation && onward && flight.to.key && flight.card && flight.to.key===onward.from.key && flight.card.id===onward.card?.id){
-                    node.dataset.motionPhase='pause';
-                    const pause=node.animate([{opacity:1},{opacity:1}],{duration:TABLE_PAUSE});
-                    animations.add(pause);
-                    await pause.finished.catch(()=>undefined);
-                    pause.cancel();animations.delete(pause);
-                  }
-                  landed.push(animation);break;
-                }
-                animation.cancel();animations.delete(animation);
-                start=redirect.transform;duration=redirect.duration;delay=0;
-              }
-            }finally{
-              activeFlights.delete(active);
-            }
-          }));
-          // Keep all arrivals in the flight layer until the batch completes. A later
-          // deal must not cover a card that belongs above it in the sorted hand.
-          for(const flight of batch)reveal(flight.to.node);
-          for(const animation of landed){animation.cancel();animations.delete(animation);}
-          flights=[];
+          onTurnReady?.(queued.activity.sequence);
+        }else await playEntry(queued,token);
+        if(onReady && token===generation){
+          // Paint foreground arrivals before a bot continues; background redeals
+          // are deliberately excluded from this readiness signal.
+          await tick();await frame();await frame();
+          if(token===generation)onReady(queued.activity.sequence);
         }
-        if(token===generation)await blessingsBefore();
       }
-    }finally{
-      running=false;flights=[];
-      for(const node of departedTableNodes)reveal(node);
-      departedTableNodes.clear();
-      if(queue.length)void drain();
-      else {
-        // Release dependent motion as soon as the last flight lands. The broader
-        // settlement check below also waits for layout/paint, and is for callers
-        // that need the whole view at rest rather than the next animation cue.
-        if(alive && token===generation)onFlightsSettled?.(game.activity.length);
-        void settle(visible&&foreground&&!reduced);
+    } finally {
+      if(token===generation){
+        running=false;
+        if(queue.length)void drain();
+        else finishIfIdle(token);
       }
     }
   }
@@ -394,7 +422,7 @@
       if(fresh.length){
         for(const entry of fresh){const planned=plan(entry,before,current);queue.push({flights:planned,activity:entry});}
         reposition(before,current);void drain();
-      }else if(!running){onFlightsSettled?.(game.activity.length);void settle();}
+      }else if(!running&&!background.size){onFlightsSettled?.(game.activity.length);void settle();}
     });
   });
   onMount(()=>{
