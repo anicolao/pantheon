@@ -7,9 +7,14 @@
   let { game, uid, events, hidden, disabled=false, open }: { game:SetupState;uid:string;events:string[];hidden?:string;disabled?:boolean;open:(id:string)=>void }=$props();
   let focused=$state(0),width=$state(300),height=$state(500);
   const lastAvailable=$derived(events.findLastIndex(id=>!worshipReason(game,activePlayer(game),id)));
+  let followedAvailable=-2;
   $effect(()=>{
     if(disabled)return;
     const next=lastAvailable;
+    // A network acknowledgement re-enables the controls without changing
+    // affordability. Preserve the worship card the player just centered.
+    if(next===followedAvailable)return;
+    followedAvailable=next;
     if(next>=0)untrack(()=>center(next));
     else focused=Math.max(0,Math.min(events.length-1,untrack(()=>focused)));
   });

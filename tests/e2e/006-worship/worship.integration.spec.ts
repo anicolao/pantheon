@@ -157,7 +157,7 @@ test('four shared gods and three Devotion remain readable in the vertical coverf
   await page.getByRole('button',{name:'Return worship card',exact:true}).click();
   await step(steps,'return','The worship card returns to the shared stack',async()=>expect(page.locator('.worship-overlay')).toHaveCount(0));
   await openWorship(page,'Counsel of Olympus');
-  await step(steps,'another-god','Another shared god offers its Standard effect with zero Devotion',async()=>{await expect(page.locator('.card-controls p').first()).toHaveText('Standard · 0 Devotion');await expect(page.getByRole('button',{name:'Worship Athena',exact:true})).toBeEnabled();await expect(page.locator('.resources [data-resource=worship]')).toHaveAttribute('data-value','2');});
+  await step(steps,'another-god','Another shared god offers its Standard effect with zero Devotion',async()=>{await expect(page.locator('.worship-coverflow button[data-face-up=true]')).toHaveAttribute('aria-label','Inspect Counsel of Olympus');await expect(page.locator('.card-controls p').first()).toHaveText('Standard · 0 Devotion');await expect(page.getByRole('button',{name:'Worship Athena',exact:true})).toBeEnabled();await expect(page.locator('.resources [data-resource=worship]')).toHaveAttribute('data-value','2');});
 });
 
 test('Poseidon keeps the payment and grants his Favored Buy when Drachmas are exhausted',async({page},info)=>{
