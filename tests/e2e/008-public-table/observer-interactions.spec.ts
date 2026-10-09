@@ -36,6 +36,7 @@ test('share market browsing and the complete worship scene with an observer',asy
       await expect(other.locator('.observed-interaction')).toContainText('Choosing a card');
       await expect(other.locator('.buy-card[data-centered=true]')).toHaveAttribute('data-supply-id','oracles-acolyte');
       await expect(other.locator('.opponents [data-card-id]')).toHaveCount(0);
+      expect((await readEvents(fixture.code)).filter(event=>event.type==='worship/focused').map(event=>event.cardId)).toEqual(['counsel-of-olympus','','counsel-of-olympus']);
     }}],{page:other});
     await (await browseChoice(page,'Oracle’s Acolyte')).click();
     await page.getByRole('button',{name:'Gain selected card',exact:true}).click();

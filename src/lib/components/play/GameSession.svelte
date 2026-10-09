@@ -98,7 +98,16 @@
   let worshipEvent = $state('counsel-of-olympus');
   const worshipEvents=$derived([...game.sharedEvents].sort((a,b)=>(definition(a).cost??0)-(definition(b).cost??0)||definition(a).name.localeCompare(definition(b).name)));
   let worshipSource = $state<DOMRect>();
-  function worship(id: string) { if(turnUid===uid && !game.turn.choice)void command({type:'worship/focused',cardId:id}); worshipSource=document.querySelector<HTMLElement>(`[data-god-event="${id}"]`)?.getBoundingClientRect(); worshipEvent=id; drawer=''; void open('worship'); }
+  async function worship(id: string) {
+    if(turnUid===uid && !game.turn.choice){
+      if(!ready)return;
+      await command({type:'worship/focused',cardId:id});
+      await tick();
+      if(game.turn.worshipFocus!==id)return;
+    }
+    worshipSource=document.querySelector<HTMLElement>(`[data-god-event="${id}"]`)?.getBoundingClientRect();
+    worshipEvent=id;drawer='';await open('worship');
+  }
   async function prepareWorshipReturn(){
     if(!portraitLayout)return;
     drawer='worship';await tick();
@@ -350,10 +359,10 @@
       <div id="worship-drawer" class="worship-drawer" class:drawer-open={drawer === 'worship'} inert={portraitLayout && drawer !== 'worship'}>
       <h2 class="drawer-title">Worship</h2>
       {#if game.sharedEvents.length > 2}
-        <WorshipCoverflow {game} {uid} events={worshipEvents} hidden={worshipVisible ? worshipChoice?.source ?? worshipEvent : observedTemple} disabled={worshipVisible || !!inlineChoice} open={worship}/>
+        <WorshipCoverflow {game} {uid} events={worshipEvents} hidden={worshipVisible ? worshipChoice?.source ?? worshipEvent : observedTemple} disabled={worshipVisible || !!inlineChoice || (turnUid===uid && !ready)} open={worship}/>
       {:else}
       <section class="altars" aria-label="Shared god events" class:four={game.sharedEvents.length > 2}>
-        {#each worshipEvents as id, index}<button data-public-zone="altar" data-public-card={id} data-god-event={id} style:visibility={(worshipVisible && id === (worshipChoice?.source ?? worshipEvent)) || id===observedTemple ? 'hidden' : undefined} disabled={worshipVisible} style:--altar-index={index} aria-label={`Inspect ${cards.find(card => card.id === id)!.name}`} onclick={() => worship(id)} in:arrive><WorshipFace {game} {uid} cardId={id} dimUnavailable /></button>{/each}
+        {#each worshipEvents as id, index}<button data-public-zone="altar" data-public-card={id} data-god-event={id} style:visibility={(worshipVisible && id === (worshipChoice?.source ?? worshipEvent)) || id===observedTemple ? 'hidden' : undefined} disabled={worshipVisible || (turnUid===uid && !ready)} style:--altar-index={index} aria-label={`Inspect ${cards.find(card => card.id === id)!.name}`} onclick={() => worship(id)} in:arrive><WorshipFace {game} {uid} cardId={id} dimUnavailable /></button>{/each}
       </section>
       {/if}
 
