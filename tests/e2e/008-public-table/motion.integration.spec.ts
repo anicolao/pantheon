@@ -15,9 +15,11 @@ async function observe(page:Page){
   await page.evaluate(()=>{
     const animate=Element.prototype.animate;
     const recorded=new WeakSet<Element>();
+    const timeline=window as unknown as {motionOrder:string[]};timeline.motionOrder=[];
     const owner=window as unknown as {flights:{id:string;kind:string;faces:number;end:string;duration:number;delay:number}[]};owner.flights=[];
     Element.prototype.animate=function(frames,options){
-      if(this.matches('.public-flight')&&!recorded.has(this)){recorded.add(this);owner.flights.push({id:this.getAttribute('data-motion-step')!,kind:this.getAttribute('data-motion-kind')!,faces:this.querySelectorAll('[data-card-id]').length,duration:typeof options==='number'?options:Number(options?.duration),delay:typeof options==='number'?0:Number(options?.delay??0),end:Array.isArray(frames)?String(frames.at(-1)?.transform):''});}
+      if(this.matches('[data-public-zone=leader]'))timeline.motionOrder.push('leader');
+      if(this.matches('.public-flight')&&!recorded.has(this)){recorded.add(this);timeline.motionOrder.push(this.getAttribute('data-motion-step')!);owner.flights.push({id:this.getAttribute('data-motion-step')!,kind:this.getAttribute('data-motion-kind')!,faces:this.querySelectorAll('[data-card-id]').length,duration:typeof options==='number'?options:Number(options?.duration),delay:typeof options==='number'?0:Number(options?.delay??0),end:Array.isArray(frames)?String(frames.at(-1)?.transform):''});}
       return animate.call(this,frames,options);
     };
   });
@@ -52,6 +54,10 @@ for(const scenario of [
     const played=replaySetup(await readEvents(fixture.code)).publicActivity.findLast(entry=>entry.command==='action/played')!;
     await expectFlights(other,played.steps.filter(step=>!['leader','worship'].includes(step.kind)).map(step=>step.id));
     await expect(other.locator('.public-flight')).toHaveCount(0);
+    if(scenario.card==='oracles-acolyte'){
+      const order=await other.evaluate(()=>(window as unknown as {motionOrder:string[]}).motionOrder);
+      expect(order).toEqual(played.steps.map(step=>step.kind==='leader'?'leader':step.id));
+    }
     if(scenario.card==='harvest-feast'){
       await capture('discard','Ariadne must discard after drawing two cards',async()=>expect(page.locator('.inline-choice')).toContainText('Discard a card from your hand'));
       await page.getByRole('button',{name:/^Discard hand card /}).first().click();
@@ -105,13 +111,19 @@ test('follow Worship and a purchase once while reconnecting without an animation
     await capture('table','Ariadne is ready to play Sea Trade at a legal recorded table',async()=>expect(page.locator('.hand [data-card-id="sea-trade"]')).toBeVisible());
     await openPlayers(other);await observe(other);await other.bringToFront();await playCard(page,'sea-trade');
     await capture('wealth','Sea Trade and Nereon grant three Coins',async()=>expect(page.locator('.resources [data-resource=coins]')).toHaveAttribute('data-value','3'));
+    const opening=replaySetup(await readEvents(fixture.code)).publicActivity.filter(entry=>entry.sequence>fixture.events.length).flatMap(entry=>entry.steps.filter(step=>!['leader','worship'].includes(step.kind)).map(step=>step.id));
+    await expectFlights(other,opening);
     await openWorship(page,'Tribute of the Tides');
+    await expect(other.locator('.observed-interaction')).toBeVisible();
+    await expect(other.locator('.observed-interaction')).toHaveCSS('transform','none');
     await capture('altar','Ariadne can pay Poseidon before the Treasure phase',async()=>expect(page.getByRole('button',{name:'Worship Poseidon',exact:true})).toBeEnabled());
     await page.getByRole('button',{name:'Worship Poseidon',exact:true}).click();
     await capture('gift','Poseidon sends a Drachma to Ariadne’s discard',async()=>expect(page.locator('.resources [data-resource=coins]')).toHaveAttribute('data-value','0'));
     let state=replaySetup(await readEvents(fixture.code));
     const expected=state.publicActivity.filter(entry=>entry.sequence>fixture.events.length).flatMap(entry=>entry.steps.filter(step=>!['leader','worship'].includes(step.kind)).map(step=>step.id));
+    await expect(other.locator('.supply-coverflow')).toHaveAttribute('aria-busy','false');
     await expectFlights(other,expected);await expect(other.locator('.public-flight')).toHaveCount(0);
+    await expect(other.locator('.observed-interaction')).toHaveCount(0);
     await capture('observer','Theseus sees the public gift without an extra leader blessing',async()=>{await expect(other.locator('.outcome [data-card-id]')).toHaveAttribute('data-card-id','drachma');expect((await flights(other)).filter(move=>move.kind==='leader')).toHaveLength(0);},true);
     await context.setOffline(true);
     await capture('interrupted','Theseus keeps his table when the connection is interrupted',async()=>expect(other.locator('.connection')).toContainText('Your place is kept'),true,'disconnected');

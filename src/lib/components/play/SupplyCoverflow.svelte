@@ -83,11 +83,11 @@
     if(index>=0)target=index;
   });
   function move(index:number){
-    if(observer||selection?.readOnly||focusSettled)return;
+    if(selection?.readOnly||focusSettled)return;
     target=Math.max(0,Math.min(piles.length-1,index));notice='';
     const cardId=piles[Math.round(target)]?.id;
     if(selection?.kind==='gain' && cardId && (sendingBrowse || queuedBrowse || cardId!==(selection.browsedCardId ?? piles.at(-1)?.id)))queuedBrowse={choiceId:selection.choiceId,cardId};
-    else if(sharedBrowsing&&!selection&&cardId)queuedBrowse={cardId};
+    else if(sharedBrowsing&&!observer&&!selection&&cardId)queuedBrowse={cardId};
   }
   async function buy(id:string){
     if(!ready || selection?.readOnly || sendingBrowse || queuedBrowse)return;
@@ -99,7 +99,7 @@
   function dismiss(){warning?.close();pending='';onDialog(false);}
   async function confirm(){const id=pending;dismiss();if(ready&&!purchaseReason(game,uid,id))await command({type:'card/bought',cardId:id});}
   function activate(index:number){
-    if(dragged || observer || selection?.readOnly)return;
+    if(dragged || selection?.readOnly)return;
     const right=Math.round(target),left=right-faces+1;
     if(index<left){move(index+faces-1);return;}
     if(index>right){move(index);return;}
@@ -107,7 +107,7 @@
   }
   function pointerAxis(event:PointerEvent){const angle=rotation*Math.PI/180;return event.clientX*Math.cos(angle)+event.clientY*Math.sin(angle);}
   let pointer:number|undefined,startX=0,startPosition=0,lastWheel=0;
-  function down(event:PointerEvent){if(event.button!==0 || observer || selection?.readOnly || focusSettled)return;pointer=event.pointerId;startX=pointerAxis(event);startPosition=position;dragged=false;((event.target as HTMLElement).closest('button')??event.currentTarget as HTMLElement).setPointerCapture(event.pointerId);}
+  function down(event:PointerEvent){if(event.button!==0 || selection?.readOnly || focusSettled)return;pointer=event.pointerId;startX=pointerAxis(event);startPosition=position;dragged=false;((event.target as HTMLElement).closest('button')??event.currentTarget as HTMLElement).setPointerCapture(event.pointerId);}
   function drag(event:PointerEvent){if(event.pointerId!==pointer)return;const delta=pointerAxis(event)-startX;if(Math.abs(delta)>10)dragged=true;if(dragged){dragging=true;position=Math.max(0,Math.min(piles.length-1,startPosition-delta/(cardWidth*1.055)));target=position;}}
   function up(event:PointerEvent){if(event.pointerId!==pointer)return;pointer=undefined;const wasDragging=dragging;dragging=false;if(wasDragging)move(Math.round(position));}
   function wheel(event:WheelEvent){event.preventDefault();if(Math.abs(event.deltaX)+Math.abs(event.deltaY)<4||performance.now()-lastWheel<110)return;lastWheel=performance.now();move(Math.round(target)+Math.sign(event.deltaX||event.deltaY));}
