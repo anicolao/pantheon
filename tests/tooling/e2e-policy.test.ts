@@ -39,8 +39,10 @@ describe('weakening the policy fails before launching a browser', () => {
   });
   for (const [label, file, from, to] of [
     ['shared budget', helper, 'OPERATION_BUDGET = 2_000', 'OPERATION_BUDGET = 3_000'],
-    ['readiness status bypass', helper, "scenes.length===1&&scenes[0].getAttribute('data-status')===status", 'true'],
-    ['busy state bypass', helper, "(status!=='synced'||!document.querySelector('[aria-busy=\"true\"]'))", 'true'],
+    ['readiness status bypass', 'tests/e2e/helpers/capture-ready.ts', "scenes.length===1&&scenes[0].getAttribute('data-status')===status", 'true'],
+    ['busy state bypass', 'tests/e2e/helpers/capture-ready.ts', "if(!checkpoint || !node.matches('.resource-icon[data-count-pending=\"true\"]'))return false;", ''],
+    ['unpaused checkpoint bypass', 'tests/e2e/helpers/capture-ready.ts', "animation.playState==='paused'", 'true'],
+    ['unrelated pile bypass', 'tests/e2e/helpers/capture-ready.ts', 'flight.dataset.motionFromZone===pile.dataset.publicZone && flight.dataset.motionFromUid===pile.dataset.publicUid', 'true'],
     ['readiness budget bypass', helper, 'polling:20,timeout:remaining()', 'polling:20'],
     ['stale document decode cache', helper, 'const decoded=new Map<string,Promise<void>>();', 'const decoded=window.decoded??=new Map<string,Promise<void>>();'],
     ['clipping removal', helper, 'await page.evaluate(assertScreenFit,{document:view.document});', ''],

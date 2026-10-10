@@ -85,14 +85,22 @@ export function checkPolicy(files: Sources): string[] {
     'export const OPERATION_BUDGET = 2_000;',
     'for(const verification of verifications)await test.step(verification.spec,verification.check,{timeout:OPERATION_BUDGET});',
     'remaining=()=>Math.max(1,OPERATION_BUDGET-Math.ceil(performance.now()-start))',
-    "scenes.length===1&&scenes[0].getAttribute('data-status')===status",
-    "(status!=='synced'||!document.querySelector('[aria-busy=\"true\"]'))",
-    '},view.status??this.settledStatus,{polling:20,timeout:remaining()});',
+    'page.waitForFunction(captureReady,{status:view.status??this.settledStatus,checkpoint:view.animationCheckpoint??false},{polling:20,timeout:remaining()})',
+    'page.waitForFunction(captureReady,{checkpoint:view.animationCheckpoint??false},{polling:20,timeout:remaining()})',
     'await page.evaluate(assertScreenFit,{document:view.document});',
     'await identicalPixels(capture,reference)',
     'expect(same,\'Every decoded RGBA byte must equal the reviewed baseline\').toBe(true);',
     'toBeLessThanOrEqual(OPERATION_BUDGET);\n      },{timeout:OPERATION_BUDGET});'
   ]) requireText(helper, text);
+  for(const text of [
+    "scenes.length===1&&scenes[0].getAttribute('data-status')===status",
+    'const pausedFlights=checkpoint?',
+    "animation.playState==='paused'",
+    "document.querySelectorAll('[aria-busy=\"true\"]')",
+    "if(!checkpoint || !node.matches('.resource-icon[data-count-pending=\"true\"]'))return false;",
+    'flight.dataset.motionFromZone===pile.dataset.publicZone && flight.dataset.motionFromUid===pile.dataset.publicUid',
+    'flight.dataset.motionToZone===pile.dataset.publicZone && flight.dataset.motionToUid===pile.dataset.publicUid'
+  ])requireText('tests/e2e/helpers/capture-ready.ts',text);
   // All readiness, clipping, capture, and comparison must remain inside this single deadline.
   const source = compact(code.get(helper) ?? '');
   const start = source.indexOf(compact("await test.step('Ready, unclipped, and photographed within 2,000 ms'"));
