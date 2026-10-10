@@ -35,7 +35,7 @@ test('staged and push checks read the selected tree, not unstaged files', () => 
   const check = (...args: string[]) => spawnSync(process.execPath, [runner, ...args], { cwd: root, encoding: 'utf8' });
   try {
     git('init', '-q');
-    const paths = ['playwright.config.ts', '.github/workflows/ci-and-deploy.yml', '.githooks/pre-commit', '.githooks/pre-push', ...['test-step-helper', 'players', 'exact-pixels', 'fixtures'].map(name => `tests/e2e/helpers/${name}.ts`)];
+    const paths = ['playwright.config.ts', '.github/workflows/ci-and-deploy.yml', '.githooks/pre-commit', '.githooks/pre-push', ...['test-step-helper', 'capture-ready', 'players', 'exact-pixels', 'fixtures'].map(name => `tests/e2e/helpers/${name}.ts`)];
     for (const path of paths) { mkdirSync(dirname(join(root, path)), { recursive: true }); writeFileSync(join(root, path), readFileSync(path)); }
     git('add', '.');
     git('-c', 'core.hooksPath=/dev/null', '-c', 'user.name=Policy test', '-c', 'user.email=policy@example.invalid', 'commit', '-qm', 'Valid policy');

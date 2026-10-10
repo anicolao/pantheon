@@ -433,7 +433,7 @@
 </script>
 
 {#each flights as flight (flight.id)}
-  <div use:flightNode={flight} class="public-flight" style:width={`${flight.width}px`} data-motion-sequence={flight.sequence} data-motion-step={flight.step.id} data-motion-card={flight.card?.id} data-motion-kind={flight.step.kind} data-draw-phase={drawPhases[flight.id]} aria-hidden="true">
+  <div use:flightNode={flight} class="public-flight" style:width={`${flight.width}px`} data-motion-sequence={flight.sequence} data-motion-step={flight.step.id} data-motion-card={flight.card?.id} data-motion-kind={flight.step.kind} data-motion-from-zone={flight.step.from.zone} data-motion-from-uid={flight.step.from.uid} data-motion-to-zone={flight.step.to.zone} data-motion-to-uid={flight.step.to.uid} data-draw-phase={drawPhases[flight.id]} aria-hidden="true">
     {#if flight.step.kind==='draw' && flight.card}<div class="draw-flip"><div class="draw-front"><CardFace card={definition(flight.card.cardId)} players={game.playerCount} copy={flight.card.copy}/></div><div class="draw-back"><CardBack format="deck"/></div></div>
     {:else if flight.card}<CardFace card={definition(flight.card.cardId)} players={game.playerCount} copy={flight.card.copy}/>{:else}<CardBack format="deck"/>{/if}
   </div>

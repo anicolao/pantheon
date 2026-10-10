@@ -4,6 +4,7 @@ import { dirname, join } from 'node:path';
 import { assertScreenFit } from './screen-fit';
 import { identicalPixels, preparePixels } from './exact-pixels';
 import { renderStoryImages } from './story-images';
+import { captureReady } from './capture-ready';
 
 export const OPERATION_BUDGET = 2_000;
 type Verification = { spec: string; check: () => Promise<unknown> };
@@ -40,10 +41,7 @@ export class TestStepHelper {
         // Locator assertions back off to one-second polling. Observe readiness promptly
         // so a settled scene does not spend its capture budget waiting for the next poll.
         if(!view.document){
-          const ready=await page.waitForFunction(status=>{
-            const scenes=document.querySelectorAll('[data-status]');
-            return scenes.length===1&&scenes[0].getAttribute('data-status')===status&&(status!=='synced'||!document.querySelector('[aria-busy="true"]'));
-          },view.status??this.settledStatus,{polling:20,timeout:remaining()});
+          const ready=await page.waitForFunction(captureReady,{status:view.status??this.settledStatus,checkpoint:view.animationCheckpoint??false},{polling:20,timeout:remaining()});
           await ready.dispose();
         }
         const acknowledged=performance.now();
@@ -93,7 +91,7 @@ export class TestStepHelper {
         // A flight's completion can start the market's requestAnimationFrame glide.
         // Native-animation settlement alone does not mean that dependent UI is idle.
         if(!view.document){
-          const idle=await page.waitForFunction(()=>!document.querySelector('[aria-busy="true"]'),undefined,{polling:20,timeout:remaining()});
+          const idle=await page.waitForFunction(captureReady,{checkpoint:view.animationCheckpoint??false},{polling:20,timeout:remaining()});
           await idle.dispose();
         }
         const ready=performance.now();
