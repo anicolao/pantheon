@@ -28,7 +28,7 @@ export class TableBotDriver {
   if(current.phase==='draft'){
    const available=leaderIds.filter(id=>!Object.values(current.leaders).includes(id));
    const random=createPrng(`bot-draft-v1:${current.seed}:${uid}`);
-   return {actorUid:uid,revision,commandId,command:{type:'leader/chosen',leaderId:available[Math.floor(random()*available.length)]}};
+   return {actorUid:uid,revision,commandId,command:{type:'leader/chosen',leaderId:kind==='mm'&&available.includes('melia')?'melia':available[Math.floor(random()*available.length)]}};
   }
   this.sync(events,current.dealtAtSequence!);
   if(this.proposed?.revision===revision)return this.proposed;
@@ -42,7 +42,7 @@ export class TableBotDriver {
   if(!this.game || this.prefix.length>events.length || this.prefix.some((e,i)=>JSON.stringify(e)!==JSON.stringify(events[i]))){
    this.game=replaySetup(events.slice(0,dealt));
    this.tracker=new BotTracker(this.game);this.undo=new UndoHistory();this.checkpoints.clear();this.proposed=undefined;
-   for(const p of this.game.players)if(p.botKind&&p.botKind!=='money')this.tracker.memories[p.uid].openingOverride=structuredClone((p.botKind==='engine'?currentOpeningBooks:openingBooks)[this.game.leaders[p.uid]]??null);
+   for(const p of this.game.players)if(p.botKind==='engine'||p.botKind==='classic-engine')this.tracker.memories[p.uid].openingOverride=structuredClone((p.botKind==='engine'?currentOpeningBooks:openingBooks)[this.game.leaders[p.uid]]??null);
    this.prefix=events.slice(0,dealt);
   }
   const g=this.game,tracker=this.tracker!;

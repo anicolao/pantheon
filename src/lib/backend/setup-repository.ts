@@ -131,7 +131,7 @@ export async function inviteBot(db: Firestore, id: string, ownerUid: string, kin
     if (previous.phase && previous.phase!=='gathering') throw new SetupError('started','The game has already begun.');
     if (previous.members.length>=previous.playerCount) throw new SetupError('full','This table is full.');
     const sequence=previous.revision+1;
-    const label=kind==='classic-engine'?'Classic Engine':kind==='engine'?'Engine':'Money';
+    const label=kind==='mm'?'MM':kind==='classic-engine'?'Classic Engine':kind==='engine'?'Engine':'Money';
     const event:SetupEvent={schemaVersion:1,sequence,actorUid:botUid,name:`${label} bot ${previous.members.length+1}`,playerCount:previous.playerCount,type:'player/joined',botKind:kind};
     transaction.update(room,{members:[...previous.members,botUid],bots:{...previous.bots,[botUid]:kind},revision:sequence});
     transaction.set(doc(room,'events',String(sequence)),{...event,createdAt:serverTimestamp()});

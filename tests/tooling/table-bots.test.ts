@@ -65,3 +65,31 @@ test('human purchase Undo and host reload preserve the next bot decision',()=>{
  append({type:'turn/ended'});
  expect(driver.next(events,'host')).toEqual(new TableBotDriver().next(events,'host'));
 });
+
+test('MM prefers Melia in draft and falls back legally if she is taken',()=>{
+ for(let seed=0;seed<8;seed++){
+  const events=start(2,true);events.at(-1)!.seed='mm-draft-'+seed;
+  for(const e of events)if(e.botKind)e.botKind='mm';
+  const driver=new TableBotDriver(),first=driver.next(events,'host')!;
+  expect(first.command).toEqual({type:'leader/chosen',leaderId:'melia'});
+  events.push({...events[0],sequence:events.length+1,actorUid:first.actorUid,name:replaySetup(events).players.find(p=>p.uid===first.actorUid)!.name,reducerVersion:1,commandId:first.commandId,...first.command});
+  const next=driver.next(events,'host')!;
+  expect((next.command as any).leaderId).not.toBe('melia');
+  expect(new TableBotDriver().next(events,'host')).toEqual(next);
+ }
+});
+
+test('MM plays through shared four-player events and resumes from a host reload',()=>{
+ const events=start(4,true);
+ for(const e of events)if(e.botKind)e.botKind='mm';
+ let driver=new TableBotDriver();
+ for(let step=0;;step++){
+  const g=replaySetup(events);if(g.turn.phase==='finished')break;
+  if(step>=3000)throw Error('MM table did not finish');
+  const proposal=driver.next(events,'host')!;
+  if(step===40){const restored=new TableBotDriver();expect(restored.next(events,'host')).toEqual(proposal);driver=restored;}
+  events.push({schemaVersion:1,reducerVersion:1,sequence:events.length+1,actorUid:proposal.actorUid,name:g.players.find(p=>p.uid===proposal.actorUid)!.name,playerCount:4,commandId:proposal.commandId,...proposal.command});
+ }
+ expect(new Set(Object.values(replaySetup(events).leaders)).size).toBe(4);
+ expect(driver.next(events,'host')).toBeNull();
+},120000);

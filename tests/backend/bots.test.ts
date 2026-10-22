@@ -59,3 +59,12 @@ test('bot commands authenticate, deduplicate, reject stale revisions and survive
  expect((await events(d,id)).length).toBe(es.length);
  expect(replaySetup(es).phase).toBe('playing');
 });
+
+test('MM can be invited and assigned to the host under the persisted rules',async()=>{
+ const d=db('mm-host');await enterRoom(d,'mm-room','mm-host','Host',2);
+ await inviteBot(d,'mm-room','mm-host','mm','bot-mm');
+ await automateHost(d,'mm-room','mm-host','mm');
+ const g=replaySetup(await events(d,'mm-room'));
+ expect(g.players.map(p=>p.botKind)).toEqual(['mm','mm']);
+ expect(g.players[1].name).toContain('MM');
+});
