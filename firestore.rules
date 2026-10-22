@@ -27,7 +27,7 @@ service cloud.firestore {
         && data.get('phase', 'gathering') in ['gathering', 'draft', 'playing']
         && data.playerCount in [2, 3, 4] && data.revision is int
         && bots(data) is map && bots(data).keys().hasOnly(data.members)
-        && bots(data).values().hasOnly(['money', 'engine', 'classic-engine', 'mm'])
+        && bots(data).values().hasOnly(['money', 'engine', 'classic-engine', 'mm', 'owl'])
         && data.members is list && data.revision >= data.members.size()
         && data.revision >= 1 && data.members.size() <= data.playerCount;
     }
@@ -84,7 +84,7 @@ service cloud.firestore {
           && (!('targetSequence' in request.resource.data) || request.resource.data.type == 'action/undone')
           && (!('botKind' in request.resource.data) ||
             (request.resource.data.type in ['player/joined', 'player/automated'] &&
-              (request.resource.data.botKind in ['money', 'engine', 'classic-engine', 'mm'] || (request.resource.data.type == 'player/automated' && request.resource.data.botKind == null))))
+              (request.resource.data.botKind in ['money', 'engine', 'classic-engine', 'mm', 'owl'] || (request.resource.data.type == 'player/automated' && request.resource.data.botKind == null))))
           && request.resource.data.schemaVersion == 1
           && controls(getAfter(room(gameId)).data, request.resource.data.actorUid)
           && request.resource.data.name is string && request.resource.data.name.size() > 0 && request.resource.data.name.size() <= 24

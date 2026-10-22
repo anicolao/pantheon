@@ -28,7 +28,7 @@ export class TableBotDriver {
   if(current.phase==='draft'){
    const available=leaderIds.filter(id=>!Object.values(current.leaders).includes(id));
    const random=createPrng(`bot-draft-v1:${current.seed}:${uid}`);
-   return {actorUid:uid,revision,commandId,command:{type:'leader/chosen',leaderId:kind==='mm'&&available.includes('melia')?'melia':available[Math.floor(random()*available.length)]}};
+   return {actorUid:uid,revision,commandId,command:{type:'leader/chosen',leaderId:kind==='owl'&&available.includes('thaleia')?'thaleia':kind==='mm'&&available.includes('melia')?'melia':available[Math.floor(random()*available.length)]}};
   }
   this.sync(events,current.dealtAtSequence!);
   if(this.proposed?.revision===revision)return this.proposed;

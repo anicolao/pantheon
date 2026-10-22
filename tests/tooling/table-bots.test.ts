@@ -93,3 +93,16 @@ test('MM plays through shared four-player events and resumes from a host reload'
  expect(new Set(Object.values(replaySetup(events).leaders)).size).toBe(4);
  expect(driver.next(events,'host')).toBeNull();
 },120000);
+
+test('Owl prefers Thaleia in draft and falls back legally if she is taken',()=>{
+ for(let seed=0;seed<8;seed++){
+  const events=start(2,true);events.at(-1)!.seed='owl-draft-'+seed;
+  for(const e of events)if(e.botKind)e.botKind='owl';
+  const driver=new TableBotDriver(),first=driver.next(events,'host')!;
+  expect(first.command).toEqual({type:'leader/chosen',leaderId:'thaleia'});
+  events.push({...events[0],sequence:events.length+1,actorUid:first.actorUid,name:replaySetup(events).players.find(p=>p.uid===first.actorUid)!.name,reducerVersion:1,commandId:first.commandId,...first.command});
+  const next=driver.next(events,'host')!;
+  expect((next.command as any).leaderId).not.toBe('thaleia');
+  expect(new TableBotDriver().next(events,'host')).toEqual(next);
+ }
+});

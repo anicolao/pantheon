@@ -68,3 +68,12 @@ test('MM can be invited and assigned to the host under the persisted rules',asyn
  expect(g.players.map(p=>p.botKind)).toEqual(['mm','mm']);
  expect(g.players[1].name).toContain('MM');
 });
+
+test('Owl can be invited and assigned to the host under the persisted rules',async()=>{
+ const d=db('owl-host');await enterRoom(d,'owl-room','owl-host','Host',2);
+ await inviteBot(d,'owl-room','owl-host','owl','bot-owl');
+ await automateHost(d,'owl-room','owl-host','owl');
+ const g=replaySetup(await events(d,'owl-room'));
+ expect(g.players.map(p=>p.botKind)).toEqual(['owl','owl']);
+ expect(g.players[1].name).toContain('Owl');
+});
