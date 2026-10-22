@@ -1,0 +1,572 @@
+[
+  {
+    "candidate": "owl",
+    "kind": "engine",
+    "leader": "melia",
+    "games": 100,
+    "wins": 36,
+    "ties": 13,
+    "losses": 51,
+    "winCI95": [
+      0.2727122040140433,
+      0.4576459754839126
+    ],
+    "meanVP": 23.95,
+    "meanTurns": 13.71,
+    "thirtyBy13": 2,
+    "gamesWithCombo": 18,
+    "comboTurns": 24,
+    "fullDeckTurns": 64
+  },
+  {
+    "candidate": "owl",
+    "kind": "engine",
+    "leader": "nereon",
+    "games": 100,
+    "wins": 45,
+    "ties": 11,
+    "losses": 44,
+    "winCI95": [
+      0.3561453797951198,
+      0.5475539700255787
+    ],
+    "meanVP": 25.45,
+    "meanTurns": 14.23,
+    "thirtyBy13": 4,
+    "gamesWithCombo": 20,
+    "comboTurns": 23,
+    "fullDeckTurns": 60
+  },
+  {
+    "candidate": "owl",
+    "kind": "engine",
+    "leader": "doreios",
+    "games": 100,
+    "wins": 61,
+    "ties": 16,
+    "losses": 23,
+    "winCI95": [
+      0.5120301704584073,
+      0.6998312599360558
+    ],
+    "meanVP": 26.04,
+    "meanTurns": 13.85,
+    "thirtyBy13": 4,
+    "gamesWithCombo": 27,
+    "comboTurns": 38,
+    "fullDeckTurns": 56
+  },
+  {
+    "candidate": "owl",
+    "kind": "classic-engine",
+    "leader": "melia",
+    "games": 100,
+    "wins": 51,
+    "ties": 3,
+    "losses": 46,
+    "winCI95": [
+      0.4134801193402717,
+      0.6057800106955886
+    ],
+    "meanVP": 26.54,
+    "meanTurns": 15.19,
+    "thirtyBy13": 5,
+    "gamesWithCombo": 9,
+    "comboTurns": 10,
+    "fullDeckTurns": 35
+  },
+  {
+    "candidate": "owl",
+    "kind": "classic-engine",
+    "leader": "nereon",
+    "games": 100,
+    "wins": 41,
+    "ties": 13,
+    "losses": 46,
+    "winCI95": [
+      0.3186731302113651,
+      0.5079856994658921
+    ],
+    "meanVP": 26.92,
+    "meanTurns": 15.92,
+    "thirtyBy13": 1,
+    "gamesWithCombo": 8,
+    "comboTurns": 8,
+    "fullDeckTurns": 35
+  },
+  {
+    "candidate": "owl",
+    "kind": "classic-engine",
+    "leader": "doreios",
+    "games": 100,
+    "wins": 42,
+    "ties": 8,
+    "losses": 50,
+    "winCI95": [
+      0.3279838267435473,
+      0.5179351329695703
+    ],
+    "meanVP": 26.29,
+    "meanTurns": 14.75,
+    "thirtyBy13": 4,
+    "gamesWithCombo": 10,
+    "comboTurns": 15,
+    "fullDeckTurns": 51
+  },
+  {
+    "candidate": "owl",
+    "kind": "money",
+    "leader": "melia",
+    "games": 100,
+    "wins": 38,
+    "ties": 11,
+    "losses": 51,
+    "winCI95": [
+      0.29097599252478734,
+      0.47790244704488916
+    ],
+    "meanVP": 25.42,
+    "meanTurns": 14.53,
+    "thirtyBy13": 4,
+    "gamesWithCombo": 31,
+    "comboTurns": 44,
+    "fullDeckTurns": 82
+  },
+  {
+    "candidate": "owl",
+    "kind": "money",
+    "leader": "nereon",
+    "games": 100,
+    "wins": 29,
+    "ties": 10,
+    "losses": 61,
+    "winCI95": [
+      0.2101483574912227,
+      0.3853889117557111
+    ],
+    "meanVP": 25.01,
+    "meanTurns": 14.25,
+    "thirtyBy13": 1,
+    "gamesWithCombo": 22,
+    "comboTurns": 25,
+    "fullDeckTurns": 61
+  },
+  {
+    "candidate": "owl",
+    "kind": "money",
+    "leader": "doreios",
+    "games": 100,
+    "wins": 48,
+    "ties": 17,
+    "losses": 35,
+    "winCI95": [
+      0.384645517580519,
+      0.5768342223477603
+    ],
+    "meanVP": 24.78,
+    "meanTurns": 14.17,
+    "thirtyBy13": 5,
+    "gamesWithCombo": 31,
+    "comboTurns": 43,
+    "fullDeckTurns": 60
+  },
+  {
+    "candidate": "owl",
+    "kind": "mm",
+    "leader": "melia",
+    "games": 100,
+    "wins": 19,
+    "ties": 4,
+    "losses": 77,
+    "winCI95": [
+      0.12514751509768735,
+      0.27778845379064376
+    ],
+    "meanVP": 23.69,
+    "meanTurns": 13.84,
+    "thirtyBy13": 0,
+    "gamesWithCombo": 24,
+    "comboTurns": 29,
+    "fullDeckTurns": 58
+  },
+  {
+    "candidate": "money",
+    "kind": "engine",
+    "leader": "melia",
+    "games": 100,
+    "wins": 47,
+    "ties": 18,
+    "losses": 35,
+    "winCI95": [
+      0.3751081795934127,
+      0.5671114302990063
+    ],
+    "meanVP": 25.43,
+    "meanTurns": 13.95,
+    "thirtyBy13": 11,
+    "gamesWithCombo": 46,
+    "comboTurns": 80,
+    "fullDeckTurns": 20
+  },
+  {
+    "candidate": "money",
+    "kind": "engine",
+    "leader": "nereon",
+    "games": 100,
+    "wins": 47,
+    "ties": 13,
+    "losses": 40,
+    "winCI95": [
+      0.3751081795934127,
+      0.5671114302990063
+    ],
+    "meanVP": 27.01,
+    "meanTurns": 14.9,
+    "thirtyBy13": 6,
+    "gamesWithCombo": 37,
+    "comboTurns": 45,
+    "fullDeckTurns": 2
+  },
+  {
+    "candidate": "money",
+    "kind": "engine",
+    "leader": "doreios",
+    "games": 100,
+    "wins": 64,
+    "ties": 8,
+    "losses": 28,
+    "winCI95": [
+      0.5423540245160874,
+      0.7272877959859567
+    ],
+    "meanVP": 27.91,
+    "meanTurns": 15.25,
+    "thirtyBy13": 10,
+    "gamesWithCombo": 46,
+    "comboTurns": 89,
+    "fullDeckTurns": 19
+  },
+  {
+    "candidate": "money",
+    "kind": "classic-engine",
+    "leader": "melia",
+    "games": 100,
+    "wins": 62,
+    "ties": 8,
+    "losses": 30,
+    "winCI95": [
+      0.5220975529551107,
+      0.7090240074752127
+    ],
+    "meanVP": 27.75,
+    "meanTurns": 15.33,
+    "thirtyBy13": 8,
+    "gamesWithCombo": 52,
+    "comboTurns": 91,
+    "fullDeckTurns": 24
+  },
+  {
+    "candidate": "money",
+    "kind": "classic-engine",
+    "leader": "nereon",
+    "games": 100,
+    "wins": 51,
+    "ties": 12,
+    "losses": 37,
+    "winCI95": [
+      0.4134801193402717,
+      0.6057800106955886
+    ],
+    "meanVP": 28.93,
+    "meanTurns": 16.61,
+    "thirtyBy13": 6,
+    "gamesWithCombo": 30,
+    "comboTurns": 38,
+    "fullDeckTurns": 0
+  },
+  {
+    "candidate": "money",
+    "kind": "classic-engine",
+    "leader": "doreios",
+    "games": 100,
+    "wins": 60,
+    "ties": 7,
+    "losses": 33,
+    "winCI95": [
+      0.5020025867910618,
+      0.6905987135675411
+    ],
+    "meanVP": 27.47,
+    "meanTurns": 16.47,
+    "thirtyBy13": 8,
+    "gamesWithCombo": 47,
+    "comboTurns": 68,
+    "fullDeckTurns": 6
+  },
+  {
+    "candidate": "money",
+    "kind": "money",
+    "leader": "melia",
+    "games": 100,
+    "wins": 49,
+    "ties": 11,
+    "losses": 40,
+    "winCI95": [
+      0.3942199893044113,
+      0.5865198806597283
+    ],
+    "meanVP": 26.79,
+    "meanTurns": 16.35,
+    "thirtyBy13": 11,
+    "gamesWithCombo": 48,
+    "comboTurns": 84,
+    "fullDeckTurns": 30
+  },
+  {
+    "candidate": "money",
+    "kind": "money",
+    "leader": "nereon",
+    "games": 100,
+    "wins": 33,
+    "ties": 8,
+    "losses": 59,
+    "winCI95": [
+      0.24563122734128034,
+      0.4269465620490947
+    ],
+    "meanVP": 27.75,
+    "meanTurns": 17.77,
+    "thirtyBy13": 5,
+    "gamesWithCombo": 31,
+    "comboTurns": 46,
+    "fullDeckTurns": 1
+  },
+  {
+    "candidate": "money",
+    "kind": "money",
+    "leader": "doreios",
+    "games": 100,
+    "wins": 61,
+    "ties": 11,
+    "losses": 28,
+    "winCI95": [
+      0.5120301704584073,
+      0.6998312599360558
+    ],
+    "meanVP": 27.41,
+    "meanTurns": 16.2,
+    "thirtyBy13": 4,
+    "gamesWithCombo": 37,
+    "comboTurns": 59,
+    "fullDeckTurns": 15
+  },
+  {
+    "candidate": "money",
+    "kind": "mm",
+    "leader": "melia",
+    "games": 100,
+    "wins": 30,
+    "ties": 5,
+    "losses": 65,
+    "winCI95": [
+      0.2189488529493276,
+      0.3958485463334666
+    ],
+    "meanVP": 24.32,
+    "meanTurns": 15.46,
+    "thirtyBy13": 2,
+    "gamesWithCombo": 42,
+    "comboTurns": 79,
+    "fullDeckTurns": 14
+  },
+  {
+    "candidate": "classic-engine",
+    "kind": "engine",
+    "leader": "melia",
+    "games": 100,
+    "wins": 55,
+    "ties": 7,
+    "losses": 38,
+    "winCI95": [
+      0.45244602997442135,
+      0.6438546202048803
+    ],
+    "meanVP": 24.98,
+    "meanTurns": 13.23,
+    "thirtyBy13": 11,
+    "gamesWithCombo": 71,
+    "comboTurns": 116,
+    "fullDeckTurns": 112
+  },
+  {
+    "candidate": "classic-engine",
+    "kind": "engine",
+    "leader": "nereon",
+    "games": 100,
+    "wins": 60,
+    "ties": 7,
+    "losses": 33,
+    "winCI95": [
+      0.5020025867910618,
+      0.6905987135675411
+    ],
+    "meanVP": 25.45,
+    "meanTurns": 13.67,
+    "thirtyBy13": 12,
+    "gamesWithCombo": 58,
+    "comboTurns": 65,
+    "fullDeckTurns": 85
+  },
+  {
+    "candidate": "classic-engine",
+    "kind": "engine",
+    "leader": "doreios",
+    "games": 100,
+    "wins": 57,
+    "ties": 9,
+    "losses": 34,
+    "winCI95": [
+      0.47215389549212305,
+      0.6626670147588988
+    ],
+    "meanVP": 26.3,
+    "meanTurns": 14.23,
+    "thirtyBy13": 12,
+    "gamesWithCombo": 65,
+    "comboTurns": 100,
+    "fullDeckTurns": 92
+  },
+  {
+    "candidate": "classic-engine",
+    "kind": "classic-engine",
+    "leader": "melia",
+    "games": 100,
+    "wins": 62,
+    "ties": 7,
+    "losses": 31,
+    "winCI95": [
+      0.5220975529551107,
+      0.7090240074752127
+    ],
+    "meanVP": 26.9,
+    "meanTurns": 13.99,
+    "thirtyBy13": 13,
+    "gamesWithCombo": 59,
+    "comboTurns": 82,
+    "fullDeckTurns": 118
+  },
+  {
+    "candidate": "classic-engine",
+    "kind": "classic-engine",
+    "leader": "nereon",
+    "games": 100,
+    "wins": 73,
+    "ties": 6,
+    "losses": 21,
+    "winCI95": [
+      0.6356788323205499,
+      0.8073041585042365
+    ],
+    "meanVP": 28.93,
+    "meanTurns": 14.76,
+    "thirtyBy13": 14,
+    "gamesWithCombo": 40,
+    "comboTurns": 42,
+    "fullDeckTurns": 71
+  },
+  {
+    "candidate": "classic-engine",
+    "kind": "classic-engine",
+    "leader": "doreios",
+    "games": 100,
+    "wins": 63,
+    "ties": 7,
+    "losses": 30,
+    "winCI95": [
+      0.5322052958094291,
+      0.7181763946567546
+    ],
+    "meanVP": 27.01,
+    "meanTurns": 14.18,
+    "thirtyBy13": 12,
+    "gamesWithCombo": 64,
+    "comboTurns": 85,
+    "fullDeckTurns": 69
+  },
+  {
+    "candidate": "classic-engine",
+    "kind": "money",
+    "leader": "melia",
+    "games": 100,
+    "wins": 61,
+    "ties": 6,
+    "losses": 33,
+    "winCI95": [
+      0.5120301704584073,
+      0.6998312599360558
+    ],
+    "meanVP": 26.05,
+    "meanTurns": 14.94,
+    "thirtyBy13": 13,
+    "gamesWithCombo": 69,
+    "comboTurns": 111,
+    "fullDeckTurns": 128
+  },
+  {
+    "candidate": "classic-engine",
+    "kind": "money",
+    "leader": "nereon",
+    "games": 100,
+    "wins": 55,
+    "ties": 6,
+    "losses": 39,
+    "winCI95": [
+      0.45244602997442135,
+      0.6438546202048803
+    ],
+    "meanVP": 27.33,
+    "meanTurns": 16.62,
+    "thirtyBy13": 9,
+    "gamesWithCombo": 35,
+    "comboTurns": 38,
+    "fullDeckTurns": 56
+  },
+  {
+    "candidate": "classic-engine",
+    "kind": "money",
+    "leader": "doreios",
+    "games": 100,
+    "wins": 56,
+    "ties": 5,
+    "losses": 39,
+    "winCI95": [
+      0.4622810465167699,
+      0.6532797336983921
+    ],
+    "meanVP": 25.83,
+    "meanTurns": 16.37,
+    "thirtyBy13": 6,
+    "gamesWithCombo": 45,
+    "comboTurns": 61,
+    "fullDeckTurns": 58
+  },
+  {
+    "candidate": "classic-engine",
+    "kind": "mm",
+    "leader": "melia",
+    "games": 100,
+    "wins": 42,
+    "ties": 5,
+    "losses": 53,
+    "winCI95": [
+      0.3279838267435473,
+      0.5179351329695703
+    ],
+    "meanVP": 23.98,
+    "meanTurns": 14.02,
+    "thirtyBy13": 6,
+    "gamesWithCombo": 58,
+    "comboTurns": 89,
+    "fullDeckTurns": 111
+  }
+]

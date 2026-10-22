@@ -1,0 +1,29 @@
+{
+  "policyHashVerified": true,
+  "toolingTestsPassed": 209,
+  "backendTestsPassed": 97,
+  "typecheck": "0 errors, 0 warnings",
+  "smokeGamesCompletedAndReplayed": 60,
+  "smokeSeeds": "Separate from evaluation",
+  "implementationCommit": "2b01cb33",
+  "mmRestorationCommit": "fdc48469",
+  "reproduce": "bun scripts/owl-study.ts; bun scripts/owl-compare.ts",
+  "strategy": {
+    "incomeTarget": 11,
+    "drawTarget": "Five starting cards plus total owned Action draw >= total deck size + 2",
+    "devotion": "At least two Athena Actions in play before favored worship",
+    "worship": "Favor Academy gains, reserve eight coins for Acropolis, stop developing in final round or with one Acropolis remaining",
+    "opening": "Oracle at three coins, Council at four, Academy at five, Talent at six",
+    "scoring": "Acropolis whenever affordable; smaller VP piles late",
+    "limitations": "No proactive starter trashing; one Council target; static draw-capacity estimate does not guarantee that draw cards are reached in time."
+  },
+  "evaluationGamesCompletedAndReplayed": 3000,
+  "cells": 30,
+  "gamesPerCell": 100,
+  "seatsPerCell": [
+    50,
+    50
+  ],
+  "archiveRecords": 3000,
+  "archiveChecksumVerified": true
+}

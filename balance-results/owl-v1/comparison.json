@@ -1,0 +1,308 @@
+{
+  "method": "100 games per opponent setup, half in each seat. Same seeds and seats across candidates. Outright wins; ties not wins. 10,000 deterministic paired bootstrap samples, stratified by matchup for pooled intervals. Marginal 95% percentile intervals, not family adjusted.",
+  "comboMetric": "Favored Athena worship followed by an Acropolis purchase in the same turn. Other order not counted.",
+  "fullDeckMetric": "Turns with empty draw and discard piles at a decision boundary.",
+  "totals": [
+    {
+      "candidate": "owl",
+      "games": 1000,
+      "wins": 410,
+      "ties": 106,
+      "losses": 484,
+      "thirtyBy13": 30,
+      "gamesWithCombo": 200,
+      "comboTurns": 259,
+      "fullDeckTurns": 562
+    },
+    {
+      "candidate": "money",
+      "games": 1000,
+      "wins": 504,
+      "ties": 101,
+      "losses": 395,
+      "thirtyBy13": 71,
+      "gamesWithCombo": 416,
+      "comboTurns": 679,
+      "fullDeckTurns": 131
+    },
+    {
+      "candidate": "classic-engine",
+      "games": 1000,
+      "wins": 584,
+      "ties": 65,
+      "losses": 351,
+      "thirtyBy13": 108,
+      "gamesWithCombo": 564,
+      "comboTurns": 789,
+      "fullDeckTurns": 900
+    }
+  ],
+  "comparisons": [
+    {
+      "baseline": "money",
+      "cells": [
+        {
+          "kind": "engine",
+          "leader": "melia",
+          "games": 100,
+          "baselineWins": 47,
+          "owlWins": 36,
+          "winRateChange": -0.11,
+          "pairedChangeCI95": [
+            -0.22,
+            0
+          ]
+        },
+        {
+          "kind": "engine",
+          "leader": "nereon",
+          "games": 100,
+          "baselineWins": 47,
+          "owlWins": 45,
+          "winRateChange": -0.02,
+          "pairedChangeCI95": [
+            -0.14,
+            0.1
+          ]
+        },
+        {
+          "kind": "engine",
+          "leader": "doreios",
+          "games": 100,
+          "baselineWins": 64,
+          "owlWins": 61,
+          "winRateChange": -0.03,
+          "pairedChangeCI95": [
+            -0.15,
+            0.09
+          ]
+        },
+        {
+          "kind": "classic-engine",
+          "leader": "melia",
+          "games": 100,
+          "baselineWins": 62,
+          "owlWins": 51,
+          "winRateChange": -0.11,
+          "pairedChangeCI95": [
+            -0.21,
+            -0.01
+          ]
+        },
+        {
+          "kind": "classic-engine",
+          "leader": "nereon",
+          "games": 100,
+          "baselineWins": 51,
+          "owlWins": 41,
+          "winRateChange": -0.1,
+          "pairedChangeCI95": [
+            -0.22,
+            0.02
+          ]
+        },
+        {
+          "kind": "classic-engine",
+          "leader": "doreios",
+          "games": 100,
+          "baselineWins": 60,
+          "owlWins": 42,
+          "winRateChange": -0.18,
+          "pairedChangeCI95": [
+            -0.3,
+            -0.06
+          ]
+        },
+        {
+          "kind": "money",
+          "leader": "melia",
+          "games": 100,
+          "baselineWins": 49,
+          "owlWins": 38,
+          "winRateChange": -0.11,
+          "pairedChangeCI95": [
+            -0.22,
+            0
+          ]
+        },
+        {
+          "kind": "money",
+          "leader": "nereon",
+          "games": 100,
+          "baselineWins": 33,
+          "owlWins": 29,
+          "winRateChange": -0.04,
+          "pairedChangeCI95": [
+            -0.16,
+            0.09
+          ]
+        },
+        {
+          "kind": "money",
+          "leader": "doreios",
+          "games": 100,
+          "baselineWins": 61,
+          "owlWins": 48,
+          "winRateChange": -0.13,
+          "pairedChangeCI95": [
+            -0.25,
+            -0.01
+          ]
+        },
+        {
+          "kind": "mm",
+          "leader": "melia",
+          "games": 100,
+          "baselineWins": 30,
+          "owlWins": 19,
+          "winRateChange": -0.11,
+          "pairedChangeCI95": [
+            -0.2,
+            -0.02
+          ]
+        }
+      ],
+      "overall": {
+        "games": 1000,
+        "winRateChange": -0.094,
+        "pairedChangeCI95": [
+          -0.13,
+          -0.057
+        ]
+      }
+    },
+    {
+      "baseline": "classic-engine",
+      "cells": [
+        {
+          "kind": "engine",
+          "leader": "melia",
+          "games": 100,
+          "baselineWins": 55,
+          "owlWins": 36,
+          "winRateChange": -0.19,
+          "pairedChangeCI95": [
+            -0.32,
+            -0.07
+          ]
+        },
+        {
+          "kind": "engine",
+          "leader": "nereon",
+          "games": 100,
+          "baselineWins": 60,
+          "owlWins": 45,
+          "winRateChange": -0.15,
+          "pairedChangeCI95": [
+            -0.26,
+            -0.03
+          ]
+        },
+        {
+          "kind": "engine",
+          "leader": "doreios",
+          "games": 100,
+          "baselineWins": 57,
+          "owlWins": 61,
+          "winRateChange": 0.04,
+          "pairedChangeCI95": [
+            -0.09,
+            0.17
+          ]
+        },
+        {
+          "kind": "classic-engine",
+          "leader": "melia",
+          "games": 100,
+          "baselineWins": 62,
+          "owlWins": 51,
+          "winRateChange": -0.11,
+          "pairedChangeCI95": [
+            -0.22,
+            0
+          ]
+        },
+        {
+          "kind": "classic-engine",
+          "leader": "nereon",
+          "games": 100,
+          "baselineWins": 73,
+          "owlWins": 41,
+          "winRateChange": -0.32,
+          "pairedChangeCI95": [
+            -0.44,
+            -0.2
+          ]
+        },
+        {
+          "kind": "classic-engine",
+          "leader": "doreios",
+          "games": 100,
+          "baselineWins": 63,
+          "owlWins": 42,
+          "winRateChange": -0.21,
+          "pairedChangeCI95": [
+            -0.32,
+            -0.1
+          ]
+        },
+        {
+          "kind": "money",
+          "leader": "melia",
+          "games": 100,
+          "baselineWins": 61,
+          "owlWins": 38,
+          "winRateChange": -0.23,
+          "pairedChangeCI95": [
+            -0.34,
+            -0.11
+          ]
+        },
+        {
+          "kind": "money",
+          "leader": "nereon",
+          "games": 100,
+          "baselineWins": 55,
+          "owlWins": 29,
+          "winRateChange": -0.26,
+          "pairedChangeCI95": [
+            -0.38,
+            -0.14
+          ]
+        },
+        {
+          "kind": "money",
+          "leader": "doreios",
+          "games": 100,
+          "baselineWins": 56,
+          "owlWins": 48,
+          "winRateChange": -0.08,
+          "pairedChangeCI95": [
+            -0.19,
+            0.03
+          ]
+        },
+        {
+          "kind": "mm",
+          "leader": "melia",
+          "games": 100,
+          "baselineWins": 42,
+          "owlWins": 19,
+          "winRateChange": -0.23,
+          "pairedChangeCI95": [
+            -0.34,
+            -0.13
+          ]
+        }
+      ],
+      "overall": {
+        "games": 1000,
+        "winRateChange": -0.174,
+        "pairedChangeCI95": [
+          -0.212,
+          -0.136
+        ]
+      }
+    }
+  ]
+}
