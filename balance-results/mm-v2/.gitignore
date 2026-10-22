@@ -1,0 +1,3 @@
+# Worker caches are preserved together in replays.json.gz.
+*-[0-9]*.json.gz
+*.batch.json

@@ -1,0 +1,36 @@
+{
+  "lookup": "Minh (case insensitive)",
+  "matchingTables": 19,
+  "confirmedMeliaSetups": [
+    {
+      "room": "BICQZ",
+      "created": "2026-10-22T00:13:15.034844Z"
+    },
+    {
+      "room": "CLMQK",
+      "created": "2026-10-22T00:23:02.076524Z"
+    },
+    {
+      "room": "DZKGS",
+      "created": "2026-10-22T00:55:44.002581Z"
+    },
+    {
+      "room": "HVQOL",
+      "created": "2026-10-21T23:36:02.762462Z"
+    },
+    {
+      "room": "OAJNY",
+      "created": "2026-10-21T23:15:43.094563Z"
+    },
+    {
+      "room": "TIPNC",
+      "created": "2026-10-21T23:56:37.149654Z"
+    },
+    {
+      "room": "UJSPL",
+      "created": "2026-10-22T01:17:50.285419Z"
+    }
+  ],
+  "fullTurnHistoriesInspected": false,
+  "limitation": "Firestore full-history reads returned HTTP 429 RESOURCE_EXHAUSTED: Quota exceeded. Policy derived from supplied description, not verified against complete games."
+}

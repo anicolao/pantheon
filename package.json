@@ -21,6 +21,8 @@
     "simulate:balance": "bun scripts/balance-simulation.ts",
     "test:simulation": "bun test ./tests/simulation",
     "balance:study": "bun scripts/balance-study.ts",
+    "balance:mm": "bun scripts/mm-study.ts",
+    "balance:mm:archive": "bun scripts/mm-archive.ts",
     "balance:thaleia": "bun scripts/balance-thaleia.ts",
     "balance:counter": "bun scripts/balance-counter.ts",
     "balance:train-engine": "bun scripts/balance-engine-train.ts",

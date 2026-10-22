@@ -1,0 +1,9 @@
+{
+  "abortedPolicyVersion": 1,
+  "completedGamesBeforeAbort": 741,
+  "failedSeed": "mm-v1-evaluation:money:doreios:45",
+  "reason": "Exceeded 5000-command guard. MM stopped buying missing engine cards after smaller VP piles sold out; Money refused losing endings.",
+  "revision": "Allow missing engine purchases when Hamlet and Polis are empty, unless the final round has begun. Also take affordable pile-emptying wins when public scores and all remaining supply VP guarantee the win even through an equal-turn reply.",
+  "evaluation": "All v1 samples excluded from the v2 study by design; new v2 seed namespace for all 900 games. No individual failed games omitted from a completed study.",
+  "regression": "Original failing seed completes with v2 at global turn 62; all 12 focused MM tests pass."
+}
