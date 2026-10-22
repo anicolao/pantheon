@@ -65,3 +65,20 @@ test('a compulsory Grove gain does not add arbitrary terminal Actions once the e
  v.choice={id:'grove',source:'sacred-grove',kind:'gain',min:1,max:1,limit:4};
  expect(choose(v)).toEqual({type:'choice/resolved',choiceId:'grove',targets:['drachma']});
 });
+
+test('MM rebuilds its unfinished engine when the smaller point piles are gone',()=>{
+ const v=view([],5);v.supply={...v.supply,acropolis:1,polis:0,hamlet:0};
+ v.owned={obol:4,drachma:1,talent:1,'harvest-feast':1,acropolis:3,hamlet:4,polis:3};
+ expect(choose(v)).toEqual({type:'card/bought',cardId:'sacred-grove'});
+ v.owned['sacred-grove']=1;
+ expect(choose(v)).toEqual({type:'card/bought',cardId:'sacred-academy'});
+ v.finalRound=true;expect(choose(v)).toEqual({type:'turn/ended'});
+});
+test('MM takes a winning third-pile finish while respecting every possible equal-turn VP reply',()=>{
+ const v=view([],5);v.equalTurns=true;v.playersAfter=1;v.myScore=31;v.scores=[12];
+ v.supply={...v.supply,acropolis:1,polis:0,hamlet:0,'sacred-academy':1};
+ v.owned={obol:4,drachma:4,talent:1,'harvest-feast':1,'sacred-grove':1,'sacred-academy':1};
+ expect(choose(v)).toEqual({type:'card/bought',cardId:'sacred-academy'});
+ v.scores=[29];expect(choose(v)).toEqual({type:'turn/ended'});
+ v.playersAfter=0;expect(choose(v)).toEqual({type:'card/bought',cardId:'sacred-academy'});
+});

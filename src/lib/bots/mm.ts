@@ -2,8 +2,8 @@ import {actionEffects,definition,type ActionCommand} from '../game/actions';
 import type {StandardView} from '../../../standard-matrix/policy';
 import type {CardInstance} from '../game/setup';
 
-/** Minh's Melia strategy, v1. Decisions use the same public observation as other bots. */
-export const mmVersion=1;
+/** Minh's Melia strategy, v2. Decisions use the same public observation as other bots. */
+export const mmVersion=2;
 const money:Record<string,number>={obol:1,drachma:2,talent:3};
 const count=(v:StandardView,id:string)=>v.owned[id]??0;
 const cash=(v:StandardView)=>Object.entries(money).reduce((n,[id,value])=>n+count(v,id)*value,0);
@@ -26,7 +26,9 @@ function trashTargets(v:StandardView,max:number):CardInstance[]{
 const trashRank=(c:CardInstance)=>c.cardId==='hamlet'?0:c.cardId==='temple-of-demeter'?1:c.cardId==='obol'?2:3;
 function preference(v:StandardView):string[]{
  const engine:string[]=[];
- if(!late(v)){
+ // If both smaller VP piles are empty, passing on engine improvements can
+ // prolong a decided game indefinitely. Rebuild enough draw/income to close it.
+ if(!late(v)||(!v.finalRound&&!v.supply.polis&&!v.supply.hamlet)){
   if(cash(v)<9)engine.push('talent');
   if(!count(v,'sacred-grove'))engine.push('sacred-grove');
   if(!count(v,'harvest-feast'))engine.push('harvest-feast');
@@ -52,6 +54,17 @@ function worship(v:StandardView):string|undefined{
  if(hamlets.length===1&&cash(v)<9&&v.events.includes('trial-of-the-spear')&&!v.bannedEvents.includes('trial-of-the-spear')&&handCash(v)>=4&&v.supply.drachma>0)return available('trial-of-the-spear')?'trial-of-the-spear':undefined;
  const trash=trashTargets(v,2);
  if(available('blessing-of-the-fields')&&(trash.length===2||trash.some(c=>c.cardId==='hamlet')))return 'blessing-of-the-fields';
+}
+function finishingBuy(v:StandardView):string|undefined{
+ if(v.finalRound||v.resources.buys<1)return;
+ const empty=Object.values(v.supply).filter(n=>n===0).length;
+ const legal=Object.keys(v.supply).filter(id=>v.supply[id]===1&&(id==='acropolis'||empty>=2)&&!v.bannedCards.includes(id)&&definition(id).cost!==null&&definition(id).cost!<=v.resources.coins);
+ return legal.filter(id=>{
+  // Bound the reply using ALL remaining supply VP, rather than peeking at
+  // opposing hands or assuming that their one remaining turn has only one Buy.
+  const reply=v.equalTurns&&v.playersAfter!==0?Object.entries(v.supply).reduce((n,[card,count])=>n+(count-Number(card===id))*(definition(card).vp??0),0):0;
+  return v.myScore+(definition(id).vp??0)>Math.max(...v.scores)+reply;
+ }).sort((a,b)=>(definition(b).vp??0)-(definition(a).vp??0)||definition(a).cost!-definition(b).cost!||a.localeCompare(b))[0];
 }
 export function mmCommand(v:StandardView):ActionCommand{
  if(v.choice){
@@ -82,6 +95,8 @@ export function mmCommand(v:StandardView):ActionCommand{
   const next=v.hand.filter(c=>money[c.cardId]).sort((a,b)=>money[b.cardId]-money[a.cardId]||a.id.localeCompare(b.id))[0];
   if(next)return {type:'treasure/played',instanceId:next.id};
  }
+ const finish=finishingBuy(v);
+ if(finish)return {type:'card/bought',cardId:finish};
  const purchase=preference(v).find(id=>v.resources.buys>0&&v.supply[id]>0&&!v.bannedCards.includes(id)&&definition(id).cost!<=v.resources.coins);
  return purchase?{type:'card/bought',cardId:purchase}:{type:'turn/ended'};
 }
