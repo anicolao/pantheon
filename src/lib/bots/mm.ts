@@ -2,8 +2,8 @@ import {actionEffects,definition,type ActionCommand} from '../game/actions';
 import type {StandardView} from '../../../standard-matrix/policy';
 import type {CardInstance} from '../game/setup';
 
-/** Minh's Melia strategy, v2. Decisions use the same public observation as other bots. */
-export const mmVersion=2;
+/** Minh's Melia strategy, v3. Decisions use the same public observation as other bots. */
+export const mmVersion=3;
 const money:Record<string,number>={obol:1,drachma:2,talent:3};
 const count=(v:StandardView,id:string)=>v.owned[id]??0;
 const cash=(v:StandardView)=>Object.entries(money).reduce((n,[id,value])=>n+count(v,id)*value,0);
@@ -12,12 +12,17 @@ const handCash=(v:StandardView)=>v.resources.coins+v.hand.reduce((n,c)=>n+(money
 function trashTargets(v:StandardView,max:number):CardInstance[]{
  if(late(v))return [];
  let coins=cash(v),obols=count(v,'obol');
+ // Without Ares, trade the last opening Hamlet plus one Obol for a lean
+ // five-Obol deck. Keep this exception out of later engine thinning.
+ const openingPair=!v.events.includes('trial-of-the-spear')&&obols===6
+  &&v.hand.filter(c=>c.cardId==='hamlet').length===1
+  &&Object.entries(v.owned).every(([id,n])=>!n||['obol','hamlet','temple-of-demeter'].includes(id));
  const demeter=count(v,'harvest-feast')+count(v,'sacred-grove');
  const candidates=[...v.hand].sort((a,b)=>trashRank(a)-trashRank(b)||a.id.localeCompare(b.id));
  const result:CardInstance[]=[];
  for(const c of candidates){
   if(result.length>=max)break;
-  if(c.cardId==='hamlet'||c.cardId==='temple-of-demeter'&&demeter>=2||c.cardId==='obol'&&obols>4&&coins>=8){
+  if(c.cardId==='hamlet'||c.cardId==='temple-of-demeter'&&demeter>=2||c.cardId==='obol'&&((obols>4&&coins>=8)||(openingPair&&obols===6))){
    result.push(c);if(c.cardId==='obol'){coins--;obols--;}
   }
  }

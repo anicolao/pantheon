@@ -1,0 +1,110 @@
+[
+  {
+    "kind": "engine",
+    "leader": "thaleia",
+    "games": 100,
+    "wins": 81,
+    "ties": 6,
+    "losses": 13,
+    "winCI95": [
+      0.7222115462093562,
+      0.8748524849023126
+    ],
+    "meanVP": 31.16,
+    "meanOpponentVP": 21.42,
+    "meanTurns": 14.75,
+    "thirtyBy13": 33,
+    "firstSeatWins": 39,
+    "secondSeatWins": 42
+  },
+  {
+    "kind": "engine",
+    "leader": "nereon",
+    "games": 100,
+    "wins": 90,
+    "ties": 2,
+    "losses": 8,
+    "winCI95": [
+      0.8256343384950865,
+      0.9447708629393249
+    ],
+    "meanVP": 33.56,
+    "meanOpponentVP": 20.65,
+    "meanTurns": 17.61,
+    "thirtyBy13": 34,
+    "firstSeatWins": 46,
+    "secondSeatWins": 44
+  },
+  {
+    "kind": "classic-engine",
+    "leader": "thaleia",
+    "games": 100,
+    "wins": 64,
+    "ties": 5,
+    "losses": 31,
+    "winCI95": [
+      0.5423540245160874,
+      0.7272877959859567
+    ],
+    "meanVP": 29.11,
+    "meanOpponentVP": 23.57,
+    "meanTurns": 15.17,
+    "thirtyBy13": 23,
+    "firstSeatWins": 32,
+    "secondSeatWins": 32
+  },
+  {
+    "kind": "classic-engine",
+    "leader": "nereon",
+    "games": 100,
+    "wins": 89,
+    "ties": 2,
+    "losses": 9,
+    "winCI95": [
+      0.8136870349691969,
+      0.9374580364293543
+    ],
+    "meanVP": 34.98,
+    "meanOpponentVP": 22.21,
+    "meanTurns": 19.97,
+    "thirtyBy13": 32,
+    "firstSeatWins": 44,
+    "secondSeatWins": 45
+  },
+  {
+    "kind": "money",
+    "leader": "thaleia",
+    "games": 100,
+    "wins": 64,
+    "ties": 6,
+    "losses": 30,
+    "winCI95": [
+      0.5423540245160874,
+      0.7272877959859567
+    ],
+    "meanVP": 28.99,
+    "meanOpponentVP": 25.49,
+    "meanTurns": 15.74,
+    "thirtyBy13": 21,
+    "firstSeatWins": 30,
+    "secondSeatWins": 34
+  },
+  {
+    "kind": "money",
+    "leader": "nereon",
+    "games": 100,
+    "wins": 59,
+    "ties": 6,
+    "losses": 35,
+    "winCI95": [
+      0.4920143005341078,
+      0.6813268697886348
+    ],
+    "meanVP": 30.18,
+    "meanOpponentVP": 26.85,
+    "meanTurns": 15.84,
+    "thirtyBy13": 25,
+    "firstSeatWins": 22,
+    "secondSeatWins": 37
+  }
+]

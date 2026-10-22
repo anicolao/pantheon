@@ -8,7 +8,8 @@ import {mmVersion} from '../src/lib/bots/mm';
 import {activePlayer,standings} from '../src/lib/game/actions';
 
 const opponents=['engine','classic-engine','money'] as const;
-const leaders=['thaleia','nereon','doreios'] as const;
+const leaders=process.env.MM_NO_ARES==='1'?['thaleia','nereon']:['thaleia','nereon','doreios'];
+const seedVersion=Number(process.env.MM_SEED_VERSION??mmVersion);
 const output=process.env.MM_OUTPUT??`balance-results/mm-v${mmVersion}`;
 const games=Number(process.env.MM_GAMES??100);
 if(!Number.isSafeInteger(games)||games<2||games%2)throw Error('MM_GAMES must be a positive even number');
@@ -19,7 +20,7 @@ export function wilson(wins:number,n:number,z=1.959963984540054):[number,number]
 }
 function run(kind:BotKind,leader:string,index:number){
  // Unique seed per game, including seat: no correlated mirrored games in the CI.
- const seed=`mm-v${mmVersion}-${games===100?'evaluation':'smoke'}:${kind}:${leader}:${index}`;
+ const seed=`mm-v${seedVersion}-${games===100?'evaluation':'smoke'}:${kind}:${leader}:${index}`;
  const s=new PracticeSession({seed,humanLeader:leader,botLeader:'melia',humanFirst:index%2===0,bot:'mm'});
  const replayPath=`${output}/${kind}-${leader}-${index}.json.gz`;
  const saved=existsSync(replayPath)?JSON.parse(gunzipSync(readFileSync(replayPath)).toString()):null;
@@ -61,8 +62,8 @@ if(process.argv[2]==='worker'){
  const hash=(paths:string[])=>{const h=createHash('sha256');for(const file of paths.sort())h.update(file).update(readFileSync(file));return h.digest('hex');};
  const policySourceSHA256=hash([...files]),sourceSHA256=hash([...files,'scripts/mm-study.ts']);
  const previous=existsSync(`${output}/protocol.json`)?JSON.parse(readFileSync(`${output}/protocol.json`,'utf8')):null;
- if(previous&&(previous.policySourceSHA256!==policySourceSHA256||previous.gamesPerCell!==games))throw Error('Refusing to resume results from another policy or study size');
- writeFileSync(`${output}/protocol.json`,JSON.stringify({mmVersion,gamesPerCell:games,total:games*9,sourceSHA256,policySourceSHA256,...(previous?{resumedFromSourceSHA256:previous.sourceSHA256}:{}),baseCommit:execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim(),runtime:Bun.version,equalTurns:true,variant:'standard',leaders,opponents,seatBalance:'50/50 with independent seeds',interval:'95% Wilson score interval for outright win probability; ties are not wins; marginal, not family adjusted',missingGames:'Abort on any illegal action, timeout or replay mismatch; no exclusion',policyTuning:'Frozen before evaluation; smoke seeds are separate'},null,2));
+ if(previous&&(previous.policySourceSHA256!==policySourceSHA256||previous.gamesPerCell!==games||previous.seedVersion!==seedVersion||JSON.stringify(previous.leaders)!==JSON.stringify(leaders)))throw Error('Refusing to resume results from another policy or study size');
+ writeFileSync(`${output}/protocol.json`,JSON.stringify({mmVersion,seedVersion,gamesPerCell:games,total:games*opponents.length*leaders.length,sourceSHA256,policySourceSHA256,...(previous?{resumedFromSourceSHA256:previous.sourceSHA256}:{}),baseCommit:execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim(),runtime:Bun.version,equalTurns:true,variant:'standard',leaders,opponents,seatBalance:'50/50 with independent seeds',interval:'95% Wilson score interval for outright win probability; ties are not wins; marginal, not family adjusted',missingGames:'Abort on any illegal action, timeout or replay mismatch; no exclusion',policyTuning:'Frozen before evaluation; smoke seeds are separate'},null,2));
  const cells=opponents.flatMap(kind=>leaders.map(leader=>({kind,leader})));
  const jobs=Array.from({length:Math.ceil(games/25)},(_,chunk)=>cells.map(cell=>({...cell,from:chunk*25,to:Math.min(games,(chunk+1)*25)}))).flat();
  let next=0;

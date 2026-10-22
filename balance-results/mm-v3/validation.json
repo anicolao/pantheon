@@ -1,0 +1,17 @@
+{
+  "policyHashVerified": true,
+  "games": 600,
+  "seatsPerCell": [
+    50,
+    50
+  ],
+  "focusedTestsPassed": 13,
+  "typecheck": "0 errors, 0 warnings",
+  "openingCheck": {
+    "seeds": 100,
+    "exactFiveObolPlusTempleDecks": 87,
+    "allProducedFiveCoinsOnTurnThree": true
+  },
+  "reproduce": "MM_NO_ARES=1 MM_SEED_VERSION=2 bun scripts/mm-study.ts; bun scripts/mm-archive.ts; bun scripts/mm-compare.ts",
+  "scope": "No Ares opening only. Original v2 evaluation seeds reused for paired exploratory comparison."
+}

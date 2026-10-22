@@ -1,0 +1,25 @@
+{
+  "mmVersion": 3,
+  "seedVersion": 2,
+  "gamesPerCell": 100,
+  "total": 600,
+  "sourceSHA256": "1823f7043c0ff6a1e988f5d6297026a0b513028ca218729623e42c0e0e014857",
+  "policySourceSHA256": "c804068ab749f53a60f6bdaf418c16d61169b97ab7f52466682b9a57da021a9e",
+  "baseCommit": "3990b879091928c638e3bb601ae481bebcdc1ae6",
+  "runtime": "1.3.13",
+  "equalTurns": true,
+  "variant": "standard",
+  "leaders": [
+    "thaleia",
+    "nereon"
+  ],
+  "opponents": [
+    "engine",
+    "classic-engine",
+    "money"
+  ],
+  "seatBalance": "50/50 with independent seeds",
+  "interval": "95% Wilson score interval for outright win probability; ties are not wins; marginal, not family adjusted",
+  "missingGames": "Abort on any illegal action, timeout or replay mismatch; no exclusion",
+  "policyTuning": "Frozen before evaluation; smoke seeds are separate"
+}

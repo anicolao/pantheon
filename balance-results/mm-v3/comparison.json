@@ -1,0 +1,137 @@
+{
+  "before": "balance-results/mm-v2",
+  "after": "balance-results/mm-v3",
+  "method": "Same seeds and seats; outright wins, ties not wins. 10,000 deterministic paired bootstrap samples; pooled interval stratified by matchup. Marginal 95% percentile intervals, not adjusted for multiple comparisons. Reused evaluation seeds: exploratory comparison, not a fresh holdout.",
+  "cells": [
+    {
+      "kind": "engine",
+      "leader": "thaleia",
+      "games": 100,
+      "beforeWins": 68,
+      "afterWins": 81,
+      "afterTies": 6,
+      "afterLosses": 13,
+      "winRateChange": 0.13,
+      "pairedChangeCI95": [
+        0.02,
+        0.24
+      ],
+      "newWins": 23,
+      "lostWins": 10,
+      "beforeThirtyBy13": 17,
+      "afterThirtyBy13": 33,
+      "meanVPChange": 1.35,
+      "meanTurnsChange": -0.11
+    },
+    {
+      "kind": "engine",
+      "leader": "nereon",
+      "games": 100,
+      "beforeWins": 74,
+      "afterWins": 90,
+      "afterTies": 2,
+      "afterLosses": 8,
+      "winRateChange": 0.16,
+      "pairedChangeCI95": [
+        0.06,
+        0.26
+      ],
+      "newWins": 22,
+      "lostWins": 6,
+      "beforeThirtyBy13": 19,
+      "afterThirtyBy13": 34,
+      "meanVPChange": 1.01,
+      "meanTurnsChange": 0.66
+    },
+    {
+      "kind": "classic-engine",
+      "leader": "thaleia",
+      "games": 100,
+      "beforeWins": 51,
+      "afterWins": 64,
+      "afterTies": 5,
+      "afterLosses": 31,
+      "winRateChange": 0.13,
+      "pairedChangeCI95": [
+        0.04,
+        0.23
+      ],
+      "newWins": 19,
+      "lostWins": 6,
+      "beforeThirtyBy13": 18,
+      "afterThirtyBy13": 23,
+      "meanVPChange": 0.6,
+      "meanTurnsChange": 0.28
+    },
+    {
+      "kind": "classic-engine",
+      "leader": "nereon",
+      "games": 100,
+      "beforeWins": 78,
+      "afterWins": 89,
+      "afterTies": 2,
+      "afterLosses": 9,
+      "winRateChange": 0.11,
+      "pairedChangeCI95": [
+        0.02,
+        0.2
+      ],
+      "newWins": 17,
+      "lostWins": 6,
+      "beforeThirtyBy13": 22,
+      "afterThirtyBy13": 32,
+      "meanVPChange": 1.05,
+      "meanTurnsChange": -0.37
+    },
+    {
+      "kind": "money",
+      "leader": "thaleia",
+      "games": 100,
+      "beforeWins": 58,
+      "afterWins": 64,
+      "afterTies": 6,
+      "afterLosses": 30,
+      "winRateChange": 0.06,
+      "pairedChangeCI95": [
+        -0.05,
+        0.18
+      ],
+      "newWins": 21,
+      "lostWins": 15,
+      "beforeThirtyBy13": 9,
+      "afterThirtyBy13": 21,
+      "meanVPChange": 0.39,
+      "meanTurnsChange": 0.34
+    },
+    {
+      "kind": "money",
+      "leader": "nereon",
+      "games": 100,
+      "beforeWins": 51,
+      "afterWins": 59,
+      "afterTies": 6,
+      "afterLosses": 35,
+      "winRateChange": 0.08,
+      "pairedChangeCI95": [
+        -0.03,
+        0.19
+      ],
+      "newWins": 20,
+      "lostWins": 12,
+      "beforeThirtyBy13": 15,
+      "afterThirtyBy13": 25,
+      "meanVPChange": 1.13,
+      "meanTurnsChange": -0.18
+    }
+  ],
+  "total": {
+    "games": 600,
+    "beforeWins": 380,
+    "afterWins": 447,
+    "winRateChange": 0.11166666666666666,
+    "pairedChangeCI95": [
+      0.07,
+      0.155
+    ]
+  }
+}

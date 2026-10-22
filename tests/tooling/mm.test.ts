@@ -82,3 +82,13 @@ test('MM takes a winning third-pile finish while respecting every possible equal
  v.scores=[29];expect(choose(v)).toEqual({type:'turn/ended'});
  v.playersAfter=0;expect(choose(v)).toEqual({type:'card/bought',cardId:'sacred-academy'});
 });
+
+ test('without Ares MM retains one opening Obol to trash with its Hamlet',()=>{
+  const v=view(['hamlet','obol'],3);v.events=v.events.filter(id=>id!=='trial-of-the-spear');
+  v.owned={obol:6,hamlet:1,'temple-of-demeter':1};
+  expect(choose(v)).toEqual({type:'god/worshipped',cardId:'blessing-of-the-fields'});
+  v.resources.coins=0;v.choice={id:'opening',kind:'trash',source:'blessing-of-the-fields',min:0,max:2};
+  expect(choose(v)).toEqual({type:'choice/resolved',choiceId:'opening',targets:['test-0','test-1']});
+  v.owned.obol=5;expect((choose(v) as any).targets).toEqual(['test-0']);
+  v.owned.obol=6;v.events.push('trial-of-the-spear');expect((choose(v) as any).targets).toEqual(['test-0']);
+ });
