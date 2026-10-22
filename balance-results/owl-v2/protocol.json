@@ -1,0 +1,38 @@
+{
+  "owlVersion": 2,
+  "seedVersion": 1,
+  "gamesPerCell": 100,
+  "total": 400,
+  "candidates": [
+    "owl"
+  ],
+  "opponents": [
+    {
+      "kind": "engine",
+      "leader": "melia"
+    },
+    {
+      "kind": "classic-engine",
+      "leader": "melia"
+    },
+    {
+      "kind": "money",
+      "leader": "melia"
+    },
+    {
+      "kind": "mm",
+      "leader": "melia"
+    }
+  ],
+  "policySourceSHA256": "b47a7e96fe7c2c03b220b882f8cd7f65c079eb424e2a6361d94f89bec5e72c43",
+  "harnessSHA256": "b97eb382fba18e0a62d92abf2b962cdd3e23d93c6977b4247d5acf068aaea469",
+  "baseCommit": "719542a66bca1b3d1f9a3fe20ead2f80fcb2dbc4",
+  "runtime": "1.3.13",
+  "equalTurns": true,
+  "variant": "standard",
+  "seatBalance": "50/50; same seeds and seats across candidate policies",
+  "failedGames": "Abort, never omit",
+  "mmPolicy": "Restored v3 (Sacred Grove first)",
+  "interval": "Marginal 95% Wilson intervals for outright wins, ties not wins",
+  "tuning": "Policy frozen before evaluation; smoke uses separate seed namespace"
+}

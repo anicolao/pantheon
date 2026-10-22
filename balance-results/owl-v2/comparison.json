@@ -1,0 +1,82 @@
+{
+  "baselineDirectory": "balance-results/owl-v1",
+  "method": "100 games per opponent setup, half in each seat. Same seeds and seats across candidates. Outright wins; ties not wins. 10,000 deterministic paired bootstrap samples, stratified by matchup for pooled intervals. Marginal 95% percentile intervals, not family adjusted.",
+  "comboMetric": "Favored Athena worship followed by an Acropolis purchase in the same turn. Other order not counted.",
+  "fullDeckMetric": "Turns with empty draw and discard piles at a decision boundary.",
+  "totals": [
+    {
+      "candidate": "owl",
+      "games": 400,
+      "wins": 210,
+      "ties": 24,
+      "losses": 166,
+      "thirtyBy13": 16,
+      "gamesWithCombo": 130,
+      "comboTurns": 178,
+      "fullDeckTurns": 381
+    }
+  ],
+  "comparisons": [
+    {
+      "baseline": "owl",
+      "cells": [
+        {
+          "kind": "engine",
+          "leader": "melia",
+          "games": 100,
+          "baselineWins": 36,
+          "owlWins": 57,
+          "winRateChange": 0.21,
+          "pairedChangeCI95": [
+            0.11,
+            0.31
+          ]
+        },
+        {
+          "kind": "classic-engine",
+          "leader": "melia",
+          "games": 100,
+          "baselineWins": 51,
+          "owlWins": 68,
+          "winRateChange": 0.17,
+          "pairedChangeCI95": [
+            0.06,
+            0.28
+          ]
+        },
+        {
+          "kind": "money",
+          "leader": "melia",
+          "games": 100,
+          "baselineWins": 38,
+          "owlWins": 56,
+          "winRateChange": 0.18,
+          "pairedChangeCI95": [
+            0.06,
+            0.29
+          ]
+        },
+        {
+          "kind": "mm",
+          "leader": "melia",
+          "games": 100,
+          "baselineWins": 19,
+          "owlWins": 29,
+          "winRateChange": 0.1,
+          "pairedChangeCI95": [
+            0.02,
+            0.19
+          ]
+        }
+      ],
+      "overall": {
+        "games": 400,
+        "winRateChange": 0.165,
+        "pairedChangeCI95": [
+          0.115,
+          0.2175
+        ]
+      }
+    }
+  ]
+}

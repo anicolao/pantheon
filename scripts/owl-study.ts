@@ -9,14 +9,15 @@ import {owlVersion} from '../src/lib/bots/owl';
 const output=process.env.OWL_OUTPUT??`balance-results/owl-v${owlVersion}`;
 const games=Number(process.env.OWL_GAMES??100);
 if(!Number.isSafeInteger(games)||games<2||games%2)throw Error('Even game count required');
-const candidates=['owl','money','classic-engine'] as const;
-const opponents=(['engine','classic-engine','money'] as const).flatMap(kind=>['melia','nereon','doreios'].map(leader=>({kind:kind as BotKind,leader}))).concat([{kind:'mm',leader:'melia'}]);
+const candidates:BotKind[]=process.env.OWL_ONLY==='1'?['owl']:['owl','money','classic-engine'];
+const seedVersion=Number(process.env.OWL_SEED_VERSION??owlVersion);
+const opponents=(['engine','classic-engine','money'] as const).flatMap(kind=>['melia','nereon','doreios'].map(leader=>({kind:kind as BotKind,leader}))).concat([{kind:'mm',leader:'melia'}]).filter(op=>process.env.OWL_MELIA_ONLY!=='1'||op.leader==='melia');
 const cells=candidates.flatMap(candidate=>opponents.map(op=>({candidate,...op})));
 mkdirSync(output,{recursive:true});
 const sha=(data:string|Uint8Array)=>createHash('sha256').update(data).digest('hex');
 function wilson(w:number,n:number){const z=1.959963984540054,p=w/n,d=1+z*z/n,c=(p+z*z/(2*n))/d,h=z*Math.sqrt(p*(1-p)/n+z*z/(4*n*n))/d;return [Math.max(0,c-h),Math.min(1,c+h)];}
 function run(candidate:BotKind,kind:BotKind,leader:string,index:number){
- const seed=`owl-v${owlVersion}-${games===100?'evaluation':'smoke'}:${kind}:${leader}:${index}`;
+ const seed=`owl-v${seedVersion}-${games===100?'evaluation':'smoke'}:${kind}:${leader}:${index}`;
  const path=`${output}/${candidate}-${kind}-${leader}-${index}.json.gz`;
  const s=new PracticeSession({seed,humanLeader:leader,botLeader:'thaleia',humanFirst:index%2===0,bot:candidate});
  const saved=existsSync(path)?JSON.parse(gunzipSync(readFileSync(path)).toString()):null;
@@ -55,8 +56,8 @@ if(process.argv[2]==='worker'){
  const h=createHash('sha256');for(const file of files.sort())h.update(file).update(readFileSync(file));
  const policySourceSHA256=h.digest('hex');
  const previous=existsSync(`${output}/protocol.json`)?JSON.parse(readFileSync(`${output}/protocol.json`,'utf8')):null;
- if(previous&&(previous.policySourceSHA256!==policySourceSHA256||previous.gamesPerCell!==games))throw Error('Policy changed; refusing resume');
- const protocol={...(previous?{resumedFromHarnessSHA256:previous.harnessSHA256}:{}),owlVersion,gamesPerCell:games,total:cells.length*games,candidates,opponents,policySourceSHA256,harnessSHA256:sha(readFileSync(import.meta.path)),baseCommit:execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim(),runtime:Bun.version,equalTurns:true,variant:'standard',seatBalance:'50/50; same seeds and seats across candidate policies',failedGames:'Abort, never omit',mmPolicy:'Restored v3 (Sacred Grove first)',interval:'Marginal 95% Wilson intervals for outright wins, ties not wins',tuning:'Policy frozen before evaluation; smoke uses separate seed namespace'};
+ if(previous&&(previous.policySourceSHA256!==policySourceSHA256||previous.gamesPerCell!==games||previous.seedVersion!==seedVersion||JSON.stringify(previous.candidates)!==JSON.stringify(candidates)||JSON.stringify(previous.opponents)!==JSON.stringify(opponents)))throw Error('Policy changed; refusing resume');
+ const protocol={...(previous?{resumedFromHarnessSHA256:previous.harnessSHA256}:{}),owlVersion,seedVersion,gamesPerCell:games,total:cells.length*games,candidates,opponents,policySourceSHA256,harnessSHA256:sha(readFileSync(import.meta.path)),baseCommit:execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim(),runtime:Bun.version,equalTurns:true,variant:'standard',seatBalance:'50/50; same seeds and seats across candidate policies',failedGames:'Abort, never omit',mmPolicy:'Restored v3 (Sacred Grove first)',interval:'Marginal 95% Wilson intervals for outright wins, ties not wins',tuning:'Policy frozen before evaluation; smoke uses separate seed namespace'};
  writeFileSync(`${output}/protocol.json`,JSON.stringify(protocol,null,2));
  const jobs=Array.from({length:Math.ceil(games/10)},(_,chunk)=>cells.map(cell=>({...cell,from:chunk*10,to:Math.min(games,(chunk+1)*10)}))).flat();
  let next=0;const children=new Set<ReturnType<typeof Bun.spawn>>();

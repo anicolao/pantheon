@@ -1,6 +1,6 @@
 import {actionEffects,definition,type ActionCommand} from '../game/actions';
 import type {StandardView} from '../../../standard-matrix/policy';
-export const owlVersion=1;
+export const owlVersion=2;
 const count=(v:StandardView,id:string)=>v.owned[id]??0;
 const income=(v:StandardView)=>count(v,'obol')+2*count(v,'drachma')+3*count(v,'talent');
 const draw=(id:string)=>actionEffects(id).reduce((n,e)=>n+(e.kind==='draw'?e.amount:0),0);
@@ -48,6 +48,11 @@ export function owlCommand(v:StandardView):ActionCommand{
  // Keep eight coins for an Acropolis; at eleven, grow draw and score together.
  const reserve=coins>=8?8:0;
  const developing=!v.finalRound&&v.supply.acropolis>1;
+ // Thin two dead starter cards without adding a trashing Action to the deck.
+ // Preserve an affordable Acropolis and avoid sacrificing points late.
+ if(developing&&v.supply.acropolis>2&&v.resources.worship>0&&coins-reserve>=3
+  &&v.events.includes('blessing-of-the-fields')&&!v.bannedEvents.includes('blessing-of-the-fields')
+  &&v.hand.filter(c=>c.cardId==='hamlet').length>=2)return {type:'god/worshipped',cardId:'blessing-of-the-fields'};
  const canWorship=v.resources.worship>0&&v.events.includes('counsel-of-olympus')&&!v.bannedEvents.includes('counsel-of-olympus')&&coins-reserve>=3;
  if(developing&&canWorship&&((favored&&owlNeedsDraw(v)&&v.supply['sacred-academy']>0&&!(income(v)<11&&coins>=6&&coins<8))||(!favored&&count(v,'oracles-acolyte')<1&&coins<4&&v.supply['oracles-acolyte']>0)))return {type:'god/worshipped',cardId:'counsel-of-olympus'};
  const id=preference(v).find(id=>v.resources.buys>0&&v.supply[id]>0&&!v.bannedCards.includes(id)&&definition(id).cost!<=coins);

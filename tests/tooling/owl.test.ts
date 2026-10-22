@@ -44,3 +44,17 @@ for(const first of [false,true])test('Owl plays a complete legal and replayable 
  }
  expect(PracticeSession.restore(structuredClone(s.save())).game).toEqual(s.game);
 },120000);
+
+test('Owl uses available Demeter to trash two Hamlets while preserving an Acropolis',()=>{
+ const v=view(3);v.hand=['hamlet','hamlet'].map((cardId,i)=>({cardId,id:'h'+i,copy:i}));
+ expect(choose(v)).toEqual({type:'god/worshipped',cardId:'blessing-of-the-fields'});
+ v.choice={id:'thin',kind:'trash',source:'blessing-of-the-fields',min:0,max:2};
+ expect(choose(v)).toEqual({type:'choice/resolved',choiceId:'thin',targets:['h0','h1']});v.choice=null;
+ for(const coins of [8,9,10]){v.resources.coins=coins;expect(choose(v)).toEqual({type:'card/bought',cardId:'acropolis'});}
+ v.resources.coins=11;expect(choose(v)).toEqual({type:'god/worshipped',cardId:'blessing-of-the-fields'});
+});
+test('Owl does not initiate Demeter thinning without two Hamlets or late in the game',()=>{
+ const base=view(3);base.hand=['hamlet','hamlet'].map((cardId,i)=>({cardId,id:'h'+i,copy:i}));
+ const variants=[{hand:base.hand.slice(0,1)},{events:base.events.filter(id=>id!=='blessing-of-the-fields')},{bannedEvents:['blessing-of-the-fields']},{finalRound:true},{supply:{...base.supply,acropolis:2}},{resources:{...base.resources,worship:0}},{resources:{...base.resources,coins:2}}];
+ for(const change of variants)expect(choose({...base,...change})).not.toEqual({type:'god/worshipped',cardId:'blessing-of-the-fields'});
+});

@@ -1,0 +1,11 @@
+{
+  "policyHashVerified": true,
+  "gamesCompletedAndReplayed": 400,
+  "archiveChecksumVerified": true,
+  "focusedTestsPassed": 8,
+  "typecheck": "0 errors, 0 warnings",
+  "rule": "Prioritize Demeter worship with two Hamlets in hand, coins for its cost after reserving eight for an affordable Acropolis, a worship action available, and more than two Acropolises remaining; never in final round.",
+  "scope": "Only Melia opponents have Demeter in these heads-up games; other matchups cannot trigger this rule. All purchase priorities unchanged.",
+  "comparison": "Same v1 seeds and seats; exploratory paired comparison, not a fresh holdout.",
+  "reproduce": "OWL_ONLY=1 OWL_MELIA_ONLY=1 OWL_SEED_VERSION=1 bun scripts/owl-study.ts; bun scripts/owl-compare.ts balance-results/owl-v2 balance-results/owl-v1"
+}
