@@ -2,8 +2,8 @@ import {actionEffects,definition,type ActionCommand} from '../game/actions';
 import type {StandardView} from '../../../standard-matrix/policy';
 import type {CardInstance} from '../game/setup';
 
-/** Minh's Melia strategy, v3. Decisions use the same public observation as other bots. */
-export const mmVersion=3;
+/** Minh's Melia strategy, v4. Decisions use the same public observation as other bots. */
+export const mmVersion=4;
 const money:Record<string,number>={obol:1,drachma:2,talent:3};
 const count=(v:StandardView,id:string)=>v.owned[id]??0;
 const cash=(v:StandardView)=>Object.entries(money).reduce((n,[id,value])=>n+count(v,id)*value,0);
@@ -35,7 +35,10 @@ function preference(v:StandardView):string[]{
  // prolong a decided game indefinitely. Rebuild enough draw/income to close it.
  if(!late(v)||(!v.finalRound&&!v.supply.polis&&!v.supply.hamlet)){
   if(cash(v)<9)engine.push('talent');
-  if(!count(v,'sacred-grove'))engine.push('sacred-grove');
+  if(!count(v,'sacred-grove')){
+   if(!count(v,'merchant-fleet'))engine.push('merchant-fleet');
+   engine.push('sacred-grove');
+  }
   if(!count(v,'harvest-feast'))engine.push('harvest-feast');
   if(count(v,'sacred-academy')<1)engine.push('sacred-academy');
   if(cash(v)<9)engine.push('drachma');

@@ -1,0 +1,13 @@
+{
+  "policyHashVerified": true,
+  "games": 900,
+  "seatsPerCell": [
+    50,
+    50
+  ],
+  "focusedTestsPassed": 14,
+  "typecheck": "0 errors, 0 warnings",
+  "baseline": "v3 for Thaleia and Nereon; v2 for Doreios. The sole v3 decision change requires Ares to be absent, so v2 Doreios results are identical to v3 behavior.",
+  "reproduce": "MM_SEED_VERSION=2 bun scripts/mm-study.ts; bun scripts/mm-archive.ts; bun scripts/mm-compare.ts balance-results/mm-v3 balance-results/mm-v4 balance-results/mm-v2",
+  "scope": "Buy one Merchant Fleet before the first Sacred Grove; other priorities unchanged. Same v2 seeds and seats; exploratory comparison."
+}

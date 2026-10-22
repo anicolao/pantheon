@@ -1,0 +1,206 @@
+{
+  "before": "balance-results/mm-v3",
+  "after": "balance-results/mm-v4",
+  "method": "Same seeds and seats; outright wins, ties not wins. 10,000 deterministic paired bootstrap samples; pooled interval stratified by matchup. Marginal 95% percentile intervals, not adjusted for multiple comparisons. Reused evaluation seeds: exploratory comparison, not a fresh holdout.",
+  "cells": [
+    {
+      "baseline": "balance-results/mm-v3",
+      "kind": "engine",
+      "leader": "thaleia",
+      "games": 100,
+      "beforeWins": 81,
+      "afterWins": 83,
+      "afterTies": 3,
+      "afterLosses": 14,
+      "winRateChange": 0.02,
+      "pairedChangeCI95": [
+        -0.08,
+        0.12
+      ],
+      "newWins": 13,
+      "lostWins": 11,
+      "beforeThirtyBy13": 33,
+      "afterThirtyBy13": 23,
+      "meanVPChange": -0.25,
+      "meanTurnsChange": 0.53
+    },
+    {
+      "baseline": "balance-results/mm-v3",
+      "kind": "engine",
+      "leader": "nereon",
+      "games": 100,
+      "beforeWins": 90,
+      "afterWins": 89,
+      "afterTies": 2,
+      "afterLosses": 9,
+      "winRateChange": -0.01,
+      "pairedChangeCI95": [
+        -0.09,
+        0.07
+      ],
+      "newWins": 9,
+      "lostWins": 10,
+      "beforeThirtyBy13": 34,
+      "afterThirtyBy13": 26,
+      "meanVPChange": -1.1,
+      "meanTurnsChange": -0.87
+    },
+    {
+      "baseline": "balance-results/mm-v2",
+      "kind": "engine",
+      "leader": "doreios",
+      "games": 100,
+      "beforeWins": 87,
+      "afterWins": 71,
+      "afterTies": 8,
+      "afterLosses": 21,
+      "winRateChange": -0.16,
+      "pairedChangeCI95": [
+        -0.25,
+        -0.07
+      ],
+      "newWins": 4,
+      "lostWins": 20,
+      "beforeThirtyBy13": 20,
+      "afterThirtyBy13": 7,
+      "meanVPChange": -2.41,
+      "meanTurnsChange": 0.09
+    },
+    {
+      "baseline": "balance-results/mm-v3",
+      "kind": "classic-engine",
+      "leader": "thaleia",
+      "games": 100,
+      "beforeWins": 64,
+      "afterWins": 68,
+      "afterTies": 4,
+      "afterLosses": 28,
+      "winRateChange": 0.04,
+      "pairedChangeCI95": [
+        -0.07,
+        0.15
+      ],
+      "newWins": 19,
+      "lostWins": 15,
+      "beforeThirtyBy13": 23,
+      "afterThirtyBy13": 21,
+      "meanVPChange": 1.94,
+      "meanTurnsChange": 1.79
+    },
+    {
+      "baseline": "balance-results/mm-v3",
+      "kind": "classic-engine",
+      "leader": "nereon",
+      "games": 100,
+      "beforeWins": 89,
+      "afterWins": 76,
+      "afterTies": 5,
+      "afterLosses": 19,
+      "winRateChange": -0.13,
+      "pairedChangeCI95": [
+        -0.24,
+        -0.02
+      ],
+      "newWins": 9,
+      "lostWins": 22,
+      "beforeThirtyBy13": 32,
+      "afterThirtyBy13": 27,
+      "meanVPChange": -1.88,
+      "meanTurnsChange": -0.81
+    },
+    {
+      "baseline": "balance-results/mm-v2",
+      "kind": "classic-engine",
+      "leader": "doreios",
+      "games": 100,
+      "beforeWins": 71,
+      "afterWins": 64,
+      "afterTies": 4,
+      "afterLosses": 32,
+      "winRateChange": -0.07,
+      "pairedChangeCI95": [
+        -0.18,
+        0.04
+      ],
+      "newWins": 12,
+      "lostWins": 19,
+      "beforeThirtyBy13": 10,
+      "afterThirtyBy13": 11,
+      "meanVPChange": -0.54,
+      "meanTurnsChange": 0.92
+    },
+    {
+      "baseline": "balance-results/mm-v3",
+      "kind": "money",
+      "leader": "thaleia",
+      "games": 100,
+      "beforeWins": 64,
+      "afterWins": 65,
+      "afterTies": 6,
+      "afterLosses": 29,
+      "winRateChange": 0.01,
+      "pairedChangeCI95": [
+        -0.1,
+        0.12
+      ],
+      "newWins": 16,
+      "lostWins": 15,
+      "beforeThirtyBy13": 21,
+      "afterThirtyBy13": 17,
+      "meanVPChange": -1.03,
+      "meanTurnsChange": -0.36
+    },
+    {
+      "baseline": "balance-results/mm-v3",
+      "kind": "money",
+      "leader": "nereon",
+      "games": 100,
+      "beforeWins": 59,
+      "afterWins": 61,
+      "afterTies": 5,
+      "afterLosses": 34,
+      "winRateChange": 0.02,
+      "pairedChangeCI95": [
+        -0.09,
+        0.13
+      ],
+      "newWins": 17,
+      "lostWins": 15,
+      "beforeThirtyBy13": 25,
+      "afterThirtyBy13": 14,
+      "meanVPChange": -1.07,
+      "meanTurnsChange": -0.39
+    },
+    {
+      "baseline": "balance-results/mm-v2",
+      "kind": "money",
+      "leader": "doreios",
+      "games": 100,
+      "beforeWins": 73,
+      "afterWins": 66,
+      "afterTies": 9,
+      "afterLosses": 25,
+      "winRateChange": -0.07,
+      "pairedChangeCI95": [
+        -0.17,
+        0.04
+      ],
+      "newWins": 11,
+      "lostWins": 18,
+      "beforeThirtyBy13": 18,
+      "afterThirtyBy13": 5,
+      "meanVPChange": -0.62,
+      "meanTurnsChange": -0.04
+    }
+  ],
+  "total": {
+    "games": 900,
+    "beforeWins": 678,
+    "afterWins": 643,
+    "winRateChange": -0.03888888888888889,
+    "pairedChangeCI95": [
+      -0.07333333333333333,
+      -0.005555555555555556
+    ]
+  }
+}

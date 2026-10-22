@@ -33,7 +33,7 @@ test('MM keeps two Obols in hand for thinning without destroying its coin floor'
 });
 test('MM follows the engine budget ladder and then buys Acropolis',()=>{
  const v=view([]);v.resources.worship=0;
- for(const [coins,cardId] of [[4,'harvest-feast'],[5,'sacred-grove'],[6,'talent'],[8,'acropolis']] as const){
+ for(const [coins,cardId] of [[4,'harvest-feast'],[5,'merchant-fleet'],[6,'talent'],[8,'acropolis']] as const){
   expect(choose({...v,resources:{...v.resources,coins}})).toEqual({type:'card/bought',cardId});
  }
  v.owned={'sacred-grove':1,'harvest-feast':1,talent:1,drachma:1,obol:4};v.resources.coins=5;
@@ -68,7 +68,7 @@ test('a compulsory Grove gain does not add arbitrary terminal Actions once the e
 
 test('MM rebuilds its unfinished engine when the smaller point piles are gone',()=>{
  const v=view([],5);v.supply={...v.supply,acropolis:1,polis:0,hamlet:0};
- v.owned={obol:4,drachma:1,talent:1,'harvest-feast':1,acropolis:3,hamlet:4,polis:3};
+ v.owned={obol:4,drachma:1,talent:1,'merchant-fleet':1,'harvest-feast':1,acropolis:3,hamlet:4,polis:3};
  expect(choose(v)).toEqual({type:'card/bought',cardId:'sacred-grove'});
  v.owned['sacred-grove']=1;
  expect(choose(v)).toEqual({type:'card/bought',cardId:'sacred-academy'});
@@ -92,3 +92,17 @@ test('MM takes a winning third-pile finish while respecting every possible equal
   v.owned.obol=5;expect((choose(v) as any).targets).toEqual(['test-0']);
   v.owned.obol=6;v.events.push('trial-of-the-spear');expect((choose(v) as any).targets).toEqual(['test-0']);
  });
+
+test('MM buys one Merchant Fleet before its first Sacred Grove with or without Ares',()=>{
+ for(const ares of [false,true]){
+  const v=view([],5);v.resources.worship=0;
+  if(!ares)v.events=v.events.filter(id=>id!=='trial-of-the-spear');
+  expect(choose(v)).toEqual({type:'card/bought',cardId:'merchant-fleet'});
+  v.owned['merchant-fleet']=1;
+  expect(choose(v)).toEqual({type:'card/bought',cardId:'sacred-grove'});
+  delete v.owned['merchant-fleet'];v.owned['sacred-grove']=1;
+  expect(choose(v)).toEqual({type:'card/bought',cardId:'harvest-feast'});
+  delete v.owned['sacred-grove'];v.supply['merchant-fleet']=0;
+  expect(choose(v)).toEqual({type:'card/bought',cardId:'sacred-grove'});
+ }
+});

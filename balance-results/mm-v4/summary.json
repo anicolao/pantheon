@@ -1,0 +1,164 @@
+[
+  {
+    "kind": "engine",
+    "leader": "thaleia",
+    "games": 100,
+    "wins": 83,
+    "ties": 3,
+    "losses": 14,
+    "winCI95": [
+      0.7445199523239887,
+      0.8910643388594006
+    ],
+    "meanVP": 30.91,
+    "meanOpponentVP": 20.97,
+    "meanTurns": 15.28,
+    "thirtyBy13": 23,
+    "firstSeatWins": 42,
+    "secondSeatWins": 41
+  },
+  {
+    "kind": "engine",
+    "leader": "nereon",
+    "games": 100,
+    "wins": 89,
+    "ties": 2,
+    "losses": 9,
+    "winCI95": [
+      0.8136870349691969,
+      0.9374580364293543
+    ],
+    "meanVP": 32.46,
+    "meanOpponentVP": 19.86,
+    "meanTurns": 16.74,
+    "thirtyBy13": 26,
+    "firstSeatWins": 48,
+    "secondSeatWins": 41
+  },
+  {
+    "kind": "engine",
+    "leader": "doreios",
+    "games": 100,
+    "wins": 71,
+    "ties": 8,
+    "losses": 21,
+    "winCI95": [
+      0.6146110882442888,
+      0.7898516425087772
+    ],
+    "meanVP": 29.79,
+    "meanOpponentVP": 22.5,
+    "meanTurns": 17.27,
+    "thirtyBy13": 7,
+    "firstSeatWins": 37,
+    "secondSeatWins": 34
+  },
+  {
+    "kind": "classic-engine",
+    "leader": "thaleia",
+    "games": 100,
+    "wins": 68,
+    "ties": 4,
+    "losses": 28,
+    "winCI95": [
+      0.5833738138954762,
+      0.7633085267500092
+    ],
+    "meanVP": 31.05,
+    "meanOpponentVP": 23.84,
+    "meanTurns": 16.96,
+    "thirtyBy13": 21,
+    "firstSeatWins": 36,
+    "secondSeatWins": 32
+  },
+  {
+    "kind": "classic-engine",
+    "leader": "nereon",
+    "games": 100,
+    "wins": 76,
+    "ties": 5,
+    "losses": 19,
+    "winCI95": [
+      0.6676766365018553,
+      0.8330867444305122
+    ],
+    "meanVP": 33.1,
+    "meanOpponentVP": 23.71,
+    "meanTurns": 19.16,
+    "thirtyBy13": 27,
+    "firstSeatWins": 39,
+    "secondSeatWins": 37
+  },
+  {
+    "kind": "classic-engine",
+    "leader": "doreios",
+    "games": 100,
+    "wins": 64,
+    "ties": 4,
+    "losses": 32,
+    "winCI95": [
+      0.5423540245160874,
+      0.7272877959859567
+    ],
+    "meanVP": 32.96,
+    "meanOpponentVP": 25.11,
+    "meanTurns": 20.8,
+    "thirtyBy13": 11,
+    "firstSeatWins": 34,
+    "secondSeatWins": 30
+  },
+  {
+    "kind": "money",
+    "leader": "thaleia",
+    "games": 100,
+    "wins": 65,
+    "ties": 6,
+    "losses": 29,
+    "winCI95": [
+      0.5525444329688796,
+      0.7363575175690247
+    ],
+    "meanVP": 27.96,
+    "meanOpponentVP": 24.57,
+    "meanTurns": 15.38,
+    "thirtyBy13": 17,
+    "firstSeatWins": 27,
+    "secondSeatWins": 38
+  },
+  {
+    "kind": "money",
+    "leader": "nereon",
+    "games": 100,
+    "wins": 61,
+    "ties": 5,
+    "losses": 34,
+    "winCI95": [
+      0.5120301704584073,
+      0.6998312599360558
+    ],
+    "meanVP": 29.11,
+    "meanOpponentVP": 26.51,
+    "meanTurns": 15.45,
+    "thirtyBy13": 14,
+    "firstSeatWins": 27,
+    "secondSeatWins": 34
+  },
+  {
+    "kind": "money",
+    "leader": "doreios",
+    "games": 100,
+    "wins": 66,
+    "ties": 9,
+    "losses": 25,
+    "winCI95": [
+      0.5627772885472462,
+      0.7453847920265184
+    ],
+    "meanVP": 30.09,
+    "meanOpponentVP": 24.27,
+    "meanTurns": 18.67,
+    "thirtyBy13": 5,
+    "firstSeatWins": 29,
+    "secondSeatWins": 37
+  }
+]
