@@ -60,19 +60,12 @@ export async function actionTable(page: Page, info: TestInfo, subject: string, l
   expect(activePlayer(game)).toBe(host); expect(game.turn.phase).toBe('actions'); expect(game.decks[host].hand.some(card=>card.cardId===subject)).toBe(true);
   expect(replaySetup(events)).toEqual(game);
   // Clear animation history in the presentation by entering at the completed prelude.
-  // Keep the authenticated connection while leaving the table through its real UI.
-  // Hard reloads here repeatedly initialize Auth and Firestore during setup.
-  await page.getByRole('link',{name:'Back to sanctuary',exact:true}).click();
-  await expect(page.locator('.sanctuary')).toHaveAttribute('data-status','ready');
-  if (options.other) {
-    await options.other.getByRole('link',{name:'Back to sanctuary',exact:true}).click();
-    await expect(options.other.locator('.sanctuary')).toHaveAttribute('data-status','ready');
-  }
+  await page.goto('./'); if (options.other) await options.other.goto('./');
   const writes = events.slice(1).map(event => ({update:{name:`projects/demo-pantheon/databases/(default)/documents/games/${code}/events/${event.sequence}`,fields:fields(event)}}));
   for(let i=0;i<writes.length;i+=200){ const result=await fetch(`${root}:commit`,{signal:AbortSignal.timeout(2000),method:'POST',headers,body:JSON.stringify({writes:writes.slice(i,i+200)})});expect(result.ok).toBe(true); }
   const result=await fetch(`${root}/games/${code}`,{signal:AbortSignal.timeout(2000),method:'PATCH',headers,body:JSON.stringify({fields:fields({owner:host,members:game.players.map(player=>player.uid),playerCount:count,revision:events.length,phase:'playing'})})});expect(result.ok).toBe(true);
-  await page.getByRole('link',{name:'Continue',exact:true}).click(); await expect(page.locator('[data-status]')).toHaveAttribute('data-status','synced');
-  if (options.other) { await options.other.getByRole('link',{name:'Continue',exact:true}).click(); await expect(options.other.locator('[data-status]')).toHaveAttribute('data-status','synced'); }
+  await page.goto(`./play/?room=${code}`); await expect(page.locator('[data-status]')).toHaveAttribute('data-status','synced');
+  if (options.other) { await options.other.goto(page.url()); await expect(options.other.locator('[data-status]')).toHaveAttribute('data-status','synced'); }
   return {code,host,guest,game,events};
 }
 export async function playCard(page:Page,id:string){
