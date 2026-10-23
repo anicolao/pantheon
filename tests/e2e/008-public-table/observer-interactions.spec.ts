@@ -17,6 +17,7 @@ test('share market browsing and the complete worship scene with an observer',asy
     await browseSupply(page,'Obol');
     await page.locator('.buy-card[data-centered=true]').press('Home');
     await steps.step('market','The observer follows ordinary market browsing',[{spec:'Both offers center the same public pile.',check:async()=>{
+      await expect(other.locator('.log-entry').first()).toHaveText('Ariadne browsed Obol.');
       await expect(other.locator('.buy-card[data-centered=true]')).toHaveAttribute('data-supply-id','obol');
       await expect(page.locator('.buy-card[data-centered=true]')).toHaveAttribute('data-supply-id','obol');
     }}],{page:other});
@@ -79,5 +80,24 @@ test('share trash staging and cancellation without exposing a private selection'
       await expect(other.locator('.observed-interaction')).toHaveCount(0);
       await expect(page.locator('.inline-choice')).toHaveCount(0);
     }}],{page:other});
+  }finally{await context.close();}
+});
+
+test('wait for the public market update even when the observer already centers that pile',async({page,browser},info)=>{
+  const context=await newPlayerContext(browser,{viewport:info.project.use.viewport,baseURL:info.project.use.baseURL}),other=await context.newPage();
+  try{
+    await actionTable(page,info,'temple-of-athena','thaleia',{other,wealth:3});
+    await expect(other.locator('.buy-card[data-centered=true]')).toHaveAttribute('data-supply-id','obol');
+    await context.setOffline(true);
+    await expect(other.locator('[data-status]')).toHaveAttribute('data-status','disconnected');
+    await browseSupply(page,'Obol');
+    await page.locator('.buy-card[data-centered=true]').press('Home');
+    await expect(page.locator('.log-entry').first()).toHaveText('Ariadne browsed Obol.');
+    // Centering alone passes before the observer receives the command.
+    await expect(other.locator('.buy-card[data-centered=true]')).toHaveAttribute('data-supply-id','obol');
+    await expect(other.locator('.log-entry').first()).not.toHaveText('Ariadne browsed Obol.');
+    await context.setOffline(false);
+    await expect(other.locator('[data-status]')).toHaveAttribute('data-status','synced');
+    await expect(other.locator('.log-entry').first()).toHaveText('Ariadne browsed Obol.');
   }finally{await context.close();}
 });

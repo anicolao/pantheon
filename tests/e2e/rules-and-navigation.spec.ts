@@ -32,7 +32,11 @@ test('rules navigation remains visible and anchors expose each section, includin
     await expect(nav.getByRole('link', { name, exact: true })).toHaveAttribute('aria-current', 'location');
     const bounds = (await nav.boundingBox())!;
     expect(bounds.y).toBeCloseTo(0, 0);
-    expect((await page.locator(`#${id} h2`).boundingBox())!.y).toBeGreaterThanOrEqual(bounds.height);
+    // Selection can update before the browser finishes positioning the anchor.
+    await expect.poll(() => page.locator(`#${id} h2`).evaluate(heading => {
+      const contents = document.querySelector('[aria-label="On this page"]')!;
+      return heading.getBoundingClientRect().top - contents.getBoundingClientRect().bottom;
+    })).toBeGreaterThanOrEqual(0);
   }
   await page.reload();
   await expect(page.locator('#reminders h2')).toBeInViewport();
