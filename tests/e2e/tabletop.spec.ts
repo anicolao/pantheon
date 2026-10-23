@@ -341,7 +341,9 @@ for(const edge of ['south','west','north','east'])for(const scenario of ['seed-k
   await page.emulateMedia({reducedMotion:'no-preference'});
   await page.goto(`./dev/animations/?surface=tabletop&edge=${edge}&scenario=${scenario}&players=4`);
   if(scenario==='harvest-feast')await observeDraws(page,'.table-hand[data-face-up="true"]');
-  await page.getByRole('button',{name:'Trigger',exact:true}).click();
+  const trigger=page.getByRole('button',{name:'Trigger',exact:true});
+  await trigger.and(page.locator(':enabled')).waitFor({state:'visible'});
+  await trigger.click();
   if(scenario==='harvest-feast'){
     // The discard prompt follows both draws, not the initial card play.
     await expect(page.locator('[data-motion-kind="draw"]').first()).toBeVisible();
