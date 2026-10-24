@@ -35,6 +35,7 @@ test('gather two players, share an invitation and return to the same seats', asy
   await page.keyboard.press('Escape');
   await expect(page.getByRole('button', { name: 'Table details' })).toBeFocused();
   await page.getByRole('button', { name: 'Invite friends', exact: true }).click();
+  await expect(page.getByLabel('Bot strategy', { exact: true })).toHaveValue('bot');
   await steps.step('invitation', 'Invite friends with the wax seal', [
     { spec: 'The invitation opens a focused, dismissible sharing control.', check: async () => expect(page.getByRole('dialog', { name: 'Invite friends' })).toBeVisible() }
   ]);
@@ -139,6 +140,7 @@ test('three-player gathering provides a selectable invitation when copying is un
   await page.keyboard.press('Escape');
   await page.evaluate(() => { Object.defineProperty(navigator.clipboard, 'writeText', { value: () => Promise.reject(new DOMException('Denied', 'NotAllowedError')) }); });
   await page.getByRole('button', { name: 'Invite friends', exact: true }).click();
+  await expect(page.getByLabel('Bot strategy', { exact: true })).toHaveValue('bot');
   await page.getByRole('button', { name: 'Copy invitation', exact: true }).click();
   const input = page.getByLabel('Your invitation', { exact: true });
   await expect(input).toHaveValue(page.url()); await expect(input).toBeFocused();

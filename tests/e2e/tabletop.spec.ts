@@ -73,7 +73,8 @@ test('tabletop bot occupies an edge and plays through the real worker',async({pa
   const saved=await page.evaluate(()=>JSON.parse(localStorage.getItem('pantheon-tabletop-v1')!));
   const game=replaySetup(saved.events);
   expect(game.turn.turns[seatUid('north')]).toBe(1);
-  expect(game.players.find(player=>player.uid===seatUid('north'))?.botKind).toBe('engine');
+  expect(game.players.find(player=>player.uid===seatUid('north'))?.botKind).toBe('bot');
+  expect(game.leaders[seatUid('north')]).toBe('melia');
   expect(game.leaders[seatUid('south')]).toBe('thaleia');
 });
 
