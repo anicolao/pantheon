@@ -74,7 +74,7 @@ test('Bot drafts Melia, Thaleia, Nereon, Doreios and completes a shared table af
   const proposal=driver.next(events,'host')!;
   expect(proposal.command).toEqual({type:'leader/chosen',leaderId:leader});
   expect(new TableBotDriver().next(events,'host')).toEqual(proposal);
-  events.push({...events[0],sequence:events.length+1,actorUid:proposal.actorUid,reducerVersion:1,commandId:proposal.commandId,...proposal.command});
+  events.push({...events[0],sequence:events.length+1,actorUid:proposal.actorUid,name:replaySetup(events).players.find(p=>p.uid===proposal.actorUid)!.name,reducerVersion:1,commandId:proposal.commandId,...proposal.command});
  }
  for(let step=0;;step++){
   const g=replaySetup(events);if(g.turn.phase==='finished')break;
