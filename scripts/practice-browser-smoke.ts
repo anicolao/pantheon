@@ -29,7 +29,7 @@ for(const count of [2,3,4]){
  const room=new URL(page.url()).searchParams.get('room')!;
  await page.getByRole('button',{name:'Invite friends',exact:true}).click();
  for(let i=1;i<count;i++){
-  await page.getByLabel('Bot strategy').selectOption(['engine','classic-engine','money'][i-1]);
+  await page.getByLabel('Bot strategy').selectOption(count===4?'bot':['engine','classic-engine','money'][i-1]);
   await page.getByRole('button',{name:'Invite bot',exact:true}).click();
   await expect(page.getByTestId('player-seat')).toHaveCount(i+1);
  }
@@ -38,7 +38,7 @@ for(const count of [2,3,4]){
  await page.getByRole('button',{name:'Close',exact:true}).click();
  if(count===4){
   await page.getByRole('button',{name:/Table details/}).click();
-  await page.getByLabel('Your seat',{exact:true}).selectOption('engine');
+  await page.getByLabel('Your seat',{exact:true}).selectOption('bot');
   await page.getByRole('button',{name:'Close',exact:true}).click();
  }
  await page.getByRole('button',{name:'Begin',exact:true}).click();
@@ -70,4 +70,4 @@ for(const count of [2,3,4]){
 }
 if(errors.length)throw Error(errors.join('\n'));
 } finally {await browser.close();server.stop(true);}
-console.log('Browser bots: shared 2/3/4-player tables, all three policies, draft, persisted moves, host reload, desktop and phone passed.');
+console.log('Browser bots: shared 2/3/4-player tables, explicit and leader-aware policies, draft, persisted moves, host reload, desktop and phone passed.');
