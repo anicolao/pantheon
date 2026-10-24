@@ -65,3 +65,23 @@ test('human purchase Undo and host reload preserve the next bot decision',()=>{
  append({type:'turn/ended'});
  expect(driver.next(events,'host')).toEqual(new TableBotDriver().next(events,'host'));
 });
+
+test('Bot drafts Melia, Thaleia, Nereon, Doreios and completes a shared table after reload',()=>{
+ const events=start(4,true);
+ for(const e of events)if(e.botKind)e.botKind='bot';
+ let driver=new TableBotDriver();
+ for(const leader of ['melia','thaleia','nereon','doreios']){
+  const proposal=driver.next(events,'host')!;
+  expect(proposal.command).toEqual({type:'leader/chosen',leaderId:leader});
+  expect(new TableBotDriver().next(events,'host')).toEqual(proposal);
+  events.push({...events[0],sequence:events.length+1,actorUid:proposal.actorUid,reducerVersion:1,commandId:proposal.commandId,...proposal.command});
+ }
+ for(let step=0;;step++){
+  const g=replaySetup(events);if(g.turn.phase==='finished')break;
+  expect(step).toBeLessThan(3000);
+  const proposal=driver.next(events,'host')!;
+  if(step===40){const restored=new TableBotDriver();expect(restored.next(events,'host')).toEqual(proposal);driver=restored;}
+  events.push({schemaVersion:1,reducerVersion:1,sequence:events.length+1,actorUid:proposal.actorUid,name:g.players.find(p=>p.uid===proposal.actorUid)!.name,playerCount:4,commandId:proposal.commandId,...proposal.command});
+ }
+ expect(driver.next(events,'host')).toBeNull();
+},120000);

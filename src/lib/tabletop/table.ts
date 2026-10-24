@@ -1,3 +1,4 @@
+import {botLeaderPreference} from '../game/bot-kind';
 import { createPrng } from '../game/random';
 import { leaderIds, replaySetup, type SetupEvent, type SetupState } from '../game/setup';
 import { initialTurn, activePlayer, canPlayAction } from '../game/actions';
@@ -50,9 +51,9 @@ export function begin(table: Tabletop, seed: string, startingUid?: string): Tabl
   let events: SetupEvent[] = players.map((seat, i) => ({ schemaVersion: 1, sequence: i + 1, actorUid: seatUid(seat.edge),
     name: seatName(seat.edge), playerCount: count, type: i === 0 ? 'game/created' : 'player/joined',
     ...(i === 0 ? {equalTurns: initialTurn().equalTurns} : {}),
-    ...(seat.mode === 'bot' && i > 0 ? { botKind: 'engine' as const } : {}) }));
+    ...(seat.mode === 'bot' && i > 0 ? { botKind: 'bot' as const } : {}) }));
   if (players[0].mode === 'bot') events.push({ schemaVersion: 1, sequence: events.length + 1, actorUid: events[0].actorUid,
-    name: events[0].name, playerCount: count, type: 'player/automated', botKind: 'engine' });
+    name: events[0].name, playerCount: count, type: 'player/automated', botKind: 'bot' });
   let next: Tabletop = { ...table, seed, events };
   next = append(next, events[0].actorUid, { type: 'draft/started', seed });
   if (!table.randomize) {
@@ -61,7 +62,7 @@ export function begin(table: Tabletop, seed: string, startingUid?: string): Tabl
       const seat = occupied.find(seat => seatUid(seat.edge) === uid)!;
       const chosen = Object.values(replaySetup(next.events).leaders);
       const available = leaderIds.filter(id => !chosen.includes(id) && !reserved.includes(id));
-      const leaderId = seat.mode === 'human' ? seat.leader : available[Math.floor(createPrng(`${seed}:bot-leader:${uid}`)() * available.length)];
+      const leaderId = seat.mode === 'human' ? seat.leader : botLeaderPreference.find(id => available.includes(id))!;
       next = append(next, uid, { type: 'leader/chosen', leaderId });
     }
   }

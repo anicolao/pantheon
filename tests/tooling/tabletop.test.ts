@@ -39,12 +39,15 @@ test('leaving and rejoining changes priority; switching a joined seat to a bot d
   expect(replaySetup(begin(table,'priority').events).turnOrder[0]).toBe(seatUid('west'));
   const rank=table.seats[1].joined;table=occupy(table,'west','bot');expect(table.seats[1].joined).toBe(rank);
 });
-test('bots preserve preset human leaders and use the normal engine policy',()=>{
+test('bots preserve preset human leaders and use the leader-aware Bot policy',()=>{
   let table=seated(['south','north']);table=occupy(table,'west','bot');table=occupy(table,'east','bot');
   table=advanceEmptyActions(begin(table,'bots-at-table'));
   const game=replaySetup(table.events);
   expect(game.leaders[seatUid('south')]).toBe('thaleia');expect(game.leaders[seatUid('north')]).toBe('melia');
   expect(new Set(Object.values(game.leaders)).size).toBe(4);
+  const bots=game.draftOrder.filter(uid=>game.players.find(p=>p.uid===uid)?.botKind);
+  expect(bots.map(uid=>game.leaders[uid])).toEqual(['nereon','doreios']);
+  expect(bots.map(uid=>game.players.find(p=>p.uid===uid)!.botKind)).toEqual(['bot','bot']);
   const driver=new TableBotDriver();let moves=0;
   while(replaySetup(table.events).players.find(player=>player.uid===actor(replaySetup(table.events)))?.botKind && moves<30){
     const proposal=driver.next(table.events,game.players[0].uid)!;expect(proposal).not.toBeNull();

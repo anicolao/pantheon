@@ -52,7 +52,7 @@
   let opener: HTMLElement | null = null;
   let stop: (() => void) | undefined;
   let alive = true;
-  let botKind=$state<BotKind>('engine');
+  let botKind=$state<BotKind>('bot');
   let botError=$state('');
   let hostSeat=$state('human');
   let botInvitation:{uid:string;kind:BotKind}|undefined;
