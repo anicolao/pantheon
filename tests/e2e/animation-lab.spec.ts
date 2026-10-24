@@ -171,15 +171,25 @@ test('a worship choice opened by the scenario flies in from its sidebar card', a
   await page.goto('./dev/animations/?scenario=counsel-of-olympus');
   const trigger = page.getByRole('button', { name: 'Trigger', exact: true });
   await expect(trigger).toBeEnabled();
+  // Record the real transition when it starts; it can finish before a later RPC reads it.
+  await page.evaluate(() => {
+    const flights: ComputedKeyframe[][] = [];
+    (window as unknown as { worshipFlights: ComputedKeyframe[][] }).worshipFlights = flights;
+    const animate = Element.prototype.animate;
+    Element.prototype.animate = function (frames, options) {
+      const animation = animate.call(this, frames, options);
+      if (this.matches('.worship-overlay')) flights.push((animation.effect as KeyframeEffect).getKeyframes());
+      return animation;
+    };
+  });
   await trigger.click();
   const overlay = page.getByRole('region', { name: 'Athena worship', exact: true });
   await expect(overlay).toBeVisible();
-  const fliesIn = await overlay.evaluate(node => node.getAnimations().some(animation => {
-    const frames = (animation.effect as KeyframeEffect).getKeyframes();
-    return String(frames[0]?.transform ?? '').includes('translate(') && frames.at(-1)?.transform === 'none';
-  }));
-  expect(fliesIn).toBe(true);
   await expect(overlay).toHaveCSS('transform', 'none');
+  const fliesIn = await page.evaluate(() => (window as unknown as { worshipFlights: ComputedKeyframe[][] }).worshipFlights.some(frames =>
+    String(frames[0]?.transform ?? '').includes('translate(') && frames.at(-1)?.transform === 'none'
+  ));
+  expect(fliesIn).toBe(true);
 });
 
 for (const speed of ['1', '0.25']) test(`Treasures land right to left before the market moves at ${speed} speed`, async ({ page }) => {
