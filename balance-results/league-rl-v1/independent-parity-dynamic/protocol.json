@@ -1,0 +1,17 @@
+{
+  "leader": "melia",
+  "teacher": "mm",
+  "opponent": "league:balance-results/league-rl-v1/manifests/reference.json",
+  "prefix": "league-v1:melia",
+  "namespace": "screen",
+  "workers": 8,
+  "games": 24,
+  "models": {
+    "incumbent": "balance-results/melia-rl-v1/champion"
+  },
+  "output": "balance-results/league-rl-v1/independent-parity-dynamic",
+  "checkpointSHA256": {
+    "incumbent": "f6016282d408c3f78263a3396f7e423e31fdcbf3c790afcf6b34e6fd9823122c"
+  },
+  "leagueSHA256": "6b1051a8e482ff50f801d944591d1a3ccbe7d79407183f94393a2313d542e9b3"
+}

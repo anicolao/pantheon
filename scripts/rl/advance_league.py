@@ -27,6 +27,12 @@ if r==1:
   c=read(root/f'configs/train-r1-{l}.json');c.update(base=selections[l]['candidate'],reference=paths[l],trainOpponent=f'league:{root}/manifests/round-2.json',seed=3200+i,trainNamespace='train-r2',output=str(root/f'round-2/{l}'))
   write(root/f'configs/train-r2-{l}.json',c)
   b=read(root/f'configs/baseline-{l}.json');b.update(models={'incumbent':paths[l]},output=str(root/f'round-2/baseline-{l}'));write(root/f'configs/baseline-r2-{l}.json',b)
+  baseline=Path(b['output']);baseline.mkdir(parents=True,exist_ok=True)
+  source=Path(selections[l]['candidate']+'-screen.json') if promotions[l]['promoted'] else root/f'baseline/{l}/incumbent.json'
+  shutil.copyfile(source,baseline/'incumbent.json')
+  score=selections[l]['screen'] if promotions[l]['promoted'] else selections[l]['incumbentScreen']
+  write(baseline/'results.json',dict(summary={'incumbent':score},checkpointSHA256={'incumbent':actors[l]['checkpointSHA256']},reusedFrom=str(source),reason='Exact same frozen model, reference opponents, namespace and seed schedule'))
+  write(baseline/'protocol.json',b)
 else:
  for l in leaders:
   c=read(root/f'configs/baseline-{l}.json');c.update(namespace='test',prefix=f'league-v1-final:{l}',games=3072,models={'v1':read(root/'protocol.json')['champions'][l],'selected':paths[l]},baselines=['v1'],output=str(root/f'final/{l}'));write(root/f'configs/final-{l}.json',c)

@@ -1,0 +1,934 @@
+{
+  "melia": {
+    "incumbent": "balance-results/melia-rl-v1/champion",
+    "candidate": "balance-results/league-rl-v1/round-1/melia/checkpoint-262144",
+    "screen": {
+      "games": 384,
+      "wins": 257,
+      "ties": 37,
+      "losses": 90,
+      "share": 0.7174479166666666,
+      "winCI95": [
+        0.6207413618269655,
+        0.7144471463724671
+      ],
+      "opponents": {
+        "doreios": {
+          "games": 64,
+          "wins": 41,
+          "ties": 14,
+          "losses": 9,
+          "share": 0.75,
+          "winCI95": [
+            0.5182085060977945,
+            0.7471159770854799
+          ]
+        },
+        "nereon": {
+          "games": 192,
+          "wins": 127,
+          "ties": 18,
+          "losses": 47,
+          "share": 0.7083333333333334,
+          "winCI95": [
+            0.5919401674170761,
+            0.724642441665535
+          ]
+        },
+        "thaleia": {
+          "games": 128,
+          "wins": 89,
+          "ties": 5,
+          "losses": 34,
+          "share": 0.71484375,
+          "winCI95": [
+            0.6108489916080554,
+            0.7683943848476059
+          ]
+        }
+      },
+      "matchups": {
+        "classic-engine-thaleia": {
+          "games": 64,
+          "wins": 54,
+          "ties": 0,
+          "losses": 10,
+          "share": 0.84375,
+          "winCI95": [
+            0.7357193822745156,
+            0.9128515766179328
+          ]
+        },
+        "fleet-nereon": {
+          "games": 64,
+          "wins": 54,
+          "ties": 3,
+          "losses": 7,
+          "share": 0.8671875,
+          "winCI95": [
+            0.7357193822745156,
+            0.9128515766179328
+          ]
+        },
+        "owl-nereon": {
+          "games": 64,
+          "wins": 44,
+          "ties": 7,
+          "losses": 13,
+          "share": 0.7421875,
+          "winCI95": [
+            0.5660766429725219,
+            0.7876893346051772
+          ]
+        },
+        "v1-doreios": {
+          "games": 64,
+          "wins": 41,
+          "ties": 14,
+          "losses": 9,
+          "share": 0.75,
+          "winCI95": [
+            0.5182085060977945,
+            0.7471159770854799
+          ]
+        },
+        "v1-nereon": {
+          "games": 64,
+          "wins": 29,
+          "ties": 8,
+          "losses": 27,
+          "share": 0.515625,
+          "winCI95": [
+            0.33729447780611965,
+            0.5742640277994556
+          ]
+        },
+        "v1-thaleia": {
+          "games": 64,
+          "wins": 35,
+          "ties": 5,
+          "losses": 24,
+          "share": 0.5859375,
+          "winCI95": [
+            0.4257359722005444,
+            0.6627055221938803
+          ]
+        }
+      }
+    },
+    "incumbentScreen": {
+      "games": 384,
+      "wins": 260,
+      "ties": 26,
+      "losses": 98,
+      "share": 0.7109375,
+      "winCI95": [
+        0.6287605225019187,
+        0.7218982245374875
+      ],
+      "opponents": {
+        "doreios": {
+          "games": 64,
+          "wins": 49,
+          "ties": 4,
+          "losses": 11,
+          "share": 0.796875,
+          "winCI95": [
+            0.648667424174317,
+            0.8525010440607567
+          ]
+        },
+        "nereon": {
+          "games": 192,
+          "wins": 123,
+          "ties": 13,
+          "losses": 56,
+          "share": 0.6744791666666666,
+          "winCI95": [
+            0.5706096650476473,
+            0.7051235751210785
+          ]
+        },
+        "thaleia": {
+          "games": 128,
+          "wins": 88,
+          "ties": 9,
+          "losses": 31,
+          "share": 0.72265625,
+          "winCI95": [
+            0.6027289441827989,
+            0.7613446972146362
+          ]
+        }
+      },
+      "matchups": {
+        "classic-engine-thaleia": {
+          "games": 64,
+          "wins": 51,
+          "ties": 1,
+          "losses": 12,
+          "share": 0.8046875,
+          "winCI95": [
+            0.6828636426898618,
+            0.8772658218081617
+          ]
+        },
+        "fleet-nereon": {
+          "games": 64,
+          "wins": 48,
+          "ties": 2,
+          "losses": 14,
+          "share": 0.765625,
+          "winCI95": [
+            0.6318372354133065,
+            0.8398507346902923
+          ]
+        },
+        "owl-nereon": {
+          "games": 64,
+          "wins": 43,
+          "ties": 4,
+          "losses": 17,
+          "share": 0.703125,
+          "winCI95": [
+            0.5499910584909184,
+            0.7742944209553058
+          ]
+        },
+        "v1-doreios": {
+          "games": 64,
+          "wins": 49,
+          "ties": 4,
+          "losses": 11,
+          "share": 0.796875,
+          "winCI95": [
+            0.648667424174317,
+            0.8525010440607567
+          ]
+        },
+        "v1-nereon": {
+          "games": 64,
+          "wins": 32,
+          "ties": 7,
+          "losses": 25,
+          "share": 0.5546875,
+          "winCI95": [
+            0.3810209474394732,
+            0.6189790525605268
+          ]
+        },
+        "v1-thaleia": {
+          "games": 64,
+          "wins": 37,
+          "ties": 8,
+          "losses": 19,
+          "share": 0.640625,
+          "winCI95": [
+            0.4561003154008323,
+            0.6913021752565423
+          ]
+        }
+      }
+    },
+    "changed": true
+  },
+  "nereon": {
+    "incumbent": "balance-results/leader-rl-v1/nereon/champion",
+    "candidate": "balance-results/league-rl-v1/round-1/nereon/checkpoint-524288",
+    "screen": {
+      "games": 384,
+      "wins": 238,
+      "ties": 21,
+      "losses": 125,
+      "share": 0.6471354166666666,
+      "winCI95": [
+        0.5702786368520103,
+        0.6669316920275881
+      ],
+      "opponents": {
+        "doreios": {
+          "games": 64,
+          "wins": 38,
+          "ties": 2,
+          "losses": 24,
+          "share": 0.609375,
+          "winCI95": [
+            0.4714520812860483,
+            0.7054309075028011
+          ]
+        },
+        "melia": {
+          "games": 128,
+          "wins": 66,
+          "ties": 7,
+          "losses": 55,
+          "share": 0.54296875,
+          "winCI95": [
+            0.4298624503761508,
+            0.6004770197403022
+          ]
+        },
+        "thaleia": {
+          "games": 192,
+          "wins": 134,
+          "ties": 12,
+          "losses": 46,
+          "share": 0.7291666666666666,
+          "winCI95": [
+            0.6296100295550408,
+            0.7584589751268694
+          ]
+        }
+      },
+      "matchups": {
+        "classic-engine-thaleia": {
+          "games": 64,
+          "wins": 40,
+          "ties": 4,
+          "losses": 20,
+          "share": 0.65625,
+          "winCI95": [
+            0.5025037868400484,
+            0.7333401982117511
+          ]
+        },
+        "mm-melia": {
+          "games": 64,
+          "wins": 35,
+          "ties": 4,
+          "losses": 25,
+          "share": 0.578125,
+          "winCI95": [
+            0.4257359722005444,
+            0.6627055221938803
+          ]
+        },
+        "owl-thaleia": {
+          "games": 64,
+          "wins": 49,
+          "ties": 3,
+          "losses": 12,
+          "share": 0.7890625,
+          "winCI95": [
+            0.648667424174317,
+            0.8525010440607567
+          ]
+        },
+        "v1-doreios": {
+          "games": 64,
+          "wins": 38,
+          "ties": 2,
+          "losses": 24,
+          "share": 0.609375,
+          "winCI95": [
+            0.4714520812860483,
+            0.7054309075028011
+          ]
+        },
+        "v1-melia": {
+          "games": 64,
+          "wins": 31,
+          "ties": 3,
+          "losses": 30,
+          "share": 0.5078125,
+          "winCI95": [
+            0.3663355166543294,
+            0.6041839852141957
+          ]
+        },
+        "v1-thaleia": {
+          "games": 64,
+          "wins": 45,
+          "ties": 5,
+          "losses": 14,
+          "share": 0.7421875,
+          "winCI95": [
+            0.5822979889645742,
+            0.8009484867445998
+          ]
+        }
+      }
+    },
+    "incumbentScreen": {
+      "games": 384,
+      "wins": 141,
+      "ties": 27,
+      "losses": 216,
+      "share": 0.40234375,
+      "winCI95": [
+        0.320511322872841,
+        0.41649461684760425
+      ],
+      "opponents": {
+        "doreios": {
+          "games": 64,
+          "wins": 25,
+          "ties": 5,
+          "losses": 34,
+          "share": 0.4296875,
+          "winCI95": [
+            0.2805556918824035,
+            0.513080821197272
+          ]
+        },
+        "melia": {
+          "games": 128,
+          "wins": 64,
+          "ties": 12,
+          "losses": 52,
+          "share": 0.546875,
+          "winCI95": [
+            0.4146522462605095,
+            0.5853477537394906
+          ]
+        },
+        "thaleia": {
+          "games": 192,
+          "wins": 52,
+          "ties": 10,
+          "losses": 130,
+          "share": 0.296875,
+          "winCI95": [
+            0.2129276931751241,
+            0.3377292487721378
+          ]
+        }
+      },
+      "matchups": {
+        "classic-engine-thaleia": {
+          "games": 64,
+          "wins": 14,
+          "ties": 5,
+          "losses": 45,
+          "share": 0.2578125,
+          "winCI95": [
+            0.13502319406719654,
+            0.3343278395662548
+          ]
+        },
+        "mm-melia": {
+          "games": 64,
+          "wins": 38,
+          "ties": 6,
+          "losses": 20,
+          "share": 0.640625,
+          "winCI95": [
+            0.4714520812860483,
+            0.7054309075028011
+          ]
+        },
+        "owl-thaleia": {
+          "games": 64,
+          "wins": 20,
+          "ties": 3,
+          "losses": 41,
+          "share": 0.3359375,
+          "winCI95": [
+            0.21231066539482285,
+            0.43392335702747803
+          ]
+        },
+        "v1-doreios": {
+          "games": 64,
+          "wins": 25,
+          "ties": 5,
+          "losses": 34,
+          "share": 0.4296875,
+          "winCI95": [
+            0.2805556918824035,
+            0.513080821197272
+          ]
+        },
+        "v1-melia": {
+          "games": 64,
+          "wins": 26,
+          "ties": 6,
+          "losses": 32,
+          "share": 0.453125,
+          "winCI95": [
+            0.29456909249719887,
+            0.5285479187139516
+          ]
+        },
+        "v1-thaleia": {
+          "games": 64,
+          "wins": 18,
+          "ties": 2,
+          "losses": 44,
+          "share": 0.296875,
+          "winCI95": [
+            0.18593372333728053,
+            0.40133930282207053
+          ]
+        }
+      }
+    },
+    "changed": true
+  },
+  "thaleia": {
+    "incumbent": "balance-results/leader-rl-v1/thaleia/champion",
+    "candidate": "balance-results/league-rl-v1/round-1/thaleia/checkpoint-524288",
+    "screen": {
+      "games": 384,
+      "wins": 226,
+      "ties": 35,
+      "losses": 123,
+      "share": 0.6341145833333334,
+      "winCI95": [
+        0.5386820531884163,
+        0.6366473203312867
+      ],
+      "opponents": {
+        "doreios": {
+          "games": 128,
+          "wins": 90,
+          "ties": 12,
+          "losses": 26,
+          "share": 0.75,
+          "winCI95": [
+            0.6189947723495562,
+            0.7754183391643316
+          ]
+        },
+        "melia": {
+          "games": 128,
+          "wins": 50,
+          "ties": 12,
+          "losses": 66,
+          "share": 0.4375,
+          "winCI95": [
+            0.31047019100495976,
+            0.47715351817986995
+          ]
+        },
+        "nereon": {
+          "games": 128,
+          "wins": 86,
+          "ties": 11,
+          "losses": 31,
+          "share": 0.71484375,
+          "winCI95": [
+            0.586564015997617,
+            0.7471701552833651
+          ]
+        }
+      },
+      "matchups": {
+        "classic-engine-doreios": {
+          "games": 64,
+          "wins": 37,
+          "ties": 8,
+          "losses": 19,
+          "share": 0.640625,
+          "winCI95": [
+            0.4561003154008323,
+            0.6913021752565423
+          ]
+        },
+        "engine-nereon": {
+          "games": 64,
+          "wins": 43,
+          "ties": 4,
+          "losses": 17,
+          "share": 0.703125,
+          "winCI95": [
+            0.5499910584909184,
+            0.7742944209553058
+          ]
+        },
+        "owl-melia": {
+          "games": 64,
+          "wins": 33,
+          "ties": 6,
+          "losses": 25,
+          "share": 0.5625,
+          "winCI95": [
+            0.3958160147858043,
+            0.6336644833456706
+          ]
+        },
+        "v1-doreios": {
+          "games": 64,
+          "wins": 53,
+          "ties": 4,
+          "losses": 7,
+          "share": 0.859375,
+          "winCI95": [
+            0.7178678837734215,
+            0.901222576987552
+          ]
+        },
+        "v1-melia": {
+          "games": 64,
+          "wins": 17,
+          "ties": 6,
+          "losses": 41,
+          "share": 0.3125,
+          "winCI95": [
+            0.17296379074222828,
+            0.38482873728564787
+          ]
+        },
+        "v1-nereon": {
+          "games": 64,
+          "wins": 43,
+          "ties": 7,
+          "losses": 14,
+          "share": 0.7265625,
+          "winCI95": [
+            0.5499910584909184,
+            0.7742944209553058
+          ]
+        }
+      }
+    },
+    "incumbentScreen": {
+      "games": 384,
+      "wins": 212,
+      "ties": 25,
+      "losses": 147,
+      "share": 0.5846354166666666,
+      "winCI95": [
+        0.5020742670465833,
+        0.6010606585532422
+      ],
+      "opponents": {
+        "doreios": {
+          "games": 128,
+          "wins": 89,
+          "ties": 4,
+          "losses": 35,
+          "share": 0.7109375,
+          "winCI95": [
+            0.6108489916080554,
+            0.7683943848476059
+          ]
+        },
+        "melia": {
+          "games": 128,
+          "wins": 54,
+          "ties": 12,
+          "losses": 62,
+          "share": 0.46875,
+          "winCI95": [
+            0.33982112338883874,
+            0.5084815260288968
+          ]
+        },
+        "nereon": {
+          "games": 128,
+          "wins": 69,
+          "ties": 9,
+          "losses": 50,
+          "share": 0.57421875,
+          "winCI95": [
+            0.452829831272054,
+            0.6230188440190783
+          ]
+        }
+      },
+      "matchups": {
+        "classic-engine-doreios": {
+          "games": 64,
+          "wins": 36,
+          "ties": 2,
+          "losses": 26,
+          "share": 0.578125,
+          "winCI95": [
+            0.44086208956993334,
+            0.6770599029559663
+          ]
+        },
+        "engine-nereon": {
+          "games": 64,
+          "wins": 31,
+          "ties": 6,
+          "losses": 27,
+          "share": 0.53125,
+          "winCI95": [
+            0.3663355166543294,
+            0.6041839852141957
+          ]
+        },
+        "owl-melia": {
+          "games": 64,
+          "wins": 36,
+          "ties": 3,
+          "losses": 25,
+          "share": 0.5859375,
+          "winCI95": [
+            0.44086208956993334,
+            0.6770599029559663
+          ]
+        },
+        "v1-doreios": {
+          "games": 64,
+          "wins": 53,
+          "ties": 2,
+          "losses": 9,
+          "share": 0.84375,
+          "winCI95": [
+            0.7178678837734215,
+            0.901222576987552
+          ]
+        },
+        "v1-melia": {
+          "games": 64,
+          "wins": 18,
+          "ties": 9,
+          "losses": 37,
+          "share": 0.3515625,
+          "winCI95": [
+            0.18593372333728053,
+            0.40133930282207053
+          ]
+        },
+        "v1-nereon": {
+          "games": 64,
+          "wins": 38,
+          "ties": 3,
+          "losses": 23,
+          "share": 0.6171875,
+          "winCI95": [
+            0.4714520812860483,
+            0.7054309075028011
+          ]
+        }
+      }
+    },
+    "changed": true
+  },
+  "doreios": {
+    "incumbent": "balance-results/leader-rl-v1/doreios/champion",
+    "candidate": "balance-results/league-rl-v1/round-1/doreios/checkpoint-262144",
+    "screen": {
+      "games": 384,
+      "wins": 216,
+      "ties": 40,
+      "losses": 128,
+      "share": 0.6145833333333334,
+      "winCI95": [
+        0.5125061491660577,
+        0.6112557615537327
+      ],
+      "opponents": {
+        "melia": {
+          "games": 128,
+          "wins": 57,
+          "ties": 12,
+          "losses": 59,
+          "share": 0.4921875,
+          "winCI95": [
+            0.3620552494930003,
+            0.5317566050994146
+          ]
+        },
+        "nereon": {
+          "games": 64,
+          "wins": 34,
+          "ties": 7,
+          "losses": 23,
+          "share": 0.5859375,
+          "winCI95": [
+            0.41072087051471323,
+            0.6482401257482366
+          ]
+        },
+        "thaleia": {
+          "games": 192,
+          "wins": 125,
+          "ties": 21,
+          "losses": 46,
+          "share": 0.7057291666666666,
+          "winCI95": [
+            0.5812577655985203,
+            0.714900159027148
+          ]
+        }
+      },
+      "matchups": {
+        "classic-engine-thaleia": {
+          "games": 64,
+          "wins": 37,
+          "ties": 8,
+          "losses": 19,
+          "share": 0.640625,
+          "winCI95": [
+            0.4561003154008323,
+            0.6913021752565423
+          ]
+        },
+        "mm-melia": {
+          "games": 64,
+          "wins": 40,
+          "ties": 5,
+          "losses": 19,
+          "share": 0.6640625,
+          "winCI95": [
+            0.5025037868400484,
+            0.7333401982117511
+          ]
+        },
+        "owl-thaleia": {
+          "games": 64,
+          "wins": 43,
+          "ties": 8,
+          "losses": 13,
+          "share": 0.734375,
+          "winCI95": [
+            0.5499910584909184,
+            0.7742944209553058
+          ]
+        },
+        "v1-melia": {
+          "games": 64,
+          "wins": 17,
+          "ties": 7,
+          "losses": 40,
+          "share": 0.3203125,
+          "winCI95": [
+            0.17296379074222828,
+            0.38482873728564787
+          ]
+        },
+        "v1-nereon": {
+          "games": 64,
+          "wins": 34,
+          "ties": 7,
+          "losses": 23,
+          "share": 0.5859375,
+          "winCI95": [
+            0.41072087051471323,
+            0.6482401257482366
+          ]
+        },
+        "v1-thaleia": {
+          "games": 64,
+          "wins": 45,
+          "ties": 5,
+          "losses": 14,
+          "share": 0.7421875,
+          "winCI95": [
+            0.5822979889645742,
+            0.8009484867445998
+          ]
+        }
+      }
+    },
+    "incumbentScreen": {
+      "games": 384,
+      "wins": 146,
+      "ties": 35,
+      "losses": 203,
+      "share": 0.42578125,
+      "winCI95": [
+        0.333068307972412,
+        0.42972136314798964
+      ],
+      "opponents": {
+        "melia": {
+          "games": 128,
+          "wins": 58,
+          "ties": 17,
+          "losses": 53,
+          "share": 0.51953125,
+          "winCI95": [
+            0.36950795637281497,
+            0.5394736332778264
+          ]
+        },
+        "nereon": {
+          "games": 64,
+          "wins": 39,
+          "ties": 3,
+          "losses": 22,
+          "share": 0.6328125,
+          "winCI95": [
+            0.486919178802728,
+            0.7194443081175965
+          ]
+        },
+        "thaleia": {
+          "games": 192,
+          "wins": 49,
+          "ties": 15,
+          "losses": 128,
+          "share": 0.2942708333333333,
+          "winCI95": [
+            0.19876092091956732,
+            0.32125899434228056
+          ]
+        }
+      },
+      "matchups": {
+        "classic-engine-thaleia": {
+          "games": 64,
+          "wins": 16,
+          "ties": 4,
+          "losses": 44,
+          "share": 0.28125,
+          "winCI95": [
+            0.1601492653097078,
+            0.36816276458669345
+          ]
+        },
+        "mm-melia": {
+          "games": 64,
+          "wins": 40,
+          "ties": 6,
+          "losses": 18,
+          "share": 0.671875,
+          "winCI95": [
+            0.5025037868400484,
+            0.7333401982117511
+          ]
+        },
+        "owl-thaleia": {
+          "games": 64,
+          "wins": 18,
+          "ties": 6,
+          "losses": 40,
+          "share": 0.328125,
+          "winCI95": [
+            0.18593372333728053,
+            0.40133930282207053
+          ]
+        },
+        "v1-melia": {
+          "games": 64,
+          "wins": 18,
+          "ties": 11,
+          "losses": 35,
+          "share": 0.3671875,
+          "winCI95": [
+            0.18593372333728053,
+            0.40133930282207053
+          ]
+        },
+        "v1-nereon": {
+          "games": 64,
+          "wins": 39,
+          "ties": 3,
+          "losses": 22,
+          "share": 0.6328125,
+          "winCI95": [
+            0.486919178802728,
+            0.7194443081175965
+          ]
+        },
+        "v1-thaleia": {
+          "games": 64,
+          "wins": 15,
+          "ties": 5,
+          "losses": 44,
+          "share": 0.2734375,
+          "winCI95": [
+            0.1474989559392433,
+            0.351332575825683
+          ]
+        }
+      }
+    },
+    "changed": true
+  }
+}

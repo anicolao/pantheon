@@ -1,0 +1,14 @@
+{
+  "leader": "nereon",
+  "teacher": "classic-engine",
+  "opponent": "league:balance-results/league-rl-v1/manifests/money-guard.json",
+  "prefix": "league-v1:nereon",
+  "namespace": "money-guard-r1",
+  "workers": 8,
+  "games": 256,
+  "models": {
+    "incumbent": "balance-results/leader-rl-v1/nereon/champion",
+    "candidate": "balance-results/league-rl-v1/round-1/nereon/checkpoint-524288"
+  },
+  "output": "balance-results/league-rl-v1/round-1/money-nereon"
+}

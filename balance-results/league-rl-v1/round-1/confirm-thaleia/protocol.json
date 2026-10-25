@@ -1,0 +1,17 @@
+{
+  "leader": "thaleia",
+  "teacher": "classic-engine",
+  "opponent": "league:balance-results/league-rl-v1/manifests/reference.json",
+  "prefix": "league-v1:thaleia",
+  "namespace": "confirm-r1",
+  "workers": 8,
+  "games": 1536,
+  "models": {
+    "incumbent": "balance-results/leader-rl-v1/thaleia/champion",
+    "candidate": "balance-results/league-rl-v1/round-1/thaleia/checkpoint-524288"
+  },
+  "baselines": [
+    "incumbent"
+  ],
+  "output": "balance-results/league-rl-v1/round-1/confirm-thaleia"
+}

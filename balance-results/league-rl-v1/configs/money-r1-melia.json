@@ -1,0 +1,14 @@
+{
+  "leader": "melia",
+  "teacher": "mm",
+  "opponent": "league:balance-results/league-rl-v1/manifests/money-guard.json",
+  "prefix": "league-v1:melia",
+  "namespace": "money-guard-r1",
+  "workers": 8,
+  "games": 256,
+  "models": {
+    "incumbent": "balance-results/melia-rl-v1/champion",
+    "candidate": "balance-results/league-rl-v1/round-1/melia/checkpoint-262144"
+  },
+  "output": "balance-results/league-rl-v1/round-1/money-melia"
+}
