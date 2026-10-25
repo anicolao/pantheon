@@ -1,0 +1,5 @@
+{
+  "parent": "balance-results/leader-rl-v1/nereon/rl-a/checkpoint-1048576",
+  "reason": "Initial 2.1M decision run plateaued below target. Two independent refinements: entropy/logit broadening and faster learning.",
+  "selection": "Best screening outright wins then share; fresh confirmation still required"
+}
