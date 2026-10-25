@@ -1,0 +1,50 @@
+{"stage": "imitation", "epoch": 1, "loss": 0.9495274706723842, "samples": 47680}
+{"stage": "imitation", "epoch": 2, "loss": 0.33556126454409135, "samples": 47680}
+{"stage": "imitation", "epoch": 3, "loss": 0.2418407731233759, "samples": 47680}
+{"stage": "imitation", "epoch": 4, "loss": 0.21644811427339594, "samples": 47680}
+{"stage": "imitation", "epoch": 5, "loss": 0.19744481970655156, "samples": 47680}
+{"stage": "imitation", "epoch": 6, "loss": 0.1776407591681531, "samples": 47680}
+{"stage": "imitation", "epoch": 7, "loss": 0.16393361034545492, "samples": 47680}
+{"stage": "imitation", "epoch": 8, "loss": 0.1485558269505805, "samples": 47680}
+{"stage": "imitation", "epoch": 9, "loss": 0.1392582971206371, "samples": 47680}
+{"stage": "imitation", "epoch": 10, "loss": 0.13241788570551163, "samples": 47680}
+{"stage": "imitation", "epoch": 11, "loss": 0.1274280586933836, "samples": 47680}
+{"stage": "imitation", "epoch": 12, "loss": 0.12374874545221633, "samples": 47680}
+{"stage": "validation", "checkpoint": "bc", "games": 128, "wins": 18, "ties": 5, "losses": 105, "share": 0.16015625, "winCI95": [0.09083969494262362, 0.21135249237895948]}
+{"stage": "training", "steps": 16384, "games": 84, "recentMeanReward": -0.9523809523809523, "elapsedSeconds": 2.4522903747856617}
+{"stage": "training", "steps": 32768, "games": 160, "recentMeanReward": -0.99, "elapsedSeconds": 4.93887483375147}
+{"stage": "training", "steps": 49152, "games": 228, "recentMeanReward": -1.0, "elapsedSeconds": 7.380983458831906}
+{"stage": "training", "steps": 65536, "games": 278, "recentMeanReward": -1.0, "elapsedSeconds": 9.861217791680247}
+{"stage": "training", "steps": 81920, "games": 344, "recentMeanReward": -1.0, "elapsedSeconds": 12.50463708397001}
+{"stage": "training", "steps": 98304, "games": 420, "recentMeanReward": -1.0, "elapsedSeconds": 15.08277333388105}
+{"stage": "training", "steps": 114688, "games": 495, "recentMeanReward": -1.0, "elapsedSeconds": 17.65331712504849}
+{"stage": "training", "steps": 131072, "games": 567, "recentMeanReward": -1.0, "elapsedSeconds": 20.18827374977991}
+{"stage": "validation", "checkpoint": "ppo-131072", "elapsedSeconds": 24.50825887499377, "games": 128, "wins": 0, "ties": 0, "losses": 128, "share": 0.0, "winCI95": [0.0, 0.02913695627350686]}
+{"stage": "training", "steps": 147456, "games": 635, "recentMeanReward": -1.0, "elapsedSeconds": 27.08782095881179}
+{"stage": "training", "steps": 163840, "games": 699, "recentMeanReward": -1.0, "elapsedSeconds": 29.637331666890532}
+{"stage": "training", "steps": 180224, "games": 767, "recentMeanReward": -1.0, "elapsedSeconds": 32.120572208892554}
+{"stage": "training", "steps": 196608, "games": 840, "recentMeanReward": -1.0, "elapsedSeconds": 34.61222204193473}
+{"stage": "training", "steps": 212992, "games": 917, "recentMeanReward": -1.0, "elapsedSeconds": 37.121145624667406}
+{"stage": "training", "steps": 229376, "games": 995, "recentMeanReward": -1.0, "elapsedSeconds": 39.60187716688961}
+{"stage": "training", "steps": 245760, "games": 1076, "recentMeanReward": -1.0, "elapsedSeconds": 42.10251641692594}
+{"stage": "training", "steps": 262144, "games": 1164, "recentMeanReward": -1.0, "elapsedSeconds": 44.61872641695663}
+{"stage": "validation", "checkpoint": "ppo-262144", "elapsedSeconds": 49.19351449981332, "games": 128, "wins": 0, "ties": 0, "losses": 128, "share": 0.0, "winCI95": [0.0, 0.02913695627350686]}
+{"stage": "training", "steps": 278528, "games": 1238, "recentMeanReward": -1.0, "elapsedSeconds": 51.69990233378485}
+{"stage": "training", "steps": 294912, "games": 1317, "recentMeanReward": -1.0, "elapsedSeconds": 54.17538024997339}
+{"stage": "training", "steps": 311296, "games": 1402, "recentMeanReward": -1.0, "elapsedSeconds": 56.684260124806315}
+{"stage": "training", "steps": 327680, "games": 1487, "recentMeanReward": -1.0, "elapsedSeconds": 59.1773639167659}
+{"stage": "training", "steps": 344064, "games": 1574, "recentMeanReward": -1.0, "elapsedSeconds": 61.7855952498503}
+{"stage": "training", "steps": 360448, "games": 1652, "recentMeanReward": -1.0, "elapsedSeconds": 64.38934695906937}
+{"stage": "training", "steps": 376832, "games": 1728, "recentMeanReward": -1.0, "elapsedSeconds": 66.9926908747293}
+{"stage": "training", "steps": 393216, "games": 1808, "recentMeanReward": -1.0, "elapsedSeconds": 69.55125137465075}
+{"stage": "validation", "checkpoint": "ppo-393216", "elapsedSeconds": 74.14413729216903, "games": 128, "wins": 0, "ties": 0, "losses": 128, "share": 0.0, "winCI95": [0.0, 0.02913695627350686]}
+{"stage": "training", "steps": 409600, "games": 1881, "recentMeanReward": -1.0, "elapsedSeconds": 76.71578237507492}
+{"stage": "training", "steps": 425984, "games": 1958, "recentMeanReward": -1.0, "elapsedSeconds": 79.36784266680479}
+{"stage": "training", "steps": 442368, "games": 2033, "recentMeanReward": -1.0, "elapsedSeconds": 81.97177904192358}
+{"stage": "training", "steps": 458752, "games": 2109, "recentMeanReward": -1.0, "elapsedSeconds": 84.54510812507942}
+{"stage": "training", "steps": 475136, "games": 2185, "recentMeanReward": -1.0, "elapsedSeconds": 87.18407858395949}
+{"stage": "training", "steps": 491520, "games": 2259, "recentMeanReward": -1.0, "elapsedSeconds": 89.75989774987102}
+{"stage": "training", "steps": 507904, "games": 2332, "recentMeanReward": -1.0, "elapsedSeconds": 92.46330337505788}
+{"stage": "training", "steps": 524288, "games": 2405, "recentMeanReward": -1.0, "elapsedSeconds": 94.96295166667551}
+{"stage": "validation", "checkpoint": "ppo-524288", "elapsedSeconds": 99.7290792921558, "games": 128, "wins": 0, "ties": 0, "losses": 128, "share": 0.0, "winCI95": [0.0, 0.02913695627350686]}
+{"selected": "bc", "classic": {"games": 1000, "wins": 248, "ties": 52, "losses": 700, "share": 0.274, "winCI95": [0.2222322443017449, 0.27569644197497484]}, "imitation": {"games": 1000, "wins": 101, "ties": 33, "losses": 866, "share": 0.1175, "winCI95": [0.08382401065239958, 0.12122974261907327]}, "selectedModel": {"games": 1000, "wins": 101, "ties": 33, "losses": 866, "share": 0.1175, "winCI95": [0.08382401065239958, 0.12122974261907327]}, "trainingGames": 2405, "trainingSteps": 524288, "selectedVsClassic": {"shareDelta": -0.1565, "pairedApprox95CI": [-0.18606192280078682, -0.12693807719921318]}, "selectedVsImitation": {"shareDelta": 0.0, "pairedApprox95CI": [0.0, 0.0]}, "elapsedSeconds": 238.5256228330545}

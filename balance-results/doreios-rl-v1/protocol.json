@@ -1,0 +1,24 @@
+{
+  "output": "balance-results/doreios-rl-v1",
+  "workers": 8,
+  "imitation_games": 256,
+  "steps": 524288,
+  "evaluation_games": 1000,
+  "validation_games": 128,
+  "seed": 1701,
+  "algorithm": "MaskablePPO",
+  "reward": "terminal loss=-1 tie=0 win=1; zero intermediate reward",
+  "opponent": "frozen MM v3 Melia",
+  "leader": "Doreios",
+  "split": "disjoint imitation/train/validation/test seed namespaces",
+  "sourceCommit": "7f027d1c183b81b60a5d1896abe03afac83a90f6",
+  "sourceHashes": {
+    "scripts/rl/environment.ts": "64772431ea71d929b4947b9437fd602b7abd9da6fb5cf2e55fc9441b47a75ed9",
+    "scripts/rl/README.md": "39817b5d5ec305227c0124d918cb9b29919b5ea29d394956c235ad376775a18e",
+    "scripts/rl/bridge.ts": "78b620d86a7c768f8b3263c60f3c6bc4d599d9265ab6dc6aef2c81b00f6cb6de",
+    "scripts/rl/train.py": "3d862ac323827a838df6bf50f6b3e9ed437f20de03be856ae4368f58b6e9c75a",
+    "scripts/rl/requirements.lock": "9010a226d3626fb8a0a01134c06f3bd800668dea2b57916b7595f553c29afae4"
+  },
+  "learner": "two 64-unit tanh layers; all gameplay commands; no hidden order or opponent hands; deterministic evaluation",
+  "selection": "highest validation share among BC and fixed RL checkpoints; earlier checkpoint wins ties"
+}
