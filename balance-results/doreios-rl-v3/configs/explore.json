@@ -1,0 +1,21 @@
+{
+  "base": "balance-results/doreios-rl-v3/extend-free-b/checkpoint-1572864",
+  "reference": "balance-results/doreios-rl-v2/dagger-2",
+  "seed": 1706,
+  "prefix": "rl-doreios-v3",
+  "trainNamespace": "train-screen-b",
+  "screenNamespace": "screen",
+  "screenGames": 512,
+  "workers": 8,
+  "steps": 1048576,
+  "stages": 2,
+  "lr": 0.0001,
+  "rollout": 1024,
+  "batch": 512,
+  "gae": 1.0,
+  "anchor": 0.0,
+  "entropy": 0.01,
+  "output": "balance-results/doreios-rl-v3/explore",
+  "logit_scale": 0.7,
+  "reset_optimizer": true
+}
