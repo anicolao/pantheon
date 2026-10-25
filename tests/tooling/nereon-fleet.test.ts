@@ -67,14 +67,13 @@ test('Obol selection keeps original hand order rather than sorting instance IDs'
  expect((choose(v) as any).targets).toEqual(['z-first']);
 });
 
-test('four coins builds Pilot support, then buys Council while keeping two Actions',()=>{
+test('four coins builds Pilot support, then buys Council while keeping one Action',()=>{
  const v=view(4);v.owned={'merchant-fleet':1,'harbor-pilot':0};
  expect(choose(v)).toEqual({type:'card/bought',cardId:'harbor-pilot'});
- v.owned['harbor-pilot']=1;expect(choose(v)).toEqual({type:'card/bought',cardId:'harbor-pilot'});
- v.owned['harbor-pilot']=2;expect(choose(v)).toEqual({type:'card/bought',cardId:'council-of-sages'});
+ v.owned['harbor-pilot']=1;expect(choose(v)).toEqual({type:'card/bought',cardId:'council-of-sages'});
  v.owned['council-of-sages']=1;expect(choose(v)).toEqual({type:'card/bought',cardId:'harbor-pilot'});
  v.resources.coins=3;expect(choose(v)).toEqual({type:'card/bought',cardId:'harbor-pilot'});
- v.resources.coins=4;v.owned['harbor-pilot']=3;expect(choose(v)).toEqual({type:'card/bought',cardId:'council-of-sages'});
+ v.resources.coins=4;v.owned['harbor-pilot']=2;expect(choose(v)).toEqual({type:'card/bought',cardId:'council-of-sages'});
  v.owned['bronze-recruit']=1;expect(choose(v)).toEqual({type:'card/bought',cardId:'harbor-pilot'});
 });
 test('the four-coin Action purchase takes priority over worship, but not final-round VP',()=>{
