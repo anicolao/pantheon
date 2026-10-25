@@ -35,6 +35,11 @@ def audit(directory):
             verified += 1
         assert stats(rows) == results['summary'][name]
         rows_by_model[name] = rows
+    names = list(rows_by_model)
+    for i, name in enumerate(names):
+        for other in names[:i]:
+            if results['checkpointSHA256'][name] == results['checkpointSHA256'][other]:
+                assert rows_by_model[name] == rows_by_model[other], 'Same model and seeds produced different games'
     return rows_by_model
 
 summary = dict(rounds={}, final={}, crossplay={}, mm={}, verifiedFinalGames=0)
@@ -44,6 +49,11 @@ for r in (1, 2):
         source=p['source'], referenceGate=p['referenceGate'], moneyGuard=p['moneyGuard']) for l,p in promotions.items()}
 for leader in leaders:
     rows = audit(root / f'final/{leader}')
+    exported = read(root / f'validation/final-export-{leader}.json')
+    selected_hash = summary['rounds']['2'][leader]['checkpointSHA256']
+    assert exported['exactCommandParity'] and exported['replayVerified']
+    assert exported['checkpointSHA256'] == selected_hash
+    assert read(root / f'final/{leader}/results.json')['checkpointSHA256']['selected'] == selected_hash
     old, new = stats(rows['v1']), stats(rows['selected'])
     delta = paired(rows['selected'], rows['v1'])
     matchup_deltas = {k: new['matchups'][k]['share'] - v['share'] for k,v in old['matchups'].items()}
@@ -63,6 +73,7 @@ for config in read(root / 'final-audit-protocol.json')['configs']:
 summary['verifiedFinalGames'] = verified
 summary['additionalTrainingDecisions'] = sum(read(root/f'round-{r}/{l}/results.json')['trainingSteps'] for r in (1,2) for l in leaders)
 summary['productionWeightsChanged'] = False
+summary['exportParity'] = {l: {k: v for k,v in read(root / f'validation/final-export-{l}.json').items() if k != 'workers'} for l in leaders}
 summary['limitations'] = ['Heads-up only; no multiplayer claim.',
     'Fixed reference pools differ by leader; aggregate rates do not rank leaders.',
     'Intervals are pointwise, approximate 95% intervals, not simultaneous family-wise guarantees.',
