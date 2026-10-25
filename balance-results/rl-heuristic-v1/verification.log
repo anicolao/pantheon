@@ -1,0 +1,11 @@
+Four frozen RL models versus heuristic policies
+
+8,100 heads-up games: 81 matchups x 100 seeds, 50 games in each starting seat.
+Every game completed and replayed to the identical full state. No exclusions.
+One immutable bundled runner contains the production actors and native heuristic policies.
+No benchmark seeds were used for model selection or training.
+Disk-full interruptions were resumed on the same missing seeds with the unchanged runner; completed replay shards were retained.
+
+Balanced common-policy pool (six policies x three opposing leaders x 100 = 1,800 games per model):
+melia     1639W  54T  107L  win  91.1%  95% CI  89.6- 92.5%  share  92.6%
+nereon    1236W  96T  468L  win  68.7%  95% CI  65.8- 71.6%  share  71.3%

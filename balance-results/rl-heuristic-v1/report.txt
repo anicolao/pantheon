@@ -1,0 +1,144 @@
+Four frozen RL models versus heuristic policies
+
+8,100 heads-up games: 81 matchups x 100 seeds, 50 games in each starting seat.
+Every game completed and replayed to the identical full state. No exclusions.
+One immutable bundled runner contains the production actors and native heuristic policies.
+No benchmark seeds were used for model selection or training.
+Disk-full interruptions were resumed on the same missing seeds with the unchanged runner; completed replay shards were retained.
+
+Balanced common-policy pool (six policies x three opposing leaders x 100 = 1,800 games per model):
+melia     1639W  54T  107L  win  91.1%  95% CI  89.6- 92.5%  share  92.6%
+nereon    1236W  96T  468L  win  68.7%  95% CI  65.8- 71.6%  share  71.3%
+thaleia   1142W 140T  518L  win  63.4%  95% CI  60.6- 66.3%  share  67.3%
+doreios   1181W  93T  526L  win  65.6%  95% CI  62.6- 68.7%  share  68.2%
+
+This pool uses MM, Money, current Engine, Classic Engine, archived Owl v2, and MN.
+MM, Owl, and MN are also assigned outside their intended leaders (Melia, Thaleia, Nereon).
+Treat aggregate strength as performance against this chosen opponent mix, not a universal ranking.
+Aggregate intervals cluster shared seeds across policies; per-match intervals are Wilson 95%.
+Intervals describe seed uncertainty, not training-run or opponent-selection uncertainty.
+Ties count as half in share and zero in outright wins. No multiple-comparison correction.
+
+Intended-leader heuristic comparisons:
+melia    vs owl            thaleia     86W   3T   11L  win  86.0%  95% CI  77.9- 91.5%  share  87.5%
+melia    vs mn             nereon      93W   2T    5L  win  93.0%  95% CI  86.3- 96.6%  share  94.0%
+melia    vs fleet-v1       nereon      80W   4T   16L  win  80.0%  95% CI  71.1- 86.7%  share  82.0%
+melia    vs fleet-v6       nereon      81W   3T   16L  win  81.0%  95% CI  72.2- 87.5%  share  82.5%
+melia    vs grove          doreios     93W   2T    5L  win  93.0%  95% CI  86.3- 96.6%  share  94.0%
+nereon   vs mm             melia       63W  10T   27L  win  63.0%  95% CI  53.2- 71.8%  share  68.0%
+nereon   vs owl            thaleia     35W   5T   60L  win  35.0%  95% CI  26.4- 44.7%  share  37.5%
+nereon   vs grove          doreios     81W   3T   16L  win  81.0%  95% CI  72.2- 87.5%  share  82.5%
+thaleia  vs mm             melia       46W   2T   52L  win  46.0%  95% CI  36.6- 55.7%  share  47.0%
+thaleia  vs mn             nereon      95W   2T    3L  win  95.0%  95% CI  88.8- 97.8%  share  96.0%
+thaleia  vs fleet-v1       nereon      91W   4T    5L  win  91.0%  95% CI  83.8- 95.2%  share  93.0%
+thaleia  vs fleet-v6       nereon      74W   5T   21L  win  74.0%  95% CI  64.6- 81.6%  share  76.5%
+thaleia  vs grove          doreios     68W   7T   25L  win  68.0%  95% CI  58.3- 76.3%  share  71.5%
+doreios  vs mm             melia       63W   7T   30L  win  63.0%  95% CI  53.2- 71.8%  share  66.5%
+doreios  vs owl            thaleia     22W   8T   70L  win  22.0%  95% CI  15.0- 31.1%  share  26.0%
+doreios  vs mn             nereon      98W   0T    2L  win  98.0%  95% CI  93.0- 99.4%  share  98.0%
+doreios  vs fleet-v1       nereon      95W   2T    3L  win  95.0%  95% CI  88.8- 97.8%  share  96.0%
+doreios  vs fleet-v6       nereon      77W   8T   15L  win  77.0%  95% CI  67.8- 84.2%  share  81.0%
+
+Three lowest observed outright-win matchups for each RL model (exploratory, selected after evaluation):
+melia    vs owl            nereon      71W  12T   17L  win  71.0%  95% CI  61.5- 79.0%  share  77.0%
+melia    vs fleet-v1       nereon      80W   4T   16L  win  80.0%  95% CI  71.1- 86.7%  share  82.0%
+melia    vs fleet-v6       nereon      81W   3T   16L  win  81.0%  95% CI  72.2- 87.5%  share  82.5%
+nereon   vs classic-engine thaleia     26W   7T   67L  win  26.0%  95% CI  18.4- 35.4%  share  29.5%
+nereon   vs money          thaleia     30W   8T   62L  win  30.0%  95% CI  21.9- 39.6%  share  34.0%
+nereon   vs owl            thaleia     35W   5T   60L  win  35.0%  95% CI  26.4- 44.7%  share  37.5%
+thaleia  vs money          nereon      29W  10T   61L  win  29.0%  95% CI  21.0- 38.5%  share  34.0%
+thaleia  vs owl            melia       34W  10T   56L  win  34.0%  95% CI  25.5- 43.7%  share  39.0%
+thaleia  vs engine         nereon      41W  16T   43L  win  41.0%  95% CI  31.9- 50.8%  share  49.0%
+doreios  vs money          thaleia     22W   4T   74L  win  22.0%  95% CI  15.0- 31.1%  share  24.0%
+doreios  vs owl            thaleia     22W   8T   70L  win  22.0%  95% CI  15.0- 31.1%  share  26.0%
+doreios  vs classic-engine thaleia     24W   6T   70L  win  24.0%  95% CI  16.7- 33.2%  share  27.0%
+
+All matchups (same-leader matches are impossible under the game draft):
+melia    vs mm             nereon      95W   0T    5L  win  95.0%  95% CI  88.8- 97.8%  share  95.0%
+melia    vs mm             thaleia    100W   0T    0L  win 100.0%  95% CI  96.3-100.0%  share 100.0%
+melia    vs mm             doreios     99W   0T    1L  win  99.0%  95% CI  94.6- 99.8%  share  99.0%
+melia    vs money          nereon      87W   0T   13L  win  87.0%  95% CI  79.0- 92.2%  share  87.0%
+melia    vs money          thaleia     83W   6T   11L  win  83.0%  95% CI  74.5- 89.1%  share  86.0%
+melia    vs money          doreios     94W   2T    4L  win  94.0%  95% CI  87.5- 97.2%  share  95.0%
+melia    vs engine         nereon      94W   2T    4L  win  94.0%  95% CI  87.5- 97.2%  share  95.0%
+melia    vs engine         thaleia     91W   1T    8L  win  91.0%  95% CI  83.8- 95.2%  share  91.5%
+melia    vs engine         doreios     98W   2T    0L  win  98.0%  95% CI  93.0- 99.4%  share  99.0%
+melia    vs classic-engine nereon      96W   3T    1L  win  96.0%  95% CI  90.2- 98.4%  share  97.5%
+melia    vs classic-engine thaleia     85W   7T    8L  win  85.0%  95% CI  76.7- 90.7%  share  88.5%
+melia    vs classic-engine doreios     85W   3T   12L  win  85.0%  95% CI  76.7- 90.7%  share  86.5%
+melia    vs owl            nereon      71W  12T   17L  win  71.0%  95% CI  61.5- 79.0%  share  77.0%
+melia    vs owl            thaleia     86W   3T   11L  win  86.0%  95% CI  77.9- 91.5%  share  87.5%
+melia    vs owl            doreios     83W  11T    6L  win  83.0%  95% CI  74.5- 89.1%  share  88.5%
+melia    vs mn             nereon      93W   2T    5L  win  93.0%  95% CI  86.3- 96.6%  share  94.0%
+melia    vs mn             thaleia    100W   0T    0L  win 100.0%  95% CI  96.3-100.0%  share 100.0%
+melia    vs mn             doreios     99W   0T    1L  win  99.0%  95% CI  94.6- 99.8%  share  99.0%
+melia    vs fleet-v1       nereon      80W   4T   16L  win  80.0%  95% CI  71.1- 86.7%  share  82.0%
+melia    vs fleet-v6       nereon      81W   3T   16L  win  81.0%  95% CI  72.2- 87.5%  share  82.5%
+melia    vs grove          doreios     93W   2T    5L  win  93.0%  95% CI  86.3- 96.6%  share  94.0%
+nereon   vs mm             melia       63W  10T   27L  win  63.0%  95% CI  53.2- 71.8%  share  68.0%
+nereon   vs mm             thaleia     98W   1T    1L  win  98.0%  95% CI  93.0- 99.4%  share  98.5%
+nereon   vs mm             doreios     86W   4T   10L  win  86.0%  95% CI  77.9- 91.5%  share  88.0%
+nereon   vs money          melia       76W   7T   17L  win  76.0%  95% CI  66.8- 83.3%  share  79.5%
+nereon   vs money          thaleia     30W   8T   62L  win  30.0%  95% CI  21.9- 39.6%  share  34.0%
+nereon   vs money          doreios     72W   7T   21L  win  72.0%  95% CI  62.5- 79.9%  share  75.5%
+nereon   vs engine         melia       89W   2T    9L  win  89.0%  95% CI  81.4- 93.7%  share  90.0%
+nereon   vs engine         thaleia     39W   7T   54L  win  39.0%  95% CI  30.0- 48.8%  share  42.5%
+nereon   vs engine         doreios     80W   3T   17L  win  80.0%  95% CI  71.1- 86.7%  share  81.5%
+nereon   vs classic-engine melia       89W   2T    9L  win  89.0%  95% CI  81.4- 93.7%  share  90.0%
+nereon   vs classic-engine thaleia     26W   7T   67L  win  26.0%  95% CI  18.4- 35.4%  share  29.5%
+nereon   vs classic-engine doreios     47W  11T   42L  win  47.0%  95% CI  37.5- 56.7%  share  52.5%
+nereon   vs owl            melia       69W   8T   23L  win  69.0%  95% CI  59.4- 77.2%  share  73.0%
+nereon   vs owl            thaleia     35W   5T   60L  win  35.0%  95% CI  26.4- 44.7%  share  37.5%
+nereon   vs owl            doreios     72W   7T   21L  win  72.0%  95% CI  62.5- 79.9%  share  75.5%
+nereon   vs mn             melia       81W   2T   17L  win  81.0%  95% CI  72.2- 87.5%  share  82.0%
+nereon   vs mn             thaleia     98W   1T    1L  win  98.0%  95% CI  93.0- 99.4%  share  98.5%
+nereon   vs mn             doreios     86W   4T   10L  win  86.0%  95% CI  77.9- 91.5%  share  88.0%
+nereon   vs grove          doreios     81W   3T   16L  win  81.0%  95% CI  72.2- 87.5%  share  82.5%
+thaleia  vs mm             melia       46W   2T   52L  win  46.0%  95% CI  36.6- 55.7%  share  47.0%
+thaleia  vs mm             nereon      95W   2T    3L  win  95.0%  95% CI  88.8- 97.8%  share  96.0%
+thaleia  vs mm             doreios     92W   3T    5L  win  92.0%  95% CI  85.0- 95.9%  share  93.5%
+thaleia  vs money          melia       61W  10T   29L  win  61.0%  95% CI  51.2- 70.0%  share  66.0%
+thaleia  vs money          nereon      29W  10T   61L  win  29.0%  95% CI  21.0- 38.5%  share  34.0%
+thaleia  vs money          doreios     62W   6T   32L  win  62.0%  95% CI  52.2- 70.9%  share  65.0%
+thaleia  vs engine         melia       69W  14T   17L  win  69.0%  95% CI  59.4- 77.2%  share  76.0%
+thaleia  vs engine         nereon      41W  16T   43L  win  41.0%  95% CI  31.9- 50.8%  share  49.0%
+thaleia  vs engine         doreios     61W  11T   28L  win  61.0%  95% CI  51.2- 70.0%  share  66.5%
+thaleia  vs classic-engine melia       76W   6T   18L  win  76.0%  95% CI  66.8- 83.3%  share  79.0%
+thaleia  vs classic-engine nereon      61W   9T   30L  win  61.0%  95% CI  51.2- 70.0%  share  65.5%
+thaleia  vs classic-engine doreios     51W   4T   45L  win  51.0%  95% CI  41.3- 60.6%  share  53.0%
+thaleia  vs owl            melia       34W  10T   56L  win  34.0%  95% CI  25.5- 43.7%  share  39.0%
+thaleia  vs owl            nereon      54W  17T   29L  win  54.0%  95% CI  44.3- 63.4%  share  62.5%
+thaleia  vs owl            doreios     48W  11T   41L  win  48.0%  95% CI  38.5- 57.7%  share  53.5%
+thaleia  vs mn             melia       75W   4T   21L  win  75.0%  95% CI  65.7- 82.5%  share  77.0%
+thaleia  vs mn             nereon      95W   2T    3L  win  95.0%  95% CI  88.8- 97.8%  share  96.0%
+thaleia  vs mn             doreios     92W   3T    5L  win  92.0%  95% CI  85.0- 95.9%  share  93.5%
+thaleia  vs fleet-v1       nereon      91W   4T    5L  win  91.0%  95% CI  83.8- 95.2%  share  93.0%
+thaleia  vs fleet-v6       nereon      74W   5T   21L  win  74.0%  95% CI  64.6- 81.6%  share  76.5%
+thaleia  vs grove          doreios     68W   7T   25L  win  68.0%  95% CI  58.3- 76.3%  share  71.5%
+doreios  vs mm             melia       63W   7T   30L  win  63.0%  95% CI  53.2- 71.8%  share  66.5%
+doreios  vs mm             nereon      98W   0T    2L  win  98.0%  95% CI  93.0- 99.4%  share  98.0%
+doreios  vs mm             thaleia     94W   2T    4L  win  94.0%  95% CI  87.5- 97.2%  share  95.0%
+doreios  vs money          melia       63W   7T   30L  win  63.0%  95% CI  53.2- 71.8%  share  66.5%
+doreios  vs money          nereon      51W  11T   38L  win  51.0%  95% CI  41.3- 60.6%  share  56.5%
+doreios  vs money          thaleia     22W   4T   74L  win  22.0%  95% CI  15.0- 31.1%  share  24.0%
+doreios  vs engine         melia       73W  12T   15L  win  73.0%  95% CI  63.6- 80.7%  share  79.0%
+doreios  vs engine         nereon      78W   5T   17L  win  78.0%  95% CI  68.9- 85.0%  share  80.5%
+doreios  vs engine         thaleia     35W   8T   57L  win  35.0%  95% CI  26.4- 44.7%  share  39.0%
+doreios  vs classic-engine melia       69W  10T   21L  win  69.0%  95% CI  59.4- 77.2%  share  74.0%
+doreios  vs classic-engine nereon      76W   3T   21L  win  76.0%  95% CI  66.8- 83.3%  share  77.5%
+doreios  vs classic-engine thaleia     24W   6T   70L  win  24.0%  95% CI  16.7- 33.2%  share  27.0%
+doreios  vs owl            melia       60W   2T   38L  win  60.0%  95% CI  50.2- 69.1%  share  61.0%
+doreios  vs owl            nereon      89W   2T    9L  win  89.0%  95% CI  81.4- 93.7%  share  90.0%
+doreios  vs owl            thaleia     22W   8T   70L  win  22.0%  95% CI  15.0- 31.1%  share  26.0%
+doreios  vs mn             melia       72W   4T   24L  win  72.0%  95% CI  62.5- 79.9%  share  74.0%
+doreios  vs mn             nereon      98W   0T    2L  win  98.0%  95% CI  93.0- 99.4%  share  98.0%
+doreios  vs mn             thaleia     94W   2T    4L  win  94.0%  95% CI  87.5- 97.2%  share  95.0%
+doreios  vs fleet-v1       nereon      95W   2T    3L  win  95.0%  95% CI  88.8- 97.8%  share  96.0%
+doreios  vs fleet-v6       nereon      77W   8T   15L  win  77.0%  95% CI  67.8- 84.2%  share  81.0%
+
+Reproduction:
+nix develop /tmp/pantheon-nix-env --command bun balance-results/rl-heuristic-v1/runner.js <config>
+Use evaluation.json with a fresh output directory to rerun; existing completed shards resume.
+The /tmp Nix flake is an exact copy of repository flake.nix/flake.lock.
+Full commands and configurations are retained in evaluation/replays/*.json.gz.
+Source harness: scripts/rl/heuristic_matrix.ts. Protocol includes runner and actor hashes.

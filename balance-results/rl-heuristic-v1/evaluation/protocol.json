@@ -1,0 +1,511 @@
+{
+  "output": "balance-results/rl-heuristic-v1/evaluation",
+  "prefix": "rl-heuristic-v1-evaluation",
+  "games": 100,
+  "workers": 16,
+  "leaders": [
+    "melia",
+    "nereon",
+    "thaleia",
+    "doreios"
+  ],
+  "matches": [
+    {
+      "learner": "melia",
+      "opponent": "nereon",
+      "policy": "mm",
+      "key": "melia--mm--nereon"
+    },
+    {
+      "learner": "melia",
+      "opponent": "thaleia",
+      "policy": "mm",
+      "key": "melia--mm--thaleia"
+    },
+    {
+      "learner": "melia",
+      "opponent": "doreios",
+      "policy": "mm",
+      "key": "melia--mm--doreios"
+    },
+    {
+      "learner": "melia",
+      "opponent": "nereon",
+      "policy": "money",
+      "key": "melia--money--nereon"
+    },
+    {
+      "learner": "melia",
+      "opponent": "thaleia",
+      "policy": "money",
+      "key": "melia--money--thaleia"
+    },
+    {
+      "learner": "melia",
+      "opponent": "doreios",
+      "policy": "money",
+      "key": "melia--money--doreios"
+    },
+    {
+      "learner": "melia",
+      "opponent": "nereon",
+      "policy": "engine",
+      "key": "melia--engine--nereon"
+    },
+    {
+      "learner": "melia",
+      "opponent": "thaleia",
+      "policy": "engine",
+      "key": "melia--engine--thaleia"
+    },
+    {
+      "learner": "melia",
+      "opponent": "doreios",
+      "policy": "engine",
+      "key": "melia--engine--doreios"
+    },
+    {
+      "learner": "melia",
+      "opponent": "nereon",
+      "policy": "classic-engine",
+      "key": "melia--classic-engine--nereon"
+    },
+    {
+      "learner": "melia",
+      "opponent": "thaleia",
+      "policy": "classic-engine",
+      "key": "melia--classic-engine--thaleia"
+    },
+    {
+      "learner": "melia",
+      "opponent": "doreios",
+      "policy": "classic-engine",
+      "key": "melia--classic-engine--doreios"
+    },
+    {
+      "learner": "melia",
+      "opponent": "nereon",
+      "policy": "owl",
+      "key": "melia--owl--nereon"
+    },
+    {
+      "learner": "melia",
+      "opponent": "thaleia",
+      "policy": "owl",
+      "key": "melia--owl--thaleia"
+    },
+    {
+      "learner": "melia",
+      "opponent": "doreios",
+      "policy": "owl",
+      "key": "melia--owl--doreios"
+    },
+    {
+      "learner": "melia",
+      "opponent": "nereon",
+      "policy": "mn",
+      "key": "melia--mn--nereon"
+    },
+    {
+      "learner": "melia",
+      "opponent": "thaleia",
+      "policy": "mn",
+      "key": "melia--mn--thaleia"
+    },
+    {
+      "learner": "melia",
+      "opponent": "doreios",
+      "policy": "mn",
+      "key": "melia--mn--doreios"
+    },
+    {
+      "learner": "melia",
+      "opponent": "nereon",
+      "policy": "fleet-v1",
+      "key": "melia--fleet-v1--nereon"
+    },
+    {
+      "learner": "melia",
+      "opponent": "nereon",
+      "policy": "fleet-v6",
+      "key": "melia--fleet-v6--nereon"
+    },
+    {
+      "learner": "melia",
+      "opponent": "doreios",
+      "policy": "grove",
+      "key": "melia--grove--doreios"
+    },
+    {
+      "learner": "nereon",
+      "opponent": "melia",
+      "policy": "mm",
+      "key": "nereon--mm--melia"
+    },
+    {
+      "learner": "nereon",
+      "opponent": "thaleia",
+      "policy": "mm",
+      "key": "nereon--mm--thaleia"
+    },
+    {
+      "learner": "nereon",
+      "opponent": "doreios",
+      "policy": "mm",
+      "key": "nereon--mm--doreios"
+    },
+    {
+      "learner": "nereon",
+      "opponent": "melia",
+      "policy": "money",
+      "key": "nereon--money--melia"
+    },
+    {
+      "learner": "nereon",
+      "opponent": "thaleia",
+      "policy": "money",
+      "key": "nereon--money--thaleia"
+    },
+    {
+      "learner": "nereon",
+      "opponent": "doreios",
+      "policy": "money",
+      "key": "nereon--money--doreios"
+    },
+    {
+      "learner": "nereon",
+      "opponent": "melia",
+      "policy": "engine",
+      "key": "nereon--engine--melia"
+    },
+    {
+      "learner": "nereon",
+      "opponent": "thaleia",
+      "policy": "engine",
+      "key": "nereon--engine--thaleia"
+    },
+    {
+      "learner": "nereon",
+      "opponent": "doreios",
+      "policy": "engine",
+      "key": "nereon--engine--doreios"
+    },
+    {
+      "learner": "nereon",
+      "opponent": "melia",
+      "policy": "classic-engine",
+      "key": "nereon--classic-engine--melia"
+    },
+    {
+      "learner": "nereon",
+      "opponent": "thaleia",
+      "policy": "classic-engine",
+      "key": "nereon--classic-engine--thaleia"
+    },
+    {
+      "learner": "nereon",
+      "opponent": "doreios",
+      "policy": "classic-engine",
+      "key": "nereon--classic-engine--doreios"
+    },
+    {
+      "learner": "nereon",
+      "opponent": "melia",
+      "policy": "owl",
+      "key": "nereon--owl--melia"
+    },
+    {
+      "learner": "nereon",
+      "opponent": "thaleia",
+      "policy": "owl",
+      "key": "nereon--owl--thaleia"
+    },
+    {
+      "learner": "nereon",
+      "opponent": "doreios",
+      "policy": "owl",
+      "key": "nereon--owl--doreios"
+    },
+    {
+      "learner": "nereon",
+      "opponent": "melia",
+      "policy": "mn",
+      "key": "nereon--mn--melia"
+    },
+    {
+      "learner": "nereon",
+      "opponent": "thaleia",
+      "policy": "mn",
+      "key": "nereon--mn--thaleia"
+    },
+    {
+      "learner": "nereon",
+      "opponent": "doreios",
+      "policy": "mn",
+      "key": "nereon--mn--doreios"
+    },
+    {
+      "learner": "nereon",
+      "opponent": "doreios",
+      "policy": "grove",
+      "key": "nereon--grove--doreios"
+    },
+    {
+      "learner": "thaleia",
+      "opponent": "melia",
+      "policy": "mm",
+      "key": "thaleia--mm--melia"
+    },
+    {
+      "learner": "thaleia",
+      "opponent": "nereon",
+      "policy": "mm",
+      "key": "thaleia--mm--nereon"
+    },
+    {
+      "learner": "thaleia",
+      "opponent": "doreios",
+      "policy": "mm",
+      "key": "thaleia--mm--doreios"
+    },
+    {
+      "learner": "thaleia",
+      "opponent": "melia",
+      "policy": "money",
+      "key": "thaleia--money--melia"
+    },
+    {
+      "learner": "thaleia",
+      "opponent": "nereon",
+      "policy": "money",
+      "key": "thaleia--money--nereon"
+    },
+    {
+      "learner": "thaleia",
+      "opponent": "doreios",
+      "policy": "money",
+      "key": "thaleia--money--doreios"
+    },
+    {
+      "learner": "thaleia",
+      "opponent": "melia",
+      "policy": "engine",
+      "key": "thaleia--engine--melia"
+    },
+    {
+      "learner": "thaleia",
+      "opponent": "nereon",
+      "policy": "engine",
+      "key": "thaleia--engine--nereon"
+    },
+    {
+      "learner": "thaleia",
+      "opponent": "doreios",
+      "policy": "engine",
+      "key": "thaleia--engine--doreios"
+    },
+    {
+      "learner": "thaleia",
+      "opponent": "melia",
+      "policy": "classic-engine",
+      "key": "thaleia--classic-engine--melia"
+    },
+    {
+      "learner": "thaleia",
+      "opponent": "nereon",
+      "policy": "classic-engine",
+      "key": "thaleia--classic-engine--nereon"
+    },
+    {
+      "learner": "thaleia",
+      "opponent": "doreios",
+      "policy": "classic-engine",
+      "key": "thaleia--classic-engine--doreios"
+    },
+    {
+      "learner": "thaleia",
+      "opponent": "melia",
+      "policy": "owl",
+      "key": "thaleia--owl--melia"
+    },
+    {
+      "learner": "thaleia",
+      "opponent": "nereon",
+      "policy": "owl",
+      "key": "thaleia--owl--nereon"
+    },
+    {
+      "learner": "thaleia",
+      "opponent": "doreios",
+      "policy": "owl",
+      "key": "thaleia--owl--doreios"
+    },
+    {
+      "learner": "thaleia",
+      "opponent": "melia",
+      "policy": "mn",
+      "key": "thaleia--mn--melia"
+    },
+    {
+      "learner": "thaleia",
+      "opponent": "nereon",
+      "policy": "mn",
+      "key": "thaleia--mn--nereon"
+    },
+    {
+      "learner": "thaleia",
+      "opponent": "doreios",
+      "policy": "mn",
+      "key": "thaleia--mn--doreios"
+    },
+    {
+      "learner": "thaleia",
+      "opponent": "nereon",
+      "policy": "fleet-v1",
+      "key": "thaleia--fleet-v1--nereon"
+    },
+    {
+      "learner": "thaleia",
+      "opponent": "nereon",
+      "policy": "fleet-v6",
+      "key": "thaleia--fleet-v6--nereon"
+    },
+    {
+      "learner": "thaleia",
+      "opponent": "doreios",
+      "policy": "grove",
+      "key": "thaleia--grove--doreios"
+    },
+    {
+      "learner": "doreios",
+      "opponent": "melia",
+      "policy": "mm",
+      "key": "doreios--mm--melia"
+    },
+    {
+      "learner": "doreios",
+      "opponent": "nereon",
+      "policy": "mm",
+      "key": "doreios--mm--nereon"
+    },
+    {
+      "learner": "doreios",
+      "opponent": "thaleia",
+      "policy": "mm",
+      "key": "doreios--mm--thaleia"
+    },
+    {
+      "learner": "doreios",
+      "opponent": "melia",
+      "policy": "money",
+      "key": "doreios--money--melia"
+    },
+    {
+      "learner": "doreios",
+      "opponent": "nereon",
+      "policy": "money",
+      "key": "doreios--money--nereon"
+    },
+    {
+      "learner": "doreios",
+      "opponent": "thaleia",
+      "policy": "money",
+      "key": "doreios--money--thaleia"
+    },
+    {
+      "learner": "doreios",
+      "opponent": "melia",
+      "policy": "engine",
+      "key": "doreios--engine--melia"
+    },
+    {
+      "learner": "doreios",
+      "opponent": "nereon",
+      "policy": "engine",
+      "key": "doreios--engine--nereon"
+    },
+    {
+      "learner": "doreios",
+      "opponent": "thaleia",
+      "policy": "engine",
+      "key": "doreios--engine--thaleia"
+    },
+    {
+      "learner": "doreios",
+      "opponent": "melia",
+      "policy": "classic-engine",
+      "key": "doreios--classic-engine--melia"
+    },
+    {
+      "learner": "doreios",
+      "opponent": "nereon",
+      "policy": "classic-engine",
+      "key": "doreios--classic-engine--nereon"
+    },
+    {
+      "learner": "doreios",
+      "opponent": "thaleia",
+      "policy": "classic-engine",
+      "key": "doreios--classic-engine--thaleia"
+    },
+    {
+      "learner": "doreios",
+      "opponent": "melia",
+      "policy": "owl",
+      "key": "doreios--owl--melia"
+    },
+    {
+      "learner": "doreios",
+      "opponent": "nereon",
+      "policy": "owl",
+      "key": "doreios--owl--nereon"
+    },
+    {
+      "learner": "doreios",
+      "opponent": "thaleia",
+      "policy": "owl",
+      "key": "doreios--owl--thaleia"
+    },
+    {
+      "learner": "doreios",
+      "opponent": "melia",
+      "policy": "mn",
+      "key": "doreios--mn--melia"
+    },
+    {
+      "learner": "doreios",
+      "opponent": "nereon",
+      "policy": "mn",
+      "key": "doreios--mn--nereon"
+    },
+    {
+      "learner": "doreios",
+      "opponent": "thaleia",
+      "policy": "mn",
+      "key": "doreios--mn--thaleia"
+    },
+    {
+      "learner": "doreios",
+      "opponent": "nereon",
+      "policy": "fleet-v1",
+      "key": "doreios--fleet-v1--nereon"
+    },
+    {
+      "learner": "doreios",
+      "opponent": "nereon",
+      "policy": "fleet-v6",
+      "key": "doreios--fleet-v6--nereon"
+    }
+  ],
+  "checkpointSHA256": {
+    "melia": "f6016282d408c3f78263a3396f7e423e31fdcbf3c790afcf6b34e6fd9823122c",
+    "nereon": "fec15291b5c041494285f0151db211e7d525e8afee4e0e034c6eb6a4c5a22d58",
+    "thaleia": "f81492461000d9eec8fd1ef379ffa46578c354e8e9691e511a5298470f3cae07",
+    "doreios": "ca4a52a69cd3e439baae2b1eb5195aa392e2648d23ba1024b9b35f6c54fdce6d"
+  },
+  "runnerSHA256": "05e5577e9d950d68b66dacf1e7b4e329377b759ef171242d6f624195e9524d4c",
+  "seatBalance": "even indices RL first; odd indices heuristic first",
+  "seedPairing": "Same learner/opponent/index seeds across heuristic policies; no same-leader matches",
+  "validation": "Every game completes and replays to identical full state; no exclusions",
+  "specialists": "Owl and MN also evaluated outside their intended leaders because their historical policies accept those assignments; intended leaders are Thaleia and Nereon respectively. Fleet requires Nereon; Grove requires Doreios."
+}

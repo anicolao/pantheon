@@ -24,7 +24,8 @@ text=['Four frozen RL models versus heuristic policies','',
  '8,100 heads-up games: 81 matchups x 100 seeds, 50 games in each starting seat.',
  'Every game completed and replayed to the identical full state. No exclusions.',
  'One immutable bundled runner contains the production actors and native heuristic policies.',
- 'No benchmark seeds were used for model selection or training.','',
+ 'No benchmark seeds were used for model selection or training.',
+ 'Disk-full interruptions were resumed on the same missing seeds with the unchanged runner; completed replay shards were retained.','',
  'Balanced common-policy pool (six policies x three opposing leaders x 100 = 1,800 games per model):']
 for r in results['generalPoliciesOnly']:text.append(f"{r['leader']:8s}  {line(r)}")
 text += ['', 'This pool uses MM, Money, current Engine, Classic Engine, archived Owl v2, and MN.',
@@ -36,6 +37,10 @@ text += ['', 'This pool uses MM, Money, current Engine, Classic Engine, archived
  'Intended-leader heuristic comparisons:']
 for r in results['matchups']:
  if (r['policy'],r['opponent']) in [('mm','melia'),('owl','thaleia'),('mn','nereon'),('fleet-v1','nereon'),('fleet-v6','nereon'),('grove','doreios')]:
+  text.append(f"{r['learner']:8s} vs {r['policy']:14s} {r['opponent']:8s}  {line(r)}")
+text += ['', 'Three lowest observed outright-win matchups for each RL model (exploratory, selected after evaluation):']
+for leader in protocol['leaders']:
+ for r in sorted([r for r in results['matchups'] if r['learner']==leader],key=lambda r:r['winRate'])[:3]:
   text.append(f"{r['learner']:8s} vs {r['policy']:14s} {r['opponent']:8s}  {line(r)}")
 text += ['', 'All matchups (same-leader matches are impossible under the game draft):']
 for r in results['matchups']:text.append(f"{r['learner']:8s} vs {r['policy']:14s} {r['opponent']:8s}  {line(r)}")
