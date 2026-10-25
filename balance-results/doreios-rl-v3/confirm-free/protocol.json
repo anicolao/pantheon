@@ -1,0 +1,16 @@
+{
+  "output": "balance-results/doreios-rl-v3/confirm-free",
+  "prefix": "rl-doreios-v3",
+  "namespace": "confirm-a",
+  "games": 1024,
+  "workers": 8,
+  "models": {
+    "free": "balance-results/doreios-rl-v3/long-credit-free/checkpoint-524288",
+    "v2": "balance-results/doreios-rl-v2/ppo-524288",
+    "classic": "classic-engine"
+  },
+  "baselines": [
+    "v2",
+    "classic"
+  ]
+}
