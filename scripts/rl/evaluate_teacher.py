@@ -10,7 +10,7 @@ def run(c):
     (out/'protocol.json').write_text(json.dumps(c,indent=2));started=time.monotonic()
     workers=c.get('workers',8);assert c['games']%workers==0
     def worker(rank):
-        env=Game(rank,workers,c['namespace'],c['prefix'],leader=c['leader'],teacher=c['teacher']);rows=[]
+        env=Game(rank,workers,c['namespace'],c['prefix'],leader=c['leader'],teacher=c['teacher'],opponent=c.get('opponent','mm'));rows=[]
         try:
             for i in range(c['games']//workers):
                 env.reset();done=False

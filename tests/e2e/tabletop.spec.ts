@@ -378,3 +378,19 @@ for(const edge of ['south','west','north','east'])for(const scenario of ['seed-k
   await expect(target).toHaveCount(0);
   await expect(hand.locator('.hand-slot.staged')).toHaveCount(0);
 });
+
+for(const leader of ['Nereon','Doreios','Thaleia'])test(`tabletop learned ${leader} takes its turn through the real worker`,async({page},info)=>{
+ test.skip(info.project.name==='phone','A shared four-edge table is designed for a large display.');
+ await page.goto('./pantheontt/');
+ await page.getByRole('button',{name:/^Join Melia$/}).click();
+ await page.getByRole('button',{name:`Add bot as ${leader}`,exact:true}).click();
+ await page.getByRole('button',{name:'Play facing Melia',exact:true}).click();
+ await expect(page.locator('main')).toHaveAttribute('data-tabletop-phase','playing');
+ await expect(page.getByRole('region',{name:'Shared table'})).toHaveAttribute('data-facing','north');
+ const saved=await page.evaluate(()=>JSON.parse(localStorage.getItem('pantheon-tabletop-v1')!));
+ const game=replaySetup(saved.events),uid=Object.keys(game.leaders).find(uid=>game.leaders[uid]===leader.toLowerCase())!;
+ expect(game.players.find(p=>p.uid===uid)?.botKind).toBe('bot');
+ expect(game.turn.turns[uid]).toBe(1);
+ await page.reload();
+ await expect(page.getByRole('region',{name:'Shared table'})).toHaveAttribute('data-facing','north');
+});

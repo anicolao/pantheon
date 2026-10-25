@@ -1,0 +1,14 @@
+{
+  "leader": "melia",
+  "teacher": "mm",
+  "opponent": "rl-pool",
+  "workers": 8,
+  "prefix": "rl-melia-v1",
+  "output": "balance-results/melia-rl-v1/mm-baseline",
+  "namespace": "teacher-baseline",
+  "games": 1536,
+  "models": {
+    "mm": "teacher"
+  },
+  "baselines": []
+}
