@@ -1,0 +1,23 @@
+{
+  "version": 2,
+  "policySourceSHA256": "becb40b7732ad465ce5ccbe70528736e2fde586f5383a6cedad203fe01535538",
+  "harnessSHA256": "8f5b9e7ff77e754458b0f884307dd6f0852520f10e57c8dd2f41b20b79bb2cbf",
+  "baseCommit": "6985df29f3fda50b41cd8c50f31585b8211c8d74",
+  "gamesPerCandidate": 100,
+  "candidates": [
+    "fleet",
+    "money",
+    "classic-engine",
+    "engine",
+    "mm",
+    "mn",
+    "owl"
+  ],
+  "seedPattern": "mn-v1-evaluation:mm:melia:0..99",
+  "equalTurns": true,
+  "seatBalance": "50 first / 50 second in evaluation; even indices MM first",
+  "opponent": "Unchanged MM v3 / Melia",
+  "validation": "Every historical baseline command must match; all games replay to identical final states; no exclusions",
+  "tuning": "First policy frozen before evaluation; smoke namespace separate from evaluation",
+  "policy": "First Acolyte / Fleet, early Hamlets-first thinning, then Obols independently while count >5 or owned treasure cash >8, rechecked per removal, favored Poseidon below $8 except first Fleet, Acropolis at $8, Talent at $6 and repeat Academy at $5; no UI policy changes"
+}
