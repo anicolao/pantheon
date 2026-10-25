@@ -1,0 +1,34 @@
+{"stage": "training", "steps": 16384, "games": 91, "recentMeanReward": -0.6263736263736264, "elapsedSeconds": 3.705257459077984}
+{"stage": "training", "steps": 32768, "games": 190, "recentMeanReward": -0.45, "elapsedSeconds": 7.772914084140211}
+{"stage": "training", "steps": 49152, "games": 282, "recentMeanReward": -0.52, "elapsedSeconds": 11.541284749750048}
+{"stage": "training", "steps": 65536, "games": 389, "recentMeanReward": -0.51, "elapsedSeconds": 15.29203987494111}
+{"stage": "training", "steps": 81920, "games": 487, "recentMeanReward": -0.28, "elapsedSeconds": 19.054673249833286}
+{"stage": "training", "steps": 98304, "games": 589, "recentMeanReward": -0.64, "elapsedSeconds": 22.869599166791886}
+{"stage": "training", "steps": 114688, "games": 690, "recentMeanReward": -0.54, "elapsedSeconds": 26.417504834011197}
+{"stage": "training", "steps": 131072, "games": 791, "recentMeanReward": -0.42, "elapsedSeconds": 30.153746333904564}
+{"stage": "training", "steps": 147456, "games": 895, "recentMeanReward": -0.39, "elapsedSeconds": 33.77619695896283}
+{"stage": "training", "steps": 163840, "games": 996, "recentMeanReward": -0.33, "elapsedSeconds": 37.371357624884695}
+{"stage": "training", "steps": 180224, "games": 1098, "recentMeanReward": -0.52, "elapsedSeconds": 40.83514037495479}
+{"stage": "training", "steps": 196608, "games": 1198, "recentMeanReward": -0.46, "elapsedSeconds": 44.39068445889279}
+{"stage": "training", "steps": 212992, "games": 1304, "recentMeanReward": -0.43, "elapsedSeconds": 47.84994033398107}
+{"stage": "training", "steps": 229376, "games": 1404, "recentMeanReward": -0.44, "elapsedSeconds": 51.25763483392075}
+{"stage": "training", "steps": 245760, "games": 1506, "recentMeanReward": -0.5, "elapsedSeconds": 54.62924666702747}
+{"stage": "training", "steps": 262144, "games": 1613, "recentMeanReward": -0.33, "elapsedSeconds": 58.01462470879778}
+{"stage": "screen", "checkpoint": "checkpoint-262144", "referenceKL": 0.005909390398301184, "elapsedSeconds": 73.31353083299473, "games": 512, "wins": 142, "ties": 42, "losses": 328, "share": 0.318359375, "winCI95": [0.24033271186857036, 0.3176710195080256]}
+{"stage": "training", "steps": 278528, "games": 1715, "recentMeanReward": -0.54, "elapsedSeconds": 74.74815170885995}
+{"stage": "training", "steps": 294912, "games": 1815, "recentMeanReward": -0.28, "elapsedSeconds": 78.4669134169817}
+{"stage": "training", "steps": 311296, "games": 1922, "recentMeanReward": -0.41, "elapsedSeconds": 82.61098608421162}
+{"stage": "training", "steps": 327680, "games": 2027, "recentMeanReward": -0.45, "elapsedSeconds": 86.61536112520844}
+{"stage": "training", "steps": 344064, "games": 2131, "recentMeanReward": -0.51, "elapsedSeconds": 90.8064995422028}
+{"stage": "training", "steps": 360448, "games": 2232, "recentMeanReward": -0.3, "elapsedSeconds": 94.61735558416694}
+{"stage": "training", "steps": 376832, "games": 2338, "recentMeanReward": -0.43, "elapsedSeconds": 98.4467894169502}
+{"stage": "training", "steps": 393216, "games": 2440, "recentMeanReward": -0.4, "elapsedSeconds": 102.19436637498438}
+{"stage": "training", "steps": 409600, "games": 2542, "recentMeanReward": -0.38, "elapsedSeconds": 106.31224716687575}
+{"stage": "training", "steps": 425984, "games": 2650, "recentMeanReward": -0.45, "elapsedSeconds": 110.20026020891964}
+{"stage": "training", "steps": 442368, "games": 2754, "recentMeanReward": -0.51, "elapsedSeconds": 114.16614125017077}
+{"stage": "training", "steps": 458752, "games": 2858, "recentMeanReward": -0.45, "elapsedSeconds": 118.49402754195035}
+{"stage": "training", "steps": 475136, "games": 2963, "recentMeanReward": -0.47, "elapsedSeconds": 122.29353808378801}
+{"stage": "training", "steps": 491520, "games": 3073, "recentMeanReward": -0.4, "elapsedSeconds": 126.06421208381653}
+{"stage": "training", "steps": 507904, "games": 3176, "recentMeanReward": -0.44, "elapsedSeconds": 130.0666670841165}
+{"stage": "training", "steps": 524288, "games": 3282, "recentMeanReward": -0.46, "elapsedSeconds": 133.99233708390966}
+{"stage": "screen", "checkpoint": "checkpoint-524288", "referenceKL": 0.007144828952732496, "elapsedSeconds": 153.4767376659438, "games": 512, "wins": 141, "ties": 39, "losses": 332, "share": 0.3134765625, "winCI95": [0.23847771208651003, 0.3156488590390035]}

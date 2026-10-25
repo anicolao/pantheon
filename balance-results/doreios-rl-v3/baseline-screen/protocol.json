@@ -1,0 +1,11 @@
+{
+  "output": "balance-results/doreios-rl-v3/baseline-screen",
+  "prefix": "rl-doreios-v3",
+  "namespace": "screen",
+  "games": 512,
+  "workers": 8,
+  "models": {
+    "v2": "balance-results/doreios-rl-v2/ppo-524288",
+    "imitation": "balance-results/doreios-rl-v2/dagger-2"
+  }
+}
