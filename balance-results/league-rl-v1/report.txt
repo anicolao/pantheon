@@ -1,0 +1,33 @@
+Two-round RL league pilot
+
+Additional training decisions: 4,194,304
+Final games replay-verified and audited: 33,792
+
+Fixed-reference score share (ties count half):
+melia: 71.3% -> 71.3%; delta +0.00 pp, 95% CI [+0.00, +0.00]; recommend=False
+  No positive lower confidence bound on reference improvement; retain the shipped champion.
+nereon: 42.9% -> 62.3%; delta +19.40 pp, 95% CI [+17.56, +21.25]; recommend=False
+  Observed reference-batch share change versus mm-melia: -3.91 pp, below the -3 pp limit.
+thaleia: 60.7% -> 67.0%; delta +6.25 pp, 95% CI [+4.61, +7.89]; recommend=True
+doreios: 37.7% -> 61.3%; delta +23.57 pp, 95% CI [+21.73, +25.41]; recommend=True
+
+MM retention:
+nereon: 68.9% -> 68.9%; selected outright wins 654/1024
+thaleia: 58.4% -> 60.6%; selected outright wins 572/1024
+doreios: 63.6% -> 64.2%; selected outright wins 624/1024
+
+Frozen research-champion cross-play (first leader score share):
+melia-nereon: 51.9%, 234W/63T/215L
+melia-thaleia: 59.9%, 282W/49T/181L
+melia-doreios: 73.1%, 353W/43T/116L
+nereon-thaleia: 60.8%, 295W/33T/184L
+nereon-doreios: 53.4%, 259W/29T/224L
+thaleia-doreios: 36.1%, 142W/86T/284L
+
+Production weights unchanged pending review.
+Heads-up only; no multiplayer claim.
+One training lineage per leader; intervals cover game-seed variation, not variation between independent training runs.
+Fixed reference pools differ by leader; aggregate rates do not rank leaders.
+Intervals are pointwise, approximate 95% intervals, not simultaneous family-wise guarantees.
+Observed three-point regression screens do not establish statistical noninferiority.
+Final cross-play describes the four frozen research champions, including any model not recommended for release.

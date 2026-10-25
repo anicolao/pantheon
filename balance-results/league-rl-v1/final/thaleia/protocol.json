@@ -1,0 +1,17 @@
+{
+  "leader": "thaleia",
+  "teacher": "classic-engine",
+  "opponent": "league:balance-results/league-rl-v1/manifests/reference.json",
+  "prefix": "league-v1-final:thaleia",
+  "namespace": "test",
+  "workers": 8,
+  "games": 3072,
+  "models": {
+    "v1": "balance-results/leader-rl-v1/thaleia/champion",
+    "selected": "balance-results/league-rl-v1/champions/round-2/thaleia"
+  },
+  "output": "balance-results/league-rl-v1/final/thaleia",
+  "baselines": [
+    "v1"
+  ]
+}

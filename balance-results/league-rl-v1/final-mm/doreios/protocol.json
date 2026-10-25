@@ -1,0 +1,19 @@
+{
+  "leader": "doreios",
+  "teacher": "classic-engine",
+  "opponent": "league:balance-results/league-rl-v1/manifests/final-mm.json",
+  "prefix": "league-v1-mm:doreios",
+  "namespace": "test",
+  "workers": 8,
+  "games": 1024,
+  "models": {
+    "v1": "balance-results/leader-rl-v1/doreios/champion",
+    "selected": "balance-results/league-rl-v1/champions/round-2/doreios"
+  },
+  "output": "balance-results/league-rl-v1/final-mm/doreios",
+  "checkpointSHA256": {
+    "v1": "ca4a52a69cd3e439baae2b1eb5195aa392e2648d23ba1024b9b35f6c54fdce6d",
+    "selected": "ae10ea34160d1d48b9929c846866e3b6a7de85b61a5866786285cfb21bcc0772"
+  },
+  "leagueSHA256": "fc07ea888cbaf3234c67f3fb05b0518220e88ff4b3fd8c6cc454f676a23857d6"
+}

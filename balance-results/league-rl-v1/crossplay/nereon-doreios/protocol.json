@@ -1,0 +1,17 @@
+{
+  "leader": "nereon",
+  "teacher": "classic-engine",
+  "opponent": "league:balance-results/league-rl-v1/manifests/crossplay-nereon-doreios.json",
+  "prefix": "league-v1-crossplay:nereon:doreios",
+  "namespace": "test",
+  "workers": 8,
+  "games": 512,
+  "models": {
+    "selected": "balance-results/league-rl-v1/champions/round-2/nereon"
+  },
+  "output": "balance-results/league-rl-v1/crossplay/nereon-doreios",
+  "checkpointSHA256": {
+    "selected": "5d4460272869226723bd9668b946bed98bdc3208569853fa1240e446a78f05e7"
+  },
+  "leagueSHA256": "7756e924456fe83bc0d317110bc03299e07c324557dd2b7c522b8a433cc27503"
+}
