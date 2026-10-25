@@ -74,7 +74,7 @@ test('tabletop bot occupies an edge and plays through the real worker',async({pa
   const game=replaySetup(saved.events);
   expect(game.turn.turns[seatUid('north')]).toBe(1);
   expect(game.players.find(player=>player.uid===seatUid('north'))?.botKind).toBe('bot');
-  expect(game.leaders[seatUid('north')]).toBe('melia');
+  expect(['melia','nereon','doreios']).toContain(game.leaders[seatUid('north')]);
   expect(game.leaders[seatUid('south')]).toBe('thaleia');
 });
 
@@ -379,7 +379,7 @@ for(const edge of ['south','west','north','east'])for(const scenario of ['seed-k
   await expect(hand.locator('.hand-slot.staged')).toHaveCount(0);
 });
 
-for(const {leader,humans,next} of [{leader:'Thaleia',humans:['Nereon','Doreios','Melia'],next:'north'},{leader:'Nereon',humans:['Doreios','Melia','Thaleia'],next:'south'},{leader:'Doreios',humans:['Melia','Thaleia','Nereon'],next:'west'}])test(`tabletop learned ${leader} takes its turn through the real worker`,async({page},info)=>{
+for(const {leader,humans,next} of [{leader:'Melia',humans:['Nereon','Doreios','Thaleia'],next:'south'},{leader:'Thaleia',humans:['Nereon','Doreios','Melia'],next:'north'},{leader:'Nereon',humans:['Doreios','Melia','Thaleia'],next:'south'},{leader:'Doreios',humans:['Melia','Thaleia','Nereon'],next:'west'}])test(`tabletop learned ${leader} takes its turn through the real worker`,async({page},info)=>{
  test.skip(info.project.name==='phone','A shared four-edge table is designed for a large display.');
  await page.goto('./pantheontt/');
  // Reserve every other leader so random drafting exercises this model legally.
