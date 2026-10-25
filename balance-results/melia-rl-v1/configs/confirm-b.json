@@ -1,0 +1,17 @@
+{
+  "leader": "melia",
+  "teacher": "mm",
+  "opponent": "rl-pool",
+  "output": "balance-results/melia-rl-v1/confirm-b",
+  "workers": 8,
+  "prefix": "rl-melia-v1",
+  "namespace": "confirm-b",
+  "games": 3072,
+  "models": {
+    "balanced_polish": "balance-results/melia-rl-v1/polish/checkpoint-1048576",
+    "focused": "balance-results/melia-rl-v1/focus-nereon/checkpoint-524288"
+  },
+  "baselines": [
+    "balanced_polish"
+  ]
+}

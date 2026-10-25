@@ -1,0 +1,110 @@
+{
+  "summary": {
+    "balanced_polish": {
+      "games": 3072,
+      "wins": 1774,
+      "ties": 304,
+      "losses": 994,
+      "share": 0.626953125,
+      "winCI95": [
+        0.5599203560598947,
+        0.5948340441173183
+      ],
+      "opponents": {
+        "doreios": {
+          "games": 1024,
+          "wins": 678,
+          "ties": 132,
+          "losses": 214,
+          "share": 0.7265625,
+          "winCI95": [
+            0.6325811768862483,
+            0.6904258366476522
+          ]
+        },
+        "nereon": {
+          "games": 1024,
+          "wins": 520,
+          "ties": 99,
+          "losses": 405,
+          "share": 0.55615234375,
+          "winCI95": [
+            0.4772198634142036,
+            0.538346739647671
+          ]
+        },
+        "thaleia": {
+          "games": 1024,
+          "wins": 576,
+          "ties": 73,
+          "losses": 375,
+          "share": 0.59814453125,
+          "winCI95": [
+            0.5319381030511199,
+            0.5925947214438778
+          ]
+        }
+      }
+    },
+    "focused": {
+      "games": 3072,
+      "wins": 1741,
+      "ties": 321,
+      "losses": 1010,
+      "share": 0.6189778645833334,
+      "winCI95": [
+        0.549136328265557,
+        0.5841605290299416
+      ],
+      "opponents": {
+        "doreios": {
+          "games": 1024,
+          "wins": 677,
+          "ties": 134,
+          "losses": 213,
+          "share": 0.7265625,
+          "winCI95": [
+            0.6315879520301605,
+            0.6894732361210058
+          ]
+        },
+        "nereon": {
+          "games": 1024,
+          "wins": 506,
+          "ties": 100,
+          "losses": 418,
+          "share": 0.54296875,
+          "winCI95": [
+            0.4635974592194535,
+            0.5247275884841404
+          ]
+        },
+        "thaleia": {
+          "games": 1024,
+          "wins": 558,
+          "ties": 87,
+          "losses": 379,
+          "share": 0.58740234375,
+          "winCI95": [
+            0.5143099825860943,
+            0.5751979850196854
+          ]
+        }
+      }
+    }
+  },
+  "comparisons": {
+    "focused-vs-balanced_polish": {
+      "shareDelta": -0.007975260416666666,
+      "pairedApprox95CI": [
+        -0.02435101998419084,
+        0.008400499150857508
+      ]
+    }
+  },
+  "checkpointSHA256": {
+    "balanced_polish": "4d0c938ee79cfb4c37edb30a80f4ad42f2d5f875ba3ec0d1b9629809ca15f402",
+    "focused": "68f47194e3f3d76594337cc462d5faa88c57df95a83a4e84de43c0e8f63a85cd"
+  },
+  "elapsedSeconds": 128.32041345909238
+}
