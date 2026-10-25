@@ -1,0 +1,76 @@
+{
+  "summary": [
+    {
+      "candidate": "grove",
+      "games": 100,
+      "wins": 19,
+      "ties": 10,
+      "losses": 71,
+      "winCI95": [
+        0.12514751509768735,
+        0.27778845379064376
+      ],
+      "winShare": 0.24,
+      "meanVP": 22.26,
+      "meanTurns": 15.76,
+      "firstSeatWins": 14,
+      "secondSeatWins": 5
+    },
+    {
+      "candidate": "money",
+      "games": 100,
+      "wins": 26,
+      "ties": 7,
+      "losses": 67,
+      "winCI95": [
+        0.18404698464748132,
+        0.3537098944918718
+      ],
+      "winShare": 0.295,
+      "meanVP": 24.79,
+      "meanTurns": 18.92,
+      "firstSeatWins": 11,
+      "secondSeatWins": 15
+    },
+    {
+      "candidate": "classic-engine",
+      "games": 100,
+      "wins": 31,
+      "ties": 6,
+      "losses": 63,
+      "winCI95": [
+        0.22779697212376038,
+        0.40626055719489407
+      ],
+      "winShare": 0.34,
+      "meanVP": 24.35,
+      "meanTurns": 20.63,
+      "firstSeatWins": 18,
+      "secondSeatWins": 13
+    }
+  ],
+  "comparisons": [
+    {
+      "candidate": "money",
+      "shareDelta": -0.055,
+      "pairedApprox95CI": [
+        -0.1505194382671333,
+        0.040519438267133286
+      ],
+      "newOnlyWins": 9,
+      "oldOnlyWins": 16,
+      "mcnemarExactP": 0.2295229434967041
+    },
+    {
+      "candidate": "classic-engine",
+      "shareDelta": -0.1,
+      "pairedApprox95CI": [
+        -0.20069181303423442,
+        0.0006918130342344064
+      ],
+      "newOnlyWins": 8,
+      "oldOnlyWins": 20,
+      "mcnemarExactP": 0.03569813817739487
+    }
+  ]
+}
