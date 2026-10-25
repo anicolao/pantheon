@@ -1,0 +1,48 @@
+i  emulators: Starting emulators: auth, firestore
+i  emulators: Detected demo project ID "demo-pantheon", emulated services will use a demo configuration and attempts to access non-emulated services for this project will fail.
+i  firestore: Firestore Emulator logging to firestore-debug.log
+✔  firestore: Firestore Emulator was started in standard edition.
+✔  firestore: Firestore Emulator UI websocket is running on 9294.
+i  Running script: bunx playwright test tests/e2e/tabletop.spec.ts --grep 'tabletop (learned|bot occupies|bot cards visibly)' --project desktop --project tabletop-4k
+[WebServer] $ vite build
+[WebServer] (node:53890) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:53890) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] [plugin builtin:vite-reporter] 
+[WebServer] (!) Some chunks are larger than 500 kB after minification. Consider:
+[WebServer] - Using dynamic import() to code-split the application
+[WebServer] - Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting
+[WebServer] - Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+[WebServer] (node:53890) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] $ vite preview --host 127.0.0.1 --port 4193 --strictPort
+[WebServer] (node:53904) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 12 tests using 1 worker
+
+(node:53911) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   1 [desktop] › tests/e2e/tabletop.spec.ts:65:1 › tabletop bot occupies an edge and plays through the real worker (653ms)
+  ✓   2 [desktop] › tests/e2e/tabletop.spec.ts:158:1 › tabletop bot cards visibly fly before the next command (1.5s)
+  ✓   3 [desktop] › tests/e2e/tabletop.spec.ts:382:308 › tabletop learned Melia takes its turn through the real worker (599ms)
+  ✓   4 [desktop] › tests/e2e/tabletop.spec.ts:382:308 › tabletop learned Thaleia takes its turn through the real worker (557ms)
+  ✓   5 [desktop] › tests/e2e/tabletop.spec.ts:382:308 › tabletop learned Nereon takes its turn through the real worker (643ms)
+  ✓   6 [desktop] › tests/e2e/tabletop.spec.ts:382:308 › tabletop learned Doreios takes its turn through the real worker (567ms)
+(node:53932) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   7 [tabletop-4k] › tests/e2e/tabletop.spec.ts:65:1 › tabletop bot occupies an edge and plays through the real worker (656ms)
+  ✓   8 [tabletop-4k] › tests/e2e/tabletop.spec.ts:158:1 › tabletop bot cards visibly fly before the next command (1.6s)
+  ✓   9 [tabletop-4k] › tests/e2e/tabletop.spec.ts:382:308 › tabletop learned Melia takes its turn through the real worker (872ms)
+  ✓  10 [tabletop-4k] › tests/e2e/tabletop.spec.ts:382:308 › tabletop learned Thaleia takes its turn through the real worker (786ms)
+  ✓  11 [tabletop-4k] › tests/e2e/tabletop.spec.ts:382:308 › tabletop learned Nereon takes its turn through the real worker (949ms)
+  ✓  12 [tabletop-4k] › tests/e2e/tabletop.spec.ts:382:308 › tabletop learned Doreios takes its turn through the real worker (746ms)
+
+  12 passed (15.1s)
+✔  Script exited successfully (code 0)
+i  emulators: Shutting down emulators.
+i  firestore: Stopping Firestore Emulator
+i  auth: Stopping Authentication Emulator
+i  hub: Stopping emulator hub
+i  logging: Stopping Logging Emulator
