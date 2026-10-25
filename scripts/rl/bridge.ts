@@ -1,6 +1,6 @@
 import {createInterface} from 'node:readline';
 import {RLEnvironment} from './environment';
-const env=new RLEnvironment();
+const env=new RLEnvironment(process.argv[2],process.argv[3]);
 for await(const line of createInterface({input:process.stdin})){
  try{
   const q=JSON.parse(line);let answer:unknown;

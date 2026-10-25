@@ -1,0 +1,18 @@
+bun test v1.3.13 (bf2e2cec)
+
+tests/tooling/rl-environment.test.ts:
+(pass) every mask-enabled command is accepted by the production reducer, seed 0 [509.61ms]
+(pass) every mask-enabled command is accepted by the production reducer, seed 1 [309.54ms]
+(pass) every mask-enabled command is accepted by the production reducer, seed 2 [210.79ms]
+(pass) every mask-enabled command is accepted by the production reducer, seed 3 [167.98ms]
+(pass) observations and masks do not expose hidden deck order, opponent hand, or instance IDs [0.50ms]
+(pass) two-card selections support repeated types without reusing an instance [0.41ms]
+(pass) DAgger teacher queries do not mutate the expert memory [3.39ms]
+(pass) leader-specific RL teacher nereon/money completes a legal, replayable game [17806.42ms]
+(pass) leader-specific RL teacher nereon/fleet-v1 completes a legal, replayable game [40.08ms]
+(pass) leader-specific RL teacher thaleia/classic-engine completes a legal, replayable game [80.16ms]
+
+ 10 pass
+ 0 fail
+ 13725 expect() calls
+Ran 10 tests across 1 file. [19.18s]

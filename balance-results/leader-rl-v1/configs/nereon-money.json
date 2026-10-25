@@ -1,0 +1,13 @@
+{
+  "leader": "nereon",
+  "teacher": "money",
+  "output": "balance-results/leader-rl-v1/nereon-money",
+  "workers": 8,
+  "prefix": "rl-leaders-v1",
+  "namespace": "teacher-selection",
+  "games": 1024,
+  "models": {
+    "teacher": "teacher"
+  },
+  "baselines": []
+}

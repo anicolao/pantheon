@@ -11,11 +11,11 @@ from sb3_contrib.common.maskable.utils import get_action_masks
 
 ROOT=Path(__file__).resolve().parents[2]
 class Game(gym.Env):
-    def __init__(self, rank=0, workers=1, namespace="train", seed_prefix="rl-doreios-v1", potential_scale=0.):
+    def __init__(self, rank=0, workers=1, namespace="train", seed_prefix="rl-doreios-v1", potential_scale=0.,leader="doreios",teacher="classic-engine"):
         self.rank,self.workers,self.namespace,self.counter=rank,workers,namespace,0
         self.seed_prefix=seed_prefix
         self.potential_scale=potential_scale;self.potential=0.;self.initial_potential=0.;self.first_step=True
-        self.proc=subprocess.Popen(["bun",str(ROOT/"scripts/rl/bridge.ts")],cwd=ROOT,stdin=subprocess.PIPE,stdout=subprocess.PIPE,text=True,bufsize=1)
+        self.proc=subprocess.Popen(["bun",str(ROOT/"scripts/rl/bridge.ts"),leader,teacher],cwd=ROOT,stdin=subprocess.PIPE,stdout=subprocess.PIPE,text=True,bufsize=1)
         state=self.call(dict(op="reset",seed="rl-v1-schema",first=True))
         self.observation_space=gym.spaces.Box(-np.inf,np.inf,shape=(len(state["observation"]),),dtype=np.float32)
         self.action_space=gym.spaces.Discrete(len(state["mask"]))
@@ -53,9 +53,10 @@ class Game(gym.Env):
         if self.proc.poll() is None:
             self.proc.stdin.close()
             self.proc.wait(timeout=10)
+        self.proc.stdout.close()
 
-def vector(workers,namespace,seed_prefix="rl-doreios-v1",potential_scale=0.):
-    return SubprocVecEnv([lambda i=i:Game(i,workers,namespace,seed_prefix,potential_scale) for i in range(workers)],start_method="spawn")
+def vector(workers,namespace,seed_prefix="rl-doreios-v1",potential_scale=0.,leader="doreios",teacher="classic-engine"):
+    return SubprocVecEnv([lambda i=i:Game(i,workers,namespace,seed_prefix,potential_scale,leader,teacher) for i in range(workers)],start_method="spawn")
 
 def evaluate(vec,model,namespace,n,teacher=False):
     assert n%vec.num_envs==0

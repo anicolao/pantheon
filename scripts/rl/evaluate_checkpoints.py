@@ -11,10 +11,10 @@ def main():
     if (out/'results.json').exists():raise RuntimeError('Refusing to overwrite evaluation')
     torch.set_num_threads(1);start=time.monotonic();rows={};summaries={}
     (out/'protocol.json').write_text(json.dumps(config,indent=2))
-    vec=vector(config.get('workers',8),config['namespace'],config['prefix'])
+    vec=vector(config.get('workers',8),config['namespace'],config['prefix'],leader=config.get('leader','doreios'),teacher=config.get('teacher','classic-engine'))
     try:
         for name,path in config['models'].items():
-            teacher=path=='classic-engine'
+            teacher=path in ['classic-engine','teacher']
             model=None if teacher else AnchoredPPO.load(path,device='cpu')
             rows[name]=evaluate(vec,model,config['namespace'],config['games'],teacher=teacher)
             (out/f'{name}.json').write_text(json.dumps(rows[name]));summaries[name]=stats(rows[name])

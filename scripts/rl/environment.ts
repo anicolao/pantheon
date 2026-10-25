@@ -1,6 +1,7 @@
 import {cards} from '../../src/lib/game/cards';
 import {activePlayer,definition,standings,type ActionCommand} from '../../src/lib/game/actions';
 import {PracticeSession} from '../../src/lib/bots/session';
+import {nereonFleetCommand} from './teachers/nereon-fleet-v1';
 import {decide} from '../../src/lib/bots/policy';
 import type {StandardView} from '../../standard-matrix/policy';
 export const deckIds=cards.filter(c=>!['Leader','Event'].includes(c.type)).map(c=>c.id);
@@ -73,8 +74,12 @@ export function actionIndex(v:StandardView,command:ActionCommand){
 export class RLEnvironment{
  session!:PracticeSession;
  steps=0;
+ constructor(public leader="doreios",public expert="classic-engine"){
+  if(!["doreios","nereon","thaleia"].includes(leader))throw Error("Unsupported RL leader");
+  if(!["classic-engine","money","fleet-v1"].includes(expert)||expert==="fleet-v1"&&leader!=="nereon")throw Error("Unsupported RL teacher");
+ }
  reset(seed:string,first:boolean){
-  this.session=new PracticeSession({seed,humanLeader:'melia',botLeader:'doreios',humanFirst:!first,bot:'classic-engine'});
+  this.session=new PracticeSession({seed,humanLeader:'melia',botLeader:this.leader,humanFirst:!first,bot:this.expert==='classic-engine'?'classic-engine':'money'});
   this.steps=0;this.opponent();return this.state();
  }
  private opponent(){
@@ -94,7 +99,7 @@ export class RLEnvironment{
  }
  teacher(preview=false){
   const v=this.session.tracker.view(this.session.game);
-  return actionIndex(v,decide(v,preview?structuredClone(this.session.tracker.memories.bot):this.session.tracker.memories.bot,'classic-engine'));
+  return actionIndex(v,this.expert==='fleet-v1'?nereonFleetCommand(v):decide(v,preview?structuredClone(this.session.tracker.memories.bot):this.session.tracker.memories.bot,this.expert==='money'?'money':'classic-engine'));
  }
  step(action:number){
   const v=this.session.tracker.view(this.session.game),command=commands(v)[action];
