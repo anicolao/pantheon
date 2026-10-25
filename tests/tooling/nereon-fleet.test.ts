@@ -50,13 +50,13 @@ test('Hamlets retain first priority, with richer decks allowed an accompanying O
  expect((choose(v) as any).targets).toEqual(['hand-1','hand-2']);
 });
 
-test('four-coin gate includes unplayed treasures and survives paying Demeter',()=>{
+test('three generated coins excludes retained Obols and survives paying Demeter',()=>{
  const v=view(3,['obol']);v.owned={obol:5,drachma:2,'merchant-fleet':1};
  expect(choose(v)).toEqual({type:'god/worshipped',cardId:'blessing-of-the-fields'});
- v.resources.coins=4;expect(choose(v)).toEqual({type:'treasure/played',instanceId:'hand-0'}); // $5 total.
+ v.resources.coins=4;expect(choose(v)).toEqual({type:'treasure/played',instanceId:'hand-0'}); // Four generated coins: no Obol thinning.
  v.resources.coins=0;v.choice={id:'paid',kind:'trash',source:'blessing-of-the-fields',min:0,max:2};
- expect((choose(v) as any).targets).toEqual(['hand-0']); // $0 + unplayed $1 + paid $3 = $4.
- v.resources.coins=1;expect((choose(v) as any).targets).toEqual([]); // Still $5 before payment.
+ expect((choose(v) as any).targets).toEqual(['hand-0']); // Restore the $3 already paid; retained Obol is excluded.
+ v.resources.coins=1;expect((choose(v) as any).targets).toEqual([]); // Four generated coins before payment.
  v.hand.push({cardId:'hamlet',id:'hamlet',copy:1});
  expect((choose(v) as any).targets).toEqual(['hamlet']); // Hamlet thinning unchanged.
 });
@@ -65,4 +65,28 @@ test('Obol selection keeps original hand order rather than sorting instance IDs'
  v.hand=[{cardId:'obol',id:'z-first',copy:6},{cardId:'obol',id:'a-second',copy:1}];
  v.choice={id:'thin',kind:'trash',source:'seed-keeper',min:0,max:2};
  expect((choose(v) as any).targets).toEqual(['z-first']);
+});
+
+test('four coins builds Pilot support, then buys Council while keeping two Actions',()=>{
+ const v=view(4);v.owned={'merchant-fleet':1,'harbor-pilot':0};
+ expect(choose(v)).toEqual({type:'card/bought',cardId:'harbor-pilot'});
+ v.owned['harbor-pilot']=1;expect(choose(v)).toEqual({type:'card/bought',cardId:'harbor-pilot'});
+ v.owned['harbor-pilot']=2;expect(choose(v)).toEqual({type:'card/bought',cardId:'council-of-sages'});
+ v.owned['council-of-sages']=1;expect(choose(v)).toEqual({type:'card/bought',cardId:'harbor-pilot'});
+ v.resources.coins=3;expect(choose(v)).toEqual({type:'card/bought',cardId:'harbor-pilot'});
+ v.resources.coins=4;v.owned['harbor-pilot']=3;expect(choose(v)).toEqual({type:'card/bought',cardId:'council-of-sages'});
+ v.owned['bronze-recruit']=1;expect(choose(v)).toEqual({type:'card/bought',cardId:'harbor-pilot'});
+});
+test('the four-coin Action purchase takes priority over worship, but not final-round VP',()=>{
+ const v=view(4);v.owned={'merchant-fleet':1,'harbor-pilot':2};
+ v.play=['merchant-fleet','temple-of-poseidon'].map((cardId,i)=>({cardId,id:'play-'+i,copy:i}));
+ expect(choose(v)).toEqual({type:'card/bought',cardId:'council-of-sages'});
+ v.finalRound=true;expect(choose(v)).toEqual({type:'card/bought',cardId:'hamlet'});
+});
+
+test('three generated coins can thin two retained Obols without a Hamlet',()=>{
+ const v=view(3,['obol','obol']);v.owned={obol:4,talent:2,'merchant-fleet':1};
+ expect(choose(v)).toEqual({type:'god/worshipped',cardId:'blessing-of-the-fields'});
+ v.resources.coins=0;v.choice={id:'paid',kind:'trash',source:'blessing-of-the-fields',min:0,max:2};
+ expect((choose(v) as any).targets).toEqual(['hand-0','hand-1']);
 });
