@@ -28,3 +28,23 @@ test('keeps buying draw and denser money even with one Acropolis left',()=>{
  v.resources.coins=6;expect(choose(v)).toEqual({type:'card/bought',cardId:'talent'});
  v.finalRound=true;expect(choose(v)).toEqual({type:'card/bought',cardId:'polis'});
 });
+
+test('Obol-only thinning checks the owned coin floor after each removal',()=>{
+ const v=view(3,['obol','obol']);v.owned={obol:5,drachma:2,'merchant-fleet':1};
+ expect(choose(v)).toEqual({type:'god/worshipped',cardId:'blessing-of-the-fields'});
+ v.choice={id:'thin',kind:'trash',source:'blessing-of-the-fields',min:0,max:2};
+ expect((choose(v) as any).targets).toEqual(['hand-0']); // $9 -> $8, then stop.
+ v.owned={obol:4,talent:2};expect((choose(v) as any).targets).toEqual(['hand-0','hand-1']); // $10 -> $8.
+ v.owned={obol:5,drachma:1};expect((choose(v) as any).targets).toEqual([]);
+ v.owned={obol:6};expect((choose(v) as any).targets).toEqual(['hand-0']); // Count exception remains.
+ v.owned={obol:7};expect((choose(v) as any).targets).toEqual(['hand-0','hand-1']);
+ v.owned={obol:4,talent:2,acropolis:1};expect((choose(v) as any).targets).toEqual([]);
+ v.owned={obol:4,talent:2};v.finalRound=true;expect((choose(v) as any).targets).toEqual([]);
+});
+test('Hamlets retain first priority, with richer decks allowed an accompanying Obol',()=>{
+ const v=view(0,['obol','hamlet']);v.owned={obol:5,drachma:2,hamlet:1};
+ v.choice={id:'thin',kind:'trash',source:'blessing-of-the-fields',min:0,max:2};
+ expect((choose(v) as any).targets).toEqual(['hand-1','hand-0']);
+ v.hand.push({cardId:'hamlet',id:'hand-2',copy:2});
+ expect((choose(v) as any).targets).toEqual(['hand-1','hand-2']);
+});
