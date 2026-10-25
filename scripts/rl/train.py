@@ -11,8 +11,9 @@ from sb3_contrib.common.maskable.utils import get_action_masks
 
 ROOT=Path(__file__).resolve().parents[2]
 class Game(gym.Env):
-    def __init__(self, rank=0, workers=1, namespace="train"):
+    def __init__(self, rank=0, workers=1, namespace="train", seed_prefix="rl-doreios-v1"):
         self.rank,self.workers,self.namespace,self.counter=rank,workers,namespace,0
+        self.seed_prefix=seed_prefix
         self.proc=subprocess.Popen(["bun",str(ROOT/"scripts/rl/bridge.ts")],cwd=ROOT,stdin=subprocess.PIPE,stdout=subprocess.PIPE,text=True,bufsize=1)
         state=self.call(dict(op="reset",seed="rl-v1-schema",first=True))
         self.observation_space=gym.spaces.Box(-np.inf,np.inf,shape=(len(state["observation"]),),dtype=np.float32)
@@ -28,11 +29,12 @@ class Game(gym.Env):
     def reset(self,seed=None,options=None):
         super().reset(seed=seed)
         i=self.rank+self.counter*self.workers;self.counter+=1
-        self.state=self.call(dict(op="reset",seed=f"rl-doreios-v1:{self.namespace}:{i}",first=i%2==0))
+        self.state=self.call(dict(op="reset",seed=f"{self.seed_prefix}:{self.namespace}:{i}",first=i%2==0))
         self.mask=np.array(self.state["mask"],dtype=bool)
         return np.array(self.state["observation"],dtype=np.float32),{}
     def action_masks(self):return self.mask
     def teacher(self):return self.call(dict(op="teacher"))
+    def teacher_preview(self):return self.call(dict(op="teacher-preview"))
     def step(self,action):
         s=self.call(dict(op="step",action=int(action)))
         if s["done"]:
@@ -46,8 +48,8 @@ class Game(gym.Env):
             self.proc.stdin.close()
             self.proc.wait(timeout=10)
 
-def vector(workers,namespace):
-    return SubprocVecEnv([lambda i=i:Game(i,workers,namespace) for i in range(workers)],start_method="spawn")
+def vector(workers,namespace,seed_prefix="rl-doreios-v1"):
+    return SubprocVecEnv([lambda i=i:Game(i,workers,namespace,seed_prefix) for i in range(workers)],start_method="spawn")
 
 def evaluate(vec,model,namespace,n,teacher=False):
     assert n%vec.num_envs==0

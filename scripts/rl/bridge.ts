@@ -7,6 +7,7 @@ for await(const line of createInterface({input:process.stdin})){
   if(q.op==='reset')answer=env.reset(q.seed,q.first);
   else if(q.op==='step')answer=env.step(q.action);
   else if(q.op==='teacher')answer=env.teacher();
+  else if(q.op==='teacher-preview')answer=env.teacher(true);
   else if(q.op==='verify'){
    const {PracticeSession}=await import('../../src/lib/bots/session');
    const replay=PracticeSession.restore(env.session.save());
