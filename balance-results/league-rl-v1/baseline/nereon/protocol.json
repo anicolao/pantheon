@@ -1,0 +1,13 @@
+{
+  "leader": "nereon",
+  "teacher": "classic-engine",
+  "opponent": "league:balance-results/league-rl-v1/manifests/reference.json",
+  "prefix": "league-v1:nereon",
+  "namespace": "screen",
+  "workers": 8,
+  "games": 384,
+  "models": {
+    "incumbent": "balance-results/leader-rl-v1/nereon/champion"
+  },
+  "output": "balance-results/league-rl-v1/baseline/nereon"
+}
