@@ -3,7 +3,7 @@ import type {CardInstance} from '../game/setup';
 import type {StandardView} from '../../../standard-matrix/policy';
 
 /** Experimental JRFSA-inspired Nereon policy. Not wired into the UI's Bot choice. */
-export const nereonFleetVersion=2;
+export const nereonFleetVersion=3;
 const treasure:Record<string,number>={obol:1,drachma:2,talent:3};
 const owned=(v:StandardView,id:string)=>v.owned[id]??0;
 const income=(v:StandardView)=>Object.entries(treasure).reduce((n,[id,value])=>n+owned(v,id)*value,0);
@@ -12,9 +12,12 @@ const favored=(v:StandardView,god:string)=>v.play.filter(c=>definition(c.cardId)
 function thin(v:StandardView,max:number):CardInstance[]{
  if(v.finalRound||owned(v,'acropolis')>0)return [];
  const targets=v.hand.filter(c=>c.cardId==='hamlet').sort((a,b)=>a.id.localeCompare(b.id)).slice(0,max);
+ // A pending Demeter choice has already paid its cost; retain the pre-payment budget.
+ const paid=v.choice?.kind==='trash'&&v.choice.source==='blessing-of-the-fields'?definition('blessing-of-the-fields').cost!:0;
+ if(handMoney(v)+paid>4)return targets;
  let obols=owned(v,'obol'),cash=income(v);
  // Recheck after each removal: preserve eight treasure coins once at five Obols or fewer.
- for(const obol of v.hand.filter(c=>c.cardId==='obol').sort((a,b)=>a.id.localeCompare(b.id))){
+ for(const obol of v.hand.filter(c=>c.cardId==='obol')){
   if(targets.length>=max||!(obols>5||cash>8))break;
   targets.push(obol);obols--;cash--;
  }

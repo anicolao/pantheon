@@ -30,10 +30,11 @@ test('keeps buying draw and denser money even with one Acropolis left',()=>{
 });
 
 test('Obol-only thinning checks the owned coin floor after each removal',()=>{
- const v=view(3,['obol','obol']);v.owned={obol:5,drachma:2,'merchant-fleet':1};
+ const v=view(3,['obol']);v.owned={obol:5,drachma:2,'merchant-fleet':1};
  expect(choose(v)).toEqual({type:'god/worshipped',cardId:'blessing-of-the-fields'});
- v.choice={id:'thin',kind:'trash',source:'blessing-of-the-fields',min:0,max:2};
+ v.resources.coins=0;v.choice={id:'thin',kind:'trash',source:'blessing-of-the-fields',min:0,max:2};
  expect((choose(v) as any).targets).toEqual(['hand-0']); // $9 -> $8, then stop.
+ v.hand.push({cardId:'obol',id:'hand-1',copy:1});v.choice.source='seed-keeper';
  v.owned={obol:4,talent:2};expect((choose(v) as any).targets).toEqual(['hand-0','hand-1']); // $10 -> $8.
  v.owned={obol:5,drachma:1};expect((choose(v) as any).targets).toEqual([]);
  v.owned={obol:6};expect((choose(v) as any).targets).toEqual(['hand-0']); // Count exception remains.
@@ -47,4 +48,21 @@ test('Hamlets retain first priority, with richer decks allowed an accompanying O
  expect((choose(v) as any).targets).toEqual(['hand-1','hand-0']);
  v.hand.push({cardId:'hamlet',id:'hand-2',copy:2});
  expect((choose(v) as any).targets).toEqual(['hand-1','hand-2']);
+});
+
+test('four-coin gate includes unplayed treasures and survives paying Demeter',()=>{
+ const v=view(3,['obol']);v.owned={obol:5,drachma:2,'merchant-fleet':1};
+ expect(choose(v)).toEqual({type:'god/worshipped',cardId:'blessing-of-the-fields'});
+ v.resources.coins=4;expect(choose(v)).toEqual({type:'treasure/played',instanceId:'hand-0'}); // $5 total.
+ v.resources.coins=0;v.choice={id:'paid',kind:'trash',source:'blessing-of-the-fields',min:0,max:2};
+ expect((choose(v) as any).targets).toEqual(['hand-0']); // $0 + unplayed $1 + paid $3 = $4.
+ v.resources.coins=1;expect((choose(v) as any).targets).toEqual([]); // Still $5 before payment.
+ v.hand.push({cardId:'hamlet',id:'hamlet',copy:1});
+ expect((choose(v) as any).targets).toEqual(['hamlet']); // Hamlet thinning unchanged.
+});
+test('Obol selection keeps original hand order rather than sorting instance IDs',()=>{
+ const v=view(0,[]);v.owned={obol:6};
+ v.hand=[{cardId:'obol',id:'z-first',copy:6},{cardId:'obol',id:'a-second',copy:1}];
+ v.choice={id:'thin',kind:'trash',source:'seed-keeper',min:0,max:2};
+ expect((choose(v) as any).targets).toEqual(['z-first']);
 });
