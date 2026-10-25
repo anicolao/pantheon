@@ -90,7 +90,7 @@ export class RLEnvironment{
    return {done:true,reward:me.winner?(other.winner?0:1):-1,info:{score:me.score,opponentScore:other.score,turns:me.turns,seed:this.session.config.seed,first:!this.session.config.humanFirst}};
   }
   const v=this.session.tracker.view(this.session.game),choices=commands(v);
-  return {done:false,observation:observation(v),mask:choices.map(Boolean)};
+  return {done:false,observation:observation(v),mask:choices.map(Boolean),potential:(v.myScore-Math.max(...v.scores))/30};
  }
  teacher(preview=false){
   const v=this.session.tracker.view(this.session.game);

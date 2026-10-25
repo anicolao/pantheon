@@ -14,9 +14,9 @@ def run(config):
       baseSHA256=hashlib.sha256(Path(config['base']+'.zip').read_bytes()).hexdigest(),
       referenceSHA256=hashlib.sha256(Path(config['reference']+'.zip').read_bytes()).hexdigest(),
       sourceHashes={str(f.relative_to(ROOT)):hashlib.sha256(f.read_bytes()).hexdigest() for f in (ROOT/'scripts/rl').glob('*') if f.is_file()},
-      opponent='frozen MM v3/Melia',reward='terminal win/tie/loss +1/0/-1',selection='screen only; new confirmation/final seeds required')
+      opponent='frozen MM v3/Melia',reward='terminal win/tie/loss +1/0/-1; optional potential differences telescope to zero over each episode',selection='screen only; new confirmation/final seeds required')
     (out/'protocol.json').write_text(json.dumps(protocol,indent=2))
-    start=time.monotonic();vec=vector(config.get('workers',8),config['trainNamespace'],config['prefix']);ev=None
+    start=time.monotonic();vec=vector(config.get('workers',8),config['trainNamespace'],config['prefix'],config.get('potential_scale',0.));ev=None
     try:
         model=AnchoredPPO.load(config['base'],env=vec,device='cpu',learning_rate=config['lr'],
           n_steps=config['rollout'],batch_size=config['batch'],gae_lambda=config['gae'],
@@ -27,6 +27,12 @@ def run(config):
         model.anchor_coefficient=config['anchor']
         # Loading the reference also initializes RNGs; seed the learner afterwards.
         model.set_random_seed(config['seed'])
+        if config.get('logit_scale',1.)!=1.:
+            with torch.no_grad():
+                model.policy.action_net.weight.mul_(config['logit_scale'])
+                model.policy.action_net.bias.mul_(config['logit_scale'])
+        if config.get('reset_optimizer',False):
+            model.policy.optimizer=torch.optim.Adam(model.policy.parameters(),lr=config['lr'],eps=1e-5)
         progress=Progress();rows_by_checkpoint={}
         for stage in range(config['stages']):
             model.learn(total_timesteps=config['steps']//config['stages'],reset_num_timesteps=stage==0,callback=progress)

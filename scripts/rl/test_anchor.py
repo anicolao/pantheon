@@ -28,4 +28,16 @@ class AnchorTests(unittest.TestCase):
         probs=model.policy.get_distribution(x,action_masks=mask).distribution.probs
         self.assertTrue(torch.all(probs[:,2]==0))
 
+    def test_softening_preserves_greedy_policy_and_increases_exploration(self):
+        model=AnchoredPPO('MlpPolicy',Toy(),n_steps=4,batch_size=4,seed=42)
+        x=torch.zeros((2,3));mask=torch.tensor([[True,True,False]]*2)
+        with torch.no_grad():model.policy.action_net.bias.copy_(torch.tensor([2.,-1.,3.]))
+        before=model.policy.get_distribution(x,action_masks=mask).distribution
+        with torch.no_grad():
+            model.policy.action_net.weight.mul_(.7);model.policy.action_net.bias.mul_(.7)
+        after=model.policy.get_distribution(x,action_masks=mask).distribution
+        self.assertTrue(torch.equal(before.probs.argmax(-1),after.probs.argmax(-1)))
+        self.assertTrue(torch.all(after.entropy()>before.entropy()))
+        self.assertTrue(torch.all(after.probs[:,2]==0))
+
 if __name__=='__main__':unittest.main()

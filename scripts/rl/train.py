@@ -11,9 +11,10 @@ from sb3_contrib.common.maskable.utils import get_action_masks
 
 ROOT=Path(__file__).resolve().parents[2]
 class Game(gym.Env):
-    def __init__(self, rank=0, workers=1, namespace="train", seed_prefix="rl-doreios-v1"):
+    def __init__(self, rank=0, workers=1, namespace="train", seed_prefix="rl-doreios-v1", potential_scale=0.):
         self.rank,self.workers,self.namespace,self.counter=rank,workers,namespace,0
         self.seed_prefix=seed_prefix
+        self.potential_scale=potential_scale;self.potential=0.;self.initial_potential=0.;self.first_step=True
         self.proc=subprocess.Popen(["bun",str(ROOT/"scripts/rl/bridge.ts")],cwd=ROOT,stdin=subprocess.PIPE,stdout=subprocess.PIPE,text=True,bufsize=1)
         state=self.call(dict(op="reset",seed="rl-v1-schema",first=True))
         self.observation_space=gym.spaces.Box(-np.inf,np.inf,shape=(len(state["observation"]),),dtype=np.float32)
@@ -31,25 +32,30 @@ class Game(gym.Env):
         i=self.rank+self.counter*self.workers;self.counter+=1
         self.state=self.call(dict(op="reset",seed=f"{self.seed_prefix}:{self.namespace}:{i}",first=i%2==0))
         self.mask=np.array(self.state["mask"],dtype=bool)
+        self.potential=self.initial_potential=self.state.get("potential",0.);self.first_step=True
         return np.array(self.state["observation"],dtype=np.float32),{}
     def action_masks(self):return self.mask
     def teacher(self):return self.call(dict(op="teacher"))
     def teacher_preview(self):return self.call(dict(op="teacher-preview"))
     def step(self,action):
         s=self.call(dict(op="step",action=int(action)))
+        potential=0. if s["done"] else s.get("potential",0.)
+        shaping=self.potential_scale*(potential-self.potential+(self.initial_potential if self.first_step else 0.))
+        self.potential=potential;self.first_step=False
         if s["done"]:
+            s["info"]["outcome"]=s["reward"]
             if self.namespace=="test":s["info"]["replayVerified"]=self.call(dict(op="verify"))
             self.mask=np.zeros(self.action_space.n,dtype=bool)
-            return np.zeros(self.observation_space.shape,dtype=np.float32),s["reward"],True,False,s["info"]
+            return np.zeros(self.observation_space.shape,dtype=np.float32),s["reward"]+shaping,True,False,s["info"]
         self.mask=np.array(s["mask"],dtype=bool)
-        return np.array(s["observation"],dtype=np.float32),0.,False,False,{}
+        return np.array(s["observation"],dtype=np.float32),shaping,False,False,{}
     def close(self):
         if self.proc.poll() is None:
             self.proc.stdin.close()
             self.proc.wait(timeout=10)
 
-def vector(workers,namespace,seed_prefix="rl-doreios-v1"):
-    return SubprocVecEnv([lambda i=i:Game(i,workers,namespace,seed_prefix) for i in range(workers)],start_method="spawn")
+def vector(workers,namespace,seed_prefix="rl-doreios-v1",potential_scale=0.):
+    return SubprocVecEnv([lambda i=i:Game(i,workers,namespace,seed_prefix,potential_scale) for i in range(workers)],start_method="spawn")
 
 def evaluate(vec,model,namespace,n,teacher=False):
     assert n%vec.num_envs==0
@@ -80,8 +86,8 @@ class Progress(BaseCallback):
     def __init__(self):
         super().__init__();self.started=time.monotonic();self.games=0;self.rewards=[]
     def _on_step(self):
-        for done,reward in zip(self.locals["dones"],self.locals["rewards"]):
-            if done:self.games+=1;self.rewards.append(float(reward))
+        for done,reward,info in zip(self.locals["dones"],self.locals["rewards"],self.locals["infos"]):
+            if done:self.games+=1;self.rewards.append(float(info.get("outcome",reward)))
         if self.num_timesteps%16384==0:
             print(json.dumps(dict(stage="training",steps=self.num_timesteps,games=self.games,
                 recentMeanReward=float(np.mean(self.rewards[-100:])) if self.rewards else None,
