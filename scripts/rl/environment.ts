@@ -12,11 +12,11 @@ export class RLEnvironment{
  constructor(public leader="doreios",public expert="classic-engine",public opponentKind="mm"){
   if(!["doreios","nereon","thaleia","melia"].includes(leader))throw Error("Unsupported RL leader");
   if(!["classic-engine","money","fleet-v1","mm"].includes(expert)||expert==="fleet-v1"&&leader!=="nereon")throw Error("Unsupported RL teacher");
-  if(!["mm","rl-pool","rl:nereon","rl:thaleia","rl:doreios"].includes(opponentKind))throw Error("Unsupported RL opponent");
+  if(!["mm","rl-pool","rl-nereon-focus","rl:nereon","rl:thaleia","rl:doreios"].includes(opponentKind))throw Error("Unsupported RL opponent");
  }
  reset(seed:string,first:boolean){
   const index=Number(seed.split(':').at(-1))||0;
-  this.opponentLeader=this.opponentKind==='mm'?'melia':this.opponentKind==='rl-pool'?['nereon','thaleia','doreios'][Math.floor(index/2)%3]:this.opponentKind.slice(3);
+  this.opponentLeader=this.opponentKind==='mm'?'melia':this.opponentKind==='rl-pool'?['nereon','thaleia','doreios'][Math.floor(index/2)%3]:this.opponentKind==='rl-nereon-focus'?['nereon','thaleia','nereon','doreios','nereon'][Math.floor(index/2)%5]:this.opponentKind.slice(3);
   if(this.leader===this.opponentLeader)throw Error('Leaders must be distinct');
   this.session=new PracticeSession({seed,humanLeader:this.opponentLeader,botLeader:this.leader,humanFirst:!first,bot:this.expert==='mm'?'mm':this.expert==='classic-engine'?'classic-engine':'money'});
   this.steps=0;this.opponent();return this.state();

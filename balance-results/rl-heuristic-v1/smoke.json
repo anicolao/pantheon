@@ -1,0 +1,12 @@
+{
+  "output": "balance-results/rl-heuristic-v1/smoke",
+  "prefix": "rl-heuristic-v1-smoke",
+  "games": 2,
+  "workers": 16,
+  "leaders": [
+    "melia",
+    "nereon",
+    "thaleia",
+    "doreios"
+  ]
+}

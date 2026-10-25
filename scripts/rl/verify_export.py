@@ -7,10 +7,11 @@ from anchored_ppo import AnchoredPPO
 from train import Game
 
 def main():
- p=argparse.ArgumentParser();p.add_argument('--output',required=True);p.add_argument('--games',type=int,default=256);p.add_argument('--leaders',nargs='+',default=['nereon','thaleia','doreios']);p.add_argument('--checkpoint-root',default='balance-results/leader-rl-v1');p.add_argument('--opponent',default='mm');args=p.parse_args()
+ p=argparse.ArgumentParser();p.add_argument('--output',required=True);p.add_argument('--games',type=int,default=256);p.add_argument('--leaders',nargs='+',default=['nereon','thaleia','doreios']);p.add_argument('--checkpoint-root',default='balance-results/leader-rl-v1');p.add_argument('--opponent',default='mm');p.add_argument('--checkpoint',help='Explicit checkpoint for a single leader');args=p.parse_args()
+ if args.checkpoint and len(args.leaders)!=1:raise ValueError('--checkpoint requires exactly one leader')
  torch.set_num_threads(1);start=time.monotonic();workers=8;assert args.games%workers==0
  def worker(job):
-  leader,rank=job;model=AnchoredPPO.load(f'{args.checkpoint_root}/{leader}/champion',device='cpu')
+  leader,rank=job;model=AnchoredPPO.load(args.checkpoint or f'{args.checkpoint_root}/{leader}/champion',device='cpu')
   env=Game(rank,workers,'export-parity','rl-runtime-v1',leader=leader,teacher='mm' if leader=='melia' else 'classic-engine',opponent=args.opponent)
   decisions=0;rows=[]
   try:
