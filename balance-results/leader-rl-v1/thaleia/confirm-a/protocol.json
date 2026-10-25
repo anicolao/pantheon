@@ -1,0 +1,16 @@
+{
+  "leader": "thaleia",
+  "teacher": "classic-engine",
+  "output": "balance-results/leader-rl-v1/thaleia/confirm-a",
+  "workers": 8,
+  "prefix": "rl-thaleia-v1",
+  "namespace": "confirm-a",
+  "games": 1024,
+  "models": {
+    "candidate": "balance-results/leader-rl-v1/thaleia/rl-a/checkpoint-2097152",
+    "imitation": "balance-results/leader-rl-v1/thaleia/imitation/dagger-2"
+  },
+  "baselines": [
+    "imitation"
+  ]
+}
