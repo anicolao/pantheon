@@ -44,3 +44,16 @@ test('two-card selections support repeated types without reusing an instance',()
  expect(commands(v)[index]).toEqual({type:'choice/resolved',choiceId:'choice',targets:['a','b']});
  v.hand.pop();expect(commands(v)[index]).toBeUndefined();
 });
+
+test('DAgger teacher queries do not mutate the expert memory',()=>{
+ const env=new RLEnvironment();env.reset('rl-preview-test',true);
+ for(let i=0;i<30;i++){
+  const before=structuredClone(env.session.tracker.memories.bot);
+  const index=env.teacher(true);
+  expect(env.session.tracker.memories.bot).toEqual(before);
+  expect(env.teacher(true)).toBe(index);
+  if(slots[index].kind==='buy')return;
+  env.step(env.teacher());
+ }
+ throw Error('Expected to reach an opening purchase');
+});

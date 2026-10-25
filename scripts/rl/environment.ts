@@ -92,9 +92,9 @@ export class RLEnvironment{
   const v=this.session.tracker.view(this.session.game),choices=commands(v);
   return {done:false,observation:observation(v),mask:choices.map(Boolean)};
  }
- teacher(){
+ teacher(preview=false){
   const v=this.session.tracker.view(this.session.game);
-  return actionIndex(v,decide(v,this.session.tracker.memories.bot,'classic-engine'));
+  return actionIndex(v,decide(v,preview?structuredClone(this.session.tracker.memories.bot):this.session.tracker.memories.bot,'classic-engine'));
  }
  step(action:number){
   const v=this.session.tracker.view(this.session.game),command=commands(v)[action];
