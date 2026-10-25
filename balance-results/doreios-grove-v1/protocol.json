@@ -1,0 +1,19 @@
+{
+  "version": 1,
+  "policySourceSHA256": "bbf5fa8076b8a834c308fbd5d4d97d1dfc8beefaab7c6799777f467695ea65e5",
+  "harnessSHA256": "5465821c072ffb6b56c899e246b506c516cd26cb88b51054fef4dbd53eb7bc0d",
+  "baseCommit": "1922d56f126a1aeb25aaeaff6e6235e622db5767",
+  "gamesPerCandidate": 100,
+  "candidates": [
+    "grove",
+    "money",
+    "classic-engine"
+  ],
+  "seedPattern": "doreios-grove-v1-evaluation:mm:melia:0..99",
+  "equalTurns": true,
+  "seatBalance": "50 first / 50 second in evaluation; even indices MM first",
+  "opponent": "Unchanged MM v3 / Melia",
+  "validation": "All three policies use identical seeds and seats; all games replay to identical final states; no exclusions",
+  "tuning": "First policy frozen before evaluation; smoke namespace separate from evaluation",
+  "policy": "NDZUF Recruit/Grove engine; unlimited Feast gains; first Council after three Feasts if supported; two Talents, repeat Academy; free Hamlet/Obol thinning preserving purchases; selective Ares upgrades; refuse known-losing pile endings; no hidden opponent final-hand prediction"
+}
