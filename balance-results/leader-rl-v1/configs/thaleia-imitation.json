@@ -1,0 +1,11 @@
+{
+  "leader": "thaleia",
+  "teacher": "classic-engine",
+  "output": "balance-results/leader-rl-v1/thaleia/imitation",
+  "workers": 8,
+  "prefix": "rl-thaleia-v1",
+  "seed": 1901,
+  "imitationGames": 1024,
+  "daggerGames": 256,
+  "screenGames": 512
+}

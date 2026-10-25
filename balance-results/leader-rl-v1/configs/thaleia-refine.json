@@ -1,0 +1,7 @@
+{
+  "root": "balance-results/leader-rl-v1/thaleia",
+  "leader": "thaleia",
+  "teacher": "classic-engine",
+  "seed": 1902,
+  "prefix": "rl-thaleia-v1"
+}

@@ -57,3 +57,24 @@ test('DAgger teacher queries do not mutate the expert memory',()=>{
  }
  throw Error('Expected to reach an opening purchase');
 });
+
+for(const [leader,expert] of [['nereon','money'],['nereon','fleet-v1'],['thaleia','classic-engine']])test(`leader-specific RL teacher ${leader}/${expert} completes a legal, replayable game`,()=>{
+ const env=new RLEnvironment(leader,expert);
+ let state=env.reset('rl-leader-legality:'+leader+':'+expert,false);
+ expect(env.session.config.botLeader).toBe(leader);
+ expect(env.session.config.humanLeader).toBe('melia');
+ while(!state.done){
+  const before=structuredClone(env.session.tracker.memories.bot);
+  const preview=env.teacher(true);
+  expect(env.session.tracker.memories.bot).toEqual(before);
+  expect(state.mask![preview]).toBe(true);
+  const v=env.session.tracker.view(env.session.game);
+  for(const command of commands(v).filter(Boolean)){
+   const copy=structuredClone({...env.session.game,movements:[],activity:[],publicActivity:[]});
+   expect(()=>applyPlayCommand(copy,activePlayer(copy),command!,copy.activity.length+1)).not.toThrow();
+  }
+  expect(state.observation!.length).toBe(171);
+  state=env.step(env.teacher());
+ }
+ expect(PracticeSession.restore(env.session.save()).game).toEqual(env.session.game);
+},60000); // Money performs bounded endgame search; this full-game test exercises it.

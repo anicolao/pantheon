@@ -1,0 +1,9 @@
+{
+  "objective": "Three separate leader models each beating unchanged MM/Melia outright >50%",
+  "initialization": "Leader-specific fresh imitation then unrestricted PPO; no Doreios weight transfer",
+  "teacherSelection": "Thaleia Classic from existing 1000-game opening study; Nereon highest outright wins then share among Money and original Fleet on fresh 1024-game comparison",
+  "selection": "Screen checkpoints by wins then tie-adjusted share. Confirm on new seeds. Final freeze before fresh replay-verified test of at least 2000 per model; require Wilson 95% lower win bound > 0.50.",
+  "finalPrefix": "rl-leaders-v1-final",
+  "opponent": "unchanged MM v3 / Melia",
+  "equalTurns": true
+}
