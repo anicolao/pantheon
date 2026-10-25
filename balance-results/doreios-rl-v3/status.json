@@ -1,7 +1,7 @@
 {
-  "phase": "Independent plateau confirmation, followed by final test if no promotion",
+  "phase": "Additional independent 8000-game confirmation of exploration hint",
   "incumbent": "extend-free-a/checkpoint-1572864",
   "incumbentScreenShare": 0.6669921875,
   "running": [],
-  "next": "Apply the predeclared confirmation rule."
+  "next": "Resolve the remaining uncertainty before declaring the operational plateau. The earlier final test is retained as a frozen-model benchmark and cannot guide new training."
 }

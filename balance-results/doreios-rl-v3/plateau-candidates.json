@@ -1,0 +1,72 @@
+{
+  "polish": {
+    "checkpoint": "balance-results/doreios-rl-v3/polish/checkpoint-1048576",
+    "screen": {
+      "games": 512,
+      "wins": 319,
+      "ties": 29,
+      "losses": 164,
+      "share": 0.6513671875,
+      "winCI95": [
+        0.5802995498210199,
+        0.663961545997177
+      ]
+    }
+  },
+  "explore": {
+    "checkpoint": "balance-results/doreios-rl-v3/explore/checkpoint-1048576",
+    "screen": {
+      "games": 512,
+      "wins": 335,
+      "ties": 26,
+      "losses": 151,
+      "share": 0.6796875,
+      "winCI95": [
+        0.6120896983248862,
+        0.6942059615106306
+      ]
+    }
+  },
+  "potential": {
+    "checkpoint": "balance-results/doreios-rl-v3/potential/checkpoint-1048576",
+    "screen": {
+      "games": 512,
+      "wins": 326,
+      "ties": 37,
+      "losses": 149,
+      "share": 0.6728515625,
+      "winCI95": [
+        0.5941845691356655,
+        0.6772166484401088
+      ]
+    }
+  },
+  "longer-control": {
+    "checkpoint": "balance-results/doreios-rl-v3/longer-control/checkpoint-1572864",
+    "screen": {
+      "games": 512,
+      "wins": 330,
+      "ties": 29,
+      "losses": 153,
+      "share": 0.6728515625,
+      "winCI95": [
+        0.6021349532568839,
+        0.6847749053232205
+      ]
+    }
+  },
+  "greedy-polish": {
+    "checkpoint": "balance-results/doreios-rl-v3/greedy-polish/checkpoint-524288",
+    "screen": {
+      "games": 512,
+      "wins": 320,
+      "ties": 23,
+      "losses": 169,
+      "share": 0.6474609375,
+      "winCI95": [
+        0.5822809543766962,
+        0.6658573016925833
+      ]
+    }
+  }
+}

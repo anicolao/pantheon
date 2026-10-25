@@ -1,0 +1,116 @@
+{
+  "summary": {
+    "incumbent": {
+      "games": 1024,
+      "wins": 623,
+      "ties": 60,
+      "losses": 341,
+      "share": 0.6376953125,
+      "winCI95": [
+        0.5781503897334694,
+        0.6378362277500425
+      ]
+    },
+    "polish": {
+      "games": 1024,
+      "wins": 615,
+      "ties": 70,
+      "losses": 339,
+      "share": 0.634765625,
+      "winCI95": [
+        0.5702654078143542,
+        0.6301546066072828
+      ]
+    },
+    "explore": {
+      "games": 1024,
+      "wins": 642,
+      "ties": 63,
+      "losses": 319,
+      "share": 0.65771484375,
+      "winCI95": [
+        0.5969094084748933,
+        0.6560478912805711
+      ]
+    },
+    "potential": {
+      "games": 1024,
+      "wins": 612,
+      "ties": 68,
+      "losses": 344,
+      "share": 0.630859375,
+      "winCI95": [
+        0.5673105827102032,
+        0.6272719555632309
+      ]
+    },
+    "longer-control": {
+      "games": 1024,
+      "wins": 618,
+      "ties": 73,
+      "losses": 333,
+      "share": 0.63916015625,
+      "winCI95": [
+        0.573221345023246,
+        0.6330361455465943
+      ]
+    },
+    "greedy-polish": {
+      "games": 1024,
+      "wins": 621,
+      "ties": 59,
+      "losses": 344,
+      "share": 0.63525390625,
+      "winCI95": [
+        0.5761783984919433,
+        0.6359165682260999
+      ]
+    }
+  },
+  "comparisons": {
+    "polish-vs-incumbent": {
+      "shareDelta": -0.0029296875,
+      "pairedApprox95CI": [
+        -0.024930604509296808,
+        0.019071229509296808
+      ]
+    },
+    "explore-vs-incumbent": {
+      "shareDelta": 0.02001953125,
+      "pairedApprox95CI": [
+        -0.010938325539963746,
+        0.050977388039963746
+      ]
+    },
+    "potential-vs-incumbent": {
+      "shareDelta": -0.0068359375,
+      "pairedApprox95CI": [
+        -0.03143096227668892,
+        0.01775908727668892
+      ]
+    },
+    "longer-control-vs-incumbent": {
+      "shareDelta": 0.00146484375,
+      "pairedApprox95CI": [
+        -0.021772832010001443,
+        0.024702519510001443
+      ]
+    },
+    "greedy-polish-vs-incumbent": {
+      "shareDelta": -0.00244140625,
+      "pairedApprox95CI": [
+        -0.026070018825913612,
+        0.021187206325913612
+      ]
+    }
+  },
+  "checkpointSHA256": {
+    "incumbent": "ca4a52a69cd3e439baae2b1eb5195aa392e2648d23ba1024b9b35f6c54fdce6d",
+    "polish": "dfdac14864dbbe39e3fd9fd252f1a12685caf132e8b8c618576ccde05804499a",
+    "explore": "8820ac55f91af7f66c8d147480c766c14fffebd00b7476caae9e9c07d7dcff50",
+    "potential": "c90457b8d8049cff1372948eebeb57e99a6ef60c7482909ce74ddec2813849ac",
+    "longer-control": "bdbbe150b16cae3d3397c0d8951264618e0c8ab6e76fcb4e7a8666a654d0abd7",
+    "greedy-polish": "2fce383bd8c32866e758ba58fb3fcb3090e2c629f823419cf2ffde6664789719"
+  },
+  "elapsedSeconds": 80.4730856246315
+}
