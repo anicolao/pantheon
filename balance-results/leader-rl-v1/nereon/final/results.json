@@ -1,0 +1,20 @@
+{
+  "summary": {
+    "champion": {
+      "games": 4000,
+      "wins": 2536,
+      "ties": 340,
+      "losses": 1124,
+      "share": 0.6765,
+      "winCI95": [
+        0.618949987357784,
+        0.6487928818405762
+      ]
+    }
+  },
+  "comparisons": {},
+  "checkpointSHA256": {
+    "champion": "fec15291b5c041494285f0151db211e7d525e8afee4e0e034c6eb6a4c5a22d58"
+  },
+  "elapsedSeconds": 61.365708167199045
+}

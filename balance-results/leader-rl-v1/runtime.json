@@ -1,0 +1,9 @@
+{
+  "python": "3.14.6",
+  "machine": "arm64",
+  "logicalCPU": 16,
+  "nixFlakeSHA256": "68e920264f814c1ce95b2829b1caad4d8c0fd19c4a3cef757ec29622df93e341",
+  "nixLockSHA256": "b74ed5dbb4eb2ae1c1c220c16a244c168025ca2c6f49798f2a8fb4509281fb21",
+  "pythonRequirementsSHA256": "9010a226d3626fb8a0a01134c06f3bd800668dea2b57916b7595f553c29afae4",
+  "sourceCommitBeforeReport": "174c589da4ea7fae4d37c39d6017ae138e2d6039"
+}

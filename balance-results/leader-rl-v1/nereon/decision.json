@@ -1,0 +1,209 @@
+{
+  "incumbent": "balance-results/leader-rl-v1/nereon/faster/checkpoint-524288",
+  "screenCandidate": {
+    "path": "balance-results/leader-rl-v1/nereon/faster/checkpoint-1572864",
+    "screen": {
+      "games": 512,
+      "wins": 310,
+      "ties": 43,
+      "losses": 159,
+      "share": 0.6474609375,
+      "winCI95": [
+        0.5624989313818716,
+        0.6468677221765828
+      ]
+    },
+    "lineageDecisions": 2621440
+  },
+  "comparison": {
+    "winDelta": 0.0302734375,
+    "pairedApprox95WinCI": [
+      0.0035963757304955657,
+      0.056950499269504434
+    ],
+    "promoted": true
+  },
+  "selected": "balance-results/leader-rl-v1/nereon/faster/checkpoint-1572864",
+  "candidates": [
+    {
+      "path": "balance-results/leader-rl-v1/nereon/rl-a/checkpoint-524288",
+      "screen": {
+        "games": 512,
+        "wins": 218,
+        "ties": 28,
+        "losses": 266,
+        "share": 0.453125,
+        "winCI95": [
+          0.3836604467898367,
+          0.4690074636690287
+        ]
+      },
+      "lineageDecisions": 524288
+    },
+    {
+      "path": "balance-results/leader-rl-v1/nereon/rl-a/checkpoint-1048576",
+      "screen": {
+        "games": 512,
+        "wins": 237,
+        "ties": 27,
+        "losses": 248,
+        "share": 0.4892578125,
+        "winCI95": [
+          0.42013716203671847,
+          0.5061967931927142
+        ]
+      },
+      "lineageDecisions": 1048576
+    },
+    {
+      "path": "balance-results/leader-rl-v1/nereon/rl-a/checkpoint-1572864",
+      "screen": {
+        "games": 512,
+        "wins": 229,
+        "ties": 28,
+        "losses": 255,
+        "share": 0.474609375,
+        "winCI95": [
+          0.40474926120901533,
+          0.49056741201175746
+        ]
+      },
+      "lineageDecisions": 1572864
+    },
+    {
+      "path": "balance-results/leader-rl-v1/nereon/rl-a/checkpoint-2097152",
+      "screen": {
+        "games": 512,
+        "wins": 233,
+        "ties": 21,
+        "losses": 258,
+        "share": 0.4755859375,
+        "winCI95": [
+          0.4124379199672075,
+          0.4983873942578952
+        ]
+      },
+      "lineageDecisions": 2097152
+    },
+    {
+      "path": "balance-results/leader-rl-v1/nereon/explore/checkpoint-524288",
+      "screen": {
+        "games": 512,
+        "wins": 226,
+        "ties": 33,
+        "losses": 253,
+        "share": 0.4736328125,
+        "winCI95": [
+          0.39898974140912147,
+          0.48469545105840384
+        ]
+      },
+      "lineageDecisions": 1572864
+    },
+    {
+      "path": "balance-results/leader-rl-v1/nereon/explore/checkpoint-1048576",
+      "screen": {
+        "games": 512,
+        "wins": 228,
+        "ties": 31,
+        "losses": 253,
+        "share": 0.4755859375,
+        "winCI95": [
+          0.4028287556857257,
+          0.4886107572839646
+        ]
+      },
+      "lineageDecisions": 2097152
+    },
+    {
+      "path": "balance-results/leader-rl-v1/nereon/explore/checkpoint-1572864",
+      "screen": {
+        "games": 512,
+        "wins": 296,
+        "ties": 46,
+        "losses": 170,
+        "share": 0.623046875,
+        "winCI95": [
+          0.5349212660296963,
+          0.6201651440136033
+        ]
+      },
+      "lineageDecisions": 2621440
+    },
+    {
+      "path": "balance-results/leader-rl-v1/nereon/explore/checkpoint-2097152",
+      "screen": {
+        "games": 512,
+        "wins": 296,
+        "ties": 47,
+        "losses": 169,
+        "share": 0.6240234375,
+        "winCI95": [
+          0.5349212660296963,
+          0.6201651440136033
+        ]
+      },
+      "lineageDecisions": 3145728
+    },
+    {
+      "path": "balance-results/leader-rl-v1/nereon/faster/checkpoint-524288",
+      "screen": {
+        "games": 512,
+        "wins": 292,
+        "ties": 50,
+        "losses": 170,
+        "share": 0.619140625,
+        "winCI95": [
+          0.5270665087613614,
+          0.6125112602776083
+        ]
+      },
+      "lineageDecisions": 1572864
+    },
+    {
+      "path": "balance-results/leader-rl-v1/nereon/faster/checkpoint-1048576",
+      "screen": {
+        "games": 512,
+        "wins": 293,
+        "ties": 47,
+        "losses": 172,
+        "share": 0.6181640625,
+        "winCI95": [
+          0.5290291853719004,
+          0.6144257439181519
+        ]
+      },
+      "lineageDecisions": 2097152
+    },
+    {
+      "path": "balance-results/leader-rl-v1/nereon/faster/checkpoint-1572864",
+      "screen": {
+        "games": 512,
+        "wins": 310,
+        "ties": 43,
+        "losses": 159,
+        "share": 0.6474609375,
+        "winCI95": [
+          0.5624989313818716,
+          0.6468677221765828
+        ]
+      },
+      "lineageDecisions": 2621440
+    },
+    {
+      "path": "balance-results/leader-rl-v1/nereon/faster/checkpoint-2097152",
+      "screen": {
+        "games": 512,
+        "wins": 299,
+        "ties": 54,
+        "losses": 159,
+        "share": 0.63671875,
+        "winCI95": [
+          0.5408194487075533,
+          0.6258984420889939
+        ]
+      },
+      "lineageDecisions": 3145728
+    }
+  ]
+}
