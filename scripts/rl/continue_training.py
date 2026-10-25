@@ -21,11 +21,12 @@ def run(config):
         model=AnchoredPPO.load(config['base'],env=vec,device='cpu',learning_rate=config['lr'],
           n_steps=config['rollout'],batch_size=config['batch'],gae_lambda=config['gae'],
           ent_coef=config.get('entropy',.001),target_kl=.02,n_epochs=4)
-        model.set_random_seed(config['seed'])
         reference=AnchoredPPO.load(config['reference'],device='cpu')
         model.reference=reference.policy;model.reference.set_training_mode(False)
         for p in model.reference.parameters():p.requires_grad_(False)
         model.anchor_coefficient=config['anchor']
+        # Loading the reference also initializes RNGs; seed the learner afterwards.
+        model.set_random_seed(config['seed'])
         progress=Progress();rows_by_checkpoint={}
         for stage in range(config['stages']):
             model.learn(total_timesteps=config['steps']//config['stages'],reset_num_timesteps=stage==0,callback=progress)
