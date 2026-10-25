@@ -3,7 +3,7 @@ import type {CardInstance} from '../game/setup';
 import type {StandardView} from '../../../standard-matrix/policy';
 
 /** Experimental JRFSA-inspired Nereon policy. Not wired into the UI's Bot choice. */
-export const nereonFleetVersion=3;
+export const nereonFleetVersion=4;
 const treasure:Record<string,number>={obol:1,drachma:2,talent:3};
 const owned=(v:StandardView,id:string)=>v.owned[id]??0;
 const income=(v:StandardView)=>Object.entries(treasure).reduce((n,[id,value])=>n+owned(v,id)*value,0);
@@ -14,7 +14,7 @@ function thin(v:StandardView,max:number):CardInstance[]{
  const targets=v.hand.filter(c=>c.cardId==='hamlet').sort((a,b)=>a.id.localeCompare(b.id)).slice(0,max);
  // A pending Demeter choice has already paid its cost; retain the pre-payment budget.
  const paid=v.choice?.kind==='trash'&&v.choice.source==='blessing-of-the-fields'?definition('blessing-of-the-fields').cost!:0;
- if(handMoney(v)+paid>4)return targets;
+ if(v.resources.coins+paid>3)return targets;
  let obols=owned(v,'obol'),cash=income(v);
  // Recheck after each removal: preserve eight treasure coins once at five Obols or fewer.
  for(const obol of v.hand.filter(c=>c.cardId==='obol')){
@@ -23,10 +23,25 @@ function thin(v:StandardView,max:number):CardInstance[]{
  }
  return targets;
 }
+// Start with one Action; cantrips are neutral, Pilots add one net Action,
+// and terminal Actions consume one. Keep two Actions after adding a Council.
+function actionBudget(v:StandardView):number{
+ return 1+Object.entries(v.owned).reduce((n,[id,count])=>{
+  if(definition(id).type!=='Action')return n;
+  const granted=actionEffects(id).reduce((sum,e)=>sum+(e.kind==='resource'&&e.resource==='actions'?e.amount:0),0);
+  return n+count*(granted-1);
+ },0);
+}
+function fourCoinBuy(v:StandardView,budget:number):string|undefined{
+ if(v.finalRound||v.choice||v.resources.buys<1||budget!==4)return;
+ const card=actionBudget(v)>=3?'council-of-sages':'harbor-pilot';
+ return v.supply[card]>0&&!v.bannedCards.includes(card)?card:undefined;
+}
 function priorities(v:StandardView):string[]{
  if(v.finalRound)return ['acropolis','polis','hamlet'];
  return ['acropolis',...(!owned(v,'merchant-fleet')?['merchant-fleet']:[]),'talent','sacred-academy',
-  ...(owned(v,'harbor-pilot')<2?['harbor-pilot']:[]),
+  ...(fourCoinBuy(v,v.resources.coins)?[fourCoinBuy(v,v.resources.coins)!]:[]),
+  ...(actionBudget(v)<3?['harbor-pilot']:[]),
   ...(!owned(v,'oracles-acolyte')?['oracles-acolyte']:[]),
   ...(income(v)<11?['drachma']:[]),...(v.supply.acropolis<=2?['polis','hamlet']:[])];
 }
@@ -59,7 +74,7 @@ export function nereonFleetCommand(v:StandardView):ActionCommand{
  }
  const cash=handMoney(v),firstFleet=!owned(v,'merchant-fleet')&&v.supply['merchant-fleet']>0&&!v.bannedCards.includes('merchant-fleet')&&v.resources.buys>0&&cash>=5;
  const canWorship=(id:string)=>!v.finalRound&&v.resources.worship>0&&v.events.includes(id)&&!v.bannedEvents.includes(id)&&v.resources.coins>=definition(id).cost!;
- if(cash<8&&!firstFleet){
+ if(cash<8&&!firstFleet&&!fourCoinBuy(v,v.resources.coins)){
   if(thin(v,2).length&&canWorship('blessing-of-the-fields'))return {type:'god/worshipped',cardId:'blessing-of-the-fields'};
   if(favored(v,'Poseidon')&&v.supply.drachma>0&&!v.bannedCards.includes('drachma')&&canWorship('tribute-of-the-tides'))return {type:'god/worshipped',cardId:'tribute-of-the-tides'};
  }
