@@ -1,0 +1,17 @@
+{
+  "leader": "melia",
+  "teacher": "mm",
+  "opponent": "league:balance-results/league-rl-v1/manifests/reference.json",
+  "prefix": "league-v1:melia",
+  "namespace": "confirm-r2",
+  "workers": 8,
+  "games": 1536,
+  "models": {
+    "incumbent": "balance-results/league-rl-v1/champions/round-1/melia",
+    "candidate": "balance-results/league-rl-v1/round-2/melia/checkpoint-262144"
+  },
+  "baselines": [
+    "incumbent"
+  ],
+  "output": "balance-results/league-rl-v1/round-2/confirm-melia"
+}

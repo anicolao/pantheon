@@ -1,0 +1,18 @@
+bun test v1.3.13 (bf2e2cec)
+
+tests/tooling/table-bots.test.ts:
+(pass) Heuristic random draft proposals are legal, repeatable and include every leader across seeds [2.84ms]
+(pass) Bot random draft proposals are legal, repeatable and include every leader across seeds [0.53ms]
+(pass) Bot drafts distinct available leaders and completes a shared table after reload [5330.60ms]
+(pass) 3 adaptive RL seats finish and preserve decisions across host reload [7911.36ms]
+(pass) 4 adaptive RL seats finish and preserve decisions across host reload [6865.85ms]
+
+tests/tooling/tabletop.test.ts:
+(pass) bots preserve preset human leaders and use the leader-aware Bot policy [24.98ms]
+(pass) preset tabletop bots randomize unreserved leaders reproducibly across seeds [7.97ms]
+
+ 7 pass
+ 96 filtered out
+ 0 fail
+ 2292 expect() calls
+Ran 7 tests across 2 files. [20.20s]
