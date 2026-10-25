@@ -1,0 +1,48 @@
+{
+  "selected": "incumbent",
+  "checkpoint": "balance-results/doreios-rl-v3/extend-free-a/checkpoint-1572864",
+  "comparisons": {
+    "polish": {
+      "delta": -0.0029296875,
+      "pairedApprox99CI": [
+        -0.03184326236606845,
+        0.025983887366068447
+      ],
+      "promoted": false
+    },
+    "explore": {
+      "delta": 0.02001953125,
+      "pairedApprox99CI": [
+        -0.020665241553397405,
+        0.060704304053397405
+      ],
+      "promoted": false
+    },
+    "potential": {
+      "delta": -0.0068359375,
+      "pairedApprox99CI": [
+        -0.03915868522515641,
+        0.025486810225156413
+      ],
+      "promoted": false
+    },
+    "longer-control": {
+      "delta": 0.00146484375,
+      "pairedApprox99CI": [
+        -0.029074077764785555,
+        0.03200376526478556
+      ],
+      "promoted": false
+    },
+    "greedy-polish": {
+      "delta": -0.00244140625,
+      "pairedApprox99CI": [
+        -0.03349409639042977,
+        0.02861128389042977
+      ],
+      "promoted": false
+    }
+  },
+  "practicalPlateau": true,
+  "checkpointSHA256": "ca4a52a69cd3e439baae2b1eb5195aa392e2648d23ba1024b9b35f6c54fdce6d"
+}

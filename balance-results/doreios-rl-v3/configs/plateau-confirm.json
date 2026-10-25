@@ -1,0 +1,18 @@
+{
+  "output": "balance-results/doreios-rl-v3/plateau-confirm",
+  "prefix": "rl-doreios-v3",
+  "namespace": "plateau-confirm",
+  "games": 1024,
+  "workers": 8,
+  "models": {
+    "incumbent": "balance-results/doreios-rl-v3/extend-free-a/checkpoint-1572864",
+    "polish": "balance-results/doreios-rl-v3/polish/checkpoint-1048576",
+    "explore": "balance-results/doreios-rl-v3/explore/checkpoint-1048576",
+    "potential": "balance-results/doreios-rl-v3/potential/checkpoint-1048576",
+    "longer-control": "balance-results/doreios-rl-v3/longer-control/checkpoint-1572864",
+    "greedy-polish": "balance-results/doreios-rl-v3/greedy-polish/checkpoint-524288"
+  },
+  "baselines": [
+    "incumbent"
+  ]
+}
