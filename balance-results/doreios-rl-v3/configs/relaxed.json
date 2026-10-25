@@ -1,0 +1,19 @@
+{
+  "base": "balance-results/doreios-rl-v2/ppo-524288",
+  "reference": "balance-results/doreios-rl-v2/dagger-2",
+  "seed": 1703,
+  "prefix": "rl-doreios-v3",
+  "trainNamespace": "train-screen-a",
+  "screenNamespace": "screen",
+  "screenGames": 512,
+  "workers": 8,
+  "steps": 524288,
+  "stages": 2,
+  "lr": 3e-05,
+  "rollout": 256,
+  "batch": 256,
+  "gae": 0.95,
+  "anchor": 0.1,
+  "entropy": 0.001,
+  "output": "balance-results/doreios-rl-v3/relaxed"
+}
