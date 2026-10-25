@@ -379,10 +379,10 @@ for(const edge of ['south','west','north','east'])for(const scenario of ['seed-k
   await expect(hand.locator('.hand-slot.staged')).toHaveCount(0);
 });
 
-for(const {leader,humans,next} of [{leader:'Thaleia',humans:['Melia'],next:'north'},{leader:'Nereon',humans:['Melia','Thaleia'],next:'south'},{leader:'Doreios',humans:['Melia','Thaleia','Nereon'],next:'west'}])test(`tabletop learned ${leader} takes its turn through the real worker`,async({page},info)=>{
+for(const {leader,humans,next} of [{leader:'Thaleia',humans:['Nereon','Doreios','Melia'],next:'north'},{leader:'Nereon',humans:['Doreios','Melia','Thaleia'],next:'south'},{leader:'Doreios',humans:['Melia','Thaleia','Nereon'],next:'west'}])test(`tabletop learned ${leader} takes its turn through the real worker`,async({page},info)=>{
  test.skip(info.project.name==='phone','A shared four-edge table is designed for a large display.');
  await page.goto('./pantheontt/');
- // Reserve the higher-priority leaders so Bot drafts this model legally.
+ // Reserve every other leader so random drafting exercises this model legally.
  for(const human of humans)await page.getByRole('button',{name:`Join ${human}`,exact:true}).click();
  await page.getByRole('button',{name:`Add bot as ${leader}`,exact:true}).click();
  await page.getByRole('button',{name:'Play facing Melia',exact:true}).click();

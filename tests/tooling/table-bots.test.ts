@@ -40,10 +40,11 @@ for(const count of [2,3,4] as const)for(const allBots of [false,true])test(`${co
  expect(driver.next(events,'host')).toBeNull();
 },120000);
 
-test('random draft proposals are legal, repeatable and include every leader across seeds',()=>{
+for(const adaptive of [false,true])test(`${adaptive?'Bot':'Heuristic'} random draft proposals are legal, repeatable and include every leader across seeds`,()=>{
  const choices=new Set<string>();
  for(let i=0;i<40;i++){
   const events=start(2,true);events.at(-1)!.seed='draft-'+i;
+  if(adaptive)for(const event of events)if(event.botKind)event.botKind='bot';
   const driver=new TableBotDriver(),p=driver.next(events,'host')!;
   expect(driver.next(events,'host')).toEqual(p);
   expect(p.command.type).toBe('leader/chosen');choices.add((p.command as any).leaderId);
@@ -66,13 +67,16 @@ test('human purchase Undo and host reload preserve the next bot decision',()=>{
  expect(driver.next(events,'host')).toEqual(new TableBotDriver().next(events,'host'));
 });
 
-test('Bot drafts Melia, Thaleia, Nereon, Doreios and completes a shared table after reload',()=>{
+test('Bot drafts distinct available leaders and completes a shared table after reload',()=>{
  const events=start(4,true);
  for(const e of events)if(e.botKind)e.botKind='bot';
  let driver=new TableBotDriver();
- for(const leader of ['melia','thaleia','nereon','doreios']){
+ const chosen=new Set<string>();
+ for(let i=0;i<4;i++){
   const proposal=driver.next(events,'host')!;
-  expect(proposal.command).toEqual({type:'leader/chosen',leaderId:leader});
+  if(proposal.command.type!=='leader/chosen')throw Error('Expected a leader choice');
+  expect(new Set<string>(leaderIds).has(proposal.command.leaderId)).toBe(true);
+  expect(chosen.has(proposal.command.leaderId)).toBe(false);chosen.add(proposal.command.leaderId);
   expect(new TableBotDriver().next(events,'host')).toEqual(proposal);
   events.push({...events[0],sequence:events.length+1,actorUid:proposal.actorUid,name:replaySetup(events).players.find(p=>p.uid===proposal.actorUid)!.name,reducerVersion:1,commandId:proposal.commandId,...proposal.command});
  }

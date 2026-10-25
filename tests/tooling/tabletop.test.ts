@@ -46,7 +46,7 @@ test('bots preserve preset human leaders and use the leader-aware Bot policy',()
   expect(game.leaders[seatUid('south')]).toBe('thaleia');expect(game.leaders[seatUid('north')]).toBe('melia');
   expect(new Set(Object.values(game.leaders)).size).toBe(4);
   const bots=game.draftOrder.filter(uid=>game.players.find(p=>p.uid===uid)?.botKind);
-  expect(bots.map(uid=>game.leaders[uid])).toEqual(['nereon','doreios']);
+  expect(bots.map(uid=>game.leaders[uid]).sort()).toEqual(['doreios','nereon']);
   expect(bots.map(uid=>game.players.find(p=>p.uid===uid)!.botKind)).toEqual(['bot','bot']);
   const driver=new TableBotDriver();let moves=0;
   while(replaySetup(table.events).players.find(player=>player.uid===actor(replaySetup(table.events)))?.botKind && moves<30){
@@ -54,6 +54,17 @@ test('bots preserve preset human leaders and use the leader-aware Bot policy',()
     table=advanceEmptyActions(append(table,proposal.actorUid,proposal.command));moves++;
   }
   expect(moves).toBeGreaterThan(1);expect(moves).toBeLessThan(30);
+});
+test('preset tabletop bots randomize unreserved leaders reproducibly across seeds',()=>{
+  let table=seated(['south','north']);table=occupy(table,'west','bot');table=occupy(table,'east','bot');
+  const choices=new Set<string>();
+  for(let i=0;i<40;i++){
+    const seed=`random-tabletop-${i}`,started=begin(table,seed),game=replaySetup(started.events);
+    expect(begin(table,seed)).toEqual(started);
+    expect(game.leaders[seatUid('south')]).toBe('thaleia');expect(game.leaders[seatUid('north')]).toBe('melia');
+    choices.add(game.leaders[seatUid('west')]);
+  }
+  expect([...choices].sort()).toEqual(['doreios','nereon']);
 });
 test('an all-bot randomized table drafts with ordinary bot proposals',()=>{
   let table=freshTable();for(const edge of edges)table=occupy(table,edge,'bot');

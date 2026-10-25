@@ -1,4 +1,4 @@
-import {resolveBotKind,botLeaderPreference} from '../game/bot-kind';
+import {resolveBotKind} from '../game/bot-kind';
 import {activePlayer,type ActionCommand} from '../game/actions';
 import {replaySetup,leaderIds,type SetupEvent,type SetupState} from '../game/setup';
 import {UndoHistory} from '../game/undo';
@@ -29,7 +29,7 @@ export class TableBotDriver {
   if(current.phase==='draft'){
    const available=leaderIds.filter(id=>!Object.values(current.leaders).includes(id));
    const random=createPrng(`bot-draft-v1:${current.seed}:${uid}`);
-   return {actorUid:uid,revision,commandId,command:{type:'leader/chosen',leaderId:kind==='bot'?botLeaderPreference.find(id=>available.includes(id))!:kind==='mm'&&available.includes('melia')?'melia':available[Math.floor(random()*available.length)]}};
+   return {actorUid:uid,revision,commandId,command:{type:'leader/chosen',leaderId:kind==='mm'&&available.includes('melia')?'melia':available[Math.floor(random()*available.length)]}};
   }
   this.sync(events,current.dealtAtSequence!);
   if(this.proposed?.revision===revision)return this.proposed;
