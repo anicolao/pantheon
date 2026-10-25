@@ -1,0 +1,13 @@
+{
+  "leader": "doreios",
+  "teacher": "classic-engine",
+  "opponent": "league:balance-results/league-rl-v1/manifests/reference.json",
+  "prefix": "league-v1:doreios",
+  "namespace": "screen",
+  "workers": 8,
+  "games": 384,
+  "models": {
+    "incumbent": "balance-results/leader-rl-v1/doreios/champion"
+  },
+  "output": "balance-results/league-rl-v1/baseline/doreios"
+}

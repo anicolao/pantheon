@@ -1,0 +1,19 @@
+bun test v1.3.13 (bf2e2cec)
+
+tests/tooling/rl-league.test.ts:
+(pass) league melia: frozen schedule, legal complete games, balanced seats and replay [799.43ms]
+(pass) league nereon: frozen schedule, legal complete games, balanced seats and replay [835.43ms]
+(pass) league thaleia: frozen schedule, legal complete games, balanced seats and replay [1055.28ms]
+(pass) league doreios: frozen schedule, legal complete games, balanced seats and replay [1042.01ms]
+(pass) league rejects actor drift and same-leader opponents [4.01ms]
+
+tests/tooling/rl-runtime.test.ts:
+(pass) melia browser actor matches frozen PyTorch decisions [0.76ms]
+(pass) nereon browser actor matches frozen PyTorch decisions [0.77ms]
+(pass) thaleia browser actor matches frozen PyTorch decisions [0.84ms]
+(pass) doreios browser actor matches frozen PyTorch decisions [1.05ms]
+
+ 9 pass
+ 0 fail
+ 714 expect() calls
+Ran 9 tests across 2 files. [3.79s]
