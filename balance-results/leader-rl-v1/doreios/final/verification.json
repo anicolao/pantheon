@@ -4,6 +4,7 @@
   "balancedSeats": true,
   "allReplaysVerified": true,
   "checkpointHashVerified": true,
+  "distinctActorWeightsVerified": true,
   "targetPassed": true,
   "firstSeatWins": 1325,
   "secondSeatWins": 1156

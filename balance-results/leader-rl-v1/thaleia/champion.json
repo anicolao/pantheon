@@ -4,6 +4,14 @@
   "sourceCheckpoint": "balance-results/leader-rl-v1/thaleia/rl-a/checkpoint-2097152.zip",
   "checkpoint": "champion.zip",
   "sha256": "f81492461000d9eec8fd1ef379ffa46578c354e8e9691e511a5298470f3cae07",
-  "selection": "Frozen before final outcomes; Thaleia passed independent confirmation lower 95% win bound >50%; Doreios is unchanged prior champion",
-  "finalGames": 4000
+  "selection": "Best screening checkpoint; passed independent 1024-game confirmation before being frozen for the final test",
+  "finalGames": 4000,
+  "observationFeatures": 171,
+  "actionSlots": 349,
+  "lineageRLDecisions": 2097152,
+  "actorParameterSHA256": "ac48645868182bf0ea89039864fc905768c9fecfa7d107d955f206f34aa3eef3",
+  "runtimeLock": "../../../scripts/rl/requirements.lock",
+  "inference": "Deterministic masked AnchoredPPO prediction",
+  "finalResults": "final/results.json",
+  "initialization": "Independent random network imitating Classic Engine; no other leader weights transferred"
 }

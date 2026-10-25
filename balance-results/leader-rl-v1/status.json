@@ -1,13 +1,15 @@
 {
-  "phase": "Thaleia and Doreios frozen for final tests; Nereon in DAgger",
-  "frozen": {
+  "phase": "complete",
+  "allTargetsPassed": true,
+  "finalGames": 12000,
+  "models": {
     "doreios": "doreios/champion.zip",
-    "thaleia": "thaleia/champion.zip"
+    "thaleia": "thaleia/champion.zip",
+    "nereon": "nereon/champion.zip"
   },
-  "pending": [
-    "Complete Nereon fresh imitation",
-    "Refine Nereon until fresh confirmation win bound exceeds 50%",
-    "Final replay-verified tests and combined report"
-  ],
-  "target": "Outright win rate >50%, ties reported separately"
+  "newTrainingDecisions": 8388608,
+  "newCompletedTrainingGames": 96032,
+  "initialization": "Fresh independent Money and Classic Engine imitation for Nereon and Thaleia; unchanged prior Doreios champion",
+  "productionChanges": false,
+  "running": []
 }

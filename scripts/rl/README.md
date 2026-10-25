@@ -51,3 +51,17 @@ selected model are in `balance-results/doreios-rl-v3/README.md` and `champion.zi
 Its final tie-adjusted share against fixed MM/Melia is 64.3% over 2,000 games.
 Five follow-up directions and an enlarged independent exploration comparison did
 not establish a further gain. All models remain available for later research.
+
+## Independent Nereon and Thaleia models
+
+The completed `balance-results/leader-rl-v1/README.md` campaign starts new networks
+from the strongest available leader-specific teachers: Money for Nereon and Classic
+Engine for Thaleia. No Doreios weights are transferred. Fresh 4,000-game final tests
+against unchanged MM/Melia yield 63.4% outright wins for Nereon, 62.0% for the prior
+Doreios champion, and 54.9% for Thaleia; all lower 95% win bounds exceed 50%.
+
+The `Game`/`vector` and continuation/evaluation configs now accept `leader` and
+`teacher`, retaining Doreios/Classic defaults for older experiments. Use
+`imitate_leader.py` for fresh imitation, `collect_independent.py` for reproducible
+independent expert collection, and `evaluate_teacher.py` for whole-game heuristic
+workers. Leader-specific model ZIPs and manifests live under that campaign root.

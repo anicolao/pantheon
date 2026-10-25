@@ -1,0 +1,17 @@
+{
+  "leader": "nereon",
+  "teacher": "money",
+  "sourceCheckpoint": "balance-results/leader-rl-v1/nereon/faster/checkpoint-1572864.zip",
+  "checkpoint": "champion.zip",
+  "sha256": "fec15291b5c041494285f0151db211e7d525e8afee4e0e034c6eb6a4c5a22d58",
+  "lineageRLDecisions": 2621440,
+  "initialization": "Independent random network imitating Money; no other leader weights transferred",
+  "selection": "Saved independent promotion rule; frozen before final outcomes",
+  "finalGames": 4000,
+  "observationFeatures": 171,
+  "actionSlots": 349,
+  "actorParameterSHA256": "b901065e348140985f5d0e229b59cc8376d2d5f8d3dba0d5880056c6f6dd737d",
+  "runtimeLock": "../../../scripts/rl/requirements.lock",
+  "inference": "Deterministic masked AnchoredPPO prediction",
+  "finalResults": "final/results.json"
+}

@@ -1,0 +1,135 @@
+{
+  "opponent": "Unchanged MM v3 / Melia",
+  "gamesPerModel": 4000,
+  "equalStartingSeats": true,
+  "all12000GamesReplayVerified": true,
+  "sourceHashesUnchanged": true,
+  "checkpointSHA256": {
+    "doreios": "ca4a52a69cd3e439baae2b1eb5195aa392e2648d23ba1024b9b35f6c54fdce6d",
+    "thaleia": "f81492461000d9eec8fd1ef379ffa46578c354e8e9691e511a5298470f3cae07",
+    "nereon": "fec15291b5c041494285f0151db211e7d525e8afee4e0e034c6eb6a4c5a22d58"
+  },
+  "actorParameterSHA256": {
+    "doreios": "09d244250f17231b5ae05678c695b5f8951ede4dc009b1cd943185ba5758c998",
+    "thaleia": "ac48645868182bf0ea89039864fc905768c9fecfa7d107d955f206f34aa3eef3",
+    "nereon": "b901065e348140985f5d0e229b59cc8376d2d5f8d3dba0d5880056c6f6dd737d"
+  },
+  "criterion": "Each individual Wilson 95% lower bound for outright wins exceeds 50%; ties do not count as wins",
+  "allTargetsPassed": true,
+  "leaders": {
+    "doreios": {
+      "games": 4000,
+      "wins": 2481,
+      "ties": 204,
+      "losses": 1315,
+      "share": 0.64575,
+      "winCI95": [
+        0.6051013131569271,
+        0.6351679407318996
+      ],
+      "winRate": 0.62025,
+      "targetPassed": true,
+      "firstSeat": {
+        "games": 2000,
+        "wins": 1325,
+        "ties": 77,
+        "losses": 598,
+        "share": 0.68175,
+        "winCI95": [
+          0.641482518468258,
+          0.6828944411653348
+        ]
+      },
+      "secondSeat": {
+        "games": 2000,
+        "wins": 1156,
+        "ties": 127,
+        "losses": 717,
+        "share": 0.60975,
+        "winCI95": [
+          0.5562259272236721,
+          0.5994750134004524
+        ]
+      },
+      "meanVP": 27.67525,
+      "meanOpponentVP": 25.0895,
+      "meanTurns": 14.04375
+    },
+    "thaleia": {
+      "games": 4000,
+      "wins": 2196,
+      "ties": 325,
+      "losses": 1479,
+      "share": 0.589625,
+      "winCI95": [
+        0.5335400249002501,
+        0.5643659496573593
+      ],
+      "winRate": 0.549,
+      "targetPassed": true,
+      "firstSeat": {
+        "games": 2000,
+        "wins": 1165,
+        "ties": 156,
+        "losses": 679,
+        "share": 0.6215,
+        "winCI95": [
+          0.5607492770380408,
+          0.6039344101605525
+        ]
+      },
+      "secondSeat": {
+        "games": 2000,
+        "wins": 1031,
+        "ties": 169,
+        "losses": 800,
+        "share": 0.55775,
+        "winCI95": [
+          0.4935887380010541,
+          0.5373518335332269
+        ]
+      },
+      "meanVP": 25.37375,
+      "meanOpponentVP": 23.59775,
+      "meanTurns": 12.47775
+    },
+    "nereon": {
+      "games": 4000,
+      "wins": 2536,
+      "ties": 340,
+      "losses": 1124,
+      "share": 0.6765,
+      "winCI95": [
+        0.618949987357784,
+        0.6487928818405762
+      ],
+      "winRate": 0.634,
+      "targetPassed": true,
+      "firstSeat": {
+        "games": 2000,
+        "wins": 1338,
+        "ties": 166,
+        "losses": 496,
+        "share": 0.7105,
+        "winCI95": [
+          0.6480698549657756,
+          0.6892821830531609
+        ]
+      },
+      "secondSeat": {
+        "games": 2000,
+        "wins": 1198,
+        "ties": 174,
+        "losses": 628,
+        "share": 0.6425,
+        "winCI95": [
+          0.5773507421655514,
+          0.6202696824727606
+        ]
+      },
+      "meanVP": 27.8155,
+      "meanOpponentVP": 25.389,
+      "meanTurns": 13.47975
+    }
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "games": 4000,
+  "uniqueSeeds": true,
+  "balancedSeats": true,
+  "allReplaysVerified": true,
+  "checkpointHashVerified": true,
+  "distinctActorWeightsVerified": true,
+  "targetPassed": true,
+  "firstSeatWins": 1338,
+  "secondSeatWins": 1198
+}
