@@ -2,7 +2,7 @@ import {RLEnvironment,commands} from './environment';
 const rows=await Bun.file(process.argv[2]).json();
 const report=[];
 for(const row of rows){
- const env=new RLEnvironment();env.reset(row.info.seed,row.info.first);
+ const env=new RLEnvironment(row.leader,row.teacher);env.reset(row.info.seed,row.info.first);
  const buys:Record<string,number>={},trashes:Record<string,number>={},worships:Record<string,number>={},gains:Record<string,number>={};
  const add=(map:Record<string,number>,id:string)=>map[id]=(map[id]??0)+1;
  let state:any;

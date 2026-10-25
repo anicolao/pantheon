@@ -1,0 +1,20 @@
+{
+  "summary": {
+    "champion": {
+      "games": 8,
+      "wins": 6,
+      "ties": 0,
+      "losses": 2,
+      "share": 0.75,
+      "winCI95": [
+        0.40927543031017727,
+        0.9285207872478887
+      ]
+    }
+  },
+  "comparisons": {},
+  "checkpointSHA256": {
+    "champion": "ca4a52a69cd3e439baae2b1eb5195aa392e2648d23ba1024b9b35f6c54fdce6d"
+  },
+  "elapsedSeconds": 3.410285834223032
+}
