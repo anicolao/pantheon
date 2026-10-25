@@ -1,0 +1,179 @@
+{
+  "exactCommandParity": true,
+  "replayVerified": true,
+  "elapsedSeconds": 2.232033375184983,
+  "decisions": 991,
+  "games": 8,
+  "workers": [
+    {
+      "leader": "melia",
+      "rank": 0,
+      "decisions": 139,
+      "games": [
+        {
+          "score": 35,
+          "opponentScore": 26,
+          "turns": 13,
+          "seed": "rl-runtime-v1:export-parity:0",
+          "first": true,
+          "opponentLeader": "nereon",
+          "opponentId": "v1-nereon",
+          "opponentGroup": "current",
+          "opponentCheckpointSHA256": "fec15291b5c041494285f0151db211e7d525e8afee4e0e034c6eb6a4c5a22d58",
+          "leagueSHA256": "6b1051a8e482ff50f801d944591d1a3ccbe7d79407183f94393a2313d542e9b3",
+          "outcome": 1,
+          "reward": 1.0
+        }
+      ]
+    },
+    {
+      "leader": "melia",
+      "rank": 1,
+      "decisions": 121,
+      "games": [
+        {
+          "score": 29,
+          "opponentScore": 26,
+          "turns": 12,
+          "seed": "rl-runtime-v1:export-parity:1",
+          "first": false,
+          "opponentLeader": "nereon",
+          "opponentId": "v1-nereon",
+          "opponentGroup": "current",
+          "opponentCheckpointSHA256": "fec15291b5c041494285f0151db211e7d525e8afee4e0e034c6eb6a4c5a22d58",
+          "leagueSHA256": "6b1051a8e482ff50f801d944591d1a3ccbe7d79407183f94393a2313d542e9b3",
+          "outcome": 1,
+          "reward": 1.0
+        }
+      ]
+    },
+    {
+      "leader": "melia",
+      "rank": 2,
+      "decisions": 113,
+      "games": [
+        {
+          "score": 20,
+          "opponentScore": 27,
+          "turns": 11,
+          "seed": "rl-runtime-v1:export-parity:2",
+          "first": true,
+          "opponentLeader": "thaleia",
+          "opponentId": "v1-thaleia",
+          "opponentGroup": "current",
+          "opponentCheckpointSHA256": "f81492461000d9eec8fd1ef379ffa46578c354e8e9691e511a5298470f3cae07",
+          "leagueSHA256": "6b1051a8e482ff50f801d944591d1a3ccbe7d79407183f94393a2313d542e9b3",
+          "outcome": -1,
+          "reward": -1.0
+        }
+      ]
+    },
+    {
+      "leader": "melia",
+      "rank": 3,
+      "decisions": 153,
+      "games": [
+        {
+          "score": 29,
+          "opponentScore": 32,
+          "turns": 18,
+          "seed": "rl-runtime-v1:export-parity:3",
+          "first": false,
+          "opponentLeader": "thaleia",
+          "opponentId": "v1-thaleia",
+          "opponentGroup": "current",
+          "opponentCheckpointSHA256": "f81492461000d9eec8fd1ef379ffa46578c354e8e9691e511a5298470f3cae07",
+          "leagueSHA256": "6b1051a8e482ff50f801d944591d1a3ccbe7d79407183f94393a2313d542e9b3",
+          "outcome": -1,
+          "reward": -1.0
+        }
+      ]
+    },
+    {
+      "leader": "melia",
+      "rank": 4,
+      "decisions": 112,
+      "games": [
+        {
+          "score": 22,
+          "opponentScore": 24,
+          "turns": 11,
+          "seed": "rl-runtime-v1:export-parity:4",
+          "first": true,
+          "opponentLeader": "doreios",
+          "opponentId": "v1-doreios",
+          "opponentGroup": "current",
+          "opponentCheckpointSHA256": "ca4a52a69cd3e439baae2b1eb5195aa392e2648d23ba1024b9b35f6c54fdce6d",
+          "leagueSHA256": "6b1051a8e482ff50f801d944591d1a3ccbe7d79407183f94393a2313d542e9b3",
+          "outcome": -1,
+          "reward": -1.0
+        }
+      ]
+    },
+    {
+      "leader": "melia",
+      "rank": 5,
+      "decisions": 84,
+      "games": [
+        {
+          "score": 27,
+          "opponentScore": 21,
+          "turns": 11,
+          "seed": "rl-runtime-v1:export-parity:5",
+          "first": false,
+          "opponentLeader": "doreios",
+          "opponentId": "v1-doreios",
+          "opponentGroup": "current",
+          "opponentCheckpointSHA256": "ca4a52a69cd3e439baae2b1eb5195aa392e2648d23ba1024b9b35f6c54fdce6d",
+          "leagueSHA256": "6b1051a8e482ff50f801d944591d1a3ccbe7d79407183f94393a2313d542e9b3",
+          "outcome": 1,
+          "reward": 1.0
+        }
+      ]
+    },
+    {
+      "leader": "melia",
+      "rank": 6,
+      "decisions": 135,
+      "games": [
+        {
+          "score": 33,
+          "opponentScore": 19,
+          "turns": 12,
+          "seed": "rl-runtime-v1:export-parity:6",
+          "first": true,
+          "opponentLeader": "nereon",
+          "opponentId": "owl-nereon",
+          "opponentGroup": "heuristic",
+          "opponentCheckpointSHA256": null,
+          "leagueSHA256": "6b1051a8e482ff50f801d944591d1a3ccbe7d79407183f94393a2313d542e9b3",
+          "outcome": 1,
+          "reward": 1.0
+        }
+      ]
+    },
+    {
+      "leader": "melia",
+      "rank": 7,
+      "decisions": 134,
+      "games": [
+        {
+          "score": 25,
+          "opponentScore": 19,
+          "turns": 11,
+          "seed": "rl-runtime-v1:export-parity:7",
+          "first": false,
+          "opponentLeader": "nereon",
+          "opponentId": "owl-nereon",
+          "opponentGroup": "heuristic",
+          "opponentCheckpointSHA256": null,
+          "leagueSHA256": "6b1051a8e482ff50f801d944591d1a3ccbe7d79407183f94393a2313d542e9b3",
+          "outcome": 1,
+          "reward": 1.0
+        }
+      ]
+    }
+  ],
+  "actorSHA256": "1310ab42acc417055d641fbf9c7a2ec155889b700d588d85ab4c14af7c831dcb",
+  "checkpointSHA256": "f6016282d408c3f78263a3396f7e423e31fdcbf3c790afcf6b34e6fd9823122c"
+}

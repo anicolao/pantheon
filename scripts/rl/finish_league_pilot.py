@@ -52,4 +52,10 @@ if not (root / 'final-audit-protocol.json').exists():
 jobs('evaluate_checkpoints.py', [root / f'configs/final-{l}.json' for l in leaders])
 audit = json.loads((root / 'final-audit-protocol.json').read_text())
 jobs('evaluate_independent.py', [Path(p) for p in audit['configs']])
+for leader in leaders:
+    output = root / f'validation/final-export-{leader}.json'
+    if not output.exists():
+        call('verify_export.py', '--leaders', leader, '--checkpoint', root / f'champions/round-2/{leader}',
+             '--actor', root / f'actors/r2-{leader}.json', '--games', 128,
+             '--opponent', f'league:{root}/manifests/reference.json', '--output', output)
 print('Two-round pilot and final evaluations complete. Production weights unchanged.', flush=True)
