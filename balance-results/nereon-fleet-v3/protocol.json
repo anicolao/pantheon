@@ -1,0 +1,23 @@
+{
+  "version": 3,
+  "policySourceSHA256": "b83836ae14ace66d08d3aafde36ea414565eb80fa8f9967837026ab369ea8f05",
+  "harnessSHA256": "850ca00c8d07dace431261117dd0c0f23ffe3fc0fc2fdf26ef48d1a3b70564dc",
+  "baseCommit": "7dd227a3da91b2ae21bb9304ec0ef2e46c2e0cbe",
+  "gamesPerCandidate": 100,
+  "candidates": [
+    "fleet",
+    "money",
+    "classic-engine",
+    "engine",
+    "mm",
+    "mn",
+    "owl"
+  ],
+  "seedPattern": "mn-v1-evaluation:mm:melia:0..99",
+  "equalTurns": true,
+  "seatBalance": "50 first / 50 second in evaluation; even indices MM first",
+  "opponent": "Unchanged MM v3 / Melia",
+  "validation": "Every historical baseline command must match; all games replay to identical final states; no exclusions",
+  "tuning": "First policy frozen before evaluation; smoke namespace separate from evaluation",
+  "policy": "First Acolyte / Fleet, early Hamlets-first thinning, then Obols independently while count >5 or owned treasure cash >8, rechecked per removal and requiring pre-worship available coins <=4 including unplayed treasures, original hand-order Obol tie-break; favored Poseidon below $8 except first Fleet, Acropolis at $8, Talent at $6 and repeat Academy at $5; no UI policy changes"
+}
