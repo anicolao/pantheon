@@ -1,0 +1,21 @@
+{
+  "matchups": 81,
+  "gamesPerMatchup": 100,
+  "totalGames": 8100,
+  "generalPolicies": [
+    "mm",
+    "money",
+    "engine",
+    "classic-engine",
+    "owl-v2",
+    "mn-v1"
+  ],
+  "specialists": {
+    "fleet-v1": "nereon",
+    "fleet-v6": "nereon",
+    "grove-v1": "doreios"
+  },
+  "modelSelection": "All four actors frozen before any final heuristic results are inspected; no training on tournament seeds",
+  "benchmarkRuntime": "Bundled immutable Bun worker using exactly the shipped browser actor",
+  "allGameRecords": "Gzip replay shards retain every command and full reproducible configuration"
+}

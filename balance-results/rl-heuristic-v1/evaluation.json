@@ -1,0 +1,12 @@
+{
+  "output": "balance-results/rl-heuristic-v1/evaluation",
+  "prefix": "rl-heuristic-v1-evaluation",
+  "games": 100,
+  "workers": 16,
+  "leaders": [
+    "melia",
+    "nereon",
+    "thaleia",
+    "doreios"
+  ]
+}

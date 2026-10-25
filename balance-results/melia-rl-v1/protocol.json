@@ -11,5 +11,6 @@
   "selection": "Highest screening outright wins, then share; independent confirmation required. Seek >50% wins against each learned opponent, then freeze before final test.",
   "finalPrefix": "rl-melia-v1-final",
   "finalGames": 6144,
-  "heuristicBenchmark": "100 games per distinct-leader pairing, 50 per starting seat, four general policies plus four specialist variants; no exclusions"
+  "heuristicBenchmark": "81 distinct-leader/policy matchups, 100 games each; six general policies plus Fleet v1/v6 and Grove specialists, including archived Owl and MN",
+  "continuation": "Try lower-learning-rate continuation and Nereon-focused curriculum; keep screening and final evaluation equally balanced across the three frozen opponents."
 }

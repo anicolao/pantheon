@@ -88,3 +88,12 @@ for(let index=0;index<6;index++)test(`Melia RL opponent pool balances leaders an
  }
  expect(PracticeSession.restore(env.session.save()).game).toEqual(env.session.game);
 });
+
+test('focused training schedule keeps both seats and never changes balanced evaluation',()=>{
+ const counts:Record<string,number>={};
+ for(let i=0;i<10;i++){
+  const env=new RLEnvironment('melia','mm','rl-nereon-focus');env.reset(`rl-focus-schedule:${i}`,i%2===0);
+  const key=env.opponentLeader+':'+String(i%2===0);counts[key]=(counts[key]??0)+1;
+ }
+ expect(counts).toEqual({'nereon:true':3,'nereon:false':3,'thaleia:true':1,'thaleia:false':1,'doreios:true':1,'doreios:false':1});
+});

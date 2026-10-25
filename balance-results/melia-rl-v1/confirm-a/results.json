@@ -1,0 +1,110 @@
+{
+  "summary": {
+    "balanced_candidate": {
+      "games": 3072,
+      "wins": 1697,
+      "ties": 360,
+      "losses": 1015,
+      "share": 0.6110026041666666,
+      "winCI95": [
+        0.5347706314957308,
+        0.5699161686241485
+      ],
+      "opponents": {
+        "doreios": {
+          "games": 1024,
+          "wins": 630,
+          "ties": 157,
+          "losses": 237,
+          "share": 0.69189453125,
+          "winCI95": [
+            0.5850563002182655,
+            0.6445510949443868
+          ]
+        },
+        "nereon": {
+          "games": 1024,
+          "wins": 520,
+          "ties": 80,
+          "losses": 424,
+          "share": 0.546875,
+          "winCI95": [
+            0.4772198634142036,
+            0.538346739647671
+          ]
+        },
+        "thaleia": {
+          "games": 1024,
+          "wins": 547,
+          "ties": 123,
+          "losses": 354,
+          "share": 0.59423828125,
+          "winCI95": [
+            0.5035560247624914,
+            0.5645478636332105
+          ]
+        }
+      }
+    },
+    "aggregate_candidate": {
+      "games": 3072,
+      "wins": 1751,
+      "ties": 353,
+      "losses": 968,
+      "share": 0.62744140625,
+      "winCI95": [
+        0.5524033282643969,
+        0.5873958147528332
+      ],
+      "opponents": {
+        "doreios": {
+          "games": 1024,
+          "wins": 646,
+          "ties": 140,
+          "losses": 238,
+          "share": 0.69921875,
+          "winCI95": [
+            0.6008645344428193,
+            0.6598760668435825
+          ]
+        },
+        "nereon": {
+          "games": 1024,
+          "wins": 517,
+          "ties": 95,
+          "losses": 412,
+          "share": 0.55126953125,
+          "winCI95": [
+            0.47429885985989784,
+            0.5354302670537738
+          ]
+        },
+        "thaleia": {
+          "games": 1024,
+          "wins": 588,
+          "ties": 118,
+          "losses": 318,
+          "share": 0.6318359375,
+          "winCI95": [
+            0.5437115654893948,
+            0.6041711635984152
+          ]
+        }
+      }
+    }
+  },
+  "comparisons": {
+    "aggregate_candidate-vs-balanced_candidate": {
+      "shareDelta": 0.016438802083333332,
+      "pairedApprox95CI": [
+        0.0006406097278627357,
+        0.03223699443880393
+      ]
+    }
+  },
+  "checkpointSHA256": {
+    "balanced_candidate": "2f5822afe3e6dad2264663b5d503dcba53e1279285137c7d1143167483ddd57f",
+    "aggregate_candidate": "2809fb28039ff82af97df4d0f5d52e3bdc76d0e30b4ae1c271106bf268f58def"
+  },
+  "elapsedSeconds": 137.3525193752721
+}
