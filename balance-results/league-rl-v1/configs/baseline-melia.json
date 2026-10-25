@@ -1,0 +1,13 @@
+{
+  "leader": "melia",
+  "teacher": "mm",
+  "opponent": "league:balance-results/league-rl-v1/manifests/reference.json",
+  "prefix": "league-v1:melia",
+  "namespace": "screen",
+  "workers": 8,
+  "games": 384,
+  "models": {
+    "incumbent": "balance-results/melia-rl-v1/champion"
+  },
+  "output": "balance-results/league-rl-v1/baseline/melia"
+}

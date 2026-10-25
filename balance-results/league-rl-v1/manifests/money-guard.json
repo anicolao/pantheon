@@ -1,0 +1,41 @@
+{
+  "version": 1,
+  "learners": {
+    "melia": [
+      {
+        "id": "money-nereon",
+        "leader": "nereon",
+        "group": "heuristic",
+        "weight": 1,
+        "policy": "money"
+      }
+    ],
+    "nereon": [
+      {
+        "id": "money-thaleia",
+        "leader": "thaleia",
+        "group": "heuristic",
+        "weight": 1,
+        "policy": "money"
+      }
+    ],
+    "thaleia": [
+      {
+        "id": "money-nereon",
+        "leader": "nereon",
+        "group": "heuristic",
+        "weight": 1,
+        "policy": "money"
+      }
+    ],
+    "doreios": [
+      {
+        "id": "money-thaleia",
+        "leader": "thaleia",
+        "group": "heuristic",
+        "weight": 1,
+        "policy": "money"
+      }
+    ]
+  }
+}

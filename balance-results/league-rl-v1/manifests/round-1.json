@@ -1,0 +1,313 @@
+{
+  "version": 1,
+  "learners": {
+    "melia": [
+      {
+        "id": "v1-nereon",
+        "leader": "nereon",
+        "group": "current",
+        "weight": 2,
+        "actor": "balance-results/league-rl-v1/actors/v1-nereon.json",
+        "actorSHA256": "c62419391353ea8d3a189185a74ba174bd74dab7558d4ba8c3ae8557e3febfdf",
+        "checkpointSHA256": "fec15291b5c041494285f0151db211e7d525e8afee4e0e034c6eb6a4c5a22d58"
+      },
+      {
+        "id": "v1-thaleia",
+        "leader": "thaleia",
+        "group": "current",
+        "weight": 2,
+        "actor": "balance-results/league-rl-v1/actors/v1-thaleia.json",
+        "actorSHA256": "3df20ea8f47a2c692bedb3b4014619cf30f9d3cede6084570d804d751530784b",
+        "checkpointSHA256": "f81492461000d9eec8fd1ef379ffa46578c354e8e9691e511a5298470f3cae07"
+      },
+      {
+        "id": "v1-doreios",
+        "leader": "doreios",
+        "group": "current",
+        "weight": 2,
+        "actor": "balance-results/league-rl-v1/actors/v1-doreios.json",
+        "actorSHA256": "c444e3097cf76aa7b233a394061312527c6732bbc8322b2dfb0b505cc297a82d",
+        "checkpointSHA256": "ca4a52a69cd3e439baae2b1eb5195aa392e2648d23ba1024b9b35f6c54fdce6d"
+      },
+      {
+        "id": "historical-nereon",
+        "leader": "nereon",
+        "group": "historical",
+        "weight": 1,
+        "actor": "balance-results/league-rl-v1/actors/historical-nereon.json",
+        "actorSHA256": "1515c2c014bdeef588374dc4c06beeb9a01f75f526bafb0357e811697b1014cf",
+        "checkpointSHA256": "28bff55f221e339918b12faa43b2c342d13ae8b67572fe8c10133b296ad78b5e"
+      },
+      {
+        "id": "historical-thaleia",
+        "leader": "thaleia",
+        "group": "historical",
+        "weight": 1,
+        "actor": "balance-results/league-rl-v1/actors/historical-thaleia.json",
+        "actorSHA256": "caac82e59e636fcabb0603cc41d2301a23bc1ffa570682f819c97aa53b7e6432",
+        "checkpointSHA256": "b0649fdd4ac4fecdc4e293987a67146432543af50598a70c3bbeef5c1eae0d43"
+      },
+      {
+        "id": "historical-doreios",
+        "leader": "doreios",
+        "group": "historical",
+        "weight": 1,
+        "actor": "balance-results/league-rl-v1/actors/historical-doreios.json",
+        "actorSHA256": "5e043d36ad8cf3ca81d67626bc9ac4e093efb699895466afcefaefb918be54ba",
+        "checkpointSHA256": "b64a53ee73c3a1e835dc14d857e89916418c311c2ce027261a2232a0fba35f3a"
+      },
+      {
+        "id": "owl-nereon",
+        "leader": "nereon",
+        "group": "heuristic",
+        "weight": 1,
+        "policy": "owl"
+      },
+      {
+        "id": "fleet-nereon",
+        "leader": "nereon",
+        "group": "heuristic",
+        "weight": 1,
+        "policy": "fleet"
+      },
+      {
+        "id": "classic-engine-thaleia",
+        "leader": "thaleia",
+        "group": "heuristic",
+        "weight": 1,
+        "policy": "classic-engine"
+      }
+    ],
+    "nereon": [
+      {
+        "id": "v1-melia",
+        "leader": "melia",
+        "group": "current",
+        "weight": 2,
+        "actor": "balance-results/league-rl-v1/actors/v1-melia.json",
+        "actorSHA256": "1310ab42acc417055d641fbf9c7a2ec155889b700d588d85ab4c14af7c831dcb",
+        "checkpointSHA256": "f6016282d408c3f78263a3396f7e423e31fdcbf3c790afcf6b34e6fd9823122c"
+      },
+      {
+        "id": "v1-thaleia",
+        "leader": "thaleia",
+        "group": "current",
+        "weight": 2,
+        "actor": "balance-results/league-rl-v1/actors/v1-thaleia.json",
+        "actorSHA256": "3df20ea8f47a2c692bedb3b4014619cf30f9d3cede6084570d804d751530784b",
+        "checkpointSHA256": "f81492461000d9eec8fd1ef379ffa46578c354e8e9691e511a5298470f3cae07"
+      },
+      {
+        "id": "v1-doreios",
+        "leader": "doreios",
+        "group": "current",
+        "weight": 2,
+        "actor": "balance-results/league-rl-v1/actors/v1-doreios.json",
+        "actorSHA256": "c444e3097cf76aa7b233a394061312527c6732bbc8322b2dfb0b505cc297a82d",
+        "checkpointSHA256": "ca4a52a69cd3e439baae2b1eb5195aa392e2648d23ba1024b9b35f6c54fdce6d"
+      },
+      {
+        "id": "historical-melia",
+        "leader": "melia",
+        "group": "historical",
+        "weight": 1,
+        "actor": "balance-results/league-rl-v1/actors/historical-melia.json",
+        "actorSHA256": "0440837aef435e0f31e3efc6e6ef25a0625073227b6694b8fe95b667f2d27ea1",
+        "checkpointSHA256": "2f5822afe3e6dad2264663b5d503dcba53e1279285137c7d1143167483ddd57f"
+      },
+      {
+        "id": "historical-thaleia",
+        "leader": "thaleia",
+        "group": "historical",
+        "weight": 1,
+        "actor": "balance-results/league-rl-v1/actors/historical-thaleia.json",
+        "actorSHA256": "caac82e59e636fcabb0603cc41d2301a23bc1ffa570682f819c97aa53b7e6432",
+        "checkpointSHA256": "b0649fdd4ac4fecdc4e293987a67146432543af50598a70c3bbeef5c1eae0d43"
+      },
+      {
+        "id": "historical-doreios",
+        "leader": "doreios",
+        "group": "historical",
+        "weight": 1,
+        "actor": "balance-results/league-rl-v1/actors/historical-doreios.json",
+        "actorSHA256": "5e043d36ad8cf3ca81d67626bc9ac4e093efb699895466afcefaefb918be54ba",
+        "checkpointSHA256": "b64a53ee73c3a1e835dc14d857e89916418c311c2ce027261a2232a0fba35f3a"
+      },
+      {
+        "id": "classic-engine-thaleia",
+        "leader": "thaleia",
+        "group": "heuristic",
+        "weight": 1,
+        "policy": "classic-engine"
+      },
+      {
+        "id": "owl-thaleia",
+        "leader": "thaleia",
+        "group": "heuristic",
+        "weight": 1,
+        "policy": "owl"
+      },
+      {
+        "id": "mm-melia",
+        "leader": "melia",
+        "group": "heuristic",
+        "weight": 1,
+        "policy": "mm"
+      }
+    ],
+    "thaleia": [
+      {
+        "id": "v1-melia",
+        "leader": "melia",
+        "group": "current",
+        "weight": 2,
+        "actor": "balance-results/league-rl-v1/actors/v1-melia.json",
+        "actorSHA256": "1310ab42acc417055d641fbf9c7a2ec155889b700d588d85ab4c14af7c831dcb",
+        "checkpointSHA256": "f6016282d408c3f78263a3396f7e423e31fdcbf3c790afcf6b34e6fd9823122c"
+      },
+      {
+        "id": "v1-nereon",
+        "leader": "nereon",
+        "group": "current",
+        "weight": 2,
+        "actor": "balance-results/league-rl-v1/actors/v1-nereon.json",
+        "actorSHA256": "c62419391353ea8d3a189185a74ba174bd74dab7558d4ba8c3ae8557e3febfdf",
+        "checkpointSHA256": "fec15291b5c041494285f0151db211e7d525e8afee4e0e034c6eb6a4c5a22d58"
+      },
+      {
+        "id": "v1-doreios",
+        "leader": "doreios",
+        "group": "current",
+        "weight": 2,
+        "actor": "balance-results/league-rl-v1/actors/v1-doreios.json",
+        "actorSHA256": "c444e3097cf76aa7b233a394061312527c6732bbc8322b2dfb0b505cc297a82d",
+        "checkpointSHA256": "ca4a52a69cd3e439baae2b1eb5195aa392e2648d23ba1024b9b35f6c54fdce6d"
+      },
+      {
+        "id": "historical-melia",
+        "leader": "melia",
+        "group": "historical",
+        "weight": 1,
+        "actor": "balance-results/league-rl-v1/actors/historical-melia.json",
+        "actorSHA256": "0440837aef435e0f31e3efc6e6ef25a0625073227b6694b8fe95b667f2d27ea1",
+        "checkpointSHA256": "2f5822afe3e6dad2264663b5d503dcba53e1279285137c7d1143167483ddd57f"
+      },
+      {
+        "id": "historical-nereon",
+        "leader": "nereon",
+        "group": "historical",
+        "weight": 1,
+        "actor": "balance-results/league-rl-v1/actors/historical-nereon.json",
+        "actorSHA256": "1515c2c014bdeef588374dc4c06beeb9a01f75f526bafb0357e811697b1014cf",
+        "checkpointSHA256": "28bff55f221e339918b12faa43b2c342d13ae8b67572fe8c10133b296ad78b5e"
+      },
+      {
+        "id": "historical-doreios",
+        "leader": "doreios",
+        "group": "historical",
+        "weight": 1,
+        "actor": "balance-results/league-rl-v1/actors/historical-doreios.json",
+        "actorSHA256": "5e043d36ad8cf3ca81d67626bc9ac4e093efb699895466afcefaefb918be54ba",
+        "checkpointSHA256": "b64a53ee73c3a1e835dc14d857e89916418c311c2ce027261a2232a0fba35f3a"
+      },
+      {
+        "id": "engine-nereon",
+        "leader": "nereon",
+        "group": "heuristic",
+        "weight": 1,
+        "policy": "engine"
+      },
+      {
+        "id": "owl-melia",
+        "leader": "melia",
+        "group": "heuristic",
+        "weight": 1,
+        "policy": "owl"
+      },
+      {
+        "id": "classic-engine-doreios",
+        "leader": "doreios",
+        "group": "heuristic",
+        "weight": 1,
+        "policy": "classic-engine"
+      }
+    ],
+    "doreios": [
+      {
+        "id": "v1-melia",
+        "leader": "melia",
+        "group": "current",
+        "weight": 2,
+        "actor": "balance-results/league-rl-v1/actors/v1-melia.json",
+        "actorSHA256": "1310ab42acc417055d641fbf9c7a2ec155889b700d588d85ab4c14af7c831dcb",
+        "checkpointSHA256": "f6016282d408c3f78263a3396f7e423e31fdcbf3c790afcf6b34e6fd9823122c"
+      },
+      {
+        "id": "v1-nereon",
+        "leader": "nereon",
+        "group": "current",
+        "weight": 2,
+        "actor": "balance-results/league-rl-v1/actors/v1-nereon.json",
+        "actorSHA256": "c62419391353ea8d3a189185a74ba174bd74dab7558d4ba8c3ae8557e3febfdf",
+        "checkpointSHA256": "fec15291b5c041494285f0151db211e7d525e8afee4e0e034c6eb6a4c5a22d58"
+      },
+      {
+        "id": "v1-thaleia",
+        "leader": "thaleia",
+        "group": "current",
+        "weight": 2,
+        "actor": "balance-results/league-rl-v1/actors/v1-thaleia.json",
+        "actorSHA256": "3df20ea8f47a2c692bedb3b4014619cf30f9d3cede6084570d804d751530784b",
+        "checkpointSHA256": "f81492461000d9eec8fd1ef379ffa46578c354e8e9691e511a5298470f3cae07"
+      },
+      {
+        "id": "historical-melia",
+        "leader": "melia",
+        "group": "historical",
+        "weight": 1,
+        "actor": "balance-results/league-rl-v1/actors/historical-melia.json",
+        "actorSHA256": "0440837aef435e0f31e3efc6e6ef25a0625073227b6694b8fe95b667f2d27ea1",
+        "checkpointSHA256": "2f5822afe3e6dad2264663b5d503dcba53e1279285137c7d1143167483ddd57f"
+      },
+      {
+        "id": "historical-nereon",
+        "leader": "nereon",
+        "group": "historical",
+        "weight": 1,
+        "actor": "balance-results/league-rl-v1/actors/historical-nereon.json",
+        "actorSHA256": "1515c2c014bdeef588374dc4c06beeb9a01f75f526bafb0357e811697b1014cf",
+        "checkpointSHA256": "28bff55f221e339918b12faa43b2c342d13ae8b67572fe8c10133b296ad78b5e"
+      },
+      {
+        "id": "historical-thaleia",
+        "leader": "thaleia",
+        "group": "historical",
+        "weight": 1,
+        "actor": "balance-results/league-rl-v1/actors/historical-thaleia.json",
+        "actorSHA256": "caac82e59e636fcabb0603cc41d2301a23bc1ffa570682f819c97aa53b7e6432",
+        "checkpointSHA256": "b0649fdd4ac4fecdc4e293987a67146432543af50598a70c3bbeef5c1eae0d43"
+      },
+      {
+        "id": "classic-engine-thaleia",
+        "leader": "thaleia",
+        "group": "heuristic",
+        "weight": 1,
+        "policy": "classic-engine"
+      },
+      {
+        "id": "owl-thaleia",
+        "leader": "thaleia",
+        "group": "heuristic",
+        "weight": 1,
+        "policy": "owl"
+      },
+      {
+        "id": "mm-melia",
+        "leader": "melia",
+        "group": "heuristic",
+        "weight": 1,
+        "policy": "mm"
+      }
+    ]
+  }
+}

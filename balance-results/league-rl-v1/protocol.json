@@ -1,0 +1,27 @@
+{
+  "version": 1,
+  "rounds": 2,
+  "stepsPerLeaderPerRound": 524288,
+  "checkpointsEvery": 262144,
+  "trainingMix": "50% current RL, 25% historical RL, 25% fast native heuristics; balanced starting seats",
+  "slowHeuristics": "Native Money held out from synchronous rollout collection and evaluated separately with independent whole-game workers; no approximated Money policy",
+  "champions": {
+    "melia": "balance-results/melia-rl-v1/champion",
+    "nereon": "balance-results/leader-rl-v1/nereon/champion",
+    "thaleia": "balance-results/leader-rl-v1/thaleia/champion",
+    "doreios": "balance-results/leader-rl-v1/doreios/champion"
+  },
+  "historical": {
+    "melia": "balance-results/melia-rl-v1/explore/checkpoint-1572864",
+    "nereon": "balance-results/leader-rl-v1/nereon/faster/checkpoint-524288",
+    "thaleia": "balance-results/leader-rl-v1/thaleia/rl-a/checkpoint-1572864",
+    "doreios": "balance-results/doreios-rl-v3/long-credit-free/checkpoint-524288"
+  },
+  "referenceLeague": "manifests/reference.json",
+  "selection": "Highest screening tie-adjusted share, then outright wins; compare incumbent and both checkpoints on same screening seeds",
+  "promotion": "Candidate paired 95% lower bound on share improvement > 0 on 1536 fresh reference games; no observed per-reference-opponent share regression greater than 3 percentage points; must also pass 256-game matched native Money guard with observed share regression no greater than 3 points. Guard is a regression screen, not proof of 3-point statistical noninferiority.",
+  "final": "Freeze after round two; 3072 fresh reference games per leader for v1 versus selected champion, and final current-model cross-play. All final games replay verified; no exclusions.",
+  "production": "Do not replace shipped weights until independent final evidence supports promotion",
+  "seeds": "league-v1:<leader>:<namespace>:<index>, disjoint train/screen/confirm/final namespaces; same seeds between candidate and incumbent",
+  "concurrency": "Two learners with eight environment workers each; independent whole-game workers for expensive native guard"
+}
