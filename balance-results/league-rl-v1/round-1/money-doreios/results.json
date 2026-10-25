@@ -1,0 +1,92 @@
+{
+  "summary": {
+    "incumbent": {
+      "games": 256,
+      "wins": 57,
+      "ties": 10,
+      "losses": 189,
+      "share": 0.2421875,
+      "winCI95": [
+        0.1760060103036549,
+        0.2775069100575702
+      ],
+      "opponents": {
+        "thaleia": {
+          "games": 256,
+          "wins": 57,
+          "ties": 10,
+          "losses": 189,
+          "share": 0.2421875,
+          "winCI95": [
+            0.1760060103036549,
+            0.2775069100575702
+          ]
+        }
+      },
+      "matchups": {
+        "money-thaleia": {
+          "games": 256,
+          "wins": 57,
+          "ties": 10,
+          "losses": 189,
+          "share": 0.2421875,
+          "winCI95": [
+            0.1760060103036549,
+            0.2775069100575702
+          ]
+        }
+      }
+    },
+    "candidate": {
+      "games": 256,
+      "wins": 150,
+      "ties": 20,
+      "losses": 86,
+      "share": 0.625,
+      "winCI95": [
+        0.5247637927926434,
+        0.6445702318841602
+      ],
+      "opponents": {
+        "thaleia": {
+          "games": 256,
+          "wins": 150,
+          "ties": 20,
+          "losses": 86,
+          "share": 0.625,
+          "winCI95": [
+            0.5247637927926434,
+            0.6445702318841602
+          ]
+        }
+      },
+      "matchups": {
+        "money-thaleia": {
+          "games": 256,
+          "wins": 150,
+          "ties": 20,
+          "losses": 86,
+          "share": 0.625,
+          "winCI95": [
+            0.5247637927926434,
+            0.6445702318841602
+          ]
+        }
+      }
+    }
+  },
+  "comparisons": {
+    "candidate-vs-incumbent": {
+      "shareDelta": 0.3828125,
+      "pairedApprox95CI": [
+        0.3179533040189456,
+        0.4476716959810544
+      ]
+    }
+  },
+  "checkpointSHA256": {
+    "incumbent": "ca4a52a69cd3e439baae2b1eb5195aa392e2648d23ba1024b9b35f6c54fdce6d",
+    "candidate": "0c3241950187bc4a49b4dd971e8bb519ce21eb3678a7358f8e37a8ed4d4a938c"
+  },
+  "elapsedSeconds": 614.7466520406306
+}

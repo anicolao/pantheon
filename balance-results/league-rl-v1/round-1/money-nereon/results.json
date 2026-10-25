@@ -1,0 +1,92 @@
+{
+  "summary": {
+    "incumbent": {
+      "games": 256,
+      "wins": 67,
+      "ties": 29,
+      "losses": 160,
+      "share": 0.318359375,
+      "winCI95": [
+        0.2116786380872453,
+        0.3188042934907086
+      ],
+      "opponents": {
+        "thaleia": {
+          "games": 256,
+          "wins": 67,
+          "ties": 29,
+          "losses": 160,
+          "share": 0.318359375,
+          "winCI95": [
+            0.2116786380872453,
+            0.3188042934907086
+          ]
+        }
+      },
+      "matchups": {
+        "money-thaleia": {
+          "games": 256,
+          "wins": 67,
+          "ties": 29,
+          "losses": 160,
+          "share": 0.318359375,
+          "winCI95": [
+            0.2116786380872453,
+            0.3188042934907086
+          ]
+        }
+      }
+    },
+    "candidate": {
+      "games": 256,
+      "wins": 190,
+      "ties": 15,
+      "losses": 51,
+      "share": 0.771484375,
+      "winCI95": [
+        0.6853000003835418,
+        0.7919140691601773
+      ],
+      "opponents": {
+        "thaleia": {
+          "games": 256,
+          "wins": 190,
+          "ties": 15,
+          "losses": 51,
+          "share": 0.771484375,
+          "winCI95": [
+            0.6853000003835418,
+            0.7919140691601773
+          ]
+        }
+      },
+      "matchups": {
+        "money-thaleia": {
+          "games": 256,
+          "wins": 190,
+          "ties": 15,
+          "losses": 51,
+          "share": 0.771484375,
+          "winCI95": [
+            0.6853000003835418,
+            0.7919140691601773
+          ]
+        }
+      }
+    }
+  },
+  "comparisons": {
+    "candidate-vs-incumbent": {
+      "shareDelta": 0.453125,
+      "pairedApprox95CI": [
+        0.3856191110956629,
+        0.5206308889043372
+      ]
+    }
+  },
+  "checkpointSHA256": {
+    "incumbent": "fec15291b5c041494285f0151db211e7d525e8afee4e0e034c6eb6a4c5a22d58",
+    "candidate": "5d4460272869226723bd9668b946bed98bdc3208569853fa1240e446a78f05e7"
+  },
+  "elapsedSeconds": 1100.6048092921264
+}

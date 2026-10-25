@@ -1,0 +1,92 @@
+{
+  "summary": {
+    "incumbent": {
+      "games": 256,
+      "wins": 216,
+      "ties": 6,
+      "losses": 34,
+      "share": 0.85546875,
+      "winCI95": [
+        0.7942285422215243,
+        0.8831075564856896
+      ],
+      "opponents": {
+        "nereon": {
+          "games": 256,
+          "wins": 216,
+          "ties": 6,
+          "losses": 34,
+          "share": 0.85546875,
+          "winCI95": [
+            0.7942285422215243,
+            0.8831075564856896
+          ]
+        }
+      },
+      "matchups": {
+        "money-nereon": {
+          "games": 256,
+          "wins": 216,
+          "ties": 6,
+          "losses": 34,
+          "share": 0.85546875,
+          "winCI95": [
+            0.7942285422215243,
+            0.8831075564856896
+          ]
+        }
+      }
+    },
+    "candidate": {
+      "games": 256,
+      "wins": 205,
+      "ties": 10,
+      "losses": 41,
+      "share": 0.8203125,
+      "winCI95": [
+        0.7475672255055174,
+        0.8451018608632949
+      ],
+      "opponents": {
+        "nereon": {
+          "games": 256,
+          "wins": 205,
+          "ties": 10,
+          "losses": 41,
+          "share": 0.8203125,
+          "winCI95": [
+            0.7475672255055174,
+            0.8451018608632949
+          ]
+        }
+      },
+      "matchups": {
+        "money-nereon": {
+          "games": 256,
+          "wins": 205,
+          "ties": 10,
+          "losses": 41,
+          "share": 0.8203125,
+          "winCI95": [
+            0.7475672255055174,
+            0.8451018608632949
+          ]
+        }
+      }
+    }
+  },
+  "comparisons": {
+    "candidate-vs-incumbent": {
+      "shareDelta": -0.03515625,
+      "pairedApprox95CI": [
+        -0.08498015770763147,
+        0.014667657707631468
+      ]
+    }
+  },
+  "checkpointSHA256": {
+    "incumbent": "f6016282d408c3f78263a3396f7e423e31fdcbf3c790afcf6b34e6fd9823122c",
+    "candidate": "b5bfba5e6bf050e5d2d1d1450a168e9d7c0ddaa3db1fad283f745ba3ff8326e9"
+  },
+  "elapsedSeconds": 141.07888599997386
+}
