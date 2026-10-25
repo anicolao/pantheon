@@ -3,7 +3,7 @@ import type {CardInstance} from '../game/setup';
 import type {StandardView} from '../../../standard-matrix/policy';
 
 /** Experimental JRFSA-inspired Nereon policy. Not wired into the UI's Bot choice. */
-export const nereonFleetVersion=5;
+export const nereonFleetVersion=6;
 const treasure:Record<string,number>={obol:1,drachma:2,talent:3};
 const owned=(v:StandardView,id:string)=>v.owned[id]??0;
 const income=(v:StandardView)=>Object.entries(treasure).reduce((n,[id,value])=>n+owned(v,id)*value,0);
@@ -24,7 +24,7 @@ function thin(v:StandardView,max:number):CardInstance[]{
  return targets;
 }
 // Start with one Action; cantrips are neutral, Pilots add one net Action,
-// and terminal Actions consume one. Keep one Action after adding a Council.
+// and terminal Actions consume one. Allow zero spare Actions after adding a Council.
 function actionBudget(v:StandardView):number{
  return 1+Object.entries(v.owned).reduce((n,[id,count])=>{
   if(definition(id).type!=='Action')return n;
@@ -34,14 +34,14 @@ function actionBudget(v:StandardView):number{
 }
 function fourCoinBuy(v:StandardView,budget:number):string|undefined{
  if(v.finalRound||v.choice||v.resources.buys<1||budget!==4)return;
- const card=actionBudget(v)>=2?'council-of-sages':'harbor-pilot';
+ const card=actionBudget(v)>=1?'council-of-sages':'harbor-pilot';
  return v.supply[card]>0&&!v.bannedCards.includes(card)?card:undefined;
 }
 function priorities(v:StandardView):string[]{
  if(v.finalRound)return ['acropolis','polis','hamlet'];
  return ['acropolis',...(!owned(v,'merchant-fleet')?['merchant-fleet']:[]),'talent','sacred-academy',
   ...(fourCoinBuy(v,v.resources.coins)?[fourCoinBuy(v,v.resources.coins)!]:[]),
-  ...(actionBudget(v)<2?['harbor-pilot']:[]),
+  ...(actionBudget(v)<1?['harbor-pilot']:[]),
   ...(!owned(v,'oracles-acolyte')?['oracles-acolyte']:[]),
   ...(income(v)<11?['drachma']:[]),...(v.supply.acropolis<=2?['polis','hamlet']:[])];
 }
