@@ -75,6 +75,7 @@ summary['additionalTrainingDecisions'] = sum(read(root/f'round-{r}/{l}/results.j
 summary['productionWeightsChanged'] = False
 summary['exportParity'] = {l: {k: v for k,v in read(root / f'validation/final-export-{l}.json').items() if k != 'workers'} for l in leaders}
 summary['limitations'] = ['Heads-up only; no multiplayer claim.',
+    'One training lineage per leader; intervals cover game-seed variation, not variation between independent training runs.',
     'Fixed reference pools differ by leader; aggregate rates do not rank leaders.',
     'Intervals are pointwise, approximate 95% intervals, not simultaneous family-wise guarantees.',
     'Observed three-point regression screens do not establish statistical noninferiority.',

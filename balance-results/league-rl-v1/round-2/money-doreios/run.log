@@ -1,0 +1,31 @@
+{"model": "incumbent", "worker": 7, "games": 16}
+{"model": "incumbent", "worker": 0, "games": 16}
+{"model": "incumbent", "worker": 6, "games": 16}
+{"model": "incumbent", "worker": 5, "games": 16}
+{"model": "incumbent", "worker": 2, "games": 16}
+{"model": "incumbent", "worker": 3, "games": 16}
+{"model": "incumbent", "worker": 4, "games": 16}
+{"model": "incumbent", "worker": 1, "games": 16}
+{"model": "incumbent", "worker": 6, "games": 32}
+{"model": "incumbent", "worker": 5, "games": 32}
+{"model": "incumbent", "worker": 7, "games": 32}
+{"model": "incumbent", "worker": 3, "games": 32}
+{"model": "incumbent", "worker": 1, "games": 32}
+{"model": "candidate", "worker": 2, "games": 32}
+{"model": "candidate", "worker": 0, "games": 32}
+{"model": "candidate", "worker": 3, "games": 48}
+{"model": "candidate", "worker": 7, "games": 48}
+{"model": "candidate", "worker": 5, "games": 48}
+{"model": "candidate", "worker": 2, "games": 48}
+{"model": "candidate", "worker": 0, "games": 48}
+{"model": "candidate", "worker": 3, "games": 64}
+{"model": "candidate", "worker": 1, "games": 48}
+{"model": "candidate", "worker": 5, "games": 64}
+{"model": "candidate", "worker": 4, "games": 32}
+{"model": "candidate", "worker": 7, "games": 64}
+{"model": "candidate", "worker": 0, "games": 64}
+{"model": "candidate", "worker": 6, "games": 48}
+{"model": "candidate", "worker": 2, "games": 64}
+{"model": "incumbent", "games": 256, "wins": 157, "ties": 19, "losses": 80, "share": 0.650390625, "winCI95": [0.5523692568024018, 0.670843775726112], "opponents": {"thaleia": {"games": 256, "wins": 157, "ties": 19, "losses": 80, "share": 0.650390625, "winCI95": [0.5523692568024018, 0.670843775726112]}}, "matchups": {"money-thaleia": {"games": 256, "wins": 157, "ties": 19, "losses": 80, "share": 0.650390625, "winCI95": [0.5523692568024018, 0.670843775726112]}}}
+{"model": "candidate", "games": 256, "wins": 153, "ties": 22, "losses": 81, "share": 0.640625, "winCI95": [0.5365714322203847, 0.6558535958214373], "opponents": {"thaleia": {"games": 256, "wins": 153, "ties": 22, "losses": 81, "share": 0.640625, "winCI95": [0.5365714322203847, 0.6558535958214373]}}, "matchups": {"money-thaleia": {"games": 256, "wins": 153, "ties": 22, "losses": 81, "share": 0.640625, "winCI95": [0.5365714322203847, 0.6558535958214373]}}}
+{"summary": {"incumbent": {"games": 256, "wins": 157, "ties": 19, "losses": 80, "share": 0.650390625, "winCI95": [0.5523692568024018, 0.670843775726112], "opponents": {"thaleia": {"games": 256, "wins": 157, "ties": 19, "losses": 80, "share": 0.650390625, "winCI95": [0.5523692568024018, 0.670843775726112]}}, "matchups": {"money-thaleia": {"games": 256, "wins": 157, "ties": 19, "losses": 80, "share": 0.650390625, "winCI95": [0.5523692568024018, 0.670843775726112]}}}, "candidate": {"games": 256, "wins": 153, "ties": 22, "losses": 81, "share": 0.640625, "winCI95": [0.5365714322203847, 0.6558535958214373], "opponents": {"thaleia": {"games": 256, "wins": 153, "ties": 22, "losses": 81, "share": 0.640625, "winCI95": [0.5365714322203847, 0.6558535958214373]}}, "matchups": {"money-thaleia": {"games": 256, "wins": 153, "ties": 22, "losses": 81, "share": 0.640625, "winCI95": [0.5365714322203847, 0.6558535958214373]}}}}, "comparisons": {"candidate-vs-incumbent": {"shareDelta": -0.009765625, "pairedApprox95CI": [-0.06804973557053601, 0.048518485570536014]}}, "checkpointSHA256": {"incumbent": "0c3241950187bc4a49b4dd971e8bb519ce21eb3678a7358f8e37a8ed4d4a938c", "candidate": "ae10ea34160d1d48b9929c846866e3b6a7de85b61a5866786285cfb21bcc0772"}, "elapsedSeconds": 438.20684795826674}

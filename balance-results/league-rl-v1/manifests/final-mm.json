@@ -1,0 +1,32 @@
+{
+  "version": 1,
+  "learners": {
+    "nereon": [
+      {
+        "id": "mm-melia",
+        "leader": "melia",
+        "group": "heuristic",
+        "weight": 1,
+        "policy": "mm"
+      }
+    ],
+    "thaleia": [
+      {
+        "id": "mm-melia",
+        "leader": "melia",
+        "group": "heuristic",
+        "weight": 1,
+        "policy": "mm"
+      }
+    ],
+    "doreios": [
+      {
+        "id": "mm-melia",
+        "leader": "melia",
+        "group": "heuristic",
+        "weight": 1,
+        "policy": "mm"
+      }
+    ]
+  }
+}

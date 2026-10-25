@@ -1,0 +1,19 @@
+{
+  "leader": "thaleia",
+  "teacher": "classic-engine",
+  "opponent": "league:balance-results/league-rl-v1/manifests/money-guard.json",
+  "prefix": "league-v1:thaleia",
+  "namespace": "money-guard-r2",
+  "workers": 8,
+  "games": 256,
+  "models": {
+    "incumbent": "balance-results/league-rl-v1/champions/round-1/thaleia",
+    "candidate": "balance-results/league-rl-v1/round-2/thaleia/checkpoint-262144"
+  },
+  "output": "balance-results/league-rl-v1/round-2/money-thaleia",
+  "checkpointSHA256": {
+    "incumbent": "92691ae5d3ec7c59ff7f4ec5e70b369d39e058fae170e979ae384bc61d868809",
+    "candidate": "2a5f3d75920a210860fb8f7145cdb693b44f7a66a7a2eb6bbd6365e83a7325f3"
+  },
+  "leagueSHA256": "c22240c65ae0fdc6b23686da1859993ecdb6d38875b7b03f144e89e0bface92a"
+}
