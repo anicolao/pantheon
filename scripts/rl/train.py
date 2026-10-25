@@ -80,6 +80,8 @@ def stats(rows,by_opponent=True):
     result=dict(games=n,wins=w,ties=t,losses=n-w-t,share=(w+t*.5)/n,winCI95=[center-half,center+half])
     if by_opponent and rows and "opponentLeader" in rows[0]:
         result["opponents"]={leader:stats([r for r in rows if r["opponentLeader"]==leader],False) for leader in sorted({r["opponentLeader"] for r in rows})}
+    if by_opponent and rows and "opponentId" in rows[0]:
+        result["matchups"]={key:stats([r for r in rows if r["opponentId"]==key],False) for key in sorted({r["opponentId"] for r in rows})}
     return result
 def paired(a,b):
     assert [r["seed"] for r in a]==[r["seed"] for r in b]

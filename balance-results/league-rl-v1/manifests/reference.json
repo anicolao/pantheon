@@ -1,0 +1,205 @@
+{
+  "version": 1,
+  "learners": {
+    "melia": [
+      {
+        "id": "v1-nereon",
+        "leader": "nereon",
+        "group": "current",
+        "weight": 1,
+        "actor": "balance-results/league-rl-v1/actors/v1-nereon.json",
+        "actorSHA256": "c62419391353ea8d3a189185a74ba174bd74dab7558d4ba8c3ae8557e3febfdf",
+        "checkpointSHA256": "fec15291b5c041494285f0151db211e7d525e8afee4e0e034c6eb6a4c5a22d58"
+      },
+      {
+        "id": "v1-thaleia",
+        "leader": "thaleia",
+        "group": "current",
+        "weight": 1,
+        "actor": "balance-results/league-rl-v1/actors/v1-thaleia.json",
+        "actorSHA256": "3df20ea8f47a2c692bedb3b4014619cf30f9d3cede6084570d804d751530784b",
+        "checkpointSHA256": "f81492461000d9eec8fd1ef379ffa46578c354e8e9691e511a5298470f3cae07"
+      },
+      {
+        "id": "v1-doreios",
+        "leader": "doreios",
+        "group": "current",
+        "weight": 1,
+        "actor": "balance-results/league-rl-v1/actors/v1-doreios.json",
+        "actorSHA256": "c444e3097cf76aa7b233a394061312527c6732bbc8322b2dfb0b505cc297a82d",
+        "checkpointSHA256": "ca4a52a69cd3e439baae2b1eb5195aa392e2648d23ba1024b9b35f6c54fdce6d"
+      },
+      {
+        "id": "owl-nereon",
+        "leader": "nereon",
+        "group": "heuristic",
+        "weight": 1,
+        "policy": "owl"
+      },
+      {
+        "id": "fleet-nereon",
+        "leader": "nereon",
+        "group": "heuristic",
+        "weight": 1,
+        "policy": "fleet"
+      },
+      {
+        "id": "classic-engine-thaleia",
+        "leader": "thaleia",
+        "group": "heuristic",
+        "weight": 1,
+        "policy": "classic-engine"
+      }
+    ],
+    "nereon": [
+      {
+        "id": "v1-melia",
+        "leader": "melia",
+        "group": "current",
+        "weight": 1,
+        "actor": "balance-results/league-rl-v1/actors/v1-melia.json",
+        "actorSHA256": "1310ab42acc417055d641fbf9c7a2ec155889b700d588d85ab4c14af7c831dcb",
+        "checkpointSHA256": "f6016282d408c3f78263a3396f7e423e31fdcbf3c790afcf6b34e6fd9823122c"
+      },
+      {
+        "id": "v1-thaleia",
+        "leader": "thaleia",
+        "group": "current",
+        "weight": 1,
+        "actor": "balance-results/league-rl-v1/actors/v1-thaleia.json",
+        "actorSHA256": "3df20ea8f47a2c692bedb3b4014619cf30f9d3cede6084570d804d751530784b",
+        "checkpointSHA256": "f81492461000d9eec8fd1ef379ffa46578c354e8e9691e511a5298470f3cae07"
+      },
+      {
+        "id": "v1-doreios",
+        "leader": "doreios",
+        "group": "current",
+        "weight": 1,
+        "actor": "balance-results/league-rl-v1/actors/v1-doreios.json",
+        "actorSHA256": "c444e3097cf76aa7b233a394061312527c6732bbc8322b2dfb0b505cc297a82d",
+        "checkpointSHA256": "ca4a52a69cd3e439baae2b1eb5195aa392e2648d23ba1024b9b35f6c54fdce6d"
+      },
+      {
+        "id": "classic-engine-thaleia",
+        "leader": "thaleia",
+        "group": "heuristic",
+        "weight": 1,
+        "policy": "classic-engine"
+      },
+      {
+        "id": "owl-thaleia",
+        "leader": "thaleia",
+        "group": "heuristic",
+        "weight": 1,
+        "policy": "owl"
+      },
+      {
+        "id": "mm-melia",
+        "leader": "melia",
+        "group": "heuristic",
+        "weight": 1,
+        "policy": "mm"
+      }
+    ],
+    "thaleia": [
+      {
+        "id": "v1-melia",
+        "leader": "melia",
+        "group": "current",
+        "weight": 1,
+        "actor": "balance-results/league-rl-v1/actors/v1-melia.json",
+        "actorSHA256": "1310ab42acc417055d641fbf9c7a2ec155889b700d588d85ab4c14af7c831dcb",
+        "checkpointSHA256": "f6016282d408c3f78263a3396f7e423e31fdcbf3c790afcf6b34e6fd9823122c"
+      },
+      {
+        "id": "v1-nereon",
+        "leader": "nereon",
+        "group": "current",
+        "weight": 1,
+        "actor": "balance-results/league-rl-v1/actors/v1-nereon.json",
+        "actorSHA256": "c62419391353ea8d3a189185a74ba174bd74dab7558d4ba8c3ae8557e3febfdf",
+        "checkpointSHA256": "fec15291b5c041494285f0151db211e7d525e8afee4e0e034c6eb6a4c5a22d58"
+      },
+      {
+        "id": "v1-doreios",
+        "leader": "doreios",
+        "group": "current",
+        "weight": 1,
+        "actor": "balance-results/league-rl-v1/actors/v1-doreios.json",
+        "actorSHA256": "c444e3097cf76aa7b233a394061312527c6732bbc8322b2dfb0b505cc297a82d",
+        "checkpointSHA256": "ca4a52a69cd3e439baae2b1eb5195aa392e2648d23ba1024b9b35f6c54fdce6d"
+      },
+      {
+        "id": "engine-nereon",
+        "leader": "nereon",
+        "group": "heuristic",
+        "weight": 1,
+        "policy": "engine"
+      },
+      {
+        "id": "owl-melia",
+        "leader": "melia",
+        "group": "heuristic",
+        "weight": 1,
+        "policy": "owl"
+      },
+      {
+        "id": "classic-engine-doreios",
+        "leader": "doreios",
+        "group": "heuristic",
+        "weight": 1,
+        "policy": "classic-engine"
+      }
+    ],
+    "doreios": [
+      {
+        "id": "v1-melia",
+        "leader": "melia",
+        "group": "current",
+        "weight": 1,
+        "actor": "balance-results/league-rl-v1/actors/v1-melia.json",
+        "actorSHA256": "1310ab42acc417055d641fbf9c7a2ec155889b700d588d85ab4c14af7c831dcb",
+        "checkpointSHA256": "f6016282d408c3f78263a3396f7e423e31fdcbf3c790afcf6b34e6fd9823122c"
+      },
+      {
+        "id": "v1-nereon",
+        "leader": "nereon",
+        "group": "current",
+        "weight": 1,
+        "actor": "balance-results/league-rl-v1/actors/v1-nereon.json",
+        "actorSHA256": "c62419391353ea8d3a189185a74ba174bd74dab7558d4ba8c3ae8557e3febfdf",
+        "checkpointSHA256": "fec15291b5c041494285f0151db211e7d525e8afee4e0e034c6eb6a4c5a22d58"
+      },
+      {
+        "id": "v1-thaleia",
+        "leader": "thaleia",
+        "group": "current",
+        "weight": 1,
+        "actor": "balance-results/league-rl-v1/actors/v1-thaleia.json",
+        "actorSHA256": "3df20ea8f47a2c692bedb3b4014619cf30f9d3cede6084570d804d751530784b",
+        "checkpointSHA256": "f81492461000d9eec8fd1ef379ffa46578c354e8e9691e511a5298470f3cae07"
+      },
+      {
+        "id": "classic-engine-thaleia",
+        "leader": "thaleia",
+        "group": "heuristic",
+        "weight": 1,
+        "policy": "classic-engine"
+      },
+      {
+        "id": "owl-thaleia",
+        "leader": "thaleia",
+        "group": "heuristic",
+        "weight": 1,
+        "policy": "owl"
+      },
+      {
+        "id": "mm-melia",
+        "leader": "melia",
+        "group": "heuristic",
+        "weight": 1,
+        "policy": "mm"
+      }
+    ]
+  }
+}
