@@ -1,6 +1,8 @@
-# Doreios RL pilot
+# Pantheon RL experiments
 
-An isolated research harness. No production bots, rules, or UI are changed.
+Research training and evaluation harness. The early experiments below were isolated
+pilots; the four leader-specific champions now also have exported production actors.
+Running a research experiment does not replace those actors.
 
 Use the project's Nix dev shell. Create a Python venv and install requirements.lock
 inside it; run python scripts/rl/train.py --output <new-directory> from that environment.
@@ -65,3 +67,40 @@ The `Game`/`vector` and continuation/evaluation configs now accept `leader` and
 `imitate_leader.py` for fresh imitation, `collect_independent.py` for reproducible
 independent expert collection, and `evaluate_teacher.py` for whole-game heuristic
 workers. Leader-specific model ZIPs and manifests live under that campaign root.
+
+## Four-leader league pilot
+
+`balance-results/league-rl-v1/protocol.json` freezes a two-round heads-up experiment.
+Each leader trains for 524,288 decisions per round, with checkpoints every 262,144.
+Opponents are frozen for the entire round: 50% current champions, 25% historical
+actors, and 25% native heuristics. Adjacent episodes use the same opponent with
+opposite starting seats. They have distinct game seeds; candidate/incumbent
+comparisons use exactly matched seeds.
+
+The initial actors retain the independent 128×128 networks of the four shipped
+champions. `setup_league.py` initializes the manifests and checksummed actors;
+it refuses to overwrite an existing experiment. `league_round.py` selects on
+screening seeds, then applies the preregistered fresh-confirmation gates.
+`advance_league.py` freezes approved champions and constructs the next round.
+A rejected candidate may continue training, but does not become an opponent
+champion. No rules, masks, native heuristic decisions, or reward functions change.
+
+Native Money is evaluated separately because its expensive search can stall
+synchronous rollouts. `evaluate_independent.py` assigns whole games to workers,
+saves each completed game atomically, and verifies every replay. Its results
+were checked against the synchronous evaluator on identical seeds. It resumes
+saved rows only when checkpoint and manifest identities still match.
+
+After round-one guards finish, `finish_league_pilot.py` runs round two and the
+frozen final evaluation. `setup_league_final.py` preregisters six cross-play
+pairings and an additional MM retention audit. `report_league.py` checks seed
+coverage, seat balance, opponent and checkpoint hashes, replay verification,
+and result summaries before producing `report.txt` and `summary.json`.
+Production weights remain unchanged pending pilot review.
+
+Use the Nix shell and locked Python environment for all commands. Two jobs with
+eight workers each fit the reference machine. `run_jobs.py` preserves job logs and
+stops on failure; it intentionally refuses to overwrite an existing run log.
+For an interrupted independent evaluation, invoke that evaluator directly with
+the original config to reuse its `.progress` rows. Do not remove slow games or
+alter the promotion thresholds after seeing results.

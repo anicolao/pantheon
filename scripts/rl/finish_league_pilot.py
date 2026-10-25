@@ -12,7 +12,7 @@ root = Path('balance-results/league-rl-v1')
 leaders = ['nereon', 'thaleia', 'doreios', 'melia']
 
 def call(script, *args):
-    print(json.dumps(dict(phase=script, args=args)), flush=True)
+    print(json.dumps(dict(phase=script, args=list(map(str, args)))), flush=True)
     subprocess.run([sys.executable, f'scripts/rl/{script}', *map(str, args)], check=True)
 
 def jobs(script, paths):

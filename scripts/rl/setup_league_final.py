@@ -50,4 +50,4 @@ for leader in leaders[1:]:
 write(root / 'final-audit-protocol.json', dict(configs=configs,
     crossplay='Six unordered pairings, 512 games each, equally divided between starting seats; no selection on these results',
     mm='1024 fresh matched games per non-Melia leader versus native MM; report all results and paired intervals',
-    release='Do not release a model with an observed MM score-share regression greater than 3 percentage points; no retraining on final seeds'))
+    release='Final recommendation requires positive paired 95% lower bound versus v1 on the fixed reference pool, no observed per-reference-opponent or MM score-share regression greater than 3 percentage points; no retraining on final seeds. Keep production weights unchanged pending pilot review.'))
