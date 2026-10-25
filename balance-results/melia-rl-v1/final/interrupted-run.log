@@ -1,0 +1,15 @@
+{"model": "champion", "elapsedSeconds": 411.17447829199955, "games": 6144, "wins": 3611, "ties": 540, "losses": 1993, "share": 0.6316731770833334, "winCI95": [0.5753683431989154, 0.5999777530237396], "opponents": {"doreios": {"games": 2048, "wins": 1413, "ties": 186, "losses": 449, "share": 0.7353515625, "winCI95": [0.6695700079159097, 0.7096015877526753]}, "nereon": {"games": 2048, "wins": 1026, "ties": 196, "losses": 826, "share": 0.548828125, "winCI95": [0.47934030862308885, 0.5226091597351045]}, "thaleia": {"games": 2048, "wins": 1172, "ties": 158, "losses": 718, "share": 0.61083984375, "winCI95": [0.5507225917618018, 0.5935380667444979]}}}
+Traceback (most recent call last):
+  File "/Users/anicolao/projects/games/pantheon/scripts/rl/evaluate_checkpoints.py", line 27, in <module>
+    if __name__=='__main__':main()
+                            ~~~~^^
+  File "/Users/anicolao/projects/games/pantheon/scripts/rl/evaluate_checkpoints.py", line 20, in main
+    (out/f'{name}.json').write_text(json.dumps(rows[name]));summaries[name]=stats(rows[name])
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/nix/store/0788rbnl2p558jnyjlm2s2f9r5sxpq3h-python3-3.14.6/lib/python3.14/pathlib/__init__.py", line 809, in write_text
+    with self.open(mode='w', encoding=encoding, errors=errors, newline=newline) as f:
+         ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/nix/store/0788rbnl2p558jnyjlm2s2f9r5sxpq3h-python3-3.14.6/lib/python3.14/pathlib/__init__.py", line 771, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+OSError: [Errno 28] No space left on device: 'balance-results/melia-rl-v1/final/mm.json'
