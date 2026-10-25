@@ -1,0 +1,17 @@
+{
+  "leader": "melia",
+  "teacher": "mm",
+  "opponent": "rl-pool",
+  "output": "balance-results/melia-rl-v1/confirm-c",
+  "workers": 8,
+  "prefix": "rl-melia-v1",
+  "namespace": "confirm-c",
+  "games": 3072,
+  "models": {
+    "incumbent": "balance-results/melia-rl-v1/polish/checkpoint-1048576",
+    "later": "balance-results/melia-rl-v1/polish/checkpoint-2097152"
+  },
+  "baselines": [
+    "incumbent"
+  ]
+}

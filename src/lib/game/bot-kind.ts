@@ -8,7 +8,7 @@ export const botLeaderPreference = ['melia', 'thaleia', 'nereon', 'doreios'] as 
 export function resolveBotKind(kind: BotKind, leader: string): Exclude<BotKind, 'bot'> | 'rl' {
   if (kind !== 'bot') return kind;
   switch (leader) {
-    case 'melia': return 'mm';
+    case 'melia':
     case 'nereon': return 'rl';
     case 'thaleia':
     case 'doreios': return 'rl';

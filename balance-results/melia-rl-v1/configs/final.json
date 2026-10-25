@@ -1,0 +1,17 @@
+{
+  "leader": "melia",
+  "teacher": "mm",
+  "opponent": "rl-pool",
+  "output": "balance-results/melia-rl-v1/final",
+  "workers": 8,
+  "prefix": "rl-melia-v1-final",
+  "namespace": "test",
+  "games": 6144,
+  "models": {
+    "champion": "balance-results/melia-rl-v1/champion",
+    "mm": "teacher"
+  },
+  "baselines": [
+    "mm"
+  ]
+}

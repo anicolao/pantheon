@@ -1,0 +1,27 @@
+[WebServer] $ vite build
+[WebServer] (node:76810) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:76810) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] [plugin builtin:vite-reporter] 
+[WebServer] (!) Some chunks are larger than 500 kB after minification. Consider:
+[WebServer] - Using dynamic import() to code-split the application
+[WebServer] - Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting
+[WebServer] - Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+[WebServer] (node:76810) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] $ vite preview --host 127.0.0.1 --port 4193 --strictPort
+[WebServer] (node:76818) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 5 tests using 1 worker
+
+(node:76819) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 [desktop] › tests/e2e/tabletop.spec.ts:65:1 › tabletop bot occupies an edge and plays through the real worker (588ms)
+  ✓  2 [desktop] › tests/e2e/tabletop.spec.ts:158:1 › tabletop bot cards visibly fly before the next command (1.4s)
+  ✓  3 [desktop] › tests/e2e/tabletop.spec.ts:382:211 › tabletop learned Thaleia takes its turn through the real worker (488ms)
+  ✓  4 [desktop] › tests/e2e/tabletop.spec.ts:382:211 › tabletop learned Nereon takes its turn through the real worker (482ms)
+  ✓  5 [desktop] › tests/e2e/tabletop.spec.ts:382:211 › tabletop learned Doreios takes its turn through the real worker (617ms)
+
+  5 passed (8.2s)
