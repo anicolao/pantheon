@@ -1,0 +1,13 @@
+{
+  "leader": "nereon",
+  "teacher": "money",
+  "output": "balance-results/leader-rl-v1/nereon/imitation",
+  "workers": 8,
+  "prefix": "rl-nereon-v1",
+  "seed": 1801,
+  "imitationGames": 1024,
+  "daggerGames": 256,
+  "screenGames": 512,
+  "independentCollection": true,
+  "provisionalTeacher": "Money leads prior outright wins; retain only if fresh teacher comparison confirms or retrain from stronger teacher"
+}

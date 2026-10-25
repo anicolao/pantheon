@@ -21,7 +21,7 @@ def main():
             print(json.dumps(dict(model=name,elapsedSeconds=time.monotonic()-start,**summaries[name])),flush=True)
         baselines=config.get('baselines',[])
         comparisons={f'{name}-vs-{base}':paired(rows[name],rows[base]) for name in rows for base in baselines if name!=base}
-        hashes={name:hashlib.sha256(Path(path+'.zip').read_bytes()).hexdigest() for name,path in config['models'].items() if path!='classic-engine'}
+        hashes={name:hashlib.sha256(Path(path+'.zip').read_bytes()).hexdigest() for name,path in config['models'].items() if path not in ['classic-engine','teacher']}
         (out/'results.json').write_text(json.dumps(dict(summary=summaries,comparisons=comparisons,checkpointSHA256=hashes,elapsedSeconds=time.monotonic()-start),indent=2))
     finally:vec.close()
 if __name__=='__main__':main()

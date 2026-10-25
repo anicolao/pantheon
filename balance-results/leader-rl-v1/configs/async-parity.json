@@ -1,0 +1,13 @@
+{
+  "leader": "thaleia",
+  "teacher": "classic-engine",
+  "output": "balance-results/leader-rl-v1/async-parity",
+  "workers": 8,
+  "prefix": "rl-leaders-v1",
+  "namespace": "teacher-selection",
+  "games": 8,
+  "models": {
+    "teacher": "teacher"
+  },
+  "baselines": []
+}

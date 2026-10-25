@@ -1,0 +1,7 @@
+{
+  "root": "balance-results/leader-rl-v1/nereon",
+  "leader": "nereon",
+  "teacher": "money",
+  "seed": 1802,
+  "prefix": "rl-nereon-v1"
+}

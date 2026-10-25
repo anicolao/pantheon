@@ -1,0 +1,46 @@
+{"stage": "collection", "namespace": "imitation", "games": 1024, "samples": 177864, "teacherProbability": 1.0}
+{"stage": "bc", "epoch": 1, "loss": 0.9287098814016101, "trainingAccuracy": 0.7403915351054738}
+{"stage": "bc", "epoch": 2, "loss": 0.44751716927550306, "trainingAccuracy": 0.8544449691899428}
+{"stage": "bc", "epoch": 3, "loss": 0.3718625070719883, "trainingAccuracy": 0.8743421940358926}
+{"stage": "bc", "epoch": 4, "loss": 0.2827118656587327, "trainingAccuracy": 0.9164642648315567}
+{"stage": "bc", "epoch": 5, "loss": 0.22434196698254552, "trainingAccuracy": 0.939442495389736}
+{"stage": "bc", "epoch": 6, "loss": 0.19197072054462871, "trainingAccuracy": 0.9446149867314353}
+{"stage": "bc", "epoch": 7, "loss": 0.17143538243126596, "trainingAccuracy": 0.9481795079386498}
+{"stage": "bc", "epoch": 8, "loss": 0.1574384081123889, "trainingAccuracy": 0.9516878064138893}
+{"stage": "bc", "epoch": 9, "loss": 0.14672521882872472, "trainingAccuracy": 0.9545326766518238}
+{"stage": "bc", "epoch": 10, "loss": 0.13865828878064265, "trainingAccuracy": 0.9561406467863086}
+{"stage": "bc", "epoch": 11, "loss": 0.13223615716928724, "trainingAccuracy": 0.9569165204875635}
+{"stage": "bc", "epoch": 12, "loss": 0.12667095160176015, "trainingAccuracy": 0.9582433769621733}
+{"stage": "bc", "epoch": 13, "loss": 0.12248267978429794, "trainingAccuracy": 0.9595027661584131}
+{"stage": "bc", "epoch": 14, "loss": 0.11859917790554035, "trainingAccuracy": 0.960503530787568}
+{"stage": "bc", "epoch": 15, "loss": 0.11548437096778004, "trainingAccuracy": 0.9618753654477579}
+{"stage": "bc", "epoch": 16, "loss": 0.11267409811931095, "trainingAccuracy": 0.9623869923087303}
+{"stage": "bc", "epoch": 17, "loss": 0.1100156254980756, "trainingAccuracy": 0.9633427787523051}
+{"stage": "bc", "epoch": 18, "loss": 0.10763759457174389, "trainingAccuracy": 0.9640343183555975}
+{"stage": "bc", "epoch": 19, "loss": 0.10546077479576242, "trainingAccuracy": 0.9648439256960374}
+{"stage": "bc", "epoch": 20, "loss": 0.10327644402097011, "trainingAccuracy": 0.9651587729950973}
+{"stage": "screen", "checkpoint": "bc", "games": 512, "wins": 82, "ties": 27, "losses": 403, "share": 0.1865234375, "winCI95": [0.13093694655859275, 0.19443716975305383]}
+{"stage": "collection", "namespace": "dagger-1", "games": 256, "samples": 47392, "teacherProbability": 0.5}
+{"stage": "dagger-1", "epoch": 1, "loss": 0.12117356749420816, "trainingAccuracy": 0.9609466562488902}
+{"stage": "dagger-1", "epoch": 2, "loss": 0.11779267486523498, "trainingAccuracy": 0.9614305501296303}
+{"stage": "dagger-1", "epoch": 3, "loss": 0.11524596170268275, "trainingAccuracy": 0.9619055652235678}
+{"stage": "dagger-1", "epoch": 4, "loss": 0.11318644708530469, "trainingAccuracy": 0.9625625954469581}
+{"stage": "dagger-1", "epoch": 5, "loss": 0.111156763644381, "trainingAccuracy": 0.9630642469013034}
+{"stage": "dagger-1", "epoch": 6, "loss": 0.10935429439625957, "trainingAccuracy": 0.9635170650282345}
+{"stage": "dagger-1", "epoch": 7, "loss": 0.1075426692312414, "trainingAccuracy": 0.9639521255815605}
+{"stage": "dagger-1", "epoch": 8, "loss": 0.10611549185758287, "trainingAccuracy": 0.9643827467414853}
+{"stage": "dagger-1", "epoch": 9, "loss": 0.10440639968622814, "trainingAccuracy": 0.9645159285435239}
+{"stage": "dagger-1", "epoch": 10, "loss": 0.10305019515481863, "trainingAccuracy": 0.9651729587669141}
+{"stage": "screen", "checkpoint": "dagger-1", "games": 512, "wins": 119, "ties": 28, "losses": 365, "share": 0.259765625, "winCI95": [0.19791074746675325, 0.2709182981349455]}
+{"stage": "collection", "namespace": "dagger-2", "games": 256, "samples": 47256, "teacherProbability": 0.2}
+{"stage": "dagger-2", "epoch": 1, "loss": 0.1259052213490679, "trainingAccuracy": 0.9592715183184594}
+{"stage": "dagger-2", "epoch": 2, "loss": 0.12253484819154167, "trainingAccuracy": 0.9598403006106153}
+{"stage": "dagger-2", "epoch": 3, "loss": 0.1200604960601428, "trainingAccuracy": 0.9602109264913105}
+{"stage": "dagger-2", "epoch": 4, "loss": 0.1179771858933713, "trainingAccuracy": 0.9607870479098168}
+{"stage": "dagger-2", "epoch": 5, "loss": 0.11603839564301101, "trainingAccuracy": 0.9612090476749647}
+{"stage": "dagger-2", "epoch": 6, "loss": 0.11420510767885808, "trainingAccuracy": 0.9617704908407703}
+{"stage": "dagger-2", "epoch": 7, "loss": 0.1126945892188433, "trainingAccuracy": 0.9621594645373415}
+{"stage": "dagger-2", "epoch": 8, "loss": 0.11111355838034484, "trainingAccuracy": 0.9625264208548614}
+{"stage": "dagger-2", "epoch": 9, "loss": 0.10914905564615343, "trainingAccuracy": 0.9632823508689525}
+{"stage": "dagger-2", "epoch": 10, "loss": 0.10760960979073235, "trainingAccuracy": 0.9638364549084077}
+{"stage": "screen", "checkpoint": "dagger-2", "games": 512, "wins": 128, "ties": 23, "losses": 361, "share": 0.2724609375, "winCI95": [0.21444818972233226, 0.2892752981391089]}

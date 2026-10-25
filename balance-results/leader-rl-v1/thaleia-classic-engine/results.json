@@ -1,0 +1,16 @@
+{
+  "summary": {
+    "teacher": {
+      "games": 1024,
+      "wins": 309,
+      "ties": 74,
+      "losses": 641,
+      "share": 0.337890625,
+      "winCI95": [
+        0.27442702773411054,
+        0.33057041957081823
+      ]
+    }
+  },
+  "note": "All games completed; corrected report generation after teacher sentinel was incorrectly treated as a checkpoint path. Raw game outcomes unchanged."
+}
