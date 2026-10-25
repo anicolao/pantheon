@@ -1,0 +1,184 @@
+{
+  "summary": [
+    {
+      "candidate": "fleet",
+      "games": 100,
+      "wins": 27,
+      "ties": 9,
+      "losses": 64,
+      "winCI95": [
+        0.1926958414957634,
+        0.36432116767944994
+      ],
+      "winShare": 0.315,
+      "meanVP": 21.14,
+      "meanTurns": 11.5,
+      "firstSeatWins": 17,
+      "secondSeatWins": 10
+    },
+    {
+      "candidate": "money",
+      "games": 100,
+      "wins": 35,
+      "ties": 3,
+      "losses": 62,
+      "winCI95": [
+        0.26364248243097527,
+        0.44745556703112027
+      ],
+      "winShare": 0.365,
+      "meanVP": 26.47,
+      "meanTurns": 16.04,
+      "firstSeatWins": 14,
+      "secondSeatWins": 21
+    },
+    {
+      "candidate": "classic-engine",
+      "games": 100,
+      "wins": 16,
+      "ties": 3,
+      "losses": 81,
+      "winCI95": [
+        0.10095288488804782,
+        0.24420269389270244
+      ],
+      "winShare": 0.175,
+      "meanVP": 22.92,
+      "meanTurns": 18.14,
+      "firstSeatWins": 10,
+      "secondSeatWins": 6
+    },
+    {
+      "candidate": "engine",
+      "games": 100,
+      "wins": 10,
+      "ties": 4,
+      "losses": 86,
+      "winCI95": [
+        0.0552291370606751,
+        0.17436566150491345
+      ],
+      "winShare": 0.12,
+      "meanVP": 20.82,
+      "meanTurns": 16.41,
+      "firstSeatWins": 8,
+      "secondSeatWins": 2
+    },
+    {
+      "candidate": "mm",
+      "games": 100,
+      "wins": 6,
+      "ties": 9,
+      "losses": 85,
+      "winCI95": [
+        0.027786123963188192,
+        0.1247681544589592
+      ],
+      "winShare": 0.105,
+      "meanVP": 24.2,
+      "meanTurns": 17.9,
+      "firstSeatWins": 5,
+      "secondSeatWins": 1
+    },
+    {
+      "candidate": "mn",
+      "games": 100,
+      "wins": 4,
+      "ties": 6,
+      "losses": 90,
+      "winCI95": [
+        0.01566330399154762,
+        0.0983707143588792
+      ],
+      "winShare": 0.07,
+      "meanVP": 23.45,
+      "meanTurns": 18.45,
+      "firstSeatWins": 3,
+      "secondSeatWins": 1
+    },
+    {
+      "candidate": "owl",
+      "games": 100,
+      "wins": 10,
+      "ties": 4,
+      "losses": 86,
+      "winCI95": [
+        0.0552291370606751,
+        0.17436566150491345
+      ],
+      "winShare": 0.12,
+      "meanVP": 20.82,
+      "meanTurns": 16.41,
+      "firstSeatWins": 8,
+      "secondSeatWins": 2
+    }
+  ],
+  "comparisons": [
+    {
+      "candidate": "money",
+      "shareDelta": -0.05,
+      "pairedApprox95CI": [
+        -0.17251310546264437,
+        0.07251310546264435
+      ],
+      "newOnlyWins": 16,
+      "oldOnlyWins": 24,
+      "mcnemarExactP": 0.26818725105476915
+    },
+    {
+      "candidate": "classic-engine",
+      "shareDelta": 0.14,
+      "pairedApprox95CI": [
+        0.04223322214307533,
+        0.23776677785692468
+      ],
+      "newOnlyWins": 19,
+      "oldOnlyWins": 8,
+      "mcnemarExactP": 0.052238985896110535
+    },
+    {
+      "candidate": "engine",
+      "shareDelta": 0.195,
+      "pairedApprox95CI": [
+        0.11171041963138609,
+        0.27828958036861395
+      ],
+      "newOnlyWins": 19,
+      "oldOnlyWins": 2,
+      "mcnemarExactP": 0.00022125244140625
+    },
+    {
+      "candidate": "mm",
+      "shareDelta": 0.21,
+      "pairedApprox95CI": [
+        0.12174459982184622,
+        0.2982554001781538
+      ],
+      "newOnlyWins": 23,
+      "oldOnlyWins": 2,
+      "mcnemarExactP": 0.000019431114196777344
+    },
+    {
+      "candidate": "mn",
+      "shareDelta": 0.245,
+      "pairedApprox95CI": [
+        0.15751950441915238,
+        0.3324804955808476
+      ],
+      "newOnlyWins": 25,
+      "oldOnlyWins": 2,
+      "mcnemarExactP": 0.000005647540092468262
+    },
+    {
+      "candidate": "owl",
+      "shareDelta": 0.195,
+      "pairedApprox95CI": [
+        0.11171041963138609,
+        0.27828958036861395
+      ],
+      "newOnlyWins": 19,
+      "oldOnlyWins": 2,
+      "mcnemarExactP": 0.00022125244140625
+    }
+  ]
+}

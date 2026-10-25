@@ -1,0 +1,42 @@
+{
+  "comparisons": [
+    {
+      "baselineVersion": 1,
+      "shareDelta": -0.065,
+      "pairedApprox95CI": [
+        -0.1242438036141052,
+        -0.0057561963858948
+      ],
+      "betterOutcomes": 3,
+      "worseOutcomes": 10
+    },
+    {
+      "baselineVersion": 2,
+      "shareDelta": 0.035,
+      "pairedApprox95CI": [
+        -0.007894072769881341,
+        0.07789407276988135
+      ],
+      "betterOutcomes": 5,
+      "worseOutcomes": 2
+    },
+    {
+      "baselineVersion": 3,
+      "shareDelta": -0.05,
+      "pairedApprox95CI": [
+        -0.11226247471451611,
+        0.012262474714516108
+      ],
+      "betterOutcomes": 3,
+      "worseOutcomes": 10
+    }
+  ],
+  "telemetry": {
+    "council-of-sages": 4,
+    "harbor-pilot": 60,
+    "oracles-acolyte": 48,
+    "obolsTrashed": 157,
+    "demeterWorships": 249,
+    "firstAcropolisMean": 6.27
+  }
+}
