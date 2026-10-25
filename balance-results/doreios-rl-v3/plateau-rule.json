@@ -1,0 +1,20 @@
+{
+  "incumbent": "balance-results/doreios-rl-v3/extend-free-a/checkpoint-1572864",
+  "directions": [
+    "polish",
+    "explore",
+    "potential",
+    "longer-control",
+    "greedy-polish"
+  ],
+  "perDirectionSelection": "highest screening share, earlier checkpoint wins ties",
+  "confirmationPrefix": "rl-doreios-v3",
+  "confirmationNamespace": "plateau-confirm",
+  "confirmationGames": 1024,
+  "promotion": "Positive tie-adjusted share gain versus incumbent AND lower endpoint of approximate paired 99% interval >0; five comparisons use Bonferroni-style familywise 5% threshold",
+  "plateau": "If none of the five follow-up directions meets the promotion rule after completing its budget, treat this setup as practically plateaued and perform one untouched final test; this is not proof of a global optimum",
+  "finalPrefix": "rl-doreios-v3-final",
+  "finalNamespace": "test",
+  "finalGames": 2000,
+  "writtenBeforeConfirmation": true
+}

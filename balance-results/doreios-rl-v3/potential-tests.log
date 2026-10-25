@@ -1,0 +1,11 @@
+/nix/store/0788rbnl2p558jnyjlm2s2f9r5sxpq3h-python3-3.14.6/lib/python3.14/unittest/case.py:615: ResourceWarning: unclosed file <_io.TextIOWrapper name=7 encoding='UTF-8'>
+  result = method()
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/nix/store/0788rbnl2p558jnyjlm2s2f9r5sxpq3h-python3-3.14.6/lib/python3.14/unittest/case.py:615: ResourceWarning: unclosed file <_io.TextIOWrapper name=5 encoding='UTF-8'>
+  result = method()
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+.
+----------------------------------------------------------------------
+Ran 1 test in 1.825s
+
+OK

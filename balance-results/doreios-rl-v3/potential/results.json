@@ -1,0 +1,29 @@
+{
+  "checkpoints": {
+    "checkpoint-524288": {
+      "games": 512,
+      "wins": 327,
+      "ties": 29,
+      "losses": 156,
+      "share": 0.6669921875,
+      "winCI95": [
+        0.5961710583145855,
+        0.6791073195122713
+      ]
+    },
+    "checkpoint-1048576": {
+      "games": 512,
+      "wins": 326,
+      "ties": 37,
+      "losses": 149,
+      "share": 0.6728515625,
+      "winCI95": [
+        0.5941845691356655,
+        0.6772166484401088
+      ]
+    }
+  },
+  "trainingGames": 8707,
+  "trainingSteps": 1048576,
+  "elapsedSeconds": 358.19062395812944
+}

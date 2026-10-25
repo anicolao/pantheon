@@ -1,0 +1,603 @@
+[
+  {
+    "info": {
+      "score": 30,
+      "opponentScore": 30,
+      "turns": 21,
+      "seed": "rl-doreios-v3:behavior:0",
+      "first": true,
+      "outcome": 0
+    },
+    "reward": 0,
+    "buys": {
+      "drachma": 8,
+      "council-of-sages": 1,
+      "talent": 3,
+      "acropolis": 3,
+      "polis": 4,
+      "sacred-academy": 1
+    },
+    "gains": {},
+    "worships": {
+      "blessing-of-the-fields": 1
+    },
+    "trashes": {
+      "hamlet": 3
+    },
+    "owned": {
+      "obol": 6,
+      "hamlet": 0,
+      "temple-of-ares": 1,
+      "drachma": 8,
+      "council-of-sages": 1,
+      "talent": 3,
+      "acropolis": 3,
+      "polis": 4,
+      "sacred-academy": 1
+    }
+  },
+  {
+    "info": {
+      "score": 25,
+      "opponentScore": 18,
+      "turns": 12,
+      "seed": "rl-doreios-v3:behavior:1",
+      "first": false,
+      "outcome": 1
+    },
+    "reward": 1,
+    "buys": {
+      "drachma": 4,
+      "talent": 1,
+      "council-of-sages": 1,
+      "acropolis": 4,
+      "hamlet": 1
+    },
+    "gains": {},
+    "worships": {
+      "blessing-of-the-fields": 1
+    },
+    "trashes": {
+      "hamlet": 3
+    },
+    "owned": {
+      "obol": 6,
+      "hamlet": 1,
+      "temple-of-ares": 1,
+      "drachma": 4,
+      "talent": 1,
+      "council-of-sages": 1,
+      "acropolis": 4
+    }
+  },
+  {
+    "info": {
+      "score": 28,
+      "opponentScore": 29,
+      "turns": 16,
+      "seed": "rl-doreios-v3:behavior:2",
+      "first": true,
+      "outcome": -1
+    },
+    "reward": -1,
+    "buys": {
+      "council-of-sages": 1,
+      "talent": 4,
+      "acropolis": 3,
+      "polis": 3,
+      "drachma": 1,
+      "hamlet": 1
+    },
+    "gains": {
+      "drachma": 2
+    },
+    "worships": {
+      "trial-of-the-spear": 2
+    },
+    "trashes": {
+      "hamlet": 3
+    },
+    "owned": {
+      "obol": 6,
+      "hamlet": 1,
+      "temple-of-ares": 1,
+      "drachma": 3,
+      "council-of-sages": 1,
+      "talent": 4,
+      "acropolis": 3,
+      "polis": 3
+    }
+  },
+  {
+    "info": {
+      "score": 36,
+      "opponentScore": 24,
+      "turns": 25,
+      "seed": "rl-doreios-v3:behavior:3",
+      "first": false,
+      "outcome": 1
+    },
+    "reward": 1,
+    "buys": {
+      "drachma": 6,
+      "council-of-sages": 1,
+      "talent": 8,
+      "acropolis": 4,
+      "polis": 4,
+      "sacred-academy": 1
+    },
+    "gains": {},
+    "worships": {
+      "blessing-of-the-fields": 1
+    },
+    "trashes": {
+      "hamlet": 3
+    },
+    "owned": {
+      "obol": 6,
+      "hamlet": 0,
+      "temple-of-ares": 1,
+      "drachma": 6,
+      "council-of-sages": 1,
+      "talent": 8,
+      "acropolis": 4,
+      "polis": 4,
+      "sacred-academy": 1
+    }
+  },
+  {
+    "info": {
+      "score": 24,
+      "opponentScore": 27,
+      "turns": 12,
+      "seed": "rl-doreios-v3:behavior:4",
+      "first": true,
+      "outcome": -1
+    },
+    "reward": -1,
+    "buys": {
+      "oracles-acolyte": 1,
+      "council-of-sages": 1,
+      "drachma": 2,
+      "talent": 2,
+      "acropolis": 3,
+      "polis": 2
+    },
+    "gains": {
+      "drachma": 1
+    },
+    "worships": {
+      "trial-of-the-spear": 1
+    },
+    "trashes": {
+      "hamlet": 3
+    },
+    "owned": {
+      "obol": 6,
+      "hamlet": 0,
+      "temple-of-ares": 1,
+      "drachma": 3,
+      "oracles-acolyte": 1,
+      "council-of-sages": 1,
+      "talent": 2,
+      "acropolis": 3,
+      "polis": 2
+    }
+  },
+  {
+    "info": {
+      "score": 21,
+      "opponentScore": 22,
+      "turns": 11,
+      "seed": "rl-doreios-v3:behavior:5",
+      "first": false,
+      "outcome": -1
+    },
+    "reward": -1,
+    "buys": {
+      "drachma": 1,
+      "council-of-sages": 1,
+      "sacred-academy": 2,
+      "talent": 2,
+      "acropolis": 3,
+      "polis": 1
+    },
+    "gains": {},
+    "worships": {
+      "blessing-of-the-fields": 1
+    },
+    "trashes": {
+      "hamlet": 3
+    },
+    "owned": {
+      "obol": 6,
+      "hamlet": 0,
+      "temple-of-ares": 1,
+      "drachma": 1,
+      "council-of-sages": 1,
+      "sacred-academy": 2,
+      "talent": 2,
+      "acropolis": 3,
+      "polis": 1
+    }
+  },
+  {
+    "info": {
+      "score": 37,
+      "opponentScore": 23,
+      "turns": 22,
+      "seed": "rl-doreios-v3:behavior:6",
+      "first": true,
+      "outcome": 1
+    },
+    "reward": 1,
+    "buys": {
+      "council-of-sages": 1,
+      "drachma": 6,
+      "acropolis": 5,
+      "polis": 2,
+      "hamlet": 1,
+      "talent": 4,
+      "sacred-academy": 1
+    },
+    "gains": {
+      "drachma": 1
+    },
+    "worships": {
+      "trial-of-the-spear": 1
+    },
+    "trashes": {
+      "hamlet": 3
+    },
+    "owned": {
+      "obol": 6,
+      "hamlet": 1,
+      "temple-of-ares": 1,
+      "drachma": 7,
+      "council-of-sages": 1,
+      "acropolis": 5,
+      "polis": 2,
+      "talent": 4,
+      "sacred-academy": 1
+    }
+  },
+  {
+    "info": {
+      "score": 19,
+      "opponentScore": 25,
+      "turns": 11,
+      "seed": "rl-doreios-v3:behavior:7",
+      "first": false,
+      "outcome": -1
+    },
+    "reward": -1,
+    "buys": {
+      "drachma": 2,
+      "council-of-sages": 1,
+      "talent": 2,
+      "acropolis": 3,
+      "sacred-academy": 1,
+      "hamlet": 1
+    },
+    "gains": {},
+    "worships": {
+      "blessing-of-the-fields": 1
+    },
+    "trashes": {
+      "hamlet": 3
+    },
+    "owned": {
+      "obol": 6,
+      "hamlet": 1,
+      "temple-of-ares": 1,
+      "drachma": 2,
+      "council-of-sages": 1,
+      "talent": 2,
+      "acropolis": 3,
+      "sacred-academy": 1
+    }
+  },
+  {
+    "info": {
+      "score": 34,
+      "opponentScore": 25,
+      "turns": 13,
+      "seed": "rl-doreios-v3:behavior:8",
+      "first": true,
+      "outcome": 1
+    },
+    "reward": 1,
+    "buys": {
+      "drachma": 1,
+      "talent": 2,
+      "council-of-sages": 1,
+      "acropolis": 4,
+      "polis": 3,
+      "hamlet": 1
+    },
+    "gains": {},
+    "worships": {
+      "blessing-of-the-fields": 1
+    },
+    "trashes": {
+      "hamlet": 3
+    },
+    "owned": {
+      "obol": 6,
+      "hamlet": 1,
+      "temple-of-ares": 1,
+      "drachma": 1,
+      "talent": 2,
+      "council-of-sages": 1,
+      "acropolis": 4,
+      "polis": 3
+    }
+  },
+  {
+    "info": {
+      "score": 21,
+      "opponentScore": 20,
+      "turns": 10,
+      "seed": "rl-doreios-v3:behavior:9",
+      "first": false,
+      "outcome": 1
+    },
+    "reward": 1,
+    "buys": {
+      "council-of-sages": 1,
+      "oracles-acolyte": 1,
+      "drachma": 2,
+      "acropolis": 3,
+      "polis": 1
+    },
+    "gains": {
+      "drachma": 2
+    },
+    "worships": {
+      "trial-of-the-spear": 2
+    },
+    "trashes": {
+      "hamlet": 3
+    },
+    "owned": {
+      "obol": 6,
+      "hamlet": 0,
+      "temple-of-ares": 1,
+      "council-of-sages": 1,
+      "drachma": 4,
+      "oracles-acolyte": 1,
+      "acropolis": 3,
+      "polis": 1
+    }
+  },
+  {
+    "info": {
+      "score": 18,
+      "opponentScore": 22,
+      "turns": 10,
+      "seed": "rl-doreios-v3:behavior:10",
+      "first": true,
+      "outcome": -1
+    },
+    "reward": -1,
+    "buys": {
+      "council-of-sages": 1,
+      "oracles-acolyte": 1,
+      "sacred-academy": 1,
+      "drachma": 1,
+      "acropolis": 3,
+      "talent": 2
+    },
+    "gains": {
+      "drachma": 1
+    },
+    "worships": {
+      "trial-of-the-spear": 1
+    },
+    "trashes": {
+      "hamlet": 3
+    },
+    "owned": {
+      "obol": 6,
+      "hamlet": 0,
+      "temple-of-ares": 1,
+      "council-of-sages": 1,
+      "oracles-acolyte": 1,
+      "drachma": 2,
+      "sacred-academy": 1,
+      "acropolis": 3,
+      "talent": 2
+    }
+  },
+  {
+    "info": {
+      "score": 21,
+      "opponentScore": 22,
+      "turns": 11,
+      "seed": "rl-doreios-v3:behavior:11",
+      "first": false,
+      "outcome": -1
+    },
+    "reward": -1,
+    "buys": {
+      "oracles-acolyte": 1,
+      "talent": 3,
+      "council-of-sages": 1,
+      "acropolis": 3,
+      "polis": 1,
+      "drachma": 1
+    },
+    "gains": {
+      "drachma": 1
+    },
+    "worships": {
+      "trial-of-the-spear": 1
+    },
+    "trashes": {
+      "hamlet": 3
+    },
+    "owned": {
+      "obol": 6,
+      "hamlet": 0,
+      "temple-of-ares": 1,
+      "drachma": 2,
+      "oracles-acolyte": 1,
+      "talent": 3,
+      "council-of-sages": 1,
+      "acropolis": 3,
+      "polis": 1
+    }
+  },
+  {
+    "info": {
+      "score": 27,
+      "opponentScore": 22,
+      "turns": 12,
+      "seed": "rl-doreios-v3:behavior:12",
+      "first": true,
+      "outcome": 1
+    },
+    "reward": 1,
+    "buys": {
+      "drachma": 2,
+      "talent": 3,
+      "council-of-sages": 1,
+      "acropolis": 4,
+      "polis": 1
+    },
+    "gains": {},
+    "worships": {
+      "blessing-of-the-fields": 1
+    },
+    "trashes": {
+      "hamlet": 3
+    },
+    "owned": {
+      "obol": 6,
+      "hamlet": 0,
+      "temple-of-ares": 1,
+      "drachma": 2,
+      "talent": 3,
+      "council-of-sages": 1,
+      "acropolis": 4,
+      "polis": 1
+    }
+  },
+  {
+    "info": {
+      "score": 33,
+      "opponentScore": 27,
+      "turns": 19,
+      "seed": "rl-doreios-v3:behavior:13",
+      "first": false,
+      "outcome": 1
+    },
+    "reward": 1,
+    "buys": {
+      "oracles-acolyte": 1,
+      "council-of-sages": 1,
+      "sacred-academy": 2,
+      "talent": 3,
+      "acropolis": 4,
+      "drachma": 4,
+      "polis": 3
+    },
+    "gains": {
+      "drachma": 1
+    },
+    "worships": {
+      "trial-of-the-spear": 1
+    },
+    "trashes": {
+      "hamlet": 3
+    },
+    "owned": {
+      "obol": 6,
+      "hamlet": 0,
+      "temple-of-ares": 1,
+      "drachma": 5,
+      "oracles-acolyte": 1,
+      "council-of-sages": 1,
+      "sacred-academy": 2,
+      "talent": 3,
+      "acropolis": 4,
+      "polis": 3
+    }
+  },
+  {
+    "info": {
+      "score": 39,
+      "opponentScore": 21,
+      "turns": 21,
+      "seed": "rl-doreios-v3:behavior:14",
+      "first": true,
+      "outcome": 1
+    },
+    "reward": 1,
+    "buys": {
+      "oracles-acolyte": 1,
+      "council-of-sages": 1,
+      "talent": 2,
+      "acropolis": 4,
+      "drachma": 5,
+      "polis": 5,
+      "sacred-academy": 1
+    },
+    "gains": {
+      "drachma": 2
+    },
+    "worships": {
+      "trial-of-the-spear": 2
+    },
+    "trashes": {
+      "hamlet": 3
+    },
+    "owned": {
+      "obol": 6,
+      "hamlet": 0,
+      "temple-of-ares": 1,
+      "drachma": 7,
+      "oracles-acolyte": 1,
+      "council-of-sages": 1,
+      "talent": 2,
+      "acropolis": 4,
+      "polis": 5,
+      "sacred-academy": 1
+    }
+  },
+  {
+    "info": {
+      "score": 24,
+      "opponentScore": 23,
+      "turns": 11,
+      "seed": "rl-doreios-v3:behavior:15",
+      "first": false,
+      "outcome": 1
+    },
+    "reward": 1,
+    "buys": {
+      "drachma": 2,
+      "council-of-sages": 1,
+      "talent": 2,
+      "acropolis": 3,
+      "polis": 2
+    },
+    "gains": {},
+    "worships": {
+      "blessing-of-the-fields": 1
+    },
+    "trashes": {
+      "hamlet": 3
+    },
+    "owned": {
+      "obol": 6,
+      "hamlet": 0,
+      "temple-of-ares": 1,
+      "drachma": 2,
+      "council-of-sages": 1,
+      "talent": 2,
+      "acropolis": 3,
+      "polis": 2
+    }
+  }
+]
