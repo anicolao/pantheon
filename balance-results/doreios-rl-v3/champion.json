@@ -1,0 +1,16 @@
+{
+  "checkpoint": "champion.zip",
+  "sourceCheckpoint": "extend-free-a/checkpoint-1572864.zip",
+  "sha256": "ca4a52a69cd3e439baae2b1eb5195aa392e2648d23ba1024b9b35f6c54fdce6d",
+  "leader": "Doreios",
+  "opponent": "fixed MM v3 / Melia",
+  "observationFeatures": 171,
+  "actionCount": 349,
+  "lineageRLDecisions": 2621440,
+  "inference": "AnchoredPPO.load(path, device=\"cpu\"); deterministic masked prediction",
+  "runtimeLock": "../../scripts/rl/requirements.lock",
+  "trainingProtocol": "extend-free-a/protocol.json",
+  "finalResults": "final/results.json",
+  "verification": "verification.json",
+  "scope": "Research checkpoint; not integrated into production bots"
+}

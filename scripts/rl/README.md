@@ -40,3 +40,14 @@ The frozen imitation reference is excluded from checkpoint ZIPs, so resuming tra
 requires explicitly restoring that original reference. Inference needs no teacher.
 The anchored update is derived from sb3-contrib 2.9.0; its MIT license is retained in
 LICENSE.sb3-contrib. Run test_anchor.py plus the Bun environment tests before training.
+
+## Iteration 3
+
+Config-driven `continue_training.py` supports checkpointed continuations, optional
+KL anchoring, logit softening, and episodically neutral potential shaping.
+`evaluate_checkpoints.py` compares policies on matched seeds; `resolve_plateau.py`
+applies the predeclared independent promotion rule. The completed campaign and
+selected model are in `balance-results/doreios-rl-v3/README.md` and `champion.zip`.
+Its final tie-adjusted share against fixed MM/Melia is 64.3% over 2,000 games.
+Five follow-up directions and an enlarged independent exploration comparison did
+not establish a further gain. All models remain available for later research.

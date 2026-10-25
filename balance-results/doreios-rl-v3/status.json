@@ -1,7 +1,9 @@
 {
-  "phase": "Additional independent 8000-game confirmation of exploration hint",
-  "incumbent": "extend-free-a/checkpoint-1572864",
-  "incumbentScreenShare": 0.6669921875,
-  "running": [],
-  "next": "Resolve the remaining uncertainty before declaring the operational plateau. The earlier final test is retained as a frozen-model benchmark and cannot guide new training."
+  "phase": "complete: practical plateau",
+  "incumbent": "champion.zip",
+  "reason": "Five independent follow-up directions failed paired 99% promotion; enlarged fresh 8000-game exploration comparison also failed. This is a plateau for the tested setup, not proof of optimality.",
+  "trainingRuns": 11,
+  "trainingSteps": 12582912,
+  "trainingGames": 99386,
+  "running": []
 }

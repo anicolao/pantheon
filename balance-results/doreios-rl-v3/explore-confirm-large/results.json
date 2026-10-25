@@ -1,0 +1,40 @@
+{
+  "summary": {
+    "incumbent": {
+      "games": 8000,
+      "wins": 4931,
+      "ties": 431,
+      "losses": 2638,
+      "share": 0.6433125,
+      "winCI95": [
+        0.6056659284398885,
+        0.6269723627581422
+      ]
+    },
+    "explore": {
+      "games": 8000,
+      "wins": 4964,
+      "ties": 490,
+      "losses": 2546,
+      "share": 0.651125,
+      "winCI95": [
+        0.6098109713476083,
+        0.6310733602473453
+      ]
+    }
+  },
+  "comparisons": {
+    "explore-vs-incumbent": {
+      "shareDelta": 0.0078125,
+      "pairedApprox95CI": [
+        -0.0030796962734990357,
+        0.018704696273499036
+      ]
+    }
+  },
+  "checkpointSHA256": {
+    "incumbent": "ca4a52a69cd3e439baae2b1eb5195aa392e2648d23ba1024b9b35f6c54fdce6d",
+    "explore": "8820ac55f91af7f66c8d147480c766c14fffebd00b7476caae9e9c07d7dcff50"
+  },
+  "elapsedSeconds": 182.82775158435106
+}
