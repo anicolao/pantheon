@@ -3,7 +3,7 @@ import type {CardInstance} from '../game/setup';
 import type {StandardView} from '../../../standard-matrix/policy';
 
 /** Experimental JRFSA-inspired Nereon policy. Not wired into the UI's Bot choice. */
-export const nereonFleetVersion=1;
+export const nereonFleetVersion=2;
 const treasure:Record<string,number>={obol:1,drachma:2,talent:3};
 const owned=(v:StandardView,id:string)=>v.owned[id]??0;
 const income=(v:StandardView)=>Object.entries(treasure).reduce((n,[id,value])=>n+owned(v,id)*value,0);
@@ -11,10 +11,14 @@ const handMoney=(v:StandardView)=>v.resources.coins+v.hand.reduce((n,c)=>n+(trea
 const favored=(v:StandardView,god:string)=>v.play.filter(c=>definition(c.cardId).type==='Action'&&definition(c.cardId).god===god).length>=2;
 function thin(v:StandardView,max:number):CardInstance[]{
  if(v.finalRound||owned(v,'acropolis')>0)return [];
- const hamlets=v.hand.filter(c=>c.cardId==='hamlet').sort((a,b)=>a.id.localeCompare(b.id)).slice(0,max);
- // As in JRFSA, remove the last Hamlet alongside one Obol, keeping five Obols.
- if(hamlets.length===1&&max>1&&owned(v,'obol')>5){const obol=v.hand.find(c=>c.cardId==='obol');if(obol)hamlets.push(obol);}
- return hamlets;
+ const targets=v.hand.filter(c=>c.cardId==='hamlet').sort((a,b)=>a.id.localeCompare(b.id)).slice(0,max);
+ let obols=owned(v,'obol'),cash=income(v);
+ // Recheck after each removal: preserve eight treasure coins once at five Obols or fewer.
+ for(const obol of v.hand.filter(c=>c.cardId==='obol').sort((a,b)=>a.id.localeCompare(b.id))){
+  if(targets.length>=max||!(obols>5||cash>8))break;
+  targets.push(obol);obols--;cash--;
+ }
+ return targets;
 }
 function priorities(v:StandardView):string[]{
  if(v.finalRound)return ['acropolis','polis','hamlet'];
