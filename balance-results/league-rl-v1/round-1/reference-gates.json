@@ -1,0 +1,74 @@
+{
+  "melia": {
+    "referencePassed": true,
+    "comparison": {
+      "shareDelta": 0.021484375,
+      "pairedApprox95CI": [
+        0.00015221874034122493,
+        0.04281653125965877
+      ]
+    },
+    "matchupShareDeltas": {
+      "classic-engine-thaleia": 0.017578125,
+      "fleet-nereon": 0.01171875,
+      "owl-nereon": 0.037109375,
+      "v1-doreios": 0.01171875,
+      "v1-nereon": 0.017578125,
+      "v1-thaleia": 0.033203125
+    }
+  },
+  "nereon": {
+    "referencePassed": true,
+    "comparison": {
+      "shareDelta": 0.1982421875,
+      "pairedApprox95CI": [
+        0.17235227195199965,
+        0.22413210304800035
+      ]
+    },
+    "matchupShareDeltas": {
+      "classic-engine-thaleia": 0.365234375,
+      "mm-melia": -0.0234375,
+      "owl-thaleia": 0.3515625,
+      "v1-doreios": 0.14453125,
+      "v1-melia": -0.0078125,
+      "v1-thaleia": 0.359375
+    }
+  },
+  "thaleia": {
+    "referencePassed": true,
+    "comparison": {
+      "shareDelta": 0.048502604166666664,
+      "pairedApprox95CI": [
+        0.025344962270081036,
+        0.07166024606325229
+      ]
+    },
+    "matchupShareDeltas": {
+      "classic-engine-doreios": 0.021484375,
+      "engine-nereon": 0.14453125,
+      "owl-melia": -0.009765625,
+      "v1-doreios": 0.015625,
+      "v1-melia": 0.0546875,
+      "v1-nereon": 0.064453125
+    }
+  },
+  "doreios": {
+    "referencePassed": true,
+    "comparison": {
+      "shareDelta": 0.21158854166666666,
+      "pairedApprox95CI": [
+        0.18691182255011488,
+        0.23626526078321844
+      ]
+    },
+    "matchupShareDeltas": {
+      "classic-engine-thaleia": 0.41015625,
+      "mm-melia": 0.0,
+      "owl-thaleia": 0.4453125,
+      "v1-melia": 0.0390625,
+      "v1-nereon": 0.01953125,
+      "v1-thaleia": 0.35546875
+    }
+  }
+}

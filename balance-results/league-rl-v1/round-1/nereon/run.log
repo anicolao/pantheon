@@ -1,0 +1,34 @@
+{"stage": "training", "steps": 16384, "games": 189, "recentMeanReward": -0.24, "elapsedSeconds": 4.76136966701597}
+{"stage": "training", "steps": 32768, "games": 387, "recentMeanReward": -0.09, "elapsedSeconds": 9.840014666784555}
+{"stage": "training", "steps": 49152, "games": 580, "recentMeanReward": -0.07, "elapsedSeconds": 14.789418707601726}
+{"stage": "training", "steps": 65536, "games": 773, "recentMeanReward": -0.23, "elapsedSeconds": 19.857219291850924}
+{"stage": "training", "steps": 81920, "games": 968, "recentMeanReward": -0.17, "elapsedSeconds": 24.785236166790128}
+{"stage": "training", "steps": 98304, "games": 1165, "recentMeanReward": 0.04, "elapsedSeconds": 29.801116166636348}
+{"stage": "training", "steps": 114688, "games": 1363, "recentMeanReward": -0.1, "elapsedSeconds": 34.69459220767021}
+{"stage": "training", "steps": 131072, "games": 1565, "recentMeanReward": 0.1, "elapsedSeconds": 39.93958383286372}
+{"stage": "training", "steps": 147456, "games": 1766, "recentMeanReward": -0.03, "elapsedSeconds": 45.02843220764771}
+{"stage": "training", "steps": 163840, "games": 1970, "recentMeanReward": -0.13, "elapsedSeconds": 49.871154457796365}
+{"stage": "training", "steps": 180224, "games": 2175, "recentMeanReward": 0.03, "elapsedSeconds": 54.87410583300516}
+{"stage": "training", "steps": 196608, "games": 2389, "recentMeanReward": -0.23, "elapsedSeconds": 59.91906870761886}
+{"stage": "training", "steps": 212992, "games": 2596, "recentMeanReward": 0.02, "elapsedSeconds": 64.83715566666797}
+{"stage": "training", "steps": 229376, "games": 2806, "recentMeanReward": 0.18, "elapsedSeconds": 69.93858454190195}
+{"stage": "training", "steps": 245760, "games": 3022, "recentMeanReward": 0.16, "elapsedSeconds": 75.18237799964845}
+{"stage": "training", "steps": 262144, "games": 3233, "recentMeanReward": 0.06, "elapsedSeconds": 80.54832983296365}
+{"stage": "screen", "checkpoint": "checkpoint-262144", "referenceKL": 0.08034010021947324, "elapsedSeconds": 91.92072316724807, "games": 384, "wins": 220, "ties": 26, "losses": 138, "share": 0.6067708333333334, "winCI95": [0.5229599236841617, 0.6214289721555938], "opponents": {"doreios": {"games": 64, "wins": 32, "ties": 5, "losses": 27, "share": 0.5390625, "winCI95": [0.3810209474394732, 0.6189790525605268]}, "melia": {"games": 128, "wins": 61, "ties": 6, "losses": 61, "share": 0.5, "winCI95": [0.39198872606581675, 0.562502068759504]}, "thaleia": {"games": 192, "wins": 127, "ties": 15, "losses": 50, "share": 0.7005208333333334, "winCI95": [0.5919401674170761, 0.724642441665535]}}, "matchups": {"classic-engine-thaleia": {"games": 64, "wins": 39, "ties": 5, "losses": 20, "share": 0.6484375, "winCI95": [0.486919178802728, 0.7194443081175965]}, "mm-melia": {"games": 64, "wins": 33, "ties": 3, "losses": 28, "share": 0.5390625, "winCI95": [0.3958160147858043, 0.6336644833456706]}, "owl-thaleia": {"games": 64, "wins": 45, "ties": 4, "losses": 15, "share": 0.734375, "winCI95": [0.5822979889645742, 0.8009484867445998]}, "v1-doreios": {"games": 64, "wins": 32, "ties": 5, "losses": 27, "share": 0.5390625, "winCI95": [0.3810209474394732, 0.6189790525605268]}, "v1-melia": {"games": 64, "wins": 28, "ties": 3, "losses": 33, "share": 0.4609375, "winCI95": [0.3229400970440336, 0.5591379104300667]}, "v1-thaleia": {"games": 64, "wins": 43, "ties": 6, "losses": 15, "share": 0.71875, "winCI95": [0.5499910584909184, 0.7742944209553058]}}}
+{"stage": "training", "steps": 278528, "games": 3455, "recentMeanReward": 0.0, "elapsedSeconds": 94.95389012480155}
+{"stage": "training", "steps": 294912, "games": 3679, "recentMeanReward": 0.21, "elapsedSeconds": 99.94772658264264}
+{"stage": "training", "steps": 311296, "games": 3894, "recentMeanReward": 0.19, "elapsedSeconds": 104.80040420778096}
+{"stage": "training", "steps": 327680, "games": 4118, "recentMeanReward": 0.18, "elapsedSeconds": 109.72700770758092}
+{"stage": "training", "steps": 344064, "games": 4341, "recentMeanReward": 0.07, "elapsedSeconds": 115.00488962465897}
+{"stage": "training", "steps": 360448, "games": 4564, "recentMeanReward": 0.12, "elapsedSeconds": 120.00171504169703}
+{"stage": "training", "steps": 376832, "games": 4787, "recentMeanReward": 0.08, "elapsedSeconds": 124.95171204162762}
+{"stage": "training", "steps": 393216, "games": 5005, "recentMeanReward": 0.22, "elapsedSeconds": 129.9307082495652}
+{"stage": "training", "steps": 409600, "games": 5222, "recentMeanReward": 0.2, "elapsedSeconds": 134.92345174960792}
+{"stage": "training", "steps": 425984, "games": 5442, "recentMeanReward": 0.07, "elapsedSeconds": 140.2109124995768}
+{"stage": "training", "steps": 442368, "games": 5658, "recentMeanReward": 0.09, "elapsedSeconds": 145.27233233256266}
+{"stage": "training", "steps": 458752, "games": 5874, "recentMeanReward": 0.19, "elapsedSeconds": 150.25195241672918}
+{"stage": "training", "steps": 475136, "games": 6091, "recentMeanReward": 0.13, "elapsedSeconds": 155.2037371667102}
+{"stage": "training", "steps": 491520, "games": 6308, "recentMeanReward": 0.21, "elapsedSeconds": 160.22484179167077}
+{"stage": "training", "steps": 507904, "games": 6532, "recentMeanReward": 0.06, "elapsedSeconds": 165.53046866692603}
+{"stage": "training", "steps": 524288, "games": 6751, "recentMeanReward": 0.28, "elapsedSeconds": 170.62613191688433}
+{"stage": "screen", "checkpoint": "checkpoint-524288", "referenceKL": 0.09569114475743845, "elapsedSeconds": 181.92229324998334, "games": 384, "wins": 238, "ties": 21, "losses": 125, "share": 0.6471354166666666, "winCI95": [0.5702786368520103, 0.6669316920275881], "opponents": {"doreios": {"games": 64, "wins": 38, "ties": 2, "losses": 24, "share": 0.609375, "winCI95": [0.4714520812860483, 0.7054309075028011]}, "melia": {"games": 128, "wins": 66, "ties": 7, "losses": 55, "share": 0.54296875, "winCI95": [0.4298624503761508, 0.6004770197403022]}, "thaleia": {"games": 192, "wins": 134, "ties": 12, "losses": 46, "share": 0.7291666666666666, "winCI95": [0.6296100295550408, 0.7584589751268694]}}, "matchups": {"classic-engine-thaleia": {"games": 64, "wins": 40, "ties": 4, "losses": 20, "share": 0.65625, "winCI95": [0.5025037868400484, 0.7333401982117511]}, "mm-melia": {"games": 64, "wins": 35, "ties": 4, "losses": 25, "share": 0.578125, "winCI95": [0.4257359722005444, 0.6627055221938803]}, "owl-thaleia": {"games": 64, "wins": 49, "ties": 3, "losses": 12, "share": 0.7890625, "winCI95": [0.648667424174317, 0.8525010440607567]}, "v1-doreios": {"games": 64, "wins": 38, "ties": 2, "losses": 24, "share": 0.609375, "winCI95": [0.4714520812860483, 0.7054309075028011]}, "v1-melia": {"games": 64, "wins": 31, "ties": 3, "losses": 30, "share": 0.5078125, "winCI95": [0.3663355166543294, 0.6041839852141957]}, "v1-thaleia": {"games": 64, "wins": 45, "ties": 5, "losses": 14, "share": 0.7421875, "winCI95": [0.5822979889645742, 0.8009484867445998]}}}

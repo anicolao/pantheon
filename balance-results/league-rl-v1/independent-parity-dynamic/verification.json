@@ -1,0 +1,6 @@
+{
+  "exactRowsMatchVectorEvaluator": true,
+  "games": 24,
+  "dynamicScheduling": true,
+  "allReplayed": true
+}

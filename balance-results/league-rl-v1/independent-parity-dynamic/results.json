@@ -1,0 +1,123 @@
+{
+  "summary": {
+    "incumbent": {
+      "games": 24,
+      "wins": 16,
+      "ties": 1,
+      "losses": 7,
+      "share": 0.6875,
+      "winCI95": [
+        0.4670631683813228,
+        0.8202780967270192
+      ],
+      "opponents": {
+        "doreios": {
+          "games": 4,
+          "wins": 3,
+          "ties": 1,
+          "losses": 0,
+          "share": 0.875,
+          "winCI95": [
+            0.30064184258241056,
+            0.9544127391902976
+          ]
+        },
+        "nereon": {
+          "games": 12,
+          "wins": 8,
+          "ties": 0,
+          "losses": 4,
+          "share": 0.6666666666666666,
+          "winCI95": [
+            0.39062208887280625,
+            0.8618799089087836
+          ]
+        },
+        "thaleia": {
+          "games": 8,
+          "wins": 5,
+          "ties": 0,
+          "losses": 3,
+          "share": 0.625,
+          "winCI95": [
+            0.3057423946026341,
+            0.8631557141763988
+          ]
+        }
+      },
+      "matchups": {
+        "classic-engine-thaleia": {
+          "games": 4,
+          "wins": 1,
+          "ties": 0,
+          "losses": 3,
+          "share": 0.25,
+          "winCI95": [
+            0.04558726080970238,
+            0.6993581574175893
+          ]
+        },
+        "fleet-nereon": {
+          "games": 4,
+          "wins": 3,
+          "ties": 0,
+          "losses": 1,
+          "share": 0.75,
+          "winCI95": [
+            0.30064184258241056,
+            0.9544127391902976
+          ]
+        },
+        "owl-nereon": {
+          "games": 4,
+          "wins": 4,
+          "ties": 0,
+          "losses": 0,
+          "share": 1.0,
+          "winCI95": [
+            0.5101091635454165,
+            1.0
+          ]
+        },
+        "v1-doreios": {
+          "games": 4,
+          "wins": 3,
+          "ties": 1,
+          "losses": 0,
+          "share": 0.875,
+          "winCI95": [
+            0.30064184258241056,
+            0.9544127391902976
+          ]
+        },
+        "v1-nereon": {
+          "games": 4,
+          "wins": 1,
+          "ties": 0,
+          "losses": 3,
+          "share": 0.25,
+          "winCI95": [
+            0.04558726080970238,
+            0.6993581574175893
+          ]
+        },
+        "v1-thaleia": {
+          "games": 4,
+          "wins": 4,
+          "ties": 0,
+          "losses": 0,
+          "share": 1.0,
+          "winCI95": [
+            0.5101091635454165,
+            1.0
+          ]
+        }
+      }
+    }
+  },
+  "comparisons": {},
+  "checkpointSHA256": {
+    "incumbent": "f6016282d408c3f78263a3396f7e423e31fdcbf3c790afcf6b34e6fd9823122c"
+  },
+  "elapsedSeconds": 2.4566562082618475
+}
