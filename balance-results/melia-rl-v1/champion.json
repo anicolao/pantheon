@@ -1,0 +1,14 @@
+{
+  "leader": "melia",
+  "source": "balance-results/melia-rl-v1/polish/checkpoint-2097152.zip",
+  "checkpointSHA256": "f6016282d408c3f78263a3396f7e423e31fdcbf3c790afcf6b34e6fd9823122c",
+  "initialization": "Fresh MM imitation; no transferred leader weights",
+  "lineageRLDecisions": 3670016,
+  "selection": "Highest screening wins (474/768), independently confirmed (1832/3072). The later checkpoint led the earlier one by only two validation wins; this is not evidence of statistically significant superiority. Wins-first criterion retained.",
+  "opponents": {
+    "nereon": "fec15291b5c041494285f0151db211e7d525e8afee4e0e034c6eb6a4c5a22d58",
+    "thaleia": "f81492461000d9eec8fd1ef379ffa46578c354e8e9691e511a5298470f3cae07",
+    "doreios": "ca4a52a69cd3e439baae2b1eb5195aa392e2648d23ba1024b9b35f6c54fdce6d"
+  },
+  "finalResultsNotYetRead": true
+}

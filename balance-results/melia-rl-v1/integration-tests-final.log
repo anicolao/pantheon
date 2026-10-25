@@ -1,0 +1,50 @@
+bun test v1.3.13 (bf2e2cec)
+
+tests/tooling/rl-environment.test.ts:
+(pass) every mask-enabled command is accepted by the production reducer, seed 0 [530.57ms]
+(pass) every mask-enabled command is accepted by the production reducer, seed 1 [321.02ms]
+(pass) every mask-enabled command is accepted by the production reducer, seed 2 [222.95ms]
+(pass) every mask-enabled command is accepted by the production reducer, seed 3 [164.34ms]
+(pass) observations and masks do not expose hidden deck order, opponent hand, or instance IDs [0.43ms]
+(pass) two-card selections support repeated types without reusing an instance [0.32ms]
+(pass) DAgger teacher queries do not mutate the expert memory [1.83ms]
+(pass) leader-specific RL teacher nereon/money completes a legal, replayable game [18987.20ms]
+(pass) leader-specific RL teacher nereon/fleet-v1 completes a legal, replayable game [42.09ms]
+(pass) leader-specific RL teacher thaleia/classic-engine completes a legal, replayable game [85.80ms]
+(pass) Melia RL opponent pool balances leaders and seats: 0 [34.34ms]
+(pass) Melia RL opponent pool balances leaders and seats: 1 [27.48ms]
+(pass) Melia RL opponent pool balances leaders and seats: 2 [32.02ms]
+(pass) Melia RL opponent pool balances leaders and seats: 3 [30.79ms]
+(pass) Melia RL opponent pool balances leaders and seats: 4 [28.50ms]
+(pass) Melia RL opponent pool balances leaders and seats: 5 [27.41ms]
+(pass) focused training schedule keeps both seats and never changes balanced evaluation [3.69ms]
+
+tests/tooling/rl-runtime.test.ts:
+(pass) melia browser actor matches frozen PyTorch decisions [2.69ms]
+(pass) nereon browser actor matches frozen PyTorch decisions [0.90ms]
+(pass) thaleia browser actor matches frozen PyTorch decisions [0.89ms]
+(pass) doreios browser actor matches frozen PyTorch decisions [0.85ms]
+
+tests/tooling/adaptive-bot.test.ts:
+(pass) Bot as melia matches rl throughout a game, including opening and reload [1911.82ms]
+(pass) Bot as thaleia matches rl throughout a game, including opening and reload [764.24ms]
+(pass) Bot as nereon matches rl throughout a game, including opening and reload [33240.15ms]
+(pass) Bot as doreios matches rl throughout a game, including opening and reload [2422.79ms]
+
+tests/tooling/table-bots.test.ts:
+(pass) 2 seats mixed human/bots draft, play, and resume from shared events [4290.64ms]
+(pass) 2 seats all bots draft, play, and resume from shared events [3378.59ms]
+(pass) 3 seats mixed human/bots draft, play, and resume from shared events [24724.73ms]
+(pass) 3 seats all bots draft, play, and resume from shared events [17926.33ms]
+(pass) 4 seats mixed human/bots draft, play, and resume from shared events [39141.15ms]
+(pass) 4 seats all bots draft, play, and resume from shared events [38043.06ms]
+(pass) random draft proposals are legal, repeatable and include every leader across seeds [0.68ms]
+(pass) human purchase Undo and host reload preserve the next bot decision [43.05ms]
+(pass) Bot drafts Melia, Thaleia, Nereon, Doreios and completes a shared table after reload [10068.76ms]
+(pass) 3 adaptive RL seats finish and preserve decisions across host reload [8778.38ms]
+(pass) 4 adaptive RL seats finish and preserve decisions across host reload [14655.09ms]
+
+ 36 pass
+ 0 fail
+ 24450 expect() calls
+Ran 36 tests across 4 files. [220.01s]

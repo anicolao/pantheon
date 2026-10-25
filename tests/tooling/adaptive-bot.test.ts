@@ -5,7 +5,7 @@ import {rlCommand} from '../../src/lib/bots/rl';
 import {decide} from '../../src/lib/bots/policy';
 import {activePlayer} from '../../src/lib/game/actions';
 
-for(const [leader,policy] of Object.entries({melia:'mm',thaleia:'rl',nereon:'rl',doreios:'rl'}) as [typeof botLeaderPreference[number],ReturnType<typeof resolveBotKind>][]) {
+for(const [leader,policy] of Object.entries({melia:'rl',thaleia:'rl',nereon:'rl',doreios:'rl'}) as [typeof botLeaderPreference[number],ReturnType<typeof resolveBotKind>][]) {
  test(`Bot as ${leader} matches ${policy} throughout a game, including opening and reload`,()=>{
   expect(resolveBotKind('bot',leader)).toBe(policy);
   const config={seed:'adaptive-'+leader,humanLeader:leader==='melia'?'thaleia':'melia',botLeader:leader,humanFirst:false};

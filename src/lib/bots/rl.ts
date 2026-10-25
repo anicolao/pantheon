@@ -1,3 +1,4 @@
+import melia from './models/melia.json';
 import nereon from './models/nereon.json';
 import thaleia from './models/thaleia.json';
 import doreios from './models/doreios.json';
@@ -5,7 +6,7 @@ import {commands,observation,schemaSignature} from './rl-schema';
 import type {StandardView} from '../../../standard-matrix/policy';
 
 type Actor={version:number;leader:string;checkpointSHA256:string;schemaSignature:string;dtype:string;activation:string;layers:{input:number;output:number;weights:string;bias:string}[]};
-const actors:Record<string,Actor>={nereon,thaleia,doreios};
+const actors:Record<string,Actor>={melia,nereon,thaleia,doreios};
 type Layer={input:number;output:number;weights:Float32Array;bias:Float32Array};
 const cache=new Map<string,Layer[]>();
 function floats(encoded:string){
