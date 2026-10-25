@@ -1,0 +1,19 @@
+{
+  "leader": "melia",
+  "teacher": "mm",
+  "opponent": "league:balance-results/league-rl-v1/manifests/money-guard.json",
+  "prefix": "league-v1:melia",
+  "namespace": "money-guard-r1",
+  "workers": 8,
+  "games": 256,
+  "models": {
+    "incumbent": "balance-results/melia-rl-v1/champion",
+    "candidate": "balance-results/league-rl-v1/round-1/melia/checkpoint-262144"
+  },
+  "output": "balance-results/league-rl-v1/round-1/money-melia",
+  "checkpointSHA256": {
+    "incumbent": "f6016282d408c3f78263a3396f7e423e31fdcbf3c790afcf6b34e6fd9823122c",
+    "candidate": "b5bfba5e6bf050e5d2d1d1450a168e9d7c0ddaa3db1fad283f745ba3ff8326e9"
+  },
+  "leagueSHA256": "c22240c65ae0fdc6b23686da1859993ecdb6d38875b7b03f144e89e0bface92a"
+}

@@ -1,0 +1,126 @@
+{
+  "melia": {
+    "promoted": false,
+    "source": "balance-results/melia-rl-v1/champion",
+    "checkpoint": "balance-results/league-rl-v1/champions/round-1/melia",
+    "checkpointSHA256": "f6016282d408c3f78263a3396f7e423e31fdcbf3c790afcf6b34e6fd9823122c",
+    "referenceGate": {
+      "referencePassed": true,
+      "comparison": {
+        "shareDelta": 0.021484375,
+        "pairedApprox95CI": [
+          0.00015221874034122493,
+          0.04281653125965877
+        ]
+      },
+      "matchupShareDeltas": {
+        "classic-engine-thaleia": 0.017578125,
+        "fleet-nereon": 0.01171875,
+        "owl-nereon": 0.037109375,
+        "v1-doreios": 0.01171875,
+        "v1-nereon": 0.017578125,
+        "v1-thaleia": 0.033203125
+      }
+    },
+    "moneyGuard": {
+      "shareDelta": -0.03515625,
+      "pairedApprox95CI": [
+        -0.08498015770763147,
+        0.014667657707631468
+      ]
+    }
+  },
+  "nereon": {
+    "promoted": true,
+    "source": "balance-results/league-rl-v1/round-1/nereon/checkpoint-524288",
+    "checkpoint": "balance-results/league-rl-v1/champions/round-1/nereon",
+    "checkpointSHA256": "5d4460272869226723bd9668b946bed98bdc3208569853fa1240e446a78f05e7",
+    "referenceGate": {
+      "referencePassed": true,
+      "comparison": {
+        "shareDelta": 0.1982421875,
+        "pairedApprox95CI": [
+          0.17235227195199965,
+          0.22413210304800035
+        ]
+      },
+      "matchupShareDeltas": {
+        "classic-engine-thaleia": 0.365234375,
+        "mm-melia": -0.0234375,
+        "owl-thaleia": 0.3515625,
+        "v1-doreios": 0.14453125,
+        "v1-melia": -0.0078125,
+        "v1-thaleia": 0.359375
+      }
+    },
+    "moneyGuard": {
+      "shareDelta": 0.453125,
+      "pairedApprox95CI": [
+        0.3856191110956629,
+        0.5206308889043372
+      ]
+    }
+  },
+  "thaleia": {
+    "promoted": true,
+    "source": "balance-results/league-rl-v1/round-1/thaleia/checkpoint-524288",
+    "checkpoint": "balance-results/league-rl-v1/champions/round-1/thaleia",
+    "checkpointSHA256": "92691ae5d3ec7c59ff7f4ec5e70b369d39e058fae170e979ae384bc61d868809",
+    "referenceGate": {
+      "referencePassed": true,
+      "comparison": {
+        "shareDelta": 0.048502604166666664,
+        "pairedApprox95CI": [
+          0.025344962270081036,
+          0.07166024606325229
+        ]
+      },
+      "matchupShareDeltas": {
+        "classic-engine-doreios": 0.021484375,
+        "engine-nereon": 0.14453125,
+        "owl-melia": -0.009765625,
+        "v1-doreios": 0.015625,
+        "v1-melia": 0.0546875,
+        "v1-nereon": 0.064453125
+      }
+    },
+    "moneyGuard": {
+      "shareDelta": 0.140625,
+      "pairedApprox95CI": [
+        0.07904561605568969,
+        0.2022043839443103
+      ]
+    }
+  },
+  "doreios": {
+    "promoted": true,
+    "source": "balance-results/league-rl-v1/round-1/doreios/checkpoint-262144",
+    "checkpoint": "balance-results/league-rl-v1/champions/round-1/doreios",
+    "checkpointSHA256": "0c3241950187bc4a49b4dd971e8bb519ce21eb3678a7358f8e37a8ed4d4a938c",
+    "referenceGate": {
+      "referencePassed": true,
+      "comparison": {
+        "shareDelta": 0.21158854166666666,
+        "pairedApprox95CI": [
+          0.18691182255011488,
+          0.23626526078321844
+        ]
+      },
+      "matchupShareDeltas": {
+        "classic-engine-thaleia": 0.41015625,
+        "mm-melia": 0.0,
+        "owl-thaleia": 0.4453125,
+        "v1-melia": 0.0390625,
+        "v1-nereon": 0.01953125,
+        "v1-thaleia": 0.35546875
+      }
+    },
+    "moneyGuard": {
+      "shareDelta": 0.3828125,
+      "pairedApprox95CI": [
+        0.3179533040189456,
+        0.4476716959810544
+      ]
+    }
+  }
+}
