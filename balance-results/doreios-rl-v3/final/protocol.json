@@ -1,0 +1,16 @@
+{
+  "output": "balance-results/doreios-rl-v3/final",
+  "prefix": "rl-doreios-v3-final",
+  "namespace": "test",
+  "games": 2000,
+  "workers": 16,
+  "models": {
+    "champion": "balance-results/doreios-rl-v3/extend-free-a/checkpoint-1572864",
+    "classic": "classic-engine",
+    "previous_rl": "balance-results/doreios-rl-v2/ppo-524288"
+  },
+  "baselines": [
+    "classic",
+    "previous_rl"
+  ]
+}

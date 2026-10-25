@@ -1,0 +1,72 @@
+{
+  "summary": {
+    "champion": {
+      "games": 2000,
+      "wins": 1228,
+      "ties": 116,
+      "losses": 656,
+      "share": 0.643,
+      "winCI95": [
+        0.5924648988423382,
+        0.6350980143775362
+      ]
+    },
+    "classic": {
+      "games": 2000,
+      "wins": 544,
+      "ties": 112,
+      "losses": 1344,
+      "share": 0.3,
+      "winCI95": [
+        0.25294870359172544,
+        0.2919254699685259
+      ]
+    },
+    "previous_rl": {
+      "games": 2000,
+      "wins": 488,
+      "ties": 128,
+      "losses": 1384,
+      "share": 0.276,
+      "winCI95": [
+        0.22567940957821503,
+        0.2633021186297864
+      ]
+    }
+  },
+  "comparisons": {
+    "champion-vs-classic": {
+      "shareDelta": 0.343,
+      "pairedApprox95CI": [
+        0.31912540683279716,
+        0.3668745931672029
+      ]
+    },
+    "champion-vs-previous_rl": {
+      "shareDelta": 0.367,
+      "pairedApprox95CI": [
+        0.3432683088385448,
+        0.3907316911614552
+      ]
+    },
+    "classic-vs-previous_rl": {
+      "shareDelta": 0.024,
+      "pairedApprox95CI": [
+        0.006143173509098463,
+        0.04185682649090154
+      ]
+    },
+    "previous_rl-vs-classic": {
+      "shareDelta": -0.024,
+      "pairedApprox95CI": [
+        -0.04185682649090154,
+        -0.006143173509098463
+      ]
+    }
+  },
+  "checkpointSHA256": {
+    "champion": "ca4a52a69cd3e439baae2b1eb5195aa392e2648d23ba1024b9b35f6c54fdce6d",
+    "previous_rl": "c94ec6c487b7d7c3413956cf0ecf46659c55a644c3d45355a1f9899f248eb50a"
+  },
+  "elapsedSeconds": 211.38589870836586
+}

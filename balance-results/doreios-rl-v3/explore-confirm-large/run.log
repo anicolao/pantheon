@@ -1,0 +1,2 @@
+{"model": "incumbent", "elapsedSeconds": 99.22238733433187, "games": 8000, "wins": 4931, "ties": 431, "losses": 2638, "share": 0.6433125, "winCI95": [0.6056659284398885, 0.6269723627581422]}
+{"model": "explore", "elapsedSeconds": 182.82412420911714, "games": 8000, "wins": 4964, "ties": 490, "losses": 2546, "share": 0.651125, "winCI95": [0.6098109713476083, 0.6310733602473453]}

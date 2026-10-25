@@ -1,0 +1,15 @@
+{
+  "output": "balance-results/doreios-rl-v3/explore-confirm-large",
+  "prefix": "rl-doreios-v3",
+  "namespace": "explore-confirm-large",
+  "games": 8000,
+  "workers": 16,
+  "models": {
+    "incumbent": "balance-results/doreios-rl-v3/extend-free-a/checkpoint-1572864",
+    "explore": "balance-results/doreios-rl-v3/explore/checkpoint-1048576"
+  },
+  "baselines": [
+    "incumbent"
+  ],
+  "reason": "Resolve the +2.0 percentage point hint from the independent 1024-game plateau confirmation. Fresh seeds; promote only if new paired 99% lower bound exceeds zero."
+}

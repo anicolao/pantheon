@@ -1,0 +1,46 @@
+{
+  "explorationShareDelta": 0.0078125,
+  "pairedApprox99CI": [
+    -0.006502009357798445,
+    0.022127009357798447
+  ],
+  "promoted": false,
+  "final": {
+    "champion": {
+      "games": 2000,
+      "allReplaysVerified": true,
+      "share": 0.643,
+      "shareApprox95CI": [
+        0.6226707944301911,
+        0.6633292055698089
+      ],
+      "firstSeatShare": 0.6965,
+      "secondSeatShare": 0.5895
+    },
+    "classic": {
+      "games": 2000,
+      "allReplaysVerified": true,
+      "share": 0.3,
+      "shareApprox95CI": [
+        0.2805921373519317,
+        0.31940786264806825
+      ],
+      "firstSeatShare": 0.348,
+      "secondSeatShare": 0.252
+    },
+    "previous_rl": {
+      "games": 2000,
+      "allReplaysVerified": true,
+      "share": 0.276,
+      "shareApprox95CI": [
+        0.2572046342923038,
+        0.29479536570769627
+      ],
+      "firstSeatShare": 0.338,
+      "secondSeatShare": 0.214
+    }
+  },
+  "trainingSteps": 12582912,
+  "trainingGames": 99386,
+  "trainingRuns": 11
+}
