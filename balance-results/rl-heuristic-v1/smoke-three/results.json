@@ -1,0 +1,1578 @@
+{
+  "elapsedSeconds": 159.449,
+  "totalGames": 120,
+  "matchups": [
+    {
+      "learner": "nereon",
+      "opponent": "melia",
+      "policy": "mm",
+      "key": "nereon--mm--melia",
+      "games": 2,
+      "wins": 2,
+      "ties": 0,
+      "losses": 0,
+      "winRate": 1,
+      "share": 1,
+      "winCI95": [
+        0.34238022750665303,
+        1
+      ],
+      "meanVP": 33.5,
+      "meanOpponentVP": 25.5
+    },
+    {
+      "learner": "nereon",
+      "opponent": "thaleia",
+      "policy": "mm",
+      "key": "nereon--mm--thaleia",
+      "games": 2,
+      "wins": 2,
+      "ties": 0,
+      "losses": 0,
+      "winRate": 1,
+      "share": 1,
+      "winCI95": [
+        0.34238022750665303,
+        1
+      ],
+      "meanVP": 43.5,
+      "meanOpponentVP": 22.5
+    },
+    {
+      "learner": "nereon",
+      "opponent": "doreios",
+      "policy": "mm",
+      "key": "nereon--mm--doreios",
+      "games": 2,
+      "wins": 2,
+      "ties": 0,
+      "losses": 0,
+      "winRate": 1,
+      "share": 1,
+      "winCI95": [
+        0.34238022750665303,
+        1
+      ],
+      "meanVP": 36.5,
+      "meanOpponentVP": 26
+    },
+    {
+      "learner": "nereon",
+      "opponent": "melia",
+      "policy": "money",
+      "key": "nereon--money--melia",
+      "games": 2,
+      "wins": 1,
+      "ties": 0,
+      "losses": 1,
+      "winRate": 0.5,
+      "share": 0.5,
+      "winCI95": [
+        0.09453120573423074,
+        0.9054687942657693
+      ],
+      "meanVP": 33.5,
+      "meanOpponentVP": 28
+    },
+    {
+      "learner": "nereon",
+      "opponent": "thaleia",
+      "policy": "money",
+      "key": "nereon--money--thaleia",
+      "games": 2,
+      "wins": 2,
+      "ties": 0,
+      "losses": 0,
+      "winRate": 1,
+      "share": 1,
+      "winCI95": [
+        0.34238022750665303,
+        1
+      ],
+      "meanVP": 39,
+      "meanOpponentVP": 27
+    },
+    {
+      "learner": "nereon",
+      "opponent": "doreios",
+      "policy": "money",
+      "key": "nereon--money--doreios",
+      "games": 2,
+      "wins": 1,
+      "ties": 0,
+      "losses": 1,
+      "winRate": 0.5,
+      "share": 0.5,
+      "winCI95": [
+        0.09453120573423074,
+        0.9054687942657693
+      ],
+      "meanVP": 33,
+      "meanOpponentVP": 27.5
+    },
+    {
+      "learner": "nereon",
+      "opponent": "melia",
+      "policy": "engine",
+      "key": "nereon--engine--melia",
+      "games": 2,
+      "wins": 2,
+      "ties": 0,
+      "losses": 0,
+      "winRate": 1,
+      "share": 1,
+      "winCI95": [
+        0.34238022750665303,
+        1
+      ],
+      "meanVP": 34.5,
+      "meanOpponentVP": 21.5
+    },
+    {
+      "learner": "nereon",
+      "opponent": "thaleia",
+      "policy": "engine",
+      "key": "nereon--engine--thaleia",
+      "games": 2,
+      "wins": 0,
+      "ties": 1,
+      "losses": 1,
+      "winRate": 0,
+      "share": 0.25,
+      "winCI95": [
+        0,
+        0.6576197724933469
+      ],
+      "meanVP": 28,
+      "meanOpponentVP": 28.5
+    },
+    {
+      "learner": "nereon",
+      "opponent": "doreios",
+      "policy": "engine",
+      "key": "nereon--engine--doreios",
+      "games": 2,
+      "wins": 2,
+      "ties": 0,
+      "losses": 0,
+      "winRate": 1,
+      "share": 1,
+      "winCI95": [
+        0.34238022750665303,
+        1
+      ],
+      "meanVP": 36,
+      "meanOpponentVP": 22.5
+    },
+    {
+      "learner": "nereon",
+      "opponent": "melia",
+      "policy": "classic-engine",
+      "key": "nereon--classic-engine--melia",
+      "games": 2,
+      "wins": 1,
+      "ties": 0,
+      "losses": 1,
+      "winRate": 0.5,
+      "share": 0.5,
+      "winCI95": [
+        0.09453120573423074,
+        0.9054687942657693
+      ],
+      "meanVP": 35.5,
+      "meanOpponentVP": 24.5
+    },
+    {
+      "learner": "nereon",
+      "opponent": "thaleia",
+      "policy": "classic-engine",
+      "key": "nereon--classic-engine--thaleia",
+      "games": 2,
+      "wins": 1,
+      "ties": 0,
+      "losses": 1,
+      "winRate": 0.5,
+      "share": 0.5,
+      "winCI95": [
+        0.09453120573423074,
+        0.9054687942657693
+      ],
+      "meanVP": 29,
+      "meanOpponentVP": 29
+    },
+    {
+      "learner": "nereon",
+      "opponent": "doreios",
+      "policy": "classic-engine",
+      "key": "nereon--classic-engine--doreios",
+      "games": 2,
+      "wins": 0,
+      "ties": 0,
+      "losses": 2,
+      "winRate": 0,
+      "share": 0,
+      "winCI95": [
+        0,
+        0.6576197724933469
+      ],
+      "meanVP": 27.5,
+      "meanOpponentVP": 30.5
+    },
+    {
+      "learner": "nereon",
+      "opponent": "melia",
+      "policy": "owl",
+      "key": "nereon--owl--melia",
+      "games": 2,
+      "wins": 2,
+      "ties": 0,
+      "losses": 0,
+      "winRate": 1,
+      "share": 1,
+      "winCI95": [
+        0.34238022750665303,
+        1
+      ],
+      "meanVP": 30,
+      "meanOpponentVP": 26
+    },
+    {
+      "learner": "nereon",
+      "opponent": "thaleia",
+      "policy": "owl",
+      "key": "nereon--owl--thaleia",
+      "games": 2,
+      "wins": 1,
+      "ties": 0,
+      "losses": 1,
+      "winRate": 0.5,
+      "share": 0.5,
+      "winCI95": [
+        0.09453120573423074,
+        0.9054687942657693
+      ],
+      "meanVP": 30,
+      "meanOpponentVP": 31.5
+    },
+    {
+      "learner": "nereon",
+      "opponent": "doreios",
+      "policy": "owl",
+      "key": "nereon--owl--doreios",
+      "games": 2,
+      "wins": 2,
+      "ties": 0,
+      "losses": 0,
+      "winRate": 1,
+      "share": 1,
+      "winCI95": [
+        0.34238022750665303,
+        1
+      ],
+      "meanVP": 31.5,
+      "meanOpponentVP": 26
+    },
+    {
+      "learner": "nereon",
+      "opponent": "melia",
+      "policy": "mn",
+      "key": "nereon--mn--melia",
+      "games": 2,
+      "wins": 2,
+      "ties": 0,
+      "losses": 0,
+      "winRate": 1,
+      "share": 1,
+      "winCI95": [
+        0.34238022750665303,
+        1
+      ],
+      "meanVP": 30,
+      "meanOpponentVP": 24.5
+    },
+    {
+      "learner": "nereon",
+      "opponent": "thaleia",
+      "policy": "mn",
+      "key": "nereon--mn--thaleia",
+      "games": 2,
+      "wins": 2,
+      "ties": 0,
+      "losses": 0,
+      "winRate": 1,
+      "share": 1,
+      "winCI95": [
+        0.34238022750665303,
+        1
+      ],
+      "meanVP": 43.5,
+      "meanOpponentVP": 22.5
+    },
+    {
+      "learner": "nereon",
+      "opponent": "doreios",
+      "policy": "mn",
+      "key": "nereon--mn--doreios",
+      "games": 2,
+      "wins": 2,
+      "ties": 0,
+      "losses": 0,
+      "winRate": 1,
+      "share": 1,
+      "winCI95": [
+        0.34238022750665303,
+        1
+      ],
+      "meanVP": 36.5,
+      "meanOpponentVP": 26
+    },
+    {
+      "learner": "nereon",
+      "opponent": "doreios",
+      "policy": "grove",
+      "key": "nereon--grove--doreios",
+      "games": 2,
+      "wins": 2,
+      "ties": 0,
+      "losses": 0,
+      "winRate": 1,
+      "share": 1,
+      "winCI95": [
+        0.34238022750665303,
+        1
+      ],
+      "meanVP": 36,
+      "meanOpponentVP": 24.5
+    },
+    {
+      "learner": "thaleia",
+      "opponent": "melia",
+      "policy": "mm",
+      "key": "thaleia--mm--melia",
+      "games": 2,
+      "wins": 0,
+      "ties": 1,
+      "losses": 1,
+      "winRate": 0,
+      "share": 0.25,
+      "winCI95": [
+        0,
+        0.6576197724933469
+      ],
+      "meanVP": 25.5,
+      "meanOpponentVP": 27.5
+    },
+    {
+      "learner": "thaleia",
+      "opponent": "nereon",
+      "policy": "mm",
+      "key": "thaleia--mm--nereon",
+      "games": 2,
+      "wins": 2,
+      "ties": 0,
+      "losses": 0,
+      "winRate": 1,
+      "share": 1,
+      "winCI95": [
+        0.34238022750665303,
+        1
+      ],
+      "meanVP": 41.5,
+      "meanOpponentVP": 23.5
+    },
+    {
+      "learner": "thaleia",
+      "opponent": "doreios",
+      "policy": "mm",
+      "key": "thaleia--mm--doreios",
+      "games": 2,
+      "wins": 2,
+      "ties": 0,
+      "losses": 0,
+      "winRate": 1,
+      "share": 1,
+      "winCI95": [
+        0.34238022750665303,
+        1
+      ],
+      "meanVP": 37,
+      "meanOpponentVP": 26.5
+    },
+    {
+      "learner": "thaleia",
+      "opponent": "melia",
+      "policy": "money",
+      "key": "thaleia--money--melia",
+      "games": 2,
+      "wins": 1,
+      "ties": 0,
+      "losses": 1,
+      "winRate": 0.5,
+      "share": 0.5,
+      "winCI95": [
+        0.09453120573423074,
+        0.9054687942657693
+      ],
+      "meanVP": 25,
+      "meanOpponentVP": 21.5
+    },
+    {
+      "learner": "thaleia",
+      "opponent": "nereon",
+      "policy": "money",
+      "key": "thaleia--money--nereon",
+      "games": 2,
+      "wins": 1,
+      "ties": 1,
+      "losses": 0,
+      "winRate": 0.5,
+      "share": 0.75,
+      "winCI95": [
+        0.09453120573423074,
+        0.9054687942657693
+      ],
+      "meanVP": 32.5,
+      "meanOpponentVP": 28
+    },
+    {
+      "learner": "thaleia",
+      "opponent": "doreios",
+      "policy": "money",
+      "key": "thaleia--money--doreios",
+      "games": 2,
+      "wins": 1,
+      "ties": 0,
+      "losses": 1,
+      "winRate": 0.5,
+      "share": 0.5,
+      "winCI95": [
+        0.09453120573423074,
+        0.9054687942657693
+      ],
+      "meanVP": 30,
+      "meanOpponentVP": 25.5
+    },
+    {
+      "learner": "thaleia",
+      "opponent": "melia",
+      "policy": "engine",
+      "key": "thaleia--engine--melia",
+      "games": 2,
+      "wins": 2,
+      "ties": 0,
+      "losses": 0,
+      "winRate": 1,
+      "share": 1,
+      "winCI95": [
+        0.34238022750665303,
+        1
+      ],
+      "meanVP": 26.5,
+      "meanOpponentVP": 18
+    },
+    {
+      "learner": "thaleia",
+      "opponent": "nereon",
+      "policy": "engine",
+      "key": "thaleia--engine--nereon",
+      "games": 2,
+      "wins": 2,
+      "ties": 0,
+      "losses": 0,
+      "winRate": 1,
+      "share": 1,
+      "winCI95": [
+        0.34238022750665303,
+        1
+      ],
+      "meanVP": 30.5,
+      "meanOpponentVP": 20
+    },
+    {
+      "learner": "thaleia",
+      "opponent": "doreios",
+      "policy": "engine",
+      "key": "thaleia--engine--doreios",
+      "games": 2,
+      "wins": 0,
+      "ties": 0,
+      "losses": 2,
+      "winRate": 0,
+      "share": 0,
+      "winCI95": [
+        0,
+        0.6576197724933469
+      ],
+      "meanVP": 20.5,
+      "meanOpponentVP": 24.5
+    },
+    {
+      "learner": "thaleia",
+      "opponent": "melia",
+      "policy": "classic-engine",
+      "key": "thaleia--classic-engine--melia",
+      "games": 2,
+      "wins": 1,
+      "ties": 0,
+      "losses": 1,
+      "winRate": 0.5,
+      "share": 0.5,
+      "winCI95": [
+        0.09453120573423074,
+        0.9054687942657693
+      ],
+      "meanVP": 28,
+      "meanOpponentVP": 17.5
+    },
+    {
+      "learner": "thaleia",
+      "opponent": "nereon",
+      "policy": "classic-engine",
+      "key": "thaleia--classic-engine--nereon",
+      "games": 2,
+      "wins": 2,
+      "ties": 0,
+      "losses": 0,
+      "winRate": 1,
+      "share": 1,
+      "winCI95": [
+        0.34238022750665303,
+        1
+      ],
+      "meanVP": 32,
+      "meanOpponentVP": 21
+    },
+    {
+      "learner": "thaleia",
+      "opponent": "doreios",
+      "policy": "classic-engine",
+      "key": "thaleia--classic-engine--doreios",
+      "games": 2,
+      "wins": 1,
+      "ties": 0,
+      "losses": 1,
+      "winRate": 0.5,
+      "share": 0.5,
+      "winCI95": [
+        0.09453120573423074,
+        0.9054687942657693
+      ],
+      "meanVP": 25,
+      "meanOpponentVP": 27
+    },
+    {
+      "learner": "thaleia",
+      "opponent": "melia",
+      "policy": "owl",
+      "key": "thaleia--owl--melia",
+      "games": 2,
+      "wins": 0,
+      "ties": 1,
+      "losses": 1,
+      "winRate": 0,
+      "share": 0.25,
+      "winCI95": [
+        0,
+        0.6576197724933469
+      ],
+      "meanVP": 20.5,
+      "meanOpponentVP": 24
+    },
+    {
+      "learner": "thaleia",
+      "opponent": "nereon",
+      "policy": "owl",
+      "key": "thaleia--owl--nereon",
+      "games": 2,
+      "wins": 2,
+      "ties": 0,
+      "losses": 0,
+      "winRate": 1,
+      "share": 1,
+      "winCI95": [
+        0.34238022750665303,
+        1
+      ],
+      "meanVP": 27.5,
+      "meanOpponentVP": 21.5
+    },
+    {
+      "learner": "thaleia",
+      "opponent": "doreios",
+      "policy": "owl",
+      "key": "thaleia--owl--doreios",
+      "games": 2,
+      "wins": 2,
+      "ties": 0,
+      "losses": 0,
+      "winRate": 1,
+      "share": 1,
+      "winCI95": [
+        0.34238022750665303,
+        1
+      ],
+      "meanVP": 26.5,
+      "meanOpponentVP": 22
+    },
+    {
+      "learner": "thaleia",
+      "opponent": "melia",
+      "policy": "mn",
+      "key": "thaleia--mn--melia",
+      "games": 2,
+      "wins": 1,
+      "ties": 0,
+      "losses": 1,
+      "winRate": 0.5,
+      "share": 0.5,
+      "winCI95": [
+        0.09453120573423074,
+        0.9054687942657693
+      ],
+      "meanVP": 30.5,
+      "meanOpponentVP": 26
+    },
+    {
+      "learner": "thaleia",
+      "opponent": "nereon",
+      "policy": "mn",
+      "key": "thaleia--mn--nereon",
+      "games": 2,
+      "wins": 2,
+      "ties": 0,
+      "losses": 0,
+      "winRate": 1,
+      "share": 1,
+      "winCI95": [
+        0.34238022750665303,
+        1
+      ],
+      "meanVP": 41.5,
+      "meanOpponentVP": 23.5
+    },
+    {
+      "learner": "thaleia",
+      "opponent": "doreios",
+      "policy": "mn",
+      "key": "thaleia--mn--doreios",
+      "games": 2,
+      "wins": 2,
+      "ties": 0,
+      "losses": 0,
+      "winRate": 1,
+      "share": 1,
+      "winCI95": [
+        0.34238022750665303,
+        1
+      ],
+      "meanVP": 37,
+      "meanOpponentVP": 26.5
+    },
+    {
+      "learner": "thaleia",
+      "opponent": "nereon",
+      "policy": "fleet-v1",
+      "key": "thaleia--fleet-v1--nereon",
+      "games": 2,
+      "wins": 2,
+      "ties": 0,
+      "losses": 0,
+      "winRate": 1,
+      "share": 1,
+      "winCI95": [
+        0.34238022750665303,
+        1
+      ],
+      "meanVP": 27.5,
+      "meanOpponentVP": 20
+    },
+    {
+      "learner": "thaleia",
+      "opponent": "nereon",
+      "policy": "fleet-v6",
+      "key": "thaleia--fleet-v6--nereon",
+      "games": 2,
+      "wins": 2,
+      "ties": 0,
+      "losses": 0,
+      "winRate": 1,
+      "share": 1,
+      "winCI95": [
+        0.34238022750665303,
+        1
+      ],
+      "meanVP": 27.5,
+      "meanOpponentVP": 20
+    },
+    {
+      "learner": "thaleia",
+      "opponent": "doreios",
+      "policy": "grove",
+      "key": "thaleia--grove--doreios",
+      "games": 2,
+      "wins": 2,
+      "ties": 0,
+      "losses": 0,
+      "winRate": 1,
+      "share": 1,
+      "winCI95": [
+        0.34238022750665303,
+        1
+      ],
+      "meanVP": 33.5,
+      "meanOpponentVP": 25.5
+    },
+    {
+      "learner": "doreios",
+      "opponent": "melia",
+      "policy": "mm",
+      "key": "doreios--mm--melia",
+      "games": 2,
+      "wins": 1,
+      "ties": 0,
+      "losses": 1,
+      "winRate": 0.5,
+      "share": 0.5,
+      "winCI95": [
+        0.09453120573423074,
+        0.9054687942657693
+      ],
+      "meanVP": 26,
+      "meanOpponentVP": 26.5
+    },
+    {
+      "learner": "doreios",
+      "opponent": "nereon",
+      "policy": "mm",
+      "key": "doreios--mm--nereon",
+      "games": 2,
+      "wins": 2,
+      "ties": 0,
+      "losses": 0,
+      "winRate": 1,
+      "share": 1,
+      "winCI95": [
+        0.34238022750665303,
+        1
+      ],
+      "meanVP": 41.5,
+      "meanOpponentVP": 19.5
+    },
+    {
+      "learner": "doreios",
+      "opponent": "thaleia",
+      "policy": "mm",
+      "key": "doreios--mm--thaleia",
+      "games": 2,
+      "wins": 2,
+      "ties": 0,
+      "losses": 0,
+      "winRate": 1,
+      "share": 1,
+      "winCI95": [
+        0.34238022750665303,
+        1
+      ],
+      "meanVP": 33,
+      "meanOpponentVP": 28.5
+    },
+    {
+      "learner": "doreios",
+      "opponent": "melia",
+      "policy": "money",
+      "key": "doreios--money--melia",
+      "games": 2,
+      "wins": 2,
+      "ties": 0,
+      "losses": 0,
+      "winRate": 1,
+      "share": 1,
+      "winCI95": [
+        0.34238022750665303,
+        1
+      ],
+      "meanVP": 38.5,
+      "meanOpponentVP": 22.5
+    },
+    {
+      "learner": "doreios",
+      "opponent": "nereon",
+      "policy": "money",
+      "key": "doreios--money--nereon",
+      "games": 2,
+      "wins": 1,
+      "ties": 1,
+      "losses": 0,
+      "winRate": 0.5,
+      "share": 0.75,
+      "winCI95": [
+        0.09453120573423074,
+        0.9054687942657693
+      ],
+      "meanVP": 25.5,
+      "meanOpponentVP": 21.5
+    },
+    {
+      "learner": "doreios",
+      "opponent": "thaleia",
+      "policy": "money",
+      "key": "doreios--money--thaleia",
+      "games": 2,
+      "wins": 0,
+      "ties": 0,
+      "losses": 2,
+      "winRate": 0,
+      "share": 0,
+      "winCI95": [
+        0,
+        0.6576197724933469
+      ],
+      "meanVP": 16.5,
+      "meanOpponentVP": 27
+    },
+    {
+      "learner": "doreios",
+      "opponent": "melia",
+      "policy": "engine",
+      "key": "doreios--engine--melia",
+      "games": 2,
+      "wins": 2,
+      "ties": 0,
+      "losses": 0,
+      "winRate": 1,
+      "share": 1,
+      "winCI95": [
+        0.34238022750665303,
+        1
+      ],
+      "meanVP": 34.5,
+      "meanOpponentVP": 17
+    },
+    {
+      "learner": "doreios",
+      "opponent": "nereon",
+      "policy": "engine",
+      "key": "doreios--engine--nereon",
+      "games": 2,
+      "wins": 2,
+      "ties": 0,
+      "losses": 0,
+      "winRate": 1,
+      "share": 1,
+      "winCI95": [
+        0.34238022750665303,
+        1
+      ],
+      "meanVP": 33,
+      "meanOpponentVP": 21
+    },
+    {
+      "learner": "doreios",
+      "opponent": "thaleia",
+      "policy": "engine",
+      "key": "doreios--engine--thaleia",
+      "games": 2,
+      "wins": 0,
+      "ties": 0,
+      "losses": 2,
+      "winRate": 0,
+      "share": 0,
+      "winCI95": [
+        0,
+        0.6576197724933469
+      ],
+      "meanVP": 13,
+      "meanOpponentVP": 35.5
+    },
+    {
+      "learner": "doreios",
+      "opponent": "melia",
+      "policy": "classic-engine",
+      "key": "doreios--classic-engine--melia",
+      "games": 2,
+      "wins": 2,
+      "ties": 0,
+      "losses": 0,
+      "winRate": 1,
+      "share": 1,
+      "winCI95": [
+        0.34238022750665303,
+        1
+      ],
+      "meanVP": 35,
+      "meanOpponentVP": 21.5
+    },
+    {
+      "learner": "doreios",
+      "opponent": "nereon",
+      "policy": "classic-engine",
+      "key": "doreios--classic-engine--nereon",
+      "games": 2,
+      "wins": 1,
+      "ties": 0,
+      "losses": 1,
+      "winRate": 0.5,
+      "share": 0.5,
+      "winCI95": [
+        0.09453120573423074,
+        0.9054687942657693
+      ],
+      "meanVP": 30.5,
+      "meanOpponentVP": 21
+    },
+    {
+      "learner": "doreios",
+      "opponent": "thaleia",
+      "policy": "classic-engine",
+      "key": "doreios--classic-engine--thaleia",
+      "games": 2,
+      "wins": 0,
+      "ties": 0,
+      "losses": 2,
+      "winRate": 0,
+      "share": 0,
+      "winCI95": [
+        0,
+        0.6576197724933469
+      ],
+      "meanVP": 16.5,
+      "meanOpponentVP": 39.5
+    },
+    {
+      "learner": "doreios",
+      "opponent": "melia",
+      "policy": "owl",
+      "key": "doreios--owl--melia",
+      "games": 2,
+      "wins": 2,
+      "ties": 0,
+      "losses": 0,
+      "winRate": 1,
+      "share": 1,
+      "winCI95": [
+        0.34238022750665303,
+        1
+      ],
+      "meanVP": 29.5,
+      "meanOpponentVP": 24
+    },
+    {
+      "learner": "doreios",
+      "opponent": "nereon",
+      "policy": "owl",
+      "key": "doreios--owl--nereon",
+      "games": 2,
+      "wins": 2,
+      "ties": 0,
+      "losses": 0,
+      "winRate": 1,
+      "share": 1,
+      "winCI95": [
+        0.34238022750665303,
+        1
+      ],
+      "meanVP": 25.5,
+      "meanOpponentVP": 19
+    },
+    {
+      "learner": "doreios",
+      "opponent": "thaleia",
+      "policy": "owl",
+      "key": "doreios--owl--thaleia",
+      "games": 2,
+      "wins": 1,
+      "ties": 0,
+      "losses": 1,
+      "winRate": 0.5,
+      "share": 0.5,
+      "winCI95": [
+        0.09453120573423074,
+        0.9054687942657693
+      ],
+      "meanVP": 15,
+      "meanOpponentVP": 28.5
+    },
+    {
+      "learner": "doreios",
+      "opponent": "melia",
+      "policy": "mn",
+      "key": "doreios--mn--melia",
+      "games": 2,
+      "wins": 1,
+      "ties": 0,
+      "losses": 1,
+      "winRate": 0.5,
+      "share": 0.5,
+      "winCI95": [
+        0.09453120573423074,
+        0.9054687942657693
+      ],
+      "meanVP": 32.5,
+      "meanOpponentVP": 27
+    },
+    {
+      "learner": "doreios",
+      "opponent": "nereon",
+      "policy": "mn",
+      "key": "doreios--mn--nereon",
+      "games": 2,
+      "wins": 2,
+      "ties": 0,
+      "losses": 0,
+      "winRate": 1,
+      "share": 1,
+      "winCI95": [
+        0.34238022750665303,
+        1
+      ],
+      "meanVP": 41.5,
+      "meanOpponentVP": 19.5
+    },
+    {
+      "learner": "doreios",
+      "opponent": "thaleia",
+      "policy": "mn",
+      "key": "doreios--mn--thaleia",
+      "games": 2,
+      "wins": 2,
+      "ties": 0,
+      "losses": 0,
+      "winRate": 1,
+      "share": 1,
+      "winCI95": [
+        0.34238022750665303,
+        1
+      ],
+      "meanVP": 33,
+      "meanOpponentVP": 28.5
+    },
+    {
+      "learner": "doreios",
+      "opponent": "nereon",
+      "policy": "fleet-v1",
+      "key": "doreios--fleet-v1--nereon",
+      "games": 2,
+      "wins": 2,
+      "ties": 0,
+      "losses": 0,
+      "winRate": 1,
+      "share": 1,
+      "winCI95": [
+        0.34238022750665303,
+        1
+      ],
+      "meanVP": 31.5,
+      "meanOpponentVP": 16
+    },
+    {
+      "learner": "doreios",
+      "opponent": "nereon",
+      "policy": "fleet-v6",
+      "key": "doreios--fleet-v6--nereon",
+      "games": 2,
+      "wins": 2,
+      "ties": 0,
+      "losses": 0,
+      "winRate": 1,
+      "share": 1,
+      "winCI95": [
+        0.34238022750665303,
+        1
+      ],
+      "meanVP": 27,
+      "meanOpponentVP": 20
+    }
+  ],
+  "byLearner": [
+    {
+      "leader": "nereon",
+      "games": 38,
+      "wins": 29,
+      "ties": 1,
+      "losses": 8,
+      "winRate": 0.7631578947368421,
+      "share": 0.7763157894736842,
+      "winCI95": [
+        0.6297512562016676,
+        0.8965645332720167
+      ],
+      "meanVP": 34.05263157894737,
+      "meanOpponentVP": 26,
+      "ciMethod": "approximate 95% clustered by shared game seed",
+      "seedClusters": 6
+    },
+    {
+      "leader": "thaleia",
+      "games": 42,
+      "wins": 30,
+      "ties": 3,
+      "losses": 9,
+      "winRate": 0.7142857142857143,
+      "share": 0.75,
+      "winCI95": [
+        0.5246896524419443,
+        0.9038817761294843
+      ],
+      "meanVP": 29.80952380952381,
+      "meanOpponentVP": 23.30952380952381,
+      "ciMethod": "approximate 95% clustered by shared game seed",
+      "seedClusters": 6
+    },
+    {
+      "leader": "doreios",
+      "games": 40,
+      "wins": 29,
+      "ties": 1,
+      "losses": 10,
+      "winRate": 0.725,
+      "share": 0.7375,
+      "winCI95": [
+        0.5166260956837445,
+        0.9333739043162554
+      ],
+      "meanVP": 28.95,
+      "meanOpponentVP": 24.175,
+      "ciMethod": "approximate 95% clustered by shared game seed",
+      "seedClusters": 6
+    }
+  ],
+  "generalPoliciesOnly": [
+    {
+      "leader": "nereon",
+      "games": 36,
+      "wins": 27,
+      "ties": 1,
+      "losses": 8,
+      "winRate": 0.75,
+      "share": 0.7638888888888888,
+      "winCI95": [
+        0.6101296896989797,
+        0.8898703103010203
+      ],
+      "meanVP": 33.94444444444444,
+      "meanOpponentVP": 26.083333333333332,
+      "ciMethod": "approximate 95% clustered by shared game seed",
+      "seedClusters": 6
+    },
+    {
+      "leader": "thaleia",
+      "games": 36,
+      "wins": 24,
+      "ties": 3,
+      "losses": 9,
+      "winRate": 0.6666666666666666,
+      "share": 0.7083333333333334,
+      "winCI95": [
+        0.4780655787313889,
+        0.8552677546019444
+      ],
+      "meanVP": 29.86111111111111,
+      "meanOpponentVP": 23.555555555555557,
+      "ciMethod": "approximate 95% clustered by shared game seed",
+      "seedClusters": 6
+    },
+    {
+      "leader": "doreios",
+      "games": 36,
+      "wins": 25,
+      "ties": 1,
+      "losses": 10,
+      "winRate": 0.6944444444444444,
+      "share": 0.7083333333333334,
+      "winCI95": [
+        0.48078901630064874,
+        0.9080998725882401
+      ],
+      "meanVP": 28.916666666666668,
+      "meanOpponentVP": 24.86111111111111,
+      "ciMethod": "approximate 95% clustered by shared game seed",
+      "seedClusters": 6
+    }
+  ],
+  "byPolicy": [
+    {
+      "leader": "nereon",
+      "policy": "mm",
+      "games": 6,
+      "wins": 6,
+      "ties": 0,
+      "losses": 0,
+      "winRate": 1,
+      "share": 1,
+      "winCI95": [
+        0.6096657120978346,
+        1
+      ],
+      "meanVP": 37.833333333333336,
+      "meanOpponentVP": 24.666666666666668
+    },
+    {
+      "leader": "nereon",
+      "policy": "money",
+      "games": 6,
+      "wins": 4,
+      "ties": 0,
+      "losses": 2,
+      "winRate": 0.6666666666666666,
+      "share": 0.6666666666666666,
+      "winCI95": [
+        0.299993315138392,
+        0.9032285888942195
+      ],
+      "meanVP": 35.166666666666664,
+      "meanOpponentVP": 27.5
+    },
+    {
+      "leader": "nereon",
+      "policy": "engine",
+      "games": 6,
+      "wins": 4,
+      "ties": 1,
+      "losses": 1,
+      "winRate": 0.6666666666666666,
+      "share": 0.75,
+      "winCI95": [
+        0.299993315138392,
+        0.9032285888942195
+      ],
+      "meanVP": 32.833333333333336,
+      "meanOpponentVP": 24.166666666666668
+    },
+    {
+      "leader": "nereon",
+      "policy": "classic-engine",
+      "games": 6,
+      "wins": 2,
+      "ties": 0,
+      "losses": 4,
+      "winRate": 0.3333333333333333,
+      "share": 0.3333333333333333,
+      "winCI95": [
+        0.09677141110578041,
+        0.700006684861608
+      ],
+      "meanVP": 30.666666666666668,
+      "meanOpponentVP": 28
+    },
+    {
+      "leader": "nereon",
+      "policy": "owl",
+      "games": 6,
+      "wins": 5,
+      "ties": 0,
+      "losses": 1,
+      "winRate": 0.8333333333333334,
+      "share": 0.8333333333333334,
+      "winCI95": [
+        0.43649717781352987,
+        0.9699466302516935
+      ],
+      "meanVP": 30.5,
+      "meanOpponentVP": 27.833333333333332
+    },
+    {
+      "leader": "nereon",
+      "policy": "mn",
+      "games": 6,
+      "wins": 6,
+      "ties": 0,
+      "losses": 0,
+      "winRate": 1,
+      "share": 1,
+      "winCI95": [
+        0.6096657120978346,
+        1
+      ],
+      "meanVP": 36.666666666666664,
+      "meanOpponentVP": 24.333333333333332
+    },
+    {
+      "leader": "nereon",
+      "policy": "grove",
+      "games": 2,
+      "wins": 2,
+      "ties": 0,
+      "losses": 0,
+      "winRate": 1,
+      "share": 1,
+      "winCI95": [
+        0.34238022750665303,
+        1
+      ],
+      "meanVP": 36,
+      "meanOpponentVP": 24.5
+    },
+    {
+      "leader": "thaleia",
+      "policy": "mm",
+      "games": 6,
+      "wins": 4,
+      "ties": 1,
+      "losses": 1,
+      "winRate": 0.6666666666666666,
+      "share": 0.75,
+      "winCI95": [
+        0.299993315138392,
+        0.9032285888942195
+      ],
+      "meanVP": 34.666666666666664,
+      "meanOpponentVP": 25.833333333333332
+    },
+    {
+      "leader": "thaleia",
+      "policy": "money",
+      "games": 6,
+      "wins": 3,
+      "ties": 1,
+      "losses": 2,
+      "winRate": 0.5,
+      "share": 0.5833333333333334,
+      "winCI95": [
+        0.1876163064826506,
+        0.8123836935173494
+      ],
+      "meanVP": 29.166666666666668,
+      "meanOpponentVP": 25
+    },
+    {
+      "leader": "thaleia",
+      "policy": "engine",
+      "games": 6,
+      "wins": 4,
+      "ties": 0,
+      "losses": 2,
+      "winRate": 0.6666666666666666,
+      "share": 0.6666666666666666,
+      "winCI95": [
+        0.299993315138392,
+        0.9032285888942195
+      ],
+      "meanVP": 25.833333333333332,
+      "meanOpponentVP": 20.833333333333332
+    },
+    {
+      "leader": "thaleia",
+      "policy": "classic-engine",
+      "games": 6,
+      "wins": 4,
+      "ties": 0,
+      "losses": 2,
+      "winRate": 0.6666666666666666,
+      "share": 0.6666666666666666,
+      "winCI95": [
+        0.299993315138392,
+        0.9032285888942195
+      ],
+      "meanVP": 28.333333333333332,
+      "meanOpponentVP": 21.833333333333332
+    },
+    {
+      "leader": "thaleia",
+      "policy": "owl",
+      "games": 6,
+      "wins": 4,
+      "ties": 1,
+      "losses": 1,
+      "winRate": 0.6666666666666666,
+      "share": 0.75,
+      "winCI95": [
+        0.299993315138392,
+        0.9032285888942195
+      ],
+      "meanVP": 24.833333333333332,
+      "meanOpponentVP": 22.5
+    },
+    {
+      "leader": "thaleia",
+      "policy": "mn",
+      "games": 6,
+      "wins": 5,
+      "ties": 0,
+      "losses": 1,
+      "winRate": 0.8333333333333334,
+      "share": 0.8333333333333334,
+      "winCI95": [
+        0.43649717781352987,
+        0.9699466302516935
+      ],
+      "meanVP": 36.333333333333336,
+      "meanOpponentVP": 25.333333333333332
+    },
+    {
+      "leader": "thaleia",
+      "policy": "fleet-v1",
+      "games": 2,
+      "wins": 2,
+      "ties": 0,
+      "losses": 0,
+      "winRate": 1,
+      "share": 1,
+      "winCI95": [
+        0.34238022750665303,
+        1
+      ],
+      "meanVP": 27.5,
+      "meanOpponentVP": 20
+    },
+    {
+      "leader": "thaleia",
+      "policy": "fleet-v6",
+      "games": 2,
+      "wins": 2,
+      "ties": 0,
+      "losses": 0,
+      "winRate": 1,
+      "share": 1,
+      "winCI95": [
+        0.34238022750665303,
+        1
+      ],
+      "meanVP": 27.5,
+      "meanOpponentVP": 20
+    },
+    {
+      "leader": "thaleia",
+      "policy": "grove",
+      "games": 2,
+      "wins": 2,
+      "ties": 0,
+      "losses": 0,
+      "winRate": 1,
+      "share": 1,
+      "winCI95": [
+        0.34238022750665303,
+        1
+      ],
+      "meanVP": 33.5,
+      "meanOpponentVP": 25.5
+    },
+    {
+      "leader": "doreios",
+      "policy": "mm",
+      "games": 6,
+      "wins": 5,
+      "ties": 0,
+      "losses": 1,
+      "winRate": 0.8333333333333334,
+      "share": 0.8333333333333334,
+      "winCI95": [
+        0.43649717781352987,
+        0.9699466302516935
+      ],
+      "meanVP": 33.5,
+      "meanOpponentVP": 24.833333333333332
+    },
+    {
+      "leader": "doreios",
+      "policy": "money",
+      "games": 6,
+      "wins": 3,
+      "ties": 1,
+      "losses": 2,
+      "winRate": 0.5,
+      "share": 0.5833333333333334,
+      "winCI95": [
+        0.1876163064826506,
+        0.8123836935173494
+      ],
+      "meanVP": 26.833333333333332,
+      "meanOpponentVP": 23.666666666666668
+    },
+    {
+      "leader": "doreios",
+      "policy": "engine",
+      "games": 6,
+      "wins": 4,
+      "ties": 0,
+      "losses": 2,
+      "winRate": 0.6666666666666666,
+      "share": 0.6666666666666666,
+      "winCI95": [
+        0.299993315138392,
+        0.9032285888942195
+      ],
+      "meanVP": 26.833333333333332,
+      "meanOpponentVP": 24.5
+    },
+    {
+      "leader": "doreios",
+      "policy": "classic-engine",
+      "games": 6,
+      "wins": 3,
+      "ties": 0,
+      "losses": 3,
+      "winRate": 0.5,
+      "share": 0.5,
+      "winCI95": [
+        0.1876163064826506,
+        0.8123836935173494
+      ],
+      "meanVP": 27.333333333333332,
+      "meanOpponentVP": 27.333333333333332
+    },
+    {
+      "leader": "doreios",
+      "policy": "owl",
+      "games": 6,
+      "wins": 5,
+      "ties": 0,
+      "losses": 1,
+      "winRate": 0.8333333333333334,
+      "share": 0.8333333333333334,
+      "winCI95": [
+        0.43649717781352987,
+        0.9699466302516935
+      ],
+      "meanVP": 23.333333333333332,
+      "meanOpponentVP": 23.833333333333332
+    },
+    {
+      "leader": "doreios",
+      "policy": "mn",
+      "games": 6,
+      "wins": 5,
+      "ties": 0,
+      "losses": 1,
+      "winRate": 0.8333333333333334,
+      "share": 0.8333333333333334,
+      "winCI95": [
+        0.43649717781352987,
+        0.9699466302516935
+      ],
+      "meanVP": 35.666666666666664,
+      "meanOpponentVP": 25
+    },
+    {
+      "leader": "doreios",
+      "policy": "fleet-v1",
+      "games": 2,
+      "wins": 2,
+      "ties": 0,
+      "losses": 0,
+      "winRate": 1,
+      "share": 1,
+      "winCI95": [
+        0.34238022750665303,
+        1
+      ],
+      "meanVP": 31.5,
+      "meanOpponentVP": 16
+    },
+    {
+      "leader": "doreios",
+      "policy": "fleet-v6",
+      "games": 2,
+      "wins": 2,
+      "ties": 0,
+      "losses": 0,
+      "winRate": 1,
+      "share": 1,
+      "winCI95": [
+        0.34238022750665303,
+        1
+      ],
+      "meanVP": 27,
+      "meanOpponentVP": 20
+    }
+  ]
+}
