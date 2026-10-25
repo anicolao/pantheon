@@ -1,0 +1,23 @@
+{
+  "version": 6,
+  "policySourceSHA256": "da66fc1b1a6bf3d33e6975010e0fe751e48eb6084b20e237169c520cecdd3ee4",
+  "harnessSHA256": "545065c72ace3219b50b2d0d6f473b8155b08fd0d27f780443d37f275b5419de",
+  "baseCommit": "b73cfc06fbca8dda7d95d9ae6723ddb687f607ff",
+  "gamesPerCandidate": 100,
+  "candidates": [
+    "fleet",
+    "money",
+    "classic-engine",
+    "engine",
+    "mm",
+    "mn",
+    "owl"
+  ],
+  "seedPattern": "mn-v1-evaluation:mm:melia:0..99",
+  "equalTurns": true,
+  "seatBalance": "50 first / 50 second in evaluation; even indices MM first",
+  "opponent": "Unchanged MM v3 / Melia",
+  "validation": "Every historical baseline command must match; all games replay to identical final states; no exclusions",
+  "tuning": "First policy frozen before evaluation; smoke namespace separate from evaluation",
+  "policy": "First Acolyte / Fleet, early Hamlets-first thinning, then Obols independently while count >5 or owned treasure cash >8, rechecked per removal and requiring pre-worship generated coins <=3 excluding retained Obols, original hand-order Obol tie-break; $4 generated-coin turns preserve an Action purchase over worship: Council if 1 + net Action production >=1 before buying, otherwise Pilot; Pilot replenishment targets that same buffer at $3 too; favored Poseidon below $8 except first Fleet, Acropolis at $8, Talent at $6 and repeat Academy at $5; no UI policy changes"
+}
