@@ -1,0 +1,52 @@
+{
+  "comparisons": [
+    {
+      "baselineVersion": 1,
+      "shareDelta": -0.04,
+      "pairedApprox95CI": [
+        -0.1025491798749616,
+        0.022549179874961585
+      ],
+      "betterOutcomes": 6,
+      "worseOutcomes": 10
+    },
+    {
+      "baselineVersion": 3,
+      "shareDelta": -0.025,
+      "pairedApprox95CI": [
+        -0.09018717107473886,
+        0.04018717107473887
+      ],
+      "betterOutcomes": 6,
+      "worseOutcomes": 10
+    },
+    {
+      "baselineVersion": 4,
+      "shareDelta": 0.025,
+      "pairedApprox95CI": [
+        -0.013290416027982234,
+        0.06329041602798224
+      ],
+      "betterOutcomes": 4,
+      "worseOutcomes": 2
+    },
+    {
+      "baselineVersion": 5,
+      "shareDelta": 0.025,
+      "pairedApprox95CI": [
+        -0.013290416027982234,
+        0.06329041602798224
+      ],
+      "betterOutcomes": 4,
+      "worseOutcomes": 2
+    }
+  ],
+  "telemetry": {
+    "council-of-sages": 19,
+    "harbor-pilot": 4,
+    "oracles-acolyte": 61,
+    "obolsTrashed": 157,
+    "demeterWorships": 249
+  },
+  "changedHistoriesVsV5": 48
+}
