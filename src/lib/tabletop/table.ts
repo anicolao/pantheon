@@ -1,4 +1,3 @@
-import {botLeaderPreference} from '../game/bot-kind';
 import { createPrng } from '../game/random';
 import { leaderIds, replaySetup, type SetupEvent, type SetupState } from '../game/setup';
 import { initialTurn, activePlayer, canPlayAction } from '../game/actions';
@@ -62,7 +61,8 @@ export function begin(table: Tabletop, seed: string, startingUid?: string): Tabl
       const seat = occupied.find(seat => seatUid(seat.edge) === uid)!;
       const chosen = Object.values(replaySetup(next.events).leaders);
       const available = leaderIds.filter(id => !chosen.includes(id) && !reserved.includes(id));
-      const leaderId = seat.mode === 'human' ? seat.leader : botLeaderPreference.find(id => available.includes(id))!;
+      const random = createPrng(`bot-draft-v1:${seed}:${uid}`);
+      const leaderId = seat.mode === 'human' ? seat.leader : available[Math.floor(random() * available.length)];
       next = append(next, uid, { type: 'leader/chosen', leaderId });
     }
   }
