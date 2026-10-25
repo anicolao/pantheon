@@ -1,0 +1,10 @@
+{
+  "reason": "ENOSPC interrupted original run and four-worker attempt. Space freed by user; original immutable runner resumed same missing shards.",
+  "completedGamesBeforeResume": 4275,
+  "workers": 16,
+  "noExcludedGames": true,
+  "completed": true,
+  "totalGames": 8100,
+  "allGamesReplayVerified": true,
+  "finalRunElapsedSeconds": 868.145
+}
