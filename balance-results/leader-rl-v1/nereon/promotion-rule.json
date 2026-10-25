@@ -1,0 +1,13 @@
+{
+  "incumbent": "balance-results/leader-rl-v1/nereon/faster/checkpoint-524288",
+  "confirmation": "599 wins / 1024; Wilson 95% lower bound 55.45%",
+  "pendingRuns": [
+    "faster",
+    "explore"
+  ],
+  "selection": "After both scheduled runs complete, pick highest screening wins then share; earliest checkpoint breaks exact ties. If it differs from incumbent, compare both on 1024 fresh confirm-b seeds.",
+  "promotion": "Require candidate Wilson 95% lower win bound >50% AND paired approximate 95% lower bound of outright-win improvement over incumbent >0. Otherwise retain confirmed incumbent. Freeze before 4000-game final test.",
+  "prefix": "rl-nereon-v1",
+  "namespace": "confirm-b",
+  "writtenBeforeAdditionalConfirmation": true
+}

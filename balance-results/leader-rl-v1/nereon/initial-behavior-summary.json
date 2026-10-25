@@ -1,0 +1,570 @@
+[
+  {
+    "info": {
+      "score": 24,
+      "opponentScore": 29,
+      "turns": 12,
+      "seed": "rl-leaders-v1:behavior:0",
+      "first": true,
+      "outcome": -1
+    },
+    "reward": -1,
+    "buys": {
+      "sea-trade": 1,
+      "drachma": 2,
+      "talent": 3,
+      "harvest-feast": 1,
+      "polis": 3,
+      "acropolis": 2
+    },
+    "gains": {},
+    "worships": {},
+    "trashes": {},
+    "owned": {
+      "obol": 6,
+      "hamlet": 3,
+      "temple-of-poseidon": 1,
+      "sea-trade": 1,
+      "drachma": 2,
+      "talent": 3,
+      "harvest-feast": 1,
+      "polis": 3,
+      "acropolis": 2
+    }
+  },
+  {
+    "info": {
+      "score": 33,
+      "opponentScore": 28,
+      "turns": 14,
+      "seed": "rl-leaders-v1:behavior:1",
+      "first": false,
+      "outcome": 1
+    },
+    "reward": 1,
+    "buys": {
+      "drachma": 2,
+      "sea-trade": 1,
+      "talent": 1,
+      "merchant-fleet": 1,
+      "acropolis": 3,
+      "harvest-feast": 2,
+      "hamlet": 3,
+      "polis": 3
+    },
+    "gains": {},
+    "worships": {},
+    "trashes": {},
+    "owned": {
+      "obol": 6,
+      "hamlet": 6,
+      "temple-of-poseidon": 1,
+      "drachma": 2,
+      "sea-trade": 1,
+      "talent": 1,
+      "merchant-fleet": 1,
+      "acropolis": 3,
+      "harvest-feast": 2,
+      "polis": 3
+    }
+  },
+  {
+    "info": {
+      "score": 23,
+      "opponentScore": 25,
+      "turns": 11,
+      "seed": "rl-leaders-v1:behavior:2",
+      "first": true,
+      "outcome": -1
+    },
+    "reward": -1,
+    "buys": {
+      "drachma": 1,
+      "sea-trade": 1,
+      "harvest-feast": 2,
+      "merchant-fleet": 1,
+      "talent": 2,
+      "acropolis": 3,
+      "hamlet": 2
+    },
+    "gains": {},
+    "worships": {},
+    "trashes": {},
+    "owned": {
+      "obol": 6,
+      "hamlet": 5,
+      "temple-of-poseidon": 1,
+      "drachma": 1,
+      "sea-trade": 1,
+      "harvest-feast": 2,
+      "merchant-fleet": 1,
+      "talent": 2,
+      "acropolis": 3
+    }
+  },
+  {
+    "info": {
+      "score": 30,
+      "opponentScore": 32,
+      "turns": 14,
+      "seed": "rl-leaders-v1:behavior:3",
+      "first": false,
+      "outcome": -1
+    },
+    "reward": -1,
+    "buys": {
+      "drachma": 1,
+      "sea-trade": 1,
+      "harvest-feast": 2,
+      "merchant-fleet": 1,
+      "talent": 2,
+      "acropolis": 3,
+      "polis": 2,
+      "hamlet": 3,
+      "obol": 1
+    },
+    "gains": {},
+    "worships": {},
+    "trashes": {},
+    "owned": {
+      "obol": 7,
+      "hamlet": 6,
+      "temple-of-poseidon": 1,
+      "drachma": 1,
+      "sea-trade": 1,
+      "harvest-feast": 2,
+      "merchant-fleet": 1,
+      "talent": 2,
+      "acropolis": 3,
+      "polis": 2
+    }
+  },
+  {
+    "info": {
+      "score": 28,
+      "opponentScore": 34,
+      "turns": 14,
+      "seed": "rl-leaders-v1:behavior:4",
+      "first": true,
+      "outcome": -1
+    },
+    "reward": -1,
+    "buys": {
+      "obol": 1,
+      "sea-trade": 1,
+      "harvest-feast": 2,
+      "merchant-fleet": 3,
+      "talent": 1,
+      "acropolis": 2,
+      "polis": 3,
+      "hamlet": 4
+    },
+    "gains": {},
+    "worships": {},
+    "trashes": {},
+    "owned": {
+      "obol": 7,
+      "hamlet": 7,
+      "temple-of-poseidon": 1,
+      "sea-trade": 1,
+      "harvest-feast": 2,
+      "merchant-fleet": 3,
+      "talent": 1,
+      "acropolis": 2,
+      "polis": 3
+    }
+  },
+  {
+    "info": {
+      "score": 26,
+      "opponentScore": 25,
+      "turns": 12,
+      "seed": "rl-leaders-v1:behavior:5",
+      "first": false,
+      "outcome": 1
+    },
+    "reward": 1,
+    "buys": {
+      "sea-trade": 1,
+      "drachma": 1,
+      "talent": 3,
+      "harvest-feast": 2,
+      "merchant-fleet": 1,
+      "acropolis": 3,
+      "polis": 1,
+      "hamlet": 2
+    },
+    "gains": {},
+    "worships": {},
+    "trashes": {},
+    "owned": {
+      "obol": 6,
+      "hamlet": 5,
+      "temple-of-poseidon": 1,
+      "sea-trade": 1,
+      "drachma": 1,
+      "talent": 3,
+      "harvest-feast": 2,
+      "merchant-fleet": 1,
+      "acropolis": 3,
+      "polis": 1
+    }
+  },
+  {
+    "info": {
+      "score": 26,
+      "opponentScore": 29,
+      "turns": 13,
+      "seed": "rl-leaders-v1:behavior:6",
+      "first": true,
+      "outcome": -1
+    },
+    "reward": -1,
+    "buys": {
+      "sea-trade": 1,
+      "drachma": 2,
+      "harvest-feast": 2,
+      "acropolis": 2,
+      "merchant-fleet": 2,
+      "polis": 3,
+      "hamlet": 2
+    },
+    "gains": {},
+    "worships": {},
+    "trashes": {},
+    "owned": {
+      "obol": 6,
+      "hamlet": 5,
+      "temple-of-poseidon": 1,
+      "sea-trade": 1,
+      "drachma": 2,
+      "harvest-feast": 2,
+      "acropolis": 2,
+      "merchant-fleet": 2,
+      "polis": 3
+    }
+  },
+  {
+    "info": {
+      "score": 23,
+      "opponentScore": 31,
+      "turns": 13,
+      "seed": "rl-leaders-v1:behavior:7",
+      "first": false,
+      "outcome": -1
+    },
+    "reward": -1,
+    "buys": {
+      "sea-trade": 1,
+      "drachma": 2,
+      "harvest-feast": 3,
+      "talent": 1,
+      "acropolis": 2,
+      "polis": 2,
+      "hamlet": 2,
+      "obol": 1
+    },
+    "gains": {},
+    "worships": {},
+    "trashes": {},
+    "owned": {
+      "obol": 7,
+      "hamlet": 5,
+      "temple-of-poseidon": 1,
+      "sea-trade": 1,
+      "drachma": 2,
+      "harvest-feast": 3,
+      "talent": 1,
+      "acropolis": 2,
+      "polis": 2
+    }
+  },
+  {
+    "info": {
+      "score": 19,
+      "opponentScore": 25,
+      "turns": 10,
+      "seed": "rl-leaders-v1:behavior:8",
+      "first": true,
+      "outcome": -1
+    },
+    "reward": -1,
+    "buys": {
+      "drachma": 2,
+      "sea-trade": 1,
+      "talent": 2,
+      "harvest-feast": 1,
+      "merchant-fleet": 2,
+      "acropolis": 2,
+      "polis": 1,
+      "hamlet": 1
+    },
+    "gains": {},
+    "worships": {},
+    "trashes": {},
+    "owned": {
+      "obol": 6,
+      "hamlet": 4,
+      "temple-of-poseidon": 1,
+      "drachma": 2,
+      "sea-trade": 1,
+      "talent": 2,
+      "harvest-feast": 1,
+      "merchant-fleet": 2,
+      "acropolis": 2,
+      "polis": 1
+    }
+  },
+  {
+    "info": {
+      "score": 29,
+      "opponentScore": 34,
+      "turns": 20,
+      "seed": "rl-leaders-v1:behavior:9",
+      "first": false,
+      "outcome": -1
+    },
+    "reward": -1,
+    "buys": {
+      "drachma": 1,
+      "sea-trade": 1,
+      "hamlet": 5,
+      "talent": 7,
+      "merchant-fleet": 1,
+      "polis": 3,
+      "acropolis": 2
+    },
+    "gains": {},
+    "worships": {
+      "tribute-of-the-tides": 2
+    },
+    "trashes": {},
+    "owned": {
+      "obol": 6,
+      "hamlet": 8,
+      "temple-of-poseidon": 1,
+      "drachma": 3,
+      "sea-trade": 1,
+      "talent": 7,
+      "merchant-fleet": 1,
+      "polis": 3,
+      "acropolis": 2
+    }
+  },
+  {
+    "info": {
+      "score": 26,
+      "opponentScore": 29,
+      "turns": 13,
+      "seed": "rl-leaders-v1:behavior:10",
+      "first": true,
+      "outcome": -1
+    },
+    "reward": -1,
+    "buys": {
+      "sea-trade": 1,
+      "drachma": 1,
+      "harvest-feast": 1,
+      "talent": 3,
+      "merchant-fleet": 2,
+      "acropolis": 3,
+      "polis": 1,
+      "hamlet": 2
+    },
+    "gains": {},
+    "worships": {},
+    "trashes": {},
+    "owned": {
+      "obol": 6,
+      "hamlet": 5,
+      "temple-of-poseidon": 1,
+      "sea-trade": 1,
+      "drachma": 1,
+      "harvest-feast": 1,
+      "talent": 3,
+      "merchant-fleet": 2,
+      "acropolis": 3,
+      "polis": 1
+    }
+  },
+  {
+    "info": {
+      "score": 25,
+      "opponentScore": 22,
+      "turns": 11,
+      "seed": "rl-leaders-v1:behavior:11",
+      "first": false,
+      "outcome": 1
+    },
+    "reward": 1,
+    "buys": {
+      "drachma": 2,
+      "sea-trade": 1,
+      "talent": 2,
+      "harvest-feast": 1,
+      "acropolis": 3,
+      "polis": 1,
+      "hamlet": 1
+    },
+    "gains": {},
+    "worships": {},
+    "trashes": {},
+    "owned": {
+      "obol": 6,
+      "hamlet": 4,
+      "temple-of-poseidon": 1,
+      "drachma": 2,
+      "sea-trade": 1,
+      "talent": 2,
+      "harvest-feast": 1,
+      "acropolis": 3,
+      "polis": 1
+    }
+  },
+  {
+    "info": {
+      "score": 30,
+      "opponentScore": 33,
+      "turns": 16,
+      "seed": "rl-leaders-v1:behavior:12",
+      "first": true,
+      "outcome": -1
+    },
+    "reward": -1,
+    "buys": {
+      "drachma": 1,
+      "sea-trade": 1,
+      "merchant-fleet": 1,
+      "harvest-feast": 2,
+      "talent": 4,
+      "acropolis": 3,
+      "polis": 2,
+      "hamlet": 3,
+      "oracles-acolyte": 2
+    },
+    "gains": {},
+    "worships": {},
+    "trashes": {},
+    "owned": {
+      "obol": 6,
+      "hamlet": 6,
+      "temple-of-poseidon": 1,
+      "drachma": 1,
+      "sea-trade": 1,
+      "merchant-fleet": 1,
+      "harvest-feast": 2,
+      "talent": 4,
+      "acropolis": 3,
+      "polis": 2,
+      "oracles-acolyte": 2
+    }
+  },
+  {
+    "info": {
+      "score": 33,
+      "opponentScore": 30,
+      "turns": 21,
+      "seed": "rl-leaders-v1:behavior:13",
+      "first": false,
+      "outcome": 1
+    },
+    "reward": 1,
+    "buys": {
+      "drachma": 3,
+      "sea-trade": 1,
+      "merchant-fleet": 4,
+      "talent": 3,
+      "harvest-feast": 1,
+      "acropolis": 3,
+      "polis": 3,
+      "hamlet": 3,
+      "obol": 5
+    },
+    "gains": {},
+    "worships": {
+      "tribute-of-the-tides": 2
+    },
+    "trashes": {},
+    "owned": {
+      "obol": 11,
+      "hamlet": 6,
+      "temple-of-poseidon": 1,
+      "drachma": 5,
+      "sea-trade": 1,
+      "merchant-fleet": 4,
+      "talent": 3,
+      "harvest-feast": 1,
+      "acropolis": 3,
+      "polis": 3
+    }
+  },
+  {
+    "info": {
+      "score": 25,
+      "opponentScore": 29,
+      "turns": 13,
+      "seed": "rl-leaders-v1:behavior:14",
+      "first": true,
+      "outcome": -1
+    },
+    "reward": -1,
+    "buys": {
+      "drachma": 1,
+      "sea-trade": 1,
+      "harvest-feast": 1,
+      "merchant-fleet": 4,
+      "talent": 1,
+      "acropolis": 3,
+      "polis": 1,
+      "hamlet": 1
+    },
+    "gains": {},
+    "worships": {},
+    "trashes": {},
+    "owned": {
+      "obol": 6,
+      "hamlet": 4,
+      "temple-of-poseidon": 1,
+      "drachma": 1,
+      "sea-trade": 1,
+      "harvest-feast": 1,
+      "merchant-fleet": 4,
+      "talent": 1,
+      "acropolis": 3,
+      "polis": 1
+    }
+  },
+  {
+    "info": {
+      "score": 22,
+      "opponentScore": 22,
+      "turns": 11,
+      "seed": "rl-leaders-v1:behavior:15",
+      "first": false,
+      "outcome": 0
+    },
+    "reward": 0,
+    "buys": {
+      "obol": 1,
+      "sea-trade": 1,
+      "harvest-feast": 2,
+      "merchant-fleet": 1,
+      "talent": 3,
+      "acropolis": 3,
+      "hamlet": 1
+    },
+    "gains": {},
+    "worships": {},
+    "trashes": {},
+    "owned": {
+      "obol": 7,
+      "hamlet": 4,
+      "temple-of-poseidon": 1,
+      "sea-trade": 1,
+      "harvest-feast": 2,
+      "merchant-fleet": 1,
+      "talent": 3,
+      "acropolis": 3
+    }
+  }
+]

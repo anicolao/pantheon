@@ -1,0 +1,16 @@
+{
+  "leader": "nereon",
+  "teacher": "money",
+  "output": "balance-results/leader-rl-v1/nereon/confirm-a",
+  "workers": 8,
+  "prefix": "rl-nereon-v1",
+  "namespace": "confirm-a",
+  "games": 1024,
+  "models": {
+    "candidate": "balance-results/leader-rl-v1/nereon/faster/checkpoint-524288",
+    "imitation": "balance-results/leader-rl-v1/nereon/imitation/dagger-1"
+  },
+  "baselines": [
+    "imitation"
+  ]
+}
