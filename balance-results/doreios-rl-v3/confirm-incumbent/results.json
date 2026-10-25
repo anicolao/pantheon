@@ -1,0 +1,72 @@
+{
+  "summary": {
+    "incumbent": {
+      "games": 1024,
+      "wins": 598,
+      "ties": 64,
+      "losses": 362,
+      "share": 0.615234375,
+      "winCI95": [
+        0.5535359893088874,
+        0.613804993606266
+      ]
+    },
+    "first-free": {
+      "games": 1024,
+      "wins": 435,
+      "ties": 109,
+      "losses": 480,
+      "share": 0.47802734375,
+      "winCI95": [
+        0.39486491112325045,
+        0.4553065344062052
+      ]
+    },
+    "classic": {
+      "games": 1024,
+      "wins": 268,
+      "ties": 48,
+      "losses": 708,
+      "share": 0.28515625,
+      "winCI95": [
+        0.23572172364306357,
+        0.2894968829697572
+      ]
+    }
+  },
+  "comparisons": {
+    "incumbent-vs-first-free": {
+      "shareDelta": 0.13720703125,
+      "pairedApprox95CI": [
+        0.10406747517295731,
+        0.1703465873270427
+      ]
+    },
+    "incumbent-vs-classic": {
+      "shareDelta": 0.330078125,
+      "pairedApprox95CI": [
+        0.2950052349511876,
+        0.3651510150488124
+      ]
+    },
+    "first-free-vs-classic": {
+      "shareDelta": 0.19287109375,
+      "pairedApprox95CI": [
+        0.15882084132612884,
+        0.22692134617387116
+      ]
+    },
+    "classic-vs-first-free": {
+      "shareDelta": -0.19287109375,
+      "pairedApprox95CI": [
+        -0.22692134617387116,
+        -0.15882084132612884
+      ]
+    }
+  },
+  "checkpointSHA256": {
+    "incumbent": "b62d5bec0c6a5028792083e000f0d9a42f4836c89467a43169ce77c49b3ee89d",
+    "first-free": "b64a53ee73c3a1e835dc14d857e89916418c311c2ce027261a2232a0fba35f3a"
+  },
+  "elapsedSeconds": 120.945213874802
+}

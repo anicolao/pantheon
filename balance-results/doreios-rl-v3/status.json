@@ -1,0 +1,10 @@
+{
+  "phase": "Completing plateau trials",
+  "incumbent": "extend-free-a/checkpoint-1572864",
+  "incumbentScreenShare": 0.6669921875,
+  "running": [
+    "longer-control",
+    "greedy-polish"
+  ],
+  "next": "Select one checkpoint per plateau direction, evaluate all five plus incumbent on fresh plateau-confirm seeds; promote only under the prewritten rule, otherwise run final test and report practical plateau."
+}
