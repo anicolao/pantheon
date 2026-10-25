@@ -1,5 +1,5 @@
 {
-  "base": "balance-results/doreios-rl-v3/extend-free-b/checkpoint-1572864",
+  "base": "balance-results/doreios-rl-v3/extend-free-a/checkpoint-1572864",
   "reference": "balance-results/doreios-rl-v2/dagger-2",
   "seed": 1706,
   "prefix": "rl-doreios-v3",
