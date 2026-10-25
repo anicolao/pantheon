@@ -1,3 +1,4 @@
+import {rlCommand} from './rl';
 import {mmCommand} from './mm';
 import {definition} from '../game/actions';
 import {openingBooks,currentOpeningBooks,type OpeningBook} from './opening-books';
@@ -7,8 +8,9 @@ import profiles from '../../../historical-thaleia/profiles.json';
 import {resolveBotKind,type BotKind} from '../game/bot-kind';
 export {botLabels,type BotKind} from '../game/bot-kind';
 export type BotMemory=StandardMemory & {openingOverride?:OpeningBook|null;openingLog?:{turn:number;key:string;card:string|null}[]};
-export function decide(view:StandardView,memory:BotMemory,kind:BotKind){
- kind=resolveBotKind(kind,view.leader);
+export function decide(view:StandardView,memory:BotMemory,requested:BotKind){
+ const kind=resolveBotKind(requested,view.leader);
+ if(kind==='rl')return rlCommand(view);
  if(kind==='mm')return mmCommand(view);
  if(kind==='classic-engine'){
   const action=historicalCommand(view as any,(profiles as any)['2/'+view.leader+'/engine']);

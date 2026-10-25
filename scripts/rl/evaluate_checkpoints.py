@@ -11,7 +11,7 @@ def main():
     if (out/'results.json').exists():raise RuntimeError('Refusing to overwrite evaluation')
     torch.set_num_threads(1);start=time.monotonic();rows={};summaries={}
     (out/'protocol.json').write_text(json.dumps(config,indent=2))
-    vec=vector(config.get('workers',8),config['namespace'],config['prefix'],leader=config.get('leader','doreios'),teacher=config.get('teacher','classic-engine'))
+    vec=vector(config.get('workers',8),config['namespace'],config['prefix'],leader=config.get('leader','doreios'),teacher=config.get('teacher','classic-engine'),opponent=config.get('opponent','mm'))
     try:
         for name,path in config['models'].items():
             teacher=path in ['classic-engine','teacher']

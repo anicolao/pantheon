@@ -1,0 +1,11 @@
+bun test v1.3.13 (bf2e2cec)
+
+tests/tooling/table-bots.test.ts:
+(pass) 3 adaptive RL seats finish and preserve decisions across host reload [2609.15ms]
+(pass) 4 adaptive RL seats finish and preserve decisions across host reload [5269.76ms]
+
+ 2 pass
+ 9 filtered out
+ 0 fail
+ 1282 expect() calls
+Ran 2 tests across 1 file. [7.92s]

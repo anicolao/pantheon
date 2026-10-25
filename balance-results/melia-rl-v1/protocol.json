@@ -1,0 +1,15 @@
+{
+  "objective": "Train a separate Melia model from MM imitation against the three frozen RL opponents; select only on screening/confirmation and benchmark all four exported actors against heuristics",
+  "seed": 2001,
+  "opponentSchedule": "Every six episode indices cover Nereon, Thaleia, Doreios in both starting seats; fixed policies, no self-play updates",
+  "initialization": "Fresh independently initialized 128x128 actor/critic imitating MM; no transferred leader weights",
+  "opponents": {
+    "nereon": "fec15291b5c041494285f0151db211e7d525e8afee4e0e034c6eb6a4c5a22d58",
+    "thaleia": "f81492461000d9eec8fd1ef379ffa46578c354e8e9691e511a5298470f3cae07",
+    "doreios": "ca4a52a69cd3e439baae2b1eb5195aa392e2648d23ba1024b9b35f6c54fdce6d"
+  },
+  "selection": "Highest screening outright wins, then share; independent confirmation required. Seek >50% wins against each learned opponent, then freeze before final test.",
+  "finalPrefix": "rl-melia-v1-final",
+  "finalGames": 6144,
+  "heuristicBenchmark": "100 games per distinct-leader pairing, 50 per starting seat, four general policies plus four specialist variants; no exclusions"
+}

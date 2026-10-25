@@ -85,3 +85,18 @@ test('Bot drafts Melia, Thaleia, Nereon, Doreios and completes a shared table af
  }
  expect(driver.next(events,'host')).toBeNull();
 },120000);
+
+for(const count of [3,4] as const)test(`${count} adaptive RL seats finish and preserve decisions across host reload`,()=>{
+ const events=start(count,true);
+ for(const event of events)if(event.botKind)event.botKind='bot';
+ let driver=new TableBotDriver(),steps=0;
+ while(replaySetup(events).turn.phase!=='finished'){
+  const game=replaySetup(events),proposal=driver.next(events,'host')!;
+  expect(proposal).not.toBeNull();
+  if(steps===30){const restored=new TableBotDriver();expect(restored.next(events,'host')).toEqual(proposal);driver=restored;}
+  events.push({schemaVersion:1,reducerVersion:1,sequence:events.length+1,actorUid:proposal.actorUid,name:game.players.find(p=>p.uid===proposal.actorUid)!.name,playerCount:count,commandId:proposal.commandId,...proposal.command});
+  expect(++steps).toBeLessThan(2500);
+ }
+ expect(new Set(Object.values(replaySetup(events).leaders)).size).toBe(count);
+ expect(driver.next(events,'host')).toBeNull();
+},120000);

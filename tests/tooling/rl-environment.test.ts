@@ -78,3 +78,13 @@ for(const [leader,expert] of [['nereon','money'],['nereon','fleet-v1'],['thaleia
  }
  expect(PracticeSession.restore(env.session.save()).game).toEqual(env.session.game);
 },60000); // Money performs bounded endgame search; this full-game test exercises it.
+
+for(let index=0;index<6;index++)test(`Melia RL opponent pool balances leaders and seats: ${index}`,()=>{
+ const env=new RLEnvironment('melia','mm','rl-pool');let state=env.reset(`rl-pool-legality:${index}`,index%2===0);
+ expect(env.opponentLeader).toBe(['nereon','thaleia','doreios'][Math.floor(index/2)]);
+ expect(env.session.config.humanFirst).toBe(index%2!==0);
+ while(!state.done){
+  const action=env.teacher();expect(state.mask![action]).toBe(true);state=env.step(action);
+ }
+ expect(PracticeSession.restore(env.session.save()).game).toEqual(env.session.game);
+});

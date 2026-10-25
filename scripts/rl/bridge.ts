@@ -1,6 +1,6 @@
 import {createInterface} from 'node:readline';
 import {RLEnvironment} from './environment';
-const env=new RLEnvironment(process.argv[2],process.argv[3]);
+const env=new RLEnvironment(process.argv[2],process.argv[3],process.argv[4]);
 for await(const line of createInterface({input:process.stdin})){
  try{
   const q=JSON.parse(line);let answer:unknown;
@@ -8,6 +8,11 @@ for await(const line of createInterface({input:process.stdin})){
   else if(q.op==='step')answer=env.step(q.action);
   else if(q.op==='teacher')answer=env.teacher();
   else if(q.op==='teacher-preview')answer=env.teacher(true);
+  else if(q.op==='runtime'){
+   const {rlAction}=await import('../../src/lib/bots/rl');
+   const state=env.state();if(state.done)throw Error('Finished game');
+   answer=rlAction(env.leader,state.observation!,state.mask!);
+  }
   else if(q.op==='verify'){
    const {PracticeSession}=await import('../../src/lib/bots/session');
    const replay=PracticeSession.restore(env.session.save());

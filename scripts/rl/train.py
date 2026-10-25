@@ -11,11 +11,11 @@ from sb3_contrib.common.maskable.utils import get_action_masks
 
 ROOT=Path(__file__).resolve().parents[2]
 class Game(gym.Env):
-    def __init__(self, rank=0, workers=1, namespace="train", seed_prefix="rl-doreios-v1", potential_scale=0.,leader="doreios",teacher="classic-engine"):
+    def __init__(self, rank=0, workers=1, namespace="train", seed_prefix="rl-doreios-v1", potential_scale=0.,leader="doreios",teacher="classic-engine",opponent="mm"):
         self.rank,self.workers,self.namespace,self.counter=rank,workers,namespace,0
         self.seed_prefix=seed_prefix
         self.potential_scale=potential_scale;self.potential=0.;self.initial_potential=0.;self.first_step=True
-        self.proc=subprocess.Popen(["bun",str(ROOT/"scripts/rl/bridge.ts"),leader,teacher],cwd=ROOT,stdin=subprocess.PIPE,stdout=subprocess.PIPE,text=True,bufsize=1)
+        self.proc=subprocess.Popen(["bun",str(ROOT/"scripts/rl/bridge.ts"),leader,teacher,opponent],cwd=ROOT,stdin=subprocess.PIPE,stdout=subprocess.PIPE,text=True,bufsize=1)
         state=self.call(dict(op="reset",seed="rl-v1-schema",first=True))
         self.observation_space=gym.spaces.Box(-np.inf,np.inf,shape=(len(state["observation"]),),dtype=np.float32)
         self.action_space=gym.spaces.Discrete(len(state["mask"]))
@@ -55,8 +55,8 @@ class Game(gym.Env):
             self.proc.wait(timeout=10)
         self.proc.stdout.close()
 
-def vector(workers,namespace,seed_prefix="rl-doreios-v1",potential_scale=0.,leader="doreios",teacher="classic-engine"):
-    return SubprocVecEnv([lambda i=i:Game(i,workers,namespace,seed_prefix,potential_scale,leader,teacher) for i in range(workers)],start_method="spawn")
+def vector(workers,namespace,seed_prefix="rl-doreios-v1",potential_scale=0.,leader="doreios",teacher="classic-engine",opponent="mm"):
+    return SubprocVecEnv([lambda i=i:Game(i,workers,namespace,seed_prefix,potential_scale,leader,teacher,opponent) for i in range(workers)],start_method="spawn")
 
 def evaluate(vec,model,namespace,n,teacher=False):
     assert n%vec.num_envs==0
@@ -74,10 +74,13 @@ def evaluate(vec,model,namespace,n,teacher=False):
     assert len({r["seed"] for r in rows})==n
     return rows
 
-def stats(rows):
+def stats(rows,by_opponent=True):
     n=len(rows);w=sum(r["reward"]==1 for r in rows);t=sum(r["reward"]==0 for r in rows)
     z=1.95996398454;p=w/n;den=1+z*z/n;center=(p+z*z/(2*n))/den;half=z*((p*(1-p)/n+z*z/(4*n*n))**.5)/den
-    return dict(games=n,wins=w,ties=t,losses=n-w-t,share=(w+t*.5)/n,winCI95=[center-half,center+half])
+    result=dict(games=n,wins=w,ties=t,losses=n-w-t,share=(w+t*.5)/n,winCI95=[center-half,center+half])
+    if by_opponent and rows and "opponentLeader" in rows[0]:
+        result["opponents"]={leader:stats([r for r in rows if r["opponentLeader"]==leader],False) for leader in sorted({r["opponentLeader"] for r in rows})}
+    return result
 def paired(a,b):
     assert [r["seed"] for r in a]==[r["seed"] for r in b]
     d=np.array([(x["reward"]-y["reward"])/2 for x,y in zip(a,b)])

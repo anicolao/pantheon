@@ -16,7 +16,7 @@ def run(config):
         initialization='Fresh independent random 128x128 actor and critic; no transferred model weights',
         sourceHashes={str(f.relative_to(ROOT)):hashlib.sha256(f.read_bytes()).hexdigest() for f in (ROOT/'scripts/rl').rglob('*') if f.is_file() and '__pycache__' not in str(f)})
     (out/'protocol.json').write_text(json.dumps(protocol,indent=2))
-    start=time.monotonic();vec=vector(config.get('workers',8),'imitation',config['prefix'],leader=config['leader'],teacher=config['teacher'])
+    start=time.monotonic();vec=vector(config.get('workers',8),'imitation',config['prefix'],leader=config['leader'],teacher=config['teacher'],opponent=config.get('opponent','mm'))
     try:
         model=AnchoredPPO('MlpPolicy',vec,seed=config['seed'],device='cpu',n_steps=1024,batch_size=512,n_epochs=4,
             learning_rate=1e-4,gamma=1.,gae_lambda=1.,ent_coef=.003,target_kl=.02,

@@ -1,0 +1,18 @@
+{
+  "summary": {
+    "mm": {
+      "games": 1536,
+      "wins": 511,
+      "ties": 114,
+      "losses": 911,
+      "share": 0.3697916666666667,
+      "winCI95": [
+        0.30956224309682756,
+        0.3566371587600019
+      ]
+    }
+  },
+  "comparisons": {},
+  "checkpointSHA256": {},
+  "elapsedSeconds": 32.86240337509662
+}

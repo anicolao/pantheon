@@ -16,7 +16,7 @@ def worker(args):
     torch.manual_seed(seed);np.random.seed(seed)
     n=c['imitationGames'] if probability==1 else c['daggerGames'];workers=c.get('workers',8)
     assert n%workers==0
-    env=Game(rank,workers,namespace,c['prefix'],leader=c['leader'],teacher=c['teacher'])
+    env=Game(rank,workers,namespace,c['prefix'],leader=c['leader'],teacher=c['teacher'],opponent=c.get('opponent','mm'))
     xs=[];ms=[];ys=[]
     try:
         for i in range(n//workers):

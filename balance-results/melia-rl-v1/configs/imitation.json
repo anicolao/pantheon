@@ -1,0 +1,12 @@
+{
+  "leader": "melia",
+  "teacher": "mm",
+  "opponent": "rl-pool",
+  "workers": 8,
+  "prefix": "rl-melia-v1",
+  "seed": 2001,
+  "output": "balance-results/melia-rl-v1/imitation",
+  "imitationGames": 1536,
+  "daggerGames": 384,
+  "screenGames": 768
+}
