@@ -6,6 +6,7 @@ import torch
 from anchored_ppo import AnchoredPPO
 from train import ROOT,vector,evaluate,stats
 from train_v2 import collect,fit
+from collect_independent import collect_independent
 
 def run(config):
     out=Path(config['output']);out.mkdir(parents=True,exist_ok=True)
@@ -20,11 +21,11 @@ def run(config):
         model=AnchoredPPO('MlpPolicy',vec,seed=config['seed'],device='cpu',n_steps=1024,batch_size=512,n_epochs=4,
             learning_rate=1e-4,gamma=1.,gae_lambda=1.,ent_coef=.003,target_kl=.02,
             policy_kwargs=dict(net_arch=dict(pi=[128,128],vf=[128,128])),verbose=0)
-        data,n=collect(vec,model,config.get('imitationGames',1024),'imitation');counts=[n];screen={}
+        data,n=collect_independent(config,model,'imitation',1.,out) if config.get('independentCollection') else collect(vec,model,config.get('imitationGames',1024),'imitation');counts=[n];screen={}
         for stage in range(3):
             label='bc' if stage==0 else f'dagger-{stage}'
             if stage:
-                more,n=collect(vec,model,config.get('daggerGames',256),label,[.5,.2][stage-1]);counts.append(n)
+                more,n=collect_independent(config,model,label,[.5,.2][stage-1],out) if config.get('independentCollection') else collect(vec,model,config.get('daggerGames',256),label,[.5,.2][stage-1]);counts.append(n)
                 data=tuple(np.concatenate([old,new]) for old,new in zip(data,more))
             fit(model,data,20 if stage==0 else 10,label)
             model.save(out/label)
