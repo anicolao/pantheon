@@ -1,0 +1,2 @@
+{"model": "candidate", "elapsedSeconds": 26.253106749616563, "games": 1024, "wins": 548, "ties": 78, "losses": 398, "share": 0.5732421875, "winCI95": [0.5045330713543728, 0.5655166424240634]}
+{"model": "imitation", "elapsedSeconds": 56.33944974979386, "games": 1024, "wins": 221, "ties": 37, "losses": 766, "share": 0.23388671875, "winCI95": [0.1917099332624802, 0.24205488036182654]}

@@ -1,0 +1,9 @@
+{
+  "leader": "doreios",
+  "teacher": "classic-engine",
+  "sourceCheckpoint": "balance-results/doreios-rl-v3/champion.zip",
+  "checkpoint": "champion.zip",
+  "sha256": "ca4a52a69cd3e439baae2b1eb5195aa392e2648d23ba1024b9b35f6c54fdce6d",
+  "selection": "Frozen before final outcomes; Thaleia passed independent confirmation lower 95% win bound >50%; Doreios is unchanged prior champion",
+  "finalGames": 4000
+}
