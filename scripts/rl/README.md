@@ -30,3 +30,13 @@ between starting seats. Every final test game is replay-verified. Exceptions or
 
 This is one learner seed and one fixed opponent, not a claim of general strength.
 Confidence intervals cover game-seed variation, not variation between training runs.
+
+## Iteration 2
+
+Run train_v2.py for expanded imitation, two rounds of learner-state expert labeling
+(DAgger), and KL-anchored PPO. Use a unique --seed-prefix for each experiment; smoke
+runs must not share the main experiment's prefix. Defaults use rl-doreios-v2-pilot.
+The frozen imitation reference is excluded from checkpoint ZIPs, so resuming training
+requires explicitly restoring that original reference. Inference needs no teacher.
+The anchored update is derived from sb3-contrib 2.9.0; its MIT license is retained in
+LICENSE.sb3-contrib. Run test_anchor.py plus the Bun environment tests before training.

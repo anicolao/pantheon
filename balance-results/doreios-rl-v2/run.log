@@ -1,0 +1,83 @@
+{"stage": "collection", "namespace": "imitation", "games": 1024, "samples": 184848, "teacherProbability": 1.0}
+{"stage": "bc", "epoch": 1, "loss": 0.8531121865161875, "trainingAccuracy": 0.7803546697827404}
+{"stage": "bc", "epoch": 2, "loss": 0.27868142617012254, "trainingAccuracy": 0.937797541764044}
+{"stage": "bc", "epoch": 3, "loss": 0.22001040047703527, "trainingAccuracy": 0.9454903488271444}
+{"stage": "bc", "epoch": 4, "loss": 0.18941064425924206, "trainingAccuracy": 0.9577057907037133}
+{"stage": "bc", "epoch": 5, "loss": 0.16171626495557595, "trainingAccuracy": 0.9597885830520211}
+{"stage": "bc", "epoch": 6, "loss": 0.14565628956365323, "trainingAccuracy": 0.9631643296113563}
+{"stage": "bc", "epoch": 7, "loss": 0.13642181122665248, "trainingAccuracy": 0.9651064658530252}
+{"stage": "bc", "epoch": 8, "loss": 0.12970937175151392, "trainingAccuracy": 0.9665022072189042}
+{"stage": "bc", "epoch": 9, "loss": 0.12358324233833598, "trainingAccuracy": 0.9673840128105254}
+{"stage": "bc", "epoch": 10, "loss": 0.11807977202353556, "trainingAccuracy": 0.9683740154072535}
+{"stage": "bc", "epoch": 11, "loss": 0.11358460075947462, "trainingAccuracy": 0.9700456591361551}
+{"stage": "bc", "epoch": 12, "loss": 0.10866680494329548, "trainingAccuracy": 0.9716956634640354}
+{"stage": "bc", "epoch": 13, "loss": 0.10370047921469198, "trainingAccuracy": 0.9733564874924262}
+{"stage": "bc", "epoch": 14, "loss": 0.09848711330917, "trainingAccuracy": 0.9746819008049857}
+{"stage": "bc", "epoch": 15, "loss": 0.09311392215898683, "trainingAccuracy": 0.9763102657318445}
+{"stage": "bc", "epoch": 16, "loss": 0.08764074751026722, "trainingAccuracy": 0.9773381372803601}
+{"stage": "bc", "epoch": 17, "loss": 0.08209781610093064, "trainingAccuracy": 0.9784687959837272}
+{"stage": "bc", "epoch": 18, "loss": 0.077339476231712, "trainingAccuracy": 0.9789881416082403}
+{"stage": "bc", "epoch": 19, "loss": 0.07313333081277036, "trainingAccuracy": 0.980113390461352}
+{"stage": "bc", "epoch": 20, "loss": 0.06955731182631866, "trainingAccuracy": 0.9809032285986324}
+{"stage": "validation", "checkpoint": "bc", "games": 256, "wins": 40, "ties": 9, "losses": 207, "share": 0.173828125, "winCI95": [0.11689244351431037, 0.20577145777847572]}
+{"stage": "collection", "namespace": "dagger-1", "games": 256, "samples": 46232, "teacherProbability": 0.5}
+{"stage": "dagger-1", "epoch": 1, "loss": 0.07358673763815808, "trainingAccuracy": 0.9798208412670937}
+{"stage": "dagger-1", "epoch": 2, "loss": 0.06973518965254842, "trainingAccuracy": 0.9805002596503375}
+{"stage": "dagger-1", "epoch": 3, "loss": 0.06673875759330998, "trainingAccuracy": 0.9807166349316254}
+{"stage": "dagger-1", "epoch": 4, "loss": 0.06455331496828426, "trainingAccuracy": 0.9810109053141769}
+{"stage": "dagger-1", "epoch": 5, "loss": 0.06244565521787226, "trainingAccuracy": 0.981508568461139}
+{"stage": "dagger-1", "epoch": 6, "loss": 0.06055142379374103, "trainingAccuracy": 0.9817292712480526}
+{"stage": "dagger-1", "epoch": 7, "loss": 0.058969638087844424, "trainingAccuracy": 0.9818634239224511}
+{"stage": "dagger-1", "epoch": 8, "loss": 0.05728949542132627, "trainingAccuracy": 0.9822096243725117}
+{"stage": "dagger-1", "epoch": 9, "loss": 0.055819299813788546, "trainingAccuracy": 0.9828024926432405}
+{"stage": "dagger-1", "epoch": 10, "loss": 0.05451815891021912, "trainingAccuracy": 0.9831703306214298}
+{"stage": "validation", "checkpoint": "dagger-1", "games": 256, "wins": 46, "ties": 13, "losses": 197, "share": 0.205078125, "winCI95": [0.13750213221413765, 0.23134377580868576]}
+{"stage": "collection", "namespace": "dagger-2", "games": 256, "samples": 45288, "teacherProbability": 0.2}
+{"stage": "dagger-2", "epoch": 1, "loss": 0.06074437476970531, "trainingAccuracy": 0.9816295663752678}
+{"stage": "dagger-2", "epoch": 2, "loss": 0.05881487651279679, "trainingAccuracy": 0.9820058762230071}
+{"stage": "dagger-2", "epoch": 3, "loss": 0.05720464598249506, "trainingAccuracy": 0.9825413940832514}
+{"stage": "dagger-2", "epoch": 4, "loss": 0.055864973587018474, "trainingAccuracy": 0.9827548775545649}
+{"stage": "dagger-2", "epoch": 5, "loss": 0.05474060624837875, "trainingAccuracy": 0.9830117813929253}
+{"stage": "dagger-2", "epoch": 6, "loss": 0.053539814889706945, "trainingAccuracy": 0.9832325015920801}
+{"stage": "dagger-2", "epoch": 7, "loss": 0.05242085021541074, "trainingAccuracy": 0.9836051930758988}
+{"stage": "dagger-2", "epoch": 8, "loss": 0.051395793252245144, "trainingAccuracy": 0.9838114398193712}
+{"stage": "dagger-2", "epoch": 9, "loss": 0.050264380161684975, "trainingAccuracy": 0.9839851212875587}
+{"stage": "dagger-2", "epoch": 10, "loss": 0.04942121829285666, "trainingAccuracy": 0.9842166965784751}
+{"stage": "validation", "checkpoint": "dagger-2", "games": 256, "wins": 55, "ties": 11, "losses": 190, "share": 0.236328125, "winCI95": [0.1689435880897645, 0.2691753300281149]}
+{"stage": "training", "steps": 16384, "games": 94, "recentMeanReward": -0.6170212765957447, "elapsedSeconds": 3.1725178752094507}
+{"stage": "training", "steps": 32768, "games": 190, "recentMeanReward": -0.61, "elapsedSeconds": 6.462973459158093}
+{"stage": "training", "steps": 49152, "games": 287, "recentMeanReward": -0.36, "elapsedSeconds": 9.773197709117085}
+{"stage": "training", "steps": 65536, "games": 381, "recentMeanReward": -0.4, "elapsedSeconds": 13.069158375263214}
+{"stage": "training", "steps": 81920, "games": 479, "recentMeanReward": -0.6, "elapsedSeconds": 16.322206542361528}
+{"stage": "training", "steps": 98304, "games": 581, "recentMeanReward": -0.47, "elapsedSeconds": 19.518468291964382}
+{"stage": "training", "steps": 114688, "games": 677, "recentMeanReward": -0.52, "elapsedSeconds": 22.719990292098373}
+{"stage": "training", "steps": 131072, "games": 770, "recentMeanReward": -0.52, "elapsedSeconds": 25.93337987503037}
+{"stage": "validation", "checkpoint": "ppo-131072", "referenceKL": 0.0007167134526753216, "games": 256, "wins": 58, "ties": 15, "losses": 183, "share": 0.255859375, "winCI95": [0.17954670737998107, 0.28166321410291695]}
+{"stage": "training", "steps": 147456, "games": 864, "recentMeanReward": -0.52, "elapsedSeconds": 36.32155716698617}
+{"stage": "training", "steps": 163840, "games": 959, "recentMeanReward": -0.55, "elapsedSeconds": 39.58147683413699}
+{"stage": "training", "steps": 180224, "games": 1062, "recentMeanReward": -0.46, "elapsedSeconds": 42.94622208410874}
+{"stage": "training", "steps": 196608, "games": 1164, "recentMeanReward": -0.59, "elapsedSeconds": 46.26919037522748}
+{"stage": "training", "steps": 212992, "games": 1259, "recentMeanReward": -0.56, "elapsedSeconds": 49.55308745894581}
+{"stage": "training", "steps": 229376, "games": 1360, "recentMeanReward": -0.48, "elapsedSeconds": 52.90144729195163}
+{"stage": "training", "steps": 245760, "games": 1457, "recentMeanReward": -0.52, "elapsedSeconds": 56.18795483419672}
+{"stage": "training", "steps": 262144, "games": 1555, "recentMeanReward": -0.63, "elapsedSeconds": 59.44386708410457}
+{"stage": "validation", "checkpoint": "ppo-262144", "referenceKL": 0.0006011290970491245, "games": 256, "wins": 58, "ties": 15, "losses": 183, "share": 0.255859375, "winCI95": [0.17954670737998107, 0.28166321410291695]}
+{"stage": "training", "steps": 278528, "games": 1651, "recentMeanReward": -0.41, "elapsedSeconds": 69.6046517090872}
+{"stage": "training", "steps": 294912, "games": 1744, "recentMeanReward": -0.51, "elapsedSeconds": 72.9079312090762}
+{"stage": "training", "steps": 311296, "games": 1844, "recentMeanReward": -0.47, "elapsedSeconds": 76.1968406252563}
+{"stage": "training", "steps": 327680, "games": 1941, "recentMeanReward": -0.48, "elapsedSeconds": 79.47624033410102}
+{"stage": "training", "steps": 344064, "games": 2037, "recentMeanReward": -0.46, "elapsedSeconds": 82.74626820906997}
+{"stage": "training", "steps": 360448, "games": 2140, "recentMeanReward": -0.63, "elapsedSeconds": 86.05652754195035}
+{"stage": "training", "steps": 376832, "games": 2236, "recentMeanReward": -0.47, "elapsedSeconds": 89.35354404198006}
+{"stage": "training", "steps": 393216, "games": 2334, "recentMeanReward": -0.53, "elapsedSeconds": 92.64100545924157}
+{"stage": "validation", "checkpoint": "ppo-393216", "referenceKL": 0.0009573416227794951, "games": 256, "wins": 58, "ties": 12, "losses": 186, "share": 0.25, "winCI95": [0.17954670737998107, 0.28166321410291695]}
+{"stage": "training", "steps": 409600, "games": 2436, "recentMeanReward": -0.6, "elapsedSeconds": 103.78070016717538}
+{"stage": "training", "steps": 425984, "games": 2533, "recentMeanReward": -0.48, "elapsedSeconds": 107.1227645422332}
+{"stage": "training", "steps": 442368, "games": 2631, "recentMeanReward": -0.57, "elapsedSeconds": 110.3914713752456}
+{"stage": "training", "steps": 458752, "games": 2728, "recentMeanReward": -0.44, "elapsedSeconds": 113.71091087535024}
+{"stage": "training", "steps": 475136, "games": 2822, "recentMeanReward": -0.52, "elapsedSeconds": 116.99434895906597}
+{"stage": "training", "steps": 491520, "games": 2921, "recentMeanReward": -0.59, "elapsedSeconds": 120.27181016700342}
+{"stage": "training", "steps": 507904, "games": 3018, "recentMeanReward": -0.55, "elapsedSeconds": 123.72711741691455}
+{"stage": "training", "steps": 524288, "games": 3111, "recentMeanReward": -0.46, "elapsedSeconds": 127.0250667091459}
+{"stage": "validation", "checkpoint": "ppo-524288", "referenceKL": 0.0008244429163823952, "games": 256, "wins": 60, "ties": 13, "losses": 183, "share": 0.259765625, "winCI95": [0.18664650822025552, 0.2899574155059883]}
+{"selected": "ppo-524288", "bestImitation": "dagger-2", "classic": {"games": 1000, "wins": 249, "ties": 54, "losses": 697, "share": 0.276, "winCI95": [0.22319257656829575, 0.27672845619145275]}, "v1Imitation": {"games": 1000, "wins": 83, "ties": 44, "losses": 873, "share": 0.105, "winCI95": [0.06745502144289969, 0.10173649513405314]}, "imitation": {"games": 1000, "wins": 242, "ties": 59, "losses": 699, "share": 0.2715, "winCI95": [0.2164742872986189, 0.26950032007992747]}, "selectedModel": {"games": 1000, "wins": 238, "ties": 69, "losses": 693, "share": 0.2725, "winCI95": [0.21263955247557265, 0.2653656689708581]}, "selectedVsClassic": {"shareDelta": -0.0035, "pairedApprox95CI": [-0.028400421108314044, 0.021400421108314045]}, "selectedVsImitation": {"shareDelta": 0.001, "pairedApprox95CI": [-0.013608845839996286, 0.015608845839996284]}, "imitationVsV1": {"shareDelta": 0.1665, "pairedApprox95CI": [0.13814854837562618, 0.19485145162437384]}, "collectionGames": [1024, 256, 256], "supervisedSamples": 276368, "trainingGames": 3111, "trainingSteps": 524288, "trainingAndValidationSeconds": 133.8911320003681, "elapsedSeconds": 474.0353327090852}

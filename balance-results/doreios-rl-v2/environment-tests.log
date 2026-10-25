@@ -1,0 +1,15 @@
+bun test v1.3.13 (bf2e2cec)
+
+tests/tooling/rl-environment.test.ts:
+(pass) every mask-enabled command is accepted by the production reducer, seed 0 [453.05ms]
+(pass) every mask-enabled command is accepted by the production reducer, seed 1 [280.50ms]
+(pass) every mask-enabled command is accepted by the production reducer, seed 2 [186.80ms]
+(pass) every mask-enabled command is accepted by the production reducer, seed 3 [145.68ms]
+(pass) observations and masks do not expose hidden deck order, opponent hand, or instance IDs [0.28ms]
+(pass) two-card selections support repeated types without reusing an instance [0.48ms]
+(pass) DAgger teacher queries do not mutate the expert memory [2.54ms]
+
+ 7 pass
+ 0 fail
+ 9630 expect() calls
+Ran 7 tests across 1 file. [1105.00ms]

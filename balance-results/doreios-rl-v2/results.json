@@ -1,0 +1,79 @@
+{
+  "selected": "ppo-524288",
+  "bestImitation": "dagger-2",
+  "classic": {
+    "games": 1000,
+    "wins": 249,
+    "ties": 54,
+    "losses": 697,
+    "share": 0.276,
+    "winCI95": [
+      0.22319257656829575,
+      0.27672845619145275
+    ]
+  },
+  "v1Imitation": {
+    "games": 1000,
+    "wins": 83,
+    "ties": 44,
+    "losses": 873,
+    "share": 0.105,
+    "winCI95": [
+      0.06745502144289969,
+      0.10173649513405314
+    ]
+  },
+  "imitation": {
+    "games": 1000,
+    "wins": 242,
+    "ties": 59,
+    "losses": 699,
+    "share": 0.2715,
+    "winCI95": [
+      0.2164742872986189,
+      0.26950032007992747
+    ]
+  },
+  "selectedModel": {
+    "games": 1000,
+    "wins": 238,
+    "ties": 69,
+    "losses": 693,
+    "share": 0.2725,
+    "winCI95": [
+      0.21263955247557265,
+      0.2653656689708581
+    ]
+  },
+  "selectedVsClassic": {
+    "shareDelta": -0.0035,
+    "pairedApprox95CI": [
+      -0.028400421108314044,
+      0.021400421108314045
+    ]
+  },
+  "selectedVsImitation": {
+    "shareDelta": 0.001,
+    "pairedApprox95CI": [
+      -0.013608845839996286,
+      0.015608845839996284
+    ]
+  },
+  "imitationVsV1": {
+    "shareDelta": 0.1665,
+    "pairedApprox95CI": [
+      0.13814854837562618,
+      0.19485145162437384
+    ]
+  },
+  "collectionGames": [
+    1024,
+    256,
+    256
+  ],
+  "supervisedSamples": 276368,
+  "trainingGames": 3111,
+  "trainingSteps": 524288,
+  "trainingAndValidationSeconds": 133.8911320003681,
+  "elapsedSeconds": 474.0353327090852
+}
