@@ -1,0 +1,14 @@
+{
+  "nereon": "money",
+  "thaleia": "classic-engine",
+  "nereonMoneyWins": 339,
+  "nereonFleetWins": 316,
+  "gamesEach": 1024,
+  "pairedWinDelta": 0.0224609375,
+  "pairedWinApprox95CI": [
+    -0.012666793389838282,
+    0.05758866838983828
+  ],
+  "selection": "highest outright wins, then tie-adjusted share; point-estimate choice, not proof of teacher superiority",
+  "thaleiaEvidence": "Existing 1000-seed opening experiments favored unchanged Classic Engine; fresh baseline 309/1024 wins"
+}

@@ -1,0 +1,13 @@
+{
+  "leader": "doreios",
+  "teacher": "classic-engine",
+  "output": "balance-results/leader-rl-v1/doreios-parity",
+  "workers": 8,
+  "prefix": "rl-doreios-v3-final",
+  "namespace": "test",
+  "games": 8,
+  "models": {
+    "champion": "balance-results/doreios-rl-v3/champion"
+  },
+  "baselines": []
+}

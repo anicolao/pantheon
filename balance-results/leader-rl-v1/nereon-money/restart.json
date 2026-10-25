@@ -1,0 +1,24 @@
+{
+  "reason": "Synchronous evaluation worker barrier underutilized CPUs during expensive heuristic search. Restart same full seed schedule with independent whole-game workers; no completed outcome file inspected or excluded.",
+  "terminatedPids": [
+    12582,
+    12583,
+    12599,
+    12600,
+    12601,
+    12602,
+    12603,
+    12604,
+    12605,
+    12606,
+    12607,
+    12616,
+    12617,
+    12618,
+    12619,
+    12620,
+    12621,
+    12622,
+    12623
+  ]
+}
