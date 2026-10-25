@@ -1,0 +1,53 @@
+{
+  "selected": "bc",
+  "classic": {
+    "games": 1000,
+    "wins": 248,
+    "ties": 52,
+    "losses": 700,
+    "share": 0.274,
+    "winCI95": [
+      0.2222322443017449,
+      0.27569644197497484
+    ]
+  },
+  "imitation": {
+    "games": 1000,
+    "wins": 101,
+    "ties": 33,
+    "losses": 866,
+    "share": 0.1175,
+    "winCI95": [
+      0.08382401065239958,
+      0.12122974261907327
+    ]
+  },
+  "selectedModel": {
+    "games": 1000,
+    "wins": 101,
+    "ties": 33,
+    "losses": 866,
+    "share": 0.1175,
+    "winCI95": [
+      0.08382401065239958,
+      0.12122974261907327
+    ]
+  },
+  "trainingGames": 2405,
+  "trainingSteps": 524288,
+  "selectedVsClassic": {
+    "shareDelta": -0.1565,
+    "pairedApprox95CI": [
+      -0.18606192280078682,
+      -0.12693807719921318
+    ]
+  },
+  "selectedVsImitation": {
+    "shareDelta": 0.0,
+    "pairedApprox95CI": [
+      0.0,
+      0.0
+    ]
+  },
+  "elapsedSeconds": 238.5256228330545
+}
