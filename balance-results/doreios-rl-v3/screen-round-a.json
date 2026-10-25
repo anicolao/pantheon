@@ -1,0 +1,118 @@
+{
+  "relaxed": {
+    "checkpoints": {
+      "checkpoint-262144": {
+        "games": 512,
+        "wins": 130,
+        "ties": 38,
+        "losses": 344,
+        "share": 0.291015625,
+        "winCI95": [
+          0.21813441226903335,
+          0.2933433960945728
+        ]
+      },
+      "checkpoint-524288": {
+        "games": 512,
+        "wins": 148,
+        "ties": 48,
+        "losses": 316,
+        "share": 0.3359375,
+        "winCI95": [
+          0.25148157677528393,
+          0.32978511610780703
+        ]
+      }
+    },
+    "trainingGames": 3256,
+    "trainingSteps": 524288,
+    "elapsedSeconds": 143.19446679204702
+  },
+  "long-credit": {
+    "checkpoints": {
+      "checkpoint-262144": {
+        "games": 512,
+        "wins": 142,
+        "ties": 42,
+        "losses": 328,
+        "share": 0.318359375,
+        "winCI95": [
+          0.24033271186857036,
+          0.3176710195080256
+        ]
+      },
+      "checkpoint-524288": {
+        "games": 512,
+        "wins": 141,
+        "ties": 39,
+        "losses": 332,
+        "share": 0.3134765625,
+        "winCI95": [
+          0.23847771208651003,
+          0.3156488590390035
+        ]
+      }
+    },
+    "trainingGames": 3282,
+    "trainingSteps": 524288,
+    "elapsedSeconds": 153.47680658334866
+  },
+  "long-credit-free": {
+    "checkpoints": {
+      "checkpoint-262144": {
+        "games": 512,
+        "wins": 175,
+        "ties": 40,
+        "losses": 297,
+        "share": 0.380859375,
+        "winCI95": [
+          0.30202690461931503,
+          0.38392311504300325
+        ]
+      },
+      "checkpoint-524288": {
+        "games": 512,
+        "wins": 239,
+        "ties": 43,
+        "losses": 230,
+        "share": 0.5087890625,
+        "winCI95": [
+          0.42399073881526617,
+          0.5100975369163315
+        ]
+      }
+    },
+    "trainingGames": 3607,
+    "trainingSteps": 524288,
+    "elapsedSeconds": 143.83373091602698
+  },
+  "long-credit-anchored": {
+    "checkpoints": {
+      "checkpoint-262144": {
+        "games": 512,
+        "wins": 142,
+        "ties": 40,
+        "losses": 330,
+        "share": 0.31640625,
+        "winCI95": [
+          0.24033271186857036,
+          0.3176710195080256
+        ]
+      },
+      "checkpoint-524288": {
+        "games": 512,
+        "wins": 144,
+        "ties": 42,
+        "losses": 326,
+        "share": 0.322265625,
+        "winCI95": [
+          0.2440454292479553,
+          0.32171262263080574
+        ]
+      }
+    },
+    "trainingGames": 3079,
+    "trainingSteps": 524288,
+    "elapsedSeconds": 170.36916433274746
+  }
+}

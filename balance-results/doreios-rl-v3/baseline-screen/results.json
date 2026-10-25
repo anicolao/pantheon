@@ -1,0 +1,32 @@
+{
+  "summary": {
+    "v2": {
+      "games": 512,
+      "wins": 125,
+      "ties": 39,
+      "losses": 348,
+      "share": 0.2822265625,
+      "winCI95": [
+        0.20892639374788563,
+        0.28316561336030804
+      ]
+    },
+    "imitation": {
+      "games": 512,
+      "wins": 134,
+      "ties": 31,
+      "losses": 347,
+      "share": 0.2919921875,
+      "winCI95": [
+        0.225518645748378,
+        0.30146780361955816
+      ]
+    }
+  },
+  "comparisons": {},
+  "checkpointSHA256": {
+    "v2": "c94ec6c487b7d7c3413956cf0ecf46659c55a644c3d45355a1f9899f248eb50a",
+    "imitation": "a8ad371e0bd26da5250030bc93a6fc6a3d73d517d8a43bcba691f10271bdb29b"
+  },
+  "elapsedSeconds": 22.749371625017375
+}
