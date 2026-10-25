@@ -1,0 +1,115 @@
+{
+  "summary": {
+    "champion": {
+      "games": 6144,
+      "wins": 3611,
+      "ties": 540,
+      "losses": 1993,
+      "share": 0.6316731770833334,
+      "winCI95": [
+        0.5753683431989154,
+        0.5999777530237396
+      ],
+      "opponents": {
+        "doreios": {
+          "games": 2048,
+          "wins": 1413,
+          "ties": 186,
+          "losses": 449,
+          "share": 0.7353515625,
+          "winCI95": [
+            0.6695700079159097,
+            0.7096015877526753
+          ]
+        },
+        "nereon": {
+          "games": 2048,
+          "wins": 1026,
+          "ties": 196,
+          "losses": 826,
+          "share": 0.548828125,
+          "winCI95": [
+            0.47934030862308885,
+            0.5226091597351045
+          ]
+        },
+        "thaleia": {
+          "games": 2048,
+          "wins": 1172,
+          "ties": 158,
+          "losses": 718,
+          "share": 0.61083984375,
+          "winCI95": [
+            0.5507225917618018,
+            0.5935380667444979
+          ]
+        }
+      }
+    },
+    "mm": {
+      "games": 6144,
+      "wins": 1994,
+      "ties": 465,
+      "losses": 3685,
+      "share": 0.3623860677083333,
+      "winCI95": [
+        0.31294971728621584,
+        0.33635809026847446
+      ],
+      "opponents": {
+        "doreios": {
+          "games": 2048,
+          "wins": 663,
+          "ties": 116,
+          "losses": 1269,
+          "share": 0.35205078125,
+          "winCI95": [
+            0.3038123199627644,
+            0.3443086413833559
+          ]
+        },
+        "nereon": {
+          "games": 2048,
+          "wins": 601,
+          "ties": 165,
+          "losses": 1282,
+          "share": 0.333740234375,
+          "winCI95": [
+            0.27413758993388354,
+            0.31354985230824634
+          ]
+        },
+        "thaleia": {
+          "games": 2048,
+          "wins": 730,
+          "ties": 184,
+          "losses": 1134,
+          "share": 0.4013671875,
+          "winCI95": [
+            0.33598872473183566,
+            0.37743942661375823
+          ]
+        }
+      }
+    }
+  },
+  "comparisons": {
+    "champion-vs-mm": {
+      "shareDelta": 0.269287109375,
+      "pairedApprox95CI": [
+        0.2555196101872791,
+        0.2830546085627209
+      ]
+    }
+  },
+  "checkpointSHA256": {
+    "champion": "f6016282d408c3f78263a3396f7e423e31fdcbf3c790afcf6b34e6fd9823122c"
+  },
+  "recovery": {
+    "reason": "Disk-full write interrupted the original MM output; all MM seeds rerun unchanged, saved champion rows retained",
+    "championSource": "final/champion.json",
+    "mmSource": "mm-final/teacher.json",
+    "championElapsedSeconds": 411.17447829199955,
+    "mmElapsedSeconds": 212.6200005421415
+  }
+}

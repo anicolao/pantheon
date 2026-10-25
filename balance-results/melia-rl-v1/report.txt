@@ -1,0 +1,44 @@
+Melia RL versus the three frozen learned opponents
+
+Melia RL     3611W 540T 1993L | win 58.77% (95% Wilson 57.54-60.00%) | share 63.17%
+MM teacher   1994W 465T 3685L | win 32.45% (95% Wilson 31.29-33.64%) | share 36.24%
+
+Melia RL by opponent (2,048 games each, 1,024 in each starting seat):
+doreios      1413W 186T  449L | win 68.99% (95% Wilson 66.96-70.96%) | share 73.54%
+nereon       1026W 196T  826L | win 50.10% (95% Wilson 47.93-52.26%) | share 54.88%
+thaleia      1172W 158T  718L | win 57.23% (95% Wilson 55.07-59.35%) | share 61.08%
+
+MM teacher on the same final seeds:
+doreios       663W 116T 1269L | win 32.37% (95% Wilson 30.38-34.43%) | share 35.21%
+nereon        601W 165T 1282L | win 29.35% (95% Wilson 27.41-31.35%) | share 33.37%
+thaleia       730W 184T 1134L | win 35.64% (95% Wilson 33.60-37.74%) | share 40.14%
+
+Matched tie-adjusted share improvement: 26.93 percentage points (paired approximate 95% CI 25.55-28.31).
+
+Training and selection:
+Fresh independently initialized 128x128 tanh network, imitating MM over 1,536 expert games and two 384-game DAgger rounds.
+171 player-known/public features; 349 legal command slots; no hidden deck order, opponent hands, seeds, or instance IDs.
+Terminal win/tie/loss reward +1/0/-1; no imitation penalty during RL.
+Initial balanced RL and higher-exploration runs, then balanced lower-learning-rate and Nereon-focused continuations.
+Total RL decisions across research runs: 8,388,608; completed training games: 71,514.
+Selected checkpoint lineage: 3,670,016 RL decisions.
+Highest screening wins (474/768), independently confirmed (1832/3072). The later checkpoint led the earlier one by only two validation wins; this is not evidence of statistically significant superiority. Wins-first criterion retained.
+All intermediate checkpoints are retained. Reused screening seeds guided tuning; separate confirmation seeds selected the final checkpoint.
+The model was frozen before final seeds rl-melia-v1-final:test:0..6143 were evaluated. No excluded games; all 12,288 final games replayed exactly.
+The MM reference here uses the same canonical card-instance command encoding as training; the heuristic tournament uses native heuristic commands.
+The Nereon outright-win interval includes 50%; this does not establish an outright-win probability above 50%. Its 54.88% tie-adjusted share is a different measure.
+Confidence intervals cover game-seed uncertainty, not training-run variability. Results are heads-up, not four-player strength.
+ENOSPC interrupted the original MM result write. The champion rows were preserved; all MM seeds were rerun unchanged. final/results.json records this recovery.
+
+Production integration:
+The Bot choice now selects the corresponding RL actor for Melia, Thaleia, Nereon, and Doreios. Explicit MM/Money/Engine/Classic Engine choices are unchanged.
+Leader preference remains Melia, Thaleia, Nereon, Doreios. Inference is synchronous JavaScript with exported float32 weights; Python is training-only.
+The previous three actor checkpoints remain unchanged. Export verification checked exact PyTorch/browser decisions over 768 games for those three, and 384 games for Melia.
+64 frozen PyTorch fixtures provide continuous regression checks. Real browser-worker tests cover all four leaders and visible moves.
+
+Artifacts:
+champion.json and champion.zip: frozen checkpoint and lineage/checksum.
+src/lib/bots/models/melia.json: lossless actor export.
+configs/*.json: reproducible campaign schedules; scripts/rl contains training/evaluation/export tools.
+final/*.json and summary.json: full final result rows and verified statistics.
+../rl-heuristic-v1/report.txt: four-model heuristic tournament, with complete replay files.
