@@ -1,10 +1,7 @@
 {
-  "phase": "Completing plateau trials",
+  "phase": "Independent plateau confirmation, followed by final test if no promotion",
   "incumbent": "extend-free-a/checkpoint-1572864",
   "incumbentScreenShare": 0.6669921875,
-  "running": [
-    "longer-control",
-    "greedy-polish"
-  ],
-  "next": "Select one checkpoint per plateau direction, evaluate all five plus incumbent on fresh plateau-confirm seeds; promote only under the prewritten rule, otherwise run final test and report practical plateau."
+  "running": [],
+  "next": "Apply the predeclared confirmation rule."
 }
