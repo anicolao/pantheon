@@ -1,0 +1,39 @@
+{
+  "selected": "round-08",
+  "screening": {
+    "incumbent": {
+      "games": 128,
+      "share": 0.1640625,
+      "CI95": [
+        0.1119535311745046,
+        0.2161714688254954
+      ],
+      "meanVP": 23.0625,
+      "soleWins": 17,
+      "sharedWins": 8
+    },
+    "round-08": {
+      "games": 128,
+      "share": 0.16796875,
+      "CI95": [
+        0.10810831530491045,
+        0.22782918469508956
+      ],
+      "meanVP": 23.265625,
+      "soleWins": 17,
+      "sharedWins": 9
+    },
+    "round-16": {
+      "games": 128,
+      "share": 0.15364583333333334,
+      "CI95": [
+        0.09761987381347356,
+        0.20967179285319312
+      ],
+      "meanVP": 23.3828125,
+      "soleWins": 16,
+      "sharedWins": 8
+    }
+  },
+  "checkpointSHA256": "45fd335ad3d86ab9ad5d6210c2d2648e7a92763b56cfa3e7cdcaf975ba54c907"
+}

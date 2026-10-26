@@ -1,0 +1,29 @@
+{
+  "output": "balance-results/nereon-planning-rl-v1",
+  "prefix": "n4plan-079df6ed6fff",
+  "seed": 8541,
+  "workers": 16,
+  "batches": 16,
+  "gamesPerBatch": 64,
+  "gamesPerJob": 4,
+  "screenRounds": [
+    8,
+    16
+  ],
+  "screenGames": 128,
+  "confirmationGames": 400,
+  "learningRate": 0.0001,
+  "entropy": 0.003,
+  "gamma": 1.0,
+  "gaeLambda": 0.95,
+  "epochs": 4,
+  "batchSize": 512,
+  "checkpointEveryBatch": true,
+  "base": "balance-results/nereon-planning-rl-v1/incumbent.zip",
+  "manifest": "balance-results/nereon-planning-rl-v1/opponents.json",
+  "baselineSource": "balance-results/thaleia-planner-v1/candidate.json",
+  "comparisonPrefix": "d4r28-357e649b83c9:confirm",
+  "pairWorker": "balance-results/nereon-planning-rl-v1/pair-worker.js",
+  "nativeWorker": "balance-results/nereon-planning-rl-v1/native-worker.js",
+  "protocol": "Initial pure masked-PPO pilot:1024 complete training games in16 on-policy batches of64, against frozen Doreios and Thaleia planners and plain Melia. Learner remains171-input128x128; terminal reward2*splitWin-1 only. Independent complete-game collection avoids synchronized per-action stalls; all episode boundaries retained, no exclusions. Save each update and RNG state. Common128 separate screen games for incumbent and checkpoints after512/1024 training games; select best trained checkpoint before reserved comparison. Compare original Nereon, selected raw RL, then that same checkpoint plus16sample/4candidate/risk1/four-own-turn win-value planning on the same400 reserved prior-table games. These test seeds appeared in the prior Thaleia study but are excluded from training and screening. No tuning on comparison outcomes. Opponent planner world models stay frozen at original actors even as learner changes. Reproduce16 cached baseline games and counts;16-game exact trained actor export parity; full-state replay every actual game. No deployment."
+}
