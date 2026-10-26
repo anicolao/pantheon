@@ -1,0 +1,28 @@
+{
+  "originalRun": "https://github.com/anicolao/pantheon/actions/runs/40383167653",
+  "originalBrowserResult": {"passed": 387, "skipped": 53, "failed": 1},
+  "failure": "tabletop east seed-keeper stages cards centrally before confirmation: Trigger click exhausted its 2000 ms deadline",
+  "traceEvidence": {
+    "triggerObservedEnabledAfterMilliseconds": 1914.720,
+    "clickDispatchStartedAfterMilliseconds": 1918.306,
+    "description": "Initial readiness consumed almost all of the click operation's budget."
+  },
+  "fixCommit": "d537e37a3b743aebbeb0a34bd96ffe7b14d5d69f",
+  "fix": "Assert Trigger is enabled before exercising the card-play interaction, matching the other animation-lab tests. Readiness and click each retain the existing 2000 ms limit; screenshot tolerances remain zero; no sleeps or automatic retries were added.",
+  "policyPassed": true,
+  "localValidation": {
+    "firstAttempt": "Build/startup exceeded the unchanged 120000 ms infrastructure deadline.",
+    "secondAttempt": "Research workers were held to reduce contention, then resumed unchanged in a finally block.",
+    "passed": ["east seed-keeper", "east harvest-feast", "north seed-keeper"],
+    "failed": {
+      "west seed-keeper": "Navigation exceeded 2000 ms.",
+      "west harvest-feast": "Navigation exceeded 2000 ms.",
+      "north harvest-feast": "Trigger readiness exceeded 2000 ms."
+    },
+    "fullLocalPass": false,
+    "logs": ["/tmp/nereon-tabletop-readiness-tests.log", "/tmp/nereon-tabletop-readiness-retest.log"]
+  },
+  "rerun": "https://github.com/anicolao/pantheon/actions/runs/40394799597",
+  "rerunStatusAtRecording": "success",
+  "verifiedCommit": "d537e37a3b743aebbeb0a34bd96ffe7b14d5d69f"
+}

@@ -13,11 +13,36 @@ config = read(root / 'config.json')
 protocol = read(root / 'protocol.json')
 assert read(root / 'queue-finished.json')['completed']
 assert all(digest(repo / path) == value for path, value in protocol['scriptSHA256'].items())
+assert digest(root / 'incumbent.zip') == protocol['initialCheckpointSHA256']
 baseline_path = repo / config['baselineSource']
 assert digest(baseline_path) == protocol['baselineSHA256']
 selection = read(root / 'selection.json')
 assert digest(root / 'selected.zip') == selection['checkpointSHA256']
 assert digest(root / (selection['selected'] + '.zip')) == selection['checkpointSHA256']
+for name in ['selected-actor.json', 'selected-critic.json']:
+    assert read(root / name)['checkpointSHA256'] == selection['checkpointSHA256']
+assert read(root / 'critic-validation.json')['allTensorBytesPreserved']
+
+manifests = {name: read(root / (name + '.json')) for name in
+             ['world', 'opponents', 'raw-manifest', 'planned-manifest']}
+for manifest in manifests.values():
+    for actor in manifest['actors'].values():
+        assert digest(Path(actor['path'])) == actor['sha256']
+    for policy in manifest.get('planning', {}).get('policies', {}).values():
+        critic = policy['critic']
+        assert digest(Path(critic['path'])) == critic['sha256']
+original, raw, planned = [manifests[key] for key in ['opponents', 'raw-manifest', 'planned-manifest']]
+assert raw['actors'] == planned['actors']
+assert raw['planning'] == original['planning']
+assert set(raw['planning']['policies']) == {'doreios', 'thaleia'}
+assert set(planned['planning']['policies']) == {'doreios', 'thaleia', 'nereon'}
+for leader in ['melia', 'thaleia', 'doreios']:
+    assert raw['actors'][leader] == original['actors'][leader]
+for leader in ['doreios', 'thaleia']:
+    assert planned['planning']['policies'][leader] == raw['planning']['policies'][leader]
+assert planned['planning']['worldManifest'] == raw['planning']['worldManifest']
+assert planned['planning']['policies']['nereon']['useCurrentActor'] is True
+assert planned['planning']['policies']['nereon']['rule'] == raw['planning']['policies']['thaleia']['rule']
 
 train_seeds = set()
 decisions = 0
@@ -77,8 +102,8 @@ for label, before, after in [('rawVsOriginal', 'original', 'raw'), ('plannerVsRa
 
 output = dict(trainingGames=1024, trainingDecisions=decisions, screeningGames=384,
               comparisonGamesPerArm=400, newComparisonGames=800, baselineGamesReused=400,
-              comparisonSeedBlocks=100, allActualGamesReplayVerified=True,
-              disjointTrainingScreeningComparisonSeeds=True, allSourceAndModelHashesVerified=True,
+              comparisonSeedBlocks=100, allRecordedGamesReplayVerified=True,
+              disjointTrainingScreeningComparisonSeeds=True, allSourceAndRecordedModelHashesVerified=True,
               independentlyRecomputedPairedStatisticsExact=True, productionUpdated=False)
 (root / 'final-audit.json').write_text(json.dumps(output, indent=2) + '\n')
 print(json.dumps(output, indent=2))

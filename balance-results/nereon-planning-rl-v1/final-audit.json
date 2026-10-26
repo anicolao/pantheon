@@ -1,0 +1,14 @@
+{
+  "trainingGames": 1024,
+  "trainingDecisions": 62982,
+  "screeningGames": 384,
+  "comparisonGamesPerArm": 400,
+  "newComparisonGames": 800,
+  "baselineGamesReused": 400,
+  "comparisonSeedBlocks": 100,
+  "allRecordedGamesReplayVerified": true,
+  "disjointTrainingScreeningComparisonSeeds": true,
+  "allSourceAndRecordedModelHashesVerified": true,
+  "independentlyRecomputedPairedStatisticsExact": true,
+  "productionUpdated": false
+}

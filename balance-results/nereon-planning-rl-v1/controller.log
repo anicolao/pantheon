@@ -1,0 +1,580 @@
+Bundled 71 modules in 5ms
+
+  pair-worker.js  173.87 KB  (entry point)
+
+Bundled 71 modules in 6ms
+
+  native-worker.js  173.96 KB  (entry point)
+
+Baseline parity passed
+{"stage": "screen", "model": "incumbent", "games": 128, "share": 0.1640625, "CI95": [0.1119535311745046, 0.2161714688254954], "meanVP": 23.0625, "soleWins": 17, "sharedWins": 8}
+{"stage": "collect", "round": 1, "games": 4, "total": 64}
+{"stage": "collect", "round": 1, "games": 8, "total": 64}
+{"stage": "collect", "round": 1, "games": 12, "total": 64}
+{"stage": "collect", "round": 1, "games": 16, "total": 64}
+{"stage": "collect", "round": 1, "games": 20, "total": 64}
+{"stage": "collect", "round": 1, "games": 24, "total": 64}
+{"stage": "collect", "round": 1, "games": 28, "total": 64}
+{"stage": "collect", "round": 1, "games": 32, "total": 64}
+{"stage": "collect", "round": 1, "games": 36, "total": 64}
+{"stage": "collect", "round": 1, "games": 40, "total": 64}
+{"stage": "collect", "round": 1, "games": 44, "total": 64}
+{"stage": "collect", "round": 1, "games": 48, "total": 64}
+{"stage": "collect", "round": 1, "games": 52, "total": 64}
+{"stage": "collect", "round": 1, "games": 56, "total": 64}
+{"stage": "collect", "round": 1, "games": 60, "total": 64}
+{"stage": "collect", "round": 1, "games": 64, "total": 64}
+{"stage": "trained", "round": 1, "decisions": 3867, "games": 64}
+{"stage": "collect", "round": 2, "games": 4, "total": 64}
+{"stage": "collect", "round": 2, "games": 8, "total": 64}
+{"stage": "collect", "round": 2, "games": 12, "total": 64}
+{"stage": "collect", "round": 2, "games": 16, "total": 64}
+{"stage": "collect", "round": 2, "games": 20, "total": 64}
+{"stage": "collect", "round": 2, "games": 24, "total": 64}
+{"stage": "collect", "round": 2, "games": 28, "total": 64}
+{"stage": "collect", "round": 2, "games": 32, "total": 64}
+{"stage": "collect", "round": 2, "games": 36, "total": 64}
+{"stage": "collect", "round": 2, "games": 40, "total": 64}
+{"stage": "collect", "round": 2, "games": 44, "total": 64}
+{"stage": "collect", "round": 2, "games": 48, "total": 64}
+{"stage": "collect", "round": 2, "games": 52, "total": 64}
+{"stage": "collect", "round": 2, "games": 56, "total": 64}
+{"stage": "collect", "round": 2, "games": 60, "total": 64}
+{"stage": "collect", "round": 2, "games": 64, "total": 64}
+{"stage": "trained", "round": 2, "decisions": 7791, "games": 128}
+{"stage": "collect", "round": 3, "games": 4, "total": 64}
+{"stage": "collect", "round": 3, "games": 8, "total": 64}
+{"stage": "collect", "round": 3, "games": 12, "total": 64}
+{"stage": "collect", "round": 3, "games": 16, "total": 64}
+{"stage": "collect", "round": 3, "games": 20, "total": 64}
+{"stage": "collect", "round": 3, "games": 24, "total": 64}
+{"stage": "collect", "round": 3, "games": 28, "total": 64}
+{"stage": "collect", "round": 3, "games": 32, "total": 64}
+{"stage": "collect", "round": 3, "games": 36, "total": 64}
+{"stage": "collect", "round": 3, "games": 40, "total": 64}
+{"stage": "collect", "round": 3, "games": 44, "total": 64}
+{"stage": "collect", "round": 3, "games": 48, "total": 64}
+{"stage": "collect", "round": 3, "games": 52, "total": 64}
+{"stage": "collect", "round": 3, "games": 56, "total": 64}
+{"stage": "collect", "round": 3, "games": 60, "total": 64}
+{"stage": "collect", "round": 3, "games": 64, "total": 64}
+{"stage": "trained", "round": 3, "decisions": 11700, "games": 192}
+{"stage": "collect", "round": 4, "games": 4, "total": 64}
+{"stage": "collect", "round": 4, "games": 8, "total": 64}
+{"stage": "collect", "round": 4, "games": 12, "total": 64}
+{"stage": "collect", "round": 4, "games": 16, "total": 64}
+{"stage": "collect", "round": 4, "games": 20, "total": 64}
+{"stage": "collect", "round": 4, "games": 24, "total": 64}
+{"stage": "collect", "round": 4, "games": 28, "total": 64}
+{"stage": "collect", "round": 4, "games": 32, "total": 64}
+{"stage": "collect", "round": 4, "games": 36, "total": 64}
+{"stage": "collect", "round": 4, "games": 40, "total": 64}
+{"stage": "collect", "round": 4, "games": 44, "total": 64}
+{"stage": "collect", "round": 4, "games": 48, "total": 64}
+{"stage": "collect", "round": 4, "games": 52, "total": 64}
+{"stage": "collect", "round": 4, "games": 56, "total": 64}
+{"stage": "collect", "round": 4, "games": 60, "total": 64}
+{"stage": "collect", "round": 4, "games": 64, "total": 64}
+{"stage": "trained", "round": 4, "decisions": 15774, "games": 256}
+{"stage": "collect", "round": 5, "games": 4, "total": 64}
+{"stage": "collect", "round": 5, "games": 8, "total": 64}
+{"stage": "collect", "round": 5, "games": 12, "total": 64}
+{"stage": "collect", "round": 5, "games": 16, "total": 64}
+{"stage": "collect", "round": 5, "games": 20, "total": 64}
+{"stage": "collect", "round": 5, "games": 24, "total": 64}
+{"stage": "collect", "round": 5, "games": 28, "total": 64}
+{"stage": "collect", "round": 5, "games": 32, "total": 64}
+{"stage": "collect", "round": 5, "games": 36, "total": 64}
+{"stage": "collect", "round": 5, "games": 40, "total": 64}
+{"stage": "collect", "round": 5, "games": 44, "total": 64}
+{"stage": "collect", "round": 5, "games": 48, "total": 64}
+{"stage": "collect", "round": 5, "games": 52, "total": 64}
+{"stage": "collect", "round": 5, "games": 56, "total": 64}
+{"stage": "collect", "round": 5, "games": 60, "total": 64}
+{"stage": "collect", "round": 5, "games": 64, "total": 64}
+{"stage": "trained", "round": 5, "decisions": 19743, "games": 320}
+{"stage": "collect", "round": 6, "games": 4, "total": 64}
+{"stage": "collect", "round": 6, "games": 8, "total": 64}
+{"stage": "collect", "round": 6, "games": 12, "total": 64}
+{"stage": "collect", "round": 6, "games": 16, "total": 64}
+{"stage": "collect", "round": 6, "games": 20, "total": 64}
+{"stage": "collect", "round": 6, "games": 24, "total": 64}
+{"stage": "collect", "round": 6, "games": 28, "total": 64}
+{"stage": "collect", "round": 6, "games": 32, "total": 64}
+{"stage": "collect", "round": 6, "games": 36, "total": 64}
+{"stage": "collect", "round": 6, "games": 40, "total": 64}
+{"stage": "collect", "round": 6, "games": 44, "total": 64}
+{"stage": "collect", "round": 6, "games": 48, "total": 64}
+{"stage": "collect", "round": 6, "games": 52, "total": 64}
+{"stage": "collect", "round": 6, "games": 56, "total": 64}
+{"stage": "collect", "round": 6, "games": 60, "total": 64}
+{"stage": "collect", "round": 6, "games": 64, "total": 64}
+{"stage": "trained", "round": 6, "decisions": 23761, "games": 384}
+{"stage": "collect", "round": 7, "games": 4, "total": 64}
+{"stage": "collect", "round": 7, "games": 8, "total": 64}
+{"stage": "collect", "round": 7, "games": 12, "total": 64}
+{"stage": "collect", "round": 7, "games": 16, "total": 64}
+{"stage": "collect", "round": 7, "games": 20, "total": 64}
+{"stage": "collect", "round": 7, "games": 24, "total": 64}
+{"stage": "collect", "round": 7, "games": 28, "total": 64}
+{"stage": "collect", "round": 7, "games": 32, "total": 64}
+{"stage": "collect", "round": 7, "games": 36, "total": 64}
+{"stage": "collect", "round": 7, "games": 40, "total": 64}
+{"stage": "collect", "round": 7, "games": 44, "total": 64}
+{"stage": "collect", "round": 7, "games": 48, "total": 64}
+{"stage": "collect", "round": 7, "games": 52, "total": 64}
+{"stage": "collect", "round": 7, "games": 56, "total": 64}
+{"stage": "collect", "round": 7, "games": 60, "total": 64}
+{"stage": "collect", "round": 7, "games": 64, "total": 64}
+{"stage": "trained", "round": 7, "decisions": 27678, "games": 448}
+{"stage": "collect", "round": 8, "games": 4, "total": 64}
+{"stage": "collect", "round": 8, "games": 8, "total": 64}
+{"stage": "collect", "round": 8, "games": 12, "total": 64}
+{"stage": "collect", "round": 8, "games": 16, "total": 64}
+{"stage": "collect", "round": 8, "games": 20, "total": 64}
+{"stage": "collect", "round": 8, "games": 24, "total": 64}
+{"stage": "collect", "round": 8, "games": 28, "total": 64}
+{"stage": "collect", "round": 8, "games": 32, "total": 64}
+{"stage": "collect", "round": 8, "games": 36, "total": 64}
+{"stage": "collect", "round": 8, "games": 40, "total": 64}
+{"stage": "collect", "round": 8, "games": 44, "total": 64}
+{"stage": "collect", "round": 8, "games": 48, "total": 64}
+{"stage": "collect", "round": 8, "games": 52, "total": 64}
+{"stage": "collect", "round": 8, "games": 56, "total": 64}
+{"stage": "collect", "round": 8, "games": 60, "total": 64}
+{"stage": "collect", "round": 8, "games": 64, "total": 64}
+{"stage": "trained", "round": 8, "decisions": 31583, "games": 512}
+{"stage": "screen", "model": "round-08", "games": 128, "share": 0.16796875, "CI95": [0.10810831530491045, 0.22782918469508956], "meanVP": 23.265625, "soleWins": 17, "sharedWins": 9}
+{"stage": "collect", "round": 9, "games": 4, "total": 64}
+{"stage": "collect", "round": 9, "games": 8, "total": 64}
+{"stage": "collect", "round": 9, "games": 12, "total": 64}
+{"stage": "collect", "round": 9, "games": 16, "total": 64}
+{"stage": "collect", "round": 9, "games": 20, "total": 64}
+{"stage": "collect", "round": 9, "games": 24, "total": 64}
+{"stage": "collect", "round": 9, "games": 28, "total": 64}
+{"stage": "collect", "round": 9, "games": 32, "total": 64}
+{"stage": "collect", "round": 9, "games": 36, "total": 64}
+{"stage": "collect", "round": 9, "games": 40, "total": 64}
+{"stage": "collect", "round": 9, "games": 44, "total": 64}
+{"stage": "collect", "round": 9, "games": 48, "total": 64}
+{"stage": "collect", "round": 9, "games": 52, "total": 64}
+{"stage": "collect", "round": 9, "games": 56, "total": 64}
+{"stage": "collect", "round": 9, "games": 60, "total": 64}
+{"stage": "collect", "round": 9, "games": 64, "total": 64}
+{"stage": "trained", "round": 9, "decisions": 35510, "games": 576}
+{"stage": "collect", "round": 10, "games": 4, "total": 64}
+{"stage": "collect", "round": 10, "games": 8, "total": 64}
+{"stage": "collect", "round": 10, "games": 12, "total": 64}
+{"stage": "collect", "round": 10, "games": 16, "total": 64}
+{"stage": "collect", "round": 10, "games": 20, "total": 64}
+{"stage": "collect", "round": 10, "games": 24, "total": 64}
+{"stage": "collect", "round": 10, "games": 28, "total": 64}
+{"stage": "collect", "round": 10, "games": 32, "total": 64}
+{"stage": "collect", "round": 10, "games": 36, "total": 64}
+{"stage": "collect", "round": 10, "games": 40, "total": 64}
+{"stage": "collect", "round": 10, "games": 44, "total": 64}
+{"stage": "collect", "round": 10, "games": 48, "total": 64}
+{"stage": "collect", "round": 10, "games": 52, "total": 64}
+{"stage": "collect", "round": 10, "games": 56, "total": 64}
+{"stage": "collect", "round": 10, "games": 60, "total": 64}
+{"stage": "collect", "round": 10, "games": 64, "total": 64}
+{"stage": "trained", "round": 10, "decisions": 39450, "games": 640}
+{"stage": "collect", "round": 11, "games": 4, "total": 64}
+{"stage": "collect", "round": 11, "games": 8, "total": 64}
+{"stage": "collect", "round": 11, "games": 12, "total": 64}
+{"stage": "collect", "round": 11, "games": 16, "total": 64}
+{"stage": "collect", "round": 11, "games": 20, "total": 64}
+{"stage": "collect", "round": 11, "games": 24, "total": 64}
+{"stage": "collect", "round": 11, "games": 28, "total": 64}
+{"stage": "collect", "round": 11, "games": 32, "total": 64}
+{"stage": "collect", "round": 11, "games": 36, "total": 64}
+{"stage": "collect", "round": 11, "games": 40, "total": 64}
+{"stage": "collect", "round": 11, "games": 44, "total": 64}
+{"stage": "collect", "round": 11, "games": 48, "total": 64}
+{"stage": "collect", "round": 11, "games": 52, "total": 64}
+{"stage": "collect", "round": 11, "games": 56, "total": 64}
+{"stage": "collect", "round": 11, "games": 60, "total": 64}
+{"stage": "collect", "round": 11, "games": 64, "total": 64}
+{"stage": "trained", "round": 11, "decisions": 43323, "games": 704}
+{"stage": "collect", "round": 12, "games": 4, "total": 64}
+{"stage": "collect", "round": 12, "games": 8, "total": 64}
+{"stage": "collect", "round": 12, "games": 12, "total": 64}
+{"stage": "collect", "round": 12, "games": 16, "total": 64}
+{"stage": "collect", "round": 12, "games": 20, "total": 64}
+{"stage": "collect", "round": 12, "games": 24, "total": 64}
+{"stage": "collect", "round": 12, "games": 28, "total": 64}
+{"stage": "collect", "round": 12, "games": 32, "total": 64}
+{"stage": "collect", "round": 12, "games": 36, "total": 64}
+{"stage": "collect", "round": 12, "games": 40, "total": 64}
+{"stage": "collect", "round": 12, "games": 44, "total": 64}
+{"stage": "collect", "round": 12, "games": 48, "total": 64}
+{"stage": "collect", "round": 12, "games": 52, "total": 64}
+{"stage": "collect", "round": 12, "games": 56, "total": 64}
+{"stage": "collect", "round": 12, "games": 60, "total": 64}
+{"stage": "collect", "round": 12, "games": 64, "total": 64}
+{"stage": "trained", "round": 12, "decisions": 47161, "games": 768}
+{"stage": "collect", "round": 13, "games": 4, "total": 64}
+{"stage": "collect", "round": 13, "games": 8, "total": 64}
+{"stage": "collect", "round": 13, "games": 12, "total": 64}
+{"stage": "collect", "round": 13, "games": 16, "total": 64}
+{"stage": "collect", "round": 13, "games": 20, "total": 64}
+{"stage": "collect", "round": 13, "games": 24, "total": 64}
+{"stage": "collect", "round": 13, "games": 28, "total": 64}
+{"stage": "collect", "round": 13, "games": 32, "total": 64}
+{"stage": "collect", "round": 13, "games": 36, "total": 64}
+{"stage": "collect", "round": 13, "games": 40, "total": 64}
+{"stage": "collect", "round": 13, "games": 44, "total": 64}
+{"stage": "collect", "round": 13, "games": 48, "total": 64}
+{"stage": "collect", "round": 13, "games": 52, "total": 64}
+{"stage": "collect", "round": 13, "games": 56, "total": 64}
+{"stage": "collect", "round": 13, "games": 60, "total": 64}
+{"stage": "collect", "round": 13, "games": 64, "total": 64}
+{"stage": "trained", "round": 13, "decisions": 51100, "games": 832}
+{"stage": "collect", "round": 14, "games": 4, "total": 64}
+{"stage": "collect", "round": 14, "games": 8, "total": 64}
+{"stage": "collect", "round": 14, "games": 12, "total": 64}
+{"stage": "collect", "round": 14, "games": 16, "total": 64}
+{"stage": "collect", "round": 14, "games": 20, "total": 64}
+{"stage": "collect", "round": 14, "games": 24, "total": 64}
+{"stage": "collect", "round": 14, "games": 28, "total": 64}
+{"stage": "collect", "round": 14, "games": 32, "total": 64}
+{"stage": "collect", "round": 14, "games": 36, "total": 64}
+{"stage": "collect", "round": 14, "games": 40, "total": 64}
+{"stage": "collect", "round": 14, "games": 44, "total": 64}
+{"stage": "collect", "round": 14, "games": 48, "total": 64}
+{"stage": "collect", "round": 14, "games": 52, "total": 64}
+{"stage": "collect", "round": 14, "games": 56, "total": 64}
+{"stage": "collect", "round": 14, "games": 60, "total": 64}
+{"stage": "collect", "round": 14, "games": 64, "total": 64}
+{"stage": "trained", "round": 14, "decisions": 55020, "games": 896}
+{"stage": "collect", "round": 15, "games": 4, "total": 64}
+{"stage": "collect", "round": 15, "games": 8, "total": 64}
+{"stage": "collect", "round": 15, "games": 12, "total": 64}
+{"stage": "collect", "round": 15, "games": 16, "total": 64}
+{"stage": "collect", "round": 15, "games": 20, "total": 64}
+{"stage": "collect", "round": 15, "games": 24, "total": 64}
+{"stage": "collect", "round": 15, "games": 28, "total": 64}
+{"stage": "collect", "round": 15, "games": 32, "total": 64}
+{"stage": "collect", "round": 15, "games": 36, "total": 64}
+{"stage": "collect", "round": 15, "games": 40, "total": 64}
+{"stage": "collect", "round": 15, "games": 44, "total": 64}
+{"stage": "collect", "round": 15, "games": 48, "total": 64}
+{"stage": "collect", "round": 15, "games": 52, "total": 64}
+{"stage": "collect", "round": 15, "games": 56, "total": 64}
+{"stage": "collect", "round": 15, "games": 60, "total": 64}
+{"stage": "collect", "round": 15, "games": 64, "total": 64}
+{"stage": "trained", "round": 15, "decisions": 58951, "games": 960}
+{"stage": "collect", "round": 16, "games": 4, "total": 64}
+{"stage": "collect", "round": 16, "games": 8, "total": 64}
+{"stage": "collect", "round": 16, "games": 12, "total": 64}
+{"stage": "collect", "round": 16, "games": 16, "total": 64}
+{"stage": "collect", "round": 16, "games": 20, "total": 64}
+{"stage": "collect", "round": 16, "games": 24, "total": 64}
+{"stage": "collect", "round": 16, "games": 28, "total": 64}
+{"stage": "collect", "round": 16, "games": 32, "total": 64}
+{"stage": "collect", "round": 16, "games": 36, "total": 64}
+{"stage": "collect", "round": 16, "games": 40, "total": 64}
+{"stage": "collect", "round": 16, "games": 44, "total": 64}
+{"stage": "collect", "round": 16, "games": 48, "total": 64}
+{"stage": "collect", "round": 16, "games": 52, "total": 64}
+{"stage": "collect", "round": 16, "games": 56, "total": 64}
+{"stage": "collect", "round": 16, "games": 60, "total": 64}
+{"stage": "collect", "round": 16, "games": 64, "total": 64}
+{"stage": "trained", "round": 16, "decisions": 62982, "games": 1024}
+{"stage": "screen", "model": "round-16", "games": 128, "share": 0.15364583333333334, "CI95": [0.09761987381347356, 0.20967179285319312], "meanVP": 23.3828125, "soleWins": 16, "sharedWins": 8}
+{"exactCommandParity": true, "replayVerified": true, "elapsedSeconds": 51.78125308314338, "decisions": 930, "games": 16, "actorSHA256": "7b33f85b766b8226d5db3f1d407dfc6956586586b0d14a7d207417455c39cf9e", "checkpointSHA256": "45fd335ad3d86ab9ad5d6210c2d2648e7a92763b56cfa3e7cdcaf975ba54c907"}
+{"stage": "raw", "games": 4, "total": 400}
+{"stage": "raw", "games": 8, "total": 400}
+{"stage": "raw", "games": 12, "total": 400}
+{"stage": "raw", "games": 16, "total": 400}
+{"stage": "raw", "games": 20, "total": 400}
+{"stage": "raw", "games": 24, "total": 400}
+{"stage": "raw", "games": 28, "total": 400}
+{"stage": "raw", "games": 32, "total": 400}
+{"stage": "raw", "games": 36, "total": 400}
+{"stage": "raw", "games": 40, "total": 400}
+{"stage": "raw", "games": 44, "total": 400}
+{"stage": "raw", "games": 48, "total": 400}
+{"stage": "raw", "games": 52, "total": 400}
+{"stage": "raw", "games": 56, "total": 400}
+{"stage": "raw", "games": 60, "total": 400}
+{"stage": "raw", "games": 64, "total": 400}
+{"stage": "raw", "games": 68, "total": 400}
+{"stage": "raw", "games": 72, "total": 400}
+{"stage": "raw", "games": 76, "total": 400}
+{"stage": "raw", "games": 80, "total": 400}
+{"stage": "raw", "games": 84, "total": 400}
+{"stage": "raw", "games": 88, "total": 400}
+{"stage": "raw", "games": 92, "total": 400}
+{"stage": "raw", "games": 96, "total": 400}
+{"stage": "raw", "games": 100, "total": 400}
+{"stage": "raw", "games": 104, "total": 400}
+{"stage": "raw", "games": 108, "total": 400}
+{"stage": "raw", "games": 112, "total": 400}
+{"stage": "raw", "games": 116, "total": 400}
+{"stage": "raw", "games": 120, "total": 400}
+{"stage": "raw", "games": 124, "total": 400}
+{"stage": "raw", "games": 128, "total": 400}
+{"stage": "raw", "games": 132, "total": 400}
+{"stage": "raw", "games": 136, "total": 400}
+{"stage": "raw", "games": 140, "total": 400}
+{"stage": "raw", "games": 144, "total": 400}
+{"stage": "raw", "games": 148, "total": 400}
+{"stage": "raw", "games": 152, "total": 400}
+{"stage": "raw", "games": 156, "total": 400}
+{"stage": "raw", "games": 160, "total": 400}
+{"stage": "raw", "games": 164, "total": 400}
+{"stage": "raw", "games": 168, "total": 400}
+{"stage": "raw", "games": 172, "total": 400}
+{"stage": "raw", "games": 176, "total": 400}
+{"stage": "raw", "games": 180, "total": 400}
+{"stage": "raw", "games": 184, "total": 400}
+{"stage": "raw", "games": 188, "total": 400}
+{"stage": "raw", "games": 192, "total": 400}
+{"stage": "raw", "games": 196, "total": 400}
+{"stage": "raw", "games": 200, "total": 400}
+{"stage": "raw", "games": 204, "total": 400}
+{"stage": "raw", "games": 208, "total": 400}
+{"stage": "raw", "games": 212, "total": 400}
+{"stage": "raw", "games": 216, "total": 400}
+{"stage": "raw", "games": 220, "total": 400}
+{"stage": "raw", "games": 224, "total": 400}
+{"stage": "raw", "games": 228, "total": 400}
+{"stage": "raw", "games": 232, "total": 400}
+{"stage": "raw", "games": 236, "total": 400}
+{"stage": "raw", "games": 240, "total": 400}
+{"stage": "raw", "games": 244, "total": 400}
+{"stage": "raw", "games": 248, "total": 400}
+{"stage": "raw", "games": 252, "total": 400}
+{"stage": "raw", "games": 256, "total": 400}
+{"stage": "raw", "games": 260, "total": 400}
+{"stage": "raw", "games": 264, "total": 400}
+{"stage": "raw", "games": 268, "total": 400}
+{"stage": "raw", "games": 272, "total": 400}
+{"stage": "raw", "games": 276, "total": 400}
+{"stage": "raw", "games": 280, "total": 400}
+{"stage": "raw", "games": 284, "total": 400}
+{"stage": "raw", "games": 288, "total": 400}
+{"stage": "raw", "games": 292, "total": 400}
+{"stage": "raw", "games": 296, "total": 400}
+{"stage": "raw", "games": 300, "total": 400}
+{"stage": "raw", "games": 304, "total": 400}
+{"stage": "raw", "games": 308, "total": 400}
+{"stage": "raw", "games": 312, "total": 400}
+{"stage": "raw", "games": 316, "total": 400}
+{"stage": "raw", "games": 320, "total": 400}
+{"stage": "raw", "games": 324, "total": 400}
+{"stage": "screen", "model": "incumbent", "games": 128, "share": 0.1640625, "CI95": [0.1119535311745046, 0.2161714688254954], "meanVP": 23.0625, "soleWins": 17, "sharedWins": 8}
+{"stage": "screen", "model": "round-08", "games": 128, "share": 0.16796875, "CI95": [0.10810831530491045, 0.22782918469508956], "meanVP": 23.265625, "soleWins": 17, "sharedWins": 9}
+{"stage": "screen", "model": "round-16", "games": 128, "share": 0.15364583333333334, "CI95": [0.09761987381347356, 0.20967179285319312], "meanVP": 23.3828125, "soleWins": 16, "sharedWins": 8}
+{"stage": "raw", "games": 4, "total": 400}
+{"stage": "raw", "games": 8, "total": 400}
+{"stage": "raw", "games": 12, "total": 400}
+{"stage": "raw", "games": 16, "total": 400}
+{"stage": "raw", "games": 20, "total": 400}
+{"stage": "raw", "games": 24, "total": 400}
+{"stage": "raw", "games": 28, "total": 400}
+{"stage": "raw", "games": 32, "total": 400}
+{"stage": "raw", "games": 36, "total": 400}
+{"stage": "raw", "games": 40, "total": 400}
+{"stage": "raw", "games": 44, "total": 400}
+{"stage": "raw", "games": 48, "total": 400}
+{"stage": "raw", "games": 52, "total": 400}
+{"stage": "raw", "games": 56, "total": 400}
+{"stage": "raw", "games": 60, "total": 400}
+{"stage": "raw", "games": 64, "total": 400}
+{"stage": "raw", "games": 68, "total": 400}
+{"stage": "raw", "games": 72, "total": 400}
+{"stage": "raw", "games": 76, "total": 400}
+{"stage": "raw", "games": 80, "total": 400}
+{"stage": "raw", "games": 84, "total": 400}
+{"stage": "raw", "games": 88, "total": 400}
+{"stage": "raw", "games": 92, "total": 400}
+{"stage": "raw", "games": 96, "total": 400}
+{"stage": "raw", "games": 100, "total": 400}
+{"stage": "raw", "games": 104, "total": 400}
+{"stage": "raw", "games": 108, "total": 400}
+{"stage": "raw", "games": 112, "total": 400}
+{"stage": "raw", "games": 116, "total": 400}
+{"stage": "raw", "games": 120, "total": 400}
+{"stage": "raw", "games": 124, "total": 400}
+{"stage": "raw", "games": 128, "total": 400}
+{"stage": "raw", "games": 132, "total": 400}
+{"stage": "raw", "games": 136, "total": 400}
+{"stage": "raw", "games": 140, "total": 400}
+{"stage": "raw", "games": 144, "total": 400}
+{"stage": "raw", "games": 148, "total": 400}
+{"stage": "raw", "games": 152, "total": 400}
+{"stage": "raw", "games": 156, "total": 400}
+{"stage": "raw", "games": 160, "total": 400}
+{"stage": "raw", "games": 164, "total": 400}
+{"stage": "raw", "games": 168, "total": 400}
+{"stage": "raw", "games": 172, "total": 400}
+{"stage": "raw", "games": 176, "total": 400}
+{"stage": "raw", "games": 180, "total": 400}
+{"stage": "raw", "games": 184, "total": 400}
+{"stage": "raw", "games": 188, "total": 400}
+{"stage": "raw", "games": 192, "total": 400}
+{"stage": "raw", "games": 196, "total": 400}
+{"stage": "raw", "games": 200, "total": 400}
+{"stage": "raw", "games": 204, "total": 400}
+{"stage": "raw", "games": 208, "total": 400}
+{"stage": "raw", "games": 212, "total": 400}
+{"stage": "raw", "games": 216, "total": 400}
+{"stage": "raw", "games": 220, "total": 400}
+{"stage": "raw", "games": 224, "total": 400}
+{"stage": "raw", "games": 228, "total": 400}
+{"stage": "raw", "games": 232, "total": 400}
+{"stage": "raw", "games": 236, "total": 400}
+{"stage": "raw", "games": 240, "total": 400}
+{"stage": "raw", "games": 244, "total": 400}
+{"stage": "raw", "games": 248, "total": 400}
+{"stage": "raw", "games": 252, "total": 400}
+{"stage": "raw", "games": 256, "total": 400}
+{"stage": "raw", "games": 260, "total": 400}
+{"stage": "raw", "games": 264, "total": 400}
+{"stage": "raw", "games": 268, "total": 400}
+{"stage": "raw", "games": 272, "total": 400}
+{"stage": "raw", "games": 276, "total": 400}
+{"stage": "raw", "games": 280, "total": 400}
+{"stage": "raw", "games": 284, "total": 400}
+{"stage": "raw", "games": 288, "total": 400}
+{"stage": "raw", "games": 292, "total": 400}
+{"stage": "raw", "games": 296, "total": 400}
+{"stage": "raw", "games": 300, "total": 400}
+{"stage": "raw", "games": 304, "total": 400}
+{"stage": "raw", "games": 308, "total": 400}
+{"stage": "raw", "games": 312, "total": 400}
+{"stage": "raw", "games": 316, "total": 400}
+{"stage": "raw", "games": 320, "total": 400}
+{"stage": "raw", "games": 324, "total": 400}
+{"stage": "raw", "games": 328, "total": 400}
+{"stage": "raw", "games": 332, "total": 400}
+{"stage": "raw", "games": 336, "total": 400}
+{"stage": "raw", "games": 340, "total": 400}
+{"stage": "raw", "games": 344, "total": 400}
+{"stage": "raw", "games": 348, "total": 400}
+{"stage": "raw", "games": 352, "total": 400}
+{"stage": "raw", "games": 356, "total": 400}
+{"stage": "raw", "games": 360, "total": 400}
+{"stage": "raw", "games": 364, "total": 400}
+{"stage": "raw", "games": 368, "total": 400}
+{"stage": "raw", "games": 372, "total": 400}
+{"stage": "raw", "games": 376, "total": 400}
+{"stage": "raw", "games": 380, "total": 400}
+{"stage": "raw", "games": 384, "total": 400}
+{"stage": "raw", "games": 388, "total": 400}
+{"stage": "raw", "games": 392, "total": 400}
+{"stage": "raw", "games": 396, "total": 400}
+{"stage": "raw", "games": 400, "total": 400}
+{"samples": 256, "allTensorBytesPreserved": true, "maximumAbsoluteDifferenceFromPyTorch": 9.5367431640625e-07, "note": "Floating-point kernel roundoff is reported explicitly; exported weights are lossless. Production reducers and replay equality remain exact."}
+{"stage": "planned", "games": 4, "total": 400}
+{"stage": "planned", "games": 8, "total": 400}
+{"stage": "planned", "games": 12, "total": 400}
+{"stage": "planned", "games": 16, "total": 400}
+{"stage": "planned", "games": 20, "total": 400}
+{"stage": "planned", "games": 24, "total": 400}
+{"stage": "planned", "games": 28, "total": 400}
+{"stage": "planned", "games": 32, "total": 400}
+{"stage": "planned", "games": 36, "total": 400}
+{"stage": "planned", "games": 40, "total": 400}
+{"stage": "planned", "games": 44, "total": 400}
+{"stage": "planned", "games": 48, "total": 400}
+{"stage": "planned", "games": 52, "total": 400}
+{"stage": "planned", "games": 56, "total": 400}
+{"stage": "planned", "games": 60, "total": 400}
+{"stage": "planned", "games": 64, "total": 400}
+{"stage": "planned", "games": 68, "total": 400}
+{"stage": "planned", "games": 72, "total": 400}
+{"stage": "planned", "games": 76, "total": 400}
+{"stage": "planned", "games": 80, "total": 400}
+{"stage": "planned", "games": 84, "total": 400}
+{"stage": "planned", "games": 88, "total": 400}
+{"stage": "planned", "games": 92, "total": 400}
+{"stage": "planned", "games": 96, "total": 400}
+{"stage": "planned", "games": 100, "total": 400}
+{"stage": "planned", "games": 104, "total": 400}
+{"stage": "planned", "games": 108, "total": 400}
+{"stage": "planned", "games": 112, "total": 400}
+{"stage": "planned", "games": 116, "total": 400}
+{"stage": "planned", "games": 120, "total": 400}
+{"stage": "planned", "games": 124, "total": 400}
+{"stage": "planned", "games": 128, "total": 400}
+{"stage": "planned", "games": 132, "total": 400}
+{"stage": "planned", "games": 136, "total": 400}
+{"stage": "planned", "games": 140, "total": 400}
+{"stage": "planned", "games": 144, "total": 400}
+{"stage": "planned", "games": 148, "total": 400}
+{"stage": "planned", "games": 152, "total": 400}
+{"stage": "planned", "games": 156, "total": 400}
+{"stage": "planned", "games": 160, "total": 400}
+{"stage": "planned", "games": 164, "total": 400}
+{"stage": "planned", "games": 168, "total": 400}
+{"stage": "planned", "games": 172, "total": 400}
+{"stage": "planned", "games": 176, "total": 400}
+{"stage": "planned", "games": 180, "total": 400}
+{"stage": "planned", "games": 184, "total": 400}
+{"stage": "planned", "games": 188, "total": 400}
+{"stage": "planned", "games": 192, "total": 400}
+{"stage": "planned", "games": 196, "total": 400}
+{"stage": "planned", "games": 200, "total": 400}
+{"stage": "planned", "games": 204, "total": 400}
+{"stage": "planned", "games": 208, "total": 400}
+{"stage": "planned", "games": 212, "total": 400}
+{"stage": "planned", "games": 216, "total": 400}
+{"stage": "planned", "games": 220, "total": 400}
+{"stage": "planned", "games": 224, "total": 400}
+{"stage": "planned", "games": 228, "total": 400}
+{"stage": "planned", "games": 232, "total": 400}
+{"stage": "planned", "games": 236, "total": 400}
+{"stage": "planned", "games": 240, "total": 400}
+{"stage": "planned", "games": 244, "total": 400}
+{"stage": "planned", "games": 248, "total": 400}
+{"stage": "planned", "games": 252, "total": 400}
+{"stage": "planned", "games": 256, "total": 400}
+{"stage": "planned", "games": 260, "total": 400}
+{"stage": "planned", "games": 264, "total": 400}
+{"stage": "planned", "games": 268, "total": 400}
+{"stage": "planned", "games": 272, "total": 400}
+{"stage": "planned", "games": 276, "total": 400}
+{"stage": "planned", "games": 280, "total": 400}
+{"stage": "planned", "games": 284, "total": 400}
+{"stage": "planned", "games": 288, "total": 400}
+{"stage": "planned", "games": 292, "total": 400}
+{"stage": "planned", "games": 296, "total": 400}
+{"stage": "planned", "games": 300, "total": 400}
+{"stage": "planned", "games": 304, "total": 400}
+{"stage": "planned", "games": 308, "total": 400}
+{"stage": "planned", "games": 312, "total": 400}
+{"stage": "planned", "games": 316, "total": 400}
+{"stage": "planned", "games": 320, "total": 400}
+{"stage": "planned", "games": 324, "total": 400}
+{"stage": "planned", "games": 328, "total": 400}
+{"stage": "planned", "games": 332, "total": 400}
+{"stage": "planned", "games": 336, "total": 400}
+{"stage": "planned", "games": 340, "total": 400}
+{"stage": "planned", "games": 344, "total": 400}
+{"stage": "planned", "games": 348, "total": 400}
+{"stage": "planned", "games": 352, "total": 400}
+{"stage": "planned", "games": 356, "total": 400}
+{"stage": "planned", "games": 360, "total": 400}
+{"stage": "planned", "games": 364, "total": 400}
+{"stage": "planned", "games": 368, "total": 400}
+{"stage": "planned", "games": 372, "total": 400}
+{"stage": "planned", "games": 376, "total": 400}
+{"stage": "planned", "games": 380, "total": 400}
+{"stage": "planned", "games": 384, "total": 400}
+{"stage": "planned", "games": 388, "total": 400}
+{"stage": "planned", "games": 392, "total": 400}
+{"stage": "planned", "games": 396, "total": 400}
+{"stage": "planned", "games": 400, "total": 400}
+Initial pure masked-PPO pilot:1024 complete training games in16 on-policy batches of64, against frozen Doreios and Thaleia planners and plain Melia. Learner remains171-input128x128; terminal reward2*splitWin-1 only. Independent complete-game collection avoids synchronized per-action stalls; all episode boundaries retained, no exclusions. Save each update and RNG state. Common128 separate screen games for incumbent and checkpoints after512/1024 training games; select best trained checkpoint before reserved comparison. Compare original Nereon, selected raw RL, then that same checkpoint plus16sample/4candidate/risk1/four-own-turn win-value planning on the same400 reserved prior-table games. These test seeds appeared in the prior Thaleia study but are excluded from training and screening. No tuning on comparison outcomes. Opponent planner world models stay frozen at original actors even as learner changes. Reproduce16 cached baseline games and counts;16-game exact trained actor export parity; full-state replay every actual game. No deployment.
+
+Leader | Original | Raw RL | Raw RL + planning
+melia: 26.38% | 25.87% | 26.71%
+nereon: 12.17% | 13.50% | 16.54%
+thaleia: 39.92% | 38.33% | 35.71%
+doreios: 21.54% | 22.29% | 21.04%
+Nereon rawVsOriginal: +1.33pp,95%CI [-0.17,+2.84]
+Nereon plannerVsRaw: +3.04pp,95%CI [-0.54,+6.62]
+Nereon plannerVsOriginal: +4.38pp,95%CI [+0.67,+8.08]

@@ -16,7 +16,8 @@
     "A temporary caffeinate -i -w 96192 assertion prevents idle sleep only while the controller remains alive. No persistent power settings changed.",
     "An attempt to restore controller priority to 0 was denied by the operating system. No escalation was attempted.",
     "A boundary watcher was initially started but stopped before it acted. The original owned controller process group was terminated to restore normal scheduling through a fresh resume process. Completed chunks are hash-validated and reused; every unfinished chunk is rerun, with no exclusions.",
-    "Resumed controller PID 6037 and workers verified at nice 0. A temporary idle-sleep assertion was attached to the new controller. taskpolicy -B was applied successfully to the new controller and its Bun workers to remove background scheduling."
+    "Resumed controller PID 6037 and workers verified at nice 0. A temporary idle-sleep assertion was attached to the new controller. taskpolicy -B was applied successfully to the new controller and its Bun workers to remove background scheduling.",
+    "At 64 completed planner games, the owned simulation process group was temporarily stopped with SIGSTOP to give local browser validation CPU headroom. The group was confirmed stopped at 2026-10-26 20:20:31 UTC. No worker was terminated and in-memory game states were preserved. The validation wrapper resumes the same process group in a finally block and records validation-resource-hold.json."
   ],
   "scientificSettingsChanged": false
 }
