@@ -5,7 +5,7 @@ from pathlib import Path
 
 def evaluate_native(checkpoint,manifest,prefix,namespace,games,workers,leader='doreios',observation_kind='public-v1',worker='scripts/rl/native_evaluate_worker.ts'):
     assert games>0 and workers>0 and games%workers==0
-    manifest=manifest.removeprefix('four:')
+    manifest=manifest.removeprefix('four:').removeprefix('planning:')
     with tempfile.TemporaryDirectory(prefix='pantheon-native-eval-') as directory:
         root=Path(directory);actor=root/'actor.json'
         options=['--observation-kind',observation_kind] if observation_kind else []
