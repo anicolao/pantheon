@@ -1,0 +1,31 @@
+{"model": "selected", "worker": 5, "games": 16}
+{"model": "selected", "worker": 0, "games": 16}
+{"model": "selected", "worker": 1, "games": 16}
+{"model": "selected", "worker": 2, "games": 16}
+{"model": "selected", "worker": 4, "games": 16}
+{"model": "selected", "worker": 3, "games": 16}
+{"model": "selected", "worker": 6, "games": 16}
+{"model": "selected", "worker": 7, "games": 16}
+{"model": "selected", "worker": 0, "games": 32}
+{"model": "selected", "worker": 4, "games": 32}
+{"model": "selected", "worker": 2, "games": 32}
+{"model": "selected", "worker": 5, "games": 32}
+{"model": "selected", "worker": 1, "games": 32}
+{"model": "selected", "worker": 7, "games": 32}
+{"model": "selected", "worker": 6, "games": 32}
+{"model": "selected", "worker": 3, "games": 32}
+{"model": "selected", "worker": 4, "games": 48}
+{"model": "selected", "worker": 2, "games": 48}
+{"model": "selected", "worker": 0, "games": 48}
+{"model": "selected", "worker": 1, "games": 48}
+{"model": "selected", "worker": 3, "games": 48}
+{"model": "selected", "worker": 5, "games": 48}
+{"model": "selected", "worker": 7, "games": 48}
+{"model": "selected", "worker": 6, "games": 48}
+{"model": "selected", "worker": 4, "games": 64}
+{"model": "selected", "worker": 0, "games": 64}
+{"model": "selected", "worker": 3, "games": 64}
+{"model": "selected", "worker": 2, "games": 64}
+{"model": "selected", "worker": 5, "games": 64}
+{"model": "selected", "games": 512, "wins": 295, "ties": 33, "losses": 184, "share": 0.6083984375, "winCI95": [0.5329565628135989, 0.6182526869786181], "opponents": {"thaleia": {"games": 512, "wins": 295, "ties": 33, "losses": 184, "share": 0.6083984375, "winCI95": [0.5329565628135989, 0.6182526869786181]}}, "matchups": {"r2-thaleia": {"games": 512, "wins": 295, "ties": 33, "losses": 184, "share": 0.6083984375, "winCI95": [0.5329565628135989, 0.6182526869786181]}}}
+{"summary": {"selected": {"games": 512, "wins": 295, "ties": 33, "losses": 184, "share": 0.6083984375, "winCI95": [0.5329565628135989, 0.6182526869786181], "opponents": {"thaleia": {"games": 512, "wins": 295, "ties": 33, "losses": 184, "share": 0.6083984375, "winCI95": [0.5329565628135989, 0.6182526869786181]}}, "matchups": {"r2-thaleia": {"games": 512, "wins": 295, "ties": 33, "losses": 184, "share": 0.6083984375, "winCI95": [0.5329565628135989, 0.6182526869786181]}}}}, "comparisons": {}, "checkpointSHA256": {"selected": "5d4460272869226723bd9668b946bed98bdc3208569853fa1240e446a78f05e7"}, "elapsedSeconds": 31.695751499850303}

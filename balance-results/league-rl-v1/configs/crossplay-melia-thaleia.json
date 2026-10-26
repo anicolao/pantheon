@@ -1,0 +1,13 @@
+{
+  "leader": "melia",
+  "teacher": "mm",
+  "opponent": "league:balance-results/league-rl-v1/manifests/crossplay-melia-thaleia.json",
+  "prefix": "league-v1-crossplay:melia:thaleia",
+  "namespace": "test",
+  "workers": 8,
+  "games": 512,
+  "models": {
+    "selected": "balance-results/league-rl-v1/champions/round-2/melia"
+  },
+  "output": "balance-results/league-rl-v1/crossplay/melia-thaleia"
+}

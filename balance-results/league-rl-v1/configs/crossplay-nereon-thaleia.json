@@ -1,0 +1,13 @@
+{
+  "leader": "nereon",
+  "teacher": "classic-engine",
+  "opponent": "league:balance-results/league-rl-v1/manifests/crossplay-nereon-thaleia.json",
+  "prefix": "league-v1-crossplay:nereon:thaleia",
+  "namespace": "test",
+  "workers": 8,
+  "games": 512,
+  "models": {
+    "selected": "balance-results/league-rl-v1/champions/round-2/nereon"
+  },
+  "output": "balance-results/league-rl-v1/crossplay/nereon-thaleia"
+}

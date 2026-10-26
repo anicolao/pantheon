@@ -1,0 +1,31 @@
+{"model": "selected", "worker": 4, "games": 16}
+{"model": "selected", "worker": 7, "games": 16}
+{"model": "selected", "worker": 2, "games": 16}
+{"model": "selected", "worker": 1, "games": 16}
+{"model": "selected", "worker": 3, "games": 16}
+{"model": "selected", "worker": 0, "games": 16}
+{"model": "selected", "worker": 6, "games": 16}
+{"model": "selected", "worker": 5, "games": 16}
+{"model": "selected", "worker": 7, "games": 32}
+{"model": "selected", "worker": 1, "games": 32}
+{"model": "selected", "worker": 0, "games": 32}
+{"model": "selected", "worker": 2, "games": 32}
+{"model": "selected", "worker": 3, "games": 32}
+{"model": "selected", "worker": 6, "games": 32}
+{"model": "selected", "worker": 4, "games": 32}
+{"model": "selected", "worker": 5, "games": 32}
+{"model": "selected", "worker": 1, "games": 48}
+{"model": "selected", "worker": 4, "games": 48}
+{"model": "selected", "worker": 0, "games": 48}
+{"model": "selected", "worker": 2, "games": 48}
+{"model": "selected", "worker": 7, "games": 48}
+{"model": "selected", "worker": 6, "games": 48}
+{"model": "selected", "worker": 3, "games": 48}
+{"model": "selected", "worker": 5, "games": 48}
+{"model": "selected", "worker": 1, "games": 64}
+{"model": "selected", "worker": 4, "games": 64}
+{"model": "selected", "worker": 0, "games": 64}
+{"model": "selected", "worker": 7, "games": 64}
+{"model": "selected", "worker": 2, "games": 64}
+{"model": "selected", "games": 512, "wins": 259, "ties": 29, "losses": 224, "share": 0.5341796875, "winCI95": [0.4626707503652725, 0.5489607303879749], "opponents": {"doreios": {"games": 512, "wins": 259, "ties": 29, "losses": 224, "share": 0.5341796875, "winCI95": [0.4626707503652725, 0.5489607303879749]}}, "matchups": {"r2-doreios": {"games": 512, "wins": 259, "ties": 29, "losses": 224, "share": 0.5341796875, "winCI95": [0.4626707503652725, 0.5489607303879749]}}}
+{"summary": {"selected": {"games": 512, "wins": 259, "ties": 29, "losses": 224, "share": 0.5341796875, "winCI95": [0.4626707503652725, 0.5489607303879749], "opponents": {"doreios": {"games": 512, "wins": 259, "ties": 29, "losses": 224, "share": 0.5341796875, "winCI95": [0.4626707503652725, 0.5489607303879749]}}, "matchups": {"r2-doreios": {"games": 512, "wins": 259, "ties": 29, "losses": 224, "share": 0.5341796875, "winCI95": [0.4626707503652725, 0.5489607303879749]}}}}, "comparisons": {}, "checkpointSHA256": {"selected": "5d4460272869226723bd9668b946bed98bdc3208569853fa1240e446a78f05e7"}, "elapsedSeconds": 31.44625929230824}

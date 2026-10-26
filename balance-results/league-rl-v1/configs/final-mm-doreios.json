@@ -1,0 +1,14 @@
+{
+  "leader": "doreios",
+  "teacher": "classic-engine",
+  "opponent": "league:balance-results/league-rl-v1/manifests/final-mm.json",
+  "prefix": "league-v1-mm:doreios",
+  "namespace": "test",
+  "workers": 8,
+  "games": 1024,
+  "models": {
+    "v1": "balance-results/leader-rl-v1/doreios/champion",
+    "selected": "balance-results/league-rl-v1/champions/round-2/doreios"
+  },
+  "output": "balance-results/league-rl-v1/final-mm/doreios"
+}

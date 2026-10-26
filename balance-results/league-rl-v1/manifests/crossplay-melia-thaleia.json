@@ -1,0 +1,16 @@
+{
+  "version": 1,
+  "learners": {
+    "melia": [
+      {
+        "id": "r2-thaleia",
+        "leader": "thaleia",
+        "group": "current",
+        "weight": 1,
+        "actor": "balance-results/league-rl-v1/actors/r2-thaleia.json",
+        "actorSHA256": "9c498edb081b4632254fccc06f65459a684afcdaeee896847267b59a50b4dc24",
+        "checkpointSHA256": "2a5f3d75920a210860fb8f7145cdb693b44f7a66a7a2eb6bbd6365e83a7325f3"
+      }
+    ]
+  }
+}

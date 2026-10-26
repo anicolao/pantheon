@@ -63,8 +63,16 @@ for leader in leaders:
         comparison = paired(mm['selected'], mm['v1'])
         mm_delta = comparison['shareDelta']
         summary['mm'][leader] = dict(v1=stats(mm['v1']), selected=stats(mm['selected']), comparison=comparison)
+    reasons = []
+    if delta['pairedApprox95CI'][0] <= 0:
+        reasons.append('No positive lower confidence bound on reference improvement; retain the shipped champion.')
+    for matchup, change in matchup_deltas.items():
+        if change < -.03:
+            reasons.append(f'Observed reference-batch share change versus {matchup}: {100*change:+.2f} pp, below the -3 pp limit.')
+    if mm_delta < -.03:
+        reasons.append(f'Observed separate MM audit share change: {100*mm_delta:+.2f} pp, below the -3 pp limit.')
     summary['final'][leader] = dict(v1=old, selected=new, comparison=delta, matchupShareDeltas=matchup_deltas,
-        recommended=delta['pairedApprox95CI'][0] > 0 and min(matchup_deltas.values()) >= -.03 and mm_delta >= -.03)
+        recommended=not reasons, holdReasons=reasons)
 for config in read(root / 'final-audit-protocol.json')['configs']:
     c = read(Path(config))
     if '/crossplay/' in c['output']:
@@ -73,8 +81,14 @@ for config in read(root / 'final-audit-protocol.json')['configs']:
 summary['verifiedFinalGames'] = verified
 summary['additionalTrainingDecisions'] = sum(read(root/f'round-{r}/{l}/results.json')['trainingSteps'] for r in (1,2) for l in leaders)
 summary['productionWeightsChanged'] = False
+summary['productionActorSHA256'] = {}
+for leader in leaders:
+    shipped = Path(f'src/lib/bots/models/{leader}.json').read_bytes()
+    assert shipped == (root / f'actors/v1-{leader}.json').read_bytes(), 'Shipped weights changed during the pilot'
+    summary['productionActorSHA256'][leader] = hashlib.sha256(shipped).hexdigest()
 summary['exportParity'] = {l: {k: v for k,v in read(root / f'validation/final-export-{l}.json').items() if k != 'workers'} for l in leaders}
 summary['limitations'] = ['Heads-up only; no multiplayer claim.',
+    'One training lineage per leader; intervals cover game-seed variation, not variation between independent training runs.',
     'Fixed reference pools differ by leader; aggregate rates do not rank leaders.',
     'Intervals are pointwise, approximate 95% intervals, not simultaneous family-wise guarantees.',
     'Observed three-point regression screens do not establish statistical noninferiority.',
@@ -86,6 +100,7 @@ lines = ['Two-round RL league pilot', '', f"Additional training decisions: {summ
 for l,d in summary['final'].items():
     lo,hi=d['comparison']['pairedApprox95CI']
     lines.append(f"{l}: {d['v1']['share']:.1%} -> {d['selected']['share']:.1%}; delta {100*d['comparison']['shareDelta']:+.2f} pp, 95% CI [{100*lo:+.2f}, {100*hi:+.2f}]; recommend={d['recommended']}")
+    lines.extend(f'  {reason}' for reason in d['holdReasons'])
 lines += ['', 'MM retention:']
 for l,d in summary['mm'].items():
     lines.append(f"{l}: {d['v1']['share']:.1%} -> {d['selected']['share']:.1%}; selected outright wins {d['selected']['wins']}/{d['selected']['games']}")

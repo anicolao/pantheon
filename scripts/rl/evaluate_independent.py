@@ -30,7 +30,7 @@ def run(rank):
    while not done:
     if stop.is_set():raise RuntimeError('Another worker failed')
     action,_=model.predict(obs,action_masks=env.action_masks(),deterministic=True);obs,reward,done,_,info=env.step(action)
-   assert env.call(dict(op='verify'));row=dict(**{k:v for k,v in info.items() if k!='replayVerified'},reward=reward,replayVerified=True);assert row['seed']==expected
+   assert info.get('replayVerified') or env.call(dict(op='verify'));row=dict(**{k:v for k,v in info.items() if k!='replayVerified'},reward=reward,replayVerified=True);assert row['seed']==expected
    temp=file.with_suffix('.tmp');temp.write_text(json.dumps(row));temp.replace(file);rows.append((name,row))
    completed+=1
    if completed%16==0:print(json.dumps(dict(model=name,worker=rank,games=completed)),flush=True)

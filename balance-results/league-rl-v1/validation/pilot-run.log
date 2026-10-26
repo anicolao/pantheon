@@ -1,0 +1,234 @@
+{"phase": "advance_league.py", "args": ["1"]}
+{
+  "melia": {
+    "promoted": false,
+    "source": "balance-results/melia-rl-v1/champion"
+  },
+  "nereon": {
+    "promoted": true,
+    "source": "balance-results/league-rl-v1/round-1/nereon/checkpoint-524288"
+  },
+  "thaleia": {
+    "promoted": true,
+    "source": "balance-results/league-rl-v1/round-1/thaleia/checkpoint-524288"
+  },
+  "doreios": {
+    "promoted": true,
+    "source": "balance-results/league-rl-v1/round-1/doreios/checkpoint-262144"
+  }
+}
+{"phase": "run_jobs.py", "args": ["scripts/rl/continue_training.py", "balance-results/league-rl-v1/configs/train-r2-nereon.json", "balance-results/league-rl-v1/configs/train-r2-thaleia.json", "balance-results/league-rl-v1/configs/train-r2-doreios.json", "balance-results/league-rl-v1/configs/train-r2-melia.json"]}
+{"started": "balance-results/league-rl-v1/configs/train-r2-nereon.json", "pid": 37507}
+{"started": "balance-results/league-rl-v1/configs/train-r2-thaleia.json", "pid": 37508}
+{"completed": "balance-results/league-rl-v1/configs/train-r2-thaleia.json", "exitCode": 0}
+{"started": "balance-results/league-rl-v1/configs/train-r2-doreios.json", "pid": 44104}
+{"completed": "balance-results/league-rl-v1/configs/train-r2-nereon.json", "exitCode": 0}
+{"started": "balance-results/league-rl-v1/configs/train-r2-melia.json", "pid": 44667}
+{"completed": "balance-results/league-rl-v1/configs/train-r2-melia.json", "exitCode": 0}
+{"completed": "balance-results/league-rl-v1/configs/train-r2-doreios.json", "exitCode": 0}
+{"phase": "league_round.py", "args": ["select", "2"]}
+{
+  "melia": {
+    "changed": true,
+    "candidate": "balance-results/league-rl-v1/round-2/melia/checkpoint-262144",
+    "share": 0.7213541666666666,
+    "baseline": 0.7109375
+  },
+  "nereon": {
+    "changed": true,
+    "candidate": "balance-results/league-rl-v1/round-2/nereon/checkpoint-262144",
+    "share": 0.65625,
+    "baseline": 0.6471354166666666
+  },
+  "thaleia": {
+    "changed": true,
+    "candidate": "balance-results/league-rl-v1/round-2/thaleia/checkpoint-262144",
+    "share": 0.6419270833333334,
+    "baseline": 0.6341145833333334
+  },
+  "doreios": {
+    "changed": true,
+    "candidate": "balance-results/league-rl-v1/round-2/doreios/checkpoint-524288",
+    "share": 0.6158854166666666,
+    "baseline": 0.6145833333333334
+  }
+}
+{"phase": "run_jobs.py", "args": ["scripts/rl/evaluate_checkpoints.py", "balance-results/league-rl-v1/configs/confirm-r2-nereon.json", "balance-results/league-rl-v1/configs/confirm-r2-thaleia.json", "balance-results/league-rl-v1/configs/confirm-r2-doreios.json", "balance-results/league-rl-v1/configs/confirm-r2-melia.json"]}
+{"started": "balance-results/league-rl-v1/configs/confirm-r2-nereon.json", "pid": 45624}
+{"started": "balance-results/league-rl-v1/configs/confirm-r2-thaleia.json", "pid": 45625}
+{"completed": "balance-results/league-rl-v1/configs/confirm-r2-nereon.json", "exitCode": 0}
+{"started": "balance-results/league-rl-v1/configs/confirm-r2-doreios.json", "pid": 46478}
+{"completed": "balance-results/league-rl-v1/configs/confirm-r2-thaleia.json", "exitCode": 0}
+{"started": "balance-results/league-rl-v1/configs/confirm-r2-melia.json", "pid": 47830}
+{"completed": "balance-results/league-rl-v1/configs/confirm-r2-doreios.json", "exitCode": 0}
+{"completed": "balance-results/league-rl-v1/configs/confirm-r2-melia.json", "exitCode": 0}
+{"phase": "league_round.py", "args": ["gate", "2"]}
+{
+  "melia": {
+    "referencePassed": false,
+    "comparison": {
+      "shareDelta": 0.019856770833333332,
+      "pairedApprox95CI": [
+        -0.00037193019363635643,
+        0.04008547186030302
+      ]
+    },
+    "matchupShareDeltas": {
+      "classic-engine-thaleia": 0.025390625,
+      "fleet-nereon": 0.08203125,
+      "owl-nereon": 0.025390625,
+      "v1-doreios": 0.0078125,
+      "v1-nereon": -0.037109375,
+      "v1-thaleia": 0.015625
+    }
+  },
+  "nereon": {
+    "referencePassed": false,
+    "comparison": {
+      "shareDelta": 0.0035807291666666665,
+      "pairedApprox95CI": [
+        -0.010986008668822829,
+        0.01814746700215616
+      ]
+    },
+    "matchupShareDeltas": {
+      "classic-engine-thaleia": 0.01171875,
+      "mm-melia": -0.0234375,
+      "owl-thaleia": 0.021484375,
+      "v1-doreios": 0.015625,
+      "v1-melia": -0.00390625,
+      "v1-thaleia": 0.0
+    }
+  },
+  "thaleia": {
+    "referencePassed": true,
+    "comparison": {
+      "shareDelta": 0.0263671875,
+      "pairedApprox95CI": [
+        0.005797518413981701,
+        0.0469368565860183
+      ]
+    },
+    "matchupShareDeltas": {
+      "classic-engine-doreios": 0.005859375,
+      "engine-nereon": 0.025390625,
+      "owl-melia": 0.033203125,
+      "v1-doreios": 0.046875,
+      "v1-melia": 0.013671875,
+      "v1-nereon": 0.033203125
+    }
+  },
+  "doreios": {
+    "referencePassed": true,
+    "comparison": {
+      "shareDelta": 0.021158854166666668,
+      "pairedApprox95CI": [
+        0.0008330074204615512,
+        0.041484700912871784
+      ]
+    },
+    "matchupShareDeltas": {
+      "classic-engine-thaleia": -0.009765625,
+      "mm-melia": 0.078125,
+      "owl-thaleia": 0.025390625,
+      "v1-melia": -0.009765625,
+      "v1-nereon": 0.013671875,
+      "v1-thaleia": 0.029296875
+    }
+  }
+}
+{"phase": "run_jobs.py", "args": ["scripts/rl/evaluate_independent.py", "balance-results/league-rl-v1/configs/money-r2-thaleia.json", "balance-results/league-rl-v1/configs/money-r2-doreios.json"]}
+{"started": "balance-results/league-rl-v1/configs/money-r2-thaleia.json", "pid": 49460}
+{"started": "balance-results/league-rl-v1/configs/money-r2-doreios.json", "pid": 49461}
+{"completed": "balance-results/league-rl-v1/configs/money-r2-thaleia.json", "exitCode": 0}
+{"completed": "balance-results/league-rl-v1/configs/money-r2-doreios.json", "exitCode": 0}
+{"phase": "advance_league.py", "args": ["2"]}
+{
+  "melia": {
+    "promoted": false,
+    "source": "balance-results/league-rl-v1/champions/round-1/melia"
+  },
+  "nereon": {
+    "promoted": false,
+    "source": "balance-results/league-rl-v1/champions/round-1/nereon"
+  },
+  "thaleia": {
+    "promoted": true,
+    "source": "balance-results/league-rl-v1/round-2/thaleia/checkpoint-262144"
+  },
+  "doreios": {
+    "promoted": true,
+    "source": "balance-results/league-rl-v1/round-2/doreios/checkpoint-524288"
+  }
+}
+{"phase": "setup_league_final.py", "args": []}
+{"phase": "run_jobs.py", "args": ["scripts/rl/evaluate_checkpoints.py", "balance-results/league-rl-v1/configs/final-nereon.json", "balance-results/league-rl-v1/configs/final-thaleia.json", "balance-results/league-rl-v1/configs/final-doreios.json", "balance-results/league-rl-v1/configs/final-melia.json"]}
+{"started": "balance-results/league-rl-v1/configs/final-nereon.json", "pid": 53638}
+{"started": "balance-results/league-rl-v1/configs/final-thaleia.json", "pid": 53639}
+{"completed": "balance-results/league-rl-v1/configs/final-nereon.json", "exitCode": 0}
+{"started": "balance-results/league-rl-v1/configs/final-doreios.json", "pid": 54268}
+{"completed": "balance-results/league-rl-v1/configs/final-thaleia.json", "exitCode": 0}
+{"started": "balance-results/league-rl-v1/configs/final-melia.json", "pid": 54636}
+{"completed": "balance-results/league-rl-v1/configs/final-doreios.json", "exitCode": 0}
+{"completed": "balance-results/league-rl-v1/configs/final-melia.json", "exitCode": 0}
+{"phase": "run_jobs.py", "args": ["scripts/rl/evaluate_independent.py", "balance-results/league-rl-v1/configs/crossplay-melia-nereon.json", "balance-results/league-rl-v1/configs/crossplay-melia-thaleia.json", "balance-results/league-rl-v1/configs/crossplay-melia-doreios.json", "balance-results/league-rl-v1/configs/crossplay-nereon-thaleia.json", "balance-results/league-rl-v1/configs/crossplay-nereon-doreios.json", "balance-results/league-rl-v1/configs/crossplay-thaleia-doreios.json", "balance-results/league-rl-v1/configs/final-mm-nereon.json", "balance-results/league-rl-v1/configs/final-mm-thaleia.json", "balance-results/league-rl-v1/configs/final-mm-doreios.json"]}
+{"started": "balance-results/league-rl-v1/configs/crossplay-melia-nereon.json", "pid": 55287}
+{"started": "balance-results/league-rl-v1/configs/crossplay-melia-thaleia.json", "pid": 55288}
+{"completed": "balance-results/league-rl-v1/configs/crossplay-melia-thaleia.json", "exitCode": 0}
+{"started": "balance-results/league-rl-v1/configs/crossplay-melia-doreios.json", "pid": 55369}
+{"completed": "balance-results/league-rl-v1/configs/crossplay-melia-nereon.json", "exitCode": 0}
+{"started": "balance-results/league-rl-v1/configs/crossplay-nereon-thaleia.json", "pid": 55380}
+{"completed": "balance-results/league-rl-v1/configs/crossplay-nereon-thaleia.json", "exitCode": 0}
+{"started": "balance-results/league-rl-v1/configs/crossplay-nereon-doreios.json", "pid": 55426}
+{"completed": "balance-results/league-rl-v1/configs/crossplay-melia-doreios.json", "exitCode": 0}
+{"started": "balance-results/league-rl-v1/configs/crossplay-thaleia-doreios.json", "pid": 55445}
+{"completed": "balance-results/league-rl-v1/configs/crossplay-nereon-doreios.json", "exitCode": 0}
+{"started": "balance-results/league-rl-v1/configs/final-mm-nereon.json", "pid": 55524}
+{"completed": "balance-results/league-rl-v1/configs/crossplay-thaleia-doreios.json", "exitCode": 0}
+{"started": "balance-results/league-rl-v1/configs/final-mm-thaleia.json", "pid": 55597}
+{"completed": "balance-results/league-rl-v1/configs/final-mm-nereon.json", "exitCode": 0}
+{"started": "balance-results/league-rl-v1/configs/final-mm-doreios.json", "pid": 55959}
+{"completed": "balance-results/league-rl-v1/configs/final-mm-thaleia.json", "exitCode": 0}
+{"completed": "balance-results/league-rl-v1/configs/final-mm-doreios.json", "exitCode": 0}
+{"phase": "verify_export.py", "args": ["--leaders", "nereon", "--checkpoint", "balance-results/league-rl-v1/champions/round-2/nereon", "--actor", "balance-results/league-rl-v1/actors/r2-nereon.json", "--games", "128", "--opponent", "league:balance-results/league-rl-v1/manifests/reference.json", "--output", "balance-results/league-rl-v1/validation/final-export-nereon.json"]}
+{"exactCommandParity": true, "replayVerified": true, "elapsedSeconds": 6.42863008286804, "decisions": 9508, "games": 128, "actorSHA256": "516c42200aa095f6391261ab007241ad9c1c5eea843341d685455f9b400e8691", "checkpointSHA256": "5d4460272869226723bd9668b946bed98bdc3208569853fa1240e446a78f05e7"}
+{"phase": "verify_export.py", "args": ["--leaders", "thaleia", "--checkpoint", "balance-results/league-rl-v1/champions/round-2/thaleia", "--actor", "balance-results/league-rl-v1/actors/r2-thaleia.json", "--games", "128", "--opponent", "league:balance-results/league-rl-v1/manifests/reference.json", "--output", "balance-results/league-rl-v1/validation/final-export-thaleia.json"]}
+{"exactCommandParity": true, "replayVerified": true, "elapsedSeconds": 12.017729749903083, "decisions": 19363, "games": 128, "actorSHA256": "9c498edb081b4632254fccc06f65459a684afcdaeee896847267b59a50b4dc24", "checkpointSHA256": "2a5f3d75920a210860fb8f7145cdb693b44f7a66a7a2eb6bbd6365e83a7325f3"}
+{"phase": "verify_export.py", "args": ["--leaders", "doreios", "--checkpoint", "balance-results/league-rl-v1/champions/round-2/doreios", "--actor", "balance-results/league-rl-v1/actors/r2-doreios.json", "--games", "128", "--opponent", "league:balance-results/league-rl-v1/manifests/reference.json", "--output", "balance-results/league-rl-v1/validation/final-export-doreios.json"]}
+{"exactCommandParity": true, "replayVerified": true, "elapsedSeconds": 9.357952416874468, "decisions": 14666, "games": 128, "actorSHA256": "ad35dc8f388f52def1ae7484080bb2e704bb4bb920f82bb120507f8681efe626", "checkpointSHA256": "ae10ea34160d1d48b9929c846866e3b6a7de85b61a5866786285cfb21bcc0772"}
+{"phase": "verify_export.py", "args": ["--leaders", "melia", "--checkpoint", "balance-results/league-rl-v1/champions/round-2/melia", "--actor", "balance-results/league-rl-v1/actors/r2-melia.json", "--games", "128", "--opponent", "league:balance-results/league-rl-v1/manifests/reference.json", "--output", "balance-results/league-rl-v1/validation/final-export-melia.json"]}
+{"exactCommandParity": true, "replayVerified": true, "elapsedSeconds": 10.266715082805604, "decisions": 16188, "games": 128, "actorSHA256": "1310ab42acc417055d641fbf9c7a2ec155889b700d588d85ab4c14af7c831dcb", "checkpointSHA256": "f6016282d408c3f78263a3396f7e423e31fdcbf3c790afcf6b34e6fd9823122c"}
+Two-round pilot and final evaluations complete. Production weights unchanged.
+Two-round RL league pilot
+
+Additional training decisions: 4,194,304
+Final games replay-verified and audited: 33,792
+
+Fixed-reference score share (ties count half):
+melia: 71.3% -> 71.3%; delta +0.00 pp, 95% CI [+0.00, +0.00]; recommend=False
+  No positive lower confidence bound on reference improvement; retain the shipped champion.
+nereon: 42.9% -> 62.3%; delta +19.40 pp, 95% CI [+17.56, +21.25]; recommend=False
+  Observed reference-batch share change versus mm-melia: -3.91 pp, below the -3 pp limit.
+thaleia: 60.7% -> 67.0%; delta +6.25 pp, 95% CI [+4.61, +7.89]; recommend=True
+doreios: 37.7% -> 61.3%; delta +23.57 pp, 95% CI [+21.73, +25.41]; recommend=True
+
+MM retention:
+nereon: 68.9% -> 68.9%; selected outright wins 654/1024
+thaleia: 58.4% -> 60.6%; selected outright wins 572/1024
+doreios: 63.6% -> 64.2%; selected outright wins 624/1024
+
+Frozen research-champion cross-play (first leader score share):
+melia-nereon: 51.9%, 234W/63T/215L
+melia-thaleia: 59.9%, 282W/49T/181L
+melia-doreios: 73.1%, 353W/43T/116L
+nereon-thaleia: 60.8%, 295W/33T/184L
+nereon-doreios: 53.4%, 259W/29T/224L
+thaleia-doreios: 36.1%, 142W/86T/284L
+
+Production weights unchanged pending review.
+Heads-up only; no multiplayer claim.
+One training lineage per leader; intervals cover game-seed variation, not variation between independent training runs.
+Fixed reference pools differ by leader; aggregate rates do not rank leaders.
+Intervals are pointwise, approximate 95% intervals, not simultaneous family-wise guarantees.
+Observed three-point regression screens do not establish statistical noninferiority.
+Final cross-play describes the four frozen research champions, including any model not recommended for release.

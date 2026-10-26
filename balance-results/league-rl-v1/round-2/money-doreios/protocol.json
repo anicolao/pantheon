@@ -1,0 +1,19 @@
+{
+  "leader": "doreios",
+  "teacher": "classic-engine",
+  "opponent": "league:balance-results/league-rl-v1/manifests/money-guard.json",
+  "prefix": "league-v1:doreios",
+  "namespace": "money-guard-r2",
+  "workers": 8,
+  "games": 256,
+  "models": {
+    "incumbent": "balance-results/league-rl-v1/champions/round-1/doreios",
+    "candidate": "balance-results/league-rl-v1/round-2/doreios/checkpoint-524288"
+  },
+  "output": "balance-results/league-rl-v1/round-2/money-doreios",
+  "checkpointSHA256": {
+    "incumbent": "0c3241950187bc4a49b4dd971e8bb519ce21eb3678a7358f8e37a8ed4d4a938c",
+    "candidate": "ae10ea34160d1d48b9929c846866e3b6a7de85b61a5866786285cfb21bcc0772"
+  },
+  "leagueSHA256": "c22240c65ae0fdc6b23686da1859993ecdb6d38875b7b03f144e89e0bface92a"
+}

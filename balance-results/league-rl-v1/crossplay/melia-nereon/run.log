@@ -1,0 +1,31 @@
+{"model": "selected", "worker": 6, "games": 16}
+{"model": "selected", "worker": 1, "games": 16}
+{"model": "selected", "worker": 4, "games": 16}
+{"model": "selected", "worker": 0, "games": 16}
+{"model": "selected", "worker": 7, "games": 16}
+{"model": "selected", "worker": 3, "games": 16}
+{"model": "selected", "worker": 2, "games": 16}
+{"model": "selected", "worker": 5, "games": 16}
+{"model": "selected", "worker": 6, "games": 32}
+{"model": "selected", "worker": 3, "games": 32}
+{"model": "selected", "worker": 1, "games": 32}
+{"model": "selected", "worker": 0, "games": 32}
+{"model": "selected", "worker": 4, "games": 32}
+{"model": "selected", "worker": 7, "games": 32}
+{"model": "selected", "worker": 2, "games": 32}
+{"model": "selected", "worker": 5, "games": 32}
+{"model": "selected", "worker": 6, "games": 48}
+{"model": "selected", "worker": 4, "games": 48}
+{"model": "selected", "worker": 3, "games": 48}
+{"model": "selected", "worker": 0, "games": 48}
+{"model": "selected", "worker": 1, "games": 48}
+{"model": "selected", "worker": 7, "games": 48}
+{"model": "selected", "worker": 2, "games": 48}
+{"model": "selected", "worker": 5, "games": 48}
+{"model": "selected", "worker": 6, "games": 64}
+{"model": "selected", "worker": 4, "games": 64}
+{"model": "selected", "worker": 3, "games": 64}
+{"model": "selected", "worker": 1, "games": 64}
+{"model": "selected", "worker": 0, "games": 64}
+{"model": "selected", "games": 512, "wins": 234, "ties": 63, "losses": 215, "share": 0.5185546875, "winCI95": [0.41436174002172205, 0.5003407344544633], "opponents": {"nereon": {"games": 512, "wins": 234, "ties": 63, "losses": 215, "share": 0.5185546875, "winCI95": [0.41436174002172205, 0.5003407344544633]}}, "matchups": {"r2-nereon": {"games": 512, "wins": 234, "ties": 63, "losses": 215, "share": 0.5185546875, "winCI95": [0.41436174002172205, 0.5003407344544633]}}}
+{"summary": {"selected": {"games": 512, "wins": 234, "ties": 63, "losses": 215, "share": 0.5185546875, "winCI95": [0.41436174002172205, 0.5003407344544633], "opponents": {"nereon": {"games": 512, "wins": 234, "ties": 63, "losses": 215, "share": 0.5185546875, "winCI95": [0.41436174002172205, 0.5003407344544633]}}, "matchups": {"r2-nereon": {"games": 512, "wins": 234, "ties": 63, "losses": 215, "share": 0.5185546875, "winCI95": [0.41436174002172205, 0.5003407344544633]}}}}, "comparisons": {}, "checkpointSHA256": {"selected": "f6016282d408c3f78263a3396f7e423e31fdcbf3c790afcf6b34e6fd9823122c"}, "elapsedSeconds": 54.33362133288756}

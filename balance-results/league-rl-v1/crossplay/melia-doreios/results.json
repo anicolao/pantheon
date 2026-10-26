@@ -1,0 +1,46 @@
+{
+  "summary": {
+    "selected": {
+      "games": 512,
+      "wins": 353,
+      "ties": 43,
+      "losses": 116,
+      "share": 0.7314453125,
+      "winCI95": [
+        0.6480867473996957,
+        0.7279977969553059
+      ],
+      "opponents": {
+        "doreios": {
+          "games": 512,
+          "wins": 353,
+          "ties": 43,
+          "losses": 116,
+          "share": 0.7314453125,
+          "winCI95": [
+            0.6480867473996957,
+            0.7279977969553059
+          ]
+        }
+      },
+      "matchups": {
+        "r2-doreios": {
+          "games": 512,
+          "wins": 353,
+          "ties": 43,
+          "losses": 116,
+          "share": 0.7314453125,
+          "winCI95": [
+            0.6480867473996957,
+            0.7279977969553059
+          ]
+        }
+      }
+    }
+  },
+  "comparisons": {},
+  "checkpointSHA256": {
+    "selected": "f6016282d408c3f78263a3396f7e423e31fdcbf3c790afcf6b34e6fd9823122c"
+  },
+  "elapsedSeconds": 44.32321545900777
+}
