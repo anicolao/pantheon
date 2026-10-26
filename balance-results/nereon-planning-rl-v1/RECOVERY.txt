@@ -1,0 +1,42 @@
+Nereon raw-RL and public-information planner pilot
+
+Frozen experiment implementation: 1c2abe3b450330f00497171d493abd431c3b77cb.
+Training checkpoints and evidence: bdd94f0143342a9b2e4f58c1c8b5ee269ebf6745.
+The source hashes in protocol.json are authoritative for resume verification.
+
+All 17 network/optimizer snapshots (initial plus 16 updates), matching RNG
+snapshots, 1,024 training-game trajectories, frozen opponents, compiled
+evaluation workers, screening results, selected network, and export-parity
+evidence are checked in. No game-client weights are changed by this study.
+
+Current controller identity is in queue.json, and the completion marker is
+queue-finished.json. Do not start another controller while the recorded
+controller is alive. Verify its command before treating a PID as this job:
+process IDs can be reused. Do not stop unrelated processes.
+
+From the original checkout, after the controller has exited:
+  nix develop /tmp/pantheon-nix-env --command /tmp/pantheon-rl-venv/bin/python scripts/rl/run_nereon_planning_rl.py --resume
+
+Resume reuses completed chunks only after validating source/model/manifest
+hashes. Missing chunks retain their original seeds. The original and resumed
+controller output is appended to /tmp/nereon-planning-rl-v1.log.
+
+Manifests contain absolute paths to the original checkout. Relocating the
+study requires explicitly rebasing these paths, preserving actor/critic
+content hashes, and updating manifest references; do not pretend that a
+changed manifest has the old checksum. The Python environment and Nix
+environment are external dependencies, not bundled into the result files.
+
+After all comparisons finish, independently audit the saved evidence:
+  nix develop /tmp/pantheon-nix-env --command /tmp/pantheon-rl-venv/bin/python balance-results/nereon-planning-rl-v1/audit.py
+
+Resource interventions are recorded in resource-notes.json. The intentional
+restart retained 324 completed raw-comparison games and reran the 16 unfinished
+four-game chunks. It did not change seeds, models, search settings, or exclude
+any games. The new controller runs at normal priority.
+
+Interpretation: the 400 comparison seeds were reserved from this training and
+screening, but reused from the earlier Thaleia planner study. They are not a
+fresh unseen benchmark across the whole research program. Paired intervals
+cluster the four seat rotations of each of 100 seed blocks. This is one
+1,024-game PPO pilot, not an exhaustive test of raw RL's potential.

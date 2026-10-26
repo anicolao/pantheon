@@ -1,0 +1,22 @@
+{
+  "comparisonInterrupted": true,
+  "completedRawGamesRetainedAtRestart": 324,
+  "unfinishedChunksRestarted": 16,
+  "scheduledGamesInRestartedChunks": 64,
+  "gamesExcluded": 0,
+  "observations": [
+    "During raw comparison the host had severe contention, with load averages above 500 and roughly 35000 threads.",
+    "Large Firestore emulators belong to other projects; none were stopped by this experiment. The user explicitly requested leaving other projects untouched.",
+    "The original controller remained alive until intentionally stopped after 324 raw comparison games were saved. A fresh normal-priority controller resumes all missing chunks with identical source, models, and seeds.",
+    "No thermal or CPU power warning was recorded by pmset; the cause is not established conclusively.",
+    "The resumed controller's logger initialization truncated its completed training metrics file. All 16 original lines were restored exactly from committed checkpoint bdd94f014. No model, optimizer, trajectory, or comparison result was affected."
+  ],
+  "resourceAdjustments": [
+    "Controller PID 96192 was reniced to 10. Existing children retained their prior priority; subsequent children inherit the controller priority.",
+    "A temporary caffeinate -i -w 96192 assertion prevents idle sleep only while the controller remains alive. No persistent power settings changed.",
+    "An attempt to restore controller priority to 0 was denied by the operating system. No escalation was attempted.",
+    "A boundary watcher was initially started but stopped before it acted. The original owned controller process group was terminated to restore normal scheduling through a fresh resume process. Completed chunks are hash-validated and reused; every unfinished chunk is rerun, with no exclusions.",
+    "Resumed controller PID 6037 and workers verified at nice 0. A temporary idle-sleep assertion was attached to the new controller. taskpolicy -B was applied successfully to the new controller and its Bun workers to remove background scheduling."
+  ],
+  "scientificSettingsChanged": false
+}
