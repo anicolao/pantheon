@@ -1,0 +1,55 @@
+Nereon: raw RL first, then public-information planning
+
+The combined candidate improves Nereon's observed four-player win share from
+12.17% to 16.54%, but Nereon remains the weakest member of this table. This is
+an initial PPO pilot, not evidence that raw RL has reached its ceiling.
+
+Leader       Original Nereon    Retrained Nereon    Retrained + planner
+Melia              26.38%             25.88%               26.71%
+Nereon             12.17%             13.50%               16.54%
+Thaleia            39.92%             38.33%               35.71%
+Doreios            21.54%             22.29%               21.04%
+
+Nereon paired changes, in percentage points (95% intervals):
+  Raw RL versus original:       +1.33  [-0.17, +2.84]
+  Planner versus retrained:     +3.04  [-0.54, +6.62]
+  Combined versus original:     +4.38  [+0.67, +8.08]
+
+The combined interval excludes zero on this benchmark. The individual raw-RL
+and planner increments remain uncertain. The largest observed opposing shift
+is Thaleia: -4.21 points versus the original table, interval [-8.07, -0.34].
+
+Design
+  400 matched games per column: 100 seed blocks, each with four seat rotations.
+  Tied wins are split; intervals cluster the four rotations within each block.
+  Melia and the Doreios/Thaleia planners stay fixed in every arm. Their internal
+  models of opponents also stay frozen. Only Nereon's actual policy changes.
+  The original column reuses the prior Thaleia study's completed games; 16 were
+  reproduced with identical outcomes and planning counts. These benchmark seeds
+  were excluded from this training and screening but are not fresh across the
+  overall research program.
+
+Training
+  1,024 complete games, 62,982 Nereon decisions, 16 PPO updates/checkpoints.
+  Terminal reward only: 2 * split-win credit - 1. No strategic overrides.
+  Architecture unchanged: 171 inputs, two 128-unit hidden layers, 349 actions.
+  A separate 128-game screen compared the original, 512-game checkpoint, and
+  1,024-game checkpoint. The selected checkpoint was round-08 (512 games),
+  selected before inspecting comparison outcomes. All checkpoints are saved.
+  The planner uses that same selected actor and its matching signed-win critic:
+  16 sampled worlds, up to four candidates, four-own-turn horizon, risk 1.
+  Hypothetical continuations use plain neural actors, without nested planning.
+
+Validation and recovery
+  All 800 new comparison games passed exact full-state replay checks.
+  Training/screening records also passed replay and integrity checks.
+  Exported actor commands matched PyTorch on 930 decisions across 16 games.
+  Critic tensors were exported losslessly; maximum floating-point kernel
+  difference versus PyTorch was 9.5367431640625e-7, reported explicitly.
+  The independent audit verified inputs, seed separation, all scheduled games,
+  frozen opponent configurations, and independently recomputed paired statistics.
+  Full results: results.json. Audit: final-audit.json. Recovery: RECOVERY.txt.
+  Resource interruptions and local/CI validation outcomes are preserved in
+  resource-notes.json, validation-resource-hold.json, and ci-notes.json.
+
+No playable bot weights were changed or automatically promoted by this study.

@@ -1,0 +1,10 @@
+Initial pure masked-PPO pilot:1024 complete training games in16 on-policy batches of64, against frozen Doreios and Thaleia planners and plain Melia. Learner remains171-input128x128; terminal reward2*splitWin-1 only. Independent complete-game collection avoids synchronized per-action stalls; all episode boundaries retained, no exclusions. Save each update and RNG state. Common128 separate screen games for incumbent and checkpoints after512/1024 training games; select best trained checkpoint before reserved comparison. Compare original Nereon, selected raw RL, then that same checkpoint plus16sample/4candidate/risk1/four-own-turn win-value planning on the same400 reserved prior-table games. These test seeds appeared in the prior Thaleia study but are excluded from training and screening. No tuning on comparison outcomes. Opponent planner world models stay frozen at original actors even as learner changes. Reproduce16 cached baseline games and counts;16-game exact trained actor export parity; full-state replay every actual game. No deployment.
+
+Leader | Original | Raw RL | Raw RL + planning
+melia: 26.38% | 25.87% | 26.71%
+nereon: 12.17% | 13.50% | 16.54%
+thaleia: 39.92% | 38.33% | 35.71%
+doreios: 21.54% | 22.29% | 21.04%
+Nereon rawVsOriginal: +1.33pp,95%CI [-0.17,+2.84]
+Nereon plannerVsRaw: +3.04pp,95%CI [-0.54,+6.62]
+Nereon plannerVsOriginal: +4.38pp,95%CI [+0.67,+8.08]

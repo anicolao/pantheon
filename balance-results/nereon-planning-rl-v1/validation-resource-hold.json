@@ -1,0 +1,8 @@
+{
+  "controllerPID": 6037,
+  "reason": "Avoid competing with local browser validation",
+  "sourceOrInputsChanged": false,
+  "started": 1793046030.86432,
+  "testExitCode": 1,
+  "resumed": 1793046431.3527749
+}
