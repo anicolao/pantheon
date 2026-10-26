@@ -1,0 +1,39 @@
+{
+  "output": "balance-results/thaleia-planner-v1",
+  "opponentManifest": "balance-results/thaleia-planner-v1/opponents.json",
+  "worker": "balance-results/thaleia-planner-v1/two-planner-worker.js",
+  "doreiosCritic": {
+    "path": "balance-results/thaleia-planner-v1/doreios-critic.json",
+    "sha256": "7be4ae257ded259ddc57a8811115946ff4ec38f06c2e101ca3373265d9b58346"
+  },
+  "thaleiaCritic": {
+    "path": "balance-results/thaleia-planner-v1/thaleia-critic.json",
+    "sha256": "c33da9c453dbb5f7334df713d2e9d61345ca753d430547b0854b15efb0a6083e"
+  },
+  "doreiosRule": {
+    "samples": 16,
+    "candidates": 4,
+    "risk": 1,
+    "trash": false,
+    "utility": "margin",
+    "maskedInference": true,
+    "leafHorizon": 4,
+    "guardTreasures": false
+  },
+  "thaleiaRule": {
+    "samples": 16,
+    "candidates": 4,
+    "risk": 1,
+    "trash": false,
+    "utility": "win",
+    "maskedInference": true,
+    "leafHorizon": 4,
+    "guardTreasures": false
+  },
+  "prefix": "d4r28-357e649b83c9:confirm",
+  "games": 400,
+  "workers": 12,
+  "chunkGames": 4,
+  "baselineSource": "balance-results/doreios-four-rl-v28/jobs/candidate.json",
+  "protocol": "Fixed first400 existing v28 confirmation games (100 seed blocks x four seat rotations), no new selection or tuning. Doreios retains exact confirmed planner in both arms. Add Thaleia planner with same16samples/4candidates/risk1/four-own-turn horizon; Thaleia uses its own frozen signed-win critic normalized(value+1)/2 and exact split-win terminal utility. Doreios retains margin critic/utility. Hypothetical continuations use frozen plain actors, not nested planners. Verify16 cached baseline games exactly before comparison; full-state replay every actual game. Report all four shares and paired seed-block CIs. No deployment."
+}

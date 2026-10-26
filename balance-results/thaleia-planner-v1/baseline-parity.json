@@ -1,0 +1,6 @@
+{
+  "games": 16,
+  "exactOutcomes": true,
+  "exactFirstEightSearchCounts": true,
+  "fullReplays": true
+}

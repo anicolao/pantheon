@@ -1,0 +1,7 @@
+Fixed first400 existing v28 confirmation games (100 seed blocks x four seat rotations), no new selection or tuning. Doreios retains exact confirmed planner in both arms. Add Thaleia planner with same16samples/4candidates/risk1/four-own-turn horizon; Thaleia uses its own frozen signed-win critic normalized(value+1)/2 and exact split-win terminal utility. Doreios retains margin critic/utility. Hypothetical continuations use frozen plain actors, not nested planners. Verify16 cached baseline games exactly before comparison; full-state replay every actual game. Report all four shares and paired seed-block CIs. No deployment.
+
+Leader | Doreios planning only | Both planning | Paired change (95% CI)
+melia: 30.79% | 26.38% | -4.42pp [-8.10, -0.73]
+nereon: 15.00% | 12.17% | -2.83pp [-5.89, +0.22]
+thaleia: 30.79% | 39.92% | +9.12pp [+5.00, +13.25]
+doreios: 23.42% | 21.54% | -1.88pp [-5.27, +1.52]
