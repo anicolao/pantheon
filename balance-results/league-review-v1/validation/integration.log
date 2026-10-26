@@ -1,0 +1,151 @@
+bun test v1.3.13 (bf2e2cec)
+
+tests/tooling/rl-league.test.ts:
+(pass) league melia: frozen schedule, legal complete games, balanced seats and replay [1743.76ms]
+(pass) league nereon: frozen schedule, legal complete games, balanced seats and replay [1617.05ms]
+(pass) league thaleia: frozen schedule, legal complete games, balanced seats and replay [2561.69ms]
+(pass) league doreios: frozen schedule, legal complete games, balanced seats and replay [1881.74ms]
+(pass) league rejects actor drift and same-leader opponents [2.34ms]
+
+tests/tooling/rl-environment.test.ts:
+(pass) every mask-enabled command is accepted by the production reducer, seed 0 [868.56ms]
+(pass) every mask-enabled command is accepted by the production reducer, seed 1 [583.04ms]
+(pass) every mask-enabled command is accepted by the production reducer, seed 2 [439.56ms]
+(pass) every mask-enabled command is accepted by the production reducer, seed 3 [331.40ms]
+(pass) observations and masks do not expose hidden deck order, opponent hand, or instance IDs [3.12ms]
+(pass) two-card selections support repeated types without reusing an instance [0.43ms]
+(pass) DAgger teacher queries do not mutate the expert memory [7.11ms]
+(pass) leader-specific RL teacher nereon/money completes a legal, replayable game [39722.76ms]
+(pass) leader-specific RL teacher nereon/fleet-v1 completes a legal, replayable game [89.13ms]
+(pass) leader-specific RL teacher thaleia/classic-engine completes a legal, replayable game [200.42ms]
+(pass) Melia RL opponent pool balances leaders and seats: 0 [42.19ms]
+(pass) Melia RL opponent pool balances leaders and seats: 1 [55.76ms]
+(pass) Melia RL opponent pool balances leaders and seats: 2 [66.92ms]
+(pass) Melia RL opponent pool balances leaders and seats: 3 [74.74ms]
+(pass) Melia RL opponent pool balances leaders and seats: 4 [62.62ms]
+(pass) Melia RL opponent pool balances leaders and seats: 5 [55.05ms]
+(pass) focused training schedule keeps both seats and never changes balanced evaluation [4.80ms]
+
+tests/tooling/rl-runtime.test.ts:
+(pass) melia browser actor matches frozen PyTorch decisions [1.37ms]
+(pass) nereon browser actor matches frozen PyTorch decisions [1.17ms]
+(pass) thaleia browser actor matches frozen PyTorch decisions [1.41ms]
+(pass) doreios browser actor matches frozen PyTorch decisions [1.24ms]
+
+tests/tooling/adaptive-bot.test.ts:
+(pass) Bot as melia matches rl throughout a game, including opening and reload [3912.53ms]
+(pass) Bot as thaleia matches rl throughout a game, including opening and reload [1617.46ms]
+(pass) Bot as nereon matches rl throughout a game, including opening and reload [3255.74ms]
+(pass) Bot as doreios matches rl throughout a game, including opening and reload [13120.36ms]
+
+tests/tooling/table-bots.test.ts:
+(pass) 2 seats mixed human/bots draft, play, and resume from shared events [5084.25ms]
+(pass) 2 seats all bots draft, play, and resume from shared events [4369.53ms]
+(pass) 3 seats mixed human/bots draft, play, and resume from shared events [35297.92ms]
+(pass) 3 seats all bots draft, play, and resume from shared events [21100.15ms]
+(pass) 4 seats mixed human/bots draft, play, and resume from shared events [30683.32ms]
+(pass) 4 seats all bots draft, play, and resume from shared events [36112.27ms]
+(pass) Heuristic random draft proposals are legal, repeatable and include every leader across seeds [0.56ms]
+(pass) Bot random draft proposals are legal, repeatable and include every leader across seeds [0.26ms]
+(pass) human purchase Undo and host reload preserve the next bot decision [3.74ms]
+(pass) Bot drafts distinct available leaders and completes a shared table after reload [9749.31ms]
+(pass) 3 adaptive RL seats finish and preserve decisions across host reload [6568.15ms]
+(pass) 4 adaptive RL seats finish and preserve decisions across host reload [14879.60ms]
+
+tests/tooling/tabletop.test.ts:
+(pass) shared tabletop uses legal game events for both seating modes > preset south/north seed 0 [2.29ms]
+(pass) shared tabletop uses legal game events for both seating modes > random south/north seed 0 [0.13ms]
+(pass) shared tabletop uses legal game events for both seating modes > preset south/north seed 1 [0.38ms]
+(pass) shared tabletop uses legal game events for both seating modes > random south/north seed 1 [0.06ms]
+(pass) shared tabletop uses legal game events for both seating modes > preset south/north seed 2 [0.09ms]
+(pass) shared tabletop uses legal game events for both seating modes > random south/north seed 2
+(pass) shared tabletop uses legal game events for both seating modes > preset south/north seed 3 [0.14ms]
+(pass) shared tabletop uses legal game events for both seating modes > random south/north seed 3
+(pass) shared tabletop uses legal game events for both seating modes > preset south/north seed 4 [0.12ms]
+(pass) shared tabletop uses legal game events for both seating modes > random south/north seed 4
+(pass) shared tabletop uses legal game events for both seating modes > preset south/north seed 5 [0.14ms]
+(pass) shared tabletop uses legal game events for both seating modes > random south/north seed 5
+(pass) shared tabletop uses legal game events for both seating modes > preset south/north seed 6
+(pass) shared tabletop uses legal game events for both seating modes > random south/north seed 6
+(pass) shared tabletop uses legal game events for both seating modes > preset south/north seed 7 [0.28ms]
+(pass) shared tabletop uses legal game events for both seating modes > random south/north seed 7
+(pass) shared tabletop uses legal game events for both seating modes > preset east/west seed 0 [0.17ms]
+(pass) shared tabletop uses legal game events for both seating modes > random east/west seed 0 [0.07ms]
+(pass) shared tabletop uses legal game events for both seating modes > preset east/west seed 1 [0.05ms]
+(pass) shared tabletop uses legal game events for both seating modes > random east/west seed 1
+(pass) shared tabletop uses legal game events for both seating modes > preset east/west seed 2 [0.19ms]
+(pass) shared tabletop uses legal game events for both seating modes > random east/west seed 2
+(pass) shared tabletop uses legal game events for both seating modes > preset east/west seed 3 [0.15ms]
+(pass) shared tabletop uses legal game events for both seating modes > random east/west seed 3 [0.03ms]
+(pass) shared tabletop uses legal game events for both seating modes > preset east/west seed 4 [0.10ms]
+(pass) shared tabletop uses legal game events for both seating modes > random east/west seed 4 [0.05ms]
+(pass) shared tabletop uses legal game events for both seating modes > preset east/west seed 5 [0.01ms]
+(pass) shared tabletop uses legal game events for both seating modes > random east/west seed 5 [0.07ms]
+(pass) shared tabletop uses legal game events for both seating modes > preset east/west seed 6 [0.07ms]
+(pass) shared tabletop uses legal game events for both seating modes > random east/west seed 6 [0.05ms]
+(pass) shared tabletop uses legal game events for both seating modes > preset east/west seed 7 [0.08ms]
+(pass) shared tabletop uses legal game events for both seating modes > random east/west seed 7 [0.01ms]
+(pass) shared tabletop uses legal game events for both seating modes > preset north/south/east seed 0 [0.18ms]
+(pass) shared tabletop uses legal game events for both seating modes > random north/south/east seed 0 [0.06ms]
+(pass) shared tabletop uses legal game events for both seating modes > preset north/south/east seed 1 [0.12ms]
+(pass) shared tabletop uses legal game events for both seating modes > random north/south/east seed 1 [0.10ms]
+(pass) shared tabletop uses legal game events for both seating modes > preset north/south/east seed 2 [0.11ms]
+(pass) shared tabletop uses legal game events for both seating modes > random north/south/east seed 2 [0.08ms]
+(pass) shared tabletop uses legal game events for both seating modes > preset north/south/east seed 3
+(pass) shared tabletop uses legal game events for both seating modes > random north/south/east seed 3 [0.13ms]
+(pass) shared tabletop uses legal game events for both seating modes > preset north/south/east seed 4 [0.08ms]
+(pass) shared tabletop uses legal game events for both seating modes > random north/south/east seed 4 [0.06ms]
+(pass) shared tabletop uses legal game events for both seating modes > preset north/south/east seed 5 [0.13ms]
+(pass) shared tabletop uses legal game events for both seating modes > random north/south/east seed 5 [0.06ms]
+(pass) shared tabletop uses legal game events for both seating modes > preset north/south/east seed 6 [0.11ms]
+(pass) shared tabletop uses legal game events for both seating modes > random north/south/east seed 6 [0.06ms]
+(pass) shared tabletop uses legal game events for both seating modes > preset north/south/east seed 7 [0.11ms]
+(pass) shared tabletop uses legal game events for both seating modes > random north/south/east seed 7 [0.06ms]
+(pass) shared tabletop uses legal game events for both seating modes > preset west/east/north/south seed 0 [0.09ms]
+(pass) shared tabletop uses legal game events for both seating modes > random west/east/north/south seed 0 [0.17ms]
+(pass) shared tabletop uses legal game events for both seating modes > preset west/east/north/south seed 1 [0.13ms]
+(pass) shared tabletop uses legal game events for both seating modes > random west/east/north/south seed 1
+(pass) shared tabletop uses legal game events for both seating modes > preset west/east/north/south seed 2 [0.29ms]
+(pass) shared tabletop uses legal game events for both seating modes > random west/east/north/south seed 2 [0.09ms]
+(pass) shared tabletop uses legal game events for both seating modes > preset west/east/north/south seed 3 [0.14ms]
+(pass) shared tabletop uses legal game events for both seating modes > random west/east/north/south seed 3 [0.10ms]
+(pass) shared tabletop uses legal game events for both seating modes > preset west/east/north/south seed 4 [0.14ms]
+(pass) shared tabletop uses legal game events for both seating modes > random west/east/north/south seed 4 [0.05ms]
+(pass) shared tabletop uses legal game events for both seating modes > preset west/east/north/south seed 5
+(pass) shared tabletop uses legal game events for both seating modes > random west/east/north/south seed 5
+(pass) shared tabletop uses legal game events for both seating modes > preset west/east/north/south seed 6 [0.43ms]
+(pass) shared tabletop uses legal game events for both seating modes > random west/east/north/south seed 6
+(pass) shared tabletop uses legal game events for both seating modes > preset west/east/north/south seed 7 [0.23ms]
+(pass) shared tabletop uses legal game events for both seating modes > random west/east/north/south seed 7
+(pass) shared tabletop uses legal game events for both seating modes > preset south/north/west/east seed 0 [0.14ms]
+(pass) shared tabletop uses legal game events for both seating modes > random south/north/west/east seed 0
+(pass) shared tabletop uses legal game events for both seating modes > preset south/north/west/east seed 1 [0.35ms]
+(pass) shared tabletop uses legal game events for both seating modes > random south/north/west/east seed 1 [0.08ms]
+(pass) shared tabletop uses legal game events for both seating modes > preset south/north/west/east seed 2 [0.15ms]
+(pass) shared tabletop uses legal game events for both seating modes > random south/north/west/east seed 2 [0.02ms]
+(pass) shared tabletop uses legal game events for both seating modes > preset south/north/west/east seed 3 [0.19ms]
+(pass) shared tabletop uses legal game events for both seating modes > random south/north/west/east seed 3 [0.09ms]
+(pass) shared tabletop uses legal game events for both seating modes > preset south/north/west/east seed 4
+(pass) shared tabletop uses legal game events for both seating modes > random south/north/west/east seed 4 [0.25ms]
+(pass) shared tabletop uses legal game events for both seating modes > preset south/north/west/east seed 5 [0.13ms]
+(pass) shared tabletop uses legal game events for both seating modes > random south/north/west/east seed 5
+(pass) shared tabletop uses legal game events for both seating modes > preset south/north/west/east seed 6 [0.20ms]
+(pass) shared tabletop uses legal game events for both seating modes > random south/north/west/east seed 6 [0.16ms]
+(pass) shared tabletop uses legal game events for both seating modes > preset south/north/west/east seed 7 [0.15ms]
+(pass) shared tabletop uses legal game events for both seating modes > random south/north/west/east seed 7 [0.09ms]
+(pass) leaving and rejoining changes priority; switching a joined seat to a bot does not [0.13ms]
+(pass) bots preserve preset human leaders and use the leader-aware Bot policy [32.84ms]
+(pass) preset tabletop bots randomize unreserved leaders reproducibly across seeds [10.70ms]
+(pass) an all-bot randomized table drafts with ordinary bot proposals [0.25ms]
+(pass) rejects invalid seat counts, stale choices, and corrupt saved seating [0.23ms]
+(pass) rematch keeps 2 seats and changes first player, draft false [106.52ms]
+(pass) rematch keeps 2 seats and changes first player, draft true [90.68ms]
+(pass) rematch keeps 3 seats and changes first player, draft false [127.12ms]
+(pass) rematch keeps 3 seats and changes first player, draft true [142.67ms]
+(pass) rematch keeps 4 seats and changes first player, draft false [168.80ms]
+(pass) rematch keeps 4 seats and changes first player, draft true [165.06ms]
+
+ 133 pass
+ 0 fail
+ 26006 expect() calls
+Ran 133 tests across 6 files. [237.12s]

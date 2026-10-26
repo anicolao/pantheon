@@ -1,0 +1,307 @@
+{
+  "output": "balance-results/league-review-v1/evaluation",
+  "seeds": [
+    "league-review-v1:e72a280fc4ff4f608982e260da6be793:0",
+    "league-review-v1:e72a280fc4ff4f608982e260da6be793:1",
+    "league-review-v1:e72a280fc4ff4f608982e260da6be793:2",
+    "league-review-v1:e72a280fc4ff4f608982e260da6be793:3",
+    "league-review-v1:e72a280fc4ff4f608982e260da6be793:4",
+    "league-review-v1:e72a280fc4ff4f608982e260da6be793:5",
+    "league-review-v1:e72a280fc4ff4f608982e260da6be793:6",
+    "league-review-v1:e72a280fc4ff4f608982e260da6be793:7",
+    "league-review-v1:e72a280fc4ff4f608982e260da6be793:8",
+    "league-review-v1:e72a280fc4ff4f608982e260da6be793:9",
+    "league-review-v1:e72a280fc4ff4f608982e260da6be793:10",
+    "league-review-v1:e72a280fc4ff4f608982e260da6be793:11",
+    "league-review-v1:e72a280fc4ff4f608982e260da6be793:12",
+    "league-review-v1:e72a280fc4ff4f608982e260da6be793:13",
+    "league-review-v1:e72a280fc4ff4f608982e260da6be793:14",
+    "league-review-v1:e72a280fc4ff4f608982e260da6be793:15",
+    "league-review-v1:e72a280fc4ff4f608982e260da6be793:16",
+    "league-review-v1:e72a280fc4ff4f608982e260da6be793:17",
+    "league-review-v1:e72a280fc4ff4f608982e260da6be793:18",
+    "league-review-v1:e72a280fc4ff4f608982e260da6be793:19",
+    "league-review-v1:e72a280fc4ff4f608982e260da6be793:20",
+    "league-review-v1:e72a280fc4ff4f608982e260da6be793:21",
+    "league-review-v1:e72a280fc4ff4f608982e260da6be793:22",
+    "league-review-v1:e72a280fc4ff4f608982e260da6be793:23",
+    "league-review-v1:e72a280fc4ff4f608982e260da6be793:24",
+    "league-review-v1:e72a280fc4ff4f608982e260da6be793:25",
+    "league-review-v1:e72a280fc4ff4f608982e260da6be793:26",
+    "league-review-v1:e72a280fc4ff4f608982e260da6be793:27",
+    "league-review-v1:e72a280fc4ff4f608982e260da6be793:28",
+    "league-review-v1:e72a280fc4ff4f608982e260da6be793:29",
+    "league-review-v1:e72a280fc4ff4f608982e260da6be793:30",
+    "league-review-v1:e72a280fc4ff4f608982e260da6be793:31",
+    "league-review-v1:e72a280fc4ff4f608982e260da6be793:32",
+    "league-review-v1:e72a280fc4ff4f608982e260da6be793:33",
+    "league-review-v1:e72a280fc4ff4f608982e260da6be793:34",
+    "league-review-v1:e72a280fc4ff4f608982e260da6be793:35",
+    "league-review-v1:e72a280fc4ff4f608982e260da6be793:36",
+    "league-review-v1:e72a280fc4ff4f608982e260da6be793:37",
+    "league-review-v1:e72a280fc4ff4f608982e260da6be793:38",
+    "league-review-v1:e72a280fc4ff4f608982e260da6be793:39",
+    "league-review-v1:e72a280fc4ff4f608982e260da6be793:40",
+    "league-review-v1:e72a280fc4ff4f608982e260da6be793:41",
+    "league-review-v1:e72a280fc4ff4f608982e260da6be793:42",
+    "league-review-v1:e72a280fc4ff4f608982e260da6be793:43",
+    "league-review-v1:e72a280fc4ff4f608982e260da6be793:44",
+    "league-review-v1:e72a280fc4ff4f608982e260da6be793:45",
+    "league-review-v1:e72a280fc4ff4f608982e260da6be793:46",
+    "league-review-v1:e72a280fc4ff4f608982e260da6be793:47",
+    "league-review-v1:e72a280fc4ff4f608982e260da6be793:48",
+    "league-review-v1:e72a280fc4ff4f608982e260da6be793:49",
+    "league-review-v1:e72a280fc4ff4f608982e260da6be793:50",
+    "league-review-v1:e72a280fc4ff4f608982e260da6be793:51",
+    "league-review-v1:e72a280fc4ff4f608982e260da6be793:52",
+    "league-review-v1:e72a280fc4ff4f608982e260da6be793:53",
+    "league-review-v1:e72a280fc4ff4f608982e260da6be793:54",
+    "league-review-v1:e72a280fc4ff4f608982e260da6be793:55",
+    "league-review-v1:e72a280fc4ff4f608982e260da6be793:56",
+    "league-review-v1:e72a280fc4ff4f608982e260da6be793:57",
+    "league-review-v1:e72a280fc4ff4f608982e260da6be793:58",
+    "league-review-v1:e72a280fc4ff4f608982e260da6be793:59",
+    "league-review-v1:e72a280fc4ff4f608982e260da6be793:60",
+    "league-review-v1:e72a280fc4ff4f608982e260da6be793:61",
+    "league-review-v1:e72a280fc4ff4f608982e260da6be793:62",
+    "league-review-v1:e72a280fc4ff4f608982e260da6be793:63",
+    "league-review-v1:e72a280fc4ff4f608982e260da6be793:64",
+    "league-review-v1:e72a280fc4ff4f608982e260da6be793:65",
+    "league-review-v1:e72a280fc4ff4f608982e260da6be793:66",
+    "league-review-v1:e72a280fc4ff4f608982e260da6be793:67",
+    "league-review-v1:e72a280fc4ff4f608982e260da6be793:68",
+    "league-review-v1:e72a280fc4ff4f608982e260da6be793:69",
+    "league-review-v1:e72a280fc4ff4f608982e260da6be793:70",
+    "league-review-v1:e72a280fc4ff4f608982e260da6be793:71",
+    "league-review-v1:e72a280fc4ff4f608982e260da6be793:72",
+    "league-review-v1:e72a280fc4ff4f608982e260da6be793:73",
+    "league-review-v1:e72a280fc4ff4f608982e260da6be793:74",
+    "league-review-v1:e72a280fc4ff4f608982e260da6be793:75",
+    "league-review-v1:e72a280fc4ff4f608982e260da6be793:76",
+    "league-review-v1:e72a280fc4ff4f608982e260da6be793:77",
+    "league-review-v1:e72a280fc4ff4f608982e260da6be793:78",
+    "league-review-v1:e72a280fc4ff4f608982e260da6be793:79",
+    "league-review-v1:e72a280fc4ff4f608982e260da6be793:80",
+    "league-review-v1:e72a280fc4ff4f608982e260da6be793:81",
+    "league-review-v1:e72a280fc4ff4f608982e260da6be793:82",
+    "league-review-v1:e72a280fc4ff4f608982e260da6be793:83",
+    "league-review-v1:e72a280fc4ff4f608982e260da6be793:84",
+    "league-review-v1:e72a280fc4ff4f608982e260da6be793:85",
+    "league-review-v1:e72a280fc4ff4f608982e260da6be793:86",
+    "league-review-v1:e72a280fc4ff4f608982e260da6be793:87",
+    "league-review-v1:e72a280fc4ff4f608982e260da6be793:88",
+    "league-review-v1:e72a280fc4ff4f608982e260da6be793:89",
+    "league-review-v1:e72a280fc4ff4f608982e260da6be793:90",
+    "league-review-v1:e72a280fc4ff4f608982e260da6be793:91",
+    "league-review-v1:e72a280fc4ff4f608982e260da6be793:92",
+    "league-review-v1:e72a280fc4ff4f608982e260da6be793:93",
+    "league-review-v1:e72a280fc4ff4f608982e260da6be793:94",
+    "league-review-v1:e72a280fc4ff4f608982e260da6be793:95",
+    "league-review-v1:e72a280fc4ff4f608982e260da6be793:96",
+    "league-review-v1:e72a280fc4ff4f608982e260da6be793:97",
+    "league-review-v1:e72a280fc4ff4f608982e260da6be793:98",
+    "league-review-v1:e72a280fc4ff4f608982e260da6be793:99"
+  ],
+  "workers": 16,
+  "entries": [
+    {
+      "id": "old-melia",
+      "leader": "melia",
+      "generation": "old",
+      "actor": "balance-results/league-review-v1/actors/old-melia.json",
+      "actorSHA256": "1310ab42acc417055d641fbf9c7a2ec155889b700d588d85ab4c14af7c831dcb",
+      "checkpointSHA256": "f6016282d408c3f78263a3396f7e423e31fdcbf3c790afcf6b34e6fd9823122c"
+    },
+    {
+      "id": "old-nereon",
+      "leader": "nereon",
+      "generation": "old",
+      "actor": "balance-results/league-review-v1/actors/old-nereon.json",
+      "actorSHA256": "c62419391353ea8d3a189185a74ba174bd74dab7558d4ba8c3ae8557e3febfdf",
+      "checkpointSHA256": "fec15291b5c041494285f0151db211e7d525e8afee4e0e034c6eb6a4c5a22d58"
+    },
+    {
+      "id": "old-thaleia",
+      "leader": "thaleia",
+      "generation": "old",
+      "actor": "balance-results/league-review-v1/actors/old-thaleia.json",
+      "actorSHA256": "3df20ea8f47a2c692bedb3b4014619cf30f9d3cede6084570d804d751530784b",
+      "checkpointSHA256": "f81492461000d9eec8fd1ef379ffa46578c354e8e9691e511a5298470f3cae07"
+    },
+    {
+      "id": "old-doreios",
+      "leader": "doreios",
+      "generation": "old",
+      "actor": "balance-results/league-review-v1/actors/old-doreios.json",
+      "actorSHA256": "c444e3097cf76aa7b233a394061312527c6732bbc8322b2dfb0b505cc297a82d",
+      "checkpointSHA256": "ca4a52a69cd3e439baae2b1eb5195aa392e2648d23ba1024b9b35f6c54fdce6d"
+    },
+    {
+      "id": "new-melia",
+      "leader": "melia",
+      "generation": "new",
+      "actor": "balance-results/league-review-v1/actors/new-melia.json",
+      "actorSHA256": "1310ab42acc417055d641fbf9c7a2ec155889b700d588d85ab4c14af7c831dcb",
+      "checkpointSHA256": "f6016282d408c3f78263a3396f7e423e31fdcbf3c790afcf6b34e6fd9823122c"
+    },
+    {
+      "id": "new-nereon",
+      "leader": "nereon",
+      "generation": "new",
+      "actor": "balance-results/league-review-v1/actors/new-nereon.json",
+      "actorSHA256": "516c42200aa095f6391261ab007241ad9c1c5eea843341d685455f9b400e8691",
+      "checkpointSHA256": "5d4460272869226723bd9668b946bed98bdc3208569853fa1240e446a78f05e7"
+    },
+    {
+      "id": "new-thaleia",
+      "leader": "thaleia",
+      "generation": "new",
+      "actor": "balance-results/league-review-v1/actors/new-thaleia.json",
+      "actorSHA256": "9c498edb081b4632254fccc06f65459a684afcdaeee896847267b59a50b4dc24",
+      "checkpointSHA256": "2a5f3d75920a210860fb8f7145cdb693b44f7a66a7a2eb6bbd6365e83a7325f3"
+    },
+    {
+      "id": "new-doreios",
+      "leader": "doreios",
+      "generation": "new",
+      "actor": "balance-results/league-review-v1/actors/new-doreios.json",
+      "actorSHA256": "ad35dc8f388f52def1ae7484080bb2e704bb4bb920f82bb120507f8681efe626",
+      "checkpointSHA256": "ae10ea34160d1d48b9929c846866e3b6a7de85b61a5866786285cfb21bcc0772"
+    },
+    {
+      "id": "mm-melia",
+      "leader": "melia",
+      "policy": "mm"
+    },
+    {
+      "id": "mm-nereon",
+      "leader": "nereon",
+      "policy": "mm"
+    },
+    {
+      "id": "mm-thaleia",
+      "leader": "thaleia",
+      "policy": "mm"
+    },
+    {
+      "id": "mm-doreios",
+      "leader": "doreios",
+      "policy": "mm"
+    },
+    {
+      "id": "money-melia",
+      "leader": "melia",
+      "policy": "money"
+    },
+    {
+      "id": "money-nereon",
+      "leader": "nereon",
+      "policy": "money"
+    },
+    {
+      "id": "money-thaleia",
+      "leader": "thaleia",
+      "policy": "money"
+    },
+    {
+      "id": "money-doreios",
+      "leader": "doreios",
+      "policy": "money"
+    },
+    {
+      "id": "engine-melia",
+      "leader": "melia",
+      "policy": "engine"
+    },
+    {
+      "id": "engine-nereon",
+      "leader": "nereon",
+      "policy": "engine"
+    },
+    {
+      "id": "engine-thaleia",
+      "leader": "thaleia",
+      "policy": "engine"
+    },
+    {
+      "id": "engine-doreios",
+      "leader": "doreios",
+      "policy": "engine"
+    },
+    {
+      "id": "classic-engine-melia",
+      "leader": "melia",
+      "policy": "classic-engine"
+    },
+    {
+      "id": "classic-engine-nereon",
+      "leader": "nereon",
+      "policy": "classic-engine"
+    },
+    {
+      "id": "classic-engine-thaleia",
+      "leader": "thaleia",
+      "policy": "classic-engine"
+    },
+    {
+      "id": "classic-engine-doreios",
+      "leader": "doreios",
+      "policy": "classic-engine"
+    },
+    {
+      "id": "owl-melia",
+      "leader": "melia",
+      "policy": "owl"
+    },
+    {
+      "id": "owl-nereon",
+      "leader": "nereon",
+      "policy": "owl"
+    },
+    {
+      "id": "owl-thaleia",
+      "leader": "thaleia",
+      "policy": "owl"
+    },
+    {
+      "id": "owl-doreios",
+      "leader": "doreios",
+      "policy": "owl"
+    },
+    {
+      "id": "mn-melia",
+      "leader": "melia",
+      "policy": "mn"
+    },
+    {
+      "id": "mn-nereon",
+      "leader": "nereon",
+      "policy": "mn"
+    },
+    {
+      "id": "mn-thaleia",
+      "leader": "thaleia",
+      "policy": "mn"
+    },
+    {
+      "id": "mn-doreios",
+      "leader": "doreios",
+      "policy": "mn"
+    },
+    {
+      "id": "fleet-v1-nereon",
+      "leader": "nereon",
+      "policy": "fleet-v1"
+    },
+    {
+      "id": "fleet-v6-nereon",
+      "leader": "nereon",
+      "policy": "fleet-v6"
+    },
+    {
+      "id": "grove-doreios",
+      "leader": "doreios",
+      "policy": "grove"
+    }
+  ]
+}

@@ -1,0 +1,209 @@
+{
+  "output": "balance-results/league-review-v1/smoke",
+  "seeds": [
+    "league-review-smoke:3b2bc5a6c3144101b024ae22ca61d1dc:0",
+    "league-review-smoke:fa18e4cd1f3047cf8e9cf1cb8b57b8f2:1"
+  ],
+  "workers": 16,
+  "entries": [
+    {
+      "id": "old-melia",
+      "leader": "melia",
+      "generation": "old",
+      "actor": "balance-results/league-review-v1/actors/old-melia.json",
+      "actorSHA256": "1310ab42acc417055d641fbf9c7a2ec155889b700d588d85ab4c14af7c831dcb",
+      "checkpointSHA256": "f6016282d408c3f78263a3396f7e423e31fdcbf3c790afcf6b34e6fd9823122c"
+    },
+    {
+      "id": "old-nereon",
+      "leader": "nereon",
+      "generation": "old",
+      "actor": "balance-results/league-review-v1/actors/old-nereon.json",
+      "actorSHA256": "c62419391353ea8d3a189185a74ba174bd74dab7558d4ba8c3ae8557e3febfdf",
+      "checkpointSHA256": "fec15291b5c041494285f0151db211e7d525e8afee4e0e034c6eb6a4c5a22d58"
+    },
+    {
+      "id": "old-thaleia",
+      "leader": "thaleia",
+      "generation": "old",
+      "actor": "balance-results/league-review-v1/actors/old-thaleia.json",
+      "actorSHA256": "3df20ea8f47a2c692bedb3b4014619cf30f9d3cede6084570d804d751530784b",
+      "checkpointSHA256": "f81492461000d9eec8fd1ef379ffa46578c354e8e9691e511a5298470f3cae07"
+    },
+    {
+      "id": "old-doreios",
+      "leader": "doreios",
+      "generation": "old",
+      "actor": "balance-results/league-review-v1/actors/old-doreios.json",
+      "actorSHA256": "c444e3097cf76aa7b233a394061312527c6732bbc8322b2dfb0b505cc297a82d",
+      "checkpointSHA256": "ca4a52a69cd3e439baae2b1eb5195aa392e2648d23ba1024b9b35f6c54fdce6d"
+    },
+    {
+      "id": "new-melia",
+      "leader": "melia",
+      "generation": "new",
+      "actor": "balance-results/league-review-v1/actors/new-melia.json",
+      "actorSHA256": "1310ab42acc417055d641fbf9c7a2ec155889b700d588d85ab4c14af7c831dcb",
+      "checkpointSHA256": "f6016282d408c3f78263a3396f7e423e31fdcbf3c790afcf6b34e6fd9823122c"
+    },
+    {
+      "id": "new-nereon",
+      "leader": "nereon",
+      "generation": "new",
+      "actor": "balance-results/league-review-v1/actors/new-nereon.json",
+      "actorSHA256": "516c42200aa095f6391261ab007241ad9c1c5eea843341d685455f9b400e8691",
+      "checkpointSHA256": "5d4460272869226723bd9668b946bed98bdc3208569853fa1240e446a78f05e7"
+    },
+    {
+      "id": "new-thaleia",
+      "leader": "thaleia",
+      "generation": "new",
+      "actor": "balance-results/league-review-v1/actors/new-thaleia.json",
+      "actorSHA256": "9c498edb081b4632254fccc06f65459a684afcdaeee896847267b59a50b4dc24",
+      "checkpointSHA256": "2a5f3d75920a210860fb8f7145cdb693b44f7a66a7a2eb6bbd6365e83a7325f3"
+    },
+    {
+      "id": "new-doreios",
+      "leader": "doreios",
+      "generation": "new",
+      "actor": "balance-results/league-review-v1/actors/new-doreios.json",
+      "actorSHA256": "ad35dc8f388f52def1ae7484080bb2e704bb4bb920f82bb120507f8681efe626",
+      "checkpointSHA256": "ae10ea34160d1d48b9929c846866e3b6a7de85b61a5866786285cfb21bcc0772"
+    },
+    {
+      "id": "mm-melia",
+      "leader": "melia",
+      "policy": "mm"
+    },
+    {
+      "id": "mm-nereon",
+      "leader": "nereon",
+      "policy": "mm"
+    },
+    {
+      "id": "mm-thaleia",
+      "leader": "thaleia",
+      "policy": "mm"
+    },
+    {
+      "id": "mm-doreios",
+      "leader": "doreios",
+      "policy": "mm"
+    },
+    {
+      "id": "money-melia",
+      "leader": "melia",
+      "policy": "money"
+    },
+    {
+      "id": "money-nereon",
+      "leader": "nereon",
+      "policy": "money"
+    },
+    {
+      "id": "money-thaleia",
+      "leader": "thaleia",
+      "policy": "money"
+    },
+    {
+      "id": "money-doreios",
+      "leader": "doreios",
+      "policy": "money"
+    },
+    {
+      "id": "engine-melia",
+      "leader": "melia",
+      "policy": "engine"
+    },
+    {
+      "id": "engine-nereon",
+      "leader": "nereon",
+      "policy": "engine"
+    },
+    {
+      "id": "engine-thaleia",
+      "leader": "thaleia",
+      "policy": "engine"
+    },
+    {
+      "id": "engine-doreios",
+      "leader": "doreios",
+      "policy": "engine"
+    },
+    {
+      "id": "classic-engine-melia",
+      "leader": "melia",
+      "policy": "classic-engine"
+    },
+    {
+      "id": "classic-engine-nereon",
+      "leader": "nereon",
+      "policy": "classic-engine"
+    },
+    {
+      "id": "classic-engine-thaleia",
+      "leader": "thaleia",
+      "policy": "classic-engine"
+    },
+    {
+      "id": "classic-engine-doreios",
+      "leader": "doreios",
+      "policy": "classic-engine"
+    },
+    {
+      "id": "owl-melia",
+      "leader": "melia",
+      "policy": "owl"
+    },
+    {
+      "id": "owl-nereon",
+      "leader": "nereon",
+      "policy": "owl"
+    },
+    {
+      "id": "owl-thaleia",
+      "leader": "thaleia",
+      "policy": "owl"
+    },
+    {
+      "id": "owl-doreios",
+      "leader": "doreios",
+      "policy": "owl"
+    },
+    {
+      "id": "mn-melia",
+      "leader": "melia",
+      "policy": "mn"
+    },
+    {
+      "id": "mn-nereon",
+      "leader": "nereon",
+      "policy": "mn"
+    },
+    {
+      "id": "mn-thaleia",
+      "leader": "thaleia",
+      "policy": "mn"
+    },
+    {
+      "id": "mn-doreios",
+      "leader": "doreios",
+      "policy": "mn"
+    },
+    {
+      "id": "fleet-v1-nereon",
+      "leader": "nereon",
+      "policy": "fleet-v1"
+    },
+    {
+      "id": "fleet-v6-nereon",
+      "leader": "nereon",
+      "policy": "fleet-v6"
+    },
+    {
+      "id": "grove-doreios",
+      "leader": "doreios",
+      "policy": "grove"
+    }
+  ]
+}

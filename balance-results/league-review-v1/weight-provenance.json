@@ -1,0 +1,25 @@
+{
+  "baseCommit": "46253ade5b44903afb448c25759a23df1e52ddd7",
+  "actors": {
+    "melia": {
+      "oldCheckpoint": "f6016282d408c3f78263a3396f7e423e31fdcbf3c790afcf6b34e6fd9823122c",
+      "newCheckpoint": "f6016282d408c3f78263a3396f7e423e31fdcbf3c790afcf6b34e6fd9823122c",
+      "changed": false
+    },
+    "nereon": {
+      "oldCheckpoint": "fec15291b5c041494285f0151db211e7d525e8afee4e0e034c6eb6a4c5a22d58",
+      "newCheckpoint": "5d4460272869226723bd9668b946bed98bdc3208569853fa1240e446a78f05e7",
+      "changed": true
+    },
+    "thaleia": {
+      "oldCheckpoint": "f81492461000d9eec8fd1ef379ffa46578c354e8e9691e511a5298470f3cae07",
+      "newCheckpoint": "2a5f3d75920a210860fb8f7145cdb693b44f7a66a7a2eb6bbd6365e83a7325f3",
+      "changed": true
+    },
+    "doreios": {
+      "oldCheckpoint": "ca4a52a69cd3e439baae2b1eb5195aa392e2648d23ba1024b9b35f6c54fdce6d",
+      "newCheckpoint": "ae10ea34160d1d48b9929c846866e3b6a7de85b61a5866786285cfb21bcc0772",
+      "changed": true
+    }
+  }
+}

@@ -104,3 +104,29 @@ stops on failure; it intentionally refuses to overwrite an existing run log.
 For an interrupted independent evaluation, invoke that evaluator directly with
 the original config to reuse its `.progress` rows. Do not remove slow games or
 alter the promotion thresholds after seeing results.
+
+## League-weight review matrix
+
+`review_matrix.ts` compares both frozen generations against one another and the
+complete nine-variant heuristic roster from the earlier tournament. The review
+uses 100 new seeds shared across all 186 legal pairings (18,600 games). Physical
+player IDs are fixed by leader, and starting seats alternate, so old/new
+comparisons retain identical initial conditions. Same-leader matchups are illegal
+and heuristic-versus-heuristic games are outside this review.
+
+The immutable bundle, actor hashes, seed list, complete command replays, and
+reports live under `balance-results/league-review-v1`. Persistent workers save
+each completed game atomically and replay it to the full final state; resuming
+never excludes a slow game or changes the native heuristic. `report_review_matrix.py`
+audits coverage and the unchanged Melia control, then emits the Markdown matrix,
+CSV with W/T/L and confidence intervals, and JSON paired summaries. Aggregate
+uncertainty clusters all matchup outcomes sharing a seed.
+
+To regenerate browser regression fixtures for the installed review weights:
+
+```sh
+python scripts/rl/runtime_fixtures.py --checkpoints balance-results/league-review-v1/checkpoints.json
+```
+
+The generator checks every checkpoint against the installed actor's identity;
+it no longer implicitly uses the original champions after weights are updated.
