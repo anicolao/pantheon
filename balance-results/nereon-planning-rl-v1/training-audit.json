@@ -1,0 +1,11 @@
+{
+  "uniqueTrainingGames": 1024,
+  "decisions": 62982,
+  "allFullReplaysVerified": true,
+  "allTrajectoryChecksumsVerified": true,
+  "allCheckpointReferencesVerified": true,
+  "allActionsLegal": true,
+  "terminalRewardsExactlySignedSplitWins": true,
+  "noIntermediateRewards": true,
+  "frozenSourceUnchanged": true
+}

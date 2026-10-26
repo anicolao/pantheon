@@ -1,0 +1,25 @@
+{
+  "actors": {
+    "melia": {
+      "path": "/Users/anicolao/projects/games/pantheon/balance-results/nereon-planning-rl-v1/actors/melia.json",
+      "sha256": "1310ab42acc417055d641fbf9c7a2ec155889b700d588d85ab4c14af7c831dcb"
+    },
+    "nereon": {
+      "path": "/Users/anicolao/projects/games/pantheon/balance-results/nereon-planning-rl-v1/actors/nereon.json",
+      "sha256": "516c42200aa095f6391261ab007241ad9c1c5eea843341d685455f9b400e8691"
+    },
+    "thaleia": {
+      "path": "/Users/anicolao/projects/games/pantheon/balance-results/nereon-planning-rl-v1/actors/thaleia.json",
+      "sha256": "7fbc1ce00a16f61286dad6e1bcf2cc6e0bc9ea6fc7e02e8eda319761e34f3427"
+    },
+    "doreios": {
+      "path": "/Users/anicolao/projects/games/pantheon/balance-results/nereon-planning-rl-v1/actors/doreios.json",
+      "sha256": "8fd946c6d6f01bbcff9685585c27e6cfef85a79c91d5a0a9b9932b641bc7138a"
+    }
+  },
+  "observationKind": "public-v1",
+  "reward": {
+    "kind": "round-discounted-win",
+    "discount": 1
+  }
+}

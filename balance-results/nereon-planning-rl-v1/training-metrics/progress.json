@@ -1,0 +1,16 @@
+{"train/learning_rate": 0.0001, "train/loss": 0.11319342977367342, "train/reference_kl": 0.0003319135367405579, "train/n_updates": 1540}
+{"train/learning_rate": 0.0001, "train/loss": 0.05443950020708144, "train/reference_kl": 0.0025057710736291483, "train/n_updates": 1544}
+{"train/learning_rate": 0.0001, "train/loss": 0.04234221880324185, "train/reference_kl": 0.006630686322750989, "train/n_updates": 1548}
+{"train/learning_rate": 0.0001, "train/loss": 0.04962806578259915, "train/reference_kl": 0.009572198308887891, "train/n_updates": 1552}
+{"train/learning_rate": 0.0001, "train/loss": 0.04338265454862267, "train/reference_kl": 0.010012553524575196, "train/n_updates": 1556}
+{"train/learning_rate": 0.0001, "train/loss": 0.04256890411488712, "train/reference_kl": 0.007966136166942306, "train/n_updates": 1560}
+{"train/learning_rate": 0.0001, "train/loss": 0.029554744018241763, "train/reference_kl": 0.00882029376225546, "train/n_updates": 1564}
+{"train/learning_rate": 0.0001, "train/loss": 0.028554188611451536, "train/reference_kl": 0.006556238324264996, "train/n_updates": 1568}
+{"train/learning_rate": 0.0001, "train/loss": 0.03940023813629523, "train/reference_kl": 0.00606796913780272, "train/n_updates": 1572}
+{"train/learning_rate": 0.0001, "train/loss": 0.03261998179368675, "train/reference_kl": 0.008520960560417734, "train/n_updates": 1576}
+{"train/learning_rate": 0.0001, "train/loss": 0.05293884966522455, "train/reference_kl": 0.010109745606314391, "train/n_updates": 1580}
+{"train/learning_rate": 0.0001, "train/loss": 0.04176510008983314, "train/reference_kl": 0.0082962786545977, "train/n_updates": 1584}
+{"train/learning_rate": 0.0001, "train/loss": 0.030477116408292204, "train/reference_kl": 0.01180529483826831, "train/n_updates": 1588}
+{"train/learning_rate": 0.0001, "train/loss": 0.04390206921380013, "train/reference_kl": 0.015083230784512125, "train/n_updates": 1592}
+{"train/learning_rate": 0.0001, "train/loss": 0.03634019009768963, "train/reference_kl": 0.019696492730872706, "train/n_updates": 1596}
+{"train/learning_rate": 0.0001, "train/loss": 0.03959755849791691, "train/reference_kl": 0.023381796549074352, "train/n_updates": 1600}
