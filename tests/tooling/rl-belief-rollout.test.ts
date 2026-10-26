@@ -8,6 +8,20 @@ import {sampleBelief,rolloutDecision} from '../../scripts/rl/belief_rollout';
 import {publicObservation} from '../../scripts/rl/public_features';
 import {commands} from '../../src/lib/bots/rl-schema';
 
+test('Thaleia win-value leaves use her perspective after four own turns',()=>{
+ const dir=mkdtempSync(join(tmpdir(),'thaleia-leaf-'));
+ try{
+  const actors=Object.fromEntries(['melia','nereon','thaleia','doreios'].map(l=>{const path=resolve(`src/lib/bots/models/${l}.json`);return [l,{path,sha256:createHash('sha256').update(readFileSync(path)).digest('hex')}];}));
+  const file=join(dir,'actors.json');writeFileSync(file,JSON.stringify({actors}));const env=new FourEnvironment('thaleia',file);let state=env.reset('thaleia-win-leaf:0',true);
+  while(!state.done&&commands(env.tracker.view(env.game))[env.runtime()]?.type!=='card/bought')state=env.step(env.runtime());
+  expect(state.done).toBe(false);env.tracker.view(env.game);const original=JSON.stringify(env.game),starting=env.game.turn.turns[env.uid]??0;let leaves=0;
+  const result=rolloutDecision(env.game,env.tracker,env.actors,{samples:2,candidates:2,risk:1,trash:false,utility:'win',leafHorizon:4,guardTreasures:false},(game,tracker)=>{
+   leaves++;expect(tracker.view(game).leader).toBe('thaleia');expect(game.turn.turns[env.uid]).toBe(starting+4);return .75;
+  });
+  expect(leaves).toBe(4);expect(result.scores.every(x=>x.mean===.75&&x.delta===0)).toBe(true);expect(JSON.stringify(env.game)).toBe(original);
+ }finally{rmSync(dir,{recursive:true,force:true});}
+});
+
 for(const leader of ['doreios','thaleia'])test(`${leader} belief sampling never reads hidden cards or seed and preserves all public counts`,()=>{
  const dir=mkdtempSync(join(tmpdir(),'belief-'));
  try{
