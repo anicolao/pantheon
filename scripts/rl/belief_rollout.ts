@@ -8,7 +8,7 @@ import {commands,slots,actionIndex} from '../../src/lib/bots/rl-schema';
 import {actorObservation,createResearchActor} from './research_actor';
 import {openingOverride} from './opening_policy';
 export type Actors=Record<string,ReturnType<typeof createResearchActor>>;
-export type RolloutOptions={samples:number;candidates:number;risk:number;trash:boolean;utility?:'share'|'margin';recordHypotheticalHistory?:boolean;maskedInference?:boolean;leafHorizon?:number;guardTreasures?:boolean};
+export type RolloutOptions={samples:number;candidates:number;risk:number;trash:boolean;utility?:'share'|'margin'|'win';recordHypotheticalHistory?:boolean;maskedInference?:boolean;leafHorizon?:number;guardTreasures?:boolean};
 function copyTracker(source:BotTracker,game:SetupState){const t=new BotTracker(game);Object.assign(t,structuredClone(source));return t;}
 /** Never reads hidden identities/order, private movement history, undo snapshots, or real seed. */
 export function sampleBelief(game:SetupState,tracker:BotTracker,sample:number){
@@ -45,11 +45,11 @@ function finish(sample:ReturnType<typeof sampleBelief>,actors:Actors,learner:str
  }
  const scores=standings(game),me=scores.find(s=>s.uid===learner)!,winners=scores.filter(s=>s.winner),share=me.winner?1/winners.length:0;
  const margin=me.score-Math.max(...scores.filter(s=>s.uid!==learner).map(s=>s.score));
- return utility==='margin'?.5+.5*Math.tanh(margin/8):share+.01*Math.tanh(margin/8);
+ return utility==='win'?share:utility==='margin'?.5+.5*Math.tanh(margin/8):share+.01*Math.tanh(margin/8);
 }
 export function rolloutDecision(game:SetupState,tracker:BotTracker,actors:Actors,options:RolloutOptions,leafValue?:(game:SetupState,tracker:BotTracker)=>number){
- if(options.leafHorizon!==undefined&&(!Number.isInteger(options.leafHorizon)||options.leafHorizon<1||!leafValue||options.utility!=='margin'))throw Error('Invalid value-leaf configuration');
- if(options.utility!==undefined&&!['share','margin'].includes(options.utility))throw Error('Invalid rollout utility');
+ if(options.leafHorizon!==undefined&&(!Number.isInteger(options.leafHorizon)||options.leafHorizon<1||!leafValue||!['margin','win'].includes(options.utility??'')))throw Error('Invalid value-leaf configuration');
+ if(options.utility!==undefined&&!['share','margin','win'].includes(options.utility))throw Error('Invalid rollout utility');
  if(!Number.isFinite(options.risk)||options.risk<0||!Number.isInteger(options.samples)||options.samples<2||!Number.isInteger(options.candidates)||options.candidates<2)throw Error('Invalid rollout budget');
  const learner=activePlayer(game),v=tracker.view(game),actor=actors[v.leader],choices=commands(v),base=policy(game,tracker,actors,learner,false,options.guardTreasures??true),baseIndex=actionIndex(v,base);
  const investigate=v.choice?(v.choice.kind==='gain'||options.trash&&v.choice.kind==='trash'):['card/bought','god/worshipped','turn/ended'].includes(base.type);

@@ -8,11 +8,11 @@ import {sampleBelief,rolloutDecision} from '../../scripts/rl/belief_rollout';
 import {publicObservation} from '../../scripts/rl/public_features';
 import {commands} from '../../src/lib/bots/rl-schema';
 
-test('belief sampling never reads hidden cards or seed and preserves all public counts',()=>{
+for(const leader of ['doreios','thaleia'])test(`${leader} belief sampling never reads hidden cards or seed and preserves all public counts`,()=>{
  const dir=mkdtempSync(join(tmpdir(),'belief-'));
  try{
   const actors=Object.fromEntries(['melia','nereon','thaleia','doreios'].map(l=>{const path=resolve(`src/lib/bots/models/${l}.json`);return [l,{path,sha256:createHash('sha256').update(readFileSync(path)).digest('hex')}];}));
-  const file=join(dir,'actors.json');writeFileSync(file,JSON.stringify({actors}));const env=new FourEnvironment('doreios',file);env.reset('belief-unit:0',true);
+  const file=join(dir,'actors.json');writeFileSync(file,JSON.stringify({actors}));const env=new FourEnvironment(leader,file);env.reset('belief-unit:0',true);
   const view=env.tracker.view(env.game),obs=publicObservation(env.game,env.tracker,view,'public-v1'),original=sampleBelief(env.game,env.tracker,0);
   for(const uid of env.game.turnOrder){
    for(const zone of uid===env.uid?['deck'] as const:['deck','hand','discard'] as const){

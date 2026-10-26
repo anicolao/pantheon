@@ -1,0 +1,11 @@
+{
+  "archiveSHA256": "a6c14bba8f2a32ddb00422933c7a2d1b3d42b8551475f72741764ae7b5e5f37d",
+  "restoredFiles": 227941,
+  "allMemberHashesVerified": true,
+  "testedCommand": "scripts/rl/restore_research_checkpoint.py",
+  "destination": "/tmp/pantheon-recovery-verification-20261026",
+  "researchTests": {
+    "passed": 55,
+    "assertions": 21220
+  }
+}
