@@ -1,7 +1,8 @@
 import {createInterface} from 'node:readline';
 import {RLEnvironment} from './environment';
 import {FourEnvironment} from './four_environment';
-const env=process.argv[4]?.startsWith('four:')?new FourEnvironment(process.argv[2],process.argv[4].slice(5)):new RLEnvironment(process.argv[2],process.argv[3],process.argv[4]);
+import {PlanningEnvironment} from './planning_environment';
+const env=process.argv[4]?.startsWith('planning:')?new PlanningEnvironment(process.argv[2],process.argv[4].slice(9)):process.argv[4]?.startsWith('four:')?new FourEnvironment(process.argv[2],process.argv[4].slice(5)):new RLEnvironment(process.argv[2],process.argv[3],process.argv[4]);
 for await(const line of createInterface({input:process.stdin})){
  try{
   const q=JSON.parse(line);let answer:unknown;
