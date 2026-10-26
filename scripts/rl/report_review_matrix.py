@@ -1,8 +1,10 @@
 """Audit the frozen paired matrix and emit review tables with seed-clustered uncertainty."""
-import csv,hashlib,json,math,statistics
+import csv,gzip,hashlib,json,math,statistics,subprocess,sys
 from pathlib import Path
 
 root=Path('balance-results/league-review-v1')
+if not (root/'evaluation/replays').exists():
+    subprocess.run([sys.executable,'scripts/rl/archive_review_replays.py','unpack'],check=True)
 protocol=json.loads((root/'evaluation/protocol.json').read_text())
 rows=json.loads((root/'evaluation/games.json').read_text())
 completion=json.loads((root/'evaluation/completion.json').read_text())
@@ -49,9 +51,23 @@ matrix={a:{b:stats([r['share'] for r in oriented(a,b)]) for b in entries if entr
 assert entries['old-melia']['checkpointSHA256']==entries['new-melia']['checkpointSHA256']
 for b in matrix['old-melia']:
     assert oriented('old-melia',b)==oriented('new-melia',b),f'Identical Melia control changed versus {b}'
+    for i in range(100):
+        records=[]
+        for generation in ['old','new']:
+            with gzip.open(root/f'evaluation/replays/{generation}-melia--{b}/{i}.json.gz','rt') as f:
+                records.append(json.load(f)['record'])
+        assert records[0]['config']==records[1]['config'] and records[0]['commands']==records[1]['commands'],f'Melia control command drift: {b}/{i}'
 
 summary={}
+paired_cells={}
 for leader in leaders:
+    paired_cells[leader]={}
+    for opponent in matrix[f'old-{leader}']:
+        before=[r['share'] for r in oriented(f'old-{leader}',opponent)]
+        after=[r['share'] for r in oriented(f'new-{leader}',opponent)]
+        changes=[b-a for a,b in zip(before,after)]
+        paired_cells[leader][opponent]=dict(oldShare=statistics.mean(before),newShare=statistics.mean(after),
+            shareDelta=statistics.mean(changes),paired95CI=interval(changes),gamesPerGeneration=100)
     pools={
         'allHeuristics':[e['id'] for e in entries.values() if 'policy' in e and e['leader']!=leader],
         'commonHeuristics':[e['id'] for e in entries.values() if e.get('policy') in ['mm','money','engine','classic-engine','owl','mn'] and e['leader']!=leader],
@@ -67,7 +83,7 @@ for leader in leaders:
             oldShare=statistics.mean(clustered['old']),newShare=statistics.mean(clustered['new']),
             shareDelta=statistics.mean(changes),pairedCluster95CI=interval(changes),seedClusters=100)
 
-result=dict(games=len(rows),matches=len(groups),seeds=100,matrix=matrix,summary=summary,
+result=dict(games=len(rows),matches=len(groups),seeds=100,matrix=matrix,summary=summary,pairedMatchups=paired_cells,
     identicalMeliaControl=True,sourceRunnerSHA256=protocol['runnerSHA256'],
     caveats=['Heads-up only; same-leader and heuristic/heuristic matches are not run.',
       'All comparisons use the same 100 fresh seeds. Aggregate intervals cluster by seed; do not treat every game as independent.',
@@ -80,12 +96,16 @@ with (root/'matrix.csv').open('w',newline='') as f:
     writer=csv.writer(f);writer.writerow(['row','opponent','games','wins','ties','losses','share','share_ci_low','share_ci_high','win_rate','win_ci_low','win_ci_high'])
     for a,cols in matrix.items():
         for b,s in cols.items():writer.writerow([a,b,s['games'],s['wins'],s['ties'],s['losses'],s['share'],*s['shareCI95'],s['winRate'],*s['winCI95']])
+with (root/'paired-changes.csv').open('w',newline='') as f:
+    writer=csv.writer(f);writer.writerow(['leader','opponent','games_per_generation','old_share','new_share','share_delta','paired_ci_low','paired_ci_high'])
+    for leader,cells in paired_cells.items():
+        for opponent,s in cells.items():writer.writerow([leader,opponent,s['gamesPerGeneration'],s['oldShare'],s['newShare'],s['shareDelta'],*s['paired95CI']])
 
 lines=['# League weights: fresh-seed review matrix','',
     '18,600 completed, replay-verified games: 186 legal pairings × 100 fresh seeds, with 50 starts per side. No excluded games.',
     'The same seeds and leader-specific physical seats are used across old/new comparisons. No matrix seeds were used to train or select these checkpoints.','',
     '**Cells are score share: a win counts 1, a tie ½, a loss 0.** “—” means the same leader, which the game draft does not permit. Mirror RL cells refer to the same games.',
-    'Full W/T/L counts and per-cell 95% intervals are in [matrix.csv](matrix.csv); [results.json](results.json) includes paired summaries.','',
+    'Full W/T/L counts and per-cell 95% intervals are in [matrix.csv](matrix.csv). [paired-changes.csv](paired-changes.csv) gives matched old/new changes and intervals for each opponent; [results.json](results.json) includes all summaries.','',
     '## Paired change against the complete heuristic roster','',
     '| Leader | Old share | New share | Change | Paired 95% CI |',
     '|---|---:|---:|---:|---:|']
@@ -103,8 +123,9 @@ for leader in leaders:
 lines+=['','## Scope and interpretation','']+['- '+c for c in result['caveats']]
 lines+=['','The new weights are the frozen two-round league champions, including the Nereon review candidate; Melia is byte-for-byte unchanged. Both generations are retained under `actors/`, with checkpoint and file hashes in the evaluation protocol.',
     '', '## Reproduce','', 'Run within the project Nix environment:', '', '```sh',
+    'python scripts/rl/archive_review_replays.py unpack',
     'bun balance-results/league-review-v1/runner.js balance-results/league-review-v1/evaluation.json',
     'python scripts/rl/report_review_matrix.py', '```','',
-    'The immutable bundled runner resumes completed per-game gzip records. To rerun every game, use a copy of the config with a fresh output directory. Each saved record contains all commands, initial configuration, and final outcome.']
+    'The archive preserves all 18,600 per-game gzip files byte-for-byte, verified by a full round trip. The immutable bundled runner resumes those completed records. To rerun every game, use a copy of the config with a fresh output directory. Each saved record contains all commands, initial configuration, and final outcome.']
 (root/'REPORT.md').write_text('\n'.join(lines)+'\n')
 print('\n'.join(lines[:17]))

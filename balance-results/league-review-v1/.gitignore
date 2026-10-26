@@ -1,0 +1,3 @@
+# Local, resumable cache; the PR retains every byte in evaluation/replays.tar.gz.
+/evaluation/replays/
+/smoke/replays/
