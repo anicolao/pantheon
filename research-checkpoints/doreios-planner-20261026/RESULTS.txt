@@ -1,0 +1,50 @@
+Doreios four-player research — 2026-10-26T13:59:30.053002+00:00
+Best retained overall bot: 23.67% split win share (95% CI 22.38%–24.97%), using a frozen network plus public-information planning.
+Saved configuration: balance-results/doreios-four-rl-v28/candidate-bot.json
+
+Best retained ordinary network: balance-results/doreios-four-rl-v32
+Original fresh confirmation: 20.13% (95% CI 19.24%–21.01%), versus 17.05% for its matched baseline.
+Combined independent confirmations of this exact policy: 19.66% across 38,400 unique games (95% CI 19.30%–20.02%). Duplicate same-policy games count once; screening and training games are excluded.
+Paired improvement: +3.08 percentage points (95% CI +2.16–+3.99).
+Evidence: 6,400 fresh games per model; 12,800 independent runtime/full-state replay matches; 64 export-parity games and 5,923 exact decisions.
+Checkpoint: balance-results/doreios-four-rl-v32/selected.zip
+Exported research actor: balance-results/doreios-four-rl-v32/candidate.json
+
+Ordinary network: The combined point estimate remains below 20%; the target is not established. Its interval includes values below 20%. These results apply to the fixed Melia/Nereon/Thaleia roster with equal turns and balanced seating. Ties split win credit. Confidence intervals cluster all four seating rotations of each seed. No failed games are excluded.
+Production/deployed weights have not been updated. This model uses the research public-v1 observation encoder; it is not automatically installed into the application.
+
+Four-player shares in the best model’s matched confirmation:
+Leader | Baseline | Candidate | Change (percentage points)
+Melia | 30.90% | 30.53% | -0.37
+Nereon | 19.07% | 17.37% | -1.70
+Thaleia | 32.98% | 31.97% | -1.01
+Doreios | 17.05% | 20.13% | +3.08
+
+Selected alternative experiments (each row uses its own independent matched confirmation seeds):
+Study | Before | After | Paired change | Confirmed improvement
+v23 | 16.51% | 19.06% | +2.55 pp [+1.52, +3.59] | True
+v27 | 19.42% | 19.04% | -0.38 pp [-1.23, +0.48] | False
+v29 | 17.48% | 19.95% | +2.46 pp [+1.62, +3.30] | True
+v30 | 17.18% | 19.41% | +2.23 pp [+1.38, +3.08] | True
+v31 | 19.72% | 18.55% | -1.17 pp [-1.79, -0.55] | False
+v32 | 17.05% | 20.13% | +3.08 pp [+2.16, +3.99] | True
+v33 | 19.28% | 19.00% | -0.28 pp [-1.14, +0.59] | False
+v34 | 18.85% | 18.85% | +0.00 pp [+0.00, +0.00] | False
+v35 | 20.40% | 19.99% | -0.41 pp [-1.24, +0.42] | False
+v28 | 19.64% | 23.67% | +4.04 pp [+2.86, +5.21] | True
+v36 | 19.38% | 19.70% | +0.32 pp [-0.58, +1.23] | False
+v37 | 19.41% | 19.41% | +0.00 pp [+0.00, +0.00] | False
+v38 | 19.66% | 19.83% | +0.17 pp [-0.25, +0.59] | False
+v39 | 18.99% | 18.92% | -0.07 pp [-0.81, +0.67] | False
+
+Best retained planner/hybrid:
+balance-results/doreios-four-rl-v28/candidate-bot.json
+Fresh confirmation: 23.67% (95% CI 22.38%–24.97%) versus 19.64%; 3,200 games per model, 6,400 full-state replays.
+This combines a frozen neural network with public-information planning; it is not a standalone newly trained network. No hidden game state is used and nothing has been deployed.
+The planner clears the 20% target, including its lower confidence bound; 25% is not yet achieved.
+
+Still awaiting final results:
+
+Infrastructure recovery completed: a disk-full error interrupted planner output and one training checkpoint save. Completed planner chunks and frozen selection/seeds were preserved; missing chunks were rerun. The interrupted training arm was rerun from the identical original initialization/seeds; all five prior complete checkpoint parameter/optimizer states and six prior screening files matched exactly. Failed logs and partial checkpoint evidence remain archived. Regenerable old temporary compile caches were cleared; research artifacts were retained.
+
+Detailed protocols, checkpoints, results, replay evidence and recovery records are in the corresponding study directories.

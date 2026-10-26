@@ -1,0 +1,28 @@
+Doreios research checkpoint, 2026-10-26
+
+The Git tag research-doreios-20261026 identifies the corresponding code checkpoint.
+The GitHub release with that tag contains pantheon-research-20261026.tar.gz.
+archive.json records its SHA-256; files.json.gz records every archived file SHA-256.
+All members were read back and verified before upload. The archive contains the
+entire balance-results directory as it stood before the Thaleia planner experiment,
+including intermediate and selected models, protocols, results, failed-experiment
+evidence, replay archives, and frozen source snapshots.
+
+Recovery from the repository root:
+  gh release download research-doreios-20261026 --pattern pantheon-research-20261026.tar.gz --dir /tmp
+  nix develop /tmp/pantheon-nix-env --command /tmp/pantheon-rl-venv/bin/python scripts/rl/restore_research_checkpoint.py research-checkpoints/doreios-planner-20261026 /tmp/pantheon-research-20261026.tar.gz --destination /tmp/pantheon-recovered-results
+
+The restore command verifies the archive and every member. Existing differing
+files cause an error; use an empty destination when inspecting an older snapshot.
+The Nix shell and Python RL dependencies are documented in scripts/rl/README.md.
+Paths in old experiment configurations may refer to the original checkout; update
+those paths to the restored location while retaining the recorded model hashes.
+
+Retained best planner: balance-results/doreios-four-rl-v28/candidate-bot.json
+Results: 23.671875% split win share, 95% CI 22.37697–24.96678%, 3,200 fresh games.
+Matched baseline: 19.63542%; paired gain +4.03646pp, CI +2.86242 to +5.21049pp.
+All 6,400 actual games replayed exactly. No production weights changed.
+Retained ordinary NN: balance-results/doreios-four-rl-v32/selected.zip
+Overall report: balance-results/doreios-overnight-v1/PROGRESS.txt
+
+Unrelated balance-diagnostics work and tt.png remain in the working tree.

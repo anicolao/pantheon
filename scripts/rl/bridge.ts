@@ -1,6 +1,7 @@
 import {createInterface} from 'node:readline';
 import {RLEnvironment} from './environment';
-const env=new RLEnvironment(process.argv[2],process.argv[3],process.argv[4]);
+import {FourEnvironment} from './four_environment';
+const env=process.argv[4]?.startsWith('four:')?new FourEnvironment(process.argv[2],process.argv[4].slice(5)):new RLEnvironment(process.argv[2],process.argv[3],process.argv[4]);
 for await(const line of createInterface({input:process.stdin})){
  try{
   const q=JSON.parse(line);let answer:unknown;
@@ -9,11 +10,13 @@ for await(const line of createInterface({input:process.stdin})){
   else if(q.op==='teacher')answer=env.teacher();
   else if(q.op==='teacher-preview')answer=env.teacher(true);
   else if(q.op==='runtime'){
+   if(env instanceof FourEnvironment){console.log(JSON.stringify(env.runtime()));continue;}
    const {rlAction}=await import('../../src/lib/bots/rl');
    const state=env.state();if(state.done)throw Error('Finished game');
    answer=rlAction(env.leader,state.observation!,state.mask!);
   }
   else if(q.op==='verify'){
+   if(env instanceof FourEnvironment){console.log(JSON.stringify(env.verify()));continue;}
    const {PracticeSession}=await import('../../src/lib/bots/session');
    const replay=PracticeSession.restore(env.session.save());
    if(JSON.stringify(replay.game)!==JSON.stringify(env.session.game))throw Error('Replay mismatch');
