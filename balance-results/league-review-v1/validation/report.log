@@ -1,0 +1,17 @@
+# League weights: fresh-seed review matrix
+
+18,600 completed, replay-verified games: 186 legal pairings × 100 fresh seeds, with 50 starts per side. No excluded games.
+The same seeds and leader-specific physical seats are used across old/new comparisons. No matrix seeds were used to train or select these checkpoints.
+
+**Cells are score share: a win counts 1, a tie ½, a loss 0.** “—” means the same leader, which the game draft does not permit. Mirror RL cells refer to the same games.
+Full W/T/L counts and per-cell 95% intervals are in [matrix.csv](matrix.csv). [paired-changes.csv](paired-changes.csv) gives matched old/new changes and intervals for each opponent; [results.json](results.json) includes all summaries.
+
+## Paired change against the complete heuristic roster
+
+| Leader | Old share | New share | Change | Paired 95% CI |
+|---|---:|---:|---:|---:|
+| Melia | 92.0% | 92.0% | +0.00 pp | +0.00 to +0.00 pp |
+| Nereon | 71.3% | 83.2% | +11.95 pp | +9.75 to +14.14 pp |
+| Thaleia | 72.0% | 79.8% | +7.83 pp | +5.47 to +10.20 pp |
+| Doreios | 71.6% | 82.3% | +10.70 pp | +8.50 to +12.90 pp |
+
