@@ -93,11 +93,11 @@ result=dict(games=len(rows),matches=len(groups),seeds=100,matrix=matrix,summary=
       'Melia is unchanged; Nereon is included for review despite its earlier conservative MM regression-screen miss.'])
 (root/'results.json').write_text(json.dumps(result,indent=2)+'\n')
 with (root/'matrix.csv').open('w',newline='') as f:
-    writer=csv.writer(f);writer.writerow(['row','opponent','games','wins','ties','losses','share','share_ci_low','share_ci_high','win_rate','win_ci_low','win_ci_high'])
+    writer=csv.writer(f,lineterminator='\n');writer.writerow(['row','opponent','games','wins','ties','losses','share','share_ci_low','share_ci_high','win_rate','win_ci_low','win_ci_high'])
     for a,cols in matrix.items():
         for b,s in cols.items():writer.writerow([a,b,s['games'],s['wins'],s['ties'],s['losses'],s['share'],*s['shareCI95'],s['winRate'],*s['winCI95']])
 with (root/'paired-changes.csv').open('w',newline='') as f:
-    writer=csv.writer(f);writer.writerow(['leader','opponent','games_per_generation','old_share','new_share','share_delta','paired_ci_low','paired_ci_high'])
+    writer=csv.writer(f,lineterminator='\n');writer.writerow(['leader','opponent','games_per_generation','old_share','new_share','share_delta','paired_ci_low','paired_ci_high'])
     for leader,cells in paired_cells.items():
         for opponent,s in cells.items():writer.writerow([leader,opponent,s['gamesPerGeneration'],s['oldShare'],s['newShare'],s['shareDelta'],*s['paired95CI']])
 
@@ -128,4 +128,4 @@ lines+=['','The new weights are the frozen two-round league champions, including
     'python scripts/rl/report_review_matrix.py', '```','',
     'The archive preserves all 18,600 per-game gzip files byte-for-byte, verified by a full round trip. The immutable bundled runner resumes those completed records. To rerun every game, use a copy of the config with a fresh output directory. Each saved record contains all commands, initial configuration, and final outcome.']
 (root/'REPORT.md').write_text('\n'.join(lines)+'\n')
-print('\n'.join(lines[:17]))
+print('\n'.join(lines[:17]).rstrip())
