@@ -1,0 +1,19 @@
+{
+  "leader": "nereon",
+  "teacher": "classic-engine",
+  "opponent": "league:balance-results/league-rl-v1/manifests/final-mm.json",
+  "prefix": "league-v1-mm:nereon",
+  "namespace": "test",
+  "workers": 8,
+  "games": 1024,
+  "models": {
+    "v1": "balance-results/leader-rl-v1/nereon/champion",
+    "selected": "balance-results/league-rl-v1/champions/round-2/nereon"
+  },
+  "output": "balance-results/league-rl-v1/final-mm/nereon",
+  "checkpointSHA256": {
+    "v1": "fec15291b5c041494285f0151db211e7d525e8afee4e0e034c6eb6a4c5a22d58",
+    "selected": "5d4460272869226723bd9668b946bed98bdc3208569853fa1240e446a78f05e7"
+  },
+  "leagueSHA256": "fc07ea888cbaf3234c67f3fb05b0518220e88ff4b3fd8c6cc454f676a23857d6"
+}

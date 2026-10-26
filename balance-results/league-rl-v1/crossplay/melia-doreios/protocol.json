@@ -1,0 +1,17 @@
+{
+  "leader": "melia",
+  "teacher": "mm",
+  "opponent": "league:balance-results/league-rl-v1/manifests/crossplay-melia-doreios.json",
+  "prefix": "league-v1-crossplay:melia:doreios",
+  "namespace": "test",
+  "workers": 8,
+  "games": 512,
+  "models": {
+    "selected": "balance-results/league-rl-v1/champions/round-2/melia"
+  },
+  "output": "balance-results/league-rl-v1/crossplay/melia-doreios",
+  "checkpointSHA256": {
+    "selected": "f6016282d408c3f78263a3396f7e423e31fdcbf3c790afcf6b34e6fd9823122c"
+  },
+  "leagueSHA256": "59be053472ffb74bf40ed64bbac8173f917eae1c6180f0597d8160b25a74dc69"
+}

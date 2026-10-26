@@ -1,0 +1,17 @@
+{
+  "leader": "thaleia",
+  "teacher": "classic-engine",
+  "opponent": "league:balance-results/league-rl-v1/manifests/crossplay-thaleia-doreios.json",
+  "prefix": "league-v1-crossplay:thaleia:doreios",
+  "namespace": "test",
+  "workers": 8,
+  "games": 512,
+  "models": {
+    "selected": "balance-results/league-rl-v1/champions/round-2/thaleia"
+  },
+  "output": "balance-results/league-rl-v1/crossplay/thaleia-doreios",
+  "checkpointSHA256": {
+    "selected": "2a5f3d75920a210860fb8f7145cdb693b44f7a66a7a2eb6bbd6365e83a7325f3"
+  },
+  "leagueSHA256": "264b6c6fd785567c5dc3f561d7f32d15df4e8f82a296aaf68452758781b3e8cb"
+}

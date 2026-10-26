@@ -1,0 +1,16 @@
+{
+  "version": 1,
+  "learners": {
+    "nereon": [
+      {
+        "id": "r2-doreios",
+        "leader": "doreios",
+        "group": "current",
+        "weight": 1,
+        "actor": "balance-results/league-rl-v1/actors/r2-doreios.json",
+        "actorSHA256": "ad35dc8f388f52def1ae7484080bb2e704bb4bb920f82bb120507f8681efe626",
+        "checkpointSHA256": "ae10ea34160d1d48b9929c846866e3b6a7de85b61a5866786285cfb21bcc0772"
+      }
+    ]
+  }
+}

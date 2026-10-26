@@ -1,0 +1,32 @@
+{"model": "incumbent", "worker": 4, "games": 16}
+{"model": "incumbent", "worker": 0, "games": 16}
+{"model": "incumbent", "worker": 7, "games": 16}
+{"model": "incumbent", "worker": 1, "games": 16}
+{"model": "incumbent", "worker": 2, "games": 16}
+{"model": "incumbent", "worker": 5, "games": 16}
+{"model": "incumbent", "worker": 3, "games": 16}
+{"model": "incumbent", "worker": 6, "games": 16}
+{"model": "incumbent", "worker": 4, "games": 32}
+{"model": "incumbent", "worker": 0, "games": 32}
+{"model": "incumbent", "worker": 2, "games": 32}
+{"model": "incumbent", "worker": 5, "games": 32}
+{"model": "candidate", "worker": 6, "games": 32}
+{"model": "candidate", "worker": 1, "games": 32}
+{"model": "candidate", "worker": 3, "games": 32}
+{"model": "candidate", "worker": 4, "games": 48}
+{"model": "candidate", "worker": 7, "games": 32}
+{"model": "candidate", "worker": 0, "games": 48}
+{"model": "candidate", "worker": 6, "games": 48}
+{"model": "candidate", "worker": 2, "games": 48}
+{"model": "candidate", "worker": 5, "games": 48}
+{"model": "candidate", "worker": 1, "games": 48}
+{"model": "candidate", "worker": 3, "games": 48}
+{"model": "candidate", "worker": 0, "games": 64}
+{"model": "candidate", "worker": 4, "games": 64}
+{"model": "candidate", "worker": 2, "games": 64}
+{"model": "candidate", "worker": 5, "games": 64}
+{"model": "candidate", "worker": 7, "games": 48}
+{"model": "candidate", "worker": 6, "games": 64}
+{"model": "incumbent", "games": 256, "wins": 126, "ties": 37, "losses": 93, "share": 0.564453125, "winCI95": [0.431515869389663, 0.5530901283669912], "opponents": {"nereon": {"games": 256, "wins": 126, "ties": 37, "losses": 93, "share": 0.564453125, "winCI95": [0.431515869389663, 0.5530901283669912]}}, "matchups": {"money-nereon": {"games": 256, "wins": 126, "ties": 37, "losses": 93, "share": 0.564453125, "winCI95": [0.431515869389663, 0.5530901283669912]}}}
+{"model": "candidate", "games": 256, "wins": 127, "ties": 37, "losses": 92, "share": 0.568359375, "winCI95": [0.4353588859263473, 0.5569441129519798], "opponents": {"nereon": {"games": 256, "wins": 127, "ties": 37, "losses": 92, "share": 0.568359375, "winCI95": [0.4353588859263473, 0.5569441129519798]}}, "matchups": {"money-nereon": {"games": 256, "wins": 127, "ties": 37, "losses": 92, "share": 0.568359375, "winCI95": [0.4353588859263473, 0.5569441129519798]}}}
+{"summary": {"incumbent": {"games": 256, "wins": 126, "ties": 37, "losses": 93, "share": 0.564453125, "winCI95": [0.431515869389663, 0.5530901283669912], "opponents": {"nereon": {"games": 256, "wins": 126, "ties": 37, "losses": 93, "share": 0.564453125, "winCI95": [0.431515869389663, 0.5530901283669912]}}, "matchups": {"money-nereon": {"games": 256, "wins": 126, "ties": 37, "losses": 93, "share": 0.564453125, "winCI95": [0.431515869389663, 0.5530901283669912]}}}, "candidate": {"games": 256, "wins": 127, "ties": 37, "losses": 92, "share": 0.568359375, "winCI95": [0.4353588859263473, 0.5569441129519798], "opponents": {"nereon": {"games": 256, "wins": 127, "ties": 37, "losses": 92, "share": 0.568359375, "winCI95": [0.4353588859263473, 0.5569441129519798]}}, "matchups": {"money-nereon": {"games": 256, "wins": 127, "ties": 37, "losses": 92, "share": 0.568359375, "winCI95": [0.4353588859263473, 0.5569441129519798]}}}}, "comparisons": {"candidate-vs-incumbent": {"shareDelta": 0.00390625, "pairedApprox95CI": [-0.05375382579368144, 0.06156632579368144]}}, "checkpointSHA256": {"incumbent": "92691ae5d3ec7c59ff7f4ec5e70b369d39e058fae170e979ae384bc61d868809", "candidate": "2a5f3d75920a210860fb8f7145cdb693b44f7a66a7a2eb6bbd6365e83a7325f3"}, "elapsedSeconds": 328.4068514578976}

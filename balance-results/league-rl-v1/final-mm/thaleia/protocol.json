@@ -1,0 +1,19 @@
+{
+  "leader": "thaleia",
+  "teacher": "classic-engine",
+  "opponent": "league:balance-results/league-rl-v1/manifests/final-mm.json",
+  "prefix": "league-v1-mm:thaleia",
+  "namespace": "test",
+  "workers": 8,
+  "games": 1024,
+  "models": {
+    "v1": "balance-results/leader-rl-v1/thaleia/champion",
+    "selected": "balance-results/league-rl-v1/champions/round-2/thaleia"
+  },
+  "output": "balance-results/league-rl-v1/final-mm/thaleia",
+  "checkpointSHA256": {
+    "v1": "f81492461000d9eec8fd1ef379ffa46578c354e8e9691e511a5298470f3cae07",
+    "selected": "2a5f3d75920a210860fb8f7145cdb693b44f7a66a7a2eb6bbd6365e83a7325f3"
+  },
+  "leagueSHA256": "fc07ea888cbaf3234c67f3fb05b0518220e88ff4b3fd8c6cc454f676a23857d6"
+}
