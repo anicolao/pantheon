@@ -1,6 +1,6 @@
 import {schemaSignature} from './rl-schema';
 export type Actor={version:number;leader:string;checkpointSHA256:string;schemaSignature:string;dtype:string;activation:string;layers:{input:number;output:number;weights:string;bias:string}[]};
-export function createActor(actor:Actor){
+export function createActor(actor:Actor,expectedSchemaSignature=schemaSignature){
 type Layer={input:number;output:number;weights:Float32Array;bias:Float32Array};
 let cached:Layer[]|undefined;
 function floats(encoded:string){
@@ -13,7 +13,7 @@ function floats(encoded:string){
 function layersFor(){
  if(cached)return cached;
  const leader=actor.leader;
- if(!actor||actor.version!==1||actor.schemaSignature!==schemaSignature||actor.activation!=='tanh'||actor.dtype!=='float32-le')throw Error(`Incompatible RL model for ${leader}`);
+ if(!actor||actor.version!==1||actor.schemaSignature!==expectedSchemaSignature||actor.activation!=='tanh'||actor.dtype!=='float32-le')throw Error(`Incompatible RL model for ${leader}`);
  const layers=actor.layers.map(layer=>({...layer,weights:floats(layer.weights),bias:floats(layer.bias)}));
  for(const layer of layers)if(layer.weights.length!==layer.input*layer.output||layer.bias.length!==layer.output)throw Error('Invalid RL layer dimensions');
  cached=layers;return layers;

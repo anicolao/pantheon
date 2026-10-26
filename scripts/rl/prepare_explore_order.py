@@ -1,0 +1,11 @@
+"""Test the conditional Temple rule on the exploratory actor; constant bias did not generalize."""
+import json,shutil,uuid,hashlib,time
+from pathlib import Path
+r=Path('balance-results/doreios-four-rl-v34');assert not r.exists();r.mkdir();s=Path('balance-results/doreios-four-rl-v23');assert (s/'audit.json').exists();shutil.copytree(s/'actors',r/'actors');shutil.copyfile(s/'candidate.json',r/'actors/doreios.json');m=json.loads((s/'opponents-evaluation.json').read_text())
+for leader,e in m['actors'].items():e.update(path=str((r/'actors'/f'{leader}.json').resolve()),sha256=hashlib.sha256((r/'actors'/f'{leader}.json').read_bytes()).hexdigest())
+(r/'opponents.json').write_text(json.dumps(m,indent=2)+'\n')
+c=dict(output=str(r),opponentManifest=str(r/'opponents.json'),worker=str(r/'temple-order-worker.js'),prefix='d4r34-'+uuid.uuid4().hex[:12],workers=4,chunkGames=64,trainGames=128,screenGames=512,screenTop=1,confirmationGames=6400,selection='Conditional Temple-before-last-terminal rule on confirmed exploratory v23 NN. v33 constantbias failed fresh confirmation; conditional rule preserves the ordering of other cantrips. Unchanged actor vs single last-action candidate;probe128,screen512,freeze best before6400 fresh pairedgames/model. Sharded complete seedblocks,actual reducers/fullreplay,noexcludedgames. Teacheronly,nodeployment.')
+(r/'config.json').write_text(json.dumps(c,indent=2)+'\n');(r/'rules.json').write_text(json.dumps([None,dict(mode='last-action')],indent=2)+'\n')
+for source in ['scripts/rl','src/lib/bots','src/lib/game','standard-matrix','balance-checkpoint/equal-turns/source/scripts/balance']:
+ shutil.copytree(source,r/'source'/source,ignore=shutil.ignore_patterns('__pycache__'),dirs_exist_ok=True)
+p=Path('balance-results/doreios-four-rl-v28/config.json');assert not p.with_name('protocol.json').exists();old=json.loads(p.read_text());new=dict(old,workers=4);p.write_text(json.dumps(new,indent=2)+'\n');p.with_name('resource-amendment.json').write_text(json.dumps(dict(time=time.time(),priorWorkers=old['workers'],workers=4,reason='Share the eight released full-rollout workers with the focused conditional-Temple test;seeds,budgets,andselectionunchanged'),indent=2)+'\n')

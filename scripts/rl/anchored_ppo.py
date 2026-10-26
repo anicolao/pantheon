@@ -46,6 +46,10 @@ class AnchoredPPO(MaskablePPO):
                 entropy_loss=-entropy.mean()
                 anchor=self.anchor_kl(batch.observations,batch.action_masks)
                 loss=policy_loss+self.vf_coef*value_loss+self.ent_coef*entropy_loss+self.anchor_coefficient*anchor
+                auxiliary_coefficient=getattr(self,'auxiliary_coefficient',0.)
+                if auxiliary_coefficient:
+                    auxiliary_loss=torch.nn.functional.mse_loss(self.policy.auxiliary_values(batch.observations),batch.returns)
+                    loss=loss+auxiliary_coefficient*auxiliary_loss
                 with torch.no_grad():
                     log_ratio=log_prob-batch.old_log_prob
                     kl=((torch.exp(log_ratio)-1)-log_ratio).mean().item()
