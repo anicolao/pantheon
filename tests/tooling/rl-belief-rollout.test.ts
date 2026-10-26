@@ -48,7 +48,8 @@ test('sampled planning produces a legal action without mutating the real table',
   const leafChoice=rolloutDecision(env.game,env.tracker,env.actors,{samples:2,candidates:2,risk:1,trash:false,utility:'margin',leafHorizon:1,maskedInference:true},(game,tracker)=>{
    leafCalls++;expect(game.turn.turns[env.uid]).toBe(startingTurns+1);expect(tracker.view(game).leader).toBe('doreios');return .5;
   });
-  const unguarded=rolloutDecision(env.game,env.tracker,env.actors,{samples:2,candidates:2,risk:1,trash:false,utility:'margin',leafHorizon:1,guardTreasures:false},()=>.5);expect(unguarded.command).toEqual(commands(env.tracker.view(env.game))[env.runtime()]);
+  const unguarded=rolloutDecision(env.game,env.tracker,env.actors,{samples:2,candidates:2,risk:1,trash:false,utility:'margin',leafHorizon:1,guardTreasures:false},()=>.5);
+  const expected=commands(env.tracker.view(env.game))[env.runtime()];if(!expected)throw Error('Runtime selected an illegal action');expect(unguarded.command).toEqual(expected);
   expect(leafCalls).toBe(4);expect(leafChoice.scores.every(x=>x.mean===.5&&x.delta===0)).toBe(true);
   expect(JSON.stringify(env.game)).toBe(before);expect(JSON.stringify(env.tracker)).toBe(memory);
   const marginChoice=rolloutDecision(env.game,env.tracker,env.actors,{samples:2,candidates:2,risk:1,trash:false,utility:'margin'});
