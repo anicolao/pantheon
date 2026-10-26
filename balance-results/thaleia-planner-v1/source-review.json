@@ -1,0 +1,6 @@
+{
+  "committedSource": "a27efb41bd867684d48a20e8fb709db4de292254",
+  "allRecordedScriptHashesMatch": true,
+  "compiledWorkerSHA256": "c1d10d63b1eea0bf686f586995267756699230a7d41398e8ec4049246b778104",
+  "note": "The original protocol recorded the preceding checkpoint HEAD while the new runner was uncommitted. This later commit contains every recorded script byte exactly. Frozen worker, actors, critics, jobs and results are committed here; redundant source copy is ignored."
+}
