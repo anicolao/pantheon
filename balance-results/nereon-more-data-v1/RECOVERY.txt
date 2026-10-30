@@ -35,3 +35,16 @@ External runtime dependencies:
 Completion evidence: results.json, selection.json, export-parity.json,
 queue-finished.json. Each game is verified by full-state replay. Sixteen cached
 baseline games must reproduce before the new comparison is accepted.
+
+Scheduling amendment (2026-10-30):
+  User requested improved CPU utilization. The old controller was suspended
+  after round 26; all 64 in-flight round-27 games finished and were saved before
+  its dedicated process group was stopped. Resume reuses those four-game chunks.
+  New collection tasks each contain one game and are dynamically queued across
+  16 workers. Updates still use exactly 64 games in original seed order.
+  scheduler-parity/parity.json verifies all trajectory arrays and outcomes for
+  four re-collected singleton games match their original grouped collection
+  exactly. No seeds, rewards, optimizer parameters, or opponent models changed.
+  protocol-before-singletons.json preserves the original source hashes;
+  protocol.json explicitly records the amended scheduling-only source hashes.
+  scheduler-intervention.json records the transition and retained work.

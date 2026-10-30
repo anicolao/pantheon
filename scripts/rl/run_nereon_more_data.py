@@ -7,6 +7,7 @@ import torch
 from stable_baselines3.common.logger import configure
 from anchored_ppo import AnchoredPPO
 from collect_planning_ppo import collect
+from collection_jobs import collection_jobs
 from episode_ppo_buffer import episode_buffer
 from run_nereon_planning_rl import sha, write, export, paired_table
 
@@ -117,9 +118,8 @@ def main():
                     evaluate(f'screen-{batch:02}', ROOT / f'round-{batch:02}', c['prefix']+':screen', c['screenGames'])
                 continue
             checkpoint = ROOT / f'round-{batch-1:02}.zip'; metas = []; jobs = []
-            for start in range((batch-1)*64, batch*64, 4):
-                output = ROOT / 'trajectories' / f'{start:05}.npz'
-                job = dict(checkpoint=str(checkpoint), manifest=str(manifest), prefix=c['prefix']+':train', start=start, games=4, output=str(output))
+            for job in collection_jobs(ROOT, batch, checkpoint, manifest, c['prefix']+':train'):
+                output = Path(job['output'])
                 if output.exists() and output.with_suffix('.json').exists():
                     meta = json.loads(output.with_suffix('.json').read_text())
                     assert all(meta[k] == v for k,v in job.items())
@@ -129,8 +129,9 @@ def main():
                     if output.exists(): raise RuntimeError('Incomplete trajectory requires inspection: '+str(output))
                     jobs.append(pool.submit(collect, job))
             for future in as_completed(jobs):
-                metas.append(future.result()); print(json.dumps(dict(stage='collect', round=batch, games=4*len(metas), total=64)), flush=True)
+                metas.append(future.result()); print(json.dumps(dict(stage='collect', round=batch, games=sum(m['games'] for m in metas), total=64)), flush=True)
             metas.sort(key=lambda m:m['start']); arrays = []
+            assert [i for m in metas for i in range(m['start'], m['start']+m['games'])] == list(range((batch-1)*64, batch*64))
             for meta in metas:
                 assert all(row['replayVerified'] for row in meta['rows'])
                 assert meta['checkpointSHA256'] == sha(checkpoint) and meta['trajectorySHA256'] == sha(Path(meta['output']))

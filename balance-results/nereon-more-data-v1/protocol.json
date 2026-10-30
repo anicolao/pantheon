@@ -25,6 +25,7 @@
     "scripts/rl/collect_planner_dataset.py": "3c946e69d2a44cef20e38fdf41801105c9630ce48d9a5038d524f28d3d00fe99",
     "scripts/rl/collect_planning_ppo.py": "d67f974f50853c88f69099425749a5acf5b2ce9037442aa64108738cd955cde8",
     "scripts/rl/collect_rollout_demonstrations.ts": "8cc2a708dd56ccc3fe6b23b7053c466d2384514dee9f0966fcd8b6f7a75db435",
+    "scripts/rl/collection_jobs.py": "f02e00c1531c1ce35377b514a8640942d508dbf93411d2eb79b8a539f7215ae8",
     "scripts/rl/confirm_four_campaign.py": "86800d2289e0e8c6057db750972ba16fd4db90da9bcaff43480d512d2a03aad5",
     "scripts/rl/confirm_four_capacity.py": "5f81a6292bb3a6e133e2e68d54fcc8490aa2ce5c5db3ab2acc7f2be0624c4fe3",
     "scripts/rl/confirm_four_public.py": "c240e3ebeb9e2be63dad938704dd08273dde3e6c16f343ff851484e562021efb",
@@ -121,7 +122,7 @@
     "scripts/rl/run_cash_investment.py": "b2579f5f2750f43c28b0ebf9c077c427e5e8d6103ad653d23a4ebd4792c209cb",
     "scripts/rl/run_ensemble.py": "7c7824e398d02cb6354daa1ad2debe6393a0e702e18379333b1fe7d4c9344e67",
     "scripts/rl/run_jobs.py": "1b0f61ea6cc21a713ea081d48fdffddcf02e706336bc0eb3881443ac8c12c8f0",
-    "scripts/rl/run_nereon_more_data.py": "89c0cdfba057be7b3ebee5eb1a78cb98c273c1351d74b01d9d6641e3bc9fc0b8",
+    "scripts/rl/run_nereon_more_data.py": "efec89665990a707ae5ce7ea5745c01befd6ae9f485f0ab03115e26b5543ee88",
     "scripts/rl/run_nereon_planning_rl.py": "15e2ca3c07c63f31d24dddd7faee6d4b32333726b521f6187c6d98253e6e678c",
     "scripts/rl/run_policy_interpolation.py": "30bfde550f015603b458f7e8c2a78db1cddb404d3d0c0f10433b6668b7e2df5c",
     "scripts/rl/run_temple_order.py": "38cd18f78c3635970b7f47444098be65969270689803b9535eac1d9522bbedc4",
@@ -151,6 +152,7 @@
     "scripts/rl/temple_thin_worker.ts": "096b70d8b568229ffb1f84a9454d2833a905c18c36d10a0a878d44d4dbe3b38a",
     "scripts/rl/test_anchor.py": "83b0e398a719f87b133a19a755c4eed2e3709a4281549d2f0ce25345103b2704",
     "scripts/rl/test_collection.py": "7a13f16535b0e08299c19d11ffafe8b9fcff939b6bca1e5cf701eae1b2acdf4d",
+    "scripts/rl/test_collection_jobs.py": "1235d05e41baa689ce02a32ba95b23607a4d0e590ac1d8668de1bf3c09539604",
     "scripts/rl/test_episode_ppo_buffer.py": "71fdf85ca3658b0ed7e027827ebade5bc653691e586c419690c42b1076faeaaa",
     "scripts/rl/test_episode_ppo_update.py": "78bd49e6f805f294ec2f45d9e6f2ac3b3bd7fee164551c02ae06924bc2123d7a",
     "scripts/rl/test_potential.py": "2a61199da4b843c341fcd1b4b0049d1eb54dcb3bf20de80cdd48856370422492",
@@ -163,6 +165,7 @@
     "scripts/rl/train_v2.py": "91e4c128265273148575aa4d67e964d745622abe1af039ca16b8725d36e8167f",
     "scripts/rl/two_planner_worker.ts": "b36c3256e884305c06a8ee1c64d90d2275e9063a02496c358f9de37f13856511",
     "scripts/rl/verify_auxiliary_gradient.py": "35c830815eeaa47daf597a0a6840f5ec50d3fad0acaf42e60a752c295c370c22",
+    "scripts/rl/verify_collection_schedule.py": "086b77e5a2aa36dc4365c20df7728a32378cb2b727fba8c43e1bb8377859ff8e",
     "scripts/rl/verify_critic_export.py": "dc04a5b16c43d5e94fac5d0caa13f9853c28299e7b4d0ffef763fb9cf50f6c64",
     "scripts/rl/verify_export.py": "fa2bb8bbd3299ca4fbd49efaa79c5bf7928157d9ddef2c645849d5f47cfb9a2c",
     "scripts/rl/verify_masked_actor.ts": "7019827892b04be7e1daf8f761456bcaf359ae1f386dff5029699486a363377c",
@@ -210,5 +213,11 @@
     "balance-results/nereon-more-data-v1/actors/melia.json": "1310ab42acc417055d641fbf9c7a2ec155889b700d588d85ab4c14af7c831dcb",
     "balance-results/nereon-more-data-v1/actors/nereon.json": "516c42200aa095f6391261ab007241ad9c1c5eea843341d685455f9b400e8691",
     "balance-results/nereon-more-data-v1/actors/thaleia.json": "7fbc1ce00a16f61286dad6e1bcf2cc6e0bc9ea6fc7e02e8eda319761e34f3427"
+  },
+  "schedulingAmendment": {
+    "time": 1793394749.6471198,
+    "reason": "User requested dynamic single-game scheduling to reduce idle CPUs",
+    "record": "scheduler-intervention.json",
+    "priorProtocolSHA256": "4d9f4dc696af77e95bde63bf60e61220c686d60f72741f7daff31e64dcfc1460"
   }
 }
