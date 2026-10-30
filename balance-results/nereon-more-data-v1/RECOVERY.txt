@@ -1,0 +1,37 @@
+Nereon additional-data continuation, started 2026-10-30
+
+Controller implementation: 155aa986c (local commit; not pushed while CI runs).
+Study inputs and source hashes: protocol.json; schedule: config.json.
+Controller identity: queue.json. Log: /tmp/nereon-more-data-v1.log.
+Do not start another controller while that process is alive; verify its full
+command, since a PID may be reused. Other projects must remain untouched.
+
+This continues round-08 of nereon-planning-rl-v1 (512 prior training games),
+including optimizer and RNG state, for 4,096 additional games. There are 16
+workers, 64 games/update, and checkpoints plus RNG snapshots every update.
+Same architecture, PPO parameters, terminal signed split-win reward, and frozen
+opponents. Nereon has no planner during training, screening, or evaluation.
+
+Screens after 1,024/2,048/4,096 additional games use 256 separate matched games.
+The highest-screening candidate is compared to the prior selected raw model on
+400 matched benchmark games. Incumbent screening is also reported; selecting a
+candidate does not imply it beats the incumbent. Benchmark seeds are reused
+from earlier research and are not globally unseen. Confidence intervals use
+100 four-rotation blocks. No weights are automatically deployed.
+
+After an interruption and only once the controller has exited:
+  nix develop /tmp/pantheon-ci-nix --command /tmp/pantheon-rl-venv/bin/python scripts/rl/run_nereon_more_data.py --resume
+Append output to the existing log. Resume verifies source/input hashes and
+completed trajectory hashes, preserving seeds and optimizer state. Completed
+evaluation chunks are reused. A trajectory without its metadata requires
+inspection; it is never silently discarded. During a partial PPO update,
+resume deterministically repeats that update from the preceding checkpoint.
+
+External runtime dependencies:
+  /tmp/pantheon-ci-nix contains copies of repository flake.nix and flake.lock.
+  /tmp/pantheon-rl-venv was created with that Nix Python and installed using
+  scripts/rl/requirements.lock. Restore these if /tmp is cleared.
+
+Completion evidence: results.json, selection.json, export-parity.json,
+queue-finished.json. Each game is verified by full-state replay. Sixteen cached
+baseline games must reproduce before the new comparison is accepted.
