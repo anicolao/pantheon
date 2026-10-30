@@ -1,9 +1,14 @@
 import {chromium} from '@playwright/test';
-import {readFileSync,existsSync,mkdirSync} from 'node:fs';
-import {join,resolve,extname} from 'node:path';
+import {existsSync,mkdirSync,writeFileSync} from 'node:fs';
+import {join,resolve} from 'node:path';
+import {hasCompletedBotTurn,type PracticeEvent} from './practice-progress';
 const base=process.env.PUBLIC_BASE_PATH??'';
 const root=resolve('build'),browser=await chromium.launch({headless:true});
-const page=await browser.newPage({viewport:{width:1440,height:1000},reducedMotion:'reduce'});
+const context=await browser.newContext({viewport:{width:1440,height:1000},reducedMotion:'reduce'});
+mkdirSync('practice-validation',{recursive:true});
+await context.tracing.start({sources:true,snapshots:true,screenshots:false});
+const page=await context.newPage();
+let observed:{room:string;events:PracticeEvent[]}={room:'',events:[]};
 page.setDefaultTimeout(2000);page.setDefaultNavigationTimeout(2000);
 page.on('requestfailed',r=>console.error('Request failed',r.url(),r.failure()?.errorText));
 const errors:string[]=[];page.on('pageerror',e=>errors.push(e.message));
@@ -33,7 +38,6 @@ for(const count of [2,3,4]){
   await page.getByRole('button',{name:'Invite bot',exact:true}).click();
   await expect(page.getByTestId('player-seat')).toHaveCount(i+1);
  }
- mkdirSync('practice-validation',{recursive:true});
  if(count===2)await page.screenshot({path:'practice-validation/invite-bot.png',fullPage:true,timeout:2000});
  await page.getByRole('button',{name:'Close',exact:true}).click();
  if(count===4){
@@ -50,12 +54,26 @@ for(const count of [2,3,4]){
  }
  // Emulator-only administrative observation verifies actual persisted bot moves.
  const read=async()=>{
-  const r=await fetch('http://127.0.0.1:8193/v1/projects/demo-pantheon/databases/(default)/documents/games/'+room+'/events?pageSize=1000',{headers:{Authorization:'Bearer owner'}});
+  const r=await fetch('http://127.0.0.1:8193/v1/projects/demo-pantheon/databases/(default)/documents/games/'+room+'/events?pageSize=1000',{headers:{Authorization:'Bearer owner'},signal:AbortSignal.timeout(2000)});
   if(!r.ok)throw Error('Could not inspect emulator events: '+r.status);
-  return (await r.json() as any).documents.map((d:any)=>d.fields);
+  const events:PracticeEvent[]=((await r.json() as any).documents??[]).map((d:any)=>({
+   sequence:Number(d.fields.sequence.integerValue),type:d.fields.type.stringValue,
+   actorUid:d.fields.actorUid.stringValue,botKind:d.fields.botKind?.stringValue??null
+  })).sort((a:PracticeEvent,b:PracticeEvent)=>a.sequence-b.sequence);
+  observed={room,events};return events;
  };
- await expect.poll(async()=>{const es=await read();return es.some((e:any)=>e.type.stringValue==='turn/ended'&&e.actorUid.stringValue.startsWith('bot-'));},{timeout:2000}).toBe(true);
- const previous=(await read()).length;
+ // Drafting and playing a turn require multiple worker decisions and writes.
+ // Bound each persisted advance, rather than imposing one deadline on the lot.
+ let events=await read();
+ const startSequence=events.at(-1)?.sequence??0;
+ while(!hasCompletedBotTurn(events)){
+  if((events.at(-1)?.sequence??0)-startSequence>=64)throw Error('64 persisted commands without a completed bot turn');
+  const previousSequence=events.at(-1)?.sequence??0;
+  await expect.poll(async()=>{events=await read();return events.at(-1)?.sequence??0;},
+   {timeout:2000,message:`${count}-seat bot table must advance after event ${previousSequence}`}).toBeGreaterThan(previousSequence);
+ }
+ console.log('Persisted bot turn verified: '+count+' seats, room '+room);
+ const previous=events.length;
  await page.reload();
  await expect(page.locator('.session')).toBeVisible();
  if(count===4)await expect.poll(async()=>(await read()).length,{timeout:2000}).toBeGreaterThan(previous);
@@ -66,8 +84,13 @@ for(const count of [2,3,4]){
   await page.screenshot({path:'practice-validation/phone.png',fullPage:true,timeout:2000});
   await page.setViewportSize({width:1440,height:1000});
  }
+ writeFileSync(`practice-validation/events-${count}.json`,JSON.stringify(observed,null,2)+'\n');
  console.log('Shared bot table passed: '+count+' seats, room '+room);
 }
 if(errors.length)throw Error(errors.join('\n'));
-} finally {await browser.close();server.stop(true);}
+} finally {
+ writeFileSync('practice-validation/latest-events.json',JSON.stringify(observed,null,2)+'\n');
+ try {await context.tracing.stop({path:'practice-validation/trace.zip'});}
+ finally {await browser.close();server.stop(true);}
+}
 console.log('Browser bots: shared 2/3/4-player tables, explicit and leader-aware policies, draft, persisted moves, host reload, desktop and phone passed.');
