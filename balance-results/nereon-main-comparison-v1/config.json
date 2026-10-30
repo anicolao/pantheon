@@ -1,0 +1,14 @@
+{
+  "mainCommit": "46253ade5b44903afb448c25759a23df1e52ddd7",
+  "productionActorSHA256": "c62419391353ea8d3a189185a74ba174bd74dab7558d4ba8c3ae8557e3febfdf",
+  "productionCheckpoint": "fec15291b5c041494285f0151db211e7d525e8afee4e0e034c6eb6a4c5a22d58",
+  "candidateActorSHA256": "f7d283e02a4f506383c8d07779dd44632603146398d9e8ba7ea967028874e21f",
+  "candidateCheckpoint": "59abbed9272575362e069620474f95ebf822df69d1ff3b989329f05b9bd46813",
+  "candidateResultsSHA256": "a9eceeaecb52d74f14d9dac8b5357e01679a4c4f1361fa6f47afb220b2d61af8",
+  "manifestSHA256": "acdaf6d69a32444aa97edcbd5f6e1d5e2d2f7000901f8662f1ed8a2fa378f73f",
+  "workerSHA256": "39a47ac2c81dc61169540ab64a832df565e0f952b5665639fa9900547f2f81b9",
+  "prefix": "d4r28-357e649b83c9:confirm",
+  "games": 400,
+  "workers": 16,
+  "design": "Same 400 seeds and seat rotations as completed raw-RL comparison; change only actual Nereon actor. Frozen opponents and planner world models unchanged. Reuse candidate results; run production actor on every seed with full replay. Split ties and cluster intervals over 100 four-rotation seed blocks. Neither Nereon uses planning. This is not an all-production table and the benchmark is reused."
+}

@@ -1,0 +1,20 @@
+Compare the completed Nereon continuation against production on origin/main.
+
+Pinned main commit and both checkpoint hashes: config.json.
+Actual game execution uses the copied, hash-verified pair-worker.js. Production
+Nereon uses the actor extracted directly from that pinned main commit. Schema
+and policy match main; runtime arithmetic is identical (research adds only an
+optional schema-signature parameter). Opponents remain the frozen research
+opponents, not an all-production table. Neither Nereon has a planner.
+
+Same 400 games / 100 seed blocks / four rotations as the continuation study.
+Candidate data are reused and checked by hash. Production games are collected
+individually on 16 workers and verified by full-state replay. No outcomes are
+excluded. Paired intervals cluster the four rotations within each seed block.
+
+Controller identity: queue.json. Log: /tmp/nereon-main-comparison-v1.log.
+After confirming the previous controller has exited, resume with:
+  nix develop /tmp/pantheon-ci-nix --command /tmp/pantheon-rl-venv/bin/python scripts/rl/compare_nereon_main.py --resume
+Append output to the existing log. Completed chunks are reused after checks.
+Results: results.json. Completion marker: queue-finished.json.
+No weights are automatically promoted or deployed.
