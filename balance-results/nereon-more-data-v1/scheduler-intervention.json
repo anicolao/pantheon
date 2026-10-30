@@ -1,0 +1,55 @@
+{
+  "time": 1793394613.099255,
+  "pid": 28613,
+  "command": "/tmp/pantheon-rl-venv/bin/python -u scripts/rl/run_nereon_more_data.py",
+  "state": {
+    "round": 26,
+    "additionalGames": 1664,
+    "additionalDecisions": 101228,
+    "totalDecisions": 132811
+  },
+  "reason": "Drain active four-game jobs, then resume with single-game scheduling; preserve completed data.",
+  "sourceChanges": {
+    "scripts/rl/collection_jobs.py": {
+      "before": null,
+      "after": "f02e00c1531c1ce35377b514a8640942d508dbf93411d2eb79b8a539f7215ae8"
+    },
+    "scripts/rl/run_nereon_more_data.py": {
+      "before": "89c0cdfba057be7b3ebee5eb1a78cb98c273c1351d74b01d9d6641e3bc9fc0b8",
+      "after": "efec89665990a707ae5ce7ea5745c01befd6ae9f485f0ab03115e26b5543ee88"
+    },
+    "scripts/rl/test_collection_jobs.py": {
+      "before": null,
+      "after": "1235d05e41baa689ce02a32ba95b23607a4d0e590ac1d8668de1bf3c09539604"
+    },
+    "scripts/rl/verify_collection_schedule.py": {
+      "before": null,
+      "after": "086b77e5a2aa36dc4365c20df7728a32378cb2b727fba8c43e1bb8377859ff8e"
+    }
+  },
+  "paritySHA256": "bf1d8bd7bc092603f340e290652bb4967459d15fcef6edfc92fc0f5f16c405b9",
+  "seedsAndBatchSizeUnchanged": true,
+  "drainedGames": 64,
+  "drainedRound": 27,
+  "terminated": 1793394770.1485162,
+  "priorProcessGroup": [
+    "28613 28613 /tmp/pantheon-rl-venv/bin/python -u scripts/rl/run_nereon_more_data.py",
+    "28622 28613 /tmp/pantheon-rl-venv/bin/python -s -c from multiprocessing.resource_tracker import main;main(9)",
+    "28624 28613 /tmp/pantheon-rl-venv/bin/python -s -c from multiprocessing.spawn import spawn_main; spawn_main(tracker_fd=10, pipe_handle=18) --multiprocessing-fork",
+    "28625 28613 /tmp/pantheon-rl-venv/bin/python -s -c from multiprocessing.spawn import spawn_main; spawn_main(tracker_fd=10, pipe_handle=20) --multiprocessing-fork",
+    "28626 28613 /tmp/pantheon-rl-venv/bin/python -s -c from multiprocessing.spawn import spawn_main; spawn_main(tracker_fd=10, pipe_handle=22) --multiprocessing-fork",
+    "28627 28613 /tmp/pantheon-rl-venv/bin/python -s -c from multiprocessing.spawn import spawn_main; spawn_main(tracker_fd=10, pipe_handle=24) --multiprocessing-fork",
+    "28628 28613 /tmp/pantheon-rl-venv/bin/python -s -c from multiprocessing.spawn import spawn_main; spawn_main(tracker_fd=10, pipe_handle=26) --multiprocessing-fork",
+    "28629 28613 /tmp/pantheon-rl-venv/bin/python -s -c from multiprocessing.spawn import spawn_main; spawn_main(tracker_fd=10, pipe_handle=28) --multiprocessing-fork",
+    "28630 28613 /tmp/pantheon-rl-venv/bin/python -s -c from multiprocessing.spawn import spawn_main; spawn_main(tracker_fd=10, pipe_handle=30) --multiprocessing-fork",
+    "28631 28613 /tmp/pantheon-rl-venv/bin/python -s -c from multiprocessing.spawn import spawn_main; spawn_main(tracker_fd=10, pipe_handle=32) --multiprocessing-fork",
+    "28632 28613 /tmp/pantheon-rl-venv/bin/python -s -c from multiprocessing.spawn import spawn_main; spawn_main(tracker_fd=10, pipe_handle=34) --multiprocessing-fork",
+    "28633 28613 /tmp/pantheon-rl-venv/bin/python -s -c from multiprocessing.spawn import spawn_main; spawn_main(tracker_fd=10, pipe_handle=36) --multiprocessing-fork",
+    "28634 28613 /tmp/pantheon-rl-venv/bin/python -s -c from multiprocessing.spawn import spawn_main; spawn_main(tracker_fd=10, pipe_handle=38) --multiprocessing-fork",
+    "28635 28613 /tmp/pantheon-rl-venv/bin/python -s -c from multiprocessing.spawn import spawn_main; spawn_main(tracker_fd=10, pipe_handle=40) --multiprocessing-fork",
+    "28636 28613 /tmp/pantheon-rl-venv/bin/python -s -c from multiprocessing.spawn import spawn_main; spawn_main(tracker_fd=10, pipe_handle=42) --multiprocessing-fork",
+    "28637 28613 /tmp/pantheon-rl-venv/bin/python -s -c from multiprocessing.spawn import spawn_main; spawn_main(tracker_fd=10, pipe_handle=44) --multiprocessing-fork",
+    "28638 28613 /tmp/pantheon-rl-venv/bin/python -s -c from multiprocessing.spawn import spawn_main; spawn_main(tracker_fd=10, pipe_handle=46) --multiprocessing-fork",
+    "28639 28613 /tmp/pantheon-rl-venv/bin/python -s -c from multiprocessing.spawn import spawn_main; spawn_main(tracker_fd=10, pipe_handle=48) --multiprocessing-fork"
+  ]
+}
