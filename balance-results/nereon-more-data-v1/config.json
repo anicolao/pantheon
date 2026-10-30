@@ -1,0 +1,18 @@
+{
+  "workers": 16,
+  "batches": 64,
+  "gamesPerBatch": 64,
+  "screenRounds": [
+    16,
+    32,
+    64
+  ],
+  "screenGames": 256,
+  "comparisonGames": 400,
+  "prefix": "nereon-more-data-v1-20261030",
+  "comparisonPrefix": "d4r28-357e649b83c9:confirm",
+  "initialTrainingGames": 512,
+  "initialCheckpointSHA256": "45fd335ad3d86ab9ad5d6210c2d2648e7a92763b56cfa3e7cdcaf975ba54c907",
+  "sourceCommit": "155aa986c2424df2e3a55da8e81caf80525bd743",
+  "protocol": "Continue the previously selected 512-game checkpoint for 4096 additional games. Preserve optimizer, RNG, reward (2*split-win-1), 171/128/128/349 architecture, PPO hyperparameters and frozen opponents. Save all 64 updates. Screen incumbent and 1024/2048/4096-additional-game checkpoints on 256 matched, separate games. Select highest candidate screen win share before looking at 400 prior benchmark games. Compare raw RL only to the prior selected raw model; split ties and cluster paired 95% intervals by four seat rotations. Benchmark is reused, not globally unseen. No automatic production promotion."
+}
