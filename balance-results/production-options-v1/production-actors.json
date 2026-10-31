@@ -1,0 +1,18 @@
+{
+  "melia": {
+    "path": "/Users/anicolao/projects/games/pantheon/balance-results/production-options-v1/inputs/melia-production.json",
+    "sha256": "1310ab42acc417055d641fbf9c7a2ec155889b700d588d85ab4c14af7c831dcb"
+  },
+  "nereon": {
+    "path": "/Users/anicolao/projects/games/pantheon/balance-results/production-options-v1/inputs/nereon-production.json",
+    "sha256": "c62419391353ea8d3a189185a74ba174bd74dab7558d4ba8c3ae8557e3febfdf"
+  },
+  "thaleia": {
+    "path": "/Users/anicolao/projects/games/pantheon/balance-results/production-options-v1/inputs/thaleia-production.json",
+    "sha256": "3df20ea8f47a2c692bedb3b4014619cf30f9d3cede6084570d804d751530784b"
+  },
+  "doreios": {
+    "path": "/Users/anicolao/projects/games/pantheon/balance-results/production-options-v1/inputs/doreios-production.json",
+    "sha256": "c444e3097cf76aa7b233a394061312527c6732bbc8322b2dfb0b505cc297a82d"
+  }
+}
