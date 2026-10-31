@@ -69,6 +69,8 @@ test('tabletop bot occupies an edge and plays through the real worker',async({pa
   await page.getByRole('button',{name:'Add bot as Melia',exact:true}).click();
   await expect(page.getByLabel('Bot difficulty for Melia').locator('option')).toHaveText(['Easy','Standard','Hard','Expert']);
   await page.getByLabel('Bot difficulty for Melia').selectOption('expert');
+  const story=new TestStepHelper(page,info,'Choose a tabletop bot difficulty');
+  await story.step('expert-seat','Choose Expert at the bot’s edge',[{spec:'Expert is selected before starting the game.',check:()=>expect(page.getByLabel('Bot difficulty for Melia')).toHaveValue('expert')}]);
   await page.getByRole('button',{name:'Play facing Thaleia',exact:true}).click();
   await expect(page.locator('main')).toHaveAttribute('data-tabletop-phase','playing');
   await expect(page.getByRole('region',{name:'Shared table'})).toHaveAttribute('data-facing','south');
@@ -384,18 +386,19 @@ for(const edge of ['south','west','north','east'])for(const scenario of ['seed-k
   await expect(hand.locator('.hand-slot.staged')).toHaveCount(0);
 });
 
-for(const {leader,humans,next} of [{leader:'Melia',humans:['Nereon','Doreios','Thaleia'],next:'south'},{leader:'Thaleia',humans:['Nereon','Doreios','Melia'],next:'north'},{leader:'Nereon',humans:['Doreios','Melia','Thaleia'],next:'south'},{leader:'Doreios',humans:['Melia','Thaleia','Nereon'],next:'west'}])test(`tabletop learned ${leader} takes its turn through the real worker`,async({page},info)=>{
+for(const difficulty of ['standard','hard','expert'] as const)for(const {leader,humans,next} of [{leader:'Melia',humans:['Nereon','Doreios','Thaleia'],next:'south'},{leader:'Thaleia',humans:['Nereon','Doreios','Melia'],next:'north'},{leader:'Nereon',humans:['Doreios','Melia','Thaleia'],next:'south'},{leader:'Doreios',humans:['Melia','Thaleia','Nereon'],next:'west'}])test(`tabletop ${difficulty} ${leader} takes its turn through the real worker`,async({page},info)=>{
  test.skip(info.project.name==='phone','A shared four-edge table is designed for a large display.');
  await page.goto('./pantheontt/');
  // Reserve every other leader so random drafting exercises this model legally.
  for(const human of humans)await page.getByRole('button',{name:`Join ${human}`,exact:true}).click();
  await page.getByRole('button',{name:`Add bot as ${leader}`,exact:true}).click();
+ await page.getByLabel(`Bot difficulty for ${leader}`).selectOption(difficulty);
  await page.getByRole('button',{name:'Play facing Melia',exact:true}).click();
  await expect(page.locator('main')).toHaveAttribute('data-tabletop-phase','playing');
  await expect(page.getByRole('region',{name:'Shared table'})).toHaveAttribute('data-facing',next);
  const saved=await page.evaluate(()=>JSON.parse(localStorage.getItem('pantheon-tabletop-v1')!));
  const game=replaySetup(saved.events),uid=Object.keys(game.leaders).find(uid=>game.leaders[uid]===leader.toLowerCase())!;
- expect(game.players.find(p=>p.uid===uid)?.botKind).toBe('bot');
+ expect(game.players.find(p=>p.uid===uid)?.botKind).toBe(difficulty);
  expect(game.turn.turns[uid]).toBe(1);
  await page.reload();
  await expect(page.getByRole('region',{name:'Shared table'})).toHaveAttribute('data-facing',next);

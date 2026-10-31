@@ -19,20 +19,20 @@
 
 - [x] Her host seat is occupied and another player can join.
 
-## Choose the historical Engine as a table guest
+## Choose Standard difficulty for a table guest
 
 <table>
 <tr><th>Desktop · 1440 × 1000</th><th>Phone · 393 × 852</th></tr>
 <tr>
-<td valign="top"><a href="../../screenshots/invite-an-engine-bot-to-the-real-table-and-take-turns-together/001-invite-desktop-darwin.png"><img src="../../screenshots/invite-an-engine-bot-to-the-real-table-and-take-turns-together/001-invite-desktop-darwin.png" alt="Choose the historical Engine as a table guest — desktop" width="720"></a></td>
-<td valign="top"><a href="../../screenshots/invite-an-engine-bot-to-the-real-table-and-take-turns-together/001-invite-phone-darwin.png"><img src="../../screenshots/invite-an-engine-bot-to-the-real-table-and-take-turns-together/001-invite-phone-darwin.png" alt="Choose the historical Engine as a table guest — phone" width="240"></a></td>
+<td valign="top"><a href="../../screenshots/invite-an-engine-bot-to-the-real-table-and-take-turns-together/001-invite-desktop-darwin.png"><img src="../../screenshots/invite-an-engine-bot-to-the-real-table-and-take-turns-together/001-invite-desktop-darwin.png" alt="Choose Standard difficulty for a table guest — desktop" width="720"></a></td>
+<td valign="top"><a href="../../screenshots/invite-an-engine-bot-to-the-real-table-and-take-turns-together/001-invite-phone-darwin.png"><img src="../../screenshots/invite-an-engine-bot-to-the-real-table-and-take-turns-together/001-invite-phone-darwin.png" alt="Choose Standard difficulty for a table guest — phone" width="240"></a></td>
 </tr>
 </table>
 
 <details>
 <summary>Tabletop · 3840 × 2160 — expand screenshot</summary>
 
-<a href="../../screenshots/invite-an-engine-bot-to-the-real-table-and-take-turns-together/001-invite-tabletop-4k-darwin.png"><img src="../../screenshots/invite-an-engine-bot-to-the-real-table-and-take-turns-together/001-invite-tabletop-4k-darwin.png" alt="Choose the historical Engine as a table guest — tabletop-4k" width="960"></a>
+<a href="../../screenshots/invite-an-engine-bot-to-the-real-table-and-take-turns-together/001-invite-tabletop-4k-darwin.png"><img src="../../screenshots/invite-an-engine-bot-to-the-real-table-and-take-turns-together/001-invite-tabletop-4k-darwin.png" alt="Choose Standard difficulty for a table guest — tabletop-4k" width="960"></a>
 
 </details>
 

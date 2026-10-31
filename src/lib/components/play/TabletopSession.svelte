@@ -239,8 +239,8 @@
           <Portrait {leader} name={definition(leader).name.split(',')[0]} active={seat.mode !== 'empty'}/>
           <span>{seat.mode === 'empty' ? 'Tap to join' : seat.mode === 'bot' ? 'Bot · chooses its leader' : `Joined ${occupied.slice().sort((a,b)=>a.joined-b.joined).findIndex(item=>item.edge===seat.edge)+1}`}</span>
         </button>
-        <button class="seat-mode" disabled={!mounted} onclick={() => seatMode(seat.edge, seat.mode === 'bot' ? 'human' : 'bot')}>{seat.mode === 'bot' ? `Play ${playerName(id)} yourself` : `Add bot as ${playerName(id)}`}</button>
-        {#if seat.mode === 'bot'}<select aria-label={`Bot difficulty for ${playerName(id)}`} value={seat.botKind??'standard'} onchange={(event)=>{const kind=event.currentTarget.value as BotKind;table={...table,seats:table.seats.map(s=>s.edge===seat.edge?{...s,botKind:kind}:s)};}}>{#each botDifficulties as kind}<option value={kind}>{botLabels[kind]}</option>{/each}</select>{/if}
+        <div class="seat-options"><button class="seat-mode" disabled={!mounted} onclick={() => seatMode(seat.edge, seat.mode === 'bot' ? 'human' : 'bot')}>{seat.mode === 'bot' ? `Play ${playerName(id)} yourself` : `Add bot as ${playerName(id)}`}</button>
+        {#if seat.mode === 'bot'}<select class="seat-difficulty" aria-label={`Bot difficulty for ${playerName(id)}`} value={seat.botKind??'standard'} onchange={(event)=>{const kind=event.currentTarget.value as BotKind;table={...table,seats:table.seats.map(s=>s.edge===seat.edge?{...s,botKind:kind}:s)};}}>{#each botDifficulties as kind}<option value={kind}>{botLabels[kind]}</option>{/each}</select>{/if}</div>
       {:else if seat.mode !== 'empty'}
         <div class="edge-line">
           <div class="leader-status">
@@ -350,6 +350,8 @@
   .edge{position:absolute;width:62cqmin;height:20cqmin;left:50%;top:calc(100% - var(--edge-inset,10.5cqmin));transform:translate(-50%,-50%) rotate(var(--angle));transform-origin:center;z-index:3;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.7cqmin;}
   .edge[data-edge=west]{left:var(--edge-inset,10.5cqmin);top:50%;}.edge[data-edge=north]{top:var(--edge-inset,10.5cqmin);}.edge[data-edge=east]{left:calc(100% - var(--edge-inset,10.5cqmin));top:50%;}
   .edge.active{width:66cqmin;height:29cqmin;--edge-inset:15cqmin;}
+  .seat-options{display:flex;align-items:center;justify-content:center;gap:.7cqmin;}.seat-difficulty{font:inherit;font-size:1.2cqmin;min-height:3.5cqmin;color:inherit;background:#102632;border:1px solid #c9a66388;border-radius:.8cqmin;padding:.7cqmin 1.2cqmin;}.seat-difficulty:focus-visible{outline:2px solid #f6dc9b;outline-offset:2px;}
+  .edge.gathering:has(.seat-difficulty){--edge-inset:16cqmin;}
   .edge.gathering{height:26cqmin;--edge-inset:14cqmin;}.join-portrait{width:16cqmin;border:0;background:none;padding:0;filter:drop-shadow(0 1cqmin 1cqmin #0008);}.join-portrait span{display:block;font-size:1.3cqmin;white-space:nowrap;}.seat-mode{font-size:1.2cqmin;min-height:3.5cqmin;}.edge-line{width:100%;display:flex;align-items:center;gap:1.5cqmin;}.leader-status{width:9cqmin;flex-shrink:0;display:flex;flex-direction:column;align-items:center;gap:.5cqmin;}.edge.active .leader-status{width:13cqmin;}.leader{width:9cqmin;flex-shrink:0;background:none;border:0;padding:0;}.edge-deck{--icon-size:2.3cqmin;flex-shrink:0;}.edge-controls{display:flex;justify-content:center;align-items:center;gap:1cqmin;height:3.8cqmin;font-size:1.3cqmin;}.draft-wait{font-size:1.8cqmin;}
   .table-hand{position:relative;height:calc(var(--card-width)*1.4);flex:1;min-width:0;--hand-card-width:var(--card-width);--hand-min-peek:2cqmin;}
 

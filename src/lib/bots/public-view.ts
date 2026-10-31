@@ -8,7 +8,7 @@ export function publicStrategyView(game:SetupState,uid:string,inventory:PublicIn
  const opponents=game.players.filter(p=>p.uid!==uid),zones=game.decks[uid];
  const score=(player:string)=>Object.entries(inventory[player]).reduce((sum,[id,n])=>sum+(definition(id).vp??0)*n,0);
  return {
-  ...structuredClone({hand:zones.hand,owned:inventory[uid],supply:game.supply,resources:game.resources,phase:game.turn.phase,choice:game.turn.choice,leader:game.leaders[uid],leaderUsed:game.turn.leaderUsed}),
+  ...structuredClone({hand:zones.hand,owned:Object.fromEntries(Object.entries(inventory[uid]).filter(([,n])=>n>0)),supply:game.supply,resources:game.resources,phase:game.turn.phase,choice:game.turn.choice,leader:game.leaders[uid],leaderUsed:game.turn.leaderUsed}),
   ...(game.turn.equalTurns?{equalTurns:true,finalRound:!!game.turn.finalRound,playersAfter:game.turnOrder.length-1-game.turnOrder.indexOf(uid)}:{}),
   drawPileCount:zones.deck.length,variant:'standard',leaderBonus:effectFeatures(leaderEffects(game.leaders[uid],'standard')),unseenCount,
   discard:structuredClone(zones.discard),play:structuredClone(zones.play),events:[...game.sharedEvents],
