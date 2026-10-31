@@ -1,0 +1,21 @@
+Production Nereon plus planner versus current research field, 2026-10-30.
+
+Main commit and exact production checkpoint hash are pinned in config.json.
+The production actor and its own matching critic are preserved locally. Critic
+export checks preserve every tensor byte and report numerical kernel error.
+The critic was trained heads-up against MM, not calibrated to four-player win
+probabilities. This is an empirical test of transferring that critic to the
+existing planner, not a claim that its values are calibrated probabilities.
+
+Opponent actors, critics and internal planner world models remain unchanged
+from nereon-main-comparison-v1. Same 400 seeds and seating rotations; production
+without planning is the cached 16% baseline. Neither model is retrained here.
+Nereon planning: 16 sampled worlds, four candidates, four own turns, risk 1.
+Its hypothetical own plays use the production actor. Full replay every game;
+paired 95% intervals cluster 100 seed blocks of four seating rotations.
+
+16 workers dynamically collect individual games. Controller PID: queue.json.
+Log: /tmp/nereon-main-planner-v1.log. Once the controller is confirmed exited:
+  nix develop /tmp/pantheon-ci-nix --command /tmp/pantheon-rl-venv/bin/python scripts/rl/compare_nereon_main_planner.py --resume
+Append output to the same log. Completed chunks are verified and reused.
+Results: results.json; completion: queue-finished.json. No automatic deployment.

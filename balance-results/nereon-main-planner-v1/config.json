@@ -1,0 +1,27 @@
+{
+  "mainCommit": "46253ade5b44903afb448c25759a23df1e52ddd7",
+  "checkpointSHA256": "fec15291b5c041494285f0151db211e7d525e8afee4e0e034c6eb6a4c5a22d58",
+  "prefix": "d4r28-357e649b83c9:confirm",
+  "games": 400,
+  "workers": 16,
+  "rule": {
+    "samples": 16,
+    "candidates": 4,
+    "risk": 1,
+    "trash": false,
+    "utility": "win",
+    "maskedInference": true,
+    "leafHorizon": 4,
+    "guardTreasures": false
+  },
+  "files": {
+    "balance-results/nereon-main-planner-v1/production.zip": "fec15291b5c041494285f0151db211e7d525e8afee4e0e034c6eb6a4c5a22d58",
+    "balance-results/nereon-main-planner-v1/actor.json": "c62419391353ea8d3a189185a74ba174bd74dab7558d4ba8c3ae8557e3febfdf",
+    "balance-results/nereon-main-planner-v1/critic.json": "1af593609c3e5b510bb9d364077fc305e9124fdbac781c5a95385c44ca08b0be",
+    "balance-results/nereon-main-planner-v1/manifest.json": "776d5246ab22a747f4d3db14d5b265b2610f189c08da648523554a4d0eb82151",
+    "balance-results/nereon-main-planner-v1/worker.json": "c8d4fba23d332fb09286816f758d321b14f6a5a3514a9625ea42f1f6458bbd6d",
+    "balance-results/nereon-main-planner-v1/pair-worker.js": "39a47ac2c81dc61169540ab64a832df565e0f952b5665639fa9900547f2f81b9",
+    "balance-results/nereon-main-comparison-v1/production.json": "1ec762c506930132ebbc7edac6ae838fb1d706156d27dedbe5fafadecca90504"
+  },
+  "design": "Production actor plus its exact matching critic; critic trained heads-up against MM with signed terminal outcome, used here experimentally in four-player lookahead. Same 400 games as production-only comparison. Freeze all opposing actors, critics, and their internal world models. Nereon planner uses current production Nereon for its own hypothetical continuations. 16 worlds, four candidates, four-own-turn horizon. Split ties; paired confidence intervals cluster four rotations per seed block. Reused benchmark, no automatic deployment."
+}
