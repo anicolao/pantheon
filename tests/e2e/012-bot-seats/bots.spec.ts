@@ -13,12 +13,13 @@ test('invite an Engine bot to the real table and take turns together',async({pag
  await page.getByRole('button',{name:'Create table',exact:true}).click();
  await steps.step('created','Ariadne opens a normal two-player table',[{spec:'Her host seat is occupied and another player can join.',check:async()=>{await expect(page.getByTestId('player-seat')).toHaveCount(1);await expect(page.getByText('Waiting for a player')).toBeVisible();}}]);
  await page.getByRole('button',{name:'Invite friends',exact:true}).click();
- await page.getByLabel('Bot strategy',{exact:true}).selectOption('classic-engine');
- await steps.step('invite','Choose the historical Engine as a table guest',[{spec:'The same invitation dialog offers a human invitation and a bot seat.',check:async()=>{await expect(page.getByRole('button',{name:'Copy invitation',exact:true})).toBeVisible();await expect(page.getByRole('button',{name:'Invite bot',exact:true})).toBeEnabled();}}]);
+ await expect(page.getByLabel('Bot strategy',{exact:true}).locator('option')).toHaveText(['Easy','Standard','Hard','Expert']);
+ await page.getByLabel('Bot strategy',{exact:true}).selectOption('standard');
+ await steps.step('invite','Choose Standard difficulty for a table guest',[{spec:'The same invitation dialog offers a human invitation and a bot seat.',check:async()=>{await expect(page.getByRole('button',{name:'Copy invitation',exact:true})).toBeVisible();await expect(page.getByRole('button',{name:'Invite bot',exact:true})).toBeEnabled();}}]);
  await page.getByRole('button',{name:'Invite bot',exact:true}).click();
  await expect(page.getByTestId('player-seat')).toHaveCount(2);
  await page.getByRole('button',{name:'Close',exact:true}).click();
- await steps.step('joined','The bot occupies its own seat',[{spec:'Both seats are filled and the host can begin.',check:async()=>{await expect(page.getByTestId('player-seat').last()).toContainText('Classic Engine bot 2');await expect(page.getByRole('button',{name:'Begin',exact:true})).toBeEnabled();}}]);
+ await steps.step('joined','The bot occupies its own seat',[{spec:'Both seats are filled and the host can begin.',check:async()=>{await expect(page.getByTestId('player-seat').last()).toContainText('Standard bot 2');await expect(page.getByRole('button',{name:'Begin',exact:true})).toBeEnabled();}}]);
  await page.getByRole('button',{name:'Begin',exact:true}).click();
  await steps.step('draft','The bot chooses a free bloodline when its draft turn arrives',[{spec:'Ariadne receives her normal draft choice.',check:async()=>expect(page.locator('.choose button')).toBeEnabled()}]);
  await page.locator('.choose button').click();
@@ -39,7 +40,7 @@ test('invite an Engine bot to the real table and take turns together',async({pag
     if(node.isConnected||!['play','gain'].includes(kind))continue;
     requestAnimationFrame(()=>{
      const slots=[...document.querySelectorAll<HTMLElement>('.played-card')];
-     state.landings.push({kind,painted:slots.length>0&&slots.every(slot=>getComputedStyle(slot).opacity==='1')&&!!document.querySelector('.turn-marker')?.textContent?.includes('Classic Engine bot 2')});
+     state.landings.push({kind,painted:slots.length>0&&slots.every(slot=>getComputedStyle(slot).opacity==='1')&&!!document.querySelector('.turn-marker')?.textContent?.includes('Standard bot 2')});
      state.progress++;
     });
    }

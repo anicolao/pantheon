@@ -1,0 +1,55 @@
+{
+  "productionCommit": "46253ade5b44903afb448c25759a23df1e52ddd7",
+  "standard": "Production actors; bot remains a legacy alias for Standard.",
+  "hard": {
+    "melia": "1310ab42acc417055d641fbf9c7a2ec155889b700d588d85ab4c14af7c831dcb",
+    "nereon": "c62419391353ea8d3a189185a74ba174bd74dab7558d4ba8c3ae8557e3febfdf",
+    "thaleia": "7fbc1ce00a16f61286dad6e1bcf2cc6e0bc9ea6fc7e02e8eda319761e34f3427",
+    "doreios": "8fd946c6d6f01bbcff9685585c27e6cfef85a79c91d5a0a9b9932b641bc7138a"
+  },
+  "expert": {
+    "doreios": {
+      "criticSHA256": "7be4ae257ded259ddc57a8811115946ff4ec38f06c2e101ca3373265d9b58346",
+      "rule": {
+        "samples": 16,
+        "candidates": 4,
+        "risk": 1,
+        "trash": false,
+        "utility": "margin",
+        "maskedInference": true,
+        "leafHorizon": 4,
+        "guardTreasures": false
+      },
+      "useCurrentActor": false
+    },
+    "thaleia": {
+      "criticSHA256": "c33da9c453dbb5f7334df713d2e9d61345ca753d430547b0854b15efb0a6083e",
+      "rule": {
+        "samples": 16,
+        "candidates": 4,
+        "risk": 1,
+        "trash": false,
+        "utility": "win",
+        "maskedInference": true,
+        "leafHorizon": 4,
+        "guardTreasures": false
+      },
+      "useCurrentActor": false
+    },
+    "melia": {
+      "criticSHA256": "bd90944b5ea6437476817c465cde3de6fd42adb4b63d6417e163911e445bce3c",
+      "rule": {
+        "samples": 16,
+        "candidates": 4,
+        "risk": 1,
+        "trash": false,
+        "utility": "win",
+        "maskedInference": true,
+        "leafHorizon": 4,
+        "guardTreasures": false
+      },
+      "useCurrentActor": true
+    }
+  },
+  "evidence": "balance-results/difficulty-tiers-v1/results.json"
+}

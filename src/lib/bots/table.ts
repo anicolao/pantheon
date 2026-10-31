@@ -1,4 +1,5 @@
-import {resolveBotKind} from '../game/bot-kind';
+import {tableDecision} from './difficulty';
+import {resolveBotKind,seatBotKind} from '../game/bot-kind';
 import {activePlayer,type ActionCommand} from '../game/actions';
 import {replaySetup,leaderIds,type SetupEvent,type SetupState} from '../game/setup';
 import {UndoHistory} from '../game/undo';
@@ -34,7 +35,7 @@ export class TableBotDriver {
   this.sync(events,current.dealtAtSequence!);
   if(this.proposed?.revision===revision)return this.proposed;
   const view=this.tracker!.view(this.game!),memory=structuredClone(this.tracker!.memories[uid]);
-  const command=decide(view,memory,kind);
+  const command=tableDecision(this.game!,this.tracker!,memory,kind);
   this.proposed={actorUid:uid,revision,commandId,command,memory};
   return this.proposed;
  }
@@ -45,7 +46,7 @@ export class TableBotDriver {
    this.tracker=new BotTracker(this.game);this.undo=new UndoHistory();this.checkpoints.clear();this.proposed=undefined;
    for(const p of this.game.players){
     if(!p.botKind)continue;
-    const kind=resolveBotKind(p.botKind,this.game.leaders[p.uid]);
+    const kind=resolveBotKind(seatBotKind(p.botKind,this.game.seed!,p.uid),this.game.leaders[p.uid]);
     if(kind==='engine'||kind==='classic-engine')this.tracker.memories[p.uid].openingOverride=structuredClone((kind==='engine'?currentOpeningBooks:openingBooks)[this.game.leaders[p.uid]]??null);
    }
    this.prefix=events.slice(0,dealt);
@@ -57,7 +58,12 @@ export class TableBotDriver {
    const checkpoint=structuredClone(tracker);
    if(kind&&command.type!=='action/undone'){
     if(this.proposed?.revision===e.sequence-1&&this.proposed.actorUid===uid&&this.proposed.memory)tracker.memories[uid]=structuredClone(this.proposed.memory);
-    else decide(tracker.view(g),tracker.memories[uid],kind);
+    else {
+     // Neural policies have no decision-side memory. Replaying their search is
+     // unnecessary: public observations are rebuilt from committed events.
+     const resolved=seatBotKind(kind,g.seed!,uid);
+     if(resolved!=='hard'&&resolved!=='expert')decide(tracker.view(g),tracker.memories[uid],resolved);
+    }
    }
    const before=publicCommandContext(g,uid),start=g.movements.length;
    const message=this.undo.apply(g,uid,command,e.sequence);

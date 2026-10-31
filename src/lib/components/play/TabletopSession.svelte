@@ -1,4 +1,5 @@
 <script lang="ts">
+  import {botDifficulties,botLabels,type BotKind} from '$lib/game/bot-kind';
   import { pileIsMoving } from './motion';
   import { onMount, tick, untrack } from 'svelte';
   import { base } from '$app/paths';
@@ -239,6 +240,7 @@
           <span>{seat.mode === 'empty' ? 'Tap to join' : seat.mode === 'bot' ? 'Bot · chooses its leader' : `Joined ${occupied.slice().sort((a,b)=>a.joined-b.joined).findIndex(item=>item.edge===seat.edge)+1}`}</span>
         </button>
         <button class="seat-mode" disabled={!mounted} onclick={() => seatMode(seat.edge, seat.mode === 'bot' ? 'human' : 'bot')}>{seat.mode === 'bot' ? `Play ${playerName(id)} yourself` : `Add bot as ${playerName(id)}`}</button>
+        {#if seat.mode === 'bot'}<select aria-label={`Bot difficulty for ${playerName(id)}`} value={seat.botKind??'standard'} onchange={(event)=>{const kind=event.currentTarget.value as BotKind;table={...table,seats:table.seats.map(s=>s.edge===seat.edge?{...s,botKind:kind}:s)};}}>{#each botDifficulties as kind}<option value={kind}>{botLabels[kind]}</option>{/each}</select>{/if}
       {:else if seat.mode !== 'empty'}
         <div class="edge-line">
           <div class="leader-status">
