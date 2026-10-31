@@ -27,7 +27,10 @@ async function playCard(page:Page,id:string){
     const glint=page.locator(`[data-god-event="${event}"] .glint`);
     await expect(glint).toHaveCount(1);
     await expect(glint).toHaveCSS('animation-duration','0.916667s');
-    await expect.poll(()=>glint.evaluate(node=>node.getAnimations().every(animation=>animation.playState==='finished'))).toBe(true);
+    await page.waitForFunction(event=>{
+      const node=document.querySelector(`[data-god-event="${event}"] .glint`);
+      return node!==null&&node.getAnimations().every(animation=>animation.playState==='finished');
+    },event,{polling:'raf',timeout:2000});
   }
 }
 const step=(steps:TestStepHelper,id:string,text:string,check:()=>Promise<unknown>)=>steps.step(id,text,[{spec:text,check}]);
@@ -87,12 +90,16 @@ test('Poseidon can be worshipped in Actions and again after a purchase without s
     await expect(page.locator('.supply-coverflow')).toBeVisible();await browseSupply(page,'Obol');await step(steps,'supply','Obol is available for a zero-Coin purchase',async()=>expect(page.getByRole('button',{name:'Buy Obol',exact:true})).toBeEnabled());
     await page.getByRole('button',{name:'Buy Obol',exact:true}).click();await step(steps,'buy','Buying the Obol spends one Buy and starts Buys',async()=>{await expect(page.locator('.resources [data-resource=buys]')).toHaveAttribute('data-value','2');await expect(page.getByRole('button',{name:'Inspect purchased Obol',exact:true})).toBeVisible();await expect(page.locator('.played-card').last()).toHaveCSS('opacity','1');await expect(page.locator('.public-flight[data-motion-kind="gain"]')).toHaveCount(0);});
     await expect(page.locator('.supply-coverflow')).toBeVisible();await openWorship(page,'Tribute of the Tides');await step(steps,'again','The same shared god can be worshipped again during Buys',async()=>expect(page.getByRole('button',{name:'Worship Poseidon',exact:true})).toBeEnabled());
-    let dropped=false;await page.context().route(url=>url.pathname.endsWith('/documents:commit'),async route=>{if(dropped){await route.continue();return;}const response=await route.fetch({timeout:2000});expect(response.ok()).toBe(true);dropped=true;await route.abort('connectionreset');});
+    const commitRoute=(url:URL)=>url.pathname.endsWith('/documents:commit');
+    let dropped=false;await page.context().route(commitRoute,async route=>{if(dropped){await route.continue();return;}const response=await route.fetch({timeout:2000});expect(response.ok()).toBe(true);dropped=true;await route.abort('connectionreset');});
     await page.getByRole('button',{name:'Worship Poseidon',exact:true}).click();
     await expect(page.locator('.public-flight[data-motion-kind=topdeck]')).toBeVisible();
     await expect(page.locator('.public-flight[data-motion-kind=topdeck]')).toHaveCount(0);
     await expect(page.locator('.worship-overlay')).toHaveCount(0);await expect.poll(()=>page.evaluate(()=>(window as unknown as {worshipFlashes:number}).worshipFlashes)).toBe(3);await step(steps,'second-worship','The second Worship is paid once despite an interrupted acknowledgement',async()=>{await expect(page.locator('.resources [data-resource=worship]')).toHaveAttribute('data-value','0');await expect(page.locator('.resources [data-resource=buys]')).toHaveAttribute('data-value','3');await expect(page.locator('.worship-overlay')).toHaveCount(0);await expect(page.locator('[data-god-event="tribute-of-the-tides"] [data-favored-playable]')).toHaveAttribute('data-favored-playable','false');});
-    expect(dropped).toBe(true);await expect.poll(()=>other.evaluate(()=>(window as unknown as {altarFlashes:number}).altarFlashes)).toBe(4);expect(await page.evaluate(()=>(window as unknown as {worshipFlashes:number}).worshipFlashes)).toBe(3);await expect(page.locator('.worship-overlay')).toHaveCount(0);await page.reload();await step(steps,'restored','Returning preserves both topdeck gains and the Buy phase',async()=>expect(page.locator('.turn-marker')).toContainText('Buys'));
+    expect(dropped).toBe(true);await expect.poll(()=>other.evaluate(()=>(window as unknown as {altarFlashes:number}).altarFlashes)).toBe(4);expect(await page.evaluate(()=>(window as unknown as {worshipFlashes:number}).worshipFlashes)).toBe(3);await expect(page.locator('.worship-overlay')).toHaveCount(0);// The lost acknowledgement was observed. Stop intercepting requests before
+    // testing a normal reload; routing disables Chromium's HTTP cache.
+    await page.context().unroute(commitRoute);
+    await page.reload();await step(steps,'restored','Returning preserves both topdeck gains and the Buy phase',async()=>expect(page.locator('.turn-marker')).toContainText('Buys'));
     const events=await readEvents(fixture.code),state=replaySetup(events);expect(events.filter(event=>event.type==='god/worshipped')).toHaveLength(2);expect(state.decks[fixture.host].deck.slice(0,2).map(card=>card.cardId)).toEqual(['drachma','drachma']);expect(state.resources.worship).toBe(0);
   }finally{await context.close();}
 });
