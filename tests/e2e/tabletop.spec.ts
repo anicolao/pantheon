@@ -69,6 +69,7 @@ test('tabletop bot occupies an edge and plays through the real worker',async({pa
   await page.getByRole('button',{name:'Add bot as Melia',exact:true}).click();
   await expect(page.getByLabel('Bot difficulty for Melia').locator('option')).toHaveText(['Easy','Standard','Hard','Expert']);
   await page.getByLabel('Bot difficulty for Melia').selectOption('expert');
+  info.annotations.push({type:'display',description:'Shared tabletop: desktop and 4K displays only.'});
   const story=new TestStepHelper(page,info,'Choose a tabletop bot difficulty');
   await story.step('expert-seat','Choose Expert at the bot’s edge',[{spec:'Expert is selected before starting the game.',check:()=>expect(page.getByLabel('Bot difficulty for Melia')).toHaveValue('expert')}]);
   await page.getByRole('button',{name:'Play facing Thaleia',exact:true}).click();
