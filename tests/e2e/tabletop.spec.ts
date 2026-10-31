@@ -389,6 +389,8 @@ for(const edge of ['south','west','north','east'])for(const scenario of ['seed-k
 
 for(const difficulty of ['standard','hard','expert'] as const)for(const {leader,humans,next} of [{leader:'Melia',humans:['Nereon','Doreios','Thaleia'],next:'south'},{leader:'Thaleia',humans:['Nereon','Doreios','Melia'],next:'north'},{leader:'Nereon',humans:['Doreios','Melia','Thaleia'],next:'south'},{leader:'Doreios',humans:['Melia','Thaleia','Nereon'],next:'west'}])test(`tabletop ${difficulty} ${leader} takes its turn through the real worker`,async({page},info)=>{
  test.skip(info.project.name==='phone','A shared four-edge table is designed for a large display.');
+ // A fixed shuffle makes every tier/leader opening reproducible on each renderer.
+ await page.addInitScript(()=>{crypto.randomUUID=()=> 'a664ccf0-4aa8-4a36-8f97-c8894023be42';});
  await page.goto('./pantheontt/');
  // Reserve every other leader so random drafting exercises this model legally.
  for(const human of humans)await page.getByRole('button',{name:`Join ${human}`,exact:true}).click();
@@ -396,8 +398,18 @@ for(const difficulty of ['standard','hard','expert'] as const)for(const {leader,
  await page.getByLabel(`Bot difficulty for ${leader}`).selectOption(difficulty);
  await page.getByRole('button',{name:'Play facing Melia',exact:true}).click();
  await expect(page.locator('main')).toHaveAttribute('data-tabletop-phase','playing');
+ // A turn contains multiple decisions. Require each persisted command to make
+ // progress within the operation limit, then check the visual handoff separately.
+ let saved=await page.evaluate(()=>JSON.parse(localStorage.getItem('pantheon-tabletop-v1')!));
+ const first=replaySetup(saved.events),botUid=Object.keys(first.leaders).find(uid=>first.leaders[uid]===leader.toLowerCase())!;
+ const startSequence=saved.events.length;
+ while(!saved.events.some((event:{type:string;actorUid:string})=>event.type==='turn/ended'&&event.actorUid===botUid)){
+  expect(saved.events.length-startSequence,'An opening bot turn must finish within 64 commands').toBeLessThan(64);
+  const sequence=saved.events.length;
+  await expect.poll(async()=>{saved=await page.evaluate(()=>JSON.parse(localStorage.getItem('pantheon-tabletop-v1')!));return saved.events.length;},
+   {timeout:2000,message:`${difficulty} ${leader} must advance after command ${sequence}`}).toBeGreaterThan(sequence);
+ }
  await expect(page.getByRole('region',{name:'Shared table'})).toHaveAttribute('data-facing',next);
- const saved=await page.evaluate(()=>JSON.parse(localStorage.getItem('pantheon-tabletop-v1')!));
  const game=replaySetup(saved.events),uid=Object.keys(game.leaders).find(uid=>game.leaders[uid]===leader.toLowerCase())!;
  expect(game.players.find(p=>p.uid===uid)?.botKind).toBe(difficulty);
  expect(game.turn.turns[uid]).toBe(1);
