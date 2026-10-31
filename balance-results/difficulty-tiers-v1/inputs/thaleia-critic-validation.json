@@ -1,0 +1,6 @@
+{
+  "samples": 256,
+  "allTensorBytesPreserved": true,
+  "maximumAbsoluteDifferenceFromPyTorch": 1.0728836059570312e-06,
+  "note": "Floating-point kernel roundoff is reported explicitly; exported weights are lossless. Production reducers and replay equality remain exact."
+}

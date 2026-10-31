@@ -1,0 +1,23 @@
+Three difficulty tiers, 2026-10-30.
+
+Standard: current production actors from pinned main.
+Hard: selected best-field actors, all planning disabled.
+Expert: identical actors to Hard, with selected Doreios/Thaleia/Melia planners.
+Melia is identical between Standard and Hard; Nereon is identical at all levels.
+Difficulty separation is therefore aggregate, not guaranteed for each leader.
+
+Two bots from each tier in every game; all six leader assignments balanced over
+120 seed blocks, four seat rotations each. Run Hard/Standard and Expert/Hard;
+reuse completed Expert/Standard on exactly the same 480-game schedule. Scores
+are individual wins with split tie credit, aggregated across the two bots in
+each tier; these bots do not cooperate as teams. Confidence intervals cluster
+four rotations per seed block. No parameter tuning or outcome exclusions.
+
+Inputs are copied under inputs/; protocol.json pins checksums. Each game's
+full-state replay is verified. Script: scripts/rl/compare_difficulty_tiers.py.
+PID: queue.json. Log: /tmp/difficulty-tiers-v1.log. Progress: progress.json.
+After verifying the old controller exited, resume with:
+  nix develop /tmp/pantheon-ci-nix --command /tmp/pantheon-rl-venv/bin/python scripts/rl/compare_difficulty_tiers.py --resume
+Append output to the existing log. Completed chunks are verified and reused.
+Results are updated after each arm in results.json. Completion marker:
+queue-finished.json. No deployment or production changes.
