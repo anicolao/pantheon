@@ -11,7 +11,7 @@
   import { appendGameCommand, type GameCommand, createRoom, type CreationAttempt, resizeRoom, enterRoom, inspectRoom, SetupError, watchSetup, inviteBot, automateHost } from '$lib/backend/setup-repository';
   import { setupSupply, type SetupState, type SetupEvent } from '$lib/game/setup';
   import {activePlayer} from '$lib/game/actions';
-  import {botLabels,type BotKind} from '$lib/game/bot-kind';
+  import {botLabels,botDifficulties,type BotKind} from '$lib/game/bot-kind';
   import type {BotProposal} from '$lib/bots/table';
   import GatheringSeat from '$lib/components/GatheringSeat.svelte';
   import GameButton from '$lib/components/GameButton.svelte';
@@ -52,14 +52,14 @@
   let opener: HTMLElement | null = null;
   let stop: (() => void) | undefined;
   let alive = true;
-  let botKind=$state<BotKind>('bot');
+  let botKind=$state<BotKind>('standard');
   let botError=$state('');
   let hostSeat=$state('human');
   let botInvitation:{uid:string;kind:BotKind}|undefined;
   let botWorker:Worker|undefined,botRequest=0,botRevision=-1;
   let presentedRevision=-1;
   let committedEvents:readonly SetupEvent[]=[];
-  $effect(()=>{hostSeat=setup?.players[0]?.botKind??'human';});
+  $effect(()=>{hostSeat=setup?.players[0]?.botKind==='bot'?'standard':setup?.players[0]?.botKind??'human';});
   function stopBots(){botWorker?.terminate();botWorker=undefined;botRequest++;botRevision=-1;presentedRevision=-1;committedEvents=[];botError='';}
   function tableSettled(revision:number){if(setup?.activity.length===revision){presentedRevision=revision;driveBots(committedEvents);}}
   function driveBots(events:readonly SetupEvent[]){
@@ -96,7 +96,7 @@
   async function changeHostSeat(value:string){
     if(!services||busy)return;busy=true;capacityError='';
     try{await automateHost(services.db,roomId,services.uid,value==='human'?null:value as BotKind);}
-    catch(cause){capacityError=cause instanceof SetupError?cause.message:'Your seat could not be changed.';hostSeat=setup?.players[0]?.botKind??'human';}
+    catch(cause){capacityError=cause instanceof SetupError?cause.message:'Your seat could not be changed.';hostSeat=setup?.players[0]?.botKind==='bot'?'standard':setup?.players[0]?.botKind??'human';}
     finally{busy=false;}
   }
   const latest = $derived(setup?.activity.at(-1));
@@ -348,7 +348,7 @@
     {#if setup?.players[0]?.uid===services?.uid}
       <section class="bot-invitation">
         <h3>Invite a bot</h3>
-        <label for="bot-strategy">Bot strategy</label><select id="bot-strategy" bind:value={botKind} disabled={busy}>{#each Object.entries(botLabels) as [kind,label]}<option value={kind}>{label}</option>{/each}</select>
+        <label for="bot-strategy">Bot strategy</label><select id="bot-strategy" bind:value={botKind} disabled={busy}>{#each botDifficulties as kind}<option value={kind}>{botLabels[kind]}</option>{/each}</select>
         <GameButton onclick={addBot} disabled={busy||status!=='synced'||!openSeats}>{openSeats?'Invite bot':'Table full'}</GameButton>
         <p>Bots take a seat and choose a random available leader. Keep this table open while they play.</p>
         {#if capacityError}<p role="alert">{capacityError}</p>{/if}
@@ -362,7 +362,7 @@
         {#each [2,3,4] as number}<label><input type="radio" name="capacity" aria-label={`${number} players`} value={number} bind:group={capacityChoice} disabled={busy || status !== 'synced' || number < setup.players.length} onchange={() => changeCapacity(number as 2 | 3 | 4)} /><span>{number}</span></label>{/each}
       </fieldset>
       <p class="capacity-hint">Occupied seats stay at the table.</p>
-      <div class="bot-invitation"><label for="host-seat">Your seat</label><select id="host-seat" bind:value={hostSeat} disabled={busy||status!=='synced'} onchange={()=>changeHostSeat(hostSeat)}><option value="human">I will play</option>{#each Object.entries(botLabels) as [kind,label]}<option value={kind}>{label}</option>{/each}</select></div>
+      <div class="bot-invitation"><label for="host-seat">Your seat</label><select id="host-seat" bind:value={hostSeat} disabled={busy||status!=='synced'} onchange={()=>changeHostSeat(hostSeat)}><option value="human">I will play</option>{#each botDifficulties as kind}<option value={kind}>{botLabels[kind]}</option>{/each}</select></div>
       {#if hostSeat!=='human'}<p>You will watch your bot play. Keep this table open to run the bots.</p>{/if}
       {#if capacityError}<p role="alert">{capacityError}</p>{/if}
     {/if}

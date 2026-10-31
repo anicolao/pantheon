@@ -11,6 +11,7 @@ export type BotMemory=StandardMemory & {openingOverride?:OpeningBook|null;openin
 export function decide(view:StandardView,memory:BotMemory,requested:BotKind){
  const kind=resolveBotKind(requested,view.leader);
  if(kind==='rl')return rlCommand(view);
+ if(kind==='easy'||kind==='hard'||kind==='expert')throw Error('This difficulty requires the public table context.');
  if(kind==='mm')return mmCommand(view);
  if(kind==='classic-engine'){
   const action=historicalCommand(view as any,(profiles as any)['2/'+view.leader+'/engine']);

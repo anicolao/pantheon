@@ -1,15 +1,17 @@
-export const botKinds = ['bot', 'mm', 'money', 'engine', 'classic-engine'] as const;
+import {createPrng} from './random';
+export const botKinds = ['bot', 'easy', 'standard', 'hard', 'expert', 'mm', 'money', 'engine', 'classic-engine'] as const;
 export type BotKind = typeof botKinds[number];
-export const botLabels: Record<BotKind, string> = { bot: 'Bot', mm: 'MM (Minh / Melia)', money: 'Money', engine: 'Engine (current)', 'classic-engine': 'Engine (historical v4)' };
+export const botDifficulties = ['easy', 'standard', 'hard', 'expert'] as const;
+export type BotDifficulty = typeof botDifficulties[number];
+export const botLabels: Record<BotKind, string> = { bot: 'Standard', easy: 'Easy', standard: 'Standard', hard: 'Hard', expert: 'Expert', mm: 'MM (Minh / Melia)', money: 'Money', engine: 'Engine (current)', 'classic-engine': 'Engine (historical v4)' };
 export const isBotKind = (value: unknown): value is BotKind => botKinds.includes(value as BotKind);
-
-export function resolveBotKind(kind: BotKind, leader: string): Exclude<BotKind, 'bot'> | 'rl' {
-  if (kind !== 'bot') return kind;
-  switch (leader) {
-    case 'melia':
-    case 'nereon': return 'rl';
-    case 'thaleia':
-    case 'doreios': return 'rl';
-    default: throw new Error(`Unknown bot leader: ${leader}`);
-  }
+export const easyHeuristics = ['money', 'engine', 'classic-engine', 'mm'] as const;
+/** Pick once per seat/game, independent of decisions and stable after reload. */
+export function seatBotKind(kind:BotKind,seed:string,uid:string):Exclude<BotKind,'easy'> {
+ return kind==='easy'?easyHeuristics[Math.floor(createPrng(`easy-v1:${seed}:${uid}`)()*easyHeuristics.length)]:kind;
+}
+export function resolveBotKind(kind: BotKind, leader: string): Exclude<BotKind, 'bot'|'standard'> | 'rl' {
+ if (kind !== 'bot' && kind !== 'standard') return kind;
+ if (!['melia','nereon','thaleia','doreios'].includes(leader)) throw Error(`Unknown bot leader: ${leader}`);
+ return 'rl';
 }

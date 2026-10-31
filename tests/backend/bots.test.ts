@@ -68,3 +68,10 @@ for(const kind of ['bot','mm'] as const)test(`${kind} can be invited and assigne
  expect(g.players.map(p=>p.botKind)).toEqual([kind,kind]);
  expect(g.players[1].name).toBe(kind==='bot'?'Bot 2':'MM bot 2');
 });
+
+for(const kind of ['easy','standard','hard','expert'] as const)test(`${kind} difficulty is accepted and persisted by Firestore rules`,async()=>{
+ const uid='difficulty-'+kind,id='difficulty-'+kind,d=db(uid);await enterRoom(d,id,uid,'Host',2);
+ await inviteBot(d,id,uid,kind,'bot-'+kind);await automateHost(d,id,uid,kind);
+ const g=replaySetup(await events(d,id));expect(g.players.map(p=>p.botKind)).toEqual([kind,kind]);
+ expect(g.players[1].name).toBe(kind[0].toUpperCase()+kind.slice(1)+' bot 2');
+});

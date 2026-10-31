@@ -1,7 +1,7 @@
 import { collection, doc, getDocFromServer, onSnapshot, orderBy, query, runTransaction, serverTimestamp, type Firestore } from 'firebase/firestore';
 import { initialTurn, type ActionCommand } from '$lib/game/actions';
 import { replaySetup, type SetupEvent, type SetupState } from '$lib/game/setup';
-import {isBotKind, type BotKind} from '$lib/game/bot-kind';
+import {isBotKind, botLabels, type BotKind} from '$lib/game/bot-kind';
 
 // Committed immutable prefixes avoid downloading the whole match on every move.
 // A transaction still checks the live revision before appending.
@@ -131,7 +131,7 @@ export async function inviteBot(db: Firestore, id: string, ownerUid: string, kin
     if (previous.phase && previous.phase!=='gathering') throw new SetupError('started','The game has already begun.');
     if (previous.members.length>=previous.playerCount) throw new SetupError('full','This table is full.');
     const sequence=previous.revision+1;
-    const label=kind==='bot'?'Bot':kind==='mm'?'MM':kind==='classic-engine'?'Classic Engine':kind==='engine'?'Engine':'Money';
+    const label=kind==='bot'?'Bot':kind==='mm'?'MM':kind==='classic-engine'?'Classic Engine':kind==='engine'?'Engine':kind==='money'?'Money':botLabels[kind];
     const event:SetupEvent={schemaVersion:1,sequence,actorUid:botUid,name:`${label}${kind==='bot'?'':' bot'} ${previous.members.length+1}`,playerCount:previous.playerCount,type:'player/joined',botKind:kind};
     transaction.update(room,{members:[...previous.members,botUid],bots:{...previous.bots,[botUid]:kind},revision:sequence});
     transaction.set(doc(room,'events',String(sequence)),{...event,createdAt:serverTimestamp()});

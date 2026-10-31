@@ -67,13 +67,15 @@ test('tabletop bot occupies an edge and plays through the real worker',async({pa
   await page.goto('./pantheontt/');
   await page.getByRole('button',{name:/^Join Thaleia$/}).click();
   await page.getByRole('button',{name:'Add bot as Melia',exact:true}).click();
+  await expect(page.getByLabel('Bot difficulty for Melia').locator('option')).toHaveText(['Easy','Standard','Hard','Expert']);
+  await page.getByLabel('Bot difficulty for Melia').selectOption('expert');
   await page.getByRole('button',{name:'Play facing Thaleia',exact:true}).click();
   await expect(page.locator('main')).toHaveAttribute('data-tabletop-phase','playing');
   await expect(page.getByRole('region',{name:'Shared table'})).toHaveAttribute('data-facing','south');
   const saved=await page.evaluate(()=>JSON.parse(localStorage.getItem('pantheon-tabletop-v1')!));
   const game=replaySetup(saved.events);
   expect(game.turn.turns[seatUid('north')]).toBe(1);
-  expect(game.players.find(player=>player.uid===seatUid('north'))?.botKind).toBe('bot');
+  expect(game.players.find(player=>player.uid===seatUid('north'))?.botKind).toBe('expert');
   expect(['melia','nereon','doreios']).toContain(game.leaders[seatUid('north')]);
   expect(game.leaders[seatUid('south')]).toBe('thaleia');
 });

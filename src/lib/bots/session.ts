@@ -1,9 +1,10 @@
-import {resolveBotKind} from '../game/bot-kind';
+import {publicStrategyView} from './public-view';
+import {resolveBotKind,seatBotKind} from '../game/bot-kind';
 import {openingBooks,currentOpeningBooks} from './opening-books';
 import {initialTurn,activePlayer,applyPlayCommand,type ActionCommand} from '../game/actions';
 import {replaySetup,type SetupState,type SetupEvent} from '../game/setup';
 import {publicCommandContext,describePublicCommand} from '../game/public-table';
-import {inventoryAtSetup,updateInventory,strategyView} from '../../../balance-checkpoint/equal-turns/source/scripts/balance/strategy';
+import {inventoryAtSetup,updateInventory} from '../../../balance-checkpoint/equal-turns/source/scripts/balance/strategy';
 import type {StandardView} from '../../../standard-matrix/policy';
 import {botLabels,type BotKind,type BotMemory} from './policy';
 export type PracticeConfig={seed:string;humanLeader:string;botLeader:string;humanFirst:boolean;bot:BotKind};
@@ -40,7 +41,7 @@ export class BotTracker{
    this.seen=new Set(game.decks[uid].hand.map(c=>c.id));this.gained=new Set();
    (this.supplies[uid]??=[]).push({turn:mem.turn,supply:{...game.supply}});
   }
-  const v=strategyView(game,uid,this.inventory,undefined,'standard',Math.max(0,this.target-this.seen.size));
+  const v=publicStrategyView(game,uid,this.inventory,Math.max(0,this.target-this.seen.size));
   const recent=[...(this.histories[uid]??[]).slice(-3),this.draws];v.drawsPerTurn=recent.reduce((a,b)=>a+b,0)/recent.length;
   const old=this.supplies[uid].slice(-4)[0],elapsed=Math.max(1,mem.turn-old.turn);
   v.supplyRates=Object.fromEntries(Object.entries(game.supply).map(([id,n])=>[id,Math.max(0,(old.supply[id]-n)/elapsed)]));
@@ -57,7 +58,7 @@ export class BotTracker{
 }
 export class PracticeSession{
  game:SetupState;tracker:BotTracker;commands:ActionCommand[]=[];
- constructor(public config:PracticeConfig){this.game=initialGame(config);this.tracker=new BotTracker(this.game);const kind=resolveBotKind(config.bot,config.botLeader);if(kind==='engine'||kind==='classic-engine')this.tracker.memories.bot.openingOverride=structuredClone((kind==='classic-engine'?openingBooks:currentOpeningBooks)[config.botLeader]??null);}
+ constructor(public config:PracticeConfig){this.game=initialGame(config);this.tracker=new BotTracker(this.game);const kind=resolveBotKind(seatBotKind(config.bot,this.game.seed!,'bot'),config.botLeader);if(kind==='engine'||kind==='classic-engine')this.tracker.memories.bot.openingOverride=structuredClone((kind==='classic-engine'?openingBooks:currentOpeningBooks)[config.botLeader]??null);}
  apply(command:ActionCommand){
   this.tracker.view(this.game);
   const uid=activePlayer(this.game),start=this.game.movements.length,sequence=this.game.activity.length+1;
