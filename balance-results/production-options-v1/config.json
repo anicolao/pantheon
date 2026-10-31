@@ -1,0 +1,24 @@
+{
+  "mainCommit": "46253ade5b44903afb448c25759a23df1e52ddd7",
+  "prefix": "d4r28-357e649b83c9:confirm",
+  "order": [
+    "doreios",
+    "thaleia",
+    "melia"
+  ],
+  "workers": 16,
+  "games": 400,
+  "freshPrefix": "production-options-v1-fresh-20261030",
+  "freshGames": 480,
+  "plannerRule": {
+    "samples": 16,
+    "candidates": 4,
+    "risk": 1,
+    "trash": false,
+    "utility": "win",
+    "maskedInference": true,
+    "leafHorizon": 4,
+    "guardTreasures": false
+  },
+  "design": "Start with production Nereon (no planner), production Melia, research Thaleia and Doreios planners. Sequentially test Doreios, Thaleia, Melia: incumbent vs production raw vs production plus matching signed-outcome critic. Same 400 reused games at each step; other actors and planner world models frozen within each comparison. Select highest observed split-win share; ties prefer production raw then incumbent then production planner. Selection is exploratory, not significance-gated. Carry selected option to next field. Report all paired seed-block intervals. Finally freeze lineup and test two strong vs two production bots in 480 fresh games: 120 blocks, four rotations, 20 blocks for each of six leader assignments. Report strong total share vs 50%, clustered over blocks. This validates aggregate difficulty, not every leader or heads-up mode. Critic transfer from original training opponents is experimental. No automatic deployment."
+}

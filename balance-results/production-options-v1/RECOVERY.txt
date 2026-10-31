@@ -1,0 +1,35 @@
+Production options and difficulty study, started 2026-10-30.
+
+Controller: scripts/rl/compare_production_options.py.
+Log: /tmp/production-options-v1.log. Process identity: queue.json.
+Current progress: progress.json. Exact fixed design: config.json.
+
+Initial field is production Nereon without planning, production Melia, and the
+established research Thaleia/Doreios planners. Baseline reuses the verified
+400 production-Nereon comparison games. All transitive model dependencies are
+copied under inputs/ and verified by protocol.json. Production checkpoint
+hashes are checked against the actor files extracted from the pinned main.
+
+Order: Doreios, Thaleia, Melia. Each stage compares incumbent, production raw,
+and production with its exact matching signed-outcome critic and the existing
+16-world/four-candidate/four-own-turn planner. Other actors and planner internal
+world models remain frozen within the comparison. Retain highest observed
+win share; ties prefer production raw, incumbent, planner in that order.
+Selection is exploratory and not gated on statistical significance. Every
+stage reports paired intervals and all four leaders. Conditional stage results
+are not evidence of a globally optimal combination. Melia's raw arm is identical
+to the initial field's Melia, so reuse that stage baseline for the raw arm.
+
+Final difficulty test: 480 new games, two selected-lineup bots versus two
+production bots, all six leader assignments balanced over 120 seed blocks,
+four seat rotations per block. Confidence intervals cluster seed blocks.
+This measures aggregate four-player difficulty, not heads-up strength or
+browser/mobile action latency. Worker game timing is diagnostic only.
+Do not promise difficulty levels until this evidence is evaluated.
+
+Resume only after checking the old controller has exited:
+  nix develop /tmp/pantheon-ci-nix --command /tmp/pantheon-rl-venv/bin/python scripts/rl/compare_production_options.py --resume
+Append output to the existing log. Completed chunks are reused after validation;
+no exclusions or seed changes. Every game must pass full-state replay.
+Each stage saves its chosen field and results; final output is results.json
+and queue-finished.json. No automatic deployment or production weight changes.
