@@ -1,0 +1,34 @@
+{
+  "prefix": "production-options-v1-fresh-20261030",
+  "start": 243,
+  "games": 1,
+  "rows": [
+    {
+      "seed": "production-options-v1-fresh-20261030:243",
+      "block": 60,
+      "rotation": 3,
+      "share": 1,
+      "score": 36,
+      "turns": 14,
+      "seat": 2,
+      "turnPosition": 1,
+      "winnerCount": 1,
+      "scores": {
+        "nereon": 36,
+        "melia": 32,
+        "thaleia": 24,
+        "doreios": 22
+      },
+      "replayVerified": true
+    }
+  ],
+  "counts": {
+    "melia": {
+      "searched": 17,
+      "overrides": 1
+    }
+  },
+  "manifestSHA256": "c8a4836d320d077af1e18afbcd4c0fc49c1d77524edd6d12dec31e4fd4ed331c",
+  "variant": 0,
+  "wallSeconds": 13.315933707999648
+}

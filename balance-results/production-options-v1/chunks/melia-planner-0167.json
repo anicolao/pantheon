@@ -1,0 +1,42 @@
+{
+  "prefix": "d4r28-357e649b83c9:confirm",
+  "start": 167,
+  "games": 1,
+  "rows": [
+    {
+      "seed": "d4r28-357e649b83c9:confirm:167",
+      "block": 41,
+      "rotation": 3,
+      "share": 0,
+      "score": 27,
+      "turns": 14,
+      "seat": 0,
+      "turnPosition": 1,
+      "winnerCount": 1,
+      "scores": {
+        "melia": 34,
+        "doreios": 32,
+        "nereon": 27,
+        "thaleia": 25
+      },
+      "replayVerified": true
+    }
+  ],
+  "counts": {
+    "doreios": {
+      "searched": 20,
+      "overrides": 1
+    },
+    "thaleia": {
+      "searched": 22,
+      "overrides": 4
+    },
+    "melia": {
+      "searched": 17,
+      "overrides": 0
+    }
+  },
+  "manifestSHA256": "82ebd228785e7f24d5d39c729cdd42407e05642d3aa8b6fcb0e874687304e87c",
+  "variant": 0,
+  "wallSeconds": 47.85138474999985
+}
