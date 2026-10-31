@@ -45,13 +45,6 @@ for(const count of [2,3,4]){
   await page.getByLabel('Your seat',{exact:true}).selectOption('standard');
   await page.getByRole('button',{name:'Close',exact:true}).click();
  }
- await page.getByRole('button',{name:'Begin',exact:true}).click();
- if(count!==4){
-  await page.locator('.choose button').click();
-  await page.getByRole('button',{name:'Play all Treasures',exact:true}).click();
-  await page.getByRole('button',{name:'End turn',exact:true}).click();
-  await page.getByRole('dialog').getByRole('button',{name:'End turn',exact:true}).click();
- }
  // Emulator-only administrative observation verifies actual persisted bot moves.
  const read=async()=>{
   const r=await fetch('http://127.0.0.1:8193/v1/projects/demo-pantheon/databases/(default)/documents/games/'+room+'/events?pageSize=1000',{headers:{Authorization:'Bearer owner'},signal:AbortSignal.timeout(2000)});
@@ -62,6 +55,27 @@ for(const count of [2,3,4]){
   })).sort((a:PracticeEvent,b:PracticeEvent)=>a.sequence-b.sequence);
   observed={room,events};return events;
  };
+ // Seat order comes from the draft; the host is not necessarily first.
+ const waitForHumanTurn=async()=>{
+  const humanTurn=async()=>(await page.locator('.turn-marker').allTextContents()).some(text=>text.includes('Your turn'));
+  let current=await read();const start=current.at(-1)?.sequence??0;
+  while(!await humanTurn()){
+   const previous=current.at(-1)?.sequence??0;
+   if(previous-start>=64)throw Error('64 persisted commands without reaching the human turn');
+   await expect.poll(async()=>{
+    if(await humanTurn())return true;
+    current=await read();return (current.at(-1)?.sequence??0)>previous;
+   },{timeout:2000,message:`${count}-seat table must advance toward the human turn after event ${previous}`}).toBe(true);
+  }
+ };
+ await page.getByRole('button',{name:'Begin',exact:true}).click();
+ if(count!==4){
+  await page.locator('.choose button').click();
+  await waitForHumanTurn();
+  await page.getByRole('button',{name:'Play all Treasures',exact:true}).click();
+  await page.getByRole('button',{name:'End turn',exact:true}).click();
+  await page.getByRole('dialog').getByRole('button',{name:'End turn',exact:true}).click();
+ }
  // Drafting and playing a turn require multiple worker decisions and writes.
  // Bound each persisted advance, rather than imposing one deadline on the lot.
  let events=await read();
