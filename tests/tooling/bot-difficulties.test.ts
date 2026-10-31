@@ -1,5 +1,7 @@
-import {expect,test} from 'bun:test';
-import {readFileSync} from 'node:fs';
+import {afterAll,expect,test} from 'bun:test';
+import {mkdtempSync,readFileSync,rmSync,writeFileSync} from 'node:fs';
+import {resolve,join} from 'node:path';
+import {tmpdir} from 'node:os';
 import {createHash} from 'node:crypto';
 import {botDifficulties,easyHeuristics,seatBotKind,type BotKind} from '../../src/lib/game/bot-kind';
 import {tableDecision} from '../../src/lib/bots/difficulty';
@@ -9,6 +11,27 @@ import {sampleBelief} from '../../src/lib/bots/planning/rollout';
 import {freshTable,occupy,begin,restoreTable,append} from '../../src/lib/tabletop/table';
 import {TableBotDriver} from '../../src/lib/bots/table';
 import {replaySetup} from '../../src/lib/game/setup';
+
+// Research evidence retains the original machine paths. Relocate only the test
+// manifests; the research loaders still verify every actor and critic hash.
+const fixtureDir=mkdtempSync(join(tmpdir(),'difficulty-manifests-'));
+afterAll(()=>rmSync(fixtureDir,{recursive:true,force:true}));
+let fixtureNumber=0;
+const checkoutPath=(path:string)=>{
+ const relative=path.includes('/balance-results/')?'balance-results/'+path.split('/balance-results/')[1]:path;
+ if(!relative.startsWith('balance-results/'))throw Error('Unexpected research fixture path: '+path);
+ return resolve(relative);
+};
+function fixtureManifest(source:any):string{
+ const manifest=structuredClone(source);
+ for(const entry of Object.values(manifest.actors) as {path:string}[])entry.path=checkoutPath(entry.path);
+ if(manifest.planning){
+  manifest.planning.worldManifest=fixtureManifest(JSON.parse(readFileSync(checkoutPath(manifest.planning.worldManifest),'utf8')));
+  for(const spec of Object.values(manifest.planning.policies) as {critic:{path:string}}[])spec.critic.path=checkoutPath(spec.critic.path);
+ }
+ const path=join(fixtureDir,`${fixtureNumber++}.json`);writeFileSync(path,JSON.stringify(manifest));return path;
+}
+const loadFixture=(path:string)=>fixtureManifest(JSON.parse(readFileSync(path,'utf8')));
 
 const sha=(path:string)=>createHash('sha256').update(readFileSync(path)).digest('hex');
 test('shipping actors and critics exactly match the evaluated tier manifests',()=>{
@@ -32,19 +55,16 @@ test('Easy picks every heuristic, deterministically per seat/game; only four dif
 for(const tier of ['hard','expert'] as const)for(const leader of ['melia','nereon','thaleia','doreios'])test(`${tier}/${leader} matches evaluated policy on legal public table decisions`,()=>{
  // For Hard use the all-Hard saved tier, via a temporary manifest.
  const tiers=JSON.parse(readFileSync('balance-results/difficulty-tiers-v1/tiers.json','utf8'));
- const dir=require('node:fs').mkdtempSync(require('node:path').join(require('node:os').tmpdir(),'tier-parity-'));
- try{
-  const path=dir+'/manifest.json';require('node:fs').writeFileSync(path,JSON.stringify(tiers[tier]));
+ const path=fixtureManifest(tiers[tier]);
   const env=new PlanningEnvironment(leader,path);let state=env.reset(`tier-parity-${tier}-${leader}:0`,true);
   for(let i=0;i<8&&!state.done;i++){
    const view=env.tracker.view(env.game),expected=commands(view)[env.runtime()]!;
    const actual=tableDecision(env.game,env.tracker,structuredClone(env.tracker.memories[env.uid]),tier);
    expect(actual).toEqual(expected);state=env.step(env.runtime());
   }
- }finally{require('node:fs').rmSync(dir,{recursive:true,force:true});}
 },120000);
 for(const leader of ['melia','thaleia','doreios'])test(`Expert ${leader} cannot read hidden identities, deck order, shuffle seed or private history`,()=>{
- const env=new PlanningEnvironment(leader,'balance-results/production-options-v1/selected-field.json');let state=env.reset('shipping-privacy:0',true);
+ const env=new PlanningEnvironment(leader,loadFixture('balance-results/production-options-v1/selected-field.json'));let state=env.reset('shipping-privacy:0',true);
  while(!state.done){const command=commands(env.tracker.view(env.game))[env.runtime()]!;if(command.type==='card/bought'||command.type==='god/worshipped')break;state=env.step(env.runtime());}
  expect(state.done).toBe(false);
  const before=tableDecision(env.game,env.tracker,structuredClone(env.tracker.memories[env.uid]),'expert');
@@ -73,7 +93,7 @@ test('public inventory view preserves the previous policy observation through ga
  const {FourEnvironment}=require('../../scripts/rl/four_environment');
  const {publicStrategyView}=require('../../src/lib/bots/public-view');
  const {strategyView}=require('../../balance-checkpoint/equal-turns/source/scripts/balance/strategy');
- const env=new FourEnvironment('doreios','balance-results/production-options-v1/inputs/world.json');
+ const env=new FourEnvironment('doreios',loadFixture('balance-results/production-options-v1/inputs/world.json'));
  let state=env.reset('observation-compatibility:0',true),steps=0;
  while(!state.done){
   expect(++steps).toBeLessThan(1000);
