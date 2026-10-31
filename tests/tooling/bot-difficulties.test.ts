@@ -68,3 +68,16 @@ for(const count of [2,3,4])test(`${count}-player difficulty seats persist and co
   table=append(table,proposal.actorUid,proposal.command);
  }
 },120000);
+
+test('public inventory view preserves the previous policy observation through gains and cleanup',()=>{
+ const {FourEnvironment}=require('../../scripts/rl/four_environment');
+ const {publicStrategyView}=require('../../src/lib/bots/public-view');
+ const {strategyView}=require('../../balance-checkpoint/equal-turns/source/scripts/balance/strategy');
+ const env=new FourEnvironment('doreios','balance-results/production-options-v1/inputs/world.json');
+ let state=env.reset('observation-compatibility:0',true),steps=0;
+ while(!state.done){
+  expect(++steps).toBeLessThan(1000);
+  expect(publicStrategyView(env.game,env.uid,env.tracker.inventory,17)).toEqual(strategyView(env.game,env.uid,env.tracker.inventory,undefined,'standard',17));
+  state=env.step(env.runtime());
+ }
+});

@@ -47,7 +47,7 @@ test('bots preserve preset human leaders and use the leader-aware Bot policy',()
   expect(new Set(Object.values(game.leaders)).size).toBe(4);
   const bots=game.draftOrder.filter(uid=>game.players.find(p=>p.uid===uid)?.botKind);
   expect(bots.map(uid=>game.leaders[uid]).sort()).toEqual(['doreios','nereon']);
-  expect(bots.map(uid=>game.players.find(p=>p.uid===uid)!.botKind)).toEqual(['bot','bot']);
+  expect(bots.map(uid=>game.players.find(p=>p.uid===uid)!.botKind)).toEqual(['standard','standard']);
   const driver=new TableBotDriver();let moves=0;
   while(replaySetup(table.events).players.find(player=>player.uid===actor(replaySetup(table.events)))?.botKind && moves<30){
     const proposal=driver.next(table.events,game.players[0].uid)!;expect(proposal).not.toBeNull();
