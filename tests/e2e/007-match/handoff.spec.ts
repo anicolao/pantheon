@@ -49,7 +49,7 @@ test('keep playing a Temple, spend the last Buy, and hand the turn to a friend e
     await setMotionPreference(page,'no-preference');await setMotionPreference(other,'no-preference');
     let dropped=false;await page.context().route(url=>url.pathname.endsWith('/documents:commit'),async route=>{if(dropped){await route.continue();return;}const response=await route.fetch({timeout:2000});expect(response.ok()).toBe(true);dropped=true;await route.abort('connectionreset');});
     await openPlayers(other);await other.bringToFront();
-    await observeDraws(other);
+    await observeDraws(other);await observeDraws(page);
     await page.getByRole('button',{name:'End turn',exact:true}).click();
     // Cleanup and redeal are separate, intentionally slowed animation batches.
     await expect(other.locator('.public-flight[data-motion-kind="cleanup"]').first()).toBeAttached();
@@ -65,6 +65,12 @@ test('keep playing a Temple, spend the last Buy, and hand the turn to a friend e
     // The new hand changes affordability; let its market glide land before capture.
     await expect(other.locator('.supply-coverflow')).toHaveAttribute('aria-busy','false');
     await capture('handoff','Theseus receives fresh counters after public cleanup finishes',other,'Theseus',async()=>{await expect(other.locator('.turn-marker')).toContainText('Your turn');await expect(other.locator('.resources [data-resource=actions]')).toHaveAttribute('data-value','1');await expect(other.locator('.resources [data-resource=coins]')).toHaveAttribute('data-value','0');await expect(other.locator('.resources [data-resource=worship]')).toHaveAttribute('data-value','1');await expect(other.getByRole('button',{name:'End turn',exact:true})).toBeEnabled();await other.waitForFunction(()=>!document.querySelector('.public-flight'),undefined,{polling:20,timeout:2000});});
+    // This player's private redeal may have been deferred while their tab was
+    // in the background. Observe its landings before photographing the hand.
+    await page.bringToFront();
+    for(const count of [1,2,3,4,5])await waitForDraws(page,count);
+    await drawFrames(page);
+    await expect(page.locator('.supply-coverflow')).toHaveAttribute('aria-busy','false');
     await capture('waiting-hand','Ariadne receives five private cards and waits for Theseus',page,'Ariadne',async()=>{await expect(page.locator('.turn-marker')).toContainText('Theseus');await expect(page.getByTestId('hand-card')).toHaveCount(5);await expect(page.locator('.opponents [data-card-id]')).toHaveCount(0);await expect(page.getByRole('button',{name:'End turn',exact:true})).toHaveCount(0);});
     const events=await readEvents(code),state=replaySetup(events),host=events[0].actorUid;expect(dropped).toBe(true);expect(events.filter(e=>e.type==='turn/ended')).toHaveLength(1);expect(state.turn.turns[host]).toBe(1);expect(state.decks[host].play).toHaveLength(0);expect(state.decks[host].discard).toHaveLength(6);expect(state.decks[host].hand.filter(c=>c.cardId==='hamlet')).toHaveLength(3);
     await page.reload();
