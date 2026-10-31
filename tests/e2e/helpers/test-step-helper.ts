@@ -79,13 +79,17 @@ export class TestStepHelper {
             if(decoded.has(src))return decoded.get(src)!;
             const image=new Image();image.src=src;return decode(image);
           })]);
+          // decode() keeps the decoded image ready for the next rendering update.
+          // Cross that update before a separate CDP capture, rather than racing
+          // an already-composited low-resolution image from the previous frame.
+          await new Promise<void>(resolve=>requestAnimationFrame(()=>resolve()));
           const artwork=performance.now();
           let animations:Animation[];
           if(checkpoint && !document.getAnimations().some(animation=>animation.playState==='paused'))throw new Error('An animation checkpoint requires a paused native animation');
           while((animations=document.getAnimations().filter(animation=>animation.playState!=='finished' && !(checkpoint && animation.playState==='paused'))).length){
             await Promise.all(animations.map(animation=>animation.finished.catch(()=>undefined)));
           }
-          // Capture flushes the complete compositor frame; another rAF would render it twice.
+          // Capture uses the decoded frame after native animations have settled.
           return {fonts:Math.round(fonts-start),discovery:Math.round(discovered-fonts),decode:Math.round(artwork-discovered),animations:Math.round(performance.now()-artwork)};
         },view.animationCheckpoint??false);
         // A flight's completion can start the market's requestAnimationFrame glide.
