@@ -1,0 +1,387 @@
+{
+  "exactCommandParity": true,
+  "replayVerified": true,
+  "elapsedSeconds": 51.60645241600287,
+  "decisions": 959,
+  "games": 16,
+  "workers": [
+    {
+      "leader": "nereon",
+      "rank": 0,
+      "decisions": 143,
+      "games": [
+        {
+          "seed": "rl-runtime-v1:export-parity:0",
+          "block": 0,
+          "rotation": 0,
+          "share": 0,
+          "score": 22,
+          "turns": 11,
+          "seat": 1,
+          "turnPosition": 0,
+          "winnerCount": 1,
+          "scores": {
+            "melia": 26,
+            "nereon": 22,
+            "doreios": 21,
+            "thaleia": 18
+          },
+          "replayVerified": true,
+          "outcome": -1,
+          "reward": -1.0
+        },
+        {
+          "seed": "rl-runtime-v1:export-parity:8",
+          "block": 2,
+          "rotation": 0,
+          "share": 0,
+          "score": 20,
+          "turns": 14,
+          "seat": 2,
+          "turnPosition": 0,
+          "winnerCount": 1,
+          "scores": {
+            "thaleia": 40,
+            "doreios": 29,
+            "melia": 27,
+            "nereon": 20
+          },
+          "replayVerified": true,
+          "outcome": -1,
+          "reward": -1.0
+        }
+      ]
+    },
+    {
+      "leader": "nereon",
+      "rank": 1,
+      "decisions": 115,
+      "games": [
+        {
+          "seed": "rl-runtime-v1:export-parity:1",
+          "block": 0,
+          "rotation": 1,
+          "share": 1,
+          "score": 25,
+          "turns": 10,
+          "seat": 0,
+          "turnPosition": 3,
+          "winnerCount": 1,
+          "scores": {
+            "nereon": 25,
+            "doreios": 21,
+            "melia": 20,
+            "thaleia": 16
+          },
+          "replayVerified": true,
+          "outcome": 1,
+          "reward": 1.0
+        },
+        {
+          "seed": "rl-runtime-v1:export-parity:9",
+          "block": 2,
+          "rotation": 1,
+          "share": 0,
+          "score": 24,
+          "turns": 12,
+          "seat": 1,
+          "turnPosition": 3,
+          "winnerCount": 2,
+          "scores": {
+            "thaleia": 27,
+            "doreios": 27,
+            "nereon": 24,
+            "melia": 16
+          },
+          "replayVerified": true,
+          "outcome": -1,
+          "reward": -1.0
+        }
+      ]
+    },
+    {
+      "leader": "nereon",
+      "rank": 2,
+      "decisions": 119,
+      "games": [
+        {
+          "seed": "rl-runtime-v1:export-parity:2",
+          "block": 0,
+          "rotation": 2,
+          "share": 1,
+          "score": 28,
+          "turns": 10,
+          "seat": 3,
+          "turnPosition": 2,
+          "winnerCount": 1,
+          "scores": {
+            "nereon": 28,
+            "thaleia": 24,
+            "doreios": 21,
+            "melia": 14
+          },
+          "replayVerified": true,
+          "outcome": 1,
+          "reward": 1.0
+        },
+        {
+          "seed": "rl-runtime-v1:export-parity:10",
+          "block": 2,
+          "rotation": 2,
+          "share": 0,
+          "score": 26,
+          "turns": 12,
+          "seat": 0,
+          "turnPosition": 2,
+          "winnerCount": 1,
+          "scores": {
+            "thaleia": 30,
+            "melia": 27,
+            "nereon": 26,
+            "doreios": 24
+          },
+          "replayVerified": true,
+          "outcome": -1,
+          "reward": -1.0
+        }
+      ]
+    },
+    {
+      "leader": "nereon",
+      "rank": 3,
+      "decisions": 140,
+      "games": [
+        {
+          "seed": "rl-runtime-v1:export-parity:3",
+          "block": 0,
+          "rotation": 3,
+          "share": 0,
+          "score": 19,
+          "turns": 11,
+          "seat": 2,
+          "turnPosition": 1,
+          "winnerCount": 1,
+          "scores": {
+            "melia": 28,
+            "thaleia": 27,
+            "doreios": 24,
+            "nereon": 19
+          },
+          "replayVerified": true,
+          "outcome": -1,
+          "reward": -1.0
+        },
+        {
+          "seed": "rl-runtime-v1:export-parity:11",
+          "block": 2,
+          "rotation": 3,
+          "share": 1,
+          "score": 34,
+          "turns": 14,
+          "seat": 3,
+          "turnPosition": 1,
+          "winnerCount": 1,
+          "scores": {
+            "nereon": 34,
+            "doreios": 32,
+            "melia": 25,
+            "thaleia": 25
+          },
+          "replayVerified": true,
+          "outcome": 1,
+          "reward": 1.0
+        }
+      ]
+    },
+    {
+      "leader": "nereon",
+      "rank": 4,
+      "decisions": 99,
+      "games": [
+        {
+          "seed": "rl-runtime-v1:export-parity:4",
+          "block": 1,
+          "rotation": 0,
+          "share": 0,
+          "score": 22,
+          "turns": 10,
+          "seat": 1,
+          "turnPosition": 2,
+          "winnerCount": 1,
+          "scores": {
+            "melia": 24,
+            "nereon": 22,
+            "doreios": 22,
+            "thaleia": 18
+          },
+          "replayVerified": true,
+          "outcome": -1,
+          "reward": -1.0
+        },
+        {
+          "seed": "rl-runtime-v1:export-parity:12",
+          "block": 3,
+          "rotation": 0,
+          "share": 0,
+          "score": 19,
+          "turns": 10,
+          "seat": 3,
+          "turnPosition": 3,
+          "winnerCount": 1,
+          "scores": {
+            "melia": 25,
+            "thaleia": 21,
+            "doreios": 20,
+            "nereon": 19
+          },
+          "replayVerified": true,
+          "outcome": -1,
+          "reward": -1.0
+        }
+      ]
+    },
+    {
+      "leader": "nereon",
+      "rank": 5,
+      "decisions": 110,
+      "games": [
+        {
+          "seed": "rl-runtime-v1:export-parity:5",
+          "block": 1,
+          "rotation": 1,
+          "share": 0,
+          "score": 21,
+          "turns": 10,
+          "seat": 0,
+          "turnPosition": 1,
+          "winnerCount": 1,
+          "scores": {
+            "doreios": 24,
+            "melia": 22,
+            "nereon": 21,
+            "thaleia": 18
+          },
+          "replayVerified": true,
+          "outcome": -1,
+          "reward": -1.0
+        },
+        {
+          "seed": "rl-runtime-v1:export-parity:13",
+          "block": 3,
+          "rotation": 1,
+          "share": 0,
+          "score": 25,
+          "turns": 11,
+          "seat": 2,
+          "turnPosition": 2,
+          "winnerCount": 1,
+          "scores": {
+            "doreios": 27,
+            "nereon": 25,
+            "melia": 23,
+            "thaleia": 17
+          },
+          "replayVerified": true,
+          "outcome": -1,
+          "reward": -1.0
+        }
+      ]
+    },
+    {
+      "leader": "nereon",
+      "rank": 6,
+      "decisions": 118,
+      "games": [
+        {
+          "seed": "rl-runtime-v1:export-parity:6",
+          "block": 1,
+          "rotation": 2,
+          "share": 0,
+          "score": 24,
+          "turns": 11,
+          "seat": 3,
+          "turnPosition": 0,
+          "winnerCount": 1,
+          "scores": {
+            "doreios": 25,
+            "melia": 24,
+            "nereon": 24,
+            "thaleia": 21
+          },
+          "replayVerified": true,
+          "outcome": -1,
+          "reward": -1.0
+        },
+        {
+          "seed": "rl-runtime-v1:export-parity:14",
+          "block": 3,
+          "rotation": 2,
+          "share": 0,
+          "score": 26,
+          "turns": 12,
+          "seat": 1,
+          "turnPosition": 1,
+          "winnerCount": 1,
+          "scores": {
+            "melia": 30,
+            "thaleia": 27,
+            "nereon": 26,
+            "doreios": 25
+          },
+          "replayVerified": true,
+          "outcome": -1,
+          "reward": -1.0
+        }
+      ]
+    },
+    {
+      "leader": "nereon",
+      "rank": 7,
+      "decisions": 115,
+      "games": [
+        {
+          "seed": "rl-runtime-v1:export-parity:7",
+          "block": 1,
+          "rotation": 3,
+          "share": 0,
+          "score": 25,
+          "turns": 11,
+          "seat": 2,
+          "turnPosition": 3,
+          "winnerCount": 1,
+          "scores": {
+            "thaleia": 30,
+            "nereon": 25,
+            "melia": 23,
+            "doreios": 21
+          },
+          "replayVerified": true,
+          "outcome": -1,
+          "reward": -1.0
+        },
+        {
+          "seed": "rl-runtime-v1:export-parity:15",
+          "block": 3,
+          "rotation": 3,
+          "share": 1,
+          "score": 28,
+          "turns": 11,
+          "seat": 0,
+          "turnPosition": 0,
+          "winnerCount": 1,
+          "scores": {
+            "nereon": 28,
+            "thaleia": 27,
+            "doreios": 27,
+            "melia": 18
+          },
+          "replayVerified": true,
+          "outcome": 1,
+          "reward": 1.0
+        }
+      ]
+    }
+  ],
+  "actorSHA256": "f7d283e02a4f506383c8d07779dd44632603146398d9e8ba7ea967028874e21f",
+  "checkpointSHA256": "59abbed9272575362e069620474f95ebf822df69d1ff3b989329f05b9bd46813"
+}

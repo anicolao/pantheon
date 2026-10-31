@@ -1,0 +1,90 @@
+{
+  "prefix": "d4r28-357e649b83c9:confirm",
+  "start": 388,
+  "games": 4,
+  "rows": [
+    {
+      "seed": "d4r28-357e649b83c9:confirm:388",
+      "block": 97,
+      "rotation": 0,
+      "share": 0,
+      "score": 35,
+      "turns": 14,
+      "seat": 1,
+      "turnPosition": 2,
+      "winnerCount": 1,
+      "scores": {
+        "thaleia": 37,
+        "nereon": 35,
+        "doreios": 29,
+        "melia": 18
+      },
+      "replayVerified": true
+    },
+    {
+      "seed": "d4r28-357e649b83c9:confirm:389",
+      "block": 97,
+      "rotation": 1,
+      "share": 0,
+      "score": 23,
+      "turns": 14,
+      "seat": 0,
+      "turnPosition": 1,
+      "winnerCount": 1,
+      "scores": {
+        "thaleia": 34,
+        "doreios": 33,
+        "melia": 30,
+        "nereon": 23
+      },
+      "replayVerified": true
+    },
+    {
+      "seed": "d4r28-357e649b83c9:confirm:390",
+      "block": 97,
+      "rotation": 2,
+      "share": 1,
+      "score": 32,
+      "turns": 12,
+      "seat": 3,
+      "turnPosition": 0,
+      "winnerCount": 1,
+      "scores": {
+        "nereon": 32,
+        "thaleia": 30,
+        "melia": 26,
+        "doreios": 21
+      },
+      "replayVerified": true
+    },
+    {
+      "seed": "d4r28-357e649b83c9:confirm:391",
+      "block": 97,
+      "rotation": 3,
+      "share": 1,
+      "score": 29,
+      "turns": 11,
+      "seat": 2,
+      "turnPosition": 3,
+      "winnerCount": 1,
+      "scores": {
+        "nereon": 29,
+        "thaleia": 24,
+        "melia": 21,
+        "doreios": 21
+      },
+      "replayVerified": true
+    }
+  ],
+  "counts": {
+    "doreios": {
+      "searched": 66,
+      "overrides": 8
+    },
+    "thaleia": {
+      "searched": 103,
+      "overrides": 12
+    }
+  },
+  "manifestSHA256": "572f955d9288f4aa9c696cc55150699f90664c5dc97e0a1e224d1826a8c29639"
+}
