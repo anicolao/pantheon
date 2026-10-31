@@ -1,0 +1,57 @@
+{
+  "actors": {
+    "melia": {
+      "path": "/Users/anicolao/projects/games/pantheon/balance-results/nereon-more-data-v1/actors/melia.json",
+      "sha256": "1310ab42acc417055d641fbf9c7a2ec155889b700d588d85ab4c14af7c831dcb"
+    },
+    "nereon": {
+      "path": "/Users/anicolao/projects/games/pantheon/balance-results/nereon-more-data-v1/baseline-parity-actor.json",
+      "sha256": "7b33f85b766b8226d5db3f1d407dfc6956586586b0d14a7d207417455c39cf9e"
+    },
+    "thaleia": {
+      "path": "/Users/anicolao/projects/games/pantheon/balance-results/nereon-more-data-v1/actors/thaleia.json",
+      "sha256": "7fbc1ce00a16f61286dad6e1bcf2cc6e0bc9ea6fc7e02e8eda319761e34f3427"
+    },
+    "doreios": {
+      "path": "/Users/anicolao/projects/games/pantheon/balance-results/nereon-more-data-v1/actors/doreios.json",
+      "sha256": "8fd946c6d6f01bbcff9685585c27e6cfef85a79c91d5a0a9b9932b641bc7138a"
+    }
+  },
+  "planning": {
+    "worldManifest": "/Users/anicolao/projects/games/pantheon/balance-results/nereon-more-data-v1/world.json",
+    "policies": {
+      "doreios": {
+        "critic": {
+          "path": "/Users/anicolao/projects/games/pantheon/balance-results/nereon-more-data-v1/doreios-critic.json",
+          "sha256": "7be4ae257ded259ddc57a8811115946ff4ec38f06c2e101ca3373265d9b58346"
+        },
+        "rule": {
+          "samples": 16,
+          "candidates": 4,
+          "risk": 1,
+          "trash": false,
+          "utility": "margin",
+          "maskedInference": true,
+          "leafHorizon": 4,
+          "guardTreasures": false
+        }
+      },
+      "thaleia": {
+        "critic": {
+          "path": "/Users/anicolao/projects/games/pantheon/balance-results/nereon-more-data-v1/thaleia-critic.json",
+          "sha256": "c33da9c453dbb5f7334df713d2e9d61345ca753d430547b0854b15efb0a6083e"
+        },
+        "rule": {
+          "samples": 16,
+          "candidates": 4,
+          "risk": 1,
+          "trash": false,
+          "utility": "win",
+          "maskedInference": true,
+          "leafHorizon": 4,
+          "guardTreasures": false
+        }
+      }
+    }
+  }
+}

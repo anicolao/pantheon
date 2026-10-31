@@ -1,0 +1,90 @@
+{
+  "prefix": "nereon-more-data-v1-20261030:screen",
+  "start": 208,
+  "games": 4,
+  "rows": [
+    {
+      "seed": "nereon-more-data-v1-20261030:screen:208",
+      "block": 52,
+      "rotation": 0,
+      "share": 0,
+      "score": 23,
+      "turns": 13,
+      "seat": 2,
+      "turnPosition": 1,
+      "winnerCount": 1,
+      "scores": {
+        "thaleia": 33,
+        "doreios": 30,
+        "melia": 26,
+        "nereon": 23
+      },
+      "replayVerified": true
+    },
+    {
+      "seed": "nereon-more-data-v1-20261030:screen:209",
+      "block": 52,
+      "rotation": 1,
+      "share": 0,
+      "score": 17,
+      "turns": 10,
+      "seat": 1,
+      "turnPosition": 0,
+      "winnerCount": 1,
+      "scores": {
+        "melia": 26,
+        "thaleia": 24,
+        "doreios": 21,
+        "nereon": 17
+      },
+      "replayVerified": true
+    },
+    {
+      "seed": "nereon-more-data-v1-20261030:screen:210",
+      "block": 52,
+      "rotation": 2,
+      "share": 0.3333333333333333,
+      "score": 31,
+      "turns": 13,
+      "seat": 0,
+      "turnPosition": 3,
+      "winnerCount": 3,
+      "scores": {
+        "nereon": 31,
+        "melia": 31,
+        "doreios": 31,
+        "thaleia": 15
+      },
+      "replayVerified": true
+    },
+    {
+      "seed": "nereon-more-data-v1-20261030:screen:211",
+      "block": 52,
+      "rotation": 3,
+      "share": 0,
+      "score": 29,
+      "turns": 12,
+      "seat": 3,
+      "turnPosition": 2,
+      "winnerCount": 1,
+      "scores": {
+        "thaleia": 31,
+        "nereon": 29,
+        "doreios": 27,
+        "melia": 16
+      },
+      "replayVerified": true
+    }
+  ],
+  "counts": {
+    "doreios": {
+      "searched": 62,
+      "overrides": 3
+    },
+    "thaleia": {
+      "searched": 91,
+      "overrides": 13
+    }
+  },
+  "manifestSHA256": "a8934cdc2a7be5d8dab08ebbe481242407d36348617b2510d36093b3bd982625"
+}
