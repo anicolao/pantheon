@@ -1,9 +1,25 @@
 import { observeDraws, waitForDraws, drawFrames } from './helpers/draw-observer';
 import { test, expect } from './helpers/fixtures';
+import type {Page} from '@playwright/test';
 import { TestStepHelper } from './helpers/test-step-helper';
 import { freshTable, occupy, begin, append, actor, advanceEmptyActions, seatUid, type Edge } from '../../src/lib/tabletop/table';
 const names={south:'Thaleia',west:'Nereon',north:'Melia',east:'Doreios'};
 import { replaySetup } from '../../src/lib/game/setup';
+
+// A turn has multiple decisions. Bound each persisted advance, then test the
+// visible handoff separately; never spend a single operation budget on a turn.
+async function waitForBotOpening(page:Page,botUid:string){
+ let saved=await page.evaluate(()=>JSON.parse(localStorage.getItem('pantheon-tabletop-v1')!));
+ const startSequence=saved.events.length;
+ while(!saved.events.some((event:{type:string;actorUid:string})=>event.type==='turn/ended'&&event.actorUid===botUid)){
+  expect(saved.events.length-startSequence,'An opening bot turn must finish within 64 commands').toBeLessThan(64);
+  const sequence=saved.events.length;
+  await expect.poll(async()=>{saved=await page.evaluate(()=>JSON.parse(localStorage.getItem('pantheon-tabletop-v1')!));return saved.events.length;},
+   {timeout:2000,message:`${botUid} must advance after command ${sequence}`}).toBeGreaterThan(sequence);
+ }
+ return saved;
+}
+
 
 for (const count of [2, 4] as const) test(`tabletop ${count} players join their edges and keep reverse join order`, async ({page},info)=>{
   test.skip(info.project.name==='phone','A shared four-edge table is designed for a large display.');
@@ -64,6 +80,7 @@ test('tabletop restored four-edge game shows one face-up hand and a rotated mark
 
 test('tabletop bot occupies an edge and plays through the real worker',async({page},info)=>{
   test.skip(info.project.name==='phone','A shared four-edge table is designed for a large display.');
+  await page.addInitScript(()=>{crypto.randomUUID=()=> 'a664ccf0-4aa8-4a36-8f97-c8894023be42';});
   await page.goto('./pantheontt/');
   await page.getByRole('button',{name:/^Join Thaleia$/}).click();
   await page.getByRole('button',{name:'Add bot as Melia',exact:true}).click();
@@ -74,8 +91,8 @@ test('tabletop bot occupies an edge and plays through the real worker',async({pa
   await story.step('expert-seat','Choose Expert at the bot’s edge',[{spec:'Expert is selected before starting the game.',check:()=>expect(page.getByLabel('Bot difficulty for Melia')).toHaveValue('expert')}]);
   await page.getByRole('button',{name:'Play facing Thaleia',exact:true}).click();
   await expect(page.locator('main')).toHaveAttribute('data-tabletop-phase','playing');
+  const saved=await waitForBotOpening(page,seatUid('north'));
   await expect(page.getByRole('region',{name:'Shared table'})).toHaveAttribute('data-facing','south');
-  const saved=await page.evaluate(()=>JSON.parse(localStorage.getItem('pantheon-tabletop-v1')!));
   const game=replaySetup(saved.events);
   expect(game.turn.turns[seatUid('north')]).toBe(1);
   expect(game.players.find(player=>player.uid===seatUid('north'))?.botKind).toBe('expert');
@@ -398,17 +415,9 @@ for(const difficulty of ['standard','hard','expert'] as const)for(const {leader,
  await page.getByLabel(`Bot difficulty for ${leader}`).selectOption(difficulty);
  await page.getByRole('button',{name:'Play facing Melia',exact:true}).click();
  await expect(page.locator('main')).toHaveAttribute('data-tabletop-phase','playing');
- // A turn contains multiple decisions. Require each persisted command to make
- // progress within the operation limit, then check the visual handoff separately.
- let saved=await page.evaluate(()=>JSON.parse(localStorage.getItem('pantheon-tabletop-v1')!));
- const first=replaySetup(saved.events),botUid=Object.keys(first.leaders).find(uid=>first.leaders[uid]===leader.toLowerCase())!;
- const startSequence=saved.events.length;
- while(!saved.events.some((event:{type:string;actorUid:string})=>event.type==='turn/ended'&&event.actorUid===botUid)){
-  expect(saved.events.length-startSequence,'An opening bot turn must finish within 64 commands').toBeLessThan(64);
-  const sequence=saved.events.length;
-  await expect.poll(async()=>{saved=await page.evaluate(()=>JSON.parse(localStorage.getItem('pantheon-tabletop-v1')!));return saved.events.length;},
-   {timeout:2000,message:`${difficulty} ${leader} must advance after command ${sequence}`}).toBeGreaterThan(sequence);
- }
+ const first=replaySetup(await page.evaluate(()=>JSON.parse(localStorage.getItem('pantheon-tabletop-v1')!).events));
+ const botUid=Object.keys(first.leaders).find(uid=>first.leaders[uid]===leader.toLowerCase())!;
+ const saved=await waitForBotOpening(page,botUid);
  await expect(page.getByRole('region',{name:'Shared table'})).toHaveAttribute('data-facing',next);
  const game=replaySetup(saved.events),uid=Object.keys(game.leaders).find(uid=>game.leaders[uid]===leader.toLowerCase())!;
  expect(game.players.find(p=>p.uid===uid)?.botKind).toBe(difficulty);
