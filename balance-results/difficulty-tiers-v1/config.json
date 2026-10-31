@@ -1,0 +1,16 @@
+{
+  "games": 480,
+  "workers": 16,
+  "prefix": "production-options-v1-fresh-20261030",
+  "pairs": [
+    [
+      "hard",
+      "standard"
+    ],
+    [
+      "expert",
+      "hard"
+    ]
+  ],
+  "design": "Same balanced 480-game schedule as prior Expert/Standard evaluation: two bots of each tier, six leader assignments, 120 seed blocks x four seat rotations. Standard=current production; Hard=selected field actors without any planning; Expert=same actors with selected Doreios/Thaleia/Melia planning, no Nereon planning. Melia Standard/Hard identical; Nereon identical across all tiers. No weight tuning. Cached Expert/Standard results reused. Paired game schedule with block-clustered intervals; benchmark is now reused, not a new unseen test. Opponent world models remain frozen. Measures aggregate four-player strength, not per-leader guaranteed difficulty or mobile latency. No deployment."
+}

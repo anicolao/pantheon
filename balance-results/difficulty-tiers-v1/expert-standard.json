@@ -1,0 +1,8642 @@
+[
+  {
+    "seed": "production-options-v1-fresh-20261030:0",
+    "block": 0,
+    "rotation": 0,
+    "share": 0,
+    "score": 23,
+    "turns": 10,
+    "seat": 1,
+    "turnPosition": 1,
+    "winnerCount": 1,
+    "scores": {
+      "thaleia": 24,
+      "nereon": 23,
+      "doreios": 22,
+      "melia": 21
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:1",
+    "block": 0,
+    "rotation": 1,
+    "share": 0.5,
+    "score": 38,
+    "turns": 18,
+    "seat": 0,
+    "turnPosition": 0,
+    "winnerCount": 2,
+    "scores": {
+      "nereon": 38,
+      "melia": 38,
+      "thaleia": 27,
+      "doreios": 19
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:2",
+    "block": 0,
+    "rotation": 2,
+    "share": 0,
+    "score": 20,
+    "turns": 11,
+    "seat": 3,
+    "turnPosition": 3,
+    "winnerCount": 1,
+    "scores": {
+      "melia": 28,
+      "thaleia": 24,
+      "nereon": 20,
+      "doreios": 19
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:3",
+    "block": 0,
+    "rotation": 3,
+    "share": 0,
+    "score": 34,
+    "turns": 20,
+    "seat": 2,
+    "turnPosition": 2,
+    "winnerCount": 1,
+    "scores": {
+      "melia": 36,
+      "nereon": 34,
+      "thaleia": 28,
+      "doreios": 23
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:4",
+    "block": 1,
+    "rotation": 0,
+    "share": 0.5,
+    "score": 27,
+    "turns": 11,
+    "seat": 1,
+    "turnPosition": 2,
+    "winnerCount": 2,
+    "scores": {
+      "nereon": 27,
+      "thaleia": 27,
+      "melia": 22,
+      "doreios": 19
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:5",
+    "block": 1,
+    "rotation": 1,
+    "share": 0,
+    "score": 29,
+    "turns": 14,
+    "seat": 0,
+    "turnPosition": 1,
+    "winnerCount": 1,
+    "scores": {
+      "melia": 34,
+      "thaleia": 31,
+      "nereon": 29,
+      "doreios": 23
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:6",
+    "block": 1,
+    "rotation": 2,
+    "share": 0,
+    "score": 31,
+    "turns": 14,
+    "seat": 3,
+    "turnPosition": 0,
+    "winnerCount": 1,
+    "scores": {
+      "melia": 36,
+      "nereon": 31,
+      "doreios": 28,
+      "thaleia": 25
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:7",
+    "block": 1,
+    "rotation": 3,
+    "share": 0,
+    "score": 23,
+    "turns": 11,
+    "seat": 2,
+    "turnPosition": 3,
+    "winnerCount": 1,
+    "scores": {
+      "melia": 25,
+      "nereon": 23,
+      "thaleia": 21,
+      "doreios": 19
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:8",
+    "block": 2,
+    "rotation": 0,
+    "share": 0,
+    "score": 20,
+    "turns": 9,
+    "seat": 2,
+    "turnPosition": 2,
+    "winnerCount": 1,
+    "scores": {
+      "thaleia": 24,
+      "nereon": 20,
+      "doreios": 18,
+      "melia": 15
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:9",
+    "block": 2,
+    "rotation": 1,
+    "share": 0,
+    "score": 22,
+    "turns": 10,
+    "seat": 1,
+    "turnPosition": 1,
+    "winnerCount": 1,
+    "scores": {
+      "thaleia": 28,
+      "nereon": 22,
+      "doreios": 21,
+      "melia": 21
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:10",
+    "block": 2,
+    "rotation": 2,
+    "share": 1,
+    "score": 29,
+    "turns": 12,
+    "seat": 0,
+    "turnPosition": 0,
+    "winnerCount": 1,
+    "scores": {
+      "nereon": 29,
+      "doreios": 25,
+      "melia": 25,
+      "thaleia": 24
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:11",
+    "block": 2,
+    "rotation": 3,
+    "share": 0,
+    "score": 30,
+    "turns": 13,
+    "seat": 3,
+    "turnPosition": 3,
+    "winnerCount": 1,
+    "scores": {
+      "melia": 31,
+      "doreios": 30,
+      "nereon": 30,
+      "thaleia": 25
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:12",
+    "block": 3,
+    "rotation": 0,
+    "share": 0,
+    "score": 33,
+    "turns": 15,
+    "seat": 3,
+    "turnPosition": 0,
+    "winnerCount": 1,
+    "scores": {
+      "thaleia": 35,
+      "nereon": 33,
+      "melia": 31,
+      "doreios": 23
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:13",
+    "block": 3,
+    "rotation": 1,
+    "share": 0,
+    "score": 16,
+    "turns": 11,
+    "seat": 2,
+    "turnPosition": 3,
+    "winnerCount": 1,
+    "scores": {
+      "thaleia": 30,
+      "melia": 28,
+      "doreios": 22,
+      "nereon": 16
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:14",
+    "block": 3,
+    "rotation": 2,
+    "share": 0,
+    "score": 29,
+    "turns": 12,
+    "seat": 1,
+    "turnPosition": 2,
+    "winnerCount": 1,
+    "scores": {
+      "thaleia": 36,
+      "nereon": 29,
+      "doreios": 21,
+      "melia": 19
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:15",
+    "block": 3,
+    "rotation": 3,
+    "share": 1,
+    "score": 28,
+    "turns": 13,
+    "seat": 0,
+    "turnPosition": 1,
+    "winnerCount": 1,
+    "scores": {
+      "nereon": 28,
+      "thaleia": 27,
+      "doreios": 27,
+      "melia": 25
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:16",
+    "block": 4,
+    "rotation": 0,
+    "share": 0,
+    "score": 25,
+    "turns": 11,
+    "seat": 2,
+    "turnPosition": 1,
+    "winnerCount": 1,
+    "scores": {
+      "melia": 26,
+      "nereon": 25,
+      "thaleia": 24,
+      "doreios": 21
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:17",
+    "block": 4,
+    "rotation": 1,
+    "share": 1,
+    "score": 26,
+    "turns": 11,
+    "seat": 1,
+    "turnPosition": 0,
+    "winnerCount": 1,
+    "scores": {
+      "nereon": 26,
+      "thaleia": 25,
+      "melia": 25,
+      "doreios": 24
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:18",
+    "block": 4,
+    "rotation": 2,
+    "share": 0,
+    "score": 24,
+    "turns": 11,
+    "seat": 0,
+    "turnPosition": 3,
+    "winnerCount": 1,
+    "scores": {
+      "melia": 27,
+      "nereon": 24,
+      "thaleia": 22,
+      "doreios": 22
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:19",
+    "block": 4,
+    "rotation": 3,
+    "share": 1,
+    "score": 36,
+    "turns": 15,
+    "seat": 3,
+    "turnPosition": 2,
+    "winnerCount": 1,
+    "scores": {
+      "nereon": 36,
+      "melia": 35,
+      "thaleia": 27,
+      "doreios": 23
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:20",
+    "block": 5,
+    "rotation": 0,
+    "share": 0,
+    "score": 16,
+    "turns": 10,
+    "seat": 3,
+    "turnPosition": 2,
+    "winnerCount": 1,
+    "scores": {
+      "thaleia": 25,
+      "melia": 22,
+      "doreios": 21,
+      "nereon": 16
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:21",
+    "block": 5,
+    "rotation": 1,
+    "share": 0,
+    "score": 26,
+    "turns": 13,
+    "seat": 2,
+    "turnPosition": 1,
+    "winnerCount": 1,
+    "scores": {
+      "melia": 33,
+      "thaleia": 31,
+      "nereon": 26,
+      "doreios": 25
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:22",
+    "block": 5,
+    "rotation": 2,
+    "share": 0,
+    "score": 20,
+    "turns": 11,
+    "seat": 1,
+    "turnPosition": 0,
+    "winnerCount": 1,
+    "scores": {
+      "thaleia": 24,
+      "doreios": 21,
+      "nereon": 20,
+      "melia": 20
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:23",
+    "block": 5,
+    "rotation": 3,
+    "share": 0,
+    "score": 21,
+    "turns": 12,
+    "seat": 0,
+    "turnPosition": 3,
+    "winnerCount": 1,
+    "scores": {
+      "thaleia": 30,
+      "melia": 28,
+      "doreios": 28,
+      "nereon": 21
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:24",
+    "block": 6,
+    "rotation": 0,
+    "share": 1,
+    "score": 28,
+    "turns": 11,
+    "seat": 1,
+    "turnPosition": 0,
+    "winnerCount": 1,
+    "scores": {
+      "nereon": 28,
+      "thaleia": 25,
+      "doreios": 24,
+      "melia": 21
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:25",
+    "block": 6,
+    "rotation": 1,
+    "share": 0,
+    "score": 30,
+    "turns": 14,
+    "seat": 0,
+    "turnPosition": 3,
+    "winnerCount": 1,
+    "scores": {
+      "melia": 31,
+      "nereon": 30,
+      "doreios": 30,
+      "thaleia": 23
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:26",
+    "block": 6,
+    "rotation": 2,
+    "share": 0,
+    "score": 22,
+    "turns": 10,
+    "seat": 3,
+    "turnPosition": 2,
+    "winnerCount": 2,
+    "scores": {
+      "doreios": 24,
+      "melia": 24,
+      "nereon": 22,
+      "thaleia": 17
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:27",
+    "block": 6,
+    "rotation": 3,
+    "share": 1,
+    "score": 29,
+    "turns": 12,
+    "seat": 2,
+    "turnPosition": 1,
+    "winnerCount": 1,
+    "scores": {
+      "nereon": 29,
+      "thaleia": 28,
+      "melia": 24,
+      "doreios": 22
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:28",
+    "block": 7,
+    "rotation": 0,
+    "share": 0,
+    "score": 18,
+    "turns": 11,
+    "seat": 1,
+    "turnPosition": 0,
+    "winnerCount": 1,
+    "scores": {
+      "thaleia": 30,
+      "melia": 21,
+      "doreios": 21,
+      "nereon": 18
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:29",
+    "block": 7,
+    "rotation": 1,
+    "share": 0,
+    "score": 30,
+    "turns": 15,
+    "seat": 0,
+    "turnPosition": 3,
+    "winnerCount": 1,
+    "scores": {
+      "thaleia": 49,
+      "nereon": 30,
+      "doreios": 22,
+      "melia": 20
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:30",
+    "block": 7,
+    "rotation": 2,
+    "share": 0,
+    "score": 29,
+    "turns": 13,
+    "seat": 3,
+    "turnPosition": 2,
+    "winnerCount": 1,
+    "scores": {
+      "thaleia": 34,
+      "melia": 29,
+      "nereon": 29,
+      "doreios": 22
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:31",
+    "block": 7,
+    "rotation": 3,
+    "share": 0,
+    "score": 29,
+    "turns": 12,
+    "seat": 2,
+    "turnPosition": 1,
+    "winnerCount": 1,
+    "scores": {
+      "thaleia": 30,
+      "nereon": 29,
+      "doreios": 24,
+      "melia": 23
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:32",
+    "block": 8,
+    "rotation": 0,
+    "share": 0,
+    "score": 25,
+    "turns": 10,
+    "seat": 2,
+    "turnPosition": 0,
+    "winnerCount": 1,
+    "scores": {
+      "doreios": 30,
+      "nereon": 25,
+      "melia": 17,
+      "thaleia": 15
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:33",
+    "block": 8,
+    "rotation": 1,
+    "share": 0,
+    "score": 23,
+    "turns": 11,
+    "seat": 1,
+    "turnPosition": 3,
+    "winnerCount": 1,
+    "scores": {
+      "melia": 25,
+      "thaleia": 24,
+      "doreios": 24,
+      "nereon": 23
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:34",
+    "block": 8,
+    "rotation": 2,
+    "share": 0,
+    "score": 27,
+    "turns": 17,
+    "seat": 0,
+    "turnPosition": 2,
+    "winnerCount": 1,
+    "scores": {
+      "melia": 36,
+      "doreios": 33,
+      "nereon": 27,
+      "thaleia": 27
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:35",
+    "block": 8,
+    "rotation": 3,
+    "share": 0,
+    "score": 22,
+    "turns": 11,
+    "seat": 3,
+    "turnPosition": 1,
+    "winnerCount": 1,
+    "scores": {
+      "melia": 26,
+      "thaleia": 25,
+      "doreios": 22,
+      "nereon": 22
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:36",
+    "block": 9,
+    "rotation": 0,
+    "share": 1,
+    "score": 39,
+    "turns": 15,
+    "seat": 3,
+    "turnPosition": 1,
+    "winnerCount": 1,
+    "scores": {
+      "nereon": 39,
+      "thaleia": 31,
+      "doreios": 25,
+      "melia": 24
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:37",
+    "block": 9,
+    "rotation": 1,
+    "share": 0,
+    "score": 23,
+    "turns": 10,
+    "seat": 2,
+    "turnPosition": 0,
+    "winnerCount": 1,
+    "scores": {
+      "thaleia": 24,
+      "nereon": 23,
+      "melia": 21,
+      "doreios": 18
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:38",
+    "block": 9,
+    "rotation": 2,
+    "share": 0,
+    "score": 27,
+    "turns": 13,
+    "seat": 1,
+    "turnPosition": 3,
+    "winnerCount": 1,
+    "scores": {
+      "thaleia": 34,
+      "melia": 28,
+      "nereon": 27,
+      "doreios": 24
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:39",
+    "block": 9,
+    "rotation": 3,
+    "share": 1,
+    "score": 33,
+    "turns": 14,
+    "seat": 0,
+    "turnPosition": 2,
+    "winnerCount": 1,
+    "scores": {
+      "nereon": 33,
+      "thaleia": 30,
+      "doreios": 27,
+      "melia": 23
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:40",
+    "block": 10,
+    "rotation": 0,
+    "share": 1,
+    "score": 36,
+    "turns": 13,
+    "seat": 2,
+    "turnPosition": 0,
+    "winnerCount": 1,
+    "scores": {
+      "nereon": 36,
+      "melia": 29,
+      "doreios": 26,
+      "thaleia": 25
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:41",
+    "block": 10,
+    "rotation": 1,
+    "share": 0,
+    "score": 28,
+    "turns": 14,
+    "seat": 1,
+    "turnPosition": 3,
+    "winnerCount": 1,
+    "scores": {
+      "thaleia": 34,
+      "nereon": 28,
+      "doreios": 27,
+      "melia": 27
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:42",
+    "block": 10,
+    "rotation": 2,
+    "share": 0,
+    "score": 26,
+    "turns": 14,
+    "seat": 0,
+    "turnPosition": 2,
+    "winnerCount": 1,
+    "scores": {
+      "doreios": 40,
+      "melia": 28,
+      "thaleia": 27,
+      "nereon": 26
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:43",
+    "block": 10,
+    "rotation": 3,
+    "share": 1,
+    "score": 35,
+    "turns": 13,
+    "seat": 3,
+    "turnPosition": 1,
+    "winnerCount": 1,
+    "scores": {
+      "nereon": 35,
+      "thaleia": 29,
+      "doreios": 28,
+      "melia": 21
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:44",
+    "block": 11,
+    "rotation": 0,
+    "share": 0,
+    "score": 26,
+    "turns": 12,
+    "seat": 3,
+    "turnPosition": 0,
+    "winnerCount": 1,
+    "scores": {
+      "thaleia": 33,
+      "doreios": 27,
+      "nereon": 26,
+      "melia": 25
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:45",
+    "block": 11,
+    "rotation": 1,
+    "share": 0,
+    "score": 22,
+    "turns": 11,
+    "seat": 2,
+    "turnPosition": 3,
+    "winnerCount": 3,
+    "scores": {
+      "doreios": 24,
+      "thaleia": 24,
+      "melia": 24,
+      "nereon": 22
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:46",
+    "block": 11,
+    "rotation": 2,
+    "share": 0,
+    "score": 26,
+    "turns": 11,
+    "seat": 1,
+    "turnPosition": 2,
+    "winnerCount": 1,
+    "scores": {
+      "melia": 29,
+      "nereon": 26,
+      "thaleia": 22,
+      "doreios": 21
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:47",
+    "block": 11,
+    "rotation": 3,
+    "share": 0,
+    "score": 27,
+    "turns": 12,
+    "seat": 0,
+    "turnPosition": 1,
+    "winnerCount": 1,
+    "scores": {
+      "doreios": 33,
+      "nereon": 27,
+      "melia": 22,
+      "thaleia": 21
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:48",
+    "block": 12,
+    "rotation": 0,
+    "share": 0.5,
+    "score": 25,
+    "turns": 11,
+    "seat": 1,
+    "turnPosition": 2,
+    "winnerCount": 2,
+    "scores": {
+      "melia": 25,
+      "nereon": 25,
+      "thaleia": 24,
+      "doreios": 21
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:49",
+    "block": 12,
+    "rotation": 1,
+    "share": 0,
+    "score": 22,
+    "turns": 11,
+    "seat": 0,
+    "turnPosition": 1,
+    "winnerCount": 1,
+    "scores": {
+      "melia": 27,
+      "nereon": 22,
+      "doreios": 21,
+      "thaleia": 17
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:50",
+    "block": 12,
+    "rotation": 2,
+    "share": 0,
+    "score": 27,
+    "turns": 12,
+    "seat": 3,
+    "turnPosition": 0,
+    "winnerCount": 1,
+    "scores": {
+      "melia": 30,
+      "nereon": 27,
+      "thaleia": 25,
+      "doreios": 21
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:51",
+    "block": 12,
+    "rotation": 3,
+    "share": 0,
+    "score": 29,
+    "turns": 12,
+    "seat": 2,
+    "turnPosition": 3,
+    "winnerCount": 1,
+    "scores": {
+      "melia": 32,
+      "nereon": 29,
+      "doreios": 24,
+      "thaleia": 13
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:52",
+    "block": 13,
+    "rotation": 0,
+    "share": 0,
+    "score": 20,
+    "turns": 11,
+    "seat": 1,
+    "turnPosition": 2,
+    "winnerCount": 1,
+    "scores": {
+      "thaleia": 30,
+      "doreios": 24,
+      "melia": 21,
+      "nereon": 20
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:53",
+    "block": 13,
+    "rotation": 1,
+    "share": 0,
+    "score": 23,
+    "turns": 11,
+    "seat": 0,
+    "turnPosition": 1,
+    "winnerCount": 1,
+    "scores": {
+      "melia": 28,
+      "doreios": 25,
+      "nereon": 23,
+      "thaleia": 21
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:54",
+    "block": 13,
+    "rotation": 2,
+    "share": 0,
+    "score": 27,
+    "turns": 12,
+    "seat": 3,
+    "turnPosition": 0,
+    "winnerCount": 1,
+    "scores": {
+      "melia": 30,
+      "nereon": 27,
+      "thaleia": 25,
+      "doreios": 22
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:55",
+    "block": 13,
+    "rotation": 3,
+    "share": 0,
+    "score": 21,
+    "turns": 12,
+    "seat": 2,
+    "turnPosition": 3,
+    "winnerCount": 1,
+    "scores": {
+      "melia": 28,
+      "thaleia": 27,
+      "doreios": 27,
+      "nereon": 21
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:56",
+    "block": 14,
+    "rotation": 0,
+    "share": 0,
+    "score": 27,
+    "turns": 12,
+    "seat": 2,
+    "turnPosition": 2,
+    "winnerCount": 1,
+    "scores": {
+      "melia": 28,
+      "thaleia": 27,
+      "nereon": 27,
+      "doreios": 24
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:57",
+    "block": 14,
+    "rotation": 1,
+    "share": 0,
+    "score": 20,
+    "turns": 13,
+    "seat": 1,
+    "turnPosition": 1,
+    "winnerCount": 1,
+    "scores": {
+      "melia": 36,
+      "doreios": 30,
+      "thaleia": 27,
+      "nereon": 20
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:58",
+    "block": 14,
+    "rotation": 2,
+    "share": 0,
+    "score": 19,
+    "turns": 10,
+    "seat": 0,
+    "turnPosition": 0,
+    "winnerCount": 1,
+    "scores": {
+      "doreios": 24,
+      "melia": 22,
+      "nereon": 19,
+      "thaleia": 18
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:59",
+    "block": 14,
+    "rotation": 3,
+    "share": 0,
+    "score": 31,
+    "turns": 18,
+    "seat": 3,
+    "turnPosition": 3,
+    "winnerCount": 1,
+    "scores": {
+      "melia": 33,
+      "nereon": 31,
+      "thaleia": 29,
+      "doreios": 28
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:60",
+    "block": 15,
+    "rotation": 0,
+    "share": 1,
+    "score": 28,
+    "turns": 11,
+    "seat": 3,
+    "turnPosition": 0,
+    "winnerCount": 1,
+    "scores": {
+      "nereon": 28,
+      "melia": 25,
+      "doreios": 21,
+      "thaleia": 18
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:61",
+    "block": 15,
+    "rotation": 1,
+    "share": 0,
+    "score": 25,
+    "turns": 11,
+    "seat": 2,
+    "turnPosition": 3,
+    "winnerCount": 1,
+    "scores": {
+      "melia": 30,
+      "nereon": 25,
+      "thaleia": 18,
+      "doreios": 18
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:62",
+    "block": 15,
+    "rotation": 2,
+    "share": 1,
+    "score": 32,
+    "turns": 14,
+    "seat": 1,
+    "turnPosition": 2,
+    "winnerCount": 1,
+    "scores": {
+      "nereon": 32,
+      "doreios": 31,
+      "melia": 31,
+      "thaleia": 26
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:63",
+    "block": 15,
+    "rotation": 3,
+    "share": 1,
+    "score": 32,
+    "turns": 13,
+    "seat": 0,
+    "turnPosition": 1,
+    "winnerCount": 1,
+    "scores": {
+      "nereon": 32,
+      "melia": 30,
+      "thaleia": 28,
+      "doreios": 22
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:64",
+    "block": 16,
+    "rotation": 0,
+    "share": 0,
+    "score": 31,
+    "turns": 15,
+    "seat": 2,
+    "turnPosition": 3,
+    "winnerCount": 1,
+    "scores": {
+      "thaleia": 32,
+      "nereon": 31,
+      "melia": 30,
+      "doreios": 29
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:65",
+    "block": 16,
+    "rotation": 1,
+    "share": 0.5,
+    "score": 25,
+    "turns": 10,
+    "seat": 1,
+    "turnPosition": 2,
+    "winnerCount": 2,
+    "scores": {
+      "nereon": 25,
+      "melia": 25,
+      "doreios": 21,
+      "thaleia": 21
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:66",
+    "block": 16,
+    "rotation": 2,
+    "share": 0,
+    "score": 27,
+    "turns": 12,
+    "seat": 0,
+    "turnPosition": 1,
+    "winnerCount": 1,
+    "scores": {
+      "melia": 29,
+      "doreios": 28,
+      "nereon": 27,
+      "thaleia": 19
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:67",
+    "block": 16,
+    "rotation": 3,
+    "share": 1,
+    "score": 26,
+    "turns": 11,
+    "seat": 3,
+    "turnPosition": 0,
+    "winnerCount": 1,
+    "scores": {
+      "nereon": 26,
+      "melia": 25,
+      "doreios": 24,
+      "thaleia": 19
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:68",
+    "block": 17,
+    "rotation": 0,
+    "share": 0,
+    "score": 24,
+    "turns": 12,
+    "seat": 3,
+    "turnPosition": 2,
+    "winnerCount": 1,
+    "scores": {
+      "thaleia": 33,
+      "doreios": 28,
+      "melia": 25,
+      "nereon": 24
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:69",
+    "block": 17,
+    "rotation": 1,
+    "share": 0,
+    "score": 19,
+    "turns": 11,
+    "seat": 2,
+    "turnPosition": 1,
+    "winnerCount": 1,
+    "scores": {
+      "doreios": 27,
+      "thaleia": 25,
+      "melia": 20,
+      "nereon": 19
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:70",
+    "block": 17,
+    "rotation": 2,
+    "share": 0,
+    "score": 25,
+    "turns": 11,
+    "seat": 1,
+    "turnPosition": 0,
+    "winnerCount": 2,
+    "scores": {
+      "thaleia": 27,
+      "doreios": 27,
+      "nereon": 25,
+      "melia": 19
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:71",
+    "block": 17,
+    "rotation": 3,
+    "share": 0,
+    "score": 20,
+    "turns": 11,
+    "seat": 0,
+    "turnPosition": 3,
+    "winnerCount": 1,
+    "scores": {
+      "melia": 30,
+      "thaleia": 24,
+      "nereon": 20,
+      "doreios": 16
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:72",
+    "block": 18,
+    "rotation": 0,
+    "share": 0,
+    "score": 30,
+    "turns": 13,
+    "seat": 1,
+    "turnPosition": 3,
+    "winnerCount": 1,
+    "scores": {
+      "doreios": 31,
+      "nereon": 30,
+      "melia": 29,
+      "thaleia": 20
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:73",
+    "block": 18,
+    "rotation": 1,
+    "share": 0,
+    "score": 29,
+    "turns": 13,
+    "seat": 0,
+    "turnPosition": 2,
+    "winnerCount": 1,
+    "scores": {
+      "thaleia": 30,
+      "nereon": 29,
+      "doreios": 28,
+      "melia": 27
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:74",
+    "block": 18,
+    "rotation": 2,
+    "share": 1,
+    "score": 26,
+    "turns": 11,
+    "seat": 3,
+    "turnPosition": 1,
+    "winnerCount": 1,
+    "scores": {
+      "nereon": 26,
+      "thaleia": 24,
+      "doreios": 23,
+      "melia": 21
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:75",
+    "block": 18,
+    "rotation": 3,
+    "share": 0,
+    "score": 26,
+    "turns": 12,
+    "seat": 2,
+    "turnPosition": 0,
+    "winnerCount": 1,
+    "scores": {
+      "melia": 31,
+      "nereon": 26,
+      "thaleia": 25,
+      "doreios": 21
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:76",
+    "block": 19,
+    "rotation": 0,
+    "share": 0,
+    "score": 22,
+    "turns": 11,
+    "seat": 1,
+    "turnPosition": 1,
+    "winnerCount": 1,
+    "scores": {
+      "thaleia": 27,
+      "melia": 25,
+      "doreios": 24,
+      "nereon": 22
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:77",
+    "block": 19,
+    "rotation": 1,
+    "share": 0,
+    "score": 22,
+    "turns": 10,
+    "seat": 0,
+    "turnPosition": 0,
+    "winnerCount": 1,
+    "scores": {
+      "melia": 24,
+      "nereon": 22,
+      "doreios": 22,
+      "thaleia": 19
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:78",
+    "block": 19,
+    "rotation": 2,
+    "share": 0,
+    "score": 20,
+    "turns": 11,
+    "seat": 3,
+    "turnPosition": 3,
+    "winnerCount": 1,
+    "scores": {
+      "thaleia": 27,
+      "melia": 25,
+      "doreios": 24,
+      "nereon": 20
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:79",
+    "block": 19,
+    "rotation": 3,
+    "share": 0,
+    "score": 26,
+    "turns": 11,
+    "seat": 2,
+    "turnPosition": 2,
+    "winnerCount": 1,
+    "scores": {
+      "thaleia": 27,
+      "nereon": 26,
+      "melia": 25,
+      "doreios": 19
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:80",
+    "block": 20,
+    "rotation": 0,
+    "share": 0,
+    "score": 22,
+    "turns": 11,
+    "seat": 2,
+    "turnPosition": 2,
+    "winnerCount": 1,
+    "scores": {
+      "thaleia": 24,
+      "melia": 22,
+      "nereon": 22,
+      "doreios": 20
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:81",
+    "block": 20,
+    "rotation": 1,
+    "share": 1,
+    "score": 25,
+    "turns": 11,
+    "seat": 1,
+    "turnPosition": 1,
+    "winnerCount": 1,
+    "scores": {
+      "nereon": 25,
+      "thaleia": 24,
+      "doreios": 24,
+      "melia": 18
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:82",
+    "block": 20,
+    "rotation": 2,
+    "share": 0,
+    "score": 22,
+    "turns": 12,
+    "seat": 0,
+    "turnPosition": 0,
+    "winnerCount": 1,
+    "scores": {
+      "doreios": 33,
+      "melia": 28,
+      "thaleia": 23,
+      "nereon": 22
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:83",
+    "block": 20,
+    "rotation": 3,
+    "share": 0,
+    "score": 21,
+    "turns": 11,
+    "seat": 3,
+    "turnPosition": 3,
+    "winnerCount": 1,
+    "scores": {
+      "melia": 27,
+      "doreios": 24,
+      "thaleia": 21,
+      "nereon": 21
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:84",
+    "block": 21,
+    "rotation": 0,
+    "share": 0,
+    "score": 22,
+    "turns": 12,
+    "seat": 3,
+    "turnPosition": 3,
+    "winnerCount": 1,
+    "scores": {
+      "melia": 31,
+      "doreios": 22,
+      "nereon": 22,
+      "thaleia": 21
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:85",
+    "block": 21,
+    "rotation": 1,
+    "share": 0,
+    "score": 31,
+    "turns": 15,
+    "seat": 2,
+    "turnPosition": 2,
+    "winnerCount": 1,
+    "scores": {
+      "thaleia": 37,
+      "nereon": 31,
+      "doreios": 28,
+      "melia": 25
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:86",
+    "block": 21,
+    "rotation": 2,
+    "share": 0,
+    "score": 27,
+    "turns": 12,
+    "seat": 1,
+    "turnPosition": 1,
+    "winnerCount": 1,
+    "scores": {
+      "melia": 33,
+      "nereon": 27,
+      "thaleia": 27,
+      "doreios": 21
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:87",
+    "block": 21,
+    "rotation": 3,
+    "share": 0,
+    "score": 25,
+    "turns": 12,
+    "seat": 0,
+    "turnPosition": 0,
+    "winnerCount": 1,
+    "scores": {
+      "thaleia": 31,
+      "melia": 29,
+      "nereon": 25,
+      "doreios": 21
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:88",
+    "block": 22,
+    "rotation": 0,
+    "share": 0,
+    "score": 21,
+    "turns": 11,
+    "seat": 2,
+    "turnPosition": 2,
+    "winnerCount": 1,
+    "scores": {
+      "melia": 28,
+      "doreios": 24,
+      "nereon": 21,
+      "thaleia": 19
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:89",
+    "block": 22,
+    "rotation": 1,
+    "share": 0,
+    "score": 30,
+    "turns": 17,
+    "seat": 1,
+    "turnPosition": 1,
+    "winnerCount": 1,
+    "scores": {
+      "doreios": 38,
+      "melia": 32,
+      "nereon": 30,
+      "thaleia": 21
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:90",
+    "block": 22,
+    "rotation": 2,
+    "share": 0,
+    "score": 19,
+    "turns": 10,
+    "seat": 0,
+    "turnPosition": 0,
+    "winnerCount": 1,
+    "scores": {
+      "melia": 27,
+      "doreios": 21,
+      "nereon": 19,
+      "thaleia": 19
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:91",
+    "block": 22,
+    "rotation": 3,
+    "share": 0,
+    "score": 22,
+    "turns": 11,
+    "seat": 3,
+    "turnPosition": 3,
+    "winnerCount": 1,
+    "scores": {
+      "doreios": 30,
+      "melia": 28,
+      "nereon": 22,
+      "thaleia": 16
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:92",
+    "block": 23,
+    "rotation": 0,
+    "share": 0,
+    "score": 25,
+    "turns": 12,
+    "seat": 3,
+    "turnPosition": 2,
+    "winnerCount": 1,
+    "scores": {
+      "thaleia": 31,
+      "doreios": 27,
+      "nereon": 25,
+      "melia": 20
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:93",
+    "block": 23,
+    "rotation": 1,
+    "share": 0,
+    "score": 22,
+    "turns": 10,
+    "seat": 2,
+    "turnPosition": 1,
+    "winnerCount": 1,
+    "scores": {
+      "melia": 25,
+      "thaleia": 24,
+      "nereon": 22,
+      "doreios": 16
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:94",
+    "block": 23,
+    "rotation": 2,
+    "share": 0,
+    "score": 24,
+    "turns": 11,
+    "seat": 1,
+    "turnPosition": 0,
+    "winnerCount": 1,
+    "scores": {
+      "doreios": 27,
+      "melia": 25,
+      "nereon": 24,
+      "thaleia": 19
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:95",
+    "block": 23,
+    "rotation": 3,
+    "share": 0,
+    "score": 16,
+    "turns": 10,
+    "seat": 0,
+    "turnPosition": 3,
+    "winnerCount": 1,
+    "scores": {
+      "melia": 24,
+      "thaleia": 21,
+      "doreios": 18,
+      "nereon": 16
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:96",
+    "block": 24,
+    "rotation": 0,
+    "share": 1,
+    "score": 39,
+    "turns": 17,
+    "seat": 1,
+    "turnPosition": 0,
+    "winnerCount": 1,
+    "scores": {
+      "nereon": 39,
+      "melia": 35,
+      "doreios": 26,
+      "thaleia": 21
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:97",
+    "block": 24,
+    "rotation": 1,
+    "share": 1,
+    "score": 28,
+    "turns": 11,
+    "seat": 0,
+    "turnPosition": 3,
+    "winnerCount": 1,
+    "scores": {
+      "nereon": 28,
+      "melia": 25,
+      "thaleia": 22,
+      "doreios": 18
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:98",
+    "block": 24,
+    "rotation": 2,
+    "share": 0,
+    "score": 33,
+    "turns": 16,
+    "seat": 3,
+    "turnPosition": 2,
+    "winnerCount": 1,
+    "scores": {
+      "thaleia": 34,
+      "nereon": 33,
+      "melia": 31,
+      "doreios": 21
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:99",
+    "block": 24,
+    "rotation": 3,
+    "share": 0,
+    "score": 29,
+    "turns": 13,
+    "seat": 2,
+    "turnPosition": 1,
+    "winnerCount": 1,
+    "scores": {
+      "melia": 37,
+      "doreios": 29,
+      "nereon": 29,
+      "thaleia": 19
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:100",
+    "block": 25,
+    "rotation": 0,
+    "share": 0,
+    "score": 27,
+    "turns": 12,
+    "seat": 1,
+    "turnPosition": 3,
+    "winnerCount": 1,
+    "scores": {
+      "thaleia": 36,
+      "melia": 27,
+      "nereon": 27,
+      "doreios": 21
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:101",
+    "block": 25,
+    "rotation": 1,
+    "share": 1,
+    "score": 31,
+    "turns": 12,
+    "seat": 0,
+    "turnPosition": 2,
+    "winnerCount": 1,
+    "scores": {
+      "nereon": 31,
+      "melia": 28,
+      "doreios": 22,
+      "thaleia": 21
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:102",
+    "block": 25,
+    "rotation": 2,
+    "share": 0,
+    "score": 30,
+    "turns": 13,
+    "seat": 3,
+    "turnPosition": 1,
+    "winnerCount": 1,
+    "scores": {
+      "melia": 33,
+      "nereon": 30,
+      "doreios": 26,
+      "thaleia": 24
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:103",
+    "block": 25,
+    "rotation": 3,
+    "share": 0,
+    "score": 26,
+    "turns": 11,
+    "seat": 2,
+    "turnPosition": 0,
+    "winnerCount": 1,
+    "scores": {
+      "thaleia": 27,
+      "nereon": 26,
+      "doreios": 24,
+      "melia": 21
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:104",
+    "block": 26,
+    "rotation": 0,
+    "share": 0,
+    "score": 21,
+    "turns": 11,
+    "seat": 2,
+    "turnPosition": 0,
+    "winnerCount": 1,
+    "scores": {
+      "melia": 27,
+      "doreios": 24,
+      "thaleia": 21,
+      "nereon": 21
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:105",
+    "block": 26,
+    "rotation": 1,
+    "share": 0,
+    "score": 15,
+    "turns": 10,
+    "seat": 1,
+    "turnPosition": 3,
+    "winnerCount": 1,
+    "scores": {
+      "melia": 24,
+      "doreios": 21,
+      "thaleia": 18,
+      "nereon": 15
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:106",
+    "block": 26,
+    "rotation": 2,
+    "share": 0,
+    "score": 26,
+    "turns": 11,
+    "seat": 0,
+    "turnPosition": 2,
+    "winnerCount": 1,
+    "scores": {
+      "melia": 31,
+      "nereon": 26,
+      "thaleia": 22,
+      "doreios": 17
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:107",
+    "block": 26,
+    "rotation": 3,
+    "share": 0,
+    "score": 23,
+    "turns": 11,
+    "seat": 3,
+    "turnPosition": 1,
+    "winnerCount": 1,
+    "scores": {
+      "melia": 30,
+      "doreios": 24,
+      "nereon": 23,
+      "thaleia": 21
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:108",
+    "block": 27,
+    "rotation": 0,
+    "share": 0,
+    "score": 28,
+    "turns": 13,
+    "seat": 3,
+    "turnPosition": 3,
+    "winnerCount": 1,
+    "scores": {
+      "melia": 30,
+      "thaleia": 28,
+      "nereon": 28,
+      "doreios": 24
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:109",
+    "block": 27,
+    "rotation": 1,
+    "share": 1,
+    "score": 28,
+    "turns": 11,
+    "seat": 2,
+    "turnPosition": 2,
+    "winnerCount": 1,
+    "scores": {
+      "nereon": 28,
+      "thaleia": 24,
+      "melia": 22,
+      "doreios": 19
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:110",
+    "block": 27,
+    "rotation": 2,
+    "share": 0,
+    "score": 32,
+    "turns": 13,
+    "seat": 1,
+    "turnPosition": 1,
+    "winnerCount": 1,
+    "scores": {
+      "thaleia": 37,
+      "nereon": 32,
+      "doreios": 24,
+      "melia": 20
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:111",
+    "block": 27,
+    "rotation": 3,
+    "share": 0,
+    "score": 27,
+    "turns": 12,
+    "seat": 0,
+    "turnPosition": 0,
+    "winnerCount": 1,
+    "scores": {
+      "melia": 32,
+      "thaleia": 28,
+      "nereon": 27,
+      "doreios": 22
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:112",
+    "block": 28,
+    "rotation": 0,
+    "share": 1,
+    "score": 22,
+    "turns": 10,
+    "seat": 2,
+    "turnPosition": 2,
+    "winnerCount": 1,
+    "scores": {
+      "nereon": 22,
+      "melia": 21,
+      "doreios": 21,
+      "thaleia": 21
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:113",
+    "block": 28,
+    "rotation": 1,
+    "share": 0,
+    "score": 19,
+    "turns": 10,
+    "seat": 1,
+    "turnPosition": 1,
+    "winnerCount": 1,
+    "scores": {
+      "doreios": 25,
+      "thaleia": 24,
+      "melia": 20,
+      "nereon": 19
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:114",
+    "block": 28,
+    "rotation": 2,
+    "share": 0,
+    "score": 27,
+    "turns": 11,
+    "seat": 0,
+    "turnPosition": 0,
+    "winnerCount": 1,
+    "scores": {
+      "melia": 28,
+      "nereon": 27,
+      "doreios": 24,
+      "thaleia": 20
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:115",
+    "block": 28,
+    "rotation": 3,
+    "share": 0,
+    "score": 27,
+    "turns": 12,
+    "seat": 3,
+    "turnPosition": 3,
+    "winnerCount": 1,
+    "scores": {
+      "melia": 31,
+      "doreios": 27,
+      "nereon": 27,
+      "thaleia": 25
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:116",
+    "block": 29,
+    "rotation": 0,
+    "share": 0,
+    "score": 21,
+    "turns": 10,
+    "seat": 3,
+    "turnPosition": 2,
+    "winnerCount": 1,
+    "scores": {
+      "doreios": 24,
+      "melia": 22,
+      "nereon": 21,
+      "thaleia": 15
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:117",
+    "block": 29,
+    "rotation": 1,
+    "share": 0,
+    "score": 22,
+    "turns": 10,
+    "seat": 2,
+    "turnPosition": 1,
+    "winnerCount": 1,
+    "scores": {
+      "melia": 25,
+      "nereon": 22,
+      "thaleia": 18,
+      "doreios": 16
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:118",
+    "block": 29,
+    "rotation": 2,
+    "share": 0,
+    "score": 25,
+    "turns": 11,
+    "seat": 1,
+    "turnPosition": 0,
+    "winnerCount": 1,
+    "scores": {
+      "thaleia": 27,
+      "nereon": 25,
+      "melia": 24,
+      "doreios": 21
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:119",
+    "block": 29,
+    "rotation": 3,
+    "share": 0,
+    "score": 16,
+    "turns": 11,
+    "seat": 0,
+    "turnPosition": 3,
+    "winnerCount": 1,
+    "scores": {
+      "thaleia": 30,
+      "melia": 24,
+      "doreios": 24,
+      "nereon": 16
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:120",
+    "block": 30,
+    "rotation": 0,
+    "share": 0,
+    "score": 28,
+    "turns": 13,
+    "seat": 1,
+    "turnPosition": 1,
+    "winnerCount": 1,
+    "scores": {
+      "doreios": 33,
+      "nereon": 28,
+      "melia": 27,
+      "thaleia": 25
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:121",
+    "block": 30,
+    "rotation": 1,
+    "share": 0,
+    "score": 29,
+    "turns": 15,
+    "seat": 0,
+    "turnPosition": 0,
+    "winnerCount": 1,
+    "scores": {
+      "doreios": 34,
+      "nereon": 29,
+      "thaleia": 29,
+      "melia": 28
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:122",
+    "block": 30,
+    "rotation": 2,
+    "share": 0,
+    "score": 24,
+    "turns": 12,
+    "seat": 3,
+    "turnPosition": 3,
+    "winnerCount": 1,
+    "scores": {
+      "melia": 27,
+      "thaleia": 25,
+      "doreios": 24,
+      "nereon": 24
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:123",
+    "block": 30,
+    "rotation": 3,
+    "share": 0,
+    "score": 25,
+    "turns": 11,
+    "seat": 2,
+    "turnPosition": 2,
+    "winnerCount": 1,
+    "scores": {
+      "melia": 27,
+      "nereon": 25,
+      "doreios": 21,
+      "thaleia": 19
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:124",
+    "block": 31,
+    "rotation": 0,
+    "share": 0,
+    "score": 22,
+    "turns": 10,
+    "seat": 1,
+    "turnPosition": 3,
+    "winnerCount": 1,
+    "scores": {
+      "melia": 25,
+      "thaleia": 24,
+      "nereon": 22,
+      "doreios": 18
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:125",
+    "block": 31,
+    "rotation": 1,
+    "share": 0,
+    "score": 24,
+    "turns": 12,
+    "seat": 0,
+    "turnPosition": 2,
+    "winnerCount": 2,
+    "scores": {
+      "thaleia": 30,
+      "melia": 30,
+      "nereon": 24,
+      "doreios": 20
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:126",
+    "block": 31,
+    "rotation": 2,
+    "share": 0,
+    "score": 21,
+    "turns": 10,
+    "seat": 3,
+    "turnPosition": 1,
+    "winnerCount": 1,
+    "scores": {
+      "thaleia": 24,
+      "doreios": 21,
+      "nereon": 21,
+      "melia": 20
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:127",
+    "block": 31,
+    "rotation": 3,
+    "share": 0,
+    "score": 28,
+    "turns": 12,
+    "seat": 2,
+    "turnPosition": 0,
+    "winnerCount": 1,
+    "scores": {
+      "melia": 31,
+      "nereon": 28,
+      "doreios": 27,
+      "thaleia": 17
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:128",
+    "block": 32,
+    "rotation": 0,
+    "share": 0.5,
+    "score": 30,
+    "turns": 12,
+    "seat": 2,
+    "turnPosition": 1,
+    "winnerCount": 2,
+    "scores": {
+      "melia": 30,
+      "nereon": 30,
+      "thaleia": 21,
+      "doreios": 18
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:129",
+    "block": 32,
+    "rotation": 1,
+    "share": 0,
+    "score": 27,
+    "turns": 12,
+    "seat": 1,
+    "turnPosition": 0,
+    "winnerCount": 1,
+    "scores": {
+      "melia": 33,
+      "nereon": 27,
+      "thaleia": 22,
+      "doreios": 21
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:130",
+    "block": 32,
+    "rotation": 2,
+    "share": 0.5,
+    "score": 35,
+    "turns": 15,
+    "seat": 0,
+    "turnPosition": 3,
+    "winnerCount": 2,
+    "scores": {
+      "nereon": 35,
+      "melia": 35,
+      "doreios": 30,
+      "thaleia": 22
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:131",
+    "block": 32,
+    "rotation": 3,
+    "share": 0,
+    "score": 23,
+    "turns": 11,
+    "seat": 3,
+    "turnPosition": 2,
+    "winnerCount": 1,
+    "scores": {
+      "thaleia": 26,
+      "melia": 24,
+      "nereon": 23,
+      "doreios": 21
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:132",
+    "block": 33,
+    "rotation": 0,
+    "share": 0,
+    "score": 26,
+    "turns": 12,
+    "seat": 3,
+    "turnPosition": 3,
+    "winnerCount": 1,
+    "scores": {
+      "doreios": 30,
+      "melia": 28,
+      "nereon": 26,
+      "thaleia": 16
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:133",
+    "block": 33,
+    "rotation": 1,
+    "share": 0,
+    "score": 27,
+    "turns": 12,
+    "seat": 2,
+    "turnPosition": 2,
+    "winnerCount": 1,
+    "scores": {
+      "thaleia": 31,
+      "doreios": 27,
+      "nereon": 27,
+      "melia": 25
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:134",
+    "block": 33,
+    "rotation": 2,
+    "share": 0,
+    "score": 24,
+    "turns": 12,
+    "seat": 1,
+    "turnPosition": 1,
+    "winnerCount": 1,
+    "scores": {
+      "thaleia": 33,
+      "melia": 31,
+      "doreios": 27,
+      "nereon": 24
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:135",
+    "block": 33,
+    "rotation": 3,
+    "share": 0,
+    "score": 23,
+    "turns": 11,
+    "seat": 0,
+    "turnPosition": 0,
+    "winnerCount": 1,
+    "scores": {
+      "thaleia": 33,
+      "nereon": 23,
+      "doreios": 22,
+      "melia": 21
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:136",
+    "block": 34,
+    "rotation": 0,
+    "share": 0,
+    "score": 30,
+    "turns": 13,
+    "seat": 2,
+    "turnPosition": 3,
+    "winnerCount": 1,
+    "scores": {
+      "doreios": 31,
+      "nereon": 30,
+      "thaleia": 26,
+      "melia": 25
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:137",
+    "block": 34,
+    "rotation": 1,
+    "share": 0,
+    "score": 29,
+    "turns": 12,
+    "seat": 1,
+    "turnPosition": 2,
+    "winnerCount": 1,
+    "scores": {
+      "doreios": 30,
+      "nereon": 29,
+      "melia": 28,
+      "thaleia": 25
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:138",
+    "block": 34,
+    "rotation": 2,
+    "share": 0,
+    "score": 22,
+    "turns": 12,
+    "seat": 0,
+    "turnPosition": 1,
+    "winnerCount": 1,
+    "scores": {
+      "doreios": 30,
+      "melia": 27,
+      "nereon": 22,
+      "thaleia": 16
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:139",
+    "block": 34,
+    "rotation": 3,
+    "share": 0.5,
+    "score": 25,
+    "turns": 11,
+    "seat": 3,
+    "turnPosition": 0,
+    "winnerCount": 2,
+    "scores": {
+      "doreios": 25,
+      "nereon": 25,
+      "melia": 21,
+      "thaleia": 19
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:140",
+    "block": 35,
+    "rotation": 0,
+    "share": 0,
+    "score": 26,
+    "turns": 12,
+    "seat": 3,
+    "turnPosition": 1,
+    "winnerCount": 1,
+    "scores": {
+      "thaleia": 31,
+      "melia": 28,
+      "nereon": 26,
+      "doreios": 22
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:141",
+    "block": 35,
+    "rotation": 1,
+    "share": 0,
+    "score": 25,
+    "turns": 11,
+    "seat": 2,
+    "turnPosition": 0,
+    "winnerCount": 1,
+    "scores": {
+      "doreios": 27,
+      "nereon": 25,
+      "melia": 22,
+      "thaleia": 18
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:142",
+    "block": 35,
+    "rotation": 2,
+    "share": 0,
+    "score": 18,
+    "turns": 10,
+    "seat": 1,
+    "turnPosition": 3,
+    "winnerCount": 1,
+    "scores": {
+      "thaleia": 27,
+      "melia": 22,
+      "doreios": 22,
+      "nereon": 18
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:143",
+    "block": 35,
+    "rotation": 3,
+    "share": 0,
+    "score": 25,
+    "turns": 12,
+    "seat": 0,
+    "turnPosition": 2,
+    "winnerCount": 1,
+    "scores": {
+      "doreios": 30,
+      "nereon": 25,
+      "melia": 24,
+      "thaleia": 24
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:144",
+    "block": 36,
+    "rotation": 0,
+    "share": 0,
+    "score": 31,
+    "turns": 15,
+    "seat": 1,
+    "turnPosition": 0,
+    "winnerCount": 1,
+    "scores": {
+      "melia": 37,
+      "nereon": 31,
+      "doreios": 29,
+      "thaleia": 24
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:145",
+    "block": 36,
+    "rotation": 1,
+    "share": 0,
+    "score": 30,
+    "turns": 15,
+    "seat": 0,
+    "turnPosition": 3,
+    "winnerCount": 1,
+    "scores": {
+      "thaleia": 34,
+      "nereon": 30,
+      "doreios": 30,
+      "melia": 28
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:146",
+    "block": 36,
+    "rotation": 2,
+    "share": 1,
+    "score": 38,
+    "turns": 16,
+    "seat": 3,
+    "turnPosition": 2,
+    "winnerCount": 1,
+    "scores": {
+      "nereon": 38,
+      "melia": 35,
+      "thaleia": 26,
+      "doreios": 21
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:147",
+    "block": 36,
+    "rotation": 3,
+    "share": 0,
+    "score": 18,
+    "turns": 9,
+    "seat": 2,
+    "turnPosition": 1,
+    "winnerCount": 1,
+    "scores": {
+      "melia": 24,
+      "thaleia": 21,
+      "doreios": 19,
+      "nereon": 18
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:148",
+    "block": 37,
+    "rotation": 0,
+    "share": 0,
+    "score": 21,
+    "turns": 11,
+    "seat": 1,
+    "turnPosition": 0,
+    "winnerCount": 1,
+    "scores": {
+      "thaleia": 27,
+      "melia": 25,
+      "doreios": 25,
+      "nereon": 21
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:149",
+    "block": 37,
+    "rotation": 1,
+    "share": 0,
+    "score": 25,
+    "turns": 12,
+    "seat": 0,
+    "turnPosition": 3,
+    "winnerCount": 1,
+    "scores": {
+      "melia": 26,
+      "nereon": 25,
+      "thaleia": 25,
+      "doreios": 20
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:150",
+    "block": 37,
+    "rotation": 2,
+    "share": 0,
+    "score": 30,
+    "turns": 13,
+    "seat": 3,
+    "turnPosition": 2,
+    "winnerCount": 2,
+    "scores": {
+      "thaleia": 31,
+      "melia": 31,
+      "nereon": 30,
+      "doreios": 26
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:151",
+    "block": 37,
+    "rotation": 3,
+    "share": 0,
+    "score": 20,
+    "turns": 10,
+    "seat": 2,
+    "turnPosition": 1,
+    "winnerCount": 1,
+    "scores": {
+      "doreios": 27,
+      "thaleia": 21,
+      "melia": 21,
+      "nereon": 20
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:152",
+    "block": 38,
+    "rotation": 0,
+    "share": 0,
+    "score": 27,
+    "turns": 12,
+    "seat": 2,
+    "turnPosition": 2,
+    "winnerCount": 1,
+    "scores": {
+      "melia": 30,
+      "nereon": 27,
+      "doreios": 24,
+      "thaleia": 22
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:153",
+    "block": 38,
+    "rotation": 1,
+    "share": 0,
+    "score": 22,
+    "turns": 11,
+    "seat": 1,
+    "turnPosition": 1,
+    "winnerCount": 2,
+    "scores": {
+      "doreios": 24,
+      "melia": 24,
+      "nereon": 22,
+      "thaleia": 21
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:154",
+    "block": 38,
+    "rotation": 2,
+    "share": 1,
+    "score": 37,
+    "turns": 15,
+    "seat": 0,
+    "turnPosition": 0,
+    "winnerCount": 1,
+    "scores": {
+      "nereon": 37,
+      "melia": 33,
+      "doreios": 27,
+      "thaleia": 25
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:155",
+    "block": 38,
+    "rotation": 3,
+    "share": 0,
+    "score": 28,
+    "turns": 13,
+    "seat": 3,
+    "turnPosition": 3,
+    "winnerCount": 1,
+    "scores": {
+      "doreios": 31,
+      "nereon": 28,
+      "melia": 27,
+      "thaleia": 25
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:156",
+    "block": 39,
+    "rotation": 0,
+    "share": 0,
+    "score": 24,
+    "turns": 13,
+    "seat": 3,
+    "turnPosition": 0,
+    "winnerCount": 1,
+    "scores": {
+      "thaleia": 33,
+      "melia": 28,
+      "doreios": 28,
+      "nereon": 24
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:157",
+    "block": 39,
+    "rotation": 1,
+    "share": 0,
+    "score": 28,
+    "turns": 12,
+    "seat": 2,
+    "turnPosition": 3,
+    "winnerCount": 1,
+    "scores": {
+      "melia": 29,
+      "nereon": 28,
+      "thaleia": 25,
+      "doreios": 21
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:158",
+    "block": 39,
+    "rotation": 2,
+    "share": 0,
+    "score": 19,
+    "turns": 11,
+    "seat": 1,
+    "turnPosition": 2,
+    "winnerCount": 1,
+    "scores": {
+      "thaleia": 25,
+      "melia": 23,
+      "doreios": 21,
+      "nereon": 19
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:159",
+    "block": 39,
+    "rotation": 3,
+    "share": 0,
+    "score": 23,
+    "turns": 11,
+    "seat": 0,
+    "turnPosition": 1,
+    "winnerCount": 2,
+    "scores": {
+      "melia": 25,
+      "doreios": 25,
+      "nereon": 23,
+      "thaleia": 22
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:160",
+    "block": 40,
+    "rotation": 0,
+    "share": 0,
+    "score": 28,
+    "turns": 13,
+    "seat": 2,
+    "turnPosition": 1,
+    "winnerCount": 2,
+    "scores": {
+      "melia": 30,
+      "doreios": 30,
+      "nereon": 28,
+      "thaleia": 24
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:161",
+    "block": 40,
+    "rotation": 1,
+    "share": 0,
+    "score": 23,
+    "turns": 13,
+    "seat": 1,
+    "turnPosition": 0,
+    "winnerCount": 1,
+    "scores": {
+      "melia": 30,
+      "doreios": 28,
+      "thaleia": 27,
+      "nereon": 23
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:162",
+    "block": 40,
+    "rotation": 2,
+    "share": 1,
+    "score": 31,
+    "turns": 12,
+    "seat": 0,
+    "turnPosition": 3,
+    "winnerCount": 1,
+    "scores": {
+      "nereon": 31,
+      "melia": 30,
+      "thaleia": 25,
+      "doreios": 23
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:163",
+    "block": 40,
+    "rotation": 3,
+    "share": 0,
+    "score": 16,
+    "turns": 9,
+    "seat": 3,
+    "turnPosition": 2,
+    "winnerCount": 1,
+    "scores": {
+      "melia": 24,
+      "thaleia": 21,
+      "doreios": 18,
+      "nereon": 16
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:164",
+    "block": 41,
+    "rotation": 0,
+    "share": 0,
+    "score": 20,
+    "turns": 11,
+    "seat": 3,
+    "turnPosition": 1,
+    "winnerCount": 1,
+    "scores": {
+      "thaleia": 27,
+      "melia": 26,
+      "doreios": 24,
+      "nereon": 20
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:165",
+    "block": 41,
+    "rotation": 1,
+    "share": 0,
+    "score": 28,
+    "turns": 12,
+    "seat": 2,
+    "turnPosition": 0,
+    "winnerCount": 1,
+    "scores": {
+      "doreios": 30,
+      "nereon": 28,
+      "thaleia": 24,
+      "melia": 20
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:166",
+    "block": 41,
+    "rotation": 2,
+    "share": 0,
+    "score": 17,
+    "turns": 10,
+    "seat": 1,
+    "turnPosition": 3,
+    "winnerCount": 1,
+    "scores": {
+      "melia": 24,
+      "doreios": 21,
+      "thaleia": 18,
+      "nereon": 17
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:167",
+    "block": 41,
+    "rotation": 3,
+    "share": 0,
+    "score": 25,
+    "turns": 11,
+    "seat": 0,
+    "turnPosition": 2,
+    "winnerCount": 1,
+    "scores": {
+      "doreios": 30,
+      "nereon": 25,
+      "thaleia": 21,
+      "melia": 14
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:168",
+    "block": 42,
+    "rotation": 0,
+    "share": 0,
+    "score": 28,
+    "turns": 14,
+    "seat": 1,
+    "turnPosition": 1,
+    "winnerCount": 1,
+    "scores": {
+      "melia": 30,
+      "doreios": 29,
+      "nereon": 28,
+      "thaleia": 27
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:169",
+    "block": 42,
+    "rotation": 1,
+    "share": 0,
+    "score": 29,
+    "turns": 12,
+    "seat": 0,
+    "turnPosition": 0,
+    "winnerCount": 1,
+    "scores": {
+      "melia": 30,
+      "nereon": 29,
+      "doreios": 25,
+      "thaleia": 22
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:170",
+    "block": 42,
+    "rotation": 2,
+    "share": 0,
+    "score": 26,
+    "turns": 12,
+    "seat": 3,
+    "turnPosition": 3,
+    "winnerCount": 1,
+    "scores": {
+      "thaleia": 27,
+      "nereon": 26,
+      "doreios": 24,
+      "melia": 24
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:171",
+    "block": 42,
+    "rotation": 3,
+    "share": 0,
+    "score": 28,
+    "turns": 14,
+    "seat": 2,
+    "turnPosition": 2,
+    "winnerCount": 1,
+    "scores": {
+      "melia": 33,
+      "doreios": 28,
+      "nereon": 28,
+      "thaleia": 28
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:172",
+    "block": 43,
+    "rotation": 0,
+    "share": 0,
+    "score": 24,
+    "turns": 11,
+    "seat": 1,
+    "turnPosition": 0,
+    "winnerCount": 1,
+    "scores": {
+      "thaleia": 33,
+      "melia": 24,
+      "nereon": 24,
+      "doreios": 21
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:173",
+    "block": 43,
+    "rotation": 1,
+    "share": 0,
+    "score": 29,
+    "turns": 12,
+    "seat": 0,
+    "turnPosition": 3,
+    "winnerCount": 1,
+    "scores": {
+      "melia": 31,
+      "nereon": 29,
+      "thaleia": 22,
+      "doreios": 18
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:174",
+    "block": 43,
+    "rotation": 2,
+    "share": 0,
+    "score": 23,
+    "turns": 12,
+    "seat": 3,
+    "turnPosition": 2,
+    "winnerCount": 1,
+    "scores": {
+      "thaleia": 34,
+      "melia": 28,
+      "nereon": 23,
+      "doreios": 22
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:175",
+    "block": 43,
+    "rotation": 3,
+    "share": 1,
+    "score": 31,
+    "turns": 12,
+    "seat": 2,
+    "turnPosition": 1,
+    "winnerCount": 1,
+    "scores": {
+      "nereon": 31,
+      "melia": 30,
+      "doreios": 27,
+      "thaleia": 21
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:176",
+    "block": 44,
+    "rotation": 0,
+    "share": 1,
+    "score": 25,
+    "turns": 10,
+    "seat": 2,
+    "turnPosition": 0,
+    "winnerCount": 1,
+    "scores": {
+      "nereon": 25,
+      "doreios": 21,
+      "melia": 18,
+      "thaleia": 18
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:177",
+    "block": 44,
+    "rotation": 1,
+    "share": 0,
+    "score": 30,
+    "turns": 14,
+    "seat": 1,
+    "turnPosition": 3,
+    "winnerCount": 1,
+    "scores": {
+      "doreios": 34,
+      "nereon": 30,
+      "melia": 27,
+      "thaleia": 17
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:178",
+    "block": 44,
+    "rotation": 2,
+    "share": 0,
+    "score": 30,
+    "turns": 13,
+    "seat": 0,
+    "turnPosition": 2,
+    "winnerCount": 1,
+    "scores": {
+      "doreios": 33,
+      "melia": 31,
+      "nereon": 30,
+      "thaleia": 19
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:179",
+    "block": 44,
+    "rotation": 3,
+    "share": 0,
+    "score": 22,
+    "turns": 11,
+    "seat": 3,
+    "turnPosition": 1,
+    "winnerCount": 2,
+    "scores": {
+      "melia": 25,
+      "thaleia": 25,
+      "nereon": 22,
+      "doreios": 18
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:180",
+    "block": 45,
+    "rotation": 0,
+    "share": 0,
+    "score": 25,
+    "turns": 11,
+    "seat": 3,
+    "turnPosition": 2,
+    "winnerCount": 1,
+    "scores": {
+      "doreios": 27,
+      "nereon": 25,
+      "melia": 24,
+      "thaleia": 15
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:181",
+    "block": 45,
+    "rotation": 1,
+    "share": 0,
+    "score": 26,
+    "turns": 11,
+    "seat": 2,
+    "turnPosition": 1,
+    "winnerCount": 1,
+    "scores": {
+      "melia": 30,
+      "nereon": 26,
+      "thaleia": 21,
+      "doreios": 21
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:182",
+    "block": 45,
+    "rotation": 2,
+    "share": 0,
+    "score": 20,
+    "turns": 11,
+    "seat": 1,
+    "turnPosition": 0,
+    "winnerCount": 1,
+    "scores": {
+      "doreios": 31,
+      "nereon": 20,
+      "melia": 20,
+      "thaleia": 18
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:183",
+    "block": 45,
+    "rotation": 3,
+    "share": 1,
+    "score": 35,
+    "turns": 14,
+    "seat": 0,
+    "turnPosition": 3,
+    "winnerCount": 1,
+    "scores": {
+      "nereon": 35,
+      "melia": 34,
+      "thaleia": 28,
+      "doreios": 22
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:184",
+    "block": 46,
+    "rotation": 0,
+    "share": 0,
+    "score": 23,
+    "turns": 11,
+    "seat": 2,
+    "turnPosition": 1,
+    "winnerCount": 1,
+    "scores": {
+      "melia": 28,
+      "nereon": 23,
+      "doreios": 21,
+      "thaleia": 21
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:185",
+    "block": 46,
+    "rotation": 1,
+    "share": 0,
+    "score": 23,
+    "turns": 10,
+    "seat": 1,
+    "turnPosition": 0,
+    "winnerCount": 1,
+    "scores": {
+      "melia": 25,
+      "nereon": 23,
+      "doreios": 21,
+      "thaleia": 16
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:186",
+    "block": 46,
+    "rotation": 2,
+    "share": 0,
+    "score": 18,
+    "turns": 11,
+    "seat": 0,
+    "turnPosition": 3,
+    "winnerCount": 1,
+    "scores": {
+      "doreios": 28,
+      "thaleia": 24,
+      "melia": 24,
+      "nereon": 18
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:187",
+    "block": 46,
+    "rotation": 3,
+    "share": 1,
+    "score": 22,
+    "turns": 10,
+    "seat": 3,
+    "turnPosition": 2,
+    "winnerCount": 1,
+    "scores": {
+      "nereon": 22,
+      "melia": 21,
+      "doreios": 21,
+      "thaleia": 19
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:188",
+    "block": 47,
+    "rotation": 0,
+    "share": 0,
+    "score": 25,
+    "turns": 12,
+    "seat": 3,
+    "turnPosition": 0,
+    "winnerCount": 1,
+    "scores": {
+      "thaleia": 33,
+      "doreios": 25,
+      "nereon": 25,
+      "melia": 23
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:189",
+    "block": 47,
+    "rotation": 1,
+    "share": 0,
+    "score": 23,
+    "turns": 10,
+    "seat": 2,
+    "turnPosition": 3,
+    "winnerCount": 1,
+    "scores": {
+      "melia": 24,
+      "nereon": 23,
+      "thaleia": 21,
+      "doreios": 18
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:190",
+    "block": 47,
+    "rotation": 2,
+    "share": 0,
+    "score": 19,
+    "turns": 10,
+    "seat": 1,
+    "turnPosition": 2,
+    "winnerCount": 1,
+    "scores": {
+      "thaleia": 26,
+      "doreios": 21,
+      "melia": 20,
+      "nereon": 19
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:191",
+    "block": 47,
+    "rotation": 3,
+    "share": 0,
+    "score": 23,
+    "turns": 12,
+    "seat": 0,
+    "turnPosition": 1,
+    "winnerCount": 1,
+    "scores": {
+      "melia": 33,
+      "doreios": 31,
+      "nereon": 23,
+      "thaleia": 16
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:192",
+    "block": 48,
+    "rotation": 0,
+    "share": 1,
+    "score": 35,
+    "turns": 18,
+    "seat": 1,
+    "turnPosition": 2,
+    "winnerCount": 1,
+    "scores": {
+      "nereon": 35,
+      "melia": 33,
+      "thaleia": 31,
+      "doreios": 24
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:193",
+    "block": 48,
+    "rotation": 1,
+    "share": 0,
+    "score": 26,
+    "turns": 17,
+    "seat": 0,
+    "turnPosition": 1,
+    "winnerCount": 1,
+    "scores": {
+      "melia": 38,
+      "doreios": 30,
+      "thaleia": 29,
+      "nereon": 26
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:194",
+    "block": 48,
+    "rotation": 2,
+    "share": 0,
+    "score": 28,
+    "turns": 14,
+    "seat": 3,
+    "turnPosition": 0,
+    "winnerCount": 1,
+    "scores": {
+      "melia": 33,
+      "thaleia": 28,
+      "nereon": 28,
+      "doreios": 22
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:195",
+    "block": 48,
+    "rotation": 3,
+    "share": 0,
+    "score": 31,
+    "turns": 14,
+    "seat": 2,
+    "turnPosition": 3,
+    "winnerCount": 1,
+    "scores": {
+      "melia": 34,
+      "nereon": 31,
+      "doreios": 28,
+      "thaleia": 23
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:196",
+    "block": 49,
+    "rotation": 0,
+    "share": 0,
+    "score": 27,
+    "turns": 13,
+    "seat": 1,
+    "turnPosition": 2,
+    "winnerCount": 1,
+    "scores": {
+      "thaleia": 34,
+      "nereon": 27,
+      "doreios": 25,
+      "melia": 24
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:197",
+    "block": 49,
+    "rotation": 1,
+    "share": 0,
+    "score": 22,
+    "turns": 10,
+    "seat": 0,
+    "turnPosition": 1,
+    "winnerCount": 3,
+    "scores": {
+      "doreios": 24,
+      "thaleia": 24,
+      "melia": 24,
+      "nereon": 22
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:198",
+    "block": 49,
+    "rotation": 2,
+    "share": 0,
+    "score": 28,
+    "turns": 13,
+    "seat": 3,
+    "turnPosition": 0,
+    "winnerCount": 1,
+    "scores": {
+      "melia": 33,
+      "thaleia": 28,
+      "nereon": 28,
+      "doreios": 24
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:199",
+    "block": 49,
+    "rotation": 3,
+    "share": 0,
+    "score": 23,
+    "turns": 11,
+    "seat": 2,
+    "turnPosition": 3,
+    "winnerCount": 1,
+    "scores": {
+      "thaleia": 30,
+      "doreios": 24,
+      "nereon": 23,
+      "melia": 21
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:200",
+    "block": 50,
+    "rotation": 0,
+    "share": 0.5,
+    "score": 24,
+    "turns": 11,
+    "seat": 2,
+    "turnPosition": 1,
+    "winnerCount": 2,
+    "scores": {
+      "melia": 24,
+      "nereon": 24,
+      "thaleia": 22,
+      "doreios": 21
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:201",
+    "block": 50,
+    "rotation": 1,
+    "share": 0,
+    "score": 26,
+    "turns": 12,
+    "seat": 1,
+    "turnPosition": 0,
+    "winnerCount": 1,
+    "scores": {
+      "doreios": 30,
+      "melia": 27,
+      "nereon": 26,
+      "thaleia": 25
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:202",
+    "block": 50,
+    "rotation": 2,
+    "share": 0,
+    "score": 26,
+    "turns": 11,
+    "seat": 0,
+    "turnPosition": 3,
+    "winnerCount": 1,
+    "scores": {
+      "melia": 27,
+      "nereon": 26,
+      "doreios": 21,
+      "thaleia": 21
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:203",
+    "block": 50,
+    "rotation": 3,
+    "share": 0,
+    "score": 23,
+    "turns": 11,
+    "seat": 3,
+    "turnPosition": 2,
+    "winnerCount": 1,
+    "scores": {
+      "melia": 27,
+      "nereon": 23,
+      "doreios": 22,
+      "thaleia": 22
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:204",
+    "block": 51,
+    "rotation": 0,
+    "share": 0,
+    "score": 29,
+    "turns": 14,
+    "seat": 3,
+    "turnPosition": 1,
+    "winnerCount": 1,
+    "scores": {
+      "melia": 37,
+      "nereon": 29,
+      "doreios": 27,
+      "thaleia": 24
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:205",
+    "block": 51,
+    "rotation": 1,
+    "share": 0,
+    "score": 19,
+    "turns": 13,
+    "seat": 2,
+    "turnPosition": 0,
+    "winnerCount": 1,
+    "scores": {
+      "thaleia": 36,
+      "melia": 31,
+      "doreios": 27,
+      "nereon": 19
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:206",
+    "block": 51,
+    "rotation": 2,
+    "share": 0,
+    "score": 22,
+    "turns": 11,
+    "seat": 1,
+    "turnPosition": 3,
+    "winnerCount": 2,
+    "scores": {
+      "doreios": 24,
+      "thaleia": 24,
+      "nereon": 22,
+      "melia": 18
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:207",
+    "block": 51,
+    "rotation": 3,
+    "share": 1,
+    "score": 32,
+    "turns": 13,
+    "seat": 0,
+    "turnPosition": 2,
+    "winnerCount": 1,
+    "scores": {
+      "nereon": 32,
+      "melia": 26,
+      "thaleia": 24,
+      "doreios": 24
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:208",
+    "block": 52,
+    "rotation": 0,
+    "share": 0,
+    "score": 28,
+    "turns": 13,
+    "seat": 2,
+    "turnPosition": 2,
+    "winnerCount": 1,
+    "scores": {
+      "thaleia": 34,
+      "doreios": 28,
+      "nereon": 28,
+      "melia": 27
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:209",
+    "block": 52,
+    "rotation": 1,
+    "share": 0,
+    "score": 24,
+    "turns": 11,
+    "seat": 1,
+    "turnPosition": 1,
+    "winnerCount": 1,
+    "scores": {
+      "doreios": 27,
+      "nereon": 24,
+      "thaleia": 22,
+      "melia": 21
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:210",
+    "block": 52,
+    "rotation": 2,
+    "share": 0.5,
+    "score": 24,
+    "turns": 10,
+    "seat": 0,
+    "turnPosition": 0,
+    "winnerCount": 2,
+    "scores": {
+      "nereon": 24,
+      "doreios": 24,
+      "melia": 22,
+      "thaleia": 19
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:211",
+    "block": 52,
+    "rotation": 3,
+    "share": 0,
+    "score": 19,
+    "turns": 10,
+    "seat": 3,
+    "turnPosition": 3,
+    "winnerCount": 1,
+    "scores": {
+      "melia": 24,
+      "thaleia": 21,
+      "doreios": 21,
+      "nereon": 19
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:212",
+    "block": 53,
+    "rotation": 0,
+    "share": 0.5,
+    "score": 27,
+    "turns": 11,
+    "seat": 3,
+    "turnPosition": 0,
+    "winnerCount": 2,
+    "scores": {
+      "doreios": 27,
+      "nereon": 27,
+      "thaleia": 22,
+      "melia": 21
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:213",
+    "block": 53,
+    "rotation": 1,
+    "share": 0,
+    "score": 31,
+    "turns": 15,
+    "seat": 2,
+    "turnPosition": 3,
+    "winnerCount": 1,
+    "scores": {
+      "doreios": 35,
+      "nereon": 31,
+      "thaleia": 28,
+      "melia": 27
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:214",
+    "block": 53,
+    "rotation": 2,
+    "share": 0,
+    "score": 19,
+    "turns": 11,
+    "seat": 1,
+    "turnPosition": 2,
+    "winnerCount": 1,
+    "scores": {
+      "doreios": 27,
+      "melia": 23,
+      "thaleia": 21,
+      "nereon": 19
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:215",
+    "block": 53,
+    "rotation": 3,
+    "share": 0,
+    "score": 22,
+    "turns": 10,
+    "seat": 0,
+    "turnPosition": 1,
+    "winnerCount": 1,
+    "scores": {
+      "doreios": 25,
+      "nereon": 22,
+      "melia": 21,
+      "thaleia": 21
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:216",
+    "block": 54,
+    "rotation": 0,
+    "share": 0.5,
+    "score": 27,
+    "turns": 11,
+    "seat": 1,
+    "turnPosition": 2,
+    "winnerCount": 2,
+    "scores": {
+      "melia": 27,
+      "nereon": 27,
+      "thaleia": 21,
+      "doreios": 18
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:217",
+    "block": 54,
+    "rotation": 1,
+    "share": 0,
+    "score": 27,
+    "turns": 11,
+    "seat": 0,
+    "turnPosition": 1,
+    "winnerCount": 1,
+    "scores": {
+      "melia": 30,
+      "nereon": 27,
+      "thaleia": 24,
+      "doreios": 17
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:218",
+    "block": 54,
+    "rotation": 2,
+    "share": 1,
+    "score": 27,
+    "turns": 11,
+    "seat": 3,
+    "turnPosition": 0,
+    "winnerCount": 1,
+    "scores": {
+      "nereon": 27,
+      "thaleia": 25,
+      "melia": 24,
+      "doreios": 22
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:219",
+    "block": 54,
+    "rotation": 3,
+    "share": 0,
+    "score": 28,
+    "turns": 13,
+    "seat": 2,
+    "turnPosition": 3,
+    "winnerCount": 1,
+    "scores": {
+      "melia": 33,
+      "nereon": 28,
+      "doreios": 27,
+      "thaleia": 25
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:220",
+    "block": 55,
+    "rotation": 0,
+    "share": 0,
+    "score": 27,
+    "turns": 12,
+    "seat": 1,
+    "turnPosition": 3,
+    "winnerCount": 1,
+    "scores": {
+      "thaleia": 33,
+      "melia": 27,
+      "nereon": 27,
+      "doreios": 24
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:221",
+    "block": 55,
+    "rotation": 1,
+    "share": 0.5,
+    "score": 30,
+    "turns": 14,
+    "seat": 0,
+    "turnPosition": 2,
+    "winnerCount": 2,
+    "scores": {
+      "nereon": 30,
+      "thaleia": 30,
+      "doreios": 29,
+      "melia": 28
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:222",
+    "block": 55,
+    "rotation": 2,
+    "share": 0,
+    "score": 21,
+    "turns": 11,
+    "seat": 3,
+    "turnPosition": 1,
+    "winnerCount": 2,
+    "scores": {
+      "thaleia": 27,
+      "melia": 27,
+      "doreios": 21,
+      "nereon": 21
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:223",
+    "block": 55,
+    "rotation": 3,
+    "share": 1,
+    "score": 42,
+    "turns": 16,
+    "seat": 2,
+    "turnPosition": 0,
+    "winnerCount": 1,
+    "scores": {
+      "nereon": 42,
+      "melia": 31,
+      "thaleia": 28,
+      "doreios": 22
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:224",
+    "block": 56,
+    "rotation": 0,
+    "share": 0,
+    "score": 22,
+    "turns": 11,
+    "seat": 2,
+    "turnPosition": 2,
+    "winnerCount": 1,
+    "scores": {
+      "melia": 28,
+      "nereon": 22,
+      "doreios": 21,
+      "thaleia": 14
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:225",
+    "block": 56,
+    "rotation": 1,
+    "share": 0,
+    "score": 35,
+    "turns": 15,
+    "seat": 1,
+    "turnPosition": 1,
+    "winnerCount": 1,
+    "scores": {
+      "doreios": 36,
+      "nereon": 35,
+      "thaleia": 31,
+      "melia": 22
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:226",
+    "block": 56,
+    "rotation": 2,
+    "share": 0,
+    "score": 29,
+    "turns": 14,
+    "seat": 0,
+    "turnPosition": 0,
+    "winnerCount": 1,
+    "scores": {
+      "doreios": 32,
+      "nereon": 29,
+      "melia": 29,
+      "thaleia": 27
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:227",
+    "block": 56,
+    "rotation": 3,
+    "share": 0,
+    "score": 25,
+    "turns": 14,
+    "seat": 3,
+    "turnPosition": 3,
+    "winnerCount": 1,
+    "scores": {
+      "doreios": 33,
+      "melia": 31,
+      "thaleia": 26,
+      "nereon": 25
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:228",
+    "block": 57,
+    "rotation": 0,
+    "share": 1,
+    "score": 33,
+    "turns": 16,
+    "seat": 3,
+    "turnPosition": 1,
+    "winnerCount": 1,
+    "scores": {
+      "nereon": 33,
+      "melia": 31,
+      "thaleia": 31,
+      "doreios": 26
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:229",
+    "block": 57,
+    "rotation": 1,
+    "share": 0,
+    "score": 20,
+    "turns": 11,
+    "seat": 2,
+    "turnPosition": 0,
+    "winnerCount": 1,
+    "scores": {
+      "melia": 30,
+      "thaleia": 24,
+      "doreios": 24,
+      "nereon": 20
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:230",
+    "block": 57,
+    "rotation": 2,
+    "share": 0,
+    "score": 28,
+    "turns": 14,
+    "seat": 1,
+    "turnPosition": 3,
+    "winnerCount": 1,
+    "scores": {
+      "thaleia": 39,
+      "nereon": 28,
+      "doreios": 27,
+      "melia": 19
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:231",
+    "block": 57,
+    "rotation": 3,
+    "share": 0,
+    "score": 24,
+    "turns": 11,
+    "seat": 0,
+    "turnPosition": 2,
+    "winnerCount": 1,
+    "scores": {
+      "melia": 26,
+      "nereon": 24,
+      "thaleia": 24,
+      "doreios": 24
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:232",
+    "block": 58,
+    "rotation": 0,
+    "share": 0,
+    "score": 30,
+    "turns": 15,
+    "seat": 2,
+    "turnPosition": 2,
+    "winnerCount": 1,
+    "scores": {
+      "melia": 41,
+      "nereon": 30,
+      "doreios": 27,
+      "thaleia": 21
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:233",
+    "block": 58,
+    "rotation": 1,
+    "share": 0,
+    "score": 25,
+    "turns": 11,
+    "seat": 1,
+    "turnPosition": 1,
+    "winnerCount": 1,
+    "scores": {
+      "melia": 27,
+      "nereon": 25,
+      "doreios": 21,
+      "thaleia": 20
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:234",
+    "block": 58,
+    "rotation": 2,
+    "share": 1,
+    "score": 22,
+    "turns": 10,
+    "seat": 0,
+    "turnPosition": 0,
+    "winnerCount": 1,
+    "scores": {
+      "nereon": 22,
+      "thaleia": 21,
+      "doreios": 21,
+      "melia": 20
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:235",
+    "block": 58,
+    "rotation": 3,
+    "share": 1,
+    "score": 29,
+    "turns": 12,
+    "seat": 3,
+    "turnPosition": 3,
+    "winnerCount": 1,
+    "scores": {
+      "nereon": 29,
+      "doreios": 27,
+      "thaleia": 25,
+      "melia": 23
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:236",
+    "block": 59,
+    "rotation": 0,
+    "share": 0,
+    "score": 26,
+    "turns": 13,
+    "seat": 3,
+    "turnPosition": 1,
+    "winnerCount": 1,
+    "scores": {
+      "thaleia": 39,
+      "melia": 26,
+      "doreios": 26,
+      "nereon": 26
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:237",
+    "block": 59,
+    "rotation": 1,
+    "share": 0,
+    "score": 28,
+    "turns": 15,
+    "seat": 2,
+    "turnPosition": 0,
+    "winnerCount": 1,
+    "scores": {
+      "doreios": 31,
+      "melia": 30,
+      "nereon": 28,
+      "thaleia": 27
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:238",
+    "block": 59,
+    "rotation": 2,
+    "share": 0,
+    "score": 19,
+    "turns": 13,
+    "seat": 1,
+    "turnPosition": 3,
+    "winnerCount": 1,
+    "scores": {
+      "thaleia": 37,
+      "melia": 31,
+      "doreios": 26,
+      "nereon": 19
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:239",
+    "block": 59,
+    "rotation": 3,
+    "share": 0,
+    "score": 23,
+    "turns": 13,
+    "seat": 0,
+    "turnPosition": 2,
+    "winnerCount": 1,
+    "scores": {
+      "doreios": 34,
+      "melia": 28,
+      "thaleia": 27,
+      "nereon": 23
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:240",
+    "block": 60,
+    "rotation": 0,
+    "share": 0,
+    "score": 30,
+    "turns": 13,
+    "seat": 1,
+    "turnPosition": 0,
+    "winnerCount": 1,
+    "scores": {
+      "melia": 31,
+      "nereon": 30,
+      "doreios": 27,
+      "thaleia": 26
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:241",
+    "block": 60,
+    "rotation": 1,
+    "share": 0,
+    "score": 36,
+    "turns": 15,
+    "seat": 0,
+    "turnPosition": 3,
+    "winnerCount": 1,
+    "scores": {
+      "doreios": 39,
+      "nereon": 36,
+      "thaleia": 23,
+      "melia": 18
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:242",
+    "block": 60,
+    "rotation": 2,
+    "share": 0,
+    "score": 25,
+    "turns": 12,
+    "seat": 3,
+    "turnPosition": 2,
+    "winnerCount": 1,
+    "scores": {
+      "melia": 28,
+      "thaleia": 27,
+      "nereon": 25,
+      "doreios": 15
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:243",
+    "block": 60,
+    "rotation": 3,
+    "share": 1,
+    "score": 36,
+    "turns": 14,
+    "seat": 2,
+    "turnPosition": 1,
+    "winnerCount": 1,
+    "scores": {
+      "nereon": 36,
+      "melia": 32,
+      "thaleia": 24,
+      "doreios": 22
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:244",
+    "block": 61,
+    "rotation": 0,
+    "share": 0,
+    "score": 20,
+    "turns": 12,
+    "seat": 1,
+    "turnPosition": 1,
+    "winnerCount": 1,
+    "scores": {
+      "thaleia": 30,
+      "melia": 27,
+      "doreios": 24,
+      "nereon": 20
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:245",
+    "block": 61,
+    "rotation": 1,
+    "share": 0,
+    "score": 21,
+    "turns": 14,
+    "seat": 0,
+    "turnPosition": 0,
+    "winnerCount": 1,
+    "scores": {
+      "thaleia": 40,
+      "melia": 31,
+      "doreios": 27,
+      "nereon": 21
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:246",
+    "block": 61,
+    "rotation": 2,
+    "share": 0,
+    "score": 20,
+    "turns": 13,
+    "seat": 3,
+    "turnPosition": 3,
+    "winnerCount": 1,
+    "scores": {
+      "thaleia": 36,
+      "melia": 30,
+      "doreios": 24,
+      "nereon": 20
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:247",
+    "block": 61,
+    "rotation": 3,
+    "share": 0,
+    "score": 25,
+    "turns": 12,
+    "seat": 2,
+    "turnPosition": 2,
+    "winnerCount": 1,
+    "scores": {
+      "thaleia": 30,
+      "melia": 28,
+      "nereon": 25,
+      "doreios": 22
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:248",
+    "block": 62,
+    "rotation": 0,
+    "share": 0,
+    "score": 30,
+    "turns": 13,
+    "seat": 2,
+    "turnPosition": 3,
+    "winnerCount": 1,
+    "scores": {
+      "doreios": 36,
+      "nereon": 30,
+      "melia": 22,
+      "thaleia": 21
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:249",
+    "block": 62,
+    "rotation": 1,
+    "share": 1,
+    "score": 29,
+    "turns": 11,
+    "seat": 1,
+    "turnPosition": 2,
+    "winnerCount": 1,
+    "scores": {
+      "nereon": 29,
+      "doreios": 24,
+      "melia": 20,
+      "thaleia": 13
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:250",
+    "block": 62,
+    "rotation": 2,
+    "share": 0,
+    "score": 22,
+    "turns": 11,
+    "seat": 0,
+    "turnPosition": 1,
+    "winnerCount": 1,
+    "scores": {
+      "thaleia": 25,
+      "nereon": 22,
+      "doreios": 21,
+      "melia": 21
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:251",
+    "block": 62,
+    "rotation": 3,
+    "share": 0,
+    "score": 25,
+    "turns": 13,
+    "seat": 3,
+    "turnPosition": 0,
+    "winnerCount": 2,
+    "scores": {
+      "doreios": 30,
+      "thaleia": 30,
+      "melia": 28,
+      "nereon": 25
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:252",
+    "block": 63,
+    "rotation": 0,
+    "share": 0,
+    "score": 22,
+    "turns": 11,
+    "seat": 3,
+    "turnPosition": 2,
+    "winnerCount": 1,
+    "scores": {
+      "thaleia": 28,
+      "melia": 26,
+      "nereon": 22,
+      "doreios": 19
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:253",
+    "block": 63,
+    "rotation": 1,
+    "share": 0,
+    "score": 23,
+    "turns": 11,
+    "seat": 2,
+    "turnPosition": 1,
+    "winnerCount": 1,
+    "scores": {
+      "doreios": 27,
+      "melia": 25,
+      "nereon": 23,
+      "thaleia": 21
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:254",
+    "block": 63,
+    "rotation": 2,
+    "share": 1,
+    "score": 26,
+    "turns": 11,
+    "seat": 1,
+    "turnPosition": 0,
+    "winnerCount": 1,
+    "scores": {
+      "nereon": 26,
+      "doreios": 24,
+      "melia": 22,
+      "thaleia": 21
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:255",
+    "block": 63,
+    "rotation": 3,
+    "share": 0,
+    "score": 23,
+    "turns": 11,
+    "seat": 0,
+    "turnPosition": 3,
+    "winnerCount": 1,
+    "scores": {
+      "melia": 28,
+      "doreios": 24,
+      "nereon": 23,
+      "thaleia": 19
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:256",
+    "block": 64,
+    "rotation": 0,
+    "share": 0,
+    "score": 24,
+    "turns": 12,
+    "seat": 2,
+    "turnPosition": 3,
+    "winnerCount": 3,
+    "scores": {
+      "melia": 27,
+      "doreios": 27,
+      "thaleia": 27,
+      "nereon": 24
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:257",
+    "block": 64,
+    "rotation": 1,
+    "share": 0,
+    "score": 22,
+    "turns": 11,
+    "seat": 1,
+    "turnPosition": 2,
+    "winnerCount": 1,
+    "scores": {
+      "melia": 25,
+      "doreios": 24,
+      "nereon": 22,
+      "thaleia": 12
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:258",
+    "block": 64,
+    "rotation": 2,
+    "share": 0,
+    "score": 20,
+    "turns": 10,
+    "seat": 0,
+    "turnPosition": 1,
+    "winnerCount": 2,
+    "scores": {
+      "thaleia": 24,
+      "melia": 24,
+      "nereon": 20,
+      "doreios": 19
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:259",
+    "block": 64,
+    "rotation": 3,
+    "share": 0,
+    "score": 25,
+    "turns": 14,
+    "seat": 3,
+    "turnPosition": 0,
+    "winnerCount": 1,
+    "scores": {
+      "doreios": 37,
+      "thaleia": 30,
+      "melia": 26,
+      "nereon": 25
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:260",
+    "block": 65,
+    "rotation": 0,
+    "share": 0,
+    "score": 24,
+    "turns": 11,
+    "seat": 3,
+    "turnPosition": 3,
+    "winnerCount": 1,
+    "scores": {
+      "thaleia": 30,
+      "melia": 24,
+      "nereon": 24,
+      "doreios": 21
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:261",
+    "block": 65,
+    "rotation": 1,
+    "share": 0,
+    "score": 30,
+    "turns": 13,
+    "seat": 2,
+    "turnPosition": 2,
+    "winnerCount": 2,
+    "scores": {
+      "doreios": 31,
+      "thaleia": 31,
+      "nereon": 30,
+      "melia": 22
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:262",
+    "block": 65,
+    "rotation": 2,
+    "share": 0,
+    "score": 22,
+    "turns": 11,
+    "seat": 1,
+    "turnPosition": 1,
+    "winnerCount": 1,
+    "scores": {
+      "thaleia": 30,
+      "nereon": 22,
+      "doreios": 21,
+      "melia": 20
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:263",
+    "block": 65,
+    "rotation": 3,
+    "share": 0,
+    "score": 24,
+    "turns": 12,
+    "seat": 0,
+    "turnPosition": 0,
+    "winnerCount": 1,
+    "scores": {
+      "thaleia": 37,
+      "doreios": 27,
+      "nereon": 24,
+      "melia": 21
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:264",
+    "block": 66,
+    "rotation": 0,
+    "share": 0,
+    "score": 26,
+    "turns": 12,
+    "seat": 1,
+    "turnPosition": 2,
+    "winnerCount": 1,
+    "scores": {
+      "melia": 28,
+      "nereon": 26,
+      "doreios": 21,
+      "thaleia": 19
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:265",
+    "block": 66,
+    "rotation": 1,
+    "share": 0,
+    "score": 21,
+    "turns": 11,
+    "seat": 0,
+    "turnPosition": 1,
+    "winnerCount": 1,
+    "scores": {
+      "doreios": 28,
+      "melia": 27,
+      "nereon": 21,
+      "thaleia": 19
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:266",
+    "block": 66,
+    "rotation": 2,
+    "share": 1,
+    "score": 25,
+    "turns": 10,
+    "seat": 3,
+    "turnPosition": 0,
+    "winnerCount": 1,
+    "scores": {
+      "nereon": 25,
+      "doreios": 24,
+      "melia": 21,
+      "thaleia": 15
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:267",
+    "block": 66,
+    "rotation": 3,
+    "share": 1,
+    "score": 33,
+    "turns": 14,
+    "seat": 2,
+    "turnPosition": 3,
+    "winnerCount": 1,
+    "scores": {
+      "nereon": 33,
+      "melia": 32,
+      "doreios": 27,
+      "thaleia": 24
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:268",
+    "block": 67,
+    "rotation": 0,
+    "share": 0,
+    "score": 20,
+    "turns": 10,
+    "seat": 1,
+    "turnPosition": 2,
+    "winnerCount": 3,
+    "scores": {
+      "melia": 24,
+      "doreios": 24,
+      "thaleia": 24,
+      "nereon": 20
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:269",
+    "block": 67,
+    "rotation": 1,
+    "share": 0,
+    "score": 29,
+    "turns": 13,
+    "seat": 0,
+    "turnPosition": 1,
+    "winnerCount": 1,
+    "scores": {
+      "melia": 34,
+      "nereon": 29,
+      "doreios": 24,
+      "thaleia": 22
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:270",
+    "block": 67,
+    "rotation": 2,
+    "share": 0,
+    "score": 24,
+    "turns": 11,
+    "seat": 3,
+    "turnPosition": 0,
+    "winnerCount": 1,
+    "scores": {
+      "thaleia": 27,
+      "nereon": 24,
+      "melia": 21,
+      "doreios": 18
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:271",
+    "block": 67,
+    "rotation": 3,
+    "share": 0,
+    "score": 25,
+    "turns": 13,
+    "seat": 2,
+    "turnPosition": 3,
+    "winnerCount": 1,
+    "scores": {
+      "thaleia": 37,
+      "melia": 31,
+      "nereon": 25,
+      "doreios": 22
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:272",
+    "block": 68,
+    "rotation": 0,
+    "share": 1,
+    "score": 26,
+    "turns": 11,
+    "seat": 2,
+    "turnPosition": 3,
+    "winnerCount": 1,
+    "scores": {
+      "nereon": 26,
+      "melia": 24,
+      "thaleia": 24,
+      "doreios": 21
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:273",
+    "block": 68,
+    "rotation": 1,
+    "share": 0,
+    "score": 25,
+    "turns": 12,
+    "seat": 1,
+    "turnPosition": 2,
+    "winnerCount": 1,
+    "scores": {
+      "thaleia": 32,
+      "nereon": 25,
+      "melia": 25,
+      "doreios": 22
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:274",
+    "block": 68,
+    "rotation": 2,
+    "share": 0,
+    "score": 17,
+    "turns": 11,
+    "seat": 0,
+    "turnPosition": 1,
+    "winnerCount": 1,
+    "scores": {
+      "melia": 27,
+      "thaleia": 24,
+      "doreios": 21,
+      "nereon": 17
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:275",
+    "block": 68,
+    "rotation": 3,
+    "share": 0,
+    "score": 25,
+    "turns": 12,
+    "seat": 3,
+    "turnPosition": 0,
+    "winnerCount": 1,
+    "scores": {
+      "melia": 28,
+      "doreios": 25,
+      "nereon": 25,
+      "thaleia": 21
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:276",
+    "block": 69,
+    "rotation": 0,
+    "share": 0,
+    "score": 22,
+    "turns": 10,
+    "seat": 3,
+    "turnPosition": 1,
+    "winnerCount": 1,
+    "scores": {
+      "melia": 26,
+      "nereon": 22,
+      "thaleia": 18,
+      "doreios": 18
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:277",
+    "block": 69,
+    "rotation": 1,
+    "share": 0,
+    "score": 30,
+    "turns": 12,
+    "seat": 2,
+    "turnPosition": 0,
+    "winnerCount": 1,
+    "scores": {
+      "melia": 33,
+      "nereon": 30,
+      "thaleia": 25,
+      "doreios": 21
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:278",
+    "block": 69,
+    "rotation": 2,
+    "share": 0,
+    "score": 28,
+    "turns": 13,
+    "seat": 1,
+    "turnPosition": 3,
+    "winnerCount": 1,
+    "scores": {
+      "thaleia": 36,
+      "melia": 30,
+      "nereon": 28,
+      "doreios": 21
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:279",
+    "block": 69,
+    "rotation": 3,
+    "share": 0,
+    "score": 26,
+    "turns": 11,
+    "seat": 0,
+    "turnPosition": 2,
+    "winnerCount": 1,
+    "scores": {
+      "thaleia": 33,
+      "nereon": 26,
+      "doreios": 24,
+      "melia": 23
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:280",
+    "block": 70,
+    "rotation": 0,
+    "share": 0,
+    "score": 20,
+    "turns": 11,
+    "seat": 2,
+    "turnPosition": 2,
+    "winnerCount": 1,
+    "scores": {
+      "thaleia": 25,
+      "doreios": 24,
+      "melia": 23,
+      "nereon": 20
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:281",
+    "block": 70,
+    "rotation": 1,
+    "share": 0,
+    "score": 29,
+    "turns": 16,
+    "seat": 1,
+    "turnPosition": 1,
+    "winnerCount": 1,
+    "scores": {
+      "doreios": 33,
+      "thaleia": 31,
+      "nereon": 29,
+      "melia": 28
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:282",
+    "block": 70,
+    "rotation": 2,
+    "share": 0,
+    "score": 27,
+    "turns": 13,
+    "seat": 0,
+    "turnPosition": 0,
+    "winnerCount": 1,
+    "scores": {
+      "melia": 33,
+      "thaleia": 29,
+      "nereon": 27,
+      "doreios": 25
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:283",
+    "block": 70,
+    "rotation": 3,
+    "share": 0,
+    "score": 29,
+    "turns": 15,
+    "seat": 3,
+    "turnPosition": 3,
+    "winnerCount": 1,
+    "scores": {
+      "doreios": 37,
+      "nereon": 29,
+      "thaleia": 28,
+      "melia": 26
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:284",
+    "block": 71,
+    "rotation": 0,
+    "share": 0,
+    "score": 28,
+    "turns": 14,
+    "seat": 3,
+    "turnPosition": 3,
+    "winnerCount": 2,
+    "scores": {
+      "melia": 31,
+      "thaleia": 31,
+      "nereon": 28,
+      "doreios": 27
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:285",
+    "block": 71,
+    "rotation": 1,
+    "share": 0,
+    "score": 17,
+    "turns": 10,
+    "seat": 2,
+    "turnPosition": 2,
+    "winnerCount": 1,
+    "scores": {
+      "thaleia": 24,
+      "melia": 22,
+      "doreios": 21,
+      "nereon": 17
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:286",
+    "block": 71,
+    "rotation": 2,
+    "share": 1,
+    "score": 29,
+    "turns": 12,
+    "seat": 1,
+    "turnPosition": 1,
+    "winnerCount": 1,
+    "scores": {
+      "nereon": 29,
+      "doreios": 27,
+      "melia": 24,
+      "thaleia": 19
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:287",
+    "block": 71,
+    "rotation": 3,
+    "share": 0,
+    "score": 28,
+    "turns": 12,
+    "seat": 0,
+    "turnPosition": 0,
+    "winnerCount": 1,
+    "scores": {
+      "melia": 31,
+      "nereon": 28,
+      "doreios": 24,
+      "thaleia": 16
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:288",
+    "block": 72,
+    "rotation": 0,
+    "share": 0.5,
+    "score": 36,
+    "turns": 15,
+    "seat": 1,
+    "turnPosition": 1,
+    "winnerCount": 2,
+    "scores": {
+      "melia": 36,
+      "nereon": 36,
+      "doreios": 26,
+      "thaleia": 22
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:289",
+    "block": 72,
+    "rotation": 1,
+    "share": 0,
+    "score": 22,
+    "turns": 11,
+    "seat": 0,
+    "turnPosition": 0,
+    "winnerCount": 1,
+    "scores": {
+      "melia": 27,
+      "nereon": 22,
+      "thaleia": 22,
+      "doreios": 16
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:290",
+    "block": 72,
+    "rotation": 2,
+    "share": 0,
+    "score": 28,
+    "turns": 13,
+    "seat": 3,
+    "turnPosition": 3,
+    "winnerCount": 1,
+    "scores": {
+      "melia": 31,
+      "thaleia": 28,
+      "nereon": 28,
+      "doreios": 21
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:291",
+    "block": 72,
+    "rotation": 3,
+    "share": 0,
+    "score": 25,
+    "turns": 11,
+    "seat": 2,
+    "turnPosition": 2,
+    "winnerCount": 1,
+    "scores": {
+      "thaleia": 27,
+      "nereon": 25,
+      "doreios": 24,
+      "melia": 24
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:292",
+    "block": 73,
+    "rotation": 0,
+    "share": 0,
+    "score": 26,
+    "turns": 11,
+    "seat": 1,
+    "turnPosition": 1,
+    "winnerCount": 1,
+    "scores": {
+      "thaleia": 27,
+      "nereon": 26,
+      "melia": 24,
+      "doreios": 17
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:293",
+    "block": 73,
+    "rotation": 1,
+    "share": 0,
+    "score": 31,
+    "turns": 13,
+    "seat": 0,
+    "turnPosition": 0,
+    "winnerCount": 1,
+    "scores": {
+      "melia": 33,
+      "nereon": 31,
+      "thaleia": 28,
+      "doreios": 18
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:294",
+    "block": 73,
+    "rotation": 2,
+    "share": 0,
+    "score": 26,
+    "turns": 12,
+    "seat": 3,
+    "turnPosition": 3,
+    "winnerCount": 1,
+    "scores": {
+      "thaleia": 33,
+      "nereon": 26,
+      "melia": 22,
+      "doreios": 18
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:295",
+    "block": 73,
+    "rotation": 3,
+    "share": 0,
+    "score": 25,
+    "turns": 12,
+    "seat": 2,
+    "turnPosition": 2,
+    "winnerCount": 1,
+    "scores": {
+      "thaleia": 36,
+      "nereon": 25,
+      "melia": 24,
+      "doreios": 22
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:296",
+    "block": 74,
+    "rotation": 0,
+    "share": 0,
+    "score": 26,
+    "turns": 11,
+    "seat": 2,
+    "turnPosition": 0,
+    "winnerCount": 1,
+    "scores": {
+      "thaleia": 27,
+      "nereon": 26,
+      "doreios": 24,
+      "melia": 22
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:297",
+    "block": 74,
+    "rotation": 1,
+    "share": 0,
+    "score": 16,
+    "turns": 11,
+    "seat": 1,
+    "turnPosition": 3,
+    "winnerCount": 1,
+    "scores": {
+      "melia": 28,
+      "doreios": 24,
+      "thaleia": 22,
+      "nereon": 16
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:298",
+    "block": 74,
+    "rotation": 2,
+    "share": 0,
+    "score": 22,
+    "turns": 11,
+    "seat": 0,
+    "turnPosition": 2,
+    "winnerCount": 1,
+    "scores": {
+      "melia": 28,
+      "nereon": 22,
+      "doreios": 21,
+      "thaleia": 18
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:299",
+    "block": 74,
+    "rotation": 3,
+    "share": 0,
+    "score": 30,
+    "turns": 14,
+    "seat": 3,
+    "turnPosition": 1,
+    "winnerCount": 1,
+    "scores": {
+      "thaleia": 34,
+      "doreios": 32,
+      "nereon": 30,
+      "melia": 21
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:300",
+    "block": 75,
+    "rotation": 0,
+    "share": 0,
+    "score": 21,
+    "turns": 15,
+    "seat": 3,
+    "turnPosition": 0,
+    "winnerCount": 2,
+    "scores": {
+      "melia": 38,
+      "thaleia": 38,
+      "doreios": 26,
+      "nereon": 21
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:301",
+    "block": 75,
+    "rotation": 1,
+    "share": 0,
+    "score": 19,
+    "turns": 10,
+    "seat": 2,
+    "turnPosition": 3,
+    "winnerCount": 1,
+    "scores": {
+      "melia": 22,
+      "doreios": 21,
+      "nereon": 19,
+      "thaleia": 18
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:302",
+    "block": 75,
+    "rotation": 2,
+    "share": 0,
+    "score": 24,
+    "turns": 12,
+    "seat": 1,
+    "turnPosition": 2,
+    "winnerCount": 1,
+    "scores": {
+      "doreios": 28,
+      "melia": 27,
+      "thaleia": 26,
+      "nereon": 24
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:303",
+    "block": 75,
+    "rotation": 3,
+    "share": 0,
+    "score": 23,
+    "turns": 10,
+    "seat": 0,
+    "turnPosition": 1,
+    "winnerCount": 1,
+    "scores": {
+      "thaleia": 24,
+      "nereon": 23,
+      "melia": 19,
+      "doreios": 16
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:304",
+    "block": 76,
+    "rotation": 0,
+    "share": 0,
+    "score": 27,
+    "turns": 12,
+    "seat": 2,
+    "turnPosition": 0,
+    "winnerCount": 1,
+    "scores": {
+      "melia": 29,
+      "nereon": 27,
+      "doreios": 22,
+      "thaleia": 21
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:305",
+    "block": 76,
+    "rotation": 1,
+    "share": 1,
+    "score": 29,
+    "turns": 14,
+    "seat": 1,
+    "turnPosition": 3,
+    "winnerCount": 1,
+    "scores": {
+      "nereon": 29,
+      "doreios": 28,
+      "thaleia": 28,
+      "melia": 28
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:306",
+    "block": 76,
+    "rotation": 2,
+    "share": 0.3333333333333333,
+    "score": 22,
+    "turns": 11,
+    "seat": 0,
+    "turnPosition": 2,
+    "winnerCount": 3,
+    "scores": {
+      "nereon": 22,
+      "melia": 22,
+      "doreios": 22,
+      "thaleia": 21
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:307",
+    "block": 76,
+    "rotation": 3,
+    "share": 0,
+    "score": 34,
+    "turns": 17,
+    "seat": 3,
+    "turnPosition": 1,
+    "winnerCount": 1,
+    "scores": {
+      "doreios": 39,
+      "nereon": 34,
+      "melia": 29,
+      "thaleia": 23
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:308",
+    "block": 77,
+    "rotation": 0,
+    "share": 0,
+    "score": 18,
+    "turns": 12,
+    "seat": 3,
+    "turnPosition": 3,
+    "winnerCount": 1,
+    "scores": {
+      "thaleia": 39,
+      "doreios": 24,
+      "melia": 23,
+      "nereon": 18
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:309",
+    "block": 77,
+    "rotation": 1,
+    "share": 0.5,
+    "score": 25,
+    "turns": 12,
+    "seat": 2,
+    "turnPosition": 2,
+    "winnerCount": 2,
+    "scores": {
+      "nereon": 25,
+      "melia": 25,
+      "doreios": 22,
+      "thaleia": 22
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:310",
+    "block": 77,
+    "rotation": 2,
+    "share": 0,
+    "score": 23,
+    "turns": 12,
+    "seat": 1,
+    "turnPosition": 1,
+    "winnerCount": 1,
+    "scores": {
+      "thaleia": 31,
+      "doreios": 27,
+      "melia": 25,
+      "nereon": 23
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:311",
+    "block": 77,
+    "rotation": 3,
+    "share": 0,
+    "score": 27,
+    "turns": 13,
+    "seat": 0,
+    "turnPosition": 0,
+    "winnerCount": 1,
+    "scores": {
+      "doreios": 33,
+      "thaleia": 28,
+      "nereon": 27,
+      "melia": 26
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:312",
+    "block": 78,
+    "rotation": 0,
+    "share": 0,
+    "score": 31,
+    "turns": 19,
+    "seat": 1,
+    "turnPosition": 3,
+    "winnerCount": 1,
+    "scores": {
+      "thaleia": 33,
+      "melia": 31,
+      "nereon": 31,
+      "doreios": 27
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:313",
+    "block": 78,
+    "rotation": 1,
+    "share": 0.5,
+    "score": 30,
+    "turns": 12,
+    "seat": 0,
+    "turnPosition": 2,
+    "winnerCount": 2,
+    "scores": {
+      "nereon": 30,
+      "thaleia": 30,
+      "doreios": 24,
+      "melia": 17
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:314",
+    "block": 78,
+    "rotation": 2,
+    "share": 0,
+    "score": 25,
+    "turns": 11,
+    "seat": 3,
+    "turnPosition": 1,
+    "winnerCount": 1,
+    "scores": {
+      "doreios": 27,
+      "thaleia": 25,
+      "nereon": 25,
+      "melia": 24
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:315",
+    "block": 78,
+    "rotation": 3,
+    "share": 0,
+    "score": 20,
+    "turns": 10,
+    "seat": 2,
+    "turnPosition": 0,
+    "winnerCount": 1,
+    "scores": {
+      "doreios": 24,
+      "melia": 21,
+      "nereon": 20,
+      "thaleia": 19
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:316",
+    "block": 79,
+    "rotation": 0,
+    "share": 0,
+    "score": 22,
+    "turns": 11,
+    "seat": 1,
+    "turnPosition": 1,
+    "winnerCount": 2,
+    "scores": {
+      "melia": 27,
+      "thaleia": 27,
+      "nereon": 22,
+      "doreios": 22
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:317",
+    "block": 79,
+    "rotation": 1,
+    "share": 0,
+    "score": 30,
+    "turns": 15,
+    "seat": 0,
+    "turnPosition": 0,
+    "winnerCount": 1,
+    "scores": {
+      "melia": 40,
+      "nereon": 30,
+      "doreios": 27,
+      "thaleia": 22
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:318",
+    "block": 79,
+    "rotation": 2,
+    "share": 0,
+    "score": 27,
+    "turns": 12,
+    "seat": 3,
+    "turnPosition": 3,
+    "winnerCount": 1,
+    "scores": {
+      "melia": 28,
+      "nereon": 27,
+      "doreios": 24,
+      "thaleia": 24
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:319",
+    "block": 79,
+    "rotation": 3,
+    "share": 0,
+    "score": 26,
+    "turns": 13,
+    "seat": 2,
+    "turnPosition": 2,
+    "winnerCount": 1,
+    "scores": {
+      "melia": 33,
+      "thaleia": 27,
+      "nereon": 26,
+      "doreios": 25
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:320",
+    "block": 80,
+    "rotation": 0,
+    "share": 0,
+    "score": 23,
+    "turns": 10,
+    "seat": 2,
+    "turnPosition": 0,
+    "winnerCount": 2,
+    "scores": {
+      "melia": 24,
+      "doreios": 24,
+      "nereon": 23,
+      "thaleia": 15
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:321",
+    "block": 80,
+    "rotation": 1,
+    "share": 0,
+    "score": 20,
+    "turns": 11,
+    "seat": 1,
+    "turnPosition": 3,
+    "winnerCount": 2,
+    "scores": {
+      "doreios": 27,
+      "melia": 27,
+      "thaleia": 24,
+      "nereon": 20
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:322",
+    "block": 80,
+    "rotation": 2,
+    "share": 0.5,
+    "score": 24,
+    "turns": 11,
+    "seat": 0,
+    "turnPosition": 2,
+    "winnerCount": 2,
+    "scores": {
+      "nereon": 24,
+      "thaleia": 24,
+      "melia": 22,
+      "doreios": 19
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:323",
+    "block": 80,
+    "rotation": 3,
+    "share": 1,
+    "score": 27,
+    "turns": 11,
+    "seat": 3,
+    "turnPosition": 1,
+    "winnerCount": 1,
+    "scores": {
+      "nereon": 27,
+      "melia": 22,
+      "doreios": 21,
+      "thaleia": 21
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:324",
+    "block": 81,
+    "rotation": 0,
+    "share": 0.5,
+    "score": 34,
+    "turns": 15,
+    "seat": 3,
+    "turnPosition": 1,
+    "winnerCount": 2,
+    "scores": {
+      "thaleia": 34,
+      "nereon": 34,
+      "melia": 31,
+      "doreios": 16
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:325",
+    "block": 81,
+    "rotation": 1,
+    "share": 1,
+    "score": 25,
+    "turns": 10,
+    "seat": 2,
+    "turnPosition": 0,
+    "winnerCount": 1,
+    "scores": {
+      "nereon": 25,
+      "melia": 24,
+      "thaleia": 21,
+      "doreios": 19
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:326",
+    "block": 81,
+    "rotation": 2,
+    "share": 0,
+    "score": 28,
+    "turns": 13,
+    "seat": 1,
+    "turnPosition": 3,
+    "winnerCount": 1,
+    "scores": {
+      "doreios": 36,
+      "nereon": 28,
+      "melia": 26,
+      "thaleia": 25
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:327",
+    "block": 81,
+    "rotation": 3,
+    "share": 1,
+    "score": 31,
+    "turns": 11,
+    "seat": 0,
+    "turnPosition": 2,
+    "winnerCount": 1,
+    "scores": {
+      "nereon": 31,
+      "melia": 29,
+      "doreios": 18,
+      "thaleia": 16
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:328",
+    "block": 82,
+    "rotation": 0,
+    "share": 0,
+    "score": 28,
+    "turns": 12,
+    "seat": 2,
+    "turnPosition": 2,
+    "winnerCount": 1,
+    "scores": {
+      "doreios": 30,
+      "nereon": 28,
+      "thaleia": 27,
+      "melia": 23
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:329",
+    "block": 82,
+    "rotation": 1,
+    "share": 0,
+    "score": 29,
+    "turns": 14,
+    "seat": 1,
+    "turnPosition": 1,
+    "winnerCount": 1,
+    "scores": {
+      "doreios": 35,
+      "nereon": 29,
+      "melia": 27,
+      "thaleia": 26
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:330",
+    "block": 82,
+    "rotation": 2,
+    "share": 0,
+    "score": 28,
+    "turns": 12,
+    "seat": 0,
+    "turnPosition": 0,
+    "winnerCount": 1,
+    "scores": {
+      "doreios": 30,
+      "nereon": 28,
+      "melia": 25,
+      "thaleia": 24
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:331",
+    "block": 82,
+    "rotation": 3,
+    "share": 0,
+    "score": 29,
+    "turns": 14,
+    "seat": 3,
+    "turnPosition": 3,
+    "winnerCount": 1,
+    "scores": {
+      "melia": 35,
+      "doreios": 33,
+      "nereon": 29,
+      "thaleia": 22
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:332",
+    "block": 83,
+    "rotation": 0,
+    "share": 0,
+    "score": 18,
+    "turns": 11,
+    "seat": 3,
+    "turnPosition": 2,
+    "winnerCount": 1,
+    "scores": {
+      "melia": 28,
+      "doreios": 24,
+      "thaleia": 21,
+      "nereon": 18
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:333",
+    "block": 83,
+    "rotation": 1,
+    "share": 0,
+    "score": 30,
+    "turns": 14,
+    "seat": 2,
+    "turnPosition": 1,
+    "winnerCount": 1,
+    "scores": {
+      "doreios": 31,
+      "nereon": 30,
+      "melia": 29,
+      "thaleia": 28
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:334",
+    "block": 83,
+    "rotation": 2,
+    "share": 1,
+    "score": 26,
+    "turns": 11,
+    "seat": 1,
+    "turnPosition": 0,
+    "winnerCount": 1,
+    "scores": {
+      "nereon": 26,
+      "thaleia": 25,
+      "doreios": 24,
+      "melia": 23
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:335",
+    "block": 83,
+    "rotation": 3,
+    "share": 0,
+    "score": 18,
+    "turns": 10,
+    "seat": 0,
+    "turnPosition": 3,
+    "winnerCount": 1,
+    "scores": {
+      "thaleia": 24,
+      "doreios": 21,
+      "melia": 19,
+      "nereon": 18
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:336",
+    "block": 84,
+    "rotation": 0,
+    "share": 1,
+    "score": 37,
+    "turns": 15,
+    "seat": 1,
+    "turnPosition": 1,
+    "winnerCount": 1,
+    "scores": {
+      "nereon": 37,
+      "doreios": 34,
+      "melia": 28,
+      "thaleia": 21
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:337",
+    "block": 84,
+    "rotation": 1,
+    "share": 0,
+    "score": 26,
+    "turns": 16,
+    "seat": 0,
+    "turnPosition": 0,
+    "winnerCount": 1,
+    "scores": {
+      "melia": 39,
+      "doreios": 31,
+      "nereon": 26,
+      "thaleia": 25
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:338",
+    "block": 84,
+    "rotation": 2,
+    "share": 1,
+    "score": 26,
+    "turns": 11,
+    "seat": 3,
+    "turnPosition": 3,
+    "winnerCount": 1,
+    "scores": {
+      "nereon": 26,
+      "doreios": 24,
+      "melia": 21,
+      "thaleia": 19
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:339",
+    "block": 84,
+    "rotation": 3,
+    "share": 0,
+    "score": 27,
+    "turns": 12,
+    "seat": 2,
+    "turnPosition": 2,
+    "winnerCount": 1,
+    "scores": {
+      "melia": 33,
+      "nereon": 27,
+      "thaleia": 24,
+      "doreios": 21
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:340",
+    "block": 85,
+    "rotation": 0,
+    "share": 0,
+    "score": 30,
+    "turns": 14,
+    "seat": 1,
+    "turnPosition": 0,
+    "winnerCount": 1,
+    "scores": {
+      "thaleia": 38,
+      "nereon": 30,
+      "melia": 26,
+      "doreios": 26
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:341",
+    "block": 85,
+    "rotation": 1,
+    "share": 0,
+    "score": 27,
+    "turns": 12,
+    "seat": 0,
+    "turnPosition": 3,
+    "winnerCount": 2,
+    "scores": {
+      "thaleia": 30,
+      "melia": 30,
+      "nereon": 27,
+      "doreios": 21
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:342",
+    "block": 85,
+    "rotation": 2,
+    "share": 0,
+    "score": 19,
+    "turns": 10,
+    "seat": 3,
+    "turnPosition": 2,
+    "winnerCount": 1,
+    "scores": {
+      "melia": 27,
+      "thaleia": 24,
+      "nereon": 19,
+      "doreios": 18
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:343",
+    "block": 85,
+    "rotation": 3,
+    "share": 1,
+    "score": 28,
+    "turns": 11,
+    "seat": 2,
+    "turnPosition": 1,
+    "winnerCount": 1,
+    "scores": {
+      "nereon": 28,
+      "thaleia": 27,
+      "melia": 21,
+      "doreios": 21
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:344",
+    "block": 86,
+    "rotation": 0,
+    "share": 0,
+    "score": 26,
+    "turns": 12,
+    "seat": 2,
+    "turnPosition": 1,
+    "winnerCount": 1,
+    "scores": {
+      "doreios": 34,
+      "nereon": 26,
+      "thaleia": 22,
+      "melia": 18
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:345",
+    "block": 86,
+    "rotation": 1,
+    "share": 0,
+    "score": 27,
+    "turns": 12,
+    "seat": 1,
+    "turnPosition": 0,
+    "winnerCount": 1,
+    "scores": {
+      "melia": 28,
+      "nereon": 27,
+      "doreios": 24,
+      "thaleia": 22
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:346",
+    "block": 86,
+    "rotation": 2,
+    "share": 0,
+    "score": 22,
+    "turns": 10,
+    "seat": 0,
+    "turnPosition": 3,
+    "winnerCount": 1,
+    "scores": {
+      "thaleia": 24,
+      "nereon": 22,
+      "doreios": 19,
+      "melia": 18
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:347",
+    "block": 86,
+    "rotation": 3,
+    "share": 0,
+    "score": 27,
+    "turns": 12,
+    "seat": 3,
+    "turnPosition": 2,
+    "winnerCount": 1,
+    "scores": {
+      "melia": 30,
+      "nereon": 27,
+      "doreios": 21,
+      "thaleia": 19
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:348",
+    "block": 87,
+    "rotation": 0,
+    "share": 0,
+    "score": 20,
+    "turns": 11,
+    "seat": 3,
+    "turnPosition": 1,
+    "winnerCount": 1,
+    "scores": {
+      "thaleia": 30,
+      "melia": 24,
+      "nereon": 20,
+      "doreios": 16
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:349",
+    "block": 87,
+    "rotation": 1,
+    "share": 0,
+    "score": 18,
+    "turns": 11,
+    "seat": 2,
+    "turnPosition": 0,
+    "winnerCount": 1,
+    "scores": {
+      "thaleia": 30,
+      "doreios": 25,
+      "melia": 21,
+      "nereon": 18
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:350",
+    "block": 87,
+    "rotation": 2,
+    "share": 0,
+    "score": 20,
+    "turns": 14,
+    "seat": 1,
+    "turnPosition": 3,
+    "winnerCount": 1,
+    "scores": {
+      "thaleia": 37,
+      "doreios": 30,
+      "melia": 24,
+      "nereon": 20
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:351",
+    "block": 87,
+    "rotation": 3,
+    "share": 1,
+    "score": 32,
+    "turns": 14,
+    "seat": 0,
+    "turnPosition": 2,
+    "winnerCount": 1,
+    "scores": {
+      "nereon": 32,
+      "melia": 31,
+      "thaleia": 30,
+      "doreios": 25
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:352",
+    "block": 88,
+    "rotation": 0,
+    "share": 0,
+    "score": 29,
+    "turns": 17,
+    "seat": 2,
+    "turnPosition": 1,
+    "winnerCount": 1,
+    "scores": {
+      "melia": 35,
+      "doreios": 33,
+      "nereon": 29,
+      "thaleia": 25
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:353",
+    "block": 88,
+    "rotation": 1,
+    "share": 0,
+    "score": 30,
+    "turns": 12,
+    "seat": 1,
+    "turnPosition": 0,
+    "winnerCount": 1,
+    "scores": {
+      "doreios": 33,
+      "nereon": 30,
+      "melia": 25,
+      "thaleia": 22
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:354",
+    "block": 88,
+    "rotation": 2,
+    "share": 1,
+    "score": 26,
+    "turns": 11,
+    "seat": 0,
+    "turnPosition": 3,
+    "winnerCount": 1,
+    "scores": {
+      "nereon": 26,
+      "melia": 25,
+      "doreios": 21,
+      "thaleia": 13
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:355",
+    "block": 88,
+    "rotation": 3,
+    "share": 1,
+    "score": 30,
+    "turns": 13,
+    "seat": 3,
+    "turnPosition": 2,
+    "winnerCount": 1,
+    "scores": {
+      "nereon": 30,
+      "melia": 29,
+      "thaleia": 27,
+      "doreios": 26
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:356",
+    "block": 89,
+    "rotation": 0,
+    "share": 0.3333333333333333,
+    "score": 24,
+    "turns": 11,
+    "seat": 3,
+    "turnPosition": 3,
+    "winnerCount": 3,
+    "scores": {
+      "melia": 24,
+      "doreios": 24,
+      "nereon": 24,
+      "thaleia": 19
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:357",
+    "block": 89,
+    "rotation": 1,
+    "share": 0,
+    "score": 20,
+    "turns": 10,
+    "seat": 2,
+    "turnPosition": 2,
+    "winnerCount": 1,
+    "scores": {
+      "thaleia": 27,
+      "doreios": 21,
+      "nereon": 20,
+      "melia": 16
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:358",
+    "block": 89,
+    "rotation": 2,
+    "share": 0,
+    "score": 16,
+    "turns": 11,
+    "seat": 1,
+    "turnPosition": 1,
+    "winnerCount": 1,
+    "scores": {
+      "thaleia": 33,
+      "melia": 25,
+      "doreios": 24,
+      "nereon": 16
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:359",
+    "block": 89,
+    "rotation": 3,
+    "share": 0,
+    "score": 20,
+    "turns": 10,
+    "seat": 0,
+    "turnPosition": 0,
+    "winnerCount": 1,
+    "scores": {
+      "thaleia": 24,
+      "nereon": 20,
+      "doreios": 19,
+      "melia": 18
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:360",
+    "block": 90,
+    "rotation": 0,
+    "share": 0,
+    "score": 24,
+    "turns": 11,
+    "seat": 1,
+    "turnPosition": 2,
+    "winnerCount": 1,
+    "scores": {
+      "thaleia": 27,
+      "melia": 24,
+      "nereon": 24,
+      "doreios": 24
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:361",
+    "block": 90,
+    "rotation": 1,
+    "share": 1,
+    "score": 35,
+    "turns": 13,
+    "seat": 0,
+    "turnPosition": 1,
+    "winnerCount": 1,
+    "scores": {
+      "nereon": 35,
+      "melia": 31,
+      "thaleia": 25,
+      "doreios": 23
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:362",
+    "block": 90,
+    "rotation": 2,
+    "share": 1,
+    "score": 30,
+    "turns": 12,
+    "seat": 3,
+    "turnPosition": 0,
+    "winnerCount": 1,
+    "scores": {
+      "nereon": 30,
+      "melia": 29,
+      "doreios": 27,
+      "thaleia": 25
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:363",
+    "block": 90,
+    "rotation": 3,
+    "share": 0,
+    "score": 32,
+    "turns": 16,
+    "seat": 2,
+    "turnPosition": 3,
+    "winnerCount": 1,
+    "scores": {
+      "melia": 41,
+      "nereon": 32,
+      "thaleia": 26,
+      "doreios": 23
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:364",
+    "block": 91,
+    "rotation": 0,
+    "share": 0,
+    "score": 21,
+    "turns": 13,
+    "seat": 1,
+    "turnPosition": 2,
+    "winnerCount": 2,
+    "scores": {
+      "melia": 30,
+      "thaleia": 30,
+      "doreios": 27,
+      "nereon": 21
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:365",
+    "block": 91,
+    "rotation": 1,
+    "share": 0,
+    "score": 27,
+    "turns": 13,
+    "seat": 0,
+    "turnPosition": 1,
+    "winnerCount": 1,
+    "scores": {
+      "melia": 33,
+      "nereon": 27,
+      "doreios": 24,
+      "thaleia": 22
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:366",
+    "block": 91,
+    "rotation": 2,
+    "share": 0,
+    "score": 25,
+    "turns": 12,
+    "seat": 3,
+    "turnPosition": 0,
+    "winnerCount": 1,
+    "scores": {
+      "melia": 27,
+      "nereon": 25,
+      "thaleia": 24,
+      "doreios": 22
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:367",
+    "block": 91,
+    "rotation": 3,
+    "share": 0,
+    "score": 19,
+    "turns": 10,
+    "seat": 2,
+    "turnPosition": 3,
+    "winnerCount": 1,
+    "scores": {
+      "thaleia": 24,
+      "doreios": 21,
+      "nereon": 19,
+      "melia": 16
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:368",
+    "block": 92,
+    "rotation": 0,
+    "share": 0,
+    "score": 27,
+    "turns": 11,
+    "seat": 2,
+    "turnPosition": 2,
+    "winnerCount": 1,
+    "scores": {
+      "melia": 30,
+      "nereon": 27,
+      "thaleia": 22,
+      "doreios": 16
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:369",
+    "block": 92,
+    "rotation": 1,
+    "share": 0,
+    "score": 24,
+    "turns": 11,
+    "seat": 1,
+    "turnPosition": 1,
+    "winnerCount": 1,
+    "scores": {
+      "thaleia": 25,
+      "nereon": 24,
+      "doreios": 21,
+      "melia": 18
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:370",
+    "block": 92,
+    "rotation": 2,
+    "share": 0,
+    "score": 21,
+    "turns": 11,
+    "seat": 0,
+    "turnPosition": 0,
+    "winnerCount": 2,
+    "scores": {
+      "doreios": 25,
+      "melia": 25,
+      "thaleia": 22,
+      "nereon": 21
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:371",
+    "block": 92,
+    "rotation": 3,
+    "share": 0,
+    "score": 16,
+    "turns": 13,
+    "seat": 3,
+    "turnPosition": 3,
+    "winnerCount": 1,
+    "scores": {
+      "doreios": 31,
+      "melia": 30,
+      "thaleia": 27,
+      "nereon": 16
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:372",
+    "block": 93,
+    "rotation": 0,
+    "share": 0.5,
+    "score": 26,
+    "turns": 10,
+    "seat": 3,
+    "turnPosition": 1,
+    "winnerCount": 2,
+    "scores": {
+      "melia": 26,
+      "nereon": 26,
+      "thaleia": 24,
+      "doreios": 15
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:373",
+    "block": 93,
+    "rotation": 1,
+    "share": 0,
+    "score": 27,
+    "turns": 12,
+    "seat": 2,
+    "turnPosition": 0,
+    "winnerCount": 1,
+    "scores": {
+      "melia": 31,
+      "doreios": 27,
+      "nereon": 27,
+      "thaleia": 18
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:374",
+    "block": 93,
+    "rotation": 2,
+    "share": 0,
+    "score": 20,
+    "turns": 10,
+    "seat": 1,
+    "turnPosition": 3,
+    "winnerCount": 1,
+    "scores": {
+      "thaleia": 24,
+      "doreios": 21,
+      "melia": 21,
+      "nereon": 20
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:375",
+    "block": 93,
+    "rotation": 3,
+    "share": 0,
+    "score": 22,
+    "turns": 11,
+    "seat": 0,
+    "turnPosition": 2,
+    "winnerCount": 1,
+    "scores": {
+      "melia": 26,
+      "thaleia": 25,
+      "nereon": 22,
+      "doreios": 22
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:376",
+    "block": 94,
+    "rotation": 0,
+    "share": 0,
+    "score": 22,
+    "turns": 10,
+    "seat": 2,
+    "turnPosition": 1,
+    "winnerCount": 1,
+    "scores": {
+      "doreios": 24,
+      "melia": 22,
+      "nereon": 22,
+      "thaleia": 16
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:377",
+    "block": 94,
+    "rotation": 1,
+    "share": 0,
+    "score": 21,
+    "turns": 13,
+    "seat": 1,
+    "turnPosition": 0,
+    "winnerCount": 1,
+    "scores": {
+      "doreios": 34,
+      "melia": 30,
+      "thaleia": 25,
+      "nereon": 21
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:378",
+    "block": 94,
+    "rotation": 2,
+    "share": 0,
+    "score": 20,
+    "turns": 10,
+    "seat": 0,
+    "turnPosition": 3,
+    "winnerCount": 2,
+    "scores": {
+      "thaleia": 21,
+      "melia": 21,
+      "nereon": 20,
+      "doreios": 19
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:379",
+    "block": 94,
+    "rotation": 3,
+    "share": 1,
+    "score": 25,
+    "turns": 10,
+    "seat": 3,
+    "turnPosition": 2,
+    "winnerCount": 1,
+    "scores": {
+      "nereon": 25,
+      "thaleia": 24,
+      "doreios": 24,
+      "melia": 18
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:380",
+    "block": 95,
+    "rotation": 0,
+    "share": 1,
+    "score": 22,
+    "turns": 10,
+    "seat": 3,
+    "turnPosition": 3,
+    "winnerCount": 1,
+    "scores": {
+      "nereon": 22,
+      "melia": 21,
+      "doreios": 18,
+      "thaleia": 18
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:381",
+    "block": 95,
+    "rotation": 1,
+    "share": 0,
+    "score": 24,
+    "turns": 11,
+    "seat": 2,
+    "turnPosition": 2,
+    "winnerCount": 1,
+    "scores": {
+      "thaleia": 27,
+      "melia": 26,
+      "nereon": 24,
+      "doreios": 19
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:382",
+    "block": 95,
+    "rotation": 2,
+    "share": 0,
+    "score": 26,
+    "turns": 12,
+    "seat": 1,
+    "turnPosition": 1,
+    "winnerCount": 1,
+    "scores": {
+      "thaleia": 31,
+      "nereon": 26,
+      "doreios": 25,
+      "melia": 14
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:383",
+    "block": 95,
+    "rotation": 3,
+    "share": 0,
+    "score": 26,
+    "turns": 11,
+    "seat": 0,
+    "turnPosition": 0,
+    "winnerCount": 1,
+    "scores": {
+      "melia": 28,
+      "nereon": 26,
+      "thaleia": 24,
+      "doreios": 21
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:384",
+    "block": 96,
+    "rotation": 0,
+    "share": 0.5,
+    "score": 32,
+    "turns": 13,
+    "seat": 1,
+    "turnPosition": 0,
+    "winnerCount": 2,
+    "scores": {
+      "melia": 32,
+      "nereon": 32,
+      "thaleia": 25,
+      "doreios": 21
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:385",
+    "block": 96,
+    "rotation": 1,
+    "share": 0,
+    "score": 32,
+    "turns": 19,
+    "seat": 0,
+    "turnPosition": 3,
+    "winnerCount": 1,
+    "scores": {
+      "melia": 34,
+      "nereon": 32,
+      "doreios": 32,
+      "thaleia": 22
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:386",
+    "block": 96,
+    "rotation": 2,
+    "share": 0,
+    "score": 28,
+    "turns": 13,
+    "seat": 3,
+    "turnPosition": 2,
+    "winnerCount": 1,
+    "scores": {
+      "melia": 35,
+      "nereon": 28,
+      "doreios": 25,
+      "thaleia": 24
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:387",
+    "block": 96,
+    "rotation": 3,
+    "share": 0,
+    "score": 24,
+    "turns": 13,
+    "seat": 2,
+    "turnPosition": 1,
+    "winnerCount": 1,
+    "scores": {
+      "melia": 39,
+      "thaleia": 28,
+      "doreios": 26,
+      "nereon": 24
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:388",
+    "block": 97,
+    "rotation": 0,
+    "share": 0,
+    "score": 22,
+    "turns": 10,
+    "seat": 1,
+    "turnPosition": 0,
+    "winnerCount": 1,
+    "scores": {
+      "thaleia": 25,
+      "melia": 24,
+      "nereon": 22,
+      "doreios": 22
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:389",
+    "block": 97,
+    "rotation": 1,
+    "share": 0,
+    "score": 26,
+    "turns": 12,
+    "seat": 0,
+    "turnPosition": 3,
+    "winnerCount": 1,
+    "scores": {
+      "melia": 31,
+      "nereon": 26,
+      "doreios": 24,
+      "thaleia": 21
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:390",
+    "block": 97,
+    "rotation": 2,
+    "share": 0,
+    "score": 22,
+    "turns": 10,
+    "seat": 3,
+    "turnPosition": 2,
+    "winnerCount": 1,
+    "scores": {
+      "melia": 24,
+      "nereon": 22,
+      "doreios": 21,
+      "thaleia": 18
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:391",
+    "block": 97,
+    "rotation": 3,
+    "share": 1,
+    "score": 32,
+    "turns": 13,
+    "seat": 2,
+    "turnPosition": 1,
+    "winnerCount": 1,
+    "scores": {
+      "nereon": 32,
+      "melia": 31,
+      "thaleia": 26,
+      "doreios": 23
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:392",
+    "block": 98,
+    "rotation": 0,
+    "share": 1,
+    "score": 36,
+    "turns": 14,
+    "seat": 2,
+    "turnPosition": 1,
+    "winnerCount": 1,
+    "scores": {
+      "nereon": 36,
+      "melia": 33,
+      "thaleia": 25,
+      "doreios": 25
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:393",
+    "block": 98,
+    "rotation": 1,
+    "share": 0,
+    "score": 27,
+    "turns": 12,
+    "seat": 1,
+    "turnPosition": 0,
+    "winnerCount": 1,
+    "scores": {
+      "melia": 33,
+      "thaleia": 30,
+      "nereon": 27,
+      "doreios": 22
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:394",
+    "block": 98,
+    "rotation": 2,
+    "share": 1,
+    "score": 25,
+    "turns": 11,
+    "seat": 0,
+    "turnPosition": 3,
+    "winnerCount": 1,
+    "scores": {
+      "nereon": 25,
+      "doreios": 24,
+      "melia": 21,
+      "thaleia": 21
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:395",
+    "block": 98,
+    "rotation": 3,
+    "share": 0,
+    "score": 15,
+    "turns": 10,
+    "seat": 3,
+    "turnPosition": 2,
+    "winnerCount": 2,
+    "scores": {
+      "doreios": 24,
+      "thaleia": 24,
+      "melia": 21,
+      "nereon": 15
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:396",
+    "block": 99,
+    "rotation": 0,
+    "share": 0,
+    "score": 30,
+    "turns": 14,
+    "seat": 3,
+    "turnPosition": 3,
+    "winnerCount": 1,
+    "scores": {
+      "melia": 36,
+      "nereon": 30,
+      "thaleia": 27,
+      "doreios": 22
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:397",
+    "block": 99,
+    "rotation": 1,
+    "share": 1,
+    "score": 22,
+    "turns": 10,
+    "seat": 2,
+    "turnPosition": 2,
+    "winnerCount": 1,
+    "scores": {
+      "nereon": 22,
+      "doreios": 21,
+      "melia": 20,
+      "thaleia": 18
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:398",
+    "block": 99,
+    "rotation": 2,
+    "share": 0,
+    "score": 25,
+    "turns": 14,
+    "seat": 1,
+    "turnPosition": 1,
+    "winnerCount": 1,
+    "scores": {
+      "melia": 39,
+      "nereon": 25,
+      "thaleia": 25,
+      "doreios": 24
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:399",
+    "block": 99,
+    "rotation": 3,
+    "share": 1,
+    "score": 29,
+    "turns": 11,
+    "seat": 0,
+    "turnPosition": 0,
+    "winnerCount": 1,
+    "scores": {
+      "nereon": 29,
+      "melia": 27,
+      "thaleia": 24,
+      "doreios": 22
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:400",
+    "block": 100,
+    "rotation": 0,
+    "share": 0,
+    "score": 25,
+    "turns": 12,
+    "seat": 2,
+    "turnPosition": 3,
+    "winnerCount": 1,
+    "scores": {
+      "melia": 33,
+      "thaleia": 27,
+      "nereon": 25,
+      "doreios": 21
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:401",
+    "block": 100,
+    "rotation": 1,
+    "share": 0,
+    "score": 23,
+    "turns": 12,
+    "seat": 1,
+    "turnPosition": 2,
+    "winnerCount": 1,
+    "scores": {
+      "melia": 31,
+      "doreios": 27,
+      "nereon": 23,
+      "thaleia": 21
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:402",
+    "block": 100,
+    "rotation": 2,
+    "share": 0,
+    "score": 19,
+    "turns": 11,
+    "seat": 0,
+    "turnPosition": 1,
+    "winnerCount": 1,
+    "scores": {
+      "doreios": 27,
+      "melia": 26,
+      "nereon": 19,
+      "thaleia": 18
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:403",
+    "block": 100,
+    "rotation": 3,
+    "share": 1,
+    "score": 30,
+    "turns": 12,
+    "seat": 3,
+    "turnPosition": 0,
+    "winnerCount": 1,
+    "scores": {
+      "nereon": 30,
+      "doreios": 26,
+      "melia": 25,
+      "thaleia": 19
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:404",
+    "block": 101,
+    "rotation": 0,
+    "share": 0,
+    "score": 19,
+    "turns": 11,
+    "seat": 3,
+    "turnPosition": 0,
+    "winnerCount": 1,
+    "scores": {
+      "thaleia": 30,
+      "melia": 25,
+      "doreios": 25,
+      "nereon": 19
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:405",
+    "block": 101,
+    "rotation": 1,
+    "share": 1,
+    "score": 22,
+    "turns": 10,
+    "seat": 2,
+    "turnPosition": 3,
+    "winnerCount": 1,
+    "scores": {
+      "nereon": 22,
+      "doreios": 21,
+      "thaleia": 21,
+      "melia": 21
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:406",
+    "block": 101,
+    "rotation": 2,
+    "share": 0,
+    "score": 16,
+    "turns": 9,
+    "seat": 1,
+    "turnPosition": 2,
+    "winnerCount": 1,
+    "scores": {
+      "doreios": 24,
+      "thaleia": 21,
+      "melia": 19,
+      "nereon": 16
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:407",
+    "block": 101,
+    "rotation": 3,
+    "share": 0,
+    "score": 23,
+    "turns": 10,
+    "seat": 0,
+    "turnPosition": 1,
+    "winnerCount": 1,
+    "scores": {
+      "doreios": 30,
+      "nereon": 23,
+      "thaleia": 21,
+      "melia": 13
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:408",
+    "block": 102,
+    "rotation": 0,
+    "share": 0,
+    "score": 26,
+    "turns": 12,
+    "seat": 1,
+    "turnPosition": 3,
+    "winnerCount": 1,
+    "scores": {
+      "melia": 30,
+      "doreios": 27,
+      "nereon": 26,
+      "thaleia": 24
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:409",
+    "block": 102,
+    "rotation": 1,
+    "share": 0,
+    "score": 29,
+    "turns": 15,
+    "seat": 0,
+    "turnPosition": 2,
+    "winnerCount": 1,
+    "scores": {
+      "melia": 34,
+      "doreios": 30,
+      "nereon": 29,
+      "thaleia": 25
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:410",
+    "block": 102,
+    "rotation": 2,
+    "share": 1,
+    "score": 33,
+    "turns": 14,
+    "seat": 3,
+    "turnPosition": 1,
+    "winnerCount": 1,
+    "scores": {
+      "nereon": 33,
+      "doreios": 32,
+      "thaleia": 27,
+      "melia": 27
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:411",
+    "block": 102,
+    "rotation": 3,
+    "share": 0,
+    "score": 26,
+    "turns": 14,
+    "seat": 2,
+    "turnPosition": 0,
+    "winnerCount": 2,
+    "scores": {
+      "melia": 32,
+      "thaleia": 32,
+      "doreios": 31,
+      "nereon": 26
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:412",
+    "block": 103,
+    "rotation": 0,
+    "share": 0,
+    "score": 16,
+    "turns": 12,
+    "seat": 1,
+    "turnPosition": 0,
+    "winnerCount": 1,
+    "scores": {
+      "thaleia": 38,
+      "melia": 22,
+      "nereon": 16,
+      "doreios": 16
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:413",
+    "block": 103,
+    "rotation": 1,
+    "share": 1,
+    "score": 26,
+    "turns": 11,
+    "seat": 0,
+    "turnPosition": 3,
+    "winnerCount": 1,
+    "scores": {
+      "nereon": 26,
+      "thaleia": 24,
+      "melia": 21,
+      "doreios": 18
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:414",
+    "block": 103,
+    "rotation": 2,
+    "share": 0,
+    "score": 27,
+    "turns": 15,
+    "seat": 3,
+    "turnPosition": 2,
+    "winnerCount": 1,
+    "scores": {
+      "thaleia": 37,
+      "melia": 32,
+      "nereon": 27,
+      "doreios": 24
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:415",
+    "block": 103,
+    "rotation": 3,
+    "share": 0,
+    "score": 25,
+    "turns": 13,
+    "seat": 2,
+    "turnPosition": 1,
+    "winnerCount": 1,
+    "scores": {
+      "melia": 34,
+      "thaleia": 30,
+      "doreios": 29,
+      "nereon": 25
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:416",
+    "block": 104,
+    "rotation": 0,
+    "share": 1,
+    "score": 26,
+    "turns": 11,
+    "seat": 2,
+    "turnPosition": 3,
+    "winnerCount": 1,
+    "scores": {
+      "nereon": 26,
+      "doreios": 24,
+      "thaleia": 23,
+      "melia": 21
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:417",
+    "block": 104,
+    "rotation": 1,
+    "share": 0,
+    "score": 22,
+    "turns": 11,
+    "seat": 1,
+    "turnPosition": 2,
+    "winnerCount": 2,
+    "scores": {
+      "doreios": 27,
+      "melia": 27,
+      "nereon": 22,
+      "thaleia": 18
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:418",
+    "block": 104,
+    "rotation": 2,
+    "share": 0,
+    "score": 20,
+    "turns": 12,
+    "seat": 0,
+    "turnPosition": 1,
+    "winnerCount": 1,
+    "scores": {
+      "melia": 28,
+      "doreios": 25,
+      "thaleia": 23,
+      "nereon": 20
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:419",
+    "block": 104,
+    "rotation": 3,
+    "share": 0,
+    "score": 32,
+    "turns": 15,
+    "seat": 3,
+    "turnPosition": 0,
+    "winnerCount": 1,
+    "scores": {
+      "thaleia": 36,
+      "nereon": 32,
+      "melia": 28,
+      "doreios": 25
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:420",
+    "block": 105,
+    "rotation": 0,
+    "share": 0,
+    "score": 28,
+    "turns": 13,
+    "seat": 3,
+    "turnPosition": 3,
+    "winnerCount": 1,
+    "scores": {
+      "melia": 37,
+      "nereon": 28,
+      "doreios": 25,
+      "thaleia": 24
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:421",
+    "block": 105,
+    "rotation": 1,
+    "share": 0,
+    "score": 26,
+    "turns": 12,
+    "seat": 2,
+    "turnPosition": 2,
+    "winnerCount": 1,
+    "scores": {
+      "thaleia": 31,
+      "nereon": 26,
+      "melia": 25,
+      "doreios": 21
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:422",
+    "block": 105,
+    "rotation": 2,
+    "share": 1,
+    "score": 35,
+    "turns": 15,
+    "seat": 1,
+    "turnPosition": 1,
+    "winnerCount": 1,
+    "scores": {
+      "nereon": 35,
+      "melia": 33,
+      "doreios": 27,
+      "thaleia": 25
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:423",
+    "block": 105,
+    "rotation": 3,
+    "share": 1,
+    "score": 27,
+    "turns": 11,
+    "seat": 0,
+    "turnPosition": 0,
+    "winnerCount": 1,
+    "scores": {
+      "nereon": 27,
+      "doreios": 24,
+      "melia": 23,
+      "thaleia": 21
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:424",
+    "block": 106,
+    "rotation": 0,
+    "share": 0,
+    "score": 19,
+    "turns": 12,
+    "seat": 2,
+    "turnPosition": 1,
+    "winnerCount": 1,
+    "scores": {
+      "melia": 32,
+      "doreios": 30,
+      "thaleia": 27,
+      "nereon": 19
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:425",
+    "block": 106,
+    "rotation": 1,
+    "share": 0,
+    "score": 23,
+    "turns": 11,
+    "seat": 1,
+    "turnPosition": 0,
+    "winnerCount": 1,
+    "scores": {
+      "thaleia": 25,
+      "melia": 24,
+      "nereon": 23,
+      "doreios": 21
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:426",
+    "block": 106,
+    "rotation": 2,
+    "share": 0,
+    "score": 26,
+    "turns": 12,
+    "seat": 0,
+    "turnPosition": 3,
+    "winnerCount": 1,
+    "scores": {
+      "doreios": 30,
+      "nereon": 26,
+      "thaleia": 22,
+      "melia": 21
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:427",
+    "block": 106,
+    "rotation": 3,
+    "share": 1,
+    "score": 36,
+    "turns": 19,
+    "seat": 3,
+    "turnPosition": 2,
+    "winnerCount": 1,
+    "scores": {
+      "nereon": 36,
+      "melia": 32,
+      "doreios": 32,
+      "thaleia": 22
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:428",
+    "block": 107,
+    "rotation": 0,
+    "share": 0,
+    "score": 23,
+    "turns": 11,
+    "seat": 3,
+    "turnPosition": 3,
+    "winnerCount": 1,
+    "scores": {
+      "melia": 25,
+      "doreios": 24,
+      "nereon": 23,
+      "thaleia": 18
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:429",
+    "block": 107,
+    "rotation": 1,
+    "share": 0,
+    "score": 19,
+    "turns": 10,
+    "seat": 2,
+    "turnPosition": 2,
+    "winnerCount": 1,
+    "scores": {
+      "doreios": 27,
+      "melia": 23,
+      "thaleia": 21,
+      "nereon": 19
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:430",
+    "block": 107,
+    "rotation": 2,
+    "share": 0,
+    "score": 20,
+    "turns": 11,
+    "seat": 1,
+    "turnPosition": 1,
+    "winnerCount": 1,
+    "scores": {
+      "melia": 24,
+      "thaleia": 23,
+      "doreios": 22,
+      "nereon": 20
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:431",
+    "block": 107,
+    "rotation": 3,
+    "share": 0,
+    "score": 20,
+    "turns": 11,
+    "seat": 0,
+    "turnPosition": 0,
+    "winnerCount": 1,
+    "scores": {
+      "doreios": 27,
+      "thaleia": 24,
+      "nereon": 20,
+      "melia": 19
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:432",
+    "block": 108,
+    "rotation": 0,
+    "share": 0,
+    "score": 27,
+    "turns": 13,
+    "seat": 1,
+    "turnPosition": 1,
+    "winnerCount": 1,
+    "scores": {
+      "melia": 37,
+      "nereon": 27,
+      "thaleia": 25,
+      "doreios": 25
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:433",
+    "block": 108,
+    "rotation": 1,
+    "share": 0,
+    "score": 33,
+    "turns": 15,
+    "seat": 0,
+    "turnPosition": 0,
+    "winnerCount": 1,
+    "scores": {
+      "melia": 35,
+      "nereon": 33,
+      "thaleia": 30,
+      "doreios": 22
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:434",
+    "block": 108,
+    "rotation": 2,
+    "share": 0,
+    "score": 28,
+    "turns": 12,
+    "seat": 3,
+    "turnPosition": 3,
+    "winnerCount": 1,
+    "scores": {
+      "thaleia": 30,
+      "nereon": 28,
+      "doreios": 25,
+      "melia": 24
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:435",
+    "block": 108,
+    "rotation": 3,
+    "share": 0,
+    "score": 31,
+    "turns": 15,
+    "seat": 2,
+    "turnPosition": 2,
+    "winnerCount": 1,
+    "scores": {
+      "melia": 35,
+      "nereon": 31,
+      "thaleia": 28,
+      "doreios": 22
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:436",
+    "block": 109,
+    "rotation": 0,
+    "share": 1,
+    "score": 27,
+    "turns": 12,
+    "seat": 1,
+    "turnPosition": 2,
+    "winnerCount": 1,
+    "scores": {
+      "nereon": 27,
+      "thaleia": 24,
+      "melia": 23,
+      "doreios": 22
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:437",
+    "block": 109,
+    "rotation": 1,
+    "share": 0,
+    "score": 22,
+    "turns": 10,
+    "seat": 0,
+    "turnPosition": 1,
+    "winnerCount": 2,
+    "scores": {
+      "thaleia": 27,
+      "melia": 27,
+      "nereon": 22,
+      "doreios": 18
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:438",
+    "block": 109,
+    "rotation": 2,
+    "share": 0,
+    "score": 21,
+    "turns": 11,
+    "seat": 3,
+    "turnPosition": 0,
+    "winnerCount": 1,
+    "scores": {
+      "thaleia": 28,
+      "melia": 24,
+      "doreios": 22,
+      "nereon": 21
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:439",
+    "block": 109,
+    "rotation": 3,
+    "share": 0,
+    "score": 27,
+    "turns": 13,
+    "seat": 2,
+    "turnPosition": 3,
+    "winnerCount": 1,
+    "scores": {
+      "thaleia": 32,
+      "nereon": 27,
+      "melia": 26,
+      "doreios": 24
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:440",
+    "block": 110,
+    "rotation": 0,
+    "share": 0,
+    "score": 22,
+    "turns": 10,
+    "seat": 2,
+    "turnPosition": 2,
+    "winnerCount": 1,
+    "scores": {
+      "melia": 27,
+      "nereon": 22,
+      "doreios": 22,
+      "thaleia": 17
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:441",
+    "block": 110,
+    "rotation": 1,
+    "share": 0,
+    "score": 22,
+    "turns": 12,
+    "seat": 1,
+    "turnPosition": 1,
+    "winnerCount": 3,
+    "scores": {
+      "thaleia": 27,
+      "doreios": 27,
+      "melia": 27,
+      "nereon": 22
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:442",
+    "block": 110,
+    "rotation": 2,
+    "share": 0,
+    "score": 27,
+    "turns": 12,
+    "seat": 0,
+    "turnPosition": 0,
+    "winnerCount": 1,
+    "scores": {
+      "doreios": 33,
+      "nereon": 27,
+      "melia": 24,
+      "thaleia": 21
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:443",
+    "block": 110,
+    "rotation": 3,
+    "share": 0,
+    "score": 23,
+    "turns": 11,
+    "seat": 3,
+    "turnPosition": 3,
+    "winnerCount": 1,
+    "scores": {
+      "doreios": 27,
+      "melia": 26,
+      "nereon": 23,
+      "thaleia": 18
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:444",
+    "block": 111,
+    "rotation": 0,
+    "share": 0,
+    "score": 25,
+    "turns": 11,
+    "seat": 3,
+    "turnPosition": 0,
+    "winnerCount": 1,
+    "scores": {
+      "melia": 27,
+      "nereon": 25,
+      "doreios": 24,
+      "thaleia": 22
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:445",
+    "block": 111,
+    "rotation": 1,
+    "share": 0,
+    "score": 31,
+    "turns": 14,
+    "seat": 2,
+    "turnPosition": 3,
+    "winnerCount": 1,
+    "scores": {
+      "thaleia": 35,
+      "nereon": 31,
+      "melia": 30,
+      "doreios": 24
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:446",
+    "block": 111,
+    "rotation": 2,
+    "share": 0,
+    "score": 30,
+    "turns": 13,
+    "seat": 1,
+    "turnPosition": 2,
+    "winnerCount": 1,
+    "scores": {
+      "thaleia": 37,
+      "nereon": 30,
+      "doreios": 27,
+      "melia": 21
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:447",
+    "block": 111,
+    "rotation": 3,
+    "share": 0,
+    "score": 27,
+    "turns": 12,
+    "seat": 0,
+    "turnPosition": 1,
+    "winnerCount": 1,
+    "scores": {
+      "thaleia": 33,
+      "melia": 29,
+      "nereon": 27,
+      "doreios": 18
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:448",
+    "block": 112,
+    "rotation": 0,
+    "share": 1,
+    "score": 31,
+    "turns": 12,
+    "seat": 2,
+    "turnPosition": 2,
+    "winnerCount": 1,
+    "scores": {
+      "nereon": 31,
+      "melia": 26,
+      "doreios": 24,
+      "thaleia": 21
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:449",
+    "block": 112,
+    "rotation": 1,
+    "share": 0,
+    "score": 23,
+    "turns": 11,
+    "seat": 1,
+    "turnPosition": 1,
+    "winnerCount": 2,
+    "scores": {
+      "doreios": 27,
+      "melia": 27,
+      "nereon": 23,
+      "thaleia": 15
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:450",
+    "block": 112,
+    "rotation": 2,
+    "share": 1,
+    "score": 35,
+    "turns": 14,
+    "seat": 0,
+    "turnPosition": 0,
+    "winnerCount": 1,
+    "scores": {
+      "nereon": 35,
+      "doreios": 32,
+      "thaleia": 25,
+      "melia": 23
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:451",
+    "block": 112,
+    "rotation": 3,
+    "share": 1,
+    "score": 36,
+    "turns": 14,
+    "seat": 3,
+    "turnPosition": 3,
+    "winnerCount": 1,
+    "scores": {
+      "nereon": 36,
+      "thaleia": 30,
+      "doreios": 28,
+      "melia": 20
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:452",
+    "block": 113,
+    "rotation": 0,
+    "share": 0,
+    "score": 20,
+    "turns": 12,
+    "seat": 3,
+    "turnPosition": 2,
+    "winnerCount": 1,
+    "scores": {
+      "melia": 28,
+      "thaleia": 24,
+      "doreios": 22,
+      "nereon": 20
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:453",
+    "block": 113,
+    "rotation": 1,
+    "share": 1,
+    "score": 28,
+    "turns": 11,
+    "seat": 2,
+    "turnPosition": 1,
+    "winnerCount": 1,
+    "scores": {
+      "nereon": 28,
+      "thaleia": 24,
+      "melia": 23,
+      "doreios": 20
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:454",
+    "block": 113,
+    "rotation": 2,
+    "share": 0,
+    "score": 23,
+    "turns": 11,
+    "seat": 1,
+    "turnPosition": 0,
+    "winnerCount": 1,
+    "scores": {
+      "thaleia": 25,
+      "doreios": 24,
+      "nereon": 23,
+      "melia": 22
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:455",
+    "block": 113,
+    "rotation": 3,
+    "share": 0,
+    "score": 16,
+    "turns": 11,
+    "seat": 0,
+    "turnPosition": 3,
+    "winnerCount": 1,
+    "scores": {
+      "thaleia": 30,
+      "doreios": 24,
+      "melia": 21,
+      "nereon": 16
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:456",
+    "block": 114,
+    "rotation": 0,
+    "share": 0,
+    "score": 24,
+    "turns": 11,
+    "seat": 1,
+    "turnPosition": 2,
+    "winnerCount": 1,
+    "scores": {
+      "thaleia": 25,
+      "melia": 24,
+      "nereon": 24,
+      "doreios": 21
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:457",
+    "block": 114,
+    "rotation": 1,
+    "share": 0,
+    "score": 29,
+    "turns": 12,
+    "seat": 0,
+    "turnPosition": 1,
+    "winnerCount": 1,
+    "scores": {
+      "melia": 30,
+      "nereon": 29,
+      "thaleia": 24,
+      "doreios": 24
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:458",
+    "block": 114,
+    "rotation": 2,
+    "share": 1,
+    "score": 34,
+    "turns": 13,
+    "seat": 3,
+    "turnPosition": 0,
+    "winnerCount": 1,
+    "scores": {
+      "nereon": 34,
+      "thaleia": 28,
+      "melia": 26,
+      "doreios": 25
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:459",
+    "block": 114,
+    "rotation": 3,
+    "share": 0,
+    "score": 22,
+    "turns": 11,
+    "seat": 2,
+    "turnPosition": 3,
+    "winnerCount": 1,
+    "scores": {
+      "melia": 30,
+      "nereon": 22,
+      "doreios": 21,
+      "thaleia": 19
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:460",
+    "block": 115,
+    "rotation": 0,
+    "share": 0,
+    "score": 21,
+    "turns": 10,
+    "seat": 1,
+    "turnPosition": 2,
+    "winnerCount": 1,
+    "scores": {
+      "melia": 27,
+      "nereon": 21,
+      "doreios": 21,
+      "thaleia": 18
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:461",
+    "block": 115,
+    "rotation": 1,
+    "share": 0,
+    "score": 28,
+    "turns": 12,
+    "seat": 0,
+    "turnPosition": 1,
+    "winnerCount": 1,
+    "scores": {
+      "thaleia": 30,
+      "nereon": 28,
+      "melia": 26,
+      "doreios": 21
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:462",
+    "block": 115,
+    "rotation": 2,
+    "share": 0,
+    "score": 32,
+    "turns": 15,
+    "seat": 3,
+    "turnPosition": 0,
+    "winnerCount": 1,
+    "scores": {
+      "thaleia": 34,
+      "nereon": 32,
+      "melia": 28,
+      "doreios": 27
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:463",
+    "block": 115,
+    "rotation": 3,
+    "share": 0,
+    "score": 28,
+    "turns": 14,
+    "seat": 2,
+    "turnPosition": 3,
+    "winnerCount": 1,
+    "scores": {
+      "melia": 32,
+      "doreios": 30,
+      "nereon": 28,
+      "thaleia": 27
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:464",
+    "block": 116,
+    "rotation": 0,
+    "share": 1,
+    "score": 31,
+    "turns": 13,
+    "seat": 2,
+    "turnPosition": 2,
+    "winnerCount": 1,
+    "scores": {
+      "nereon": 31,
+      "melia": 27,
+      "thaleia": 27,
+      "doreios": 25
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:465",
+    "block": 116,
+    "rotation": 1,
+    "share": 0,
+    "score": 23,
+    "turns": 11,
+    "seat": 1,
+    "turnPosition": 1,
+    "winnerCount": 1,
+    "scores": {
+      "melia": 27,
+      "thaleia": 25,
+      "nereon": 23,
+      "doreios": 22
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:466",
+    "block": 116,
+    "rotation": 2,
+    "share": 0,
+    "score": 28,
+    "turns": 13,
+    "seat": 0,
+    "turnPosition": 0,
+    "winnerCount": 1,
+    "scores": {
+      "doreios": 34,
+      "nereon": 28,
+      "melia": 28,
+      "thaleia": 24
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:467",
+    "block": 116,
+    "rotation": 3,
+    "share": 0,
+    "score": 16,
+    "turns": 10,
+    "seat": 3,
+    "turnPosition": 3,
+    "winnerCount": 1,
+    "scores": {
+      "melia": 25,
+      "doreios": 21,
+      "thaleia": 18,
+      "nereon": 16
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:468",
+    "block": 117,
+    "rotation": 0,
+    "share": 0,
+    "score": 32,
+    "turns": 14,
+    "seat": 3,
+    "turnPosition": 1,
+    "winnerCount": 1,
+    "scores": {
+      "melia": 36,
+      "nereon": 32,
+      "thaleia": 25,
+      "doreios": 25
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:469",
+    "block": 117,
+    "rotation": 1,
+    "share": 0,
+    "score": 27,
+    "turns": 15,
+    "seat": 2,
+    "turnPosition": 0,
+    "winnerCount": 1,
+    "scores": {
+      "melia": 33,
+      "thaleia": 31,
+      "doreios": 31,
+      "nereon": 27
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:470",
+    "block": 117,
+    "rotation": 2,
+    "share": 0,
+    "score": 21,
+    "turns": 11,
+    "seat": 1,
+    "turnPosition": 3,
+    "winnerCount": 2,
+    "scores": {
+      "doreios": 27,
+      "thaleia": 27,
+      "melia": 22,
+      "nereon": 21
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:471",
+    "block": 117,
+    "rotation": 3,
+    "share": 0,
+    "score": 28,
+    "turns": 13,
+    "seat": 0,
+    "turnPosition": 2,
+    "winnerCount": 2,
+    "scores": {
+      "thaleia": 31,
+      "doreios": 31,
+      "melia": 29,
+      "nereon": 28
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:472",
+    "block": 118,
+    "rotation": 0,
+    "share": 0,
+    "score": 28,
+    "turns": 12,
+    "seat": 2,
+    "turnPosition": 3,
+    "winnerCount": 1,
+    "scores": {
+      "melia": 31,
+      "nereon": 28,
+      "doreios": 27,
+      "thaleia": 15
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:473",
+    "block": 118,
+    "rotation": 1,
+    "share": 0,
+    "score": 28,
+    "turns": 11,
+    "seat": 1,
+    "turnPosition": 2,
+    "winnerCount": 1,
+    "scores": {
+      "doreios": 30,
+      "nereon": 28,
+      "thaleia": 18,
+      "melia": 18
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:474",
+    "block": 118,
+    "rotation": 2,
+    "share": 1,
+    "score": 38,
+    "turns": 13,
+    "seat": 0,
+    "turnPosition": 1,
+    "winnerCount": 1,
+    "scores": {
+      "nereon": 38,
+      "doreios": 28,
+      "thaleia": 25,
+      "melia": 23
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:475",
+    "block": 118,
+    "rotation": 3,
+    "share": 0,
+    "score": 25,
+    "turns": 12,
+    "seat": 3,
+    "turnPosition": 0,
+    "winnerCount": 1,
+    "scores": {
+      "thaleia": 28,
+      "melia": 26,
+      "nereon": 25,
+      "doreios": 24
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:476",
+    "block": 119,
+    "rotation": 0,
+    "share": 0,
+    "score": 24,
+    "turns": 13,
+    "seat": 3,
+    "turnPosition": 1,
+    "winnerCount": 1,
+    "scores": {
+      "doreios": 33,
+      "melia": 30,
+      "thaleia": 24,
+      "nereon": 24
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:477",
+    "block": 119,
+    "rotation": 1,
+    "share": 0,
+    "score": 27,
+    "turns": 12,
+    "seat": 2,
+    "turnPosition": 0,
+    "winnerCount": 1,
+    "scores": {
+      "melia": 28,
+      "doreios": 27,
+      "nereon": 27,
+      "thaleia": 22
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:478",
+    "block": 119,
+    "rotation": 2,
+    "share": 0,
+    "score": 22,
+    "turns": 11,
+    "seat": 1,
+    "turnPosition": 3,
+    "winnerCount": 1,
+    "scores": {
+      "doreios": 24,
+      "nereon": 22,
+      "melia": 22,
+      "thaleia": 21
+    },
+    "replayVerified": true
+  },
+  {
+    "seed": "production-options-v1-fresh-20261030:479",
+    "block": 119,
+    "rotation": 3,
+    "share": 0,
+    "score": 21,
+    "turns": 10,
+    "seat": 0,
+    "turnPosition": 2,
+    "winnerCount": 1,
+    "scores": {
+      "thaleia": 25,
+      "nereon": 21,
+      "doreios": 21,
+      "melia": 19
+    },
+    "replayVerified": true
+  }
+]
