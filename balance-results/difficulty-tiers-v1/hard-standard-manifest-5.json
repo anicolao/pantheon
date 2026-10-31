@@ -1,0 +1,24 @@
+{
+  "actors": {
+    "melia": {
+      "path": "/Users/anicolao/projects/games/pantheon/balance-results/difficulty-tiers-v1/inputs/melia-production.json",
+      "sha256": "1310ab42acc417055d641fbf9c7a2ec155889b700d588d85ab4c14af7c831dcb"
+    },
+    "nereon": {
+      "path": "/Users/anicolao/projects/games/pantheon/balance-results/difficulty-tiers-v1/inputs/nereon-production.json",
+      "sha256": "c62419391353ea8d3a189185a74ba174bd74dab7558d4ba8c3ae8557e3febfdf"
+    },
+    "thaleia": {
+      "path": "/Users/anicolao/projects/games/pantheon/balance-results/difficulty-tiers-v1/inputs/field-thaleia.json",
+      "sha256": "7fbc1ce00a16f61286dad6e1bcf2cc6e0bc9ea6fc7e02e8eda319761e34f3427"
+    },
+    "doreios": {
+      "path": "/Users/anicolao/projects/games/pantheon/balance-results/difficulty-tiers-v1/inputs/field-doreios.json",
+      "sha256": "8fd946c6d6f01bbcff9685585c27e6cfef85a79c91d5a0a9b9932b641bc7138a"
+    }
+  },
+  "planning": {
+    "worldManifest": "/Users/anicolao/projects/games/pantheon/balance-results/difficulty-tiers-v1/inputs/world.json",
+    "policies": {}
+  }
+}

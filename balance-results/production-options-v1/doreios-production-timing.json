@@ -1,0 +1,5 @@
+{
+  "games": 400,
+  "totalWorkerSeconds": 10086.820168541955,
+  "note": "End-to-end game times on a shared 16-worker CPU run, not browser action latency."
+}
