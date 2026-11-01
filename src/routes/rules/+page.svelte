@@ -17,16 +17,16 @@
   const card = (id: string) => cards.find(card => card.id === id)!;
   const operations: { resource: CardOperation; meaning: string }[] = [
     { resource: 'trash', meaning: 'Trash N: you may trash up to N cards from your hand. Zero is allowed; trashed cards leave your possession permanently.' },
-    { resource: 'discard', meaning: 'Discard N: discard N cards from your hand. Without a number after a gain or reveal, it means put that card in your discard pile.' },
-    { resource: 'topdeck', meaning: 'Topdeck: put the gained or revealed card on top of your deck. It will be the next card you draw.' },
-    { resource: 'gain', meaning: 'Gain: take one card from the supply to your discard pile. The value inside the icon is its maximum cost. Topdeck overrides the destination.' }
+    { resource: 'discard', meaning: 'Discard N: move N cards from your hand to your discard pile. When this icon follows a gain instruction, it shows where to put the gained card: in your discard pile.' },
+    { resource: 'topdeck', meaning: 'Topdeck: put the card on top of your deck. After a gain instruction, this means the gained card goes onto your deck instead of into your discard pile. It will be the next card you draw.' },
+    { resource: 'gain', meaning: 'Gain: take one card from a nonempty supply pile. The value inside the icon is its maximum cost. Put it in your discard pile unless the instruction gives another destination, such as the top of your deck.' }
   ];
   const resources: { resource: Resource; meaning: string }[] = [
     { resource: 'cards', meaning: 'Draw a card into your hand.' },
     { resource: 'actions', meaning: 'Add one Action to spend this turn.' },
     { resource: 'coins', meaning: 'Add one Coin to spend this turn.' },
     { resource: 'buys', meaning: 'Add one Buy to spend this turn.' },
-    { resource: 'worship', meaning: 'Add one Worship to spend this turn.' }
+    { resource: 'worship', meaning: 'Add one Worship resource to spend on using a god event this turn.' }
   ];
 </script>
 
@@ -49,8 +49,8 @@
       <ol>
         <li>Choose a first player at random and mark their place. Play clockwise. In reverse turn order, starting with the last player, each player chooses a different leader.</li>
         <li>Put the chosen leaders’ god events in the middle of the table. These events are available to everyone. Return unused leaders, their Temples, and their events to the box.</li>
-        <li>Make the six basic supply piles and all twelve regular Action piles using the table below. Include Actions of every god, even if that god’s event isn’t in play.</li>
-        <li>Give each player <strong>6 Obols, 3 Hamlets, and the unique Temple matching their leader’s god</strong>. Shuffle these ten cards and draw five. Starting cards are extra; don’t take them from the supply.</li>
+        <li>Give each player <strong>6 Obols, 3 Hamlets, and the unique Temple matching their leader’s god</strong>. Shuffle these ten cards and draw five.</li>
+        <li>From the remaining cards, make the six basic supply piles and all twelve regular Action piles using the quantities in the table below. Include Actions of every god, even if that god’s event isn’t in play.</li>
         <li>Keep your leader face up outside your deck. Leave space for your played cards and discard pile, and a shared trash pile.</li>
       </ol>
       <table><caption>Cards in each supply pile</caption><thead><tr><th scope="col">Pile</th><th scope="col">2 players</th><th scope="col">3 players</th><th scope="col">4 players</th></tr></thead><tbody>
@@ -82,16 +82,16 @@
       <p>Your leader is your permanent character for the game. Choose one during setup, with the last player choosing first and the first player choosing last. Every player must choose a different leader.</p>
       <p>Keep your leader face up in front of you. It never enters your deck and cannot be bought, gained, discarded, or trashed. It scores no victory points.</p>
       <figure class="leader-example"><CardFace card={card('thaleia')} /><figcaption>Thaleia is affiliated with Athena. Her ability grants an extra Action.</figcaption></figure>
-      <p>Each leader has a god affiliation and a <strong>once-per-turn ability</strong>. On your turn, play the first Action matching your leader’s god, finish that card’s effect, then resolve the leader’s ability. Drawing or gaining a card does not trigger it. Your matching Temple is an Action and can trigger it.</p>
+      <p>Each leader has a god affiliation and a <strong>once-per-turn ability</strong>. On your turn, the first time you play any Action matching your leader’s god, finish that card’s effect, then resolve the leader’s ability. Drawing or gaining a card does not trigger it. Your matching Temple is an Action and can trigger it.</p>
       <dl class="reference leader-abilities">{#each leaders as leader}<dt>{leader.name} · {leader.god}</dt><dd>{leader.effect}</dd>{/each}</dl>
       <p>The trigger happens even if the Action’s own effect does nothing. If Doreios triggers and you choose not to trash, that opportunity is used; you cannot save it for a later Ares Action. Every leader’s ability resets at the start of their owner’s next turn.</p>
       <p>Your leader’s god determines <strong>your starting Temple</strong> and adds that god’s event to the shared table. It does not restrict which cards you buy or play, or which available god you Worship. Everyone may use the events in play.</p>
-      <p><strong>Leaders do not provide Devotion.</strong> Only matching Actions currently in your play area count toward a god’s Favored effect. Worship does not trigger a leader ability.</p>
+      <p><strong>Leaders do not provide Devotion.</strong> Only matching Actions currently in your play area count toward a god’s Favored effect. Using a god event is not playing an Action card, so it does not trigger your leader’s ability.</p>
     </section>
 
     <section id="turn">
       <h2>4. Your turn</h2>
-      <p>Follow these steps in order. You may stop playing Actions or Treasures early, but you cannot return to an earlier phase.</p>
+      <p>Follow these steps in order. Playing Actions, playing Treasures, and buying cards are all optional: you may play no Actions, play no Treasures, or buy nothing, even when you could do so. You may stop any of these phases early, but you cannot return to an earlier phase.</p>
       <ol class="turns">
         <li><strong>Start.</strong> Set your counters to <strong>1 Action, 1 Buy, 1 Worship, and 0 Coins</strong>. Reset your leader’s once-per-turn ability.</li>
         <li><strong>Actions.</strong> Spend 1 Action to play an Action from your hand. Put it in your play area and resolve its instructions in order, then any triggered leader ability. Continue while you have Actions and want to play more.</li>
@@ -99,13 +99,13 @@
         <li><strong>Buys.</strong> Spend 1 Buy and the printed Coin cost to buy a card from a nonempty supply pile. Put it in your discard pile. Repeat if you have enough Buys and Coins. A cost-0 purchase still uses a Buy.</li>
         <li><strong>Cleanup.</strong> Discard your remaining hand and played cards, lose all unused resources, and draw five. Check the end conditions, then pass the turn.</li>
       </ol>
-      <p><strong>Worship can happen between effects during your turn</strong>, including between Treasure plays or purchases. Finish a card’s effect and its leader trigger before doing so. Your last chance is before cleanup begins; cleanup is resolved as one step.</p>
-      <p>Playing your Temple spends 1 Action, then gives +1 Worship and +1 Action. Starting from your normal counters, you now have 2 Worship and still have 1 Action. It also triggers your leader if it is your first matching Action this turn.</p>
+      <p><strong>You may use a god event between completed card effects during your turn</strong>, including between Treasure plays or purchases. Finish a card’s effect and its leader trigger first. You must already have enough Coins to pay: during the Actions phase, these must come from effects you have resolved, since you have not played Treasures yet. Coins printed on Treasures still in your hand are not available to spend. Your last chance is before cleanup begins; cleanup is resolved as one step.</p>
+      <p><strong>Example: playing your Temple.</strong> You begin with 1 Action and 1 Worship. Playing your Temple spends 1 Action, then gives +1 Worship and +1 Action, leaving you with 2 Worship and 1 Action before resolving your leader’s ability. If this is your first matching Action this turn, resolve that ability now; it may change your resources further.</p>
     </section>
 
     <section id="gods">
       <h2>5. Worship and Devotion</h2>
-      <p>To <strong>Worship</strong>, choose an available god event and spend <strong>1 Worship plus its Coin cost</strong>. This does not use a Buy. You may Worship any available god, regardless of your leader, as often as you can pay. You may use the same event more than once.</p>
+      <p><strong>Worship is a resource; worshiping means using a god event.</strong> To use an available god event, spend <strong>1 Worship resource plus the event’s Coin cost</strong>, then resolve its effect. This uses neither an Action nor a Buy. You may use any available god’s event, regardless of your leader, as often as you can pay. You may use the same event more than once.</p>
       <p>Check your <strong>Devotion</strong> each time you Worship: count the Action cards of that god currently in your play area. Each gives 1 Devotion, including your Temple. <strong>Your leader gives no automatic Devotion.</strong> Cards in your hand, deck, discard pile, or trash don’t count.</p>
       <p>With <strong>2 or more Devotion</strong>, resolve the event’s <strong>Favored</strong> effect instead of its Standard effect. Otherwise use Standard. You don’t spend Devotion, and you need no minimum to Worship.</p>
       <div class="card-row pair"><figure><CardFace card={card('temple-of-athena')} /><figcaption>Temple of Athena in play: 1 Devotion</figcaption></figure><figure><CardFace card={card('oracles-acolyte')} /><figcaption>Oracle’s Acolyte in play: 1 Devotion</figcaption></figure></div>
@@ -130,7 +130,7 @@
         <dt>Gaining cards</dt><dd>A gain is free unless it comes from a purchase. Take an eligible card from a nonempty supply pile to your discard pile unless told otherwise. “Onto your deck” means on top. A cost limit includes cheaper cards, including cost 0. If no eligible card remains, skip the gain and continue.</dd>
         <dt>Discarding and trashing</dt><dd>Discarded cards can return when you shuffle. Trashed cards leave your possession permanently and score nothing. Trashing never refills a supply pile. Your Temple can be discarded or trashed like any other Action.</dd>
         <dt>Following instructions</dt><dd>Resolve in order and do as much as possible. “May” and “up to” are optional. “If you do” requires the preceding action to happen. “From your hand” cannot target cards already in play.</dd>
-        <dt>Information</dt><dd>Hands and deck order are private. Supply quantities, leaders, events, played cards, discards, and trash are public. Reveal cards you gain or trash.</dd>
+        <dt>Information</dt><dd>You may look at your own hand, but not another player’s hand. Keep decks face down: no player may inspect or rearrange any deck, including their own, unless a card instructs them to. Supply quantities, leaders, events, played cards, discards, and trash are public. Show everyone the cards you gain or trash. “Reveal” means show a card to all players; it does not itself mean gain, buy, draw, or move that card. Follow the instruction for where the card goes.</dd>
       </dl>
       <p>See the <a href={`${base}/gallery/`}>card gallery</a> for all card effects and the four leaders’ abilities.</p>
     </section>
