@@ -17,7 +17,7 @@
   const card = (id: string) => cards.find(card => card.id === id)!;
   const operations: { resource: CardOperation; meaning: string }[] = [
     { resource: 'trash', meaning: 'Trash N: you may trash up to N cards from your hand. Zero is allowed; trashed cards leave your possession permanently.' },
-    { resource: 'discard', meaning: 'Discard N: move N cards from your hand to your discard pile. When this icon follows a gain instruction, it shows where to put the gained card: in your discard pile.' },
+    { resource: 'discard', meaning: 'Discard N: move N cards from your hand to your discard pile.' },
     { resource: 'topdeck', meaning: 'Topdeck: put the card on top of your deck. After a gain instruction, this means the gained card goes onto your deck instead of into your discard pile. It will be the next card you draw.' },
     { resource: 'gain', meaning: 'Gain: take one card from a nonempty supply pile. The value inside the icon is its maximum cost. Put it in your discard pile unless the instruction gives another destination, such as the top of your deck.' }
   ];
