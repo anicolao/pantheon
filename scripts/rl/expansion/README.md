@@ -74,3 +74,11 @@ restarts the incomplete learner from its frozen incumbent with the same seeds,
 archives its interrupted files, checks protocol and gameplay-source compatibility,
 and records source changes and the explicit `--resume-reason`. Full replays of
 truncations use `PANTHEON_RL_FAILURE_DIR` (default `/tmp/pantheon-rl-failures`).
+
+After the matrix completes, `audit_matrix.ts MATRIX 16` independently reconstructs
+every saved game from its compressed event history. It checks reported results
+against replay records, then checks seed identity, leaders, first-player assignment,
+finished phase, equal-turn rules, score, turn count, win share and full standings.
+It writes `replay-audit.json` with the audited game count and artifact/source hashes.
+Run it alongside `audit_field.py FIELD` and `report_campaign.py CAMPAIGN` before
+interpreting the final `report_matrix.py` output.
