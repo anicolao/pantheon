@@ -1,6 +1,6 @@
 # Four new divine houses: revised rules proposal
 
-Status: **design proposal for review; not implemented or balance-tested**.
+Status: **implemented for human playtesting; not balance-tested**. Play at `/expansion/`; review individual effects at `/dev/animations/`. The published gallery/print catalog and trained bots remain on the original card set.
 
 This revision uses a twelve-pile Action market, replaces public-memory Echo with borrowed cards, makes Deploy repeat the next single Action, and replaces immobilization markers with topdecking opponents’ Territories. Card costs and quantities below are proposed starting values.
 
@@ -258,7 +258,7 @@ The former cost limit is removed so “next Action” has one universal meaning;
 
 **+1 Card. Deploy 2.**
 
-This now doubles one next Action instead of allowing two different Actions to be played. The rules also define Deploy 3 for future tuning or cards, but the initial supply set does not require a triple-play card.
+This now doubles one next Action instead of allowing two different Actions to be played. Favored March of Victory grants Deploy 3, resolving the next Action three times.
 
 ### March of Victory
 
@@ -266,7 +266,7 @@ This now doubles one next Action instead of allowing two different Actions to be
 
 **Standard: Deploy 1.**
 
-**Favored: Deploy 2.**
+**Favored: Deploy 3.**
 
 During Buys, the permission can be used after the event finishes to play an Action from hand. Drawing Treasures with that Action can then fund further purchases or worship once its entire repeated effect and leader trigger finish.
 
@@ -428,7 +428,7 @@ This draft allows any Action in an opponent’s discard, with no cost cap or for
 
 ### Deploy stacking
 
-Confirm that Deploy N means N total resolutions of the next single Action, including the free play, and that simultaneous grants combine additively as specified. Initial cards use Deploy 1 and Deploy 2; Deploy 3 is defined but not yet assigned a card.
+Confirm that Deploy N means N total resolutions of the next single Action, including the free play, and that simultaneous grants combine additively as specified. The supply cards use Deploy 1 and Deploy 2; Favored March of Victory uses Deploy 3.
 
 ### Treasure timing
 
@@ -444,4 +444,4 @@ The fixed-house market means counters are conditional on setup. Polished Shield 
 
 The twelve Action costs and all leader/event numbers remain experimental. Echo can access an expensive discarded Action through a cheap source; Deploy can amplify strong terminal effects; Wayfinder can improve both draw quality and speed; Bind may concentrate interference on one opponent. Existing RL models do not understand these operations or variable markets and need new support and training before their results can establish balance.
 
-First evaluate rules comprehension and effect timing, then compare win shares, ending turns, borrowed-card value, repeat counts, and attack impact across multiple drafted/random house combinations. This PR remains a rules discussion, with no game implementation or balance claim.
+First evaluate rules comprehension and effect timing, then compare win shares, ending turns, borrowed-card value, repeat counts, and attack impact across multiple drafted/random house combinations. This PR includes a playable engine and shared-screen review table, with no balance claim.

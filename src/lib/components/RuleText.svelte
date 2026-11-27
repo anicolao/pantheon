@@ -1,4 +1,5 @@
 <script lang="ts">
+  import ExpansionRules from './expansion/PrototypeRules.svelte';
   import ResourceIcon from './ResourceIcon.svelte';
   import { ruleParts } from '$lib/game/presentation';
   let { text }: { text: string } = $props();
@@ -8,6 +9,7 @@
   const bonusesOnly = $derived(parts.every(part => part.kind === 'icon' || part.kind === 'arrow' || (part.kind === 'text' && /^[;.\s]*$/.test(part.text))));
 </script>
 
+{#if /(?:Echo|Seek|Deploy|Bind)\b/.test(text)}<ExpansionRules {text}/>{:else}
 <span class="rule-text" class:compact class:bonuses-only={bonusesOnly} class:many-bonuses={bonusesOnly && bonusCount > 2}>
   <span class="sr-only">{text}</span>
   <span class="visual-rule" aria-hidden="true">
@@ -16,6 +18,8 @@
     {/each}
   </span>
 </span>
+
+{/if}
 
 <style>
   .bonuses-only .visual-rule { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 2cqi; --icon-size: var(--bonus-icon-size, 14cqi); }

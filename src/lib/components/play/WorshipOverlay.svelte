@@ -1,14 +1,18 @@
 <script lang="ts">
   import { canUndo } from '$lib/game/undo';
-  import { onMount, tick } from 'svelte';
+  import { onMount, onDestroy, tick } from 'svelte';
   import type { SetupState } from '$lib/game/setup';
   import type { GameCommand } from '$lib/backend/setup-repository';
   import { definition, devotionCards, activePlayer, worshipReason, type Choice } from '$lib/game/actions';
   import WorshipFace from './WorshipFace.svelte';
   import GameButton from '../GameButton.svelte';
   import { motionDuration, MOTION_EASING } from './motion';
-  let {game,uid,selected,ready,error,command,close,sourceRect,prepareReturn,choice,targets,resolve,effectsSettled=true}:{effectsSettled?:boolean;game:SetupState;uid:string;selected:string;ready:boolean;error:string;command:(command:GameCommand)=>Promise<void>;close:()=>void;sourceRect?:DOMRect;prepareReturn:()=>Promise<void>;choice?:Choice|null;targets:string[];resolve:()=>Promise<void>}=$props();
+  let {game,uid,selected,ready,error,command,close,sourceRect,prepareReturn,choice,targets,resolve,effectsSettled=true,covered=false}:{covered?:boolean;effectsSettled?:boolean;game:SetupState;uid:string;selected:string;ready:boolean;error:string;command:(command:GameCommand)=>Promise<void>;close:()=>void;sourceRect?:DOMRect;prepareReturn:()=>Promise<void>;choice?:Choice|null;targets:string[];resolve:()=>Promise<void>}=$props();
   let node=$state<HTMLElement>();
+  let finishArrival!:()=>void;
+  const arrival=new Promise<void>(resolve=>finishArrival=resolve);
+  export function arrived(){return arrival;}
+  onDestroy(()=>finishArrival());
   let submitting=$state(false),returning=$state(false);
   let submittedRevision=$state(-1);
   const event=$derived(definition(selected));
@@ -17,8 +21,9 @@
   const instruction=$derived(!choice ? '' : choice.kind==='gain' ? `Choose ${choice.actionOnly?'an Action':'a card'} costing up to ${choice.limit} from the offer` : `Choose ${choice.min ? choice.min : 'up to '+choice.max} to ${choice.kind} from the offer`);
   function transform(rect:DOMRect){const end=node!.getBoundingClientRect();return `translate(${rect.x-end.x}px,${rect.y-end.y}px) scale(${rect.width/end.width},${rect.height/end.height})`;}
   onMount(()=>{
-    if(!sourceRect || !node || matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+    if(!sourceRect || !node || matchMedia('(prefers-reduced-motion: reduce)').matches){finishArrival();return;}
     const animation=node.animate([{transform:transform(sourceRect)},{transform:'none'}],{duration:motionDuration(300),easing:MOTION_EASING,fill:'backwards'});
+    void animation.finished.then(finishArrival).catch(finishArrival);
     return ()=>animation.cancel();
   });
   async function leave(){
@@ -28,7 +33,7 @@
     if(node&&destination&&!matchMedia('(prefers-reduced-motion: reduce)').matches){const rect=destination.getBoundingClientRect();await node.animate([{transform:'none'},{transform:transform(rect)}],{duration:motionDuration(300),easing:MOTION_EASING,fill:'forwards'}).finished;}
     close();
   }
-  async function submit(){if(!ready||submitting||reason)return;submitting=true;submittedRevision=game.activity.length;try{await command({type:'god/worshipped',cardId:selected});}finally{submitting=false;}}
+  export async function submit(){if(!ready||submitting||reason)return;submitting=true;submittedRevision=game.activity.length;try{await command({type:'god/worshipped',cardId:selected});}finally{submitting=false;}}
   async function undo(){
     if(!ready||submitting||returning||!canUndo(game,uid))return;
     const targetSequence=game.undo!.sequence;submittedRevision=-1;submitting=true;
@@ -39,7 +44,7 @@
   $effect(()=>{if(choice)submittedRevision=game.activity.length-1;});
 </script>
 <svelte:window onkeydown={event=>{if(event.key==='Escape'&&!choice)void leave();}} />
-<section class="worship-overlay" bind:this={node} aria-label={`${event.god} worship`} aria-busy={submitting||returning}>
+<section style:visibility={covered?"hidden":undefined} class="worship-overlay" bind:this={node} aria-label={`${event.god} worship`} aria-busy={submitting||returning}>
   <WorshipFace {game} {uid} cardId={selected}/>
   <div class="card-controls">
     <p>{favored?'Favored':'Standard'} · {devotionCards(game,activePlayer(game),selected).length} Devotion</p>

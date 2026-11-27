@@ -4,6 +4,9 @@ import type { CardInstance, SetupEvent, SetupState } from './setup';
 export type PublicZone = 'hand' | 'deck' | 'play' | 'discard' | 'supply' | 'trash' | 'reveal' | 'altar' | 'leader';
 export type PublicAnchor = { zone: PublicZone; uid?: string; cardId?: string };
 export type PublicStep = {
+  notice?: string;
+  /** Independent transfers in one effect may overlap, never across a shuffle or choice. */
+  batch?: string;
   id: string;
   kind: Movement['kind'] | 'cleanup';
   from: PublicAnchor;
@@ -36,7 +39,7 @@ export function publicCommandContext(game: SetupState, uid: string) {
     movementIndex: game.movements.length,
     resources: { ...game.resources },
     handCount: zones.hand.length,
-    playCount: zones.play.length
+    playCount: zones.play.filter(card=>!card.ownerUid).length
   };
 }
 
@@ -60,6 +63,8 @@ export function describePublicCommand(
     const source = definition(movement.source);
     let from: PublicAnchor, to: PublicAnchor;
     switch (kind) {
+      case 'notice':
+      case 'resolution': from = owned('play'); to = owned('play'); break;
       case 'play': from = owned('hand'); to = owned('play'); break;
       case 'draw': from = owned('deck'); to = owned('hand'); break;
       case 'shuffle': from = owned('discard'); to = owned('deck'); break;
@@ -71,11 +76,15 @@ export function describePublicCommand(
       case 'leader': from = { ...owned('leader'), cardId: source.id }; to = owned('play'); break;
       case 'worship': from = { zone: 'altar', cardId: source.id }; to = owned('play'); break;
     }
-    const backs = kind === 'draw' || kind === 'shuffle';
+    if(movement.from)from=movement.from;
+    if(movement.to)to=movement.to;
+    const backs = (kind === 'draw' && !movement.from) || kind === 'shuffle';
     steps.push({
       id: `${event.sequence}:${movement.index}`, kind, from, to,
+      ...(movement.batch?{batch:movement.batch}:{}),
+      ...(movement.notice?{notice:movement.notice}:{}),
       count: kind === 'shuffle' ? movement.amount! : 1,
-      effect: event.type === 'turn/ended' ? 'Cleanup' : source.name,
+      effect: event.type === 'turn/ended' ? 'Cleanup' : kind==='notice' && source.type==='Leader' ? source.name+' · Leader ability' : source.name,
       backs,
       ...(kind === 'worship' ? { devotion: movement.amount } : {}),
       ...(!backs && card ? { card: { ...card } } : {})

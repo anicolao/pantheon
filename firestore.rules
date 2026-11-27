@@ -115,7 +115,7 @@ service cloud.firestore {
               && ((request.resource.data.type == 'draft/started' && request.auth.uid == get(room(gameId)).data.owner
                 && request.resource.data.seed is string && request.resource.data.seed.size() > 0 && request.resource.data.seed.size() <= 64
                 && !('leaderId' in request.resource.data))
-              || (request.resource.data.type == 'leader/chosen' && request.resource.data.leaderId in ['thaleia', 'nereon', 'melia', 'doreios']
+              || (request.resource.data.type == 'leader/chosen' && request.resource.data.leaderId in ['thaleia', 'nereon', 'melia', 'doreios', 'echo', 'theseus', 'achilles', 'perseus']
                 && !('seed' in request.resource.data))
               || (request.resource.data.type in ['action/played', 'treasure/played'] && request.resource.data.instanceId is string && request.resource.data.instanceId.size() <= 128)
               || (request.resource.data.type in ['market/browsed', 'worship/focused'] && request.resource.data.cardId is string && request.resource.data.cardId.size() <= 128)

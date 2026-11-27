@@ -376,3 +376,17 @@ test('Undo is authenticated, append-only, serialized, retry-safe, and survives a
   expect(replaySetup(await history()).undo).toBeNull();
   await expect(appendGameCommand(db,id,uid,'undo-cleanup',command)).rejects.toThrow();
 });
+
+test('expansion leaders commit through the same authenticated draft stream',async()=>{
+ const {appendGameCommand}=await import('../../src/lib/backend/setup-repository');
+ const id='expansion-draft',uids=['exp-a','exp-b','exp-c','exp-d'];
+ for(const [index,uid] of uids.entries())await enterRoom(database(uid),id,uid,'Player '+index,index===0?4:undefined);
+ await appendGameCommand(database(uids[0]),id,uids[0],'start',{type:'draft/started',seed:'expansion-authenticated'});
+ const state=replaySetup(await history(database(uids[0]),id));
+ for(const [index,uid] of state.draftOrder.entries())await appendGameCommand(database(uid),id,uid,'choose-'+index,{type:'leader/chosen',leaderId:['echo','theseus','achilles','perseus'][index]});
+ const played=replaySetup(await history(database(uids[0]),id));
+ expect(played.phase).toBe('playing');
+ expect(Object.keys(played.supply)).toHaveLength(18);
+ expect(played.sharedEvents).toHaveLength(4);
+ for(const uid of uids)expect(Object.values(played.decks[uid]).flat().filter(card=>card.cardId.startsWith('temple-'))).toHaveLength(1);
+});

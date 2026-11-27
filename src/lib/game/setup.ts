@@ -1,6 +1,6 @@
 import { UndoHistory, type UndoTarget } from './undo';
 import {isBotKind, type BotKind} from './bot-kind';
-import { cards } from './cards';
+import { gameCards as cards } from './cards';
 import { createPrng, shuffle } from './random';
 import { initialTurn, type ActionCommand, type Movement, type TurnState } from './actions';
 import { describePublicCommand, publicCommandContext, type PublicActivity } from './public-table';
@@ -27,7 +27,8 @@ export type SetupEvent = {
   playerCount: 2 | 3 | 4;
 };
 export const leaderIds = ['thaleia', 'nereon', 'melia', 'doreios'] as const;
-export type CardInstance = { id: string; cardId: string; copy: number };
+export const allLeaderIds = [...leaderIds, 'echo', 'theseus', 'achilles', 'perseus'] as const;
+export type CardInstance = { id: string; cardId: string; copy: number; ownerUid?: string };
 export type PlayerDeck = { hand: CardInstance[]; deck: CardInstance[]; discard: CardInstance[]; play: CardInstance[] };
 export function leaderLinks(id: string) {
   const leader = cards.find(card => card.id === id && card.type === 'Leader');
@@ -88,7 +89,7 @@ export function replaySetup(events: SetupEvent[]): SetupState {
       } else {
         const chosen = Object.values(state.leaders);
         if (state.phase !== 'draft' || state.draftOrder[chosen.length] !== event.actorUid ||
-          !leaderIds.includes(event.leaderId as typeof leaderIds[number]) || chosen.includes(event.leaderId!)) throw new Error('Choose an available leader on your draft turn.');
+          !allLeaderIds.includes(event.leaderId as typeof allLeaderIds[number]) || chosen.includes(event.leaderId!)) throw new Error('Choose an available leader on your draft turn.');
         state.leaders[event.actorUid] = event.leaderId!;
         state.sharedEvents.push(leaderLinks(event.leaderId!).event.id);
         state.activity.push({ sequence: event.sequence, message: `${event.name} chose ${leaderLinks(event.leaderId!).leader.name.split(',')[0]}.` });
@@ -102,7 +103,7 @@ export function replaySetup(events: SetupEvent[]): SetupState {
             const shuffled = shuffle(inventory, `${state.seed}:starting-deck:${seat}`);
             state.decks[player.uid] = { hand: shuffled.slice(0, 5), deck: shuffled.slice(5), discard: [], play: [] };
           }
-          state.supply = Object.fromEntries(setupSupply(state.playerCount).map(pile => [pile.id, pile.count]));
+          state.supply = Object.fromEntries(setupSupply(state.playerCount, Object.values(state.leaders), state.seed!).map(pile => [pile.id, pile.count]));
           state.phase = 'playing'; state.dealtAtSequence = event.sequence;
           state.activity.at(-1)!.message += ' Five cards dealt to each player.';
         }
@@ -140,6 +141,12 @@ export function replaySetup(events: SetupEvent[]): SetupState {
   }
   return state;
 }
-export function setupSupply(players: 2 | 3 | 4) {
-  return cards.filter(card => card.type !== 'Leader' && card.type !== 'Event' && card.supply[players] > 0).map(card => ({ id: card.id, count: card.supply[players] }));
+export function setupSupply(players: 2 | 3 | 4, leaders: string[] = [...leaderIds], seed = 'market') {
+  // Preserve the original market for existing histories. Expansion tables fill
+  // exactly four complete houses, never individual random piles.
+  const expansion = leaders.some(id => !leaderIds.includes(id as typeof leaderIds[number]));
+  const chosen = expansion ? [...leaders] : [...leaderIds];
+  if (expansion) chosen.push(...shuffle(allLeaderIds.filter(id => !chosen.includes(id)), seed + ':market-houses').slice(0, 4 - chosen.length));
+  const houses = new Set(chosen.map(id => leaderLinks(id).leader.god));
+  return cards.filter(card => card.type !== 'Leader' && card.type !== 'Event' && card.supply[players] > 0 && (card.type !== 'Action' || houses.has(card.god))).map(card => ({ id: card.id, count: card.supply[players] }));
 }

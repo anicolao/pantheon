@@ -12,10 +12,10 @@ export const FLIGHT_EASING = 'cubic-bezier(0.25, 0.25, 0.9, 1)';
 const CARD_TO_TABLE_SPEED = 2;
 
 /** One timing policy for Action/Treasure plays and purchases into the play area. */
-export function cardFlightTiming(step: Pick<PublicStep, 'kind' | 'to'>, offset = 0) {
+export function cardFlightTiming(step: Pick<PublicStep, 'kind' | 'to' | 'batch'>, offset = 0) {
   const speed = (step.to.zone === 'play' || (step.kind === 'gain' && step.to.zone === 'reveal')) ? CARD_TO_TABLE_SPEED : 1;
   return {
-    duration: motionDuration(step.kind === 'reveal' ? 680 : 450) / speed,
+    duration: motionDuration(step.batch ? 300 : step.kind === 'reveal' ? 680 : 450) / speed,
     delay: motionDuration(Math.min(offset * 70, 280)) / speed,
     minimumRedirectDuration: motionDuration(100) / speed
   };
@@ -43,3 +43,8 @@ export function pileIsMoving(activity: readonly PublicActivity[], settled: numbe
 
 /** Brief readable stop when a table reveal continues to another pile. */
 export const TABLE_PAUSE = motionDuration(160);
+
+/** Persistent attention cues are decorative; they must never hold turn readiness. */
+export function isBlockingAnimation(animation:Animation) {
+  return !(animation.effect as KeyframeEffect|null)?.target?.closest('[data-ambient-motion]');
+}

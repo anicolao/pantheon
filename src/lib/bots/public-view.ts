@@ -1,14 +1,17 @@
-import {definition,leaderEffects} from '../game/actions';
+import {definition} from '../game/actions';
+import {leaderEffects} from '../../../balance-checkpoint/equal-turns/source/src/lib/game/actions';
+import {legacyGame} from './legacy-game';
 import type {SetupState} from '../game/setup';
 import {effectFeatures,cardFeatures} from '../../../balance-checkpoint/equal-turns/source/scripts/balance/engine';
 import {treasureValue} from '../../../balance-checkpoint/equal-turns/source/scripts/balance/planning';
 import type {PublicInventory,View} from '../../../balance-checkpoint/equal-turns/source/scripts/balance/strategy';
 /** Build the standard observation from own visible zones and remembered public inventory. */
 export function publicStrategyView(game:SetupState,uid:string,inventory:PublicInventory,unseenCount:number):View {
+ const supported=legacyGame(game);
  const opponents=game.players.filter(p=>p.uid!==uid),zones=game.decks[uid];
  const score=(player:string)=>Object.entries(inventory[player]).reduce((sum,[id,n])=>sum+(definition(id).vp??0)*n,0);
  return {
-  ...structuredClone({hand:zones.hand,owned:Object.fromEntries(Object.entries(inventory[uid]).filter(([,n])=>n>0)),supply:game.supply,resources:game.resources,phase:game.turn.phase,choice:game.turn.choice,leader:game.leaders[uid],leaderUsed:game.turn.leaderUsed}),
+  ...structuredClone({hand:zones.hand,owned:Object.fromEntries(Object.entries(inventory[uid]).filter(([,n])=>n>0)),supply:game.supply,resources:game.resources,phase:game.turn.phase,choice:supported.turn.choice,leader:game.leaders[uid],leaderUsed:game.turn.leaderUsed}),
   ...(game.turn.equalTurns?{equalTurns:true,finalRound:!!game.turn.finalRound,playersAfter:game.turnOrder.length-1-game.turnOrder.indexOf(uid)}:{}),
   drawPileCount:zones.deck.length,variant:'standard',leaderBonus:effectFeatures(leaderEffects(game.leaders[uid],'standard')),unseenCount,
   discard:structuredClone(zones.discard),play:structuredClone(zones.play),events:[...game.sharedEvents],

@@ -3,14 +3,14 @@
   import DialogFrame from '../DialogFrame.svelte';
   import CardFace from '../CardFace.svelte';
   import GameButton from '../GameButton.svelte';
-  import { setupSupply, type SetupState } from '$lib/game/setup';
+  import { type SetupState } from '$lib/game/setup';
   import { activePlayer, definition, purchaseReason, canPlayAction } from '$lib/game/actions';
   import type { GameCommand } from '$lib/backend/setup-repository';
   import { cardGesture } from './card-gesture';
   import { coverflowLayout } from './coverflow-layout';
   import { motionDuration } from './motion';
   let {game,uid,ready,visible,inspect,onDialog,command,sharedCardWidth,selection,followAffordable=true,motionRate=1,rotation=0,warnOnActions=true,sharedBrowsing=false}:{sharedBrowsing?:boolean;rotation?:number;warnOnActions?:boolean;selection?:{options:{id:string;cardId:string;copy:number}[];selected:string[];choose:(id:string)=>void;kind:string;choiceId:string;browsedCardId?:string;readOnly?:boolean};followAffordable?:boolean;motionRate?:number;game:SetupState;sharedCardWidth?:number;uid:string;ready:boolean;visible:boolean;inspect:(id:string)=>void;onDialog:(open:boolean)=>void;command:(command:GameCommand)=>Promise<void>}=$props();
-  const piles=$derived(selection ? selection.options : setupSupply(game.playerCount).map(pile=>({...pile,cardId:pile.id,copy:1})).sort((a,b)=>(definition(a.id).cost??0)-(definition(b.id).cost??0)||a.id.localeCompare(b.id)));
+  const piles=$derived(selection ? selection.options : Object.entries(game.supply).map(([id,count])=>({id,count,cardId:id,copy:1})).sort((a,b)=>(definition(a.id).cost??0)-(definition(b.id).cost??0)||a.id.localeCompare(b.id)));
   const viewingUid=$derived(sharedBrowsing?activePlayer(game):uid);
   const observer=$derived(sharedBrowsing&&viewingUid!==uid);
   const affordable=$derived(selection ? (selection.kind==='gain' ? piles.length-1 : 0) : piles.findLastIndex(pile=>!purchaseReason(game,viewingUid,pile.id)));

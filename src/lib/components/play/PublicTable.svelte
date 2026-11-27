@@ -40,7 +40,7 @@
   const livePile = $derived(tab === 'chronicle' ? [] : shownPile(game, player, tab));
   const changed = $derived(tab !== 'chronicle' && (livePile.length !== pile.length || livePile.some((card, i) => card.id !== pile[i]?.id)));
   const title = $derived(tab === 'chronicle' ? 'Chronicle' : tab === 'trash' ? 'Shared trash' : `${player === uid ? 'Your' : `${name(player)}’s`} ${tab === 'play' ? 'play area' : 'discard'}`);
-  const verbs = { play: 'Played', draw: 'Drew', shuffle: 'Shuffled', trash: 'Trashed', discard: 'Discarded', gain: 'Gained', reveal: 'Revealed', topdeck: 'Topdecked', leader: 'Bloodline blessing', worship: 'Worshipped', cleanup: 'Cleanup' };
+  const verbs = { notice: 'Effect result', resolution: 'Resolved again', play: 'Played', draw: 'Drew', shuffle: 'Shuffled', trash: 'Trashed', discard: 'Discarded', gain: 'Gained', reveal: 'Revealed', topdeck: 'Topdecked', leader: 'Bloodline blessing', worship: 'Worshipped', cleanup: 'Cleanup' };
   const zones = { hand: 'Hand', deck: 'Deck', play: 'In play', discard: 'Discard', supply: 'Supply', trash: 'Shared trash', reveal: 'Revealed', altar: 'Altar', leader: 'Leader' };
   const commandNames: Record<string, string> = { 'choice/browsed': 'browsed the market', 'market/browsed': 'browsed the market', 'worship/focused': 'focused worship', 'choice/staged': 'selected cards', 'action/undone': 'undid an action', 'action/played': 'played an Action', 'treasure/played': 'played a Treasure', 'treasures/played': 'played Treasures', 'choice/resolved': 'chose cards', 'card/bought': 'bought a card', 'god/worshipped': 'worshipped', 'phase/advanced': 'entered Treasures', 'turn/ended': 'ended the turn' };
   const resources = ['actions', 'coins', 'buys', 'worship'] as const;
@@ -84,7 +84,7 @@
               {@const card = stepCard(step)}
               <article class="move" data-movement={step.kind}>
                 <h3>{verbs[step.kind]}{step.backs ? ` · ${step.count}` : ''}</h3>
-                <div class="face-slot">{#if card}<button data-inspection-key={step.id} class="miniature" class:landscape={['Leader','Event'].includes(definition(card.cardId).type)} aria-label={`Inspect ${definition(card.cardId).name}, copy ${card.copy}`} onclick={()=>inspect(card,'Chronicle')}><CardFace card={definition(card.cardId)} players={game.playerCount} copy={card.copy}/></button>{:else}<div class="miniature back"><CardBack format="deck"/></div>{/if}</div>
+                <div class="face-slot">{#if step.notice}<p>{step.notice}</p>{:else if card}<button data-inspection-key={step.id} class="miniature" class:landscape={['Leader','Event'].includes(definition(card.cardId).type)} aria-label={`Inspect ${definition(card.cardId).name}, copy ${card.copy}`} onclick={()=>inspect(card,'Chronicle')}><CardFace card={definition(card.cardId)} players={game.playerCount} copy={card.copy}/></button>{:else}<div class="miniature back"><CardBack format="deck"/></div>{/if}</div>
                 <p class="path">{zones[step.from.zone]} → {zones[step.to.zone]}</p>{#if !card || step.effect !== definition(card.cardId).name || step.devotion !== undefined}<p class="effect">{step.effect}{step.devotion !== undefined ? ` · Devotion ${step.devotion}` : ''}</p>{/if}
               </article>
             {/each}

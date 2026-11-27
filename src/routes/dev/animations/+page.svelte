@@ -1,4 +1,5 @@
 <script lang="ts">
+  import {isBlockingAnimation} from '$lib/components/play/motion';
   import { onMount, tick, untrack } from 'svelte';
   import { base } from '$app/paths';
   import TabletopSession from '$lib/components/play/TabletopSession.svelte';
@@ -8,6 +9,7 @@
   import type { GameCommand } from '$lib/backend/setup-repository';
   import { fixture, scenarios } from './scenarios';
 
+  let gameView=$state<GameSession>();
   let surface=$state('game'), edge=$state<Edge>('south'), tableView=$state<TabletopSession>();
   let preparedTable=$state<Tabletop>(freshTable());
   let subject=$state('treasure'), players=$state<2|3|4>(2), observer=$state(false);
@@ -45,7 +47,7 @@
   async function trigger() {
     if(!prepared.trigger||!ready)return;
     toolsOpen=false;triggered=true;
-    if(surface==='tabletop'){ready=false;await tableView?.play(prepared.trigger);}else await send(prepared.trigger,prepared.actor);
+    if(surface==='tabletop'){ready=false;await tableView?.play(prepared.trigger);}else if(!observer)await gameView?.play(prepared.trigger);else await send(prepared.trigger,prepared.actor);
   }
   function settled(revision:number) {
     if(revision!==events.length)return;
@@ -63,7 +65,7 @@
     let frame=0;
     function inspect(){
       const animations=document.getAnimations().filter(animation=>animation.playState==='running'||animation.pending);
-      activeAnimations=animations.length;flights=document.querySelectorAll('.public-flight').length;
+      activeAnimations=animations.filter(isBlockingAnimation).length;flights=document.querySelectorAll('.public-flight').length;
       for(const animation of animations)if(animation.playbackRate!==speed)animation.updatePlaybackRate(speed);
       frame=requestAnimationFrame(inspect);
     }
@@ -77,7 +79,7 @@
   {#if surface==='tabletop'}
     <TabletopSession bind:this={tableView} initialTable={preparedTable} persist={false} motionRate={speed} onState={table=>{events=table.events;}} onReady={(revision,available)=>{if(available)settled(revision);else ready=false;}}/>
   {:else}
-  <GameSession motionRate={speed} {game} {uid} roomId="MOTION" status="synced" busy={false} {error} command={(command,revision)=>send(command,uid,revision)} retry={()=>{error='';}} again={()=>reset()} onSettled={settled}/>
+  <GameSession bind:this={gameView} motionRate={speed} {game} {uid} roomId="MOTION" status="synced" busy={false} {error} command={(command,revision)=>send(command,uid,revision)} retry={()=>{error='';}} again={()=>reset()} onSettled={settled}/>
   {/if}
 {/key}
 <aside class="lab-tools" aria-label="Animation lab">
@@ -102,7 +104,7 @@
       {#if reduced}<p class="warning">Your system requests reduced motion. Disable that preference to review animations.</p>{/if}
       <p class="note">Last command: {latest} · revision {events.length} · viewing {game.players.find(player=>player.uid===uid)?.name}</p>
       {#if error}<p role="alert">{error}</p>{/if}
-      <nav><a href={`${base}/dev/table/`}>Free play</a><a href={`${base}/dev/coverflow/`}>Supply geometry</a><a href={`${base}/dev/choices/`}>Choice preview</a></nav>
+      <nav><a href={`${base}/dev/expansion/`}>New houses & effects</a><a href={`${base}/dev/table/`}>Free play</a><a href={`${base}/dev/coverflow/`}>Supply geometry</a><a href={`${base}/dev/choices/`}>Choice preview</a></nav>
     </div>
   {/if}
 </aside>

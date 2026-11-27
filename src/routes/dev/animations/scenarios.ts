@@ -1,9 +1,11 @@
+import {expansionScenarios,expansionFixture} from './expansion-scenarios';
 import { treasuresRightToLeft } from '$lib/components/play/hand-order';
 import { replaySetup, leaderIds, type SetupEvent } from '$lib/game/setup';
 import { initialTurn, activePlayer, applyPlayCommand, definition, eligibleGains, type ActionCommand } from '$lib/game/actions';
 import type { GameCommand } from '$lib/backend/setup-repository';
 
 export const scenarios = [
+  ...expansionScenarios,
   { id: 'treasure', name: 'Single treasure', hint: 'One Obol, one Drachma and one Talent in hand. Trigger plays the rightmost Treasure (Talent); click the others individually to compare flights and hand reflow.' },
   { id: 'treasures', name: 'Play all treasures', hint: 'One Obol, one Drachma and one Talent fly together. Compare staggering, landing order and hand reflow.' },
   { id: 'buy', name: 'Purchase', hint: 'Market → purchased-card area, separated from played cards.' },
@@ -20,6 +22,7 @@ export type Fixture = { events: SetupEvent[]; actor: string; trigger?: GameComma
 
 /** Seeded legal event histories, not fabricated zones. Reset always restores the same deal. */
 export function fixture(id: string, count: 2 | 3 | 4, playerIds = Array.from({length:count},(_,i)=>`lab-${i}`)): Fixture {
+  if(id.startsWith('expansion-'))return expansionFixture(id,count,playerIds);
   const leader = id === 'bronze-recruit' || id === 'forge-of-heroes' ? 'doreios' : id === 'favor' ? 'thaleia' : definitionOrGod(id);
   const names = ['Ariadne', 'Theseus', 'Iris', 'Leon'];
   let events: SetupEvent[] = names.slice(0, count).map((name, i) => ({ schemaVersion: 1, sequence: i + 1, actorUid: playerIds[i], name, playerCount: count, type: i ? 'player/joined' : 'game/created', ...(i ? {} : {equalTurns:initialTurn().equalTurns}) }));

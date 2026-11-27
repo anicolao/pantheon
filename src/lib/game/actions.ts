@@ -1,4 +1,4 @@
-import { cards } from './cards';
+import { gameCards as cards } from './cards';
 import { shuffle } from './random';
 import type { CardInstance, SetupState } from './setup';
 
@@ -21,10 +21,15 @@ export type Effect =
   | { kind: 'draw'; amount: number; source: string }
   | { kind: 'trash' | 'discard'; amount: number; source: string; forge?: boolean; offering?: 'sum' | 1 | 3 }
   | { kind: 'gain'; limit: number; source: string; actionOnly?: boolean; topdeck?: boolean; optional?: boolean; cardId?: string }
-  | { kind: 'reveal'; source: string };
-export type Choice = { id: string; kind: 'trash' | 'discard' | 'gain'; source: string; min: number; max: number; limit?: number; forge?: boolean; offering?: 'sum' | 1 | 3; actionOnly?: boolean; topdeck?: boolean; browsedCardId?: string; selectedCount?: number };
-export type Movement = { sequence: number; index: number; uid: string; kind: 'play' | 'draw' | 'trash' | 'discard' | 'gain' | 'reveal' | 'topdeck' | 'shuffle' | 'leader' | 'worship'; card?: CardInstance; source: string; amount?: number };
-export type TurnState = { marketFocus?: {cardId:string;sequence:number}; worshipFocus?: string; equalTurns?: boolean; finalRound?: boolean; endTriggeredBy?: string; number: number; index: number; phase: 'actions' | 'treasures' | 'buys' | 'finished'; leaderUsed: boolean; queue: Effect[]; choice: Choice | null; shuffles: Record<string, number>; turns: Record<string, number> };
+  | { kind: 'reveal'; source: string }
+  | { kind: 'echo' | 'bind' | 'deploy'; amount: number; source: string }
+  | { kind: 'seek'; amount: number; source: string; filter?: 'Action' | 'Treasure' }
+  | { kind: 'shield'; source: string }
+  | { kind: 'resolution'; source: string; card: CardInstance; number: number };
+export type Choice = { id: string; kind: 'trash' | 'discard' | 'gain' | 'echo' | 'seek' | 'bind'; filter?: 'Action' | 'Treasure' | 'Territory'; shield?: boolean; source: string; min: number; max: number; limit?: number; forge?: boolean; offering?: 'sum' | 1 | 3; actionOnly?: boolean; topdeck?: boolean; browsedCardId?: string; selectedCount?: number };
+export type MoveAnchor = {zone:'hand'|'deck'|'play'|'discard'|'reveal';uid:string};
+export type Movement = { notice?: string; batch?: string; from?: MoveAnchor; to?: MoveAnchor; sequence: number; index: number; uid: string; kind: 'play' | 'draw' | 'trash' | 'discard' | 'gain' | 'reveal' | 'topdeck' | 'shuffle' | 'leader' | 'worship' | 'resolution' | 'notice'; card?: CardInstance; source: string; amount?: number };
+export type TurnState = { deploy?: number; revealed?: CardInstance[]; marketFocus?: {cardId:string;sequence:number}; worshipFocus?: string; equalTurns?: boolean; finalRound?: boolean; endTriggeredBy?: string; number: number; index: number; phase: 'actions' | 'treasures' | 'buys' | 'finished'; leaderUsed: boolean; queue: Effect[]; choice: Choice | null; shuffles: Record<string, number>; turns: Record<string, number> };
 export function initialTurn(): TurnState { return { equalTurns: true, number: 1, index: 0, phase: 'actions', leaderUsed: false, queue: [], choice: null, shuffles: {}, turns: {} }; }
 export const definition = (id: string) => { const card = cards.find(card => card.id === id); if (!card) throw new Error('Unknown card.'); return card; };
 export const activePlayer = (game: SetupState) => game.turnOrder[game.turn.index];
@@ -46,6 +51,10 @@ export function worshipReason(game: SetupState, uid: string, eventId: string): s
 export function worshipEffects(id: string, favored: boolean): Effect[] {
   const buy: Effect = { kind: 'resource', source: id, resource: 'buys', amount: 1 };
   switch (id) {
+    case 'reverberation': return [{kind:'echo',amount:favored?2:1,source:id}];
+    case 'open-the-hidden-way': return [{kind:'seek',amount:favored?6:4,source:id},...(favored?[resource(id,'actions',1)]:[])];
+    case 'march-of-victory': return [{kind:'deploy',amount:favored?3:1,source:id}];
+    case 'stillness-of-the-underworld': return [resource(id,'coins',favored?2:1),{kind:'bind',amount:favored?2:1,source:id}];
     case 'counsel-of-olympus': return [{ kind: 'gain', source: id, limit: favored ? 5 : 3, actionOnly: true, topdeck: true }];
     case 'tribute-of-the-tides': return [{ kind: 'gain', source: id, limit: 3, cardId: 'drachma', topdeck: favored }, ...(favored ? [buy] : [])];
     case 'blessing-of-the-fields': return [{ kind: 'trash', source: id, amount: 2, ...(favored ? { offering: 'sum' as const } : {}) }, ...(favored ? [buy] : [])];
@@ -54,10 +63,13 @@ export function worshipEffects(id: string, favored: boolean): Effect[] {
   }
 }
 export function canPlayAction(game: SetupState, uid: string, instanceId: string) {
-  return game.phase === 'playing' && activePlayer(game) === uid && game.turn.phase === 'actions' && !game.turn.choice && game.resources.actions > 0 && game.decks[uid]?.hand.some(card => card.id === instanceId && definition(card.cardId).type === 'Action');
+  return game.phase === 'playing' && activePlayer(game) === uid && ((game.turn.phase === 'actions' && game.resources.actions > 0) || (game.turn.deploy ?? 0) > 0) && !game.turn.choice && game.decks[uid]?.hand.some(card => card.id === instanceId && definition(card.cardId).type === 'Action');
 }
+// Keep historical base-game replays and frozen policy behavior unchanged.
+export function expansionRules(game: SetupState) { return Object.values(game.leaders).some(id=>['echo','theseus','achilles','perseus'].includes(id)); }
+function treasurePhase(game:SetupState) { return ['actions','treasures'].includes(game.turn.phase) || (game.turn.phase==='buys' && expansionRules(game)); }
 export function canPlayTreasure(game: SetupState, uid: string, instanceId: string) {
-  return game.phase === 'playing' && activePlayer(game) === uid && ['actions','treasures'].includes(game.turn.phase) && !game.turn.choice && game.decks[uid]?.hand.some(card => card.id === instanceId && definition(card.cardId).type === 'Treasure');
+  return game.phase === 'playing' && activePlayer(game) === uid && treasurePhase(game) && !game.turn.choice && game.decks[uid]?.hand.some(card => card.id === instanceId && definition(card.cardId).type === 'Treasure');
 }
 export function purchaseReason(game: SetupState, uid: string, id: string): string {
   if (game.turn.phase === 'finished') return 'The game is over.';
@@ -85,7 +97,7 @@ export function departureReminder(game: SetupState, uid: string) {
 }
 export function standings(game: SetupState) {
   const rows = game.players.map(player => {
-    const owned = Object.values(game.decks[player.uid]).flat();
+    const owned = [...Object.entries(game.decks).flatMap(([holder,zones])=>Object.values(zones).flat().filter(card=>(card.ownerUid??holder)===player.uid)),...(activePlayer(game)===player.uid?game.turn.revealed??[]:[])];
     return { ...player, score: owned.reduce((sum, card) => sum + (definition(card.cardId).vp ?? 0), 0), turns: game.turn.turns[player.uid] ?? 0,
       territories: ['hamlet', 'polis', 'acropolis'].map(id => ({ id, count: owned.filter(card => card.cardId === id).length })) };
   }).sort((a,b) => b.score-a.score || a.turns-b.turns);
@@ -98,6 +110,18 @@ export function actionEffects(id: string, variant: PlayVariant = 'standard'): Ef
   const add = (key: 'actions' | 'coins' | 'buys' | 'worship', amount: number) => resource(id, key, amount);
   if (definition(id).uniqueStartingCard) return [add('worship', 1), add('actions', 1)];
   switch (id) {
+    case 'borrowed-voice': return [{kind:'echo',amount:1,source:id}];
+    case 'thunders-answer': return [draw(1),{kind:'echo',amount:1,source:id}];
+    case 'chorus-of-olympus': return [add('actions',1),{kind:'echo',amount:2,source:id}];
+    case 'ariadnes-thread': return [add('actions',1),{kind:'seek',amount:3,filter:'Treasure',source:id}];
+    case 'labyrinth-scout': return [add('actions',1),{kind:'seek',amount:4,filter:'Action',source:id}];
+    case 'wayfinder': return [draw(1),add('actions',1),{kind:'seek',amount:3,source:id}];
+    case 'rallying-cry': return [draw(1),{kind:'deploy',amount:1,source:id}];
+    case 'myrmidon-vanguard': return [add('coins',2),{kind:'deploy',amount:1,source:id}];
+    case 'phalanx-advance': return [draw(1),{kind:'deploy',amount:2,source:id}];
+    case 'polished-shield': return [draw(1),add('actions',1),{kind:'shield',source:id}];
+    case 'gorgons-gaze': return [add('coins',2),{kind:'bind',amount:1,source:id}];
+    case 'harpe-bearer': return [draw(2),{kind:'bind',amount:1,source:id}];
     case 'oracles-acolyte': return [draw(1), add('actions', 1)];
     case 'council-of-sages': return [draw(3)];
     case 'sacred-academy': return [draw(2), add('actions', 1)];
@@ -118,6 +142,10 @@ export type PlayVariant = 'standard' | 'thaleia-draw' | 'leader-buffs' | 'thalei
 /** Public trigger definition shared by the reducer and simulation observations. */
 export function leaderEffects(id: string, variant: PlayVariant = 'standard'): Effect[] {
   if (variant === 'base-game') return [];
+  if (id === 'echo') return [{kind:'echo',amount:1,source:id}];
+  if (id === 'theseus') return [{kind:'seek',amount:2,filter:'Action',source:id}];
+  if (id === 'achilles') return [{kind:'deploy',amount:1,source:id}];
+  if (id === 'perseus') return [{kind:'bind',amount:1,source:id}];
   if (id === 'thaleia') return [resource(id, 'actions', variant === 'thaleia-actions' ? 2 : 1),
     ...(variant === 'thaleia-buy' ? [resource(id, 'buys', 1)] : []),
     ...(variant === 'thaleia-draw' || variant === 'leader-buffs' ? [{ kind: 'draw' as const, source: id, amount: 1 }] : [])];
@@ -125,6 +153,20 @@ export function leaderEffects(id: string, variant: PlayVariant = 'standard'): Ef
   if (id === 'melia') return [{ kind: 'draw', source: id, amount: variant === 'leader-buffs' ? 2 : 1 }];
   if (id === 'doreios') return [{ kind: 'trash', source: id, amount: 1 }];
   return [];
+}
+export function isExpansionChoice(choice: Choice | null | undefined): boolean {
+  return !!choice && ['echo','seek','bind'].includes(choice.kind);
+}
+/** Selection IDs always identify physical cards, or an explicitly empty opponent deck. */
+export function effectOptions(game: SetupState, uid: string, choice = game.turn.choice) {
+  if (!choice) return [];
+  if (choice.kind === 'seek') return (game.turn.revealed ?? []).filter(card => !choice.filter || definition(card.cardId).type === choice.filter).map(card => ({id:card.id,card,uid}));
+  if (choice.kind === 'echo' || choice.kind === 'bind') return game.players.filter(player => player.uid !== uid).flatMap(player => {
+    const zones = game.decks[player.uid];
+    if (choice.kind === 'echo' && !zones.discard.length && zones.deck.length) return [{id:'deck:'+player.uid,uid:player.uid,card:undefined as CardInstance|undefined}];
+    return zones.discard.filter(card => definition(card.cardId).type === (choice.kind === 'bind'?'Territory':'Action')).map(card => ({id:card.id,uid:player.uid,card:card as CardInstance|undefined}));
+  });
+  return game.decks[uid].hand.filter(card => !choice.filter || definition(card.cardId).type === choice.filter).map(card => ({id:card.id,card,uid}));
 }
 export function applyPlayCommand(game: SetupState, uid: string, command: ActionCommand, sequence: number, variant: PlayVariant = 'standard'): string {
   if (command.type === 'action/undone') throw new Error('Undo requires the committed command history.');
@@ -141,14 +183,15 @@ export function applyPlayCommand(game: SetupState, uid: string, command: ActionC
   }
   if (command.type === 'choice/staged') {
     const choice=game.turn.choice;
-    if(!choice || choice.id!==command.choiceId || choice.kind==='gain' || !Number.isInteger(command.count) || command.count<0 || command.count>choice.max) throw new Error('Choose a valid count for the current hand choice.');
+    if(!choice || choice.id!==command.choiceId || !['trash','discard'].includes(choice.kind) || !Number.isInteger(command.count) || command.count<0 || command.count>choice.max) throw new Error('Choose a valid count for the current hand choice.');
     choice.selectedCount=command.count;
     return `${game.players.find(player=>player.uid===uid)!.name} selected ${command.count} cards to ${choice.kind}.`;
   }
   if (command.type === 'choice/browsed') {
     const choice = game.turn.choice;
-    if (!choice || choice.id !== command.choiceId || choice.kind !== 'gain' ||
-      !eligibleGains(game, choice.limit!, choice.actionOnly).some(card => card.id === command.cardId)) throw new Error('Choose an available pile for the current gain.');
+    if (!choice || choice.id !== command.choiceId ||
+      !(choice.kind==='gain' ? eligibleGains(game, choice.limit!, choice.actionOnly).some(card => card.id === command.cardId)
+        : choice.kind==='seek' && game.turn.revealed?.some(card=>card.cardId===command.cardId))) throw new Error('Choose an available pile for the current gain.');
     choice.browsedCardId = command.cardId;
     return `${game.players.find(player => player.uid === uid)!.name} browsed ${definition(command.cardId).name}.`;
   }
@@ -156,6 +199,33 @@ export function applyPlayCommand(game: SetupState, uid: string, command: ActionC
   const zones = game.decks[uid], name = game.players.find(player => player.uid === uid)!.name;
   const messages: string[] = [];
   const move = (kind: Movement['kind'], source: string, card?: CardInstance, amount?: number) => game.movements.push({ sequence, index: game.movements.length, uid, kind, source, ...(card ? { card: { ...card } } : {}), ...(amount !== undefined ? { amount } : {}) });
+  function transfer(kind: Movement['kind'], source: string, card: CardInstance, from: MoveAnchor, to: MoveAnchor) {
+    move(kind, source, card); Object.assign(game.movements.at(-1)!, {from,to});
+  }
+  function playAction(card: CardInstance, source: string, from: MoveAnchor, free = false) {
+    const repeat = game.turn.deploy ?? 0;
+    delete game.turn.deploy;
+    if (!free && !repeat) game.resources.actions--;
+    zones.play.push(card);
+    transfer('play', source, card, from, {zone:'play',uid});
+    const effects:Effect[] = Array.from({length:Math.max(1,repeat)},(_,index)=>[...(repeat>1?[{kind:'resolution' as const,source:card.cardId,card:{...card},number:index+1}]:[]),...actionEffects(card.cardId,variant)]).flat();
+    const leader = definition(game.leaders[uid]);
+    if (variant !== 'base-game' && !game.turn.leaderUsed && leader.god === definition(card.cardId).god) {
+      game.turn.leaderUsed = true; effects.push(...leaderEffects(leader.id,variant));
+    }
+    game.turn.queue.unshift(...effects);
+    messages.push('played '+definition(card.cardId).name+(repeat>1?' ×'+repeat:''));
+  }
+  function borrow(card: CardInstance, owner: string, source: string) {
+    card.ownerUid = owner;
+    messages.push(`borrowed ${definition(card.cardId).name} from ${game.players.find(player=>player.uid===owner)!.name}`);
+    if (definition(card.cardId).type === 'Action') playAction(card,source,{zone:'discard',uid:owner},true);
+    else {
+      zones.play.push(card); const value=({obol:1,drachma:2,talent:3}[card.cardId] ?? 0); game.resources.coins += value;
+      messages.push(`played ${definition(card.cardId).name}, +${value} ${value===1?'Coin':'Coins'}; returns to its owner at cleanup`);
+      transfer('play',source,card,{zone:'discard',uid:owner},{zone:'play',uid});
+    }
+  }
   function takeTop(source: string) {
     if (!zones.deck.length && zones.discard.length) {
       const seat = game.players.findIndex(player => player.uid === uid), count = game.turn.shuffles[uid] ?? 0;
@@ -183,6 +253,38 @@ export function applyPlayCommand(game: SetupState, uid: string, command: ActionC
       const effect = game.turn.queue.shift()!;
       if (definition(effect.source).type === 'Leader') { move('leader', effect.source); messages.push(`${definition(effect.source).name.split(',')[0]}’s blessing`); }
       if (effect.kind === 'resource') { game.resources[effect.resource] += effect.amount; messages.push(`+${effect.amount} ${effect.resource === 'worship' ? 'Worship' : effect.resource}`); }
+      else if (effect.kind === 'resolution') {move('resolution',effect.source,effect.card,effect.number);}
+      else if (effect.kind === 'deploy') {
+        game.turn.deploy = game.turn.deploy ? game.turn.deploy + effect.amount - 1 : effect.amount;
+        messages.push('Deploy '+effect.amount);
+      }
+      else if (effect.kind === 'echo' || effect.kind === 'bind') {
+        if(effect.amount>1)game.turn.queue.unshift({...effect,amount:effect.amount-1});
+        const choice:Choice={id:`${sequence}:${game.movements.length}:${game.turn.queue.length}:${effect.kind}`,kind:effect.kind,source:effect.source,min:0,max:1};
+        if(effectOptions(game,uid,choice).length)game.turn.choice=choice;
+        else {
+          const opponents=game.players.filter(player=>player.uid!==uid);
+          const single=opponents.length===1?opponents[0]:undefined;
+          const notice=effect.kind==='echo'
+            ? single && game.decks[single.uid].discard.length
+              ? `${single.name}’s discard has no Actions. It is not empty, so you cannot reveal from their deck.`
+              : 'No Action to borrow. A deck reveal requires an empty opponent discard and a card left in that deck.'
+            : 'No Territory in an opponent’s discard to topdeck.';
+          messages.push(notice);
+          move('notice',effect.source);
+          game.movements.at(-1)!.notice=notice;
+        }
+      }
+      else if (effect.kind === 'seek') {
+        const revealed:CardInstance[]=[];
+        const batch=`${sequence}:${game.movements.length}:seek-reveal`;
+        for(let i=0;i<effect.amount;i++){const card=takeTop(effect.source);if(!card)break;revealed.push(card);move('reveal',effect.source,card);game.movements.at(-1)!.batch=batch;}
+        game.turn.revealed=revealed;
+        if(revealed.length)game.turn.choice={id:`${sequence}:${game.movements.length}:seek`,kind:'seek',source:effect.source,min:0,max:1,...(effect.filter?{filter:effect.filter}:{})};
+      }
+      else if (effect.kind === 'shield') {
+        if(zones.hand.some(card=>definition(card.cardId).type==='Territory'))game.turn.choice={id:`${sequence}:${game.movements.length}:shield`,kind:'discard',source:effect.source,min:0,max:1,filter:'Territory',shield:true};
+      }
       else if (effect.kind === 'draw') draw(effect.amount, effect.source);
       else if (effect.kind === 'reveal') {
         const card = takeTop(effect.source);
@@ -198,7 +300,7 @@ export function applyPlayCommand(game: SetupState, uid: string, command: ActionC
         }
         if (!eligibleGains(game, effect.limit, effect.actionOnly).length) { messages.push('no eligible card to gain'); continue; }
         game.turn.choice = { id: `${sequence}:${game.turn.queue.length}:gain`, kind: 'gain', source: effect.source, min: effect.optional ? 0 : 1, max: 1, limit: effect.limit, ...(effect.actionOnly ? { actionOnly: true } : {}), ...(effect.topdeck ? { topdeck: true } : {}) };
-      } else {
+      } else if (effect.kind === 'trash' || effect.kind === 'discard') {
         const max = Math.min(effect.amount, zones.hand.length);
         if (!max) {
           messages.push(`no cards to ${effect.kind}`);
@@ -214,13 +316,7 @@ export function applyPlayCommand(game: SetupState, uid: string, command: ActionC
     case 'action/played': {
       if (!canPlayAction(game, uid, command.instanceId)) throw new Error('Choose an Action in your hand while you have an Action remaining.');
       const index = zones.hand.findIndex(card => card.id === command.instanceId), card = zones.hand.splice(index, 1)[0];
-      zones.play.push(card); game.resources.actions--; move('play', card.cardId, card); messages.push(`played ${definition(card.cardId).name}`);
-      game.turn.queue = actionEffects(card.cardId, variant);
-      const leader = definition(game.leaders[uid]);
-      if (variant !== 'base-game' && !game.turn.leaderUsed && leader.god === definition(card.cardId).god) {
-        game.turn.leaderUsed = true;
-        game.turn.queue.push(...leaderEffects(leader.id, variant));
-      }
+      playAction(card,card.cardId,{zone:'hand',uid});
       resolve(); break;
     }
     case 'god/worshipped': {
@@ -236,16 +332,50 @@ export function applyPlayCommand(game: SetupState, uid: string, command: ActionC
     case 'choice/resolved': {
       const choice = game.turn.choice;
       if (!choice || command.choiceId !== choice.id || !Array.isArray(command.targets) || command.targets.some(id => typeof id !== 'string') || new Set(command.targets).size !== command.targets.length || command.targets.length < choice.min || command.targets.length > choice.max) throw new Error('Choose the required cards for this effect.');
-      if (choice.kind === 'gain') {
+      if (isExpansionChoice(choice)) {
+        const options=effectOptions(game,uid,choice);
+        if(command.targets.some(id=>!options.some(option=>option.id===id)))throw new Error('Choose an eligible public card.');
+        const selected=options.find(option=>option.id===command.targets[0]);
+        if(choice.kind==='seek'){
+          for(const card of game.turn.revealed??[]){
+            const keep=card.id===selected?.id;
+            (keep?zones.hand:zones.discard).push(card);
+            transfer(keep?'draw':'discard',choice.source,card,{zone:'reveal',uid},{zone:keep?'hand':'discard',uid});
+            if(!keep)game.movements.at(-1)!.batch=choice.id+':discard';
+          }
+          delete game.turn.revealed;
+        }else if(selected){
+          const opponent=game.decks[selected.uid];
+          if(choice.kind==='bind'){
+            const card=opponent.discard.splice(opponent.discard.findIndex(card=>card.id===selected.id),1)[0];
+            opponent.deck.unshift(card);
+            transfer('topdeck',choice.source,card,{zone:'discard',uid:selected.uid},{zone:'deck',uid:selected.uid});
+          }else{
+            let card=selected.card;
+            if(!card){
+              card=opponent.deck.shift()!;
+              messages.push(`${definition(choice.source).name}: empty discard — revealed ${definition(card.cardId).name} from ${game.players.find(player=>player.uid===selected.uid)!.name}’s deck`);
+              opponent.discard.push(card);
+              transfer('reveal',choice.source,card,{zone:'deck',uid:selected.uid},{zone:'reveal',uid});
+              transfer('discard',choice.source,card,{zone:'reveal',uid},{zone:'discard',uid:selected.uid});
+            }
+            if(['Action','Treasure'].includes(definition(card.cardId).type)){
+              opponent.discard.splice(opponent.discard.findIndex(item=>item.id===card!.id),1);
+              borrow(card,selected.uid,choice.source);
+            }else messages.push(`${definition(card.cardId).name} is a Territory: no effect; left in its owner’s discard`);
+          }
+        } else messages.push(`declined ${choice.kind==='echo'?'Echo':'Bind'} from ${definition(choice.source).name}`);
+      } else if (choice.kind === 'gain') {
         if (command.targets.length && !eligibleGains(game, choice.limit!, choice.actionOnly).some(card => card.id === command.targets[0])) throw new Error('Choose an available card within the cost limit.');
         if (command.targets.length) gain(command.targets[0], choice.source, choice.topdeck);
         else messages.push('chose not to gain');
       } else {
-        if (command.targets.some(id => !zones.hand.some(card => card.id === id))) throw new Error('Choose cards from your hand.');
+        if (command.targets.some(id => !effectOptions(game,uid,choice).some(option => option.id === id))) throw new Error('Choose cards from your hand.');
         const chosen = command.targets.map(id => zones.hand.find(card => card.id === id)!);
         zones.hand = zones.hand.filter(card => !command.targets.includes(card.id));
-        for (const card of chosen) { (choice.kind === 'trash' ? game.trash : zones.discard).push(card); move(choice.kind, choice.source, card); }
+        for (const card of chosen) { (choice.kind === 'trash' ? game.trash : zones.discard).push(card); move(choice.kind as 'trash'|'discard', choice.source, card); }
         messages.push(chosen.length ? `${choice.kind === 'trash' ? 'trashed' : 'discarded'} ${chosen.map(card => definition(card.cardId).name).join(', ')}` : 'trashed no cards');
+        if (choice.shield && chosen.length) game.turn.queue.unshift({kind:'draw',amount:1,source:choice.source});
         if (choice.offering === 'sum') game.turn.queue.unshift({ kind: 'gain', source: choice.source, limit: chosen.reduce((sum, card) => sum + definition(card.cardId).cost!, 0), optional: true });
         else if (choice.offering && chosen.length) game.turn.queue.unshift({ kind: 'gain', source: choice.source, limit: definition(chosen[0].cardId).cost! + choice.offering });
         if (choice.forge && chosen.length) game.turn.queue.unshift({ kind: 'gain', source: choice.source, limit: definition(chosen[0].cardId).cost! + 2 });
@@ -261,15 +391,15 @@ export function applyPlayCommand(game: SetupState, uid: string, command: ActionC
     }
     case 'treasures/played': {
       const treasures = zones.hand.filter(card => definition(card.cardId).type === 'Treasure');
-      if (!['actions','treasures'].includes(game.turn.phase) || !treasures.length) throw new Error('There are no Treasures to play.');
-      game.turn.phase = 'treasures';
+      if (!treasurePhase(game) || !treasures.length) throw new Error('There are no Treasures to play.');
+      if(game.turn.phase!=='buys')game.turn.phase = 'treasures';
       for (const card of treasures) { zones.hand.splice(zones.hand.findIndex(item => item.id === card.id), 1); zones.play.push(card); const value = { obol: 1, drachma: 2, talent: 3 }[card.cardId]!; game.resources.coins += value; move('play', card.cardId, card); messages.push(`played ${definition(card.cardId).name}, +${value} coins`); }
       break;
     }
     case 'treasure/played': {
       const index = zones.hand.findIndex(card => card.id === command.instanceId);
-      if (!['actions','treasures'].includes(game.turn.phase) || index < 0 || definition(zones.hand[index].cardId).type !== 'Treasure') throw new Error('Play a Treasure from your hand in the Treasure phase.');
-      game.turn.phase = 'treasures';
+      if (!treasurePhase(game) || index < 0 || definition(zones.hand[index].cardId).type !== 'Treasure') throw new Error('Play a Treasure from your hand in the Treasure phase.');
+      if(game.turn.phase!=='buys')game.turn.phase = 'treasures';
       const card = zones.hand.splice(index, 1)[0]; zones.play.push(card); const value = { obol: 1, drachma: 2, talent: 3 }[card.cardId]!;
       game.resources.coins += value; move('play', card.cardId, card); messages.push(`played ${definition(card.cardId).name}, +${value} coins`); break;
     }
@@ -283,6 +413,13 @@ export function applyPlayCommand(game: SetupState, uid: string, command: ActionC
     case 'turn/ended': {
       delete game.turn.worshipFocus;
       if (!['treasures', 'buys'].includes(game.turn.phase)) throw new Error('Finish the Action phase first.');
+      delete game.turn.deploy;
+      for(const card of zones.play.filter(card=>card.ownerUid)){
+        const owner=card.ownerUid!; delete card.ownerUid;
+        game.decks[owner].discard.push(card);
+        transfer('discard',card.cardId,card,{zone:'play',uid},{zone:'discard',uid:owner});
+        zones.play=zones.play.filter(item=>item.id!==card.id);
+      }
       zones.discard.push(...zones.hand, ...zones.play); zones.hand = []; zones.play = []; draw(5, game.leaders[uid]);
       game.turn.turns[uid] = (game.turn.turns[uid] ?? 0) + 1;
       game.resources = { actions: 1, coins: 0, buys: 1, worship: variant === 'base-game' ? 0 : 1 }; game.turn.leaderUsed = false;

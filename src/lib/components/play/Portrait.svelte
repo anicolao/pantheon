@@ -1,10 +1,11 @@
 <script lang="ts">
+  import { definition } from '$lib/game/actions';
   import { base } from '$app/paths';
   import VictoryCounter from './VictoryCounter.svelte';
   let { leader, name, active = false, points }: { leader: string; name: string; active?: boolean; points?: number } = $props();
 </script>
 <div class="portrait" class:active>
-  <div class="window"><img src={`${base}/assets/cards/${leader}.webp`} alt="" draggable="false" /></div>
+  <div class="window"><img src={`${base}/assets/cards/${definition(leader).art}.webp`} alt="" draggable="false" /></div>
   <img class="frame" src={`${base}/assets/ui/gather-medallion-portrait.png`} alt="" draggable="false" />
   <span class:long={name.length > 12}>{name}</span>
   {#if points !== undefined}<div class="avatar-vp"><VictoryCounter {points}/></div>{/if}

@@ -38,7 +38,7 @@
   {#if temple}<WorshipFace {game} uid={actor} cardId={temple}/>{/if}
   {#if choice && choice.kind!=='gain'}
     <div class="observer-target" data-observer-target={choice.kind} data-public-uid={actor} data-public-zone="selection">
-      <ResourceIcon resource={choice.kind}/>
+      <ResourceIcon resource={choice.kind as 'trash'|'discard'|'gain'}/>
       {#each Array(selected) as _,index (index)}<div class="selected-back" style:left={`calc(50% + ${index*14}px)`} transition:fromHand><CardBack format="deck"/></div>{/each}
     </div>
   {/if}
