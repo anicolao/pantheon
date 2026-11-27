@@ -393,7 +393,7 @@ test('expansion leaders commit through the same authenticated draft stream',asyn
 });
 
 
-test('online expansion rooms retain their mode for guests, reloads and new tables, and exclude bots',async()=>{
+test('online expansion rooms retain their mode for guests, reloads and new tables, and exclude incompatible bots',async()=>{
  const {inspectRoom,inviteBot,automateHost}=await import('../../src/lib/backend/setup-repository');
  const host=database('exp-mode-host'),guest=database('exp-mode-guest');
  const attempt={token:'exp-mode-token'};
@@ -405,8 +405,8 @@ test('online expansion rooms retain their mode for guests, reloads and new table
  const events=await history(host,id),state=replaySetup(events);
  expect(state.expansion).toBe(true);
  expect(events[1].expansion).toBeUndefined();
- await expect(inviteBot(host,id,'exp-mode-host','standard','bot-exp-mode')).rejects.toThrow('human');
- await expect(automateHost(host,id,'exp-mode-host','standard')).rejects.toThrow('human');
+ await expect(inviteBot(host,id,'exp-mode-host','standard','bot-exp-mode')).rejects.toThrow('compatible');
+ await expect(automateHost(host,id,'exp-mode-host','standard')).rejects.toThrow('compatible');
  const next=await createRoom(host,'exp-mode-host','Host',2,{token:'exp-rematch-token'},()=> 'EXPNX',!!state.expansion);
  expect((await inspectRoom(host,next)).expansion).toBe(true);
  // A client cannot switch the mode on a later revision or add an automated seat.

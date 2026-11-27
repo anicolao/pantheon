@@ -55,6 +55,8 @@
   let alive = true;
   let botKind=$state<BotKind>('standard');
   let botError=$state('');
+  const availableBots:readonly BotKind[]=$derived(expansion?['expansion-rl']:botDifficulties);
+  $effect(()=>{if(!availableBots.includes(botKind))botKind=availableBots[0];});
   let hostSeat=$state('human');
   let botInvitation:{uid:string;kind:BotKind}|undefined;
   let botWorker:Worker|undefined,botRequest=0,botRevision=-1;
@@ -350,10 +352,10 @@
     <GameButton primary onclick={copyInvitation}>{copied ? 'Invitation copied' : 'Copy invitation'}</GameButton>
     <p role="status">{copied ? 'Send it to the players you want at your table.' : manualInvitation ? 'Select and copy your invitation below.' : ''}</p>
     {#if manualInvitation}<label class="manual">Your invitation<input bind:this={invitationInput} readonly value={invitation} onclick={() => invitationInput?.select()} /></label>{/if}
-    {#if !expansion && setup?.players[0]?.uid===services?.uid}
+    {#if setup?.players[0]?.uid===services?.uid}
       <section class="bot-invitation">
         <h3>Invite a bot</h3>
-        <label for="bot-strategy">Bot strategy</label><select id="bot-strategy" bind:value={botKind} disabled={busy}>{#each botDifficulties as kind}<option value={kind}>{botLabels[kind]}</option>{/each}</select>
+        <label for="bot-strategy">Bot strategy</label><select id="bot-strategy" bind:value={botKind} disabled={busy}>{#each availableBots as kind}<option value={kind}>{botLabels[kind]}</option>{/each}</select>
         <GameButton onclick={addBot} disabled={busy||status!=='synced'||!openSeats}>{openSeats?'Invite bot':'Table full'}</GameButton>
         <p>Bots take a seat and choose a random available leader. Keep this table open while they play.</p>
         {#if capacityError}<p role="alert">{capacityError}</p>{/if}
@@ -361,15 +363,15 @@
     {/if}
   {:else if modal === 'details'}
     <h2 id="dialog-title">Supply for {count} players</h2>
-    {#if expansion}<p>Expansion playtest · Eight leaders · Human players only</p>{/if}
+    {#if expansion}<p>Expansion playtest · Eight leaders · Trained bots available</p>{/if}
     <BuildInfo />
     {#if setup && setup.players[0]?.uid === services?.uid}
       <fieldset class="capacity"><legend>Players at your table</legend>
         {#each [2,3,4] as number}<label><input type="radio" name="capacity" aria-label={`${number} players`} value={number} bind:group={capacityChoice} disabled={busy || status !== 'synced' || number < setup.players.length} onchange={() => changeCapacity(number as 2 | 3 | 4)} /><span>{number}</span></label>{/each}
       </fieldset>
       <p class="capacity-hint">Occupied seats stay at the table.</p>
-      {#if !expansion}<div class="bot-invitation"><label for="host-seat">Your seat</label><select id="host-seat" bind:value={hostSeat} disabled={busy||status!=='synced'} onchange={()=>changeHostSeat(hostSeat)}><option value="human">I will play</option>{#each botDifficulties as kind}<option value={kind}>{botLabels[kind]}</option>{/each}</select></div>
-      {#if hostSeat!=='human'}<p>You will watch your bot play. Keep this table open to run the bots.</p>{/if}{/if}
+      <div class="bot-invitation"><label for="host-seat">Your seat</label><select id="host-seat" bind:value={hostSeat} disabled={busy||status!=='synced'} onchange={()=>changeHostSeat(hostSeat)}><option value="human">I will play</option>{#each availableBots as kind}<option value={kind}>{botLabels[kind]}</option>{/each}</select></div>
+      {#if hostSeat!=='human'}<p>You will watch your bot play. Keep this table open to run the bots.</p>{/if}
       {#if capacityError}<p role="alert">{capacityError}</p>{/if}
     {/if}
     <dl class="supply"><div><dt>Each Territory</dt><dd>{count * 3}</dd></div><div><dt>Each regular Action</dt><dd>{count * 4}</dd></div><div><dt>Obol / Drachma / Talent</dt><dd>40 / 30 / 20</dd></div></dl>

@@ -9,9 +9,11 @@ matrix and validation limits are in `docs/research/eight-house-league-2026-11-27
 uses the same deterministic masked argmax as the evaluated matrix; there is no
 planner, heuristic fallback, or access to hidden opponent hands/deck order.
 
-Play at `/expansion/bots/` on a personal screen, or add trained bot seats at
-`/expansion/tabletop/`. Preset tabletop seating uses each chosen leader; randomized
-drafting chooses among all eight available leaders. The web playtest saves locally
-and exports full event histories. Shared online expansion rooms remain human-only.
+Play through the normal lobby at `/play/?expansion=1`: create a table, open
+Invite friends, and invite a trained bot. Friends and bots share the same room,
+draft, event history, and reconnect flow. The previous `/expansion/bots/` link
+redirects to this lobby. Trained bot seats are also available at
+`/expansion/tabletop/`. Preset tabletop seating uses each chosen leader;
+randomized drafting chooses among all eight available leaders.
 
 Two-player results were measured; three- and four-player support is playtest-only.

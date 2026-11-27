@@ -75,3 +75,29 @@ for(const kind of ['easy','standard','hard','expert'] as const)test(`${kind} dif
  const g=replaySetup(await events(d,id));expect(g.players.map(p=>p.botKind)).toEqual([kind,kind]);
  expect(g.players[1].name).toBe(kind[0].toUpperCase()+kind.slice(1)+' bot 2');
 });
+
+test('trained expansion bots join the shared lobby, draft and save real moves after reload',async()=>{
+ const uid='trained-host',id='trained-room',d=db(uid);
+ await enterRoom(d,id,uid,'Host',2,undefined,true);
+ await inviteBot(d,id,uid,'expansion-rl','bot-trained');
+ await inviteBot(d,id,uid,'expansion-rl','bot-trained');
+ await automateHost(d,id,uid,'expansion-rl');
+ expect(replaySetup(await events(d,id)).players.map(p=>p.botKind)).toEqual(['expansion-rl','expansion-rl']);
+ await automateHost(d,id,uid,null);
+ await automateHost(d,id,uid,'expansion-rl');
+ await appendGameCommand(d,id,uid,'begin',{type:'draft/started',seed:'trained-shared'});
+ for(let i=0;i<16;i++){
+  const es=await events(d,id),proposal=new TableBotDriver().next(es,uid)!;
+  expect(proposal).toBeDefined();
+  await appendGameCommand(d,id,uid,proposal.commandId,proposal.command,proposal.revision,proposal.actorUid);
+  expect((await events(d,id)).length).toBe(es.length+1);
+ }
+ expect(replaySetup(await events(d,id)).phase).toBe('playing');
+ const classic=db('classic-only');
+ await enterRoom(classic,'classic-only','classic-only','Host',2);
+ await expect(inviteBot(classic,'classic-only','classic-only','expansion-rl','bot-wrong')).rejects.toThrow('compatible');
+ const batch=writeBatch(classic);
+ batch.update(doc(classic,'games','classic-only'),{revision:2,bots:{'classic-only':'expansion-rl'}});
+ batch.set(doc(classic,'games','classic-only','events','2'),{schemaVersion:1,sequence:2,actorUid:'classic-only',name:'Host',playerCount:2,type:'player/automated',botKind:'expansion-rl',createdAt:serverTimestamp()});
+ await assertFails(batch.commit());
+},30000);

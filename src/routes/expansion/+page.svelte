@@ -7,8 +7,7 @@
   <h1>Four new houses</h1>
   <p>Echo · Theseus · Achilles · Perseus</p>
   <nav aria-label="Choose how to play the expansion">
-    <section><SanctuaryLink href={`${base}/expansion/bots/`} label="Play trained bots" primary/><p>Choose your leader and opponents.<br/>Try the eight models from the league.</p></section>
-    <section><SanctuaryLink href={`${base}/play/?expansion=1`} label="Play online"/><p>Each player uses their own screen.<br/>Create a room and share its invitation.</p></section>
+    <section><SanctuaryLink href={`${base}/play/?expansion=1`} label="Play online" primary/><p>Each player uses their own screen.<br/>Invite friends or trained bots to your room.</p></section>
     <section><SanctuaryLink href={`${base}/expansion/tabletop/`} label="Play tabletop"/><p>Everyone gathers around one screen.<br/>Tap your leader to take a seat.</p></section>
   </nav>
   <p>Eight leaders · Solo against bots, online with friends, or shared tabletop</p>
