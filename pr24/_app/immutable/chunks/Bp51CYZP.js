@@ -1,0 +1,1 @@
+import{pt as e}from"./DEKbnuGl.js";e();
