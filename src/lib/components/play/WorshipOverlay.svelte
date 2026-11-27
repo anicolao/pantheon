@@ -7,7 +7,7 @@
   import WorshipFace from './WorshipFace.svelte';
   import GameButton from '../GameButton.svelte';
   import { motionDuration, MOTION_EASING } from './motion';
-  let {game,uid,selected,ready,error,command,close,sourceRect,prepareReturn,choice,targets,resolve,effectsSettled=true,covered=false}:{covered?:boolean;effectsSettled?:boolean;game:SetupState;uid:string;selected:string;ready:boolean;error:string;command:(command:GameCommand)=>Promise<void>;close:()=>void;sourceRect?:DOMRect;prepareReturn:()=>Promise<void>;choice?:Choice|null;targets:string[];resolve:()=>Promise<void>}=$props();
+  let {game,uid,selected,ready,error,dismissError,command,close,sourceRect,prepareReturn,choice,targets,resolve,effectsSettled=true,covered=false}:{covered?:boolean;effectsSettled?:boolean;game:SetupState;uid:string;selected:string;ready:boolean;error:string;dismissError?:()=>void;command:(command:GameCommand)=>Promise<void>;close:()=>void;sourceRect?:DOMRect;prepareReturn:()=>Promise<void>;choice?:Choice|null;targets:string[];resolve:()=>Promise<void>}=$props();
   let node=$state<HTMLElement>();
   let finishArrival!:()=>void;
   const arrival=new Promise<void>(resolve=>finishArrival=resolve);
@@ -58,7 +58,7 @@
       {#if reason}<p role="status">{reason}</p>{/if}
     {/if}
     {#if canUndo(game,uid)}<GameButton disabled={!ready||submitting||returning} onclick={undo}>Undo</GameButton>{/if}
-    {#if error}<p role="alert">{error}</p>{/if}
+    {#if error}<p role="alert">{error}</p>{#if dismissError}<GameButton onclick={dismissError}>Dismiss error</GameButton>{/if}{/if}
   </div>
   {#if !game.turn.choice}<button class="close-worship" aria-label="Return worship card" disabled={submitting||returning} onclick={leave}>×</button>{/if}
 </section>
