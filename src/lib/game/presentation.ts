@@ -12,16 +12,16 @@ export type IconKind = Resource | CardOperation;
 export const operationNames: Record<CardOperation, string> = { trash: 'trash', discard: 'discard', gain: 'gain', topdeck: 'topdeck' };
 export const iconNames: Record<IconKind, string> = { ...resourceNames, ...operationNames };
 
-export function cardFormat(card: CardDefinition): CardFormat {
+export function cardFormat(card: Pick<CardDefinition, 'type'>): CardFormat {
   return card.type === 'Leader' ? 'leader' : card.type === 'Event' ? 'event' : 'deck';
 }
 
 /** Total physical copies, including starting decks, for the selected setup. */
-export function copyCount(card: CardDefinition, players: PlayerCount): number {
+export function copyCount(card: Pick<CardDefinition, 'uniqueStartingCard' | 'supply' | 'startingCopiesPerPlayer'>, players: PlayerCount): number {
   return card.uniqueStartingCard ? 1 : card.supply[players] + card.startingCopiesPerPlayer * players;
 }
 
-export function cardSerial(card: CardDefinition, copy: number): string {
+export function cardSerial(card: Pick<CardDefinition, 'number'>, copy: number): string {
   return `PB-${String(card.number).padStart(3, '0')}-${String(copy).padStart(2, '0')}`;
 }
 

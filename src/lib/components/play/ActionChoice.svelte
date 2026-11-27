@@ -41,7 +41,7 @@
   <div class="scene-content" data-e2e-layout={inspected ? undefined : true}>
     <button class="source" class:landscape={source.type === 'Leader' || source.type === 'Event'} aria-label={`Inspect source: ${source.name}`} onclick={() => inspect(source.id, sourceCopy)}><CardFace card={source} copy={sourceCopy} players={game.playerCount} /></button>
     <div class="heading"><h1 id="choice-title">{source.name.split(',')[0]}</h1><p>{instruction}</p></div>
-    <div class="operation" class:burning={choice.kind === 'trash'}><ResourceIcon resource={choice.kind} value={choice.kind === 'gain' ? choice.limit : choice.max} /></div>
+    <div class="operation" class:burning={choice.kind === 'trash'}><ResourceIcon resource={choice.kind as 'trash'|'discard'|'gain'} value={choice.kind === 'gain' ? choice.limit : choice.max} /></div>
     <div class="options" class:trash={choice.kind === 'trash'}>
       {#each options.slice(page * 3, page * 3 + 3) as card}
         <div class="option">

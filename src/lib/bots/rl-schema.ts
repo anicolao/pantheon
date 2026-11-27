@@ -1,4 +1,5 @@
-import {cards} from '../game/cards';
+// Frozen model feature order must not grow when the live card catalog expands.
+import {cards} from '../../../balance-checkpoint/equal-turns/source/src/lib/game/cards';
 import {definition,type ActionCommand} from '../game/actions';
 import type {StandardView} from '../../../standard-matrix/policy';
 export const deckIds=cards.filter(c=>!['Leader','Event'].includes(c.type)).map(c=>c.id);

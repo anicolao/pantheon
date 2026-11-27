@@ -16,7 +16,7 @@
       <div class="position" style:--angle={`${index*360/scores.length}deg`}>
         <article class="standing" data-metal={metals[placements[index]]} style:--delay={`${index*400}ms`} aria-label={`Place ${placements[index]+1}, ${metals[placements[index]]}: ${name(score.uid)}, ${score.score} VP`}>
           <div class="portrait">
-            <img class="hero" src={`${base}/assets/cards/${game.leaders[score.uid]}.webp`} alt=""/>
+            <img class="hero" src={`${base}/assets/cards/${definition(game.leaders[score.uid]).art}.webp`} alt=""/>
             <img class="frame" src={`${base}/assets/ui/victory-portrait-frame.webp`} alt=""/>
             <span class="name">{name(score.uid)}</span>
             <span class="points"><ResourceIcon resource="victory" value={score.score}/></span>

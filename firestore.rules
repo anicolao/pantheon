@@ -23,9 +23,11 @@ service cloud.firestore {
           : bots(next) == bots(old);
     }
     function validRoom(data) {
-      return data.keys().hasOnly(['owner', 'members', 'playerCount', 'revision', 'phase', 'bots'])
+      return data.keys().hasOnly(['owner', 'members', 'playerCount', 'revision', 'phase', 'bots', 'expansion'])
         && data.get('phase', 'gathering') in ['gathering', 'draft', 'playing']
         && data.playerCount in [2, 3, 4] && data.revision is int
+        && data.get('expansion', false) is bool
+        && (!data.get('expansion', false) || bots(data).size() == 0)
         && bots(data) is map && bots(data).keys().hasOnly(data.members)
         && bots(data).values().hasOnly(['bot', 'easy', 'standard', 'hard', 'expert', 'mm', 'money', 'engine', 'classic-engine'])
         && data.members is list && data.revision >= data.members.size()
@@ -36,12 +38,14 @@ service cloud.firestore {
       allow get: if signedIn();
       allow create: if signedIn() && validRoom(request.resource.data)
         && bots(request.resource.data).size() == 0
+        && request.resource.data.get('expansion', false) == getAfter(event(gameId, 1)).data.get('expansion', false)
         && request.resource.data.revision == 1
         && request.resource.data.get('phase', 'gathering') == 'gathering'
         && request.resource.data.owner == request.auth.uid
         && request.resource.data.members == [request.auth.uid]
         && getAfter(event(gameId, 1)).data.actorUid == request.auth.uid;
       allow update: if signedIn() && validRoom(request.resource.data)
+        && request.resource.data.get('expansion', false) == resource.data.get('expansion', false)
         && botChange(gameId)
         && request.resource.data.owner == resource.data.owner
         && request.resource.data.revision == resource.data.revision + 1
@@ -74,10 +78,11 @@ service cloud.firestore {
       match /events/{eventId} {
         allow read: if signedIn() && request.auth.uid in get(room(gameId)).data.members;
         allow create: if signedIn()
-          && request.resource.data.keys().hasOnly(['schemaVersion', 'sequence', 'actorUid', 'type', 'name', 'playerCount', 'createdAt', 'creationToken', 'reducerVersion', 'commandId', 'seed', 'leaderId', 'instanceId', 'choiceId', 'targets', 'cardId', 'targetSequence', 'automatic', 'botKind', 'count', 'equalTurns'])
+          && request.resource.data.keys().hasOnly(['schemaVersion', 'sequence', 'actorUid', 'type', 'name', 'playerCount', 'createdAt', 'creationToken', 'reducerVersion', 'commandId', 'seed', 'leaderId', 'instanceId', 'choiceId', 'targets', 'cardId', 'targetSequence', 'automatic', 'botKind', 'count', 'equalTurns', 'expansion'])
           && (!('creationToken' in request.resource.data) || (request.resource.data.type == 'game/created'
             && request.resource.data.creationToken is string
             && request.resource.data.creationToken.size() > 0 && request.resource.data.creationToken.size() <= 64))
+          && (!('expansion' in request.resource.data) || (request.resource.data.type == 'game/created' && request.resource.data.expansion is bool))
           && (!('equalTurns' in request.resource.data) || (request.resource.data.type == 'game/created' && request.resource.data.equalTurns is bool))
           && (!('count' in request.resource.data) || request.resource.data.type == 'choice/staged')
           && (!('automatic' in request.resource.data) || (request.resource.data.type == 'phase/advanced' && request.resource.data.automatic is bool))
@@ -115,7 +120,7 @@ service cloud.firestore {
               && ((request.resource.data.type == 'draft/started' && request.auth.uid == get(room(gameId)).data.owner
                 && request.resource.data.seed is string && request.resource.data.seed.size() > 0 && request.resource.data.seed.size() <= 64
                 && !('leaderId' in request.resource.data))
-              || (request.resource.data.type == 'leader/chosen' && request.resource.data.leaderId in ['thaleia', 'nereon', 'melia', 'doreios']
+              || (request.resource.data.type == 'leader/chosen' && request.resource.data.leaderId in ['thaleia', 'nereon', 'melia', 'doreios', 'echo', 'theseus', 'achilles', 'perseus']
                 && !('seed' in request.resource.data))
               || (request.resource.data.type in ['action/played', 'treasure/played'] && request.resource.data.instanceId is string && request.resource.data.instanceId.size() <= 128)
               || (request.resource.data.type in ['market/browsed', 'worship/focused'] && request.resource.data.cardId is string && request.resource.data.cardId.size() <= 128)

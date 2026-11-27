@@ -97,3 +97,48 @@ for(const count of [2,3,4] as const)for(const randomize of [false,true])test(`re
   expect(after.trash).toHaveLength(0);
   expect(restoreTable(JSON.stringify(next))).toEqual(next);
 });
+
+test('expansion table starts all four new houses, saves, restores, and finishes through legal commands',async()=>{
+ const {canPlayAction,canPlayTreasure,definition,effectOptions,eligibleGains,isExpansionChoice}=await import('../../src/lib/game/actions');
+ let table=freshTable(true);
+ for(const edge of edges)table=occupy(table,edge,'human');
+ table=begin(table,'expansion-playtest-complete');
+ let game=replaySetup(table.events);
+ expect(Object.values(game.leaders).sort()).toEqual(['achilles','echo','perseus','theseus']);
+ expect(Object.keys(game.supply)).toHaveLength(18);
+ for(let step=0;step<3000&&game.turn.phase!=='finished';step++){
+  const uid=actor(game),choice=game.turn.choice;
+  if(choice){
+   const targets=choice.kind==='gain'?eligibleGains(game,choice.limit!,choice.actionOnly).slice(-1).map(card=>card.id)
+    :isExpansionChoice(choice)?effectOptions(game,uid).slice(0,1).map(option=>option.id)
+    :effectOptions(game,uid).slice(0,choice.min).map(option=>option.id);
+   table=append(table,uid,{type:'choice/resolved',choiceId:choice.id,targets});
+  }else{
+   const action=game.decks[uid].hand.find(card=>canPlayAction(game,uid,card.id));
+   if(action)table=append(table,uid,{type:'action/played',instanceId:action.id});
+   else if(game.decks[uid].hand.some(card=>canPlayTreasure(game,uid,card.id)))table=append(table,uid,{type:'treasures/played'});
+   else if(game.turn.phase==='actions')table=append(table,uid,{type:'phase/advanced'});
+   else{
+    const buy=game.resources.buys?Object.keys(game.supply).filter(id=>game.supply[id]>0&&definition(id).cost!==null&&definition(id).cost!<=game.resources.coins).sort((a,b)=>definition(a).cost!-definition(b).cost!||a.localeCompare(b))[0]:undefined;
+    table=append(table,uid,buy?{type:'card/bought',cardId:buy}:{type:'turn/ended'});
+   }
+  }
+  game=replaySetup(table.events);
+ }
+ expect(game.turn.phase).toBe('finished');
+ expect(restoreTable(JSON.stringify(table))).toEqual(table);
+ const next=rematch(table,'expansion-rematch');
+ expect(replaySetup(next.events).turnOrder[0]).toBe(game.turnOrder[1]);
+ expect(Object.values(replaySetup(next.events).leaders).sort()).toEqual(['achilles','echo','perseus','theseus']);
+},30000);
+
+test('expansion random draft accepts all eight leaders and keeps twelve market piles',()=>{
+ let table=freshTable(true);
+ table=occupy(occupy(table,'south','human'),'north','human');
+ table=begin({...table,randomize:true},'expansion-draft');
+ for(const [i,uid] of replaySetup(table.events).draftOrder.entries())table=append(table,uid,{type:'leader/chosen',leaderId:i?'melia':'echo'});
+ const game=replaySetup(table.events);
+ expect(game.phase).toBe('playing');
+ expect(Object.keys(game.supply)).toHaveLength(18);
+ expect(restoreTable(JSON.stringify(table))).toEqual(table);
+});

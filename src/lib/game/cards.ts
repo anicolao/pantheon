@@ -1,3 +1,4 @@
+import { proposedCards } from './expansion-cards';
 import type { CardDefinition } from './types';
 
 // v0.1 card copy mirrors MVP_CARDSET.md. Artwork contains no rules text.
@@ -524,3 +525,7 @@ export const cards: CardDefinition[] = [
     }
   }
 ];
+
+// Review houses are playable through the production engine. Keep the published
+// gallery/print catalog unchanged until its expansion design is approved.
+export const gameCards: CardDefinition[] = [...cards, ...proposedCards];

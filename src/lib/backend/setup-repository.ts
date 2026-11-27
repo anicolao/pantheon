@@ -16,10 +16,10 @@ export async function inspectRoom(db: Firestore, id: string) {
   if (!validId(id)) throw new SetupError('missing', 'This invitation was not found.');
   const snapshot = await getDocFromServer(doc(db, 'games', id));
   if (!snapshot.exists()) throw new SetupError('missing', 'This invitation was not found.');
-  return snapshot.data() as { owner: string; members: string[]; playerCount: 2 | 3 | 4; revision: number; phase?: SetupState['phase'] };
+  return snapshot.data() as { owner: string; members: string[]; playerCount: 2 | 3 | 4; revision: number; phase?: SetupState['phase']; expansion?: boolean };
 }
 
-export async function enterRoom(db: Firestore, id: string, uid: string, name: string, playerCount?: 2 | 3 | 4, creationToken?: string) {
+export async function enterRoom(db: Firestore, id: string, uid: string, name: string, playerCount?: 2 | 3 | 4, creationToken?: string, expansion = false) {
   if (!validId(id)) throw new SetupError('missing', 'This invitation was not found.');
   name = name.trim();
   if (!name || name.length > 24) throw new SetupError('name', 'Choose a name between 1 and 24 characters.');
@@ -44,9 +44,9 @@ export async function enterRoom(db: Firestore, id: string, uid: string, name: st
     if (members.length >= count) throw new SetupError('full', 'This table is full.');
     const sequence = (previous?.revision ?? 0) + 1;
     const event: SetupEvent = { schemaVersion: 1, sequence, actorUid: uid, name, playerCount: count,
-      type: previous ? 'player/joined' : 'game/created', ...(!previous ? {equalTurns: initialTurn().equalTurns} : {}), ...(creationToken ? { creationToken } : {}) };
+      type: previous ? 'player/joined' : 'game/created', ...(!previous ? {equalTurns: initialTurn().equalTurns, ...(expansion ? {expansion: true} : {})} : {}), ...(creationToken ? { creationToken } : {}) };
     transaction.set(room, { owner: previous?.owner ?? uid, members: [...members, uid], playerCount: count, revision: sequence,
-      ...(previous?.bots ? {bots:previous.bots} : {}) });
+      ...(previous?.bots ? {bots:previous.bots} : {}), ...((previous ? previous.expansion : expansion) ? {expansion: true} : {}) });
     transaction.set(doc(room, 'events', String(sequence)), { ...event, createdAt: serverTimestamp() });
   }); } catch (error) {
     if (error instanceof SetupError) throw error;
@@ -87,10 +87,10 @@ export function generateRoomCode() {
   return code;
 }
 export type CreationAttempt = { token: string; code?: string };
-export async function createRoom(db: Firestore, uid: string, name: string, playerCount: 2 | 3 | 4, attempt: CreationAttempt, nextCode = generateRoomCode) {
+export async function createRoom(db: Firestore, uid: string, name: string, playerCount: 2 | 3 | 4, attempt: CreationAttempt, nextCode = generateRoomCode, expansion = false) {
   for (let collision = 0; collision < 20; collision++) {
     const id = attempt.code ??= nextCode();
-    try { await enterRoom(db, id, uid, name, playerCount, attempt.token); return id; }
+    try { await enterRoom(db, id, uid, name, playerCount, attempt.token, expansion); return id; }
     catch (error) {
       if (!(error instanceof SetupError) || error.code !== 'exists') throw error;
       attempt.code = undefined;
@@ -124,6 +124,7 @@ export async function inviteBot(db: Firestore, id: string, ownerUid: string, kin
   await runTransaction(db, async transaction => {
     const room=doc(db,'games',id), previous=(await transaction.get(room)).data();
     if (!previous || previous.owner!==ownerUid) throw new SetupError('owner','Only the host can invite bots.');
+    if (previous.expansion) throw new SetupError('choice', 'Expansion tables require human players.');
     if (previous.members.includes(botUid)) {
       if (previous.bots?.[botUid]!==kind) throw new SetupError('choice','That bot invitation has changed.');
       return;
@@ -144,6 +145,7 @@ export async function automateHost(db:Firestore,id:string,uid:string,kind:BotKin
     const room=doc(db,'games',id),previous=(await transaction.get(room)).data();
     if (!previous || previous.owner!==uid) throw new SetupError('owner','Only the host can change their own seat.');
     if (previous.phase && previous.phase!=='gathering') throw new SetupError('started','The game has already begun.');
+    if (previous.expansion && kind) throw new SetupError('choice', 'Expansion tables require human players.');
     if ((previous.bots?.[uid]??null)===kind) return;
     const first=(await transaction.get(doc(room,'events','1'))).data()!;
     const bots={...previous.bots}; if(kind)bots[uid]=kind;else delete bots[uid];

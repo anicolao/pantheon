@@ -1,5 +1,6 @@
+// Frozen model feature order must not grow when the live card catalog expands.
 /** Versioned research observation. Opponent inventories come ONLY from public gains/trashes. */
-import {cards} from '../../src/lib/game/cards';
+import {cards} from '../../balance-checkpoint/equal-turns/source/src/lib/game/cards';
 import {activePlayer,definition,devotionCards,worshipReason} from '../../src/lib/game/actions';
 import type {SetupState} from '../../src/lib/game/setup';
 import type {BotTracker} from '../../src/lib/bots/session';

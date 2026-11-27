@@ -60,10 +60,10 @@ test('production card effects remain compatible with the versioned bot controlle
  for(const card of cards){
   for(const other of [old,current]){
    const definition=other.definition(card.id);
-   expect([definition.type,definition.cost,definition.god,definition.vp,definition.startingCopiesPerPlayer,definition.supply]).toEqual([card.type,card.cost,card.god,card.vp,card.startingCopiesPerPlayer,card.supply]);
-   if(card.type==='Action')expect(other.actionEffects(card.id)).toEqual(live.actionEffects(card.id));
-   if(card.type==='Leader')expect(other.leaderEffects(card.id)).toEqual(live.leaderEffects(card.id));
-   if(card.type==='Event')for(const favored of [false,true])expect(other.worshipEffects(card.id,favored)).toEqual(live.worshipEffects(card.id,favored));
+   expect([card.type,card.cost,card.god,card.vp,card.startingCopiesPerPlayer,card.supply]).toEqual([definition.type,definition.cost,definition.god,definition.vp,definition.startingCopiesPerPlayer,definition.supply]);
+   if(card.type==='Action')expect(live.actionEffects(card.id)).toEqual(other.actionEffects(card.id));
+   if(card.type==='Leader')expect(live.leaderEffects(card.id)).toEqual(other.leaderEffects(card.id));
+   if(card.type==='Event')for(const favored of [false,true])expect(live.worshipEffects(card.id,favored)).toEqual(other.worshipEffects(card.id,favored));
   }
  }
 });

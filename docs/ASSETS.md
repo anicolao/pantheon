@@ -77,3 +77,11 @@ The victory scene layers approved leader art under the empty laurel frame. Names
 Milestone 8 uses `static/assets/ui/chronicle-tray.webp`, a decorative marble-and-laurel layer generated with the built-in image generation tool from painting 13. [Exact prompt and provenance](ux/chronicle-assets.json) record the reference and original output. WebP quality 92 conversion preserves the generated dimensions and alpha. The asset shares the repository’s GPL-3.0-only license.
 
 All tabs, portraits, public card faces, common backs, movement paths, resource changes, owner selection, page controls, and inspection are live Svelte content. No text, cards, or controls are baked into the tray. The table environment remains visible behind the tray; the production layout uses one paged command at a time to preserve complete effects and accessible touch targets.
+
+## Four-house expansion review
+
+The 24 new illustrations in `static/assets/expansion/cards/` are independently generated original artwork for Echo/Zeus, Theseus/Hermes, Achilles/Nike, and Perseus/Hades. No existing card illustrations are substituted for the new cards. Four additional bronze-and-indigo operation icons in `static/assets/expansion/icons/` represent Echo, Seek, Deploy, and Bind, with live numeric overlays and transparent backgrounds.
+
+All 28 assets were generated with the built-in image generation tool. Exact prompts are in [expansion-art-prompts.json](design/expansion-art-prompts.json); source filenames, SHA-256 hashes, output paths, and output hashes are in [expansion-art-manifest.json](design/expansion-art-manifest.json). Illustrations are delivered at 1200 × 800 in WebP quality 92; icons at 512 × 512 in lossless WebP preserving alpha. Processing is delivery resizing and compression, without content edits or compositing. All runtime assets are stored in the repository. These original assets use the repository’s GPL-3.0-only license.
+
+The review route is `/dev/expansion/`. It reuses the production card frames, card backs, resource icons, dialogue ornamentation, and table surface; the mechanics remain a scripted review lab, not enabled live-game rules.

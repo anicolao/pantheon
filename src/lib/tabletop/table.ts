@@ -1,16 +1,16 @@
 import {isBotKind,type BotKind} from '../game/bot-kind';
 import { createPrng } from '../game/random';
-import { leaderIds, replaySetup, type SetupEvent, type SetupState } from '../game/setup';
+import { allLeaderIds, leaderIds, replaySetup, type SetupEvent, type SetupState } from '../game/setup';
 import { initialTurn, activePlayer, canPlayAction } from '../game/actions';
 import type { GameCommand } from '../backend/setup-repository';
 
 /** Clockwise as seen from above, starting at the bottom of the display. */
 export const edges = ['south', 'west', 'north', 'east'] as const;
 export type Edge = typeof edges[number];
-export type Seat = { edge: Edge; leader: typeof leaderIds[number]; mode: 'empty' | 'human' | 'bot'; joined: number; botKind?: BotKind };
-export type Tabletop = { version: 1; seats: Seat[]; randomize: boolean; seed: string; events: SetupEvent[] };
-export function freshTable(): Tabletop {
-  return { version: 1, seats: edges.map((edge, i) => ({ edge, leader: leaderIds[i], mode: 'empty', joined: 0 })), randomize: false, seed: '', events: [] };
+export type Seat = { edge: Edge; leader: typeof allLeaderIds[number]; mode: 'empty' | 'human' | 'bot'; joined: number; botKind?: BotKind };
+export type Tabletop = { expansion?: boolean; version: 1; seats: Seat[]; randomize: boolean; seed: string; events: SetupEvent[] };
+export function freshTable(expansion=false): Tabletop {
+  return { version: 1, ...(expansion ? {expansion:true} : {}), seats: edges.map((edge, i) => ({ edge, leader: expansion?allLeaderIds[i+4]:leaderIds[i], mode: 'empty', joined: 0 })), randomize: false, seed: '', events: [] };
 }
 export const seatUid = (edge: Edge) => `tabletop-${edge}`;
 export const seatName = (edge: Edge) => edge[0].toUpperCase() + edge.slice(1);
@@ -36,6 +36,7 @@ export function begin(table: Tabletop, seed: string, startingUid?: string): Tabl
   if (table.events.length) throw Error('This game has already begun.');
   const occupied = table.seats.filter(seat => seat.mode !== 'empty');
   if (occupied.length < 2 || occupied.length > 4) throw Error('Join at least two edges to play.');
+  if(occupied.some(seat=>seat.mode==='bot') && (table.expansion || occupied.some(seat=>!leaderIds.includes(seat.leader as typeof leaderIds[number]))))throw Error('Expansion houses currently require human players.');
   const count = occupied.length as 2 | 3 | 4;
   const first = Math.floor(createPrng(`${seed}:first-player`)() * count);
   let desired = table.randomize ? occupied : [...occupied].sort((a, b) => b.joined - a.joined);
@@ -50,7 +51,7 @@ export function begin(table: Tabletop, seed: string, startingUid?: string): Tabl
   const players = table.randomize && !startingUid ? desired : [...desired.slice(count - first), ...desired.slice(0, count - first)];
   let events: SetupEvent[] = players.map((seat, i) => ({ schemaVersion: 1, sequence: i + 1, actorUid: seatUid(seat.edge),
     name: seatName(seat.edge), playerCount: count, type: i === 0 ? 'game/created' : 'player/joined',
-    ...(i === 0 ? {equalTurns: initialTurn().equalTurns} : {}),
+    ...(i === 0 ? {equalTurns: initialTurn().equalTurns, ...(table.expansion ? {expansion:true} : {})} : {}),
     ...(seat.mode === 'bot' && i > 0 ? { botKind: seat.botKind??'standard' } : {}) }));
   if (players[0].mode === 'bot') events.push({ schemaVersion: 1, sequence: events.length + 1, actorUid: events[0].actorUid,
     name: events[0].name, playerCount: count, type: 'player/automated', botKind: players[0].botKind??'standard' });
@@ -79,9 +80,9 @@ export function advanceEmptyActions(table: Tabletop): Tabletop {
 }
 export function restoreTable(raw: string): Tabletop {
   const table = JSON.parse(raw) as Tabletop;
-  if (table.version !== 1 || typeof table.randomize !== 'boolean' || typeof table.seed !== 'string' || !Array.isArray(table.events) ||
+  if ((table.expansion !== undefined && typeof table.expansion !== 'boolean') || table.version !== 1 || typeof table.randomize !== 'boolean' || typeof table.seed !== 'string' || !Array.isArray(table.events) ||
       !Array.isArray(table.seats) || table.seats.length !== 4 || table.seats.some((seat, i) => seat.edge !== edges[i] ||
-        (seat.botKind!==undefined&&!isBotKind(seat.botKind)) || !leaderIds.includes(seat.leader) || !['human', 'bot', 'empty'].includes(seat.mode) || !Number.isSafeInteger(seat.joined) || seat.joined < 0) ||
+        (seat.botKind!==undefined&&!isBotKind(seat.botKind)) || !allLeaderIds.includes(seat.leader) || !['human', 'bot', 'empty'].includes(seat.mode) || !Number.isSafeInteger(seat.joined) || seat.joined < 0) ||
       new Set(table.seats.map(seat => seat.leader)).size !== 4) throw Error('The saved tabletop is invalid.');
   const occupied = table.seats.filter(seat => seat.mode !== 'empty');
   if (new Set(occupied.map(seat => seat.joined)).size !== occupied.length) throw Error('The saved seating order is invalid.');

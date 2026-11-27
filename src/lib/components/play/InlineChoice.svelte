@@ -1,7 +1,7 @@
 <script lang="ts">
   import { onMount, onDestroy, tick } from 'svelte';
   import type { SetupState } from '$lib/game/setup';
-  import { definition, type Choice, type ActionCommand } from '$lib/game/actions';
+  import { definition, effectOptions, type Choice, type ActionCommand } from '$lib/game/actions';
   import { canUndo } from '$lib/game/undo';
   import ResourceIcon from '../ResourceIcon.svelte';
   import CardFace from '../CardFace.svelte';
@@ -17,7 +17,7 @@
   const cards=$derived(targets.map(id=>game.decks[uid].hand.find(card=>card.id===id)).filter(card=>!!card));
   const instruction=$derived(choice.kind==='gain'
     ? `Choose ${choice.actionOnly?'an Action':'a card'} costing up to ${choice.limit} from the market`
-    : choice.kind==='discard' ? 'Discard a card from your hand'
+    : choice.kind==='discard' ? `${choice.min===0?'You may discard':'Discard'} a ${choice.filter??'card'} from your hand`
     : `Choose up to ${choice.max} ${choice.max===1?'card':'cards'} to trash`);
   const animations=new Set<Animation>();
   let alive=true;
@@ -64,7 +64,7 @@
   export async function select(id:string) {
     if(!ready || busy || !alive)return;
     if(choice.kind==='gain'){await finish([id]);return;}
-    if(!game.decks[uid].hand.some(card=>card.id===id) || targets.includes(id) || targets.length>=choice.max)return;
+    if(!effectOptions(game,uid,choice).some(option=>option.id===id) || targets.includes(id) || targets.length>=choice.max)return;
     const source=handPose(id);
     busy=true;
     if(shareSelection){try{await command({type:'choice/staged',choiceId:choice.id,count:targets.length+1});}catch{busy=false;return;}}
@@ -102,7 +102,7 @@
 
 <section bind:this={overlay} class="inline-choice" aria-label={`${definition(choice.source).name} choice`} aria-busy={busy} data-choice-kind={choice.kind}>
   <div class="choice-pack" bind:this={pack}>
-    <ResourceIcon resource={choice.kind} value={choice.kind==='gain'?choice.limit:undefined} label={instruction}/>
+    <ResourceIcon resource={choice.kind as 'trash'|'discard'|'gain'} value={choice.kind==='gain'?choice.limit:undefined} label={instruction}/>
     {#each cards as card,index (card.id)}
       <div class="staged-card" data-staged-id={card.id} style:--index={index} style:--count={cards.length}>
         <CardFace card={definition(card.cardId)} copy={card.copy} players={game.playerCount}/>
@@ -115,7 +115,7 @@
     <p class="instruction" role="status">{instruction}</p>
     <div class="buttons">
       {#if choice.kind==='trash'}<GameButton primary disabled={!ready||busy} onclick={()=>finish()}>Done trashing{targets.length?` (${targets.length})`:''}</GameButton>{/if}
-      {#if choice.kind==='discard'&&!autoConfirm}<GameButton primary disabled={!ready||busy||targets.length<choice.min} onclick={()=>finish()}>Discard selected ({targets.length})</GameButton>{/if}
+      {#if choice.kind==='discard'&&(!autoConfirm||choice.min===0)}<GameButton primary disabled={!ready||busy||targets.length<choice.min} onclick={()=>finish()}>{choice.min===0&&!targets.length?'Keep all cards':`Discard selected (${targets.length})`}</GameButton>{/if}
       {#if choice.kind==='gain'&&choice.min===0}<GameButton disabled={!ready||busy} onclick={()=>finish([])}>Gain none</GameButton>{/if}
       {#if canUndo(game,uid)}<GameButton disabled={!ready||busy} onclick={()=>command({type:'action/undone',targetSequence:game.undo!.sequence})}>Undo</GameButton>{/if}
     </div>

@@ -1,4 +1,8 @@
 <script lang="ts">
+  import EffectOutcome from "./EffectOutcome.svelte";
+  import EffectChoice from "./EffectChoice.svelte";
+  import EffectIcon from "../expansion/EffectIcon.svelte";
+  import {isExpansionChoice} from "$lib/game/actions";
   import {botDifficulties,botLabels,type BotKind} from '$lib/game/bot-kind';
   import { pileIsMoving } from './motion';
   import { onMount, tick, untrack } from 'svelte';
@@ -17,19 +21,19 @@
   import { sortHand } from '$lib/components/play/hand-order';
   import { tablePlayed } from '$lib/components/play/table-play';
   import { tablePurchases } from '$lib/components/play/table-purchases';
-  import { replaySetup, leaderIds, type SetupState } from '$lib/game/setup';
+  import { replaySetup, allLeaderIds, leaderIds, type SetupState } from '$lib/game/setup';
   import { activePlayer, canPlayAction, canPlayTreasure, definition, eligibleGains, standings, worshipReason } from '$lib/game/actions';
   import { canUndo } from '$lib/game/undo';
   import type { GameCommand } from '$lib/backend/setup-repository';
   import type { BotProposal } from '$lib/bots/table';
   import { freshTable, occupy, begin, rematch, append, advanceEmptyActions, restoreTable, actor, edges, seatUid, seatName, type Edge, type Seat, type Tabletop } from '$lib/tabletop/table';
 
-  let {initialTable,persist=true,motionRate=1,onState,onReady}:{initialTable?:Tabletop;persist?:boolean;motionRate?:number;onState?:(table:Tabletop)=>void;onReady?:(revision:number,available:boolean)=>void}=$props();
+  let {initialTable,expansion=false,persist=true,motionRate=1,onState,onReady}:{initialTable?:Tabletop;expansion?:boolean;persist?:boolean;motionRate?:number;onState?:(table:Tabletop)=>void;onReady?:(revision:number,available:boolean)=>void}=$props();
   export async function play(command:GameCommand){if(ready)await commit(command);}
   $effect(()=>{onState?.(table);});
   $effect(()=>{onReady?.(game?.activity.length??0,ready);});
-  const storageKey = 'pantheon-tabletop-v1';
-  let table = $state(untrack(()=>initialTable??freshTable())), mounted = $state(false), error = $state('');
+  const storageKey = untrack(()=>expansion?'pantheon-expansion-tabletop-v1':'pantheon-tabletop-v1');
+  let table = $state(untrack(()=>initialTable??freshTable(expansion))), mounted = $state(false), error = $state('');
   let market=$state<SupplyCoverflow>();
   let surfaceWidth=$state(1440),surfaceHeight=$state(1000);
   let selectedTemple=$state(''), templeBusy=$state(false), templeSource=$state<HTMLElement>(), templeOverlay=$state<TabletopWorship>(), templeOpened:(()=>void)|undefined;
@@ -65,7 +69,7 @@
   const tableWidth=$derived(Math.max(58*unit,Math.min(150*unit,horizontal-(templeDock==='right'?56:30)*unit)));
   const ready = $derived(mounted && !moving && !working && !animating && !exitEdge && !confirmReset && !finished && !templeBusy);
   const choice = $derived(game?.turn.choice);
-  const inlineChoice=$derived(choice&&choice.kind!=='gain'&&!animating&&!templeBusy?choice:null);
+  const inlineChoice=$derived(choice&&!isExpansionChoice(choice)&&choice.kind!=='gain'&&!animating&&!templeBusy?choice:null);
   const scores = $derived(game?.phase === 'playing' ? standings(game) : []);
   const occupied = $derived(table.seats.filter(seat => seat.mode !== 'empty'));
   const gains = $derived(game && choice?.kind === 'gain' ? eligibleGains(game, choice.limit!, choice.actionOnly) : []);
@@ -103,7 +107,7 @@
   function newTable() {
     generation++; request++; worker?.terminate(); worker = undefined;
     flightsSettled(); displayedUid=''; exitEdge=null; selectedTemple='';templeBusy=false;templeOpened?.();
-    table = freshTable(); targets = [];localChoices=[];interactionBusy=false; inspected = ''; pending = null; confirmReset = null;
+    table = freshTable(expansion); targets = [];localChoices=[];interactionBusy=false; inspected = ''; pending = null; confirmReset = null;
     rotation = 0; readers={south:null,west:null,north:null,east:null}; readerCards={}; moving = false; working = false; error = ''; save();
   }
   function playAgain() {
@@ -239,8 +243,10 @@
           <Portrait {leader} name={definition(leader).name.split(',')[0]} active={seat.mode !== 'empty'}/>
           <span>{seat.mode === 'empty' ? 'Tap to join' : seat.mode === 'bot' ? 'Bot · chooses its leader' : `Joined ${occupied.slice().sort((a,b)=>a.joined-b.joined).findIndex(item=>item.edge===seat.edge)+1}`}</span>
         </button>
-        <div class="seat-options"><button class="seat-mode" disabled={!mounted} onclick={() => seatMode(seat.edge, seat.mode === 'bot' ? 'human' : 'bot')}>{seat.mode === 'bot' ? `Play ${playerName(id)} yourself` : `Add bot as ${playerName(id)}`}</button>
-        {#if seat.mode === 'bot'}<select class="seat-difficulty" aria-label={`Bot difficulty for ${playerName(id)}`} value={seat.botKind??'standard'} onchange={(event)=>{const kind=event.currentTarget.value as BotKind;table={...table,seats:table.seats.map(s=>s.edge===seat.edge?{...s,botKind:kind}:s)};}}>{#each botDifficulties as kind}<option value={kind}>{botLabels[kind]}</option>{/each}</select>{/if}</div>
+        {#if expansion}<label class="expansion-leader">Leader<select aria-label={seat.edge+' leader'} value={seat.leader} onchange={event=>{table={...table,seats:table.seats.map(item=>item.edge===seat.edge?{...item,leader:event.currentTarget.value as Seat['leader']}:item)};save();}}>
+          {#each allLeaderIds as candidate}<option value={candidate} disabled={table.seats.some(item=>item.edge!==seat.edge&&item.leader===candidate)}>{definition(candidate).name.split(',')[0]}</option>{/each}
+        </select></label>{:else}<div class="seat-options"><button class="seat-mode" disabled={!mounted} onclick={() => seatMode(seat.edge, seat.mode === 'bot' ? 'human' : 'bot')}>{seat.mode === 'bot' ? `Play ${playerName(id)} yourself` : `Add bot as ${playerName(id)}`}</button>
+        {#if seat.mode === 'bot'}<select class="seat-difficulty" aria-label={`Bot difficulty for ${playerName(id)}`} value={seat.botKind??'standard'} onchange={(event)=>{const kind=event.currentTarget.value as BotKind;table={...table,seats:table.seats.map(s=>s.edge===seat.edge?{...s,botKind:kind}:s)};}}>{#each botDifficulties as kind}<option value={kind}>{botLabels[kind]}</option>{/each}</select>{/if}</div>{/if}
       {:else if seat.mode !== 'empty'}
         <div class="edge-line">
           <div class="leader-status">
@@ -248,15 +254,15 @@
           {#if active && game.phase==='playing' && !finished}
             <div class="turn-status" aria-label={`${playerName(id)} turn status`}>
               <strong>Your turn – {game.turn.phase}</strong>
-              <div class="counters">{#each ['actions','coins','buys','worship'] as resource}<ResourceIcon resource={resource as 'actions'|'coins'|'buys'|'worship'} value={game.resources[resource as keyof typeof game.resources]}/>{/each}</div>
+              <div class="counters">{#if game.turn.deploy}<EffectIcon effect="Deploy" value={game.turn.deploy}/>{/if}{#each ['actions','coins','buys','worship'] as resource}<ResourceIcon resource={resource as 'actions'|'coins'|'buys'|'worship'} value={game.resources[resource as keyof typeof game.resources]}/>{/each}</div>
             </div>
           {/if}
           </div>
           {#if game.phase === 'playing'}
             <div class="edge-deck" data-public-zone="deck" data-public-uid={id} data-motion-angle={index*90}><ResourceIcon resource="cards" pending={pilePending(id,'deck')} value={game.decks[id].deck.length} label={`${playerName(id)} deck`}/></div>
             <div class="table-hand" data-public-zone="hand" data-public-uid={id} data-motion-angle={index*90} data-hand-total={presentedHand(id).length} data-hand-owner={id} data-face-up={faceUp} style:visibility={active && !faceUp && animating ? 'hidden' : undefined} style:--count={game.decks[id].hand.length}>
-              <HandFan cards={sortHand(presentedHand(id))} uid={id} players={game.playerCount} {faceUp} angle={index*90} measure={active} staged={active?targets:[]}
-                disabled={card=>!active||!ready||!human||interactionBusy||targets.includes(card.id)}
+              <HandFan deployEligible={card=>!!game?.turn.deploy&&canPlayAction(game!,id,card.id)} cards={sortHand(presentedHand(id))} uid={id} players={game.playerCount} {faceUp} angle={index*90} measure={active} staged={active?targets:[]}
+                disabled={card=>!active||!ready||!human||interactionBusy||targets.includes(card.id)||(!!choice?.filter&&definition(card.cardId).type!==choice.filter)}
                 label={card=>faceUp ? `${choice && choice.kind!=='gain'?'Select':'Play'} ${definition(card.cardId).name}` : `${playerName(id)} face-down card`}
                 activate={card=>handCard(card.id)} inspect={card=>inspect(card.cardId)}/>
 
@@ -277,7 +283,7 @@
 
   <section class="shared-table" class:finished class:playing={game?.phase==='playing'&&!finished} data-temple-dock={templeDock} style:--table-width={`${tableWidth}px`} bind:this={board} style:--rotation={`${rotation}deg`} aria-label="Shared table" aria-busy={moving || working || animating} data-facing={activeSeat?.edge ?? 'south'}>
     {#if !game}
-      <div class="welcome"><p class="eyebrow">One table · Four bloodlines</p><h1>Pantheon</h1><p>Choose your edge. Tap your leader.</p><span>{occupied.length} of 4 seats joined</span></div>
+      <div class="welcome"><p class="eyebrow">{expansion?"New houses · Human playtest":"One table · Four bloodlines"}</p><h1>Pantheon</h1><p>Choose your edge. Tap your leader.</p><span>{occupied.length} of 4 seats joined</span></div>
       {#each edges as edge, index}
         <div class="start-control" style:--start-angle={`${index * 90}deg`}>
           <button class="start primary" disabled={!mounted || occupied.length < 2} aria-label={`Play facing ${playerName(seatUid(edge))}`} onclick={start}>Play</button>
@@ -289,7 +295,7 @@
       <TabletopVictory {game} again={playAgain} fresh={newTable}/>
     {:else if game.phase === 'draft'}
       <div class="draft"><p class="eyebrow">{playerName(uid)} chooses · {human ? 'Tap your bloodline' : 'Bot is choosing'}</p><h1>Choose your leader</h1><p>Play starts at {playerName(game.turnOrder[0])}, then goes clockwise.</p>
-        <div class="draft-leaders">{#each leaderIds as leader}<button disabled={!ready || !human || Object.values(game.leaders).includes(leader)} aria-label={`Choose ${definition(leader).name.split(',')[0]}`} onclick={()=>send({type:'leader/chosen',leaderId:leader})}><CardFace card={definition(leader)} players={game.playerCount}/></button>{/each}</div>
+        <div class="draft-leaders">{#each expansion?allLeaderIds:leaderIds as leader}<button disabled={!ready || !human || Object.values(game.leaders).includes(leader)} aria-label={`Choose ${definition(leader).name.split(',')[0]}`} onclick={()=>send({type:'leader/chosen',leaderId:leader})}><CardFace card={definition(leader)} players={game.playerCount}/></button>{/each}</div>
         <p>Draft: {game.draftOrder.map(playerName).join(' → ')}</p>
       </div>
     {:else}
@@ -308,8 +314,10 @@
       </div>
       {/if}
     {/if}
+    {#if game}<div class="choice-stage" style:pointer-events="none"><EffectOutcome {game} settled={!animating&&!templeBusy}/></div>{/if}
+    {#if choice && isExpansionChoice(choice) && game}<div class="choice-stage"><EffectChoice {game} {choice} {rotation} ready={ready&&human} readOnly={!human} command={send}/></div>{/if}
     {#if inlineChoice && game}{#key inlineChoice.id}<div class="choice-stage"><InlineChoice bind:this={interaction} {game} {uid} choice={inlineChoice} ready={ready&&human} {error} {reduced} {rotation} autoConfirm={false} homeSelector={`[data-public-zone="${inlineChoice.kind==='trash'?'trash':'discard'}"][data-public-uid="${uid}"] [data-resource="${inlineChoice.kind}"]`} command={send} bind:targets bind:busy={interactionBusy} handled={id=>localChoices=[...localChoices.slice(-15),id]}/></div>{/key}{/if}
-    {#if selectedTemple && game}<TabletopWorship covered={!!inlineChoice} bind:this={templeOverlay} {game} {uid} cardId={selectedTemple} {rotation} source={templeSource} selectedCount={targets.length} resolve={()=>resolve()} ready={ready&&human} busy={templeBusy||working||animating} submit={()=>send({type:'god/worshipped',cardId:selectedTemple})} close={()=>selectedTemple=''} onOpened={()=>{templeOpened?.();templeOpened=undefined;}}/>{/if}
+    {#if selectedTemple && game}<TabletopWorship covered={!!inlineChoice||isExpansionChoice(choice)} bind:this={templeOverlay} {game} {uid} cardId={selectedTemple} {rotation} source={templeSource} selectedCount={targets.length} resolve={()=>resolve()} ready={ready&&human} busy={templeBusy||working||animating} submit={()=>send({type:'god/worshipped',cardId:selectedTemple})} close={()=>selectedTemple=''} onOpened={()=>{templeOpened?.();templeOpened=undefined;}}/>{/if}
     {#if inspected}<div class="inspection"><CardFace card={definition(inspected)} players={game?.playerCount??4}/><button class="primary" onclick={()=>inspected=''}>Return to table</button></div>{/if}
     {#if error}<div class="error" role="alert">{error}{#if activeSeat?.mode==='bot'}<button onclick={()=>{worker?.terminate();worker=undefined;error='';working=false;}}>Continue bot turn</button>{/if}<button onclick={()=>requestNewTable(activeSeat?.edge??'south')}>New game</button></div>{/if}
   </section>
@@ -343,6 +351,7 @@
 </main>
 
 <style>
+.expansion-leader{display:flex;justify-content:center;align-items:center;gap:.8cqmin;font-size:1.2cqmin;color:#f0d89a}.expansion-leader select{font:inherit;color:#f0d89a;background:#091b25;border:1px solid #a5803f;border-radius:.5cqmin;padding:.5cqmin;min-height:3cqmin;}
   .tabletop{container-type:size;position:fixed;inset:0;overflow:hidden;background:radial-gradient(ellipse at center,#112a36cc,#071321e8 70%),var(--table-art) center/cover;color:#f4e4bf;font-family:'Atkinson Hyperlegible',sans-serif;--unit:1cqmin;--gold:#c9a663;--card-width:16cqmin;}
   .play-surface{position:absolute;container-type:size;}
   .table-inlay{position:absolute;inset:3cqmin;border:1px solid #b6965744;border-radius:18%;box-shadow:inset 0 0 0 1cqmin #050b1277,inset 0 0 0 1.1cqmin #d7b97422;pointer-events:none;}

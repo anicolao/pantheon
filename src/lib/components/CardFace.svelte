@@ -1,18 +1,19 @@
 <script lang="ts">
   import { auditCardFit } from '$lib/layout/card-fit';
   import { base } from '$app/paths';
-  import { godSymbols, type CardDefinition } from '$lib/game/types';
+  import type { Snippet } from 'svelte';
+  import { godSymbols, type God, type CardFaceDefinition } from '$lib/game/types';
   import { cardFormat, cardSerial, copyCount, type PlayerCount } from '$lib/game/presentation';
   import ResourceIcon from './ResourceIcon.svelte';
   import RuleText from './RuleText.svelte';
 
-  let { card, players = 2, copy = 1, points }: { card: CardDefinition; players?: PlayerCount; copy?: number; points?: number } = $props();
+  let { card, players = 2, copy = 1, points, rules, symbol, accent }: { card: CardFaceDefinition; players?: PlayerCount; copy?: number; points?: number; rules?: Snippet<[string]>; symbol?: string; accent?: string } = $props();
   const format = $derived(cardFormat(card));
   const total = $derived(copyCount(card, players));
   const serial = $derived(cardSerial(card, copy));
 </script>
 
-<article use:auditCardFit class="card" data-card-id={card.id} data-format={format} data-god={card.god} data-type={card.type} data-serial={serial} aria-label={`${card.name}, ${card.god} ${card.type}, copy ${copy} of ${total}`}>
+<article use:auditCardFit class="card" style:--god={accent} data-card-id={card.id} data-format={format} data-god={card.god} data-type={card.type} data-serial={serial} aria-label={`${card.name}, ${card.god} ${card.type}, copy ${copy} of ${total}`}>
   <!-- Layer 0: illustration. Layer 1: separate colored substrates behind tag windows. -->
   <img class="illustration" data-layer="illustration" src={`${base}/assets/cards/${card.art}.webp`} alt={card.artDescription} draggable="false" />
   <div class="tag-substrate god-substrate" aria-hidden="true"></div>
@@ -25,18 +26,18 @@
     <div class="cost" data-fit="cost"><ResourceIcon resource="coins" value={card.cost} label={`${card.cost} Coins${card.type === 'Event' ? ' and 1 Worship to worship' : card.uniqueStartingCard ? '; starting card, not for sale' : ' to buy'}`} /></div>
   {/if}
   {#if card.type === 'Leader' && points !== undefined}<div class="leader-points" data-fit="points"><ResourceIcon resource="victory" value={points} label={`${points} victory points`} /></div>{/if}
-  <div class="tag-label god-label" data-fit="god"><span aria-hidden="true">{godSymbols[card.god]}</span> {card.god}</div>
+  <div class="tag-label god-label" data-fit="god"><span aria-hidden="true">{symbol ?? godSymbols[card.god as God]}</span> {card.god}</div>
   <div class="tag-label type-label" data-fit="type">{card.type}</div>
   <div class="rules" class:long={Math.max(card.effect.length, card.favored?.length ?? 0) > 120} data-fit="rules">
     {#if card.type === 'Event'}
-      <div><h4>Standard</h4><RuleText text={card.effect} /></div>
-      <div class="favored"><h4>Favored · 2+ Devotion</h4><RuleText text={card.favored!} /></div>
+      <div><h4>Standard</h4>{#if rules}{@render rules(card.effect)}{:else}<RuleText text={card.effect} />{/if}</div>
+      <div class="favored"><h4>Favored · 2+ Devotion</h4>{#if rules}{@render rules(card.favored!)}{:else}<RuleText text={card.favored!} />{/if}</div>
     {:else if card.type === 'Leader'}
-      <div><h4>Bloodline · once per turn</h4><RuleText text={card.effect} /></div>
+      <div><h4>Bloodline · once per turn</h4>{#if rules}{@render rules(card.effect)}{:else}<RuleText text={card.effect} />{/if}</div>
     {:else if card.type === 'Territory'}
       <div class="victory-value"><ResourceIcon resource="victory" value={card.vp} /></div>
     {:else}
-      <RuleText text={card.effect} />
+      {#if rules}{@render rules(card.effect)}{:else}<RuleText text={card.effect} />{/if}
     {/if}
   </div>
   <footer data-fit="footer">
@@ -49,6 +50,7 @@
 
 <style>
   .card { --god: #73552d; --type: #704c33; position: relative; container-type: inline-size; isolation: isolate; width: 100%; aspect-ratio: 5 / 7; color: #302a20; text-align: left; filter: drop-shadow(0 6px 10px #0006); }
+  [data-god='Zeus']{--god:#536ca0}[data-god='Hermes']{--god:#347e79}[data-god='Nike']{--god:#a76a30}[data-god='Hades']{--god:#76558e}
   [data-god='Athena'] { --god: #424c72; } [data-god='Poseidon'] { --god: #225a65; } [data-god='Demeter'] { --god: #52672e; } [data-god='Ares'] { --god: #893e35; }
   [data-type='Treasure'] { --type: #725819; } [data-type='Territory'] { --type: #2e5c48; } [data-type='Event'] { --type: #574169; } [data-type='Leader'] { --type: #6d3048; }
   .illustration { position: absolute; z-index: 0; left: 8%; top: 15%; width: 84%; height: 39%; object-fit: cover; object-position: center 15%; }

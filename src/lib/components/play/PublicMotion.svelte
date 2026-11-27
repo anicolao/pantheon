@@ -3,7 +3,7 @@
   import type { SetupState, CardInstance } from '$lib/game/setup';
   import { definition } from '$lib/game/actions';
   import { PublicMotionCursor, type PublicActivity, type PublicAnchor, type PublicStep } from '$lib/game/public-table';
-  import { motionDuration, cardFlightTiming, MOTION_EASING, FLIGHT_EASING, DRAW_MOTION, CLEANUP_DRAW_MOTION, TABLE_PAUSE } from './motion';
+  import { isBlockingAnimation, motionDuration, cardFlightTiming, MOTION_EASING, FLIGHT_EASING, DRAW_MOTION, CLEANUP_DRAW_MOTION, TABLE_PAUSE } from './motion';
   import { measureLayout, type Pose, type Layout } from './motion-layout';
   import { treasuresRightToLeft } from './hand-order';
   import CardFace from '../CardFace.svelte';
@@ -39,7 +39,7 @@
       do {
         await frame();await frame();
         if(!alive||token!==settlement||sequence!==game.activity.length)return;
-        const pending=document.getAnimations().filter(animation=>animation.playState==='running'||animation.pending);
+        const pending=document.getAnimations().filter(animation=>(animation.playState==='running'||animation.pending)&&isBlockingAnimation(animation));
         if(!pending.length)break;
         await Promise.all(pending.map(animation=>animation.finished.catch(()=>undefined)));
       }while(true);
@@ -113,24 +113,25 @@
       steps.sort((a,b)=>(positions.get(a.card?.id??'')??Infinity)-(positions.get(b.card?.id??'')??Infinity));
     }
     if(entry.command==='turn/ended'&&!steps.some(step=>step.kind==='cleanup'&&step.from.zone==='play')){
-      const waiting=previous.poses.filter(pose=>pose.zone==='play'&&pose.uid===entry.actor.uid&&pose.card);
+      const waiting=previous.poses.filter(pose=>pose.zone==='play'&&pose.uid===entry.actor.uid&&pose.card&&!entry.steps.some(step=>step.card?.id===pose.card&&step.to.uid!==entry.actor.uid));
       if(waiting.length)steps.unshift({id:`${entry.sequence}:cleanup:purchases`,kind:'cleanup',from:{zone:'play',uid:entry.actor.uid},to:{zone:'discard',uid:entry.actor.uid},count:waiting.length,backs:false,effect:'Cleanup'});
     }
     for(const step of steps){
+      if(step.kind==='notice')continue;
       // Shared-screen tables conceal the next hand and hand off after discarding.
       if(skipCleanupDeal && entry.command==='turn/ended' && (step.kind==='draw'||step.kind==='shuffle'))continue;
       // The inline target already carried these cards from hand to their pile.
       // Keep later effects (including draws and gains) in the public animation.
       if(entry.choiceId && localChoices.includes(entry.choiceId) && ['trash','discard'].includes(step.kind))continue;
       // Worship and Bloodline effects stay on their cards: they are not transfers.
-      if(step.kind==='worship'||step.kind==='leader'){
+      if(step.kind==='worship'||step.kind==='leader'||step.kind==='resolution'){
         const source=anchor(next,step.from);if(source && step.kind==='worship' && !prepareActivity){
           const animation=source.node.animate([{filter:'brightness(1.25)'},{filter:'brightness(1)'}],{duration:motionDuration(450),easing:MOTION_EASING});
           animations.add(animation);void animation.finished.catch(()=>undefined).finally(()=>animations.delete(animation));
         }
         continue;
       }
-      const oldCards=step.kind==='cleanup'?previous.poses.filter(pose=>pose.zone===step.from.zone&&pose.uid===step.from.uid&&pose.key&&!pose.key.startsWith('hand-hit:')):[];
+      const oldCards=step.kind==='cleanup'?previous.poses.filter(pose=>pose.zone===step.from.zone&&pose.uid===step.from.uid&&pose.key&&!pose.key.startsWith('hand-hit:')&&!entry.steps.some(item=>item.card?.id===pose.card && item.to.uid!==entry.actor.uid)):[];
       const count=step.kind==='cleanup'?Math.max(1,oldCards.length):1;
       for(let index=0;index<count;index++){
         const arrived=step.card?result.findLast(flight=>flight.card?.id===step.card!.id && flight.step.to.zone===step.from.zone && flight.step.to.uid===step.from.uid):undefined;
@@ -199,15 +200,15 @@
     try {
       // Only the owner has a face to flip. Observers see a small card back.
       const height=flight.width*1.4;
-      const source=anchor(current,flight.step.from)??flight.from;
+      const source=anchor(current,flight.step.from,flight.card?.id)??flight.from;
       const angle=preserveFacing?source.angle:0, radians=angle*Math.PI/180;
       const halfX=(Math.abs(Math.cos(radians))*flight.width+Math.abs(Math.sin(radians))*height)/2;
       const halfY=(Math.abs(Math.sin(radians))*flight.width+Math.abs(Math.cos(radians))*height)/2;
-      const raised={...source,x:Math.max(halfX+8,Math.min(innerWidth-halfX-8,source.x+Math.sin(radians)*height*.65)),y:Math.max(halfY+8,Math.min(innerHeight-halfY-8,source.y-Math.cos(radians)*height*.65)),angle};
+      const raised=flight.step.from.zone==='reveal'?source:{...source,x:Math.max(halfX+8,Math.min(innerWidth-halfX-8,source.x+Math.sin(radians)*height*.65)),y:Math.max(halfY+8,Math.min(innerHeight-halfY-8,source.y-Math.cos(radians)*height*.65)),angle};
       const flip=node.querySelector<HTMLElement>('.draw-flip');
       await Promise.all([
-        animate(node,[{transform:`${transform(source)} scale(${source.width/flight.width})`,opacity:1},{transform:transform(raised),opacity:1}],timing.reveal),
-        ...(flip?[animate(flip,[{transform:'rotateY(180deg)'},{transform:'rotateY(0deg)'}],timing.reveal)]:[])
+        ...(flight.step.from.zone==='reveal'?[]:[animate(node,[{transform:`${transform(source)} scale(${source.width/flight.width})`,opacity:1},{transform:transform(raised),opacity:1}],timing.reveal)]),
+        ...(flip&&flight.step.backs?[animate(flip,[{transform:'rotateY(180deg)'},{transform:'rotateY(0deg)'}],timing.reveal)]:[])
       ].map(animation=>animation.finished.catch(()=>undefined)));
       revealed();
       if(!valid())return;
@@ -262,11 +263,11 @@
       const source=anchor(current,flight.step.from,flight.card?.id);
       if(source)flight.from=facing(source,flight.from);
     }
-    const pendingCues=queued.activity.steps.filter(step=>step.kind==='leader');
+    const pendingCues=queued.activity.steps.filter(step=>step.kind==='leader'||step.kind==='resolution');
     async function blessingsBefore(step?:PublicStep){
       const nextIndex=step?queued.activity.steps.findIndex(candidate=>candidate.id===step.id):Infinity;
       while(pendingCues.length && queued.activity.steps.indexOf(pendingCues[0])<nextIndex){
-        const cueStep=pendingCues.shift()!,source=anchor(current,cueStep.from);
+        const cueStep=pendingCues.shift()!,source=anchor(current,cueStep.from,cueStep.card?.id);
         if(source){
           const cue=source.node.animate([{boxShadow:'0 0 0 0 #ffe29800'},{boxShadow:'0 0 22px 10px #ffe298bb'},{boxShadow:'0 0 0 0 #ffe29800'}],{duration:motionDuration(450),easing:MOTION_EASING});
           animations.add(cue);await cue.finished.catch(()=>undefined);cue.cancel();animations.delete(cue);
@@ -278,11 +279,20 @@
       await blessingsBefore(entry[index].step);
       if(token!==generation)break;
       const batch=[entry[index++]];
-      if(['play','draw','cleanup'].includes(batch[0].step.kind)){
+      if(batch[0].step.batch){
+        // Only adjacent transfers tagged by the same effect overlap. A draw,
+        // shuffle, leader cue, or subsequent effect remains a sequencing barrier.
+        while(index<entry.length && entry[index].step.batch===batch[0].step.batch){
+          const before=queued.activity.steps.indexOf(batch.at(-1)!.step);
+          const after=queued.activity.steps.indexOf(entry[index].step);
+          if(queued.activity.steps.slice(before+1,after).some(step=>step.kind==='leader'||step.kind==='resolution'||step.kind==='shuffle'))break;
+          batch.push(entry[index++]);
+        }
+      }else if(['play','draw','cleanup'].includes(batch[0].step.kind)){
         while(index<entry.length&&entry[index].step.kind===batch[0].step.kind){
           const previousIndex=queued.activity.steps.findIndex(step=>step.id===batch.at(-1)!.step.id);
           const nextIndex=queued.activity.steps.findIndex(step=>step.id===entry[index].step.id);
-          if(queued.activity.steps.slice(previousIndex+1,nextIndex).some(step=>step.kind==='leader'))break;
+          if(queued.activity.steps.slice(previousIndex+1,nextIndex).some(step=>step.kind==='leader'||step.kind==='resolution'))break;
           batch.push(entry[index++]);
         }
       }

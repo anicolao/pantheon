@@ -1,3 +1,4 @@
+import {legacyGame} from './legacy-game';
 import {publicStrategyView} from './public-view';
 import {resolveBotKind,seatBotKind} from '../game/bot-kind';
 import {openingBooks,currentOpeningBooks} from './opening-books';
@@ -32,7 +33,7 @@ export class BotTracker{
  memories:Record<string,BotMemory>={};
  histories:Record<string,number[]>={};supplies:Record<string,{turn:number;supply:Record<string,number>}[]>={};
  key='';draws=0;seen=new Set<string>();gained=new Set<string>();target=0;
- constructor(game:SetupState){this.inventory=inventoryAtSetup(game,'standard');for(const uid of game.turnOrder)this.memories[uid]={turn:0};}
+ constructor(game:SetupState){this.inventory=inventoryAtSetup(legacyGame(game),'standard');for(const uid of game.turnOrder)this.memories[uid]={turn:0};}
  view(game:SetupState):StandardView{
   const uid=activePlayer(game),mem=this.memories[uid];
   if(this.key!==uid+'/'+game.turn.number){
@@ -45,14 +46,14 @@ export class BotTracker{
   const recent=[...(this.histories[uid]??[]).slice(-3),this.draws];v.drawsPerTurn=recent.reduce((a,b)=>a+b,0)/recent.length;
   const old=this.supplies[uid].slice(-4)[0],elapsed=Math.max(1,mem.turn-old.turn);
   v.supplyRates=Object.fromEntries(Object.entries(game.supply).map(([id,n])=>[id,Math.max(0,(old.supply[id]-n)/elapsed)]));
-  return {...v,effectQueue:structuredClone(game.turn.queue)};
+  return {...v,effectQueue:structuredClone(legacyGame(game).turn.queue)};
  }
  observe(game:SetupState,uid:string,start:number,command:ActionCommand){
   for(const move of game.movements.slice(start))if(move.uid===uid&&move.card){
    if((move.kind==='gain'||move.kind==='topdeck')&&move.card.id.startsWith('supply-')&&!this.acquired.has(move.card.id))this.gained.add(move.card.id);
    if(move.kind==='draw'&&command.type!=='turn/ended'){this.draws++;if(!this.gained.has(move.card.id))this.seen.add(move.card.id);}
   }
-  updateInventory(this.inventory,game,start,this.acquired);
+  updateInventory(this.inventory,legacyGame(game),start,this.acquired);
   if(command.type==='turn/ended')(this.histories[uid]??=[]).push(this.draws);
  }
 }

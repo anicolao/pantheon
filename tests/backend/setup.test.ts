@@ -376,3 +376,44 @@ test('Undo is authenticated, append-only, serialized, retry-safe, and survives a
   expect(replaySetup(await history()).undo).toBeNull();
   await expect(appendGameCommand(db,id,uid,'undo-cleanup',command)).rejects.toThrow();
 });
+
+test('expansion leaders commit through the same authenticated draft stream',async()=>{
+ const {appendGameCommand}=await import('../../src/lib/backend/setup-repository');
+ const id='expansion-draft',uids=['exp-a','exp-b','exp-c','exp-d'];
+ for(const [index,uid] of uids.entries())await enterRoom(database(uid),id,uid,'Player '+index,index===0?4:undefined,undefined,index===0);
+ await appendGameCommand(database(uids[0]),id,uids[0],'start',{type:'draft/started',seed:'expansion-authenticated'});
+ const state=replaySetup(await history(database(uids[0]),id));
+ expect(state.expansion).toBe(true);
+ for(const [index,uid] of state.draftOrder.entries())await appendGameCommand(database(uid),id,uid,'choose-'+index,{type:'leader/chosen',leaderId:['echo','theseus','achilles','perseus'][index]});
+ const played=replaySetup(await history(database(uids[0]),id));
+ expect(played.phase).toBe('playing');
+ expect(Object.keys(played.supply)).toHaveLength(18);
+ expect(played.sharedEvents).toHaveLength(4);
+ for(const uid of uids)expect(Object.values(played.decks[uid]).flat().filter(card=>card.cardId.startsWith('temple-'))).toHaveLength(1);
+});
+
+
+test('online expansion rooms retain their mode for guests, reloads and new tables, and exclude bots',async()=>{
+ const {inspectRoom,inviteBot,automateHost}=await import('../../src/lib/backend/setup-repository');
+ const host=database('exp-mode-host'),guest=database('exp-mode-guest');
+ const attempt={token:'exp-mode-token'};
+ const id=await createRoom(host,'exp-mode-host','Host',2,attempt,()=> 'EXPMD',true);
+ expect(await createRoom(host,'exp-mode-host','Host',2,attempt,()=> 'UNUSED',true)).toBe(id);
+ expect((await inspectRoom(guest,id)).expansion).toBe(true);
+ await enterRoom(guest,id,'exp-mode-guest','Guest');
+ expect((await inspectRoom(guest,id)).expansion).toBe(true);
+ const events=await history(host,id),state=replaySetup(events);
+ expect(state.expansion).toBe(true);
+ expect(events[1].expansion).toBeUndefined();
+ await expect(inviteBot(host,id,'exp-mode-host','standard','bot-exp-mode')).rejects.toThrow('human');
+ await expect(automateHost(host,id,'exp-mode-host','standard')).rejects.toThrow('human');
+ const next=await createRoom(host,'exp-mode-host','Host',2,{token:'exp-rematch-token'},()=> 'EXPNX',!!state.expansion);
+ expect((await inspectRoom(host,next)).expansion).toBe(true);
+ // A client cannot switch the mode on a later revision or add an automated seat.
+ const batch=writeBatch(host);
+ batch.update(doc(host,'games',id),{revision:3,bots:{'exp-mode-host':'standard'}});
+ batch.set(doc(host,'games',id,'events','3'),{schemaVersion:1,sequence:3,actorUid:'exp-mode-host',name:'Host',playerCount:2,type:'player/automated',botKind:'standard',createdAt:serverTimestamp()});
+ await assertFails(batch.commit());
+ await assertFails(updateDoc(doc(host,'games',id),{expansion:false}));
+ expect(()=>replaySetup([...events,{...events[0],sequence:3,type:'player/automated',botKind:'standard',expansion:undefined}])).toThrow();
+});

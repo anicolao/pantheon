@@ -1,4 +1,4 @@
-export const gods = ['Athena', 'Poseidon', 'Demeter', 'Ares', 'Hestia'] as const;
+export const gods = ['Athena', 'Poseidon', 'Demeter', 'Ares', 'Hestia', 'Zeus', 'Hermes', 'Nike', 'Hades'] as const;
 export type God = typeof gods[number];
 export const cardTypes = ['Action', 'Treasure', 'Territory', 'Leader', 'Event'] as const;
 export type CardType = typeof cardTypes[number];
@@ -22,6 +22,9 @@ export interface CardDefinition {
   artDescription: string;
 }
 
+/** Display-only definitions allow proposed houses without registering playable cards. */
+export type CardFaceDefinition = Omit<CardDefinition, 'god'> & { god: string };
+
 export const godSymbols: Record<God, string> = {
-  Athena: '◈', Poseidon: '≋', Demeter: '❧', Ares: '⚔', Hestia: '♨'
+  Athena: '◈', Poseidon: '≋', Demeter: '❧', Ares: '⚔', Hestia: '♨', Zeus: '◉', Hermes: '➶', Nike: '❯', Hades: '◆'
 };
