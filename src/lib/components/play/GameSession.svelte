@@ -38,10 +38,10 @@
   import SupplyCoverflow from './SupplyCoverflow.svelte';
   import { activePlayer, canPlayAction, canPlayTreasure, departureReminder, definition, standings, eligibleGains } from '$lib/game/actions';
 
-  let { game, uid, roomId, status, busy, error, command, retry, again, onSettled, onReady, motionRate = 1 }: {
+  let { game, uid, roomId, status, busy, error, dismissError, command, retry, again, onSettled, onReady, motionRate = 1 }: {
     game: SetupState; uid: string; roomId: string; status: string; busy: boolean; error: string;
     command: (command: GameCommand, expectedRevision?: number) => Promise<void>; retry: () => void; again: () => void;
-    onSettled?: (revision:number)=>void; onReady?: (revision:number)=>void; motionRate?: number;
+    dismissError?:()=>void; onSettled?: (revision:number)=>void; onReady?: (revision:number)=>void; motionRate?: number;
   } = $props();
   const initialRevision = untrack(() => game.activity.length);
   let settledRevision = $state(initialRevision);
@@ -121,9 +121,9 @@
   async function worship(id: string) {
     if(turnUid===uid && !game.turn.choice){
       if(!ready)return;
-      await command({type:'worship/focused',cardId:id});
+      await command({type:'worship/focused',cardId:id},game.activity.length);
       await tick();
-      if(game.turn.worshipFocus!==id)return;
+      if(game.turn.worshipFocus!==id||game.turn.choice||turnUid!==uid)return;
     }
     worshipSource=document.querySelector<HTMLElement>(`[data-god-event="${id}"]`)?.getBoundingClientRect();
     worshipEvent=id;drawer='';await open('worship');
@@ -135,7 +135,9 @@
     if(!reduced && panel)await Promise.all(panel.getAnimations().map(animation=>animation.finished.catch(()=>undefined)));
   }
   async function finishWorshipReturn(){
-    if(turnUid===uid && game.turn.worshipFocus)await command({type:'worship/focused',cardId:''});
+    if(game.turn.choice||game.turn.queue.length)return;
+    if(turnUid===uid && game.turn.worshipFocus)await command({type:'worship/focused',cardId:''},game.activity.length);
+    if(game.turn.choice||game.turn.queue.length)return;
     if(!portraitLayout){close();return;}
     modal='';
     await tick();
@@ -428,7 +430,7 @@
 
 
     {/if}
-    {#if error}<p class="error" role="alert">{error}</p>{/if}
+    {#if error}<div class="error" role="alert">{error}{#if dismissError}<button aria-label="Dismiss error" onclick={dismissError}>Dismiss</button>{/if}</div>{/if}
   </div>
   {#if status !== 'synced'}<div class="connection" role="status" data-e2e-layout><p>Connection lost. Your place is kept.</p><GameButton onclick={retry}>Try again</GameButton></div>{/if}
 </main>
@@ -484,6 +486,7 @@
   .turn-rail{position:absolute;left:23%;top:63%;width:54%;height:10%;isolation:isolate;padding:0 3%;display:flex;align-items:center;justify-content:center;} .turn-marker{width:35%;display:grid;text-align:center;font:600 clamp(18px,2.6svh,52px)/1.1 'Cormorant Garamond',serif;color:#f6dfac;}.turn-marker span{font-size:.65em;margin-top:4px;}.resources{display:flex;justify-content:space-evenly;width:65%;--icon-size:clamp(20px,3svh,64px);--icon-number-scale:.8;}
   .hand{position:absolute;left:29%;bottom:3%;width:calc(var(--hand-room) * 1%);--hand-room:54;height:clamp(130px,23svh,460px);--hand-card-width:clamp(94px,15svh,300px);}
   .own-leader{position:absolute!important;left:1%;bottom:3%;width:17%;}.leader-portrait{display:none;}.deck-pile{position:absolute;left:19%;bottom:3%;width:7%;}.discard-pile{position:absolute;right:3%;bottom:4%;width:10%;text-align:center;font-size:clamp(12px,1.8svh,34px);}
+  .error button{margin-left:12px;min-height:44px;background:#071321;color:inherit;border:1px solid #cb9872;border-radius:6px;padding:6px 12px;}
   .error{position:absolute;left:24%;width:52%;top:29%;text-align:center;padding:12px;background:#481f18ee;border:1px solid #cb9872;border-radius:12px;color:#fff0cd;z-index:9;}.connection{position:absolute;left:30%;top:42%;width:40%;background:#071321ef;border:1px solid #b2914f;border-radius:16px;padding:20px;text-align:center;z-index:10;}.connection p{margin:0 0 16px;}
   dialog{width:min(900px,94vw);max-height:95svh;padding:28px;border:2px solid #b58b48;border-radius:20px;background:linear-gradient(#132431f5,#07111cfb);color:#f2dfb9;text-align:center;box-shadow:0 20px 80px #000b;}dialog::backdrop{background:#020811bb;backdrop-filter:blur(6px);}dialog h2{font:600 30px/1 'Cormorant Garamond',serif;margin:14px 32px 24px;}.close{position:absolute;right:7px;top:7px;width:44px;height:44px;border:0;background:none;font-size:28px;}.inspected{width:min(360px,49svh,78vw);margin:auto;}.inspected.landscape{width:min(680px,102svh,80vw);}
   @media(max-aspect-ratio:3/4){

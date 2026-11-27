@@ -177,7 +177,8 @@ export function applyPlayCommand(game: SetupState, uid: string, command: ActionC
     return `${game.players.find(player=>player.uid===uid)!.name} browsed ${definition(command.cardId).name}.`;
   }
   if (command.type === 'worship/focused') {
-    if (game.turn.choice || (command.cardId && !game.sharedEvents.includes(command.cardId))) throw new Error('Choose a shared worship card outside a pending choice.');
+    if (game.turn.choice) throw new Error('Finish the current card choice before opening or returning a worship card.');
+    if (command.cardId && !game.sharedEvents.includes(command.cardId)) throw new Error('That worship card is not available at this table.');
     if(command.cardId)game.turn.worshipFocus=command.cardId;else delete game.turn.worshipFocus;
     return `${game.players.find(player=>player.uid===uid)!.name} ${command.cardId?'focused on '+definition(command.cardId).god:'returned the worship card'}.`;
   }

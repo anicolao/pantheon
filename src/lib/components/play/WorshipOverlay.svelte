@@ -27,10 +27,12 @@
     return ()=>animation.cancel();
   });
   async function leave(){
-    if(returning||choice)return;returning=true;
+    if(returning||submitting||game.turn.choice||game.turn.queue.length)return;returning=true;
     await prepareReturn();await tick();
+    if(game.turn.choice||game.turn.queue.length){returning=false;return;}
     const destination=document.querySelector<HTMLElement>(`[data-god-event="${selected}"]`);
     if(node&&destination&&!matchMedia('(prefers-reduced-motion: reduce)').matches){const rect=destination.getBoundingClientRect();await node.animate([{transform:'none'},{transform:transform(rect)}],{duration:motionDuration(300),easing:MOTION_EASING,fill:'forwards'}).finished;}
+    if(game.turn.choice||game.turn.queue.length){returning=false;return;}
     close();
   }
   export async function submit(){if(!ready||submitting||reason)return;submitting=true;submittedRevision=game.activity.length;try{await command({type:'god/worshipped',cardId:selected});}finally{submitting=false;}}
@@ -43,7 +45,7 @@
   $effect(()=>{if(submittedRevision>=0&&game.activity.length>submittedRevision&&!game.turn.choice&&!game.turn.queue.length&&!submitting&&effectsSettled)void leave();});
   $effect(()=>{if(choice)submittedRevision=game.activity.length-1;});
 </script>
-<svelte:window onkeydown={event=>{if(event.key==='Escape'&&!choice)void leave();}} />
+<svelte:window onkeydown={event=>{if(event.key==='Escape'&&!game.turn.choice)void leave();}} />
 <section style:visibility={covered?"hidden":undefined} class="worship-overlay" bind:this={node} aria-label={`${event.god} worship`} aria-busy={submitting||returning}>
   <WorshipFace {game} {uid} cardId={selected}/>
   <div class="card-controls">
@@ -58,7 +60,7 @@
     {#if canUndo(game,uid)}<GameButton disabled={!ready||submitting||returning} onclick={undo}>Undo</GameButton>{/if}
     {#if error}<p role="alert">{error}</p>{/if}
   </div>
-  {#if !choice}<button class="close-worship" aria-label="Return worship card" disabled={submitting||returning} onclick={leave}>×</button>{/if}
+  {#if !game.turn.choice}<button class="close-worship" aria-label="Return worship card" disabled={submitting||returning} onclick={leave}>×</button>{/if}
 </section>
 <style>
   .worship-overlay{position:absolute;--overlay-width:min(var(--center-width),76svh);left:calc(var(--center-left) + (var(--center-width) - var(--overlay-width))/2);width:var(--overlay-width);bottom:11%;z-index:40;transform-origin:top left;filter:drop-shadow(0 12px 16px #000b);}

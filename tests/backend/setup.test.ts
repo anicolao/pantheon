@@ -255,6 +255,13 @@ test('Worship commands authenticate, serialize payment, and retry a topdeck choi
       await expect(appendGameCommand(uid==='worship-a'?b:a,'worship-stream',uid==='worship-a'?'worship-b':'worship-a','wrong-worship',worship)).rejects.toThrow();
       await appendGameCommand(db,'worship-stream',uid,'worship',worship);await appendGameCommand(db,'worship-stream',uid,'worship',worship);
       state=replaySetup(await history());expect(state.resources.worship).toBe(0);expect(state.resources.buys).toBe(1);
+      // A return animation that started before worship must not clear the pending choice.
+      const pendingEvents=await history();
+      await appendGameCommand(db,'worship-stream',uid,'stale-temple-return',{type:'worship/focused',cardId:''},focused.activity.length);
+      expect(await history()).toEqual(pendingEvents);
+      await expect(appendGameCommand(db,'worship-stream',uid,'premature-temple-return',{type:'worship/focused',cardId:''})).rejects.toThrow('Finish the current card choice');
+      expect(replaySetup(await history()).turn.choice).toEqual(state.turn.choice);
+
       const browse={type:'choice/browsed' as const,choiceId:state.turn.choice!.id,cardId:'oracles-acolyte'};
       const undoBefore=state.undo;
       await appendGameCommand(db,'worship-stream',uid,'browse',browse);

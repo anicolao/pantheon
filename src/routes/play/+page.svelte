@@ -121,6 +121,7 @@
     stop?.();
     stop = watchSetup(services!.db, roomId, (next, synced, events) => {
       if (!alive || !next.players.length) return;
+      if(setup && next.activity.length>setup.activity.length)playError='';
       setup = next;
       expansion = !!next.expansion;
       status = synced && navigator.onLine ? 'synced' : 'disconnected';
@@ -178,7 +179,7 @@
     if (!services || !setup || busy || status !== 'synced') return;
     if(command.type!=='draft/started'&&setup.players.find(p=>p.uid===services!.uid)?.botKind)return;
     busy = true; playError = '';
-    if (!pendingCommand || pendingCommand.expectedRevision !== expectedRevision || JSON.stringify(pendingCommand.command) !== JSON.stringify(command)) pendingCommand = { id: expectedRevision === undefined ? `${crypto.randomUUID()}:${setup.activity.length + 1}` : `auto-treasures:${services.uid}:${expectedRevision}`, command, expectedRevision };
+    if (!pendingCommand || pendingCommand.expectedRevision !== expectedRevision || JSON.stringify(pendingCommand.command) !== JSON.stringify(command)) pendingCommand = { id: `${crypto.randomUUID()}:${setup.activity.length + 1}`, command, expectedRevision };
     const attempt = pendingCommand;
     // A matching server event completes the caller's interaction too. The SDK
     // may still be retrying an HTTP response that was lost after the commit.
@@ -187,7 +188,7 @@
       // A successful HTTP response can precede the subscription update. Keep
       // controls busy until the confirmed projection contains this command (or
       // supersedes an automatic request), while still surfacing write failures.
-      await Promise.race([appendGameCommand(services.db, roomId, services.uid, attempt.id, attempt.command, attempt.expectedRevision).then(()=>acknowledged),acknowledged]);
+      await Promise.race([appendGameCommand(services.db, roomId, services.uid, attempt.id, attempt.command, attempt.expectedRevision).then(()=>{if(attempt.expectedRevision!==undefined && (setup?.activity.length??0)>attempt.expectedRevision)attempt.acknowledge?.();return acknowledged;}),acknowledged]);
       if (pendingCommand === attempt) { pendingCommand = undefined; busy = false; }
     } catch (cause) {
       // A confirmed older request may finish after the player starts another command.
@@ -261,7 +262,7 @@
 
 <svelte:head><title>Gather at the Table — Pantheon: Bloodlines</title><link rel="preload" as="image" href={`${base}/assets/ui/sanctuary-button-secondary.png`} /></svelte:head>
 {#if setup && setup.phase !== 'gathering' && services}
-  <GameSession game={setup} uid={services.uid} {roomId} {status} {busy} error={playError} command={sendCommand} retry={connect} again={playAgain} onSettled={tableSettled} onReady={tableSettled} />
+  <GameSession game={setup} uid={services.uid} {roomId} {status} {busy} error={playError} dismissError={()=>{playError='';if(!busy)pendingCommand=undefined;}} command={sendCommand} retry={connect} again={playAgain} onSettled={tableSettled} onReady={tableSettled} />
   {#if botError}<div class="bot-error" role="alert">{botError}<button onclick={retryBot}>Retry bot</button></div>{/if}
 {:else}
 <main class="gathering" class:unavailable data-status={status}>
