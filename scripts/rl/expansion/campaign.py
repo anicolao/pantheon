@@ -3,7 +3,7 @@ import argparse,hashlib,json,subprocess,sys,time
 from pathlib import Path
 
 def main():
-    p=argparse.ArgumentParser();p.add_argument('--bootstrap',required=True);p.add_argument('--output',required=True);p.add_argument('--workers',type=int,default=16);p.add_argument('--prefix',default='eight-house-20261127-v2');a=p.parse_args()
+    p=argparse.ArgumentParser();p.add_argument('--bootstrap',required=True);p.add_argument('--output',required=True);p.add_argument('--workers',type=int,default=16);p.add_argument('--prefix',default='eight-house-20261127-v2');p.add_argument('--resume-reason');a=p.parse_args()
     root=Path(a.output).resolve();root.mkdir(parents=True,exist_ok=True)
     config=dict(bootstrap=str(Path(a.bootstrap).resolve()),bootstrapSHA256=hashlib.sha256(Path(a.bootstrap).read_bytes()).hexdigest(),workers=a.workers,prefix=a.prefix,order=['theseus','achilles','perseus'],roundsPerHouse=2,stepsPerLearnerPerRound=131072,finalConsolidationRounds=1,matrixGamesPerPair=1000,matrixSeedPrefix='eight-house-final-20261127-v1',selection='Each round freezes opponents and selects checkpoints on screening seeds only; matrix is untouched until all training is frozen',python=sys.executable,flakeSHA256=hashlib.sha256(Path('flake.nix').read_bytes()).hexdigest(),lockSHA256=hashlib.sha256(Path('flake.lock').read_bytes()).hexdigest())
     protocol=root/'protocol.json'
@@ -22,9 +22,10 @@ def main():
     for house in config['order']+['consolidation']:
         folder=root/house;field=folder/'selected-field.json'
         if not field.exists():
-            if folder.exists():status(house,'interrupted',message='Partial checkpoints retained; review before resuming');raise RuntimeError('Partial stage needs explicit checkpoint recovery: '+str(folder))
+            if folder.exists() and not a.resume_reason:status(house,'interrupted',message='Partial checkpoints retained; review before resuming');raise RuntimeError('Partial stage needs explicit checkpoint recovery: '+str(folder))
             args=[sys.executable,'scripts/rl/expansion/train_stage.py','--previous',previous,'--output',str(folder),'--newest',house if house!='consolidation' else 'perseus','--prefix',a.prefix+':'+house,'--workers',str(a.workers),'--steps','131072','--rounds','1' if house=='consolidation' else '2']
             if house=='consolidation':args.append('--uniform')
+            if folder.exists():args+=['--resume-reason',a.resume_reason]
             command(house,args)
         previous=str(field)
     status('matrix','running',field=previous)

@@ -50,6 +50,18 @@ test('long campaign identities map to bounded production seeds without losing pa
  env.reset(prefix+'2');expect(env.gameSeed).not.toBe(seed);
 });
 
+test('training horizon preserves a learner observation and replay without inventing an outcome; evaluation still fails',()=>{
+ const old=process.env.PANTHEON_RL_FAILURE_DIR;process.env.PANTHEON_RL_FAILURE_DIR=directory;
+ try{
+  const env=new ExpansionEnvironment('theseus',manifest(6));env.reset('horizon:0',true);env.steps=5000;
+  const before=structuredClone(env.game),state=env.state();
+  expect(state.done).toBe(false);expect(state.truncated).toBe(true);expect(state.info?.replayVerified).toBe(true);
+  expect(state.info).not.toHaveProperty('share');expect(state.observation).toEqual(schema.observation(before,env.uid));expect(env.game).toEqual(before);
+  env.reset('horizon:0');env.steps=5000;expect(env.state().truncated).toBeUndefined();
+  expect(()=>env.step(env.teacher())).toThrow('Episode guard exceeded');
+ }finally{if(old===undefined)delete process.env.PANTHEON_RL_FAILURE_DIR;else process.env.PANTHEON_RL_FAILURE_DIR=old;}
+});
+
 test('seeded exploratory policies can resolve the new mechanics without illegal masks or replay drift',async()=>{
  const {createPrng}=await import('../../src/lib/game/random');const random=createPrng('expansion-exploratory-mask-audit'),path=manifest(8);
  for(const leader of ['theseus','achilles','perseus'])for(let seed=0;seed<4;seed++){

@@ -20,8 +20,12 @@ on the same seed, and the twelve Action piles follow the production setup rules.
 Before all houses are introduced, seeds are rejected **only** when random filler
 houses include an unintroduced house; no draws, decisions or outcomes are examined.
 At eight houses, no such rejection occurs. Every match uses unmodified production
-reducers, and every result is replay-verified. Bad actions and episode guards abort;
-there is no dropped-game fallback or strategic action masking.
+reducers, and every result is replay-verified. Bad actions abort. Evaluations still
+abort at the 5,000-command guard; there is no dropped-game fallback or strategic
+action masking. Training alone truncates at the next learner decision after
+5,000 commands, with zero reward and standard SB3 TimeLimit value bootstrapping.
+These trajectories are saved in full and counted separately from completed games.
+A 10,000-command hard guard still catches failure to return to a learner decision.
 
 After introducing all eight, one consolidation round uses uniformly rotated
 opponents. All training then stops before the final matrix. Each round saves the
@@ -60,3 +64,13 @@ Campaign v1 stopped before completing training because its descriptive seed
 namespace exceeded the production seed length. Campaign v2 stores the descriptive
 identity in results and uses a fixed-length SHA-256-derived game seed; paired
 starting orders still use the same game seed. The failed start is retained.
+
+Theseus round one reproduced a genuine stalled training game against Echo:
+`eight-house-20261127-v2:theseus:round-1:train-0:51`. Both players had zero
+territory points after roughly 240 turns each. This motivated the training-only
+truncation protocol; no evaluation outcome is imputed. The first five completed
+learners did not hit this guard and their checkpoints remain intact. Recovery
+restarts the incomplete learner from its frozen incumbent with the same seeds,
+archives its interrupted files, checks protocol and gameplay-source compatibility,
+and records source changes and the explicit `--resume-reason`. Full replays of
+truncations use `PANTHEON_RL_FAILURE_DIR` (default `/tmp/pantheon-rl-failures`).

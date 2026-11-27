@@ -1,5 +1,5 @@
 """Shared transport and tensor export for sequential expansion training."""
-import base64,hashlib,json,math,subprocess,sys
+import base64,hashlib,json,math,subprocess,sys,time
 from pathlib import Path
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
 import numpy as np
@@ -7,9 +7,19 @@ import torch
 import gymnasium as gym
 from sb3_contrib import MaskablePPO
 from stable_baselines3.common.vec_env import SubprocVecEnv
-from train import evaluate,Progress
+from train import evaluate,Progress as BaseProgress
 from train_v2 import collect,fit
 ROOT=Path(__file__).resolve().parents[3]
+class Progress(BaseProgress):
+    def __init__(self):super().__init__();self.truncations=0
+    def _on_step(self):
+        for done,reward,info in zip(self.locals['dones'],self.locals['rewards'],self.locals['infos']):
+            if done:
+                if info.get('TimeLimit.truncated'):self.truncations+=1
+                else:self.games+=1;self.rewards.append(float(info.get('outcome',reward)))
+        if self.num_timesteps%16384==0:
+            print(json.dumps(dict(stage='training',steps=self.num_timesteps,games=self.games,truncatedTrajectories=self.truncations,recentMeanReward=float(np.mean(self.rewards[-100:])) if self.rewards else None,elapsedSeconds=time.monotonic()-self.started)),flush=True)
+        return True
 class Game(gym.Env):
     def __init__(self,rank,workers,prefix,leader,opponent):
         self.rank,self.workers,self.prefix=rank,workers,prefix
@@ -26,13 +36,18 @@ class Game(gym.Env):
     def schedule(self,namespace):self.namespace,self.counter=namespace,0
     def reset(self,seed=None,options=None):
         super().reset(seed=seed);i=self.rank+self.counter*self.workers;self.counter+=1
-        s=self.call(dict(op='reset',seed=f'{self.prefix}:{self.namespace}:{i}'));self.mask=np.array(s['mask'],dtype=bool)
+        s=self.call(dict(op='reset',seed=f'{self.prefix}:{self.namespace}:{i}',training=self.namespace.startswith('train-')));self.mask=np.array(s['mask'],dtype=bool)
         return np.array(s['observation'],dtype=np.float32),{}
     def action_masks(self):return self.mask
     def teacher(self):return self.call(dict(op='teacher'))
     def teacher_preview(self):return self.teacher()
     def step(self,action):
         s=self.call(dict(op='step',action=int(action)))
+        if s.get('truncated'):
+            assert self.namespace.startswith('train-') and not s['done'] and s['info']['replayVerified']
+            self.mask=np.array(s['mask'],dtype=bool)
+            print(json.dumps(dict(stage='training-truncation',**s['info'])),file=sys.stderr,flush=True)
+            return np.array(s['observation'],dtype=np.float32),0.,False,True,s['info']
         if s['done']:
             self.mask=np.zeros(self.action_space.n,dtype=bool)
             return np.zeros(self.observation_space.shape,dtype=np.float32),s['reward'],True,False,s['info']

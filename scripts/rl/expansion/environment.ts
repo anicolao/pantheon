@@ -1,4 +1,4 @@
-import {readFileSync} from 'node:fs';
+import {readFileSync,mkdirSync,writeFileSync} from 'node:fs';
 import {createHash} from 'node:crypto';
 import {replaySetup,setupSupply,leaderLinks,type SetupState,type SetupEvent} from '../../../src/lib/game/setup';
 import {createPrng} from '../../../src/lib/game/random';
@@ -8,7 +8,7 @@ import {commands,observation,leaders,schemaSignature} from './schema';
 import {teacher} from './teacher';
 export type Manifest={stageLeaders:string[];newest:string;focusNewest?:boolean;actors:Record<string,{path:string;sha256:string}>};
 export class ExpansionEnvironment{
- game!:SetupState;events:SetupEvent[]=[];uid='';seed='';gameSeed='';steps=0;opponent='';first=false;
+ game!:SetupState;events:SetupEvent[]=[];uid='';seed='';gameSeed='';steps=0;opponent='';first=false;training=false;
  actors:Record<string,ReturnType<typeof createActor>>={};manifest:Manifest;
  constructor(public leader:string,manifest:string,public fixedOpponent?:string){
   this.manifest=JSON.parse(readFileSync(manifest,'utf8'));
@@ -19,8 +19,8 @@ export class ExpansionEnvironment{
    this.actors[id]=createActor(data,schemaSignature);
   }
  }
- reset(seed:string){
-  this.seed=seed;this.steps=0;this.events=[];
+ reset(seed:string,training=false){
+  this.seed=seed;this.steps=0;this.events=[];this.training=training;
   const index=Number(seed.split(':').at(-1));if(!Number.isInteger(index))throw Error('Numbered seed required');
   const block=Math.floor(index/2),{stageLeaders,newest}=this.manifest;
   const others=stageLeaders.filter(l=>l!==this.leader&&l!==newest);
@@ -45,10 +45,18 @@ export class ExpansionEnvironment{
   this.game=replaySetup(this.events);this.opponents();return this.state();
  }
  apply(command:ActionCommand){
-  if(++this.steps>5000)throw Error('Episode guard exceeded: no game may be excluded');
+  if(++this.steps>(this.training?10000:5000)){
+   const path=this.saveTrajectory('guard',command);
+   throw Error('Episode guard exceeded: no game may be excluded; replay saved at '+path);
+  }
   const uid=activePlayer(this.game),sequence=this.events.length+1;
   this.events.push({schemaVersion:1,reducerVersion:1,commandId:'exp-'+sequence,sequence,actorUid:uid,name:this.game.players.find(p=>p.uid===uid)!.name,playerCount:2,...command});
   applyPlayCommand(this.game,uid,command,sequence);
+ }
+ saveTrajectory(reason:string,command?:ActionCommand){
+  const dir=process.env.PANTHEON_RL_FAILURE_DIR??'/tmp/pantheon-rl-failures';mkdirSync(dir,{recursive:true});
+  const path=dir+'/'+reason+'-'+createHash('sha256').update(this.seed+this.leader).digest('hex')+'.json';
+  writeFileSync(path,JSON.stringify({reason,seed:this.seed,gameSeed:this.gameSeed,leader:this.leader,opponent:this.opponent,command,events:this.events}));return path;
  }
  opponents(){while(this.game.turn.phase!=='finished'&&activePlayer(this.game)!==this.uid){
   const uid=activePlayer(this.game),model=this.actors[this.game.leaders[uid]],options=commands(this.game);
@@ -61,6 +69,10 @@ export class ExpansionEnvironment{
    return {done:true,reward:2*share-1,info:{seed:this.seed,gameSeed:this.gameSeed,leader:this.leader,opponentLeader:this.opponent,first:this.first,block:Math.floor(Number(this.seed.split(':').at(-1))/2),share,score:me.score,turns:me.turns,field:rows.map(r=>({leader:this.game.leaders[r.uid],score:r.score,winner:r.winner})),replayVerified:this.verify()}};
   }
   const mask=commands(this.game).map(Boolean);if(!mask.some(Boolean))throw Error('No legal decisions');
+  if(this.training&&this.steps>=5000){
+   if(activePlayer(this.game)!==this.uid)throw Error('Truncation must bootstrap the learner perspective');
+   return {done:false,truncated:true,observation:observation(this.game),mask,info:{seed:this.seed,replayVerified:this.verify(),trajectory:this.saveTrajectory('training-truncation')}};
+  }
   return {done:false,observation:observation(this.game),mask};
  }
  teacher(){return teacher(this.game);}
