@@ -4,15 +4,15 @@ from pathlib import Path
 from statistics import mean,stdev
 run=Path(sys.argv[1])
 if (run/'invalidated.json').exists():raise RuntimeError('This run is invalidated')
-results=json.loads((run/'results.json').read_text())
+results=json.loads((run/'results.json').read_text());expected=json.loads((run/'protocol.json').read_text())['test_games']
 lines=['# Echo/Zeus RL pilot','',
- 'Four-player games containing Echo plus three original leaders. Each row compares one learner with its own baseline against the same frozen opponents on 384 fresh games (96 four-seat seed blocks). Rows are separate matchups and do not sum to 100%.',
+ f'Four-player games containing Echo plus three original leaders. Each row compares one learner with its own baseline against the same frozen opponents on {expected} fresh games ({expected//4} four-seat seed blocks). Rows are separate matchups and do not sum to 100%.',
  '', '| Learner | Baseline share | Selected share | Paired change (approx. 95% CI) | Selected checkpoint |',
  '|---|---:|---:|---:|---|']
 paired={}
 for leader,result in results.items():
     folder=run/leader;before=json.loads((folder/'bc-test.json').read_text());after=json.loads((folder/(result['selected']+'-test.json')).read_text())
-    assert len(before)==len(after)==384
+    assert len(before)==len(after)==expected
     blocks={}
     for a,b in zip(after,before,strict=True):
         assert a['seed']==b['seed'] and a['seat']==b['seat'] and a['replayVerified'] and b['replayVerified']
