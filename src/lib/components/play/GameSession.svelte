@@ -19,7 +19,7 @@
   import { tablePurchases } from './table-purchases';
   import { measureLayout, type Layout } from './motion-layout';
   import { base } from '$app/paths';
-  import { leaderIds, leaderLinks, type SetupState } from '$lib/game/setup';
+  import { allLeaderIds, leaderIds, leaderLinks, type SetupState } from '$lib/game/setup';
   import type { GameCommand } from '$lib/backend/setup-repository';
   import type { CardDefinition } from '$lib/game/types';
   import CardFace from '../CardFace.svelte';
@@ -99,7 +99,8 @@
     });
   });
   const animatedHand = new Set<string>();
-  let selected = $state<string>('thaleia');
+  let selected = $state<string>(untrack(() => game.expansion ? 'echo' : 'thaleia'));
+  const draftLeaders = $derived(game.expansion ? allLeaderIds : leaderIds);
   let reduced = $state(true);
   let portraitLayout = $state(false);
   let drawer = $state<'players' | 'worship' | ''>('');
@@ -258,7 +259,7 @@
     // Persist the transition as an ordinary command, preserving old event streams.
     void command({type:'phase/advanced',automatic:true}, revision);
   });
-  $effect(() => { if (ownerOf(selected) && game.phase === 'draft') selected = leaderIds.find(id => !ownerOf(id)) ?? selected; });
+  $effect(() => { if (ownerOf(selected) && game.phase === 'draft') selected = draftLeaders.find(id => !ownerOf(id)) ?? selected; });
   onMount(() => {
     const portrait = matchMedia('(max-aspect-ratio:3/4)');
     const updatePortrait = () => { portraitLayout = portrait.matches; drawer = ''; };
@@ -316,12 +317,12 @@
     {#if game.phase === 'draft'}<header><a href={`${base}/`} aria-label="Back to sanctuary">‹ Sanctuary</a>{#if /^[A-Z]{4,5}$/.test(roomId)}<span><span class="code-label">Game code </span><strong>{roomId}</strong><BuildInfo /></span>{:else}<span>{game.playerCount} players<BuildInfo /></span>{/if}</header>{/if}
     {#if game.phase === 'draft'}
       <div class="draft-title"><h1>Choose your<br />Bloodline</h1><p aria-live="polite">{isChoice ? 'Your choice' : `${nameOf(chooser)} chooses`}</p></div>
-      {#key selected}<img class="hero" src={`${base}/assets/ui/hero-${selected}.webp`} alt="" draggable="false" in:arrive />{/key}
+      {#key selected}<img class="hero" class:illustrated={!leaderIds.includes(selected as typeof leaderIds[number])} src={leaderIds.includes(selected as typeof leaderIds[number]) ? `${base}/assets/ui/hero-${selected}.webp` : `${base}/assets/cards/${links.leader.art}.webp`} alt="" draggable="false" in:arrive />{/key}
       <button class="draft-card leader-card" aria-label={`Inspect ${links.leader.name}`} onclick={() => inspect(links.leader.id)}><CardFace card={links.leader} players={game.playerCount} /></button>
       <button class="draft-card temple-card" aria-label={`Inspect ${links.temple.name}`} onclick={() => inspect(links.temple.id)}><CardFace card={links.temple} players={game.playerCount} /></button>
       <button class="draft-card event-card" aria-label={`Inspect ${links.event.name}`} onclick={() => inspect(links.event.id)}><CardFace card={links.event} players={game.playerCount} /></button>
-      <nav class="leaders" aria-label="Bloodlines">
-        {#each leaderIds as id}
+      <nav class="leaders" class:expanded={game.expansion} aria-label="Bloodlines">
+        {#each draftLeaders as id}
           <button data-leader-choice={id} class:taken={!!ownerOf(id)} aria-label={`View ${leaderLinks(id).leader.name.split(',')[0]}${ownerOf(id) ? `, chosen by ${nameOf(ownerOf(id)!)}` : ''}`} aria-pressed={selected === id} onclick={() => selected = id} disabled={!!ownerOf(id)}>
             <Portrait leader={id} name={leaderLinks(id).leader.name.split(',')[0]} active={selected === id} />
             {#if ownerOf(id)}<span class="taken-by">{nameOf(ownerOf(id)!)}</span>{/if}
@@ -893,5 +894,13 @@
   }
   @media(max-height:650px) and (max-aspect-ratio:3/4){
     .session:not(.drafting) .composition{--table-card-height:min(25svh,58vw,calc((100svh - 192px)/3));--play-top:calc(100px + var(--table-card-height));}
+  }
+  .hero.illustrated{object-fit:contain;mask-image:radial-gradient(ellipse at center,#000 35%,transparent 72%);}
+  .leaders.expanded{left:24%;width:52%;gap:1%;flex-wrap:wrap;bottom:11%;}
+  .leaders.expanded button{width:min(6vw,11svh);}
+  @media(max-aspect-ratio:3/4){
+    .leaders.expanded{left:3%;width:94%;top:72%;bottom:auto;display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:0;}
+    .leaders.expanded button{width:100%;min-height:44px;}
+    .leaders.expanded .taken-by{font-size:8px;}
   }
 </style>

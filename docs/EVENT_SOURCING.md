@@ -67,3 +67,9 @@ The active player commits discrete `market/browsed` and `worship/focused` destin
 Observers render read-only worship and choice scenes. Temple arrival completes before an automatic worship gift centers the market and flies to its destination. A closed phone Players drawer serves as the visible destination for the opponent's concealed zones. Personal inspections and Chronicle reading remain local; reconnecting does not replay an animation backlog.
 
 The paired-browser observer interaction stories cover public focus, gain browsing, private staging, deselection and completion on all three viewports. The animation lab also verifies automatic worship arrival → market focus → gift flight. Renderer baselines retain zero-pixel comparison.
+
+### Expansion playtests
+
+Open `/expansion/` to choose online play (`/play/?expansion=1`) or the shared-screen tabletop (`/expansion/tabletop/`). Online expansion rooms record `expansion: true` in both room metadata and the immutable creation event. Invitations and room codes use the ordinary `/play/?room=…` URL; clients recover the mode from the room, including after reload. New-game creation retains it. These rooms offer all eight leaders and exclude automated seats until bot policies support the new effects. Original rooms and histories retain their existing behavior.
+
+Expansion rooms require the current `firestore.rules` on the preview backend as well as the static client deployment. The rules preserve the room mode across revisions and prohibit automated seats in expansion rooms.

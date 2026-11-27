@@ -28,6 +28,7 @@
   let unavailable = $state<'full' | 'missing' | 'started' | ''>('');
   let name = $state('');
   let nameError = $state('');
+  let expansion = $state(false);
   let playerCount = $state<2 | 3 | 4>(2);
   let roomId = $state('');
   let reservedSeats = $state(0);
@@ -103,7 +104,7 @@
   const count = $derived(setup?.playerCount ?? playerCount);
   $effect(() => { if (!busy) capacityChoice = count; });
   const openSeats = $derived(count - (setup?.players.length ?? 0));
-  const title = $derived(unavailable === 'full' ? 'This table is full.' : unavailable === 'started' ? 'This game has already begun.' : unavailable ? 'This invitation was not found.' : 'Gather at the Table');
+  const title = $derived(unavailable === 'full' ? 'This table is full.' : unavailable === 'started' ? 'This game has already begun.' : unavailable ? 'This invitation was not found.' : expansion ? 'Gather for the Expansion' : 'Gather at the Table');
   const starting = ['obol', 'hamlet'].map(id => cards.find(card => card.id === id)!);
   function arrival(node: Element) { return reducedMotion ? { duration: 0 } : fly(node, { y: 20, duration: motionDuration(450), easing: cubicOut }); }
   function fail(cause: unknown) {
@@ -119,6 +120,7 @@
     stop = watchSetup(services!.db, roomId, (next, synced, events) => {
       if (!alive || !next.players.length) return;
       setup = next;
+      expansion = !!next.expansion;
       status = synced && navigator.onLine ? 'synced' : 'disconnected';
       // A server-confirmed event is an acknowledgement even if the HTTP response was lost.
       // Do not keep the table locked during Firestore's idempotent transaction retry.
@@ -144,6 +146,7 @@
         const room = await inspectRoom(connected.db, roomId);
         if (!alive) return;
         playerCount = room.playerCount;
+        expansion = room.expansion ?? false;
         reservedSeats = room.members.length;
         if (room.members.includes(connected.uid)) { subscribe(); return; }
         if (room.phase && room.phase !== 'gathering') throw new SetupError('started', 'This game has already begun.');
@@ -159,7 +162,7 @@
     busy = true; status = 'joining';
     const creating = !roomId;
     try {
-      const id = creating ? await createRoom(services.db, services.uid, name, playerCount, creationAttempt ??= { token: crypto.randomUUID() }) : roomId;
+      const id = creating ? await createRoom(services.db, services.uid, name, playerCount, creationAttempt ??= { token: crypto.randomUUID() }, undefined, expansion) : roomId;
       if (!creating) await enterRoom(services.db, id, services.uid, name);
       if (!alive) return;
       roomId = id;
@@ -197,7 +200,7 @@
     busy=true;playError='';
     try{
       const own=setup.players.find(player=>player.uid===services!.uid)!;
-      const id=await createRoom(services.db,services.uid,own.name,setup.playerCount,rematchAttempt??={token:crypto.randomUUID()});
+      const id=await createRoom(services.db,services.uid,own.name,setup.playerCount,rematchAttempt??={token:crypto.randomUUID()},undefined,!!setup.expansion);
       if(!alive)return;
       name=own.name;
       await goto(`${base}/play/?room=${encodeURIComponent(id)}`);
@@ -235,6 +238,7 @@
     if (from && to && from.url.pathname === to.url.pathname && from.url.search !== to.url.search) {
       stop?.(); stopBots(); setup = null; unavailable = ''; pendingCommand = undefined; draftSeed = ''; playError = ''; nameError = ''; creationAttempt = undefined; joinCode = ''; codeError = ''; capacityError = ''; playerCount = 2; reservedSeats = 0;botInvitation=undefined;
       roomId = to.url.searchParams.get('room') ?? '';
+      expansion = to.url.searchParams.get('expansion') === '1';
       void connect();
     }
   });
@@ -246,6 +250,7 @@
     updateMotion(); motion.addEventListener('change', updateMotion);
     window.addEventListener('offline', offline); window.addEventListener('online', online);
     roomId = new URL(location.href).searchParams.get('room') ?? '';
+    expansion = new URL(location.href).searchParams.get('expansion') === '1';
     name = localStorage.getItem('pantheon:name') ?? '';
     void connect();
     return () => { alive = false; stop?.(); stopBots(); motion.removeEventListener('change', updateMotion); window.removeEventListener('offline', offline); window.removeEventListener('online', online); };
@@ -345,7 +350,7 @@
     <GameButton primary onclick={copyInvitation}>{copied ? 'Invitation copied' : 'Copy invitation'}</GameButton>
     <p role="status">{copied ? 'Send it to the players you want at your table.' : manualInvitation ? 'Select and copy your invitation below.' : ''}</p>
     {#if manualInvitation}<label class="manual">Your invitation<input bind:this={invitationInput} readonly value={invitation} onclick={() => invitationInput?.select()} /></label>{/if}
-    {#if setup?.players[0]?.uid===services?.uid}
+    {#if !expansion && setup?.players[0]?.uid===services?.uid}
       <section class="bot-invitation">
         <h3>Invite a bot</h3>
         <label for="bot-strategy">Bot strategy</label><select id="bot-strategy" bind:value={botKind} disabled={busy}>{#each botDifficulties as kind}<option value={kind}>{botLabels[kind]}</option>{/each}</select>
@@ -356,14 +361,15 @@
     {/if}
   {:else if modal === 'details'}
     <h2 id="dialog-title">Supply for {count} players</h2>
+    {#if expansion}<p>Expansion playtest · Eight leaders · Human players only</p>{/if}
     <BuildInfo />
     {#if setup && setup.players[0]?.uid === services?.uid}
       <fieldset class="capacity"><legend>Players at your table</legend>
         {#each [2,3,4] as number}<label><input type="radio" name="capacity" aria-label={`${number} players`} value={number} bind:group={capacityChoice} disabled={busy || status !== 'synced' || number < setup.players.length} onchange={() => changeCapacity(number as 2 | 3 | 4)} /><span>{number}</span></label>{/each}
       </fieldset>
       <p class="capacity-hint">Occupied seats stay at the table.</p>
-      <div class="bot-invitation"><label for="host-seat">Your seat</label><select id="host-seat" bind:value={hostSeat} disabled={busy||status!=='synced'} onchange={()=>changeHostSeat(hostSeat)}><option value="human">I will play</option>{#each botDifficulties as kind}<option value={kind}>{botLabels[kind]}</option>{/each}</select></div>
-      {#if hostSeat!=='human'}<p>You will watch your bot play. Keep this table open to run the bots.</p>{/if}
+      {#if !expansion}<div class="bot-invitation"><label for="host-seat">Your seat</label><select id="host-seat" bind:value={hostSeat} disabled={busy||status!=='synced'} onchange={()=>changeHostSeat(hostSeat)}><option value="human">I will play</option>{#each botDifficulties as kind}<option value={kind}>{botLabels[kind]}</option>{/each}</select></div>
+      {#if hostSeat!=='human'}<p>You will watch your bot play. Keep this table open to run the bots.</p>{/if}{/if}
       {#if capacityError}<p role="alert">{capacityError}</p>{/if}
     {/if}
     <dl class="supply"><div><dt>Each Territory</dt><dd>{count * 3}</dd></div><div><dt>Each regular Action</dt><dd>{count * 4}</dd></div><div><dt>Obol / Drachma / Talent</dt><dd>40 / 30 / 20</dd></div></dl>

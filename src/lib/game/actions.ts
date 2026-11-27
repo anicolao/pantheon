@@ -66,7 +66,7 @@ export function canPlayAction(game: SetupState, uid: string, instanceId: string)
   return game.phase === 'playing' && activePlayer(game) === uid && ((game.turn.phase === 'actions' && game.resources.actions > 0) || (game.turn.deploy ?? 0) > 0) && !game.turn.choice && game.decks[uid]?.hand.some(card => card.id === instanceId && definition(card.cardId).type === 'Action');
 }
 // Keep historical base-game replays and frozen policy behavior unchanged.
-export function expansionRules(game: SetupState) { return Object.values(game.leaders).some(id=>['echo','theseus','achilles','perseus'].includes(id)); }
+export function expansionRules(game: SetupState) { return !!game.expansion || Object.values(game.leaders).some(id=>['echo','theseus','achilles','perseus'].includes(id)); }
 function treasurePhase(game:SetupState) { return ['actions','treasures'].includes(game.turn.phase) || (game.turn.phase==='buys' && expansionRules(game)); }
 export function canPlayTreasure(game: SetupState, uid: string, instanceId: string) {
   return game.phase === 'playing' && activePlayer(game) === uid && treasurePhase(game) && !game.turn.choice && game.decks[uid]?.hand.some(card => card.id === instanceId && definition(card.cardId).type === 'Treasure');
