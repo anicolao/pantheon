@@ -60,3 +60,13 @@ def export(model,leader,path,schema,checkpoint):
         layers.append(dict(input=w.shape[1],output=w.shape[0],weights=base64.b64encode(w.tobytes()).decode(),bias=base64.b64encode(b.tobytes()).decode()))
     path.write_text(json.dumps(dict(version=1,leader=leader,schemaSignature=schema,checkpointSHA256=hashlib.sha256(checkpoint.read_bytes()).hexdigest(),dtype='float32-le',activation='tanh',layers=layers)))
     return dict(path=str(path.resolve()),sha256=hashlib.sha256(path.read_bytes()).hexdigest())
+
+def close_vector(vec):
+    # SubprocVecEnv.close() may wait for replies already consumed before a worker
+    # exception. On failure terminate owned workers and propagate the exception.
+    if sys.exc_info()[0] is not None:
+        for process in vec.processes:
+            if process.is_alive():process.terminate()
+        for process in vec.processes:process.join(timeout=5)
+        vec.closed=True
+    else:vec.close()

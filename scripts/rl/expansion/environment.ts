@@ -32,7 +32,7 @@ export class ExpansionEnvironment{
   const allowed=new Set(stageLeaders.map(id=>leaderLinks(id).leader.god)),base=seed.replace(/[^:]+$/,String(block));
   let attempt=0;
   for(;;){
-   this.gameSeed=base+':houses:'+attempt;
+   this.gameSeed='rl:'+createHash('sha256').update(base+':houses:'+attempt).digest('hex').slice(0,48);
    if(setupSupply(2,[this.leader,this.opponent],this.gameSeed,true).every(p=>allowed.has(definition(p.id).god)||definition(p.id).type!=='Action'))break;
    if(++attempt>10000)throw Error('Unable to sample introduced houses');
   }

@@ -29,6 +29,6 @@ def main():
                 assert torch.allclose(old.policy.value_net(old.policy.mlp_extractor.forward_critic(x)),model.policy.value_net(model.policy.mlp_extractor.forward_critic(y)),atol=2e-5,rtol=2e-5),leader
             model.save(out/leader);actors[leader]=export(model,leader,out/(leader+'.json'),meta['schema'],out/(leader+'.zip'));checkpoints[leader]=str(out/(leader+'.zip'))
             print(leader+': actor/critic migration verified',flush=True)
-        finally:vec.close()
+        finally:close_vector(vec)
     (out/'field.json').write_text(json.dumps(dict(stageLeaders=heroes,newest='echo',actors=actors,checkpoints=checkpoints),indent=2))
 if __name__=='__main__':main()

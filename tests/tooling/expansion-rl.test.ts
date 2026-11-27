@@ -42,3 +42,10 @@ test('headsup observations never expose hidden hands or deck order',()=>{
  changed.seed='different';for(const [id,z] of Object.entries(changed.decks)){z.deck.reverse();if(id!==uid){const n=z.hand.length,hidden=[...z.hand,...z.deck].reverse();z.hand=hidden.slice(0,n);z.deck=hidden.slice(n);}}
  expect(schema.observation(changed)).toEqual(schema.observation(g));expect(schema.commands(changed)).toEqual(schema.commands(g));
 });
+
+test('long campaign identities map to bounded production seeds without losing pairing',()=>{
+ const env=new ExpansionEnvironment('theseus',manifest(6)),prefix='long-campaign-identity:'.repeat(8);
+ env.reset(prefix+'0');const seed=env.gameSeed;expect(seed.length).toBeLessThanOrEqual(64);
+ env.reset(prefix+'1');expect(env.gameSeed).toBe(seed);
+ env.reset(prefix+'2');expect(env.gameSeed).not.toBe(seed);
+});

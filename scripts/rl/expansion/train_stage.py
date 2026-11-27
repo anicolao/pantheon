@@ -25,7 +25,7 @@ def main():
             model=MaskablePPO('MlpPolicy',vec,seed=27112028+len(heroes),device='cpu',n_steps=256,batch_size=256,n_epochs=4,learning_rate=1e-4,gamma=1.,gae_lambda=1.,ent_coef=.003,target_kl=.02,policy_kwargs=dict(net_arch=dict(pi=[128,128],vf=[128,128])))
             data,n=collect(vec,model,args.imitation_games,'imitation');fit(model,data,args.epochs,args.newest+'-imitation');model.save(out/args.newest)
             current['actors'][args.newest]=export(model,args.newest,out/(args.newest+'.json'),meta['schema'],out/(args.newest+'.zip'));current['checkpoints'][args.newest]=str(out/(args.newest+'.zip'))
-        finally:vec.close()
+        finally:close_vector(vec)
     for round_index in range(1,args.rounds+1):
         folder=out/f'round-{round_index}';folder.mkdir();frozen=folder/'frozen-field.json';frozen.write_text(json.dumps(current,indent=2));selected=dict(stageLeaders=heroes,newest=args.newest,focusNewest=not args.uniform,actors={},checkpoints={});results={}
         for leader in heroes:
@@ -45,7 +45,7 @@ def main():
                 model=MaskablePPO.load(target/best,device='cpu');candidate=assess(best,'test',args.test_games)
                 selected['actors'][leader]=export(model,leader,target/'selected.json',meta['schema'],target/(best+'.zip'));selected['checkpoints'][leader]=str(target/(best+'.zip'))
                 results[leader]=dict(selected=best,baseline=baseline,candidate=candidate);(folder/'results.json').write_text(json.dumps(results,indent=2))
-            finally:vec.close()
+            finally:close_vector(vec)
         current=selected;(folder/'selected-field.json').write_text(json.dumps(current,indent=2))
     (out/'selected-field.json').write_text(json.dumps(current,indent=2));print(json.dumps(dict(stage='stage-complete',newest=args.newest,rounds=args.rounds)),flush=True)
 if __name__=='__main__':main()
