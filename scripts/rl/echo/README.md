@@ -13,7 +13,7 @@ the Nix store. The training code and artifacts remain in this repository.
 
 ```sh
 nix develop .#rl --command python scripts/rl/echo/train.py \
-  --output balance-diagnostics/echo-rl-v1 --prefix echo-rl-20261127-v1 \
+  --output balance-diagnostics/echo-rl-v2 --prefix echo-rl-20261127-v2 \
   --workers 16 --imitation-games 512 --epochs 20 \
   --steps 131072 --screen-games 96 --test-games 384
 ```
@@ -58,3 +58,7 @@ Validation:
 nix develop . --command bun test tests/tooling/echo-rl.test.ts
 nix develop .#rl --command python scripts/rl/echo/verify_transfer.py <run>
 ```
+
+The learner clears its cached observation before each training segment because
+screening resets the shared simulator. The exploratory v1 run is invalidated in
+its artifact directory; v2 is the first full pilot eligible for reporting.

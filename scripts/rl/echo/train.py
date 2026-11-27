@@ -1,5 +1,5 @@
 """Checkpointed Echo-first league pilot. All dependencies come from flake.nix#rl."""
-import argparse, base64, hashlib, json, math, subprocess, sys, time
+import argparse, base64, hashlib, json, math, signal, subprocess, sys, time
 from pathlib import Path
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
 import numpy as np
@@ -77,6 +77,8 @@ def initialize_shipped_actor(model,leader,action_map):
                     assert new>=0
                     target[key+'.weight'][new].copy_(w[old]);target[key+'.bias'][new].copy_(b[old])
 def main():
+    def stop(signum,frame):raise KeyboardInterrupt
+    signal.signal(signal.SIGTERM,stop)
     p=argparse.ArgumentParser();p.add_argument('--output',required=True);p.add_argument('--prefix',required=True);p.add_argument('--workers',type=int,default=8);p.add_argument('--imitation-games',type=int,default=128);p.add_argument('--screen-games',type=int,default=64);p.add_argument('--test-games',type=int,default=256);p.add_argument('--steps',type=int,default=65536);p.add_argument('--epochs',type=int,default=12);a=p.parse_args()
     assert a.workers%4==0 and a.screen_games%a.workers==0 and a.test_games%a.workers==0
     out=Path(a.output).resolve();out.mkdir(parents=True,exist_ok=False)
@@ -106,7 +108,7 @@ def main():
                 rows=evaluate(vec,model,namespace,n);(folder/f'{label}-{namespace}.json').write_text(json.dumps(rows));s=summary(rows);print(json.dumps(dict(stage=namespace,leader=leader,checkpoint=label,**s)),flush=True);return s
             scores['bc']=assess('bc','screen',a.screen_games)
             for stage in range(2):
-                vec.env_method('schedule',f'train-{stage}');model.learn(total_timesteps=a.steps//2,reset_num_timesteps=stage==0,callback=Progress());label=f'ppo-{stage+1}';model.save(folder/label);scores[label]=assess(label,'screen',a.screen_games)
+                vec.env_method('schedule',f'train-{stage}');model._last_obs=None;model.learn(total_timesteps=a.steps//2,reset_num_timesteps=stage==0,callback=Progress());label=f'ppo-{stage+1}';model.save(folder/label);scores[label]=assess(label,'screen',a.screen_games)
             best=max(scores,key=lambda k:scores[k]['share']);(folder/'selection.json').write_text(json.dumps(dict(selected=best,screen=scores),indent=2))
             model=MaskablePPO.load(folder/'bc',device='cpu');baseline=assess('bc','test',a.test_games)
             model=MaskablePPO.load(folder/best,device='cpu');candidate=assess(best,'test',a.test_games)
