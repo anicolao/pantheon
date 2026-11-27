@@ -1,9 +1,9 @@
 import {createPrng} from './random';
-export const botKinds = ['bot', 'easy', 'standard', 'hard', 'expert', 'mm', 'money', 'engine', 'classic-engine'] as const;
+export const botKinds = ['bot', 'easy', 'standard', 'hard', 'expert', 'mm', 'money', 'engine', 'classic-engine', 'expansion-rl'] as const;
 export type BotKind = typeof botKinds[number];
 export const botDifficulties = ['easy', 'standard', 'hard', 'expert'] as const;
 export type BotDifficulty = typeof botDifficulties[number];
-export const botLabels: Record<BotKind, string> = { bot: 'Standard', easy: 'Easy', standard: 'Standard', hard: 'Hard', expert: 'Expert', mm: 'MM (Minh / Melia)', money: 'Money', engine: 'Engine (current)', 'classic-engine': 'Engine (historical v4)' };
+export const botLabels: Record<BotKind, string> = { bot: 'Standard', easy: 'Easy', standard: 'Standard', hard: 'Hard', expert: 'Expert', mm: 'MM (Minh / Melia)', money: 'Money', engine: 'Engine (current)', 'classic-engine': 'Engine (historical v4)', 'expansion-rl':'Trained expansion bot' };
 export const isBotKind = (value: unknown): value is BotKind => botKinds.includes(value as BotKind);
 export const easyHeuristics = ['money', 'engine', 'classic-engine', 'mm'] as const;
 /** Pick once per seat/game, independent of decisions and stable after reload. */

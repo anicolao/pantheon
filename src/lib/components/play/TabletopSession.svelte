@@ -241,11 +241,11 @@
           aria-label={seat.mode === 'empty' ? `Join ${playerName(id)}` : `Leave ${playerName(id)} seat`}
           onclick={() => seatMode(seat.edge, seat.mode === 'empty' ? 'human' : 'empty')}>
           <Portrait {leader} name={definition(leader).name.split(',')[0]} active={seat.mode !== 'empty'}/>
-          <span>{seat.mode === 'empty' ? 'Tap to join' : seat.mode === 'bot' ? 'Bot · chooses its leader' : `Joined ${occupied.slice().sort((a,b)=>a.joined-b.joined).findIndex(item=>item.edge===seat.edge)+1}`}</span>
+          <span>{seat.mode === 'empty' ? 'Tap to join' : seat.mode === 'bot' ? expansion?'Trained bot':'Bot · chooses its leader' : `Joined ${occupied.slice().sort((a,b)=>a.joined-b.joined).findIndex(item=>item.edge===seat.edge)+1}`}</span>
         </button>
         {#if expansion}<label class="expansion-leader">Leader<select aria-label={seat.edge+' leader'} value={seat.leader} onchange={event=>{table={...table,seats:table.seats.map(item=>item.edge===seat.edge?{...item,leader:event.currentTarget.value as Seat['leader']}:item)};save();}}>
           {#each allLeaderIds as candidate}<option value={candidate} disabled={table.seats.some(item=>item.edge!==seat.edge&&item.leader===candidate)}>{definition(candidate).name.split(',')[0]}</option>{/each}
-        </select></label>{:else}<div class="seat-options"><button class="seat-mode" disabled={!mounted} onclick={() => seatMode(seat.edge, seat.mode === 'bot' ? 'human' : 'bot')}>{seat.mode === 'bot' ? `Play ${playerName(id)} yourself` : `Add bot as ${playerName(id)}`}</button>
+        </select></label><button class="seat-mode" disabled={!mounted} onclick={() => seatMode(seat.edge, seat.mode === 'bot' ? 'human' : 'bot')}>{seat.mode==='bot'?'Play yourself':'Add trained bot'}</button>{:else}<div class="seat-options"><button class="seat-mode" disabled={!mounted} onclick={() => seatMode(seat.edge, seat.mode === 'bot' ? 'human' : 'bot')}>{seat.mode === 'bot' ? `Play ${playerName(id)} yourself` : `Add bot as ${playerName(id)}`}</button>
         {#if seat.mode === 'bot'}<select class="seat-difficulty" aria-label={`Bot difficulty for ${playerName(id)}`} value={seat.botKind??'standard'} onchange={(event)=>{const kind=event.currentTarget.value as BotKind;table={...table,seats:table.seats.map(s=>s.edge===seat.edge?{...s,botKind:kind}:s)};}}>{#each botDifficulties as kind}<option value={kind}>{botLabels[kind]}</option>{/each}</select>{/if}</div>{/if}
       {:else if seat.mode !== 'empty'}
         <div class="edge-line">
@@ -283,7 +283,7 @@
 
   <section class="shared-table" class:finished class:playing={game?.phase==='playing'&&!finished} data-temple-dock={templeDock} style:--table-width={`${tableWidth}px`} bind:this={board} style:--rotation={`${rotation}deg`} aria-label="Shared table" aria-busy={moving || working || animating} data-facing={activeSeat?.edge ?? 'south'}>
     {#if !game}
-      <div class="welcome"><p class="eyebrow">{expansion?"New houses · Human playtest":"One table · Four bloodlines"}</p><h1>Pantheon</h1><p>Choose your edge. Tap your leader.</p><span>{occupied.length} of 4 seats joined</span></div>
+      <div class="welcome"><p class="eyebrow">{expansion?"Eight houses · Trained bots":"One table · Four bloodlines"}</p><h1>Pantheon</h1><p>Choose your edge. Tap your leader.</p><span>{occupied.length} of 4 seats joined</span></div>
       {#each edges as edge, index}
         <div class="start-control" style:--start-angle={`${index * 90}deg`}>
           <button class="start primary" disabled={!mounted || occupied.length < 2} aria-label={`Play facing ${playerName(seatUid(edge))}`} onclick={start}>Play</button>

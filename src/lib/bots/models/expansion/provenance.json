@@ -1,0 +1,62 @@
+{
+  "study": "eight-house-league-2026-11-27",
+  "field": {
+    "stageLeaders": [
+      "echo",
+      "thaleia",
+      "nereon",
+      "melia",
+      "doreios",
+      "theseus",
+      "achilles",
+      "perseus"
+    ],
+    "newest": "perseus",
+    "focusNewest": false,
+    "actors": {
+      "echo": {
+        "path": "/Users/anicolao/projects/games/pantheon/balance-diagnostics/eight-house-league-v2/consolidation/round-1/echo/selected.json",
+        "sha256": "2fdd687c2f752f613e9efeab2c169e69dd5bade5db443f1f97ba0d5e05a18211"
+      },
+      "thaleia": {
+        "path": "/Users/anicolao/projects/games/pantheon/balance-diagnostics/eight-house-league-v2/consolidation/round-1/thaleia/selected.json",
+        "sha256": "2a93f14ad1e6e9bee057bd100f79cd8dd2ba1296c81218fe24c5128c21866967"
+      },
+      "nereon": {
+        "path": "/Users/anicolao/projects/games/pantheon/balance-diagnostics/eight-house-league-v2/consolidation/round-1/nereon/selected.json",
+        "sha256": "756ddb146ceca3b02f9ec6fdf867985bce8744047371f347d6d7bcbccfe0e3f1"
+      },
+      "melia": {
+        "path": "/Users/anicolao/projects/games/pantheon/balance-diagnostics/eight-house-league-v2/consolidation/round-1/melia/selected.json",
+        "sha256": "53c37c6c7b905d1e0b824449d837fc160b63a9372877e202a819f074d17ae4eb"
+      },
+      "doreios": {
+        "path": "/Users/anicolao/projects/games/pantheon/balance-diagnostics/eight-house-league-v2/consolidation/round-1/doreios/selected.json",
+        "sha256": "01e852895a6f6781c77ff40e0c172dee525282937580aa41b16c38923bc0d412"
+      },
+      "theseus": {
+        "path": "/Users/anicolao/projects/games/pantheon/balance-diagnostics/eight-house-league-v2/consolidation/round-1/theseus/selected.json",
+        "sha256": "2d2142bb4ba4ce5cb0e94871ac541ede0c22a2629870b8787ec49d478ba734b9"
+      },
+      "achilles": {
+        "path": "/Users/anicolao/projects/games/pantheon/balance-diagnostics/eight-house-league-v2/consolidation/round-1/achilles/selected.json",
+        "sha256": "55540fdc04d955ff82285a5631d004605c8893775a7088731b09c53297c821e7"
+      },
+      "perseus": {
+        "path": "/Users/anicolao/projects/games/pantheon/balance-diagnostics/eight-house-league-v2/consolidation/round-1/perseus/selected.json",
+        "sha256": "df16cfcd46a161c8ede7bc981b4ff69c96f32af6a898bef6bbe9596720ba455a"
+      }
+    },
+    "checkpoints": {
+      "echo": "/Users/anicolao/projects/games/pantheon/balance-diagnostics/eight-house-league-v2/consolidation/round-1/echo/ppo-2.zip",
+      "thaleia": "/Users/anicolao/projects/games/pantheon/balance-diagnostics/eight-house-league-v2/consolidation/round-1/thaleia/ppo-2.zip",
+      "nereon": "/Users/anicolao/projects/games/pantheon/balance-diagnostics/eight-house-league-v2/consolidation/round-1/nereon/ppo-1.zip",
+      "melia": "/Users/anicolao/projects/games/pantheon/balance-diagnostics/eight-house-league-v2/consolidation/round-1/melia/ppo-2.zip",
+      "doreios": "/Users/anicolao/projects/games/pantheon/balance-diagnostics/eight-house-league-v2/consolidation/round-1/doreios/ppo-2.zip",
+      "theseus": "/Users/anicolao/projects/games/pantheon/balance-diagnostics/eight-house-league-v2/consolidation/round-1/theseus/ppo-1.zip",
+      "achilles": "/Users/anicolao/projects/games/pantheon/balance-diagnostics/eight-house-league-v2/consolidation/round-1/achilles/ppo-2.zip",
+      "perseus": "/Users/anicolao/projects/games/pantheon/balance-diagnostics/eight-house-league-v2/consolidation/round-1/perseus/incumbent.zip"
+    }
+  },
+  "report": "docs/research/eight-house-league-2026-11-27/REPORT.md"
+}
