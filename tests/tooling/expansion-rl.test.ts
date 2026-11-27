@@ -49,3 +49,16 @@ test('long campaign identities map to bounded production seeds without losing pa
  env.reset(prefix+'1');expect(env.gameSeed).toBe(seed);
  env.reset(prefix+'2');expect(env.gameSeed).not.toBe(seed);
 });
+
+test('seeded exploratory policies can resolve the new mechanics without illegal masks or replay drift',async()=>{
+ const {createPrng}=await import('../../src/lib/game/random');const random=createPrng('expansion-exploratory-mask-audit'),path=manifest(8);
+ for(const leader of ['theseus','achilles','perseus'])for(let seed=0;seed<4;seed++){
+  const env=new ExpansionEnvironment(leader,path);let state=env.reset(`exploratory:${seed}`),step=0;
+  while(!state.done){const options=schema.commands(env.game).filter(c=>c!==undefined);
+   expect(options.length).toBeGreaterThan(0);
+   if(step++%17===0)for(const command of options){const copy=structuredClone(env.game);expect(()=>applyPlayCommand(copy,activePlayer(copy),command,env.events.length+1)).not.toThrow();}
+   const chosen=options[Math.floor(random()*options.length)],index=schema.commands(env.game).findIndex(c=>JSON.stringify(c)===JSON.stringify(chosen));
+   state=env.step(index);
+  }expect(state.info?.replayVerified).toBe(true);
+ }
+});

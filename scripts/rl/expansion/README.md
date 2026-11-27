@@ -44,7 +44,7 @@ nix develop .#rl --command python scripts/rl/expansion/import_echo.py \
   balance-diagnostics/echo-rl-v2 balance-diagnostics/expansion-league-v1-bootstrap
 nix develop .#rl --command python scripts/rl/expansion/campaign.py \
   --bootstrap balance-diagnostics/expansion-league-v1-bootstrap/field.json \
-  --output balance-diagnostics/eight-house-league-v1 --workers 16
+  --output balance-diagnostics/eight-house-league-v2 --workers 16
 ```
 
 An exact copy of this repository’s flake and lock in a small temporary directory
@@ -55,3 +55,8 @@ the Nix store. No ad-hoc Python packages or external environments are required.
 fields, selections and checkpoints remain on disk. Partial training stages stop
 for explicit recovery rather than overwriting progress. Matrix failure similarly
 stops the campaign; no completion is reported without all 28 matchups.
+
+Campaign v1 stopped before completing training because its descriptive seed
+namespace exceeded the production seed length. Campaign v2 stores the descriptive
+identity in results and uses a fixed-length SHA-256-derived game seed; paired
+starting orders still use the same game seed. The failed start is retained.
