@@ -1,0 +1,1 @@
+import{F as e,N as t,q as n,x as r}from"./DHd8yHnj.js";import{l as i}from"./CT-Tc5rB.js";import"./xihTtKlq.js";import"./BmbiZSDU.js";var a=e(`<span class="dialog-frame svelte-ktn65x" aria-hidden="true"></span>`);function o(e){var o=a();let s;n(()=>s=r(o,``,s,{"--frame-art":`url("${i}/assets/ui/chronicle-tray.webp")`})),t(e,o)}export{o as t};
