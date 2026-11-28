@@ -8,7 +8,7 @@ import {expansionCommand,expansionPolicy} from '../../src/lib/bots/expansion';
 import {TableBotDriver} from '../../src/lib/bots/table';
 import {append,restoreTable,seatUid,begin} from '../../src/lib/tabletop/table';
 import provenance from '../../src/lib/bots/models/expansion/provenance.json';
-test('shipped actors are byte-identical to the final audited matrix actors',()=>{
+test('shipped actors match their recorded audited checkpoint hashes',()=>{
  for(const id of allLeaderIds){
   const data=readFileSync(`src/lib/bots/models/expansion/${id}.json`);
   expect(createHash('sha256').update(data).digest('hex')).toBe(provenance.field.actors[id].sha256);

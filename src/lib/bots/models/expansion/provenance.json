@@ -1,5 +1,5 @@
 {
-  "study": "all-leader-territory-adaptation-2026-11-28",
+  "study": "perseus-bind-vp-2026-11-28",
   "field": {
     "stageLeaders": [
       "echo",
@@ -43,8 +43,8 @@
         "sha256": "b737d7877ccbc7cf808d4eacdcc9525e5a53abf2b226a7b3139d256958446f24"
       },
       "perseus": {
-        "path": "/Users/anicolao/projects/games/pantheon/balance-diagnostics/all-leader-territory-adaptation-20261128/train-perseus/selected.json",
-        "sha256": "f79c351c8dba53dd4f1910d64a39342a93b10e92bbe119bc8a515a0e46f7bbe7"
+        "path": "/Users/anicolao/projects/games/pantheon/balance-diagnostics/perseus-bind-vp-20261128/standard/selected.json",
+        "sha256": "104e4cdc4e4ab44e0835162bff79bc4c93f2f0109568e61b7393b3250dd26247"
       }
     },
     "checkpoints": {
@@ -55,11 +55,12 @@
       "doreios": "/Users/anicolao/projects/games/pantheon/balance-diagnostics/all-leader-territory-adaptation-20261128/train-doreios/ppo-3.zip",
       "theseus": "/Users/anicolao/projects/games/pantheon/balance-diagnostics/all-leader-territory-adaptation-20261128/train-theseus/ppo-8.zip",
       "achilles": "/Users/anicolao/projects/games/pantheon/balance-diagnostics/all-leader-territory-adaptation-20261128/train-achilles/ppo-7.zip",
-      "perseus": "/Users/anicolao/projects/games/pantheon/balance-diagnostics/all-leader-territory-adaptation-20261128/train-perseus/ppo-6.zip"
+      "perseus": "/Users/anicolao/projects/games/pantheon/balance-diagnostics/perseus-bind-vp-20261128/standard/ppo-7.zip"
     },
     "baseField": "/Users/anicolao/projects/games/pantheon/balance-diagnostics/all-leader-territory-adaptation-20261128/base-field.json"
   },
-  "report": "docs/research/all-leader-territory-adaptation-2026-11-28/REPORT.md",
-  "rules": "Independent FIFO Deploy; Action or Treasure repeats; Territory draws once per activation",
-  "features": 916
+  "report": "docs/research/perseus-bind-vp-2026-11-28/README.md",
+  "rules": "Independent FIFO Deploy including Territory draws; Perseus Bind 2; Stillness costs 2 and pays bound VP (favoured Bind 2)",
+  "features": 916,
+  "previousFieldReport": "docs/research/all-leader-territory-adaptation-2026-11-28/REPORT.md"
 }

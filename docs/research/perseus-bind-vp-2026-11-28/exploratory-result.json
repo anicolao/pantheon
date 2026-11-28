@@ -1,0 +1,52 @@
+{
+  "selected": "ppo-6",
+  "accepted": true,
+  "baseline": {
+    "games": 3584,
+    "share": 0.3745814732142857,
+    "blockWilson95CI": [
+      0.35246194630783023,
+      0.39723758175745116
+    ],
+    "meanTurns": 14.909877232142858,
+    "nikeMarketActions": 4327,
+    "nikeWorships": 0,
+    "gamesUsingNikeMarketActions": 799,
+    "territoryDeploys": 1539,
+    "territoryDeployDraws": 3072,
+    "treasureDeploys": 714,
+    "treasureDeployResolutions": 1428,
+    "treasureDeployBonusCoins": 1075
+  },
+  "candidate": {
+    "games": 3584,
+    "share": 0.4946986607142857,
+    "blockWilson95CI": [
+      0.47158574871132847,
+      0.517834253587315
+    ],
+    "meanTurns": 14.722377232142858,
+    "nikeMarketActions": 10824,
+    "nikeWorships": 0,
+    "gamesUsingNikeMarketActions": 982,
+    "territoryDeploys": 6301,
+    "territoryDeployDraws": 11652,
+    "treasureDeploys": 559,
+    "treasureDeployResolutions": 1118,
+    "treasureDeployBonusCoins": 757
+  },
+  "paired": {
+    "delta": 0.1201171875,
+    "CI95": [
+      0.10332932772905819,
+      0.13690504727094183
+    ],
+    "pairedSeeds": 1792
+  },
+  "actor": {
+    "path": "/Users/anicolao/projects/games/pantheon/balance-diagnostics/perseus-bind-vp-20261128/exploratory/selected.json",
+    "sha256": "05ed6569086e9fa84c7b711b018fd291767bbec1ec8cb74f81d2db74d8a1a87b"
+  },
+  "checkpoint": "/Users/anicolao/projects/games/pantheon/balance-diagnostics/perseus-bind-vp-20261128/exploratory/ppo-6.zip",
+  "researchOnly": true
+}

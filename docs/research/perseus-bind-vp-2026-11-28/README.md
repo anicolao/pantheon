@@ -46,3 +46,15 @@ All 3,584 matched games replay-verified. Perseus improves from **27.0647% to 37.
 | Theseus | 39.75% | 45.41% |
 
 The retraining runs are still active. Their initial screening share under the new rules is 37.9464% on 896 fresh games, consistent with the fixed-policy comparison. No trained improvement is claimed yet. The deployed PR preview remains unchanged.
+
+
+## Completed learning and playtest deployment
+
+Both runs finished 4,194,304 decisions and passed their paired improvement gates on 3,584 confirmation games. The unchanged checkpoint scores 37.4581% under the new rules on this separate confirmation set.
+
+- Standard checkpoint `ppo-7`: **52.5949%** (win-share 95% interval **50.2799–54.8988%**), paired gain **+15.1367pp** (95% CI **+13.3415 to +16.9320pp**).
+- Exploratory checkpoint `ppo-6`: **49.4699%**, paired gain **+12.0117pp** (95% CI **+10.3329 to +13.6905pp**).
+
+The user requested deployment and a stop on further training. Deploy the standard checkpoint, retaining the other seven already-shipped adapted models. Its actor hash is `104e4cdc4e4ab44e0835162bff79bc4c93f2f0109568e61b7393b3250dd26247`. Full-field retraining under these rules is explicitly deferred until the user requests it. No further training jobs are queued.
+
+The sections above describe the earlier local-only experimental stage; this section records the subsequent deployment authorization and selected checkpoint. The prior full-field matrix used the old Perseus rules and must not be presented as a matrix for this deployment.
