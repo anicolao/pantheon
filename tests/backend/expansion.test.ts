@@ -1,3 +1,4 @@
+import {commands as botCommands} from '../../src/lib/bots/expansion-schema';
 import {test,expect} from 'bun:test';
 import {replaySetup,setupSupply,type CardInstance,type SetupState} from '../../src/lib/game/setup';
 import {applyPlayCommand,activePlayer,canPlayAction,canPlayTreasure,definition,effectOptions,worshipEffects,type ActionCommand} from '../../src/lib/game/actions';
@@ -45,22 +46,22 @@ test('market preserves old twelve piles and expansion fills four whole houses re
 });
 
 test('Deploy 3 resolves one physical card three times and leader triggers once afterwards',()=>{
- const g=position('theseus',['sacred-academy'],Array(8).fill('obol'));g.turn.deploy=3;g.resources.actions=0;g.turn.phase='buys';
+ const g=position('theseus',['sacred-academy'],Array(8).fill('obol'));g.turn.deploy=[3];g.resources.actions=0;g.turn.phase='buys';
  expect(canPlayAction(g,'a','h0')).toBe(true);play(g,'sacred-academy');
  expect(g.decks.a.hand).toHaveLength(6);expect(g.decks.a.play).toHaveLength(1);expect(g.resources.actions).toBe(3);expect(g.turn.deploy).toBeUndefined();expect(g.turn.phase).toBe('buys');
- const h=position('achilles',['myrmidon-vanguard']);h.turn.deploy=3;play(h,'myrmidon-vanguard');
- expect(h.resources.coins).toBe(6);expect(h.turn.deploy).toBe(1);expect(h.turn.leaderUsed).toBe(true);
+ const h=position('achilles',['myrmidon-vanguard']);h.turn.deploy=[3];play(h,'myrmidon-vanguard');
+ expect(h.resources.coins).toBe(6);expect(h.turn.deploy).toEqual([1,1,1,1]);expect(h.turn.leaderUsed).toBe(true);
  expect(h.movements.filter(m=>m.sequence===h.activity.length&&m.kind==='play')).toHaveLength(1);
 });
 
-test('Deploy stacking adds repetitions; favored worship grants three',()=>{
+test('Deploy grants remain independent; favored worship appends three',()=>{
  expect(worshipEffects('march-of-victory',true)).toEqual([{kind:'deploy',amount:3,source:'march-of-victory'}]);
- const g=position('achilles',[]);g.turn.deploy=2;g.decks.a.play=instances(['temple-of-nike','rallying-cry'],'p');g.sharedEvents=['march-of-victory'];g.resources.coins=3;
- run(g,{type:'god/worshipped',cardId:'march-of-victory'});expect(g.turn.deploy).toBe(4);
+ const g=position('achilles',[]);g.turn.deploy=[2];g.decks.a.play=instances(['temple-of-nike','rallying-cry'],'p');g.sharedEvents=['march-of-victory'];g.resources.coins=3;
+ run(g,{type:'god/worshipped',cardId:'march-of-victory'});expect(g.turn.deploy).toEqual([2,3]);
 });
 
 test('repeated Forge pays separate costs, pauses for each gain, and permits declining',()=>{
- const g=position('achilles',['forge-of-heroes','hamlet','hamlet']);g.turn.deploy=3;play(g,'forge-of-heroes');
+ const g=position('achilles',['forge-of-heroes','hamlet','hamlet']);g.turn.deploy=[3];play(g,'forge-of-heroes');
  for(const id of ['h1','h2']){
   expect(g.turn.choice?.kind).toBe('trash');choose(g,[id]);expect(g.turn.choice?.kind).toBe('gain');choose(g,['drachma']);
  }
@@ -101,7 +102,7 @@ test('Seek holds revealed cards outside reshuffles; keeps only matching card, di
 });
 
 test('Bind chooses across opponents, later placement is above earlier and removes selection',()=>{
- const g=position('theseus',['gorgons-gaze']);g.turn.deploy=2;g.decks.b.discard=instances(['polis','hamlet'],'o');
+ const g=position('theseus',['gorgons-gaze']);g.turn.deploy=[2];g.decks.b.discard=instances(['polis','hamlet'],'o');
  play(g,'gorgons-gaze');const first=choose(g,['o0']);
  expect(effectOptions(g,'a').map(o=>o.id)).toEqual(['o1']);
  expect(first.steps[0].from).toEqual({zone:'discard',uid:'b'});expect(first.steps[0].to).toEqual({zone:'deck',uid:'b'});
@@ -135,7 +136,7 @@ test('nested Echo follows real discard membership and can consume pending Deploy
  g.decks.b.discard=instances(['borrowed-voice','temple-of-zeus'],'o');
  play(g,'borrowed-voice');
  // Grant already pending when Echo finds the next actual Action play.
- g.turn.deploy=2;
+ g.turn.deploy=[2,3];
  choose(g,['o0']);
  expect(g.decks.a.play.filter(card=>card.id==='o0')).toHaveLength(1);
  expect(effectOptions(g,'a').map(option=>option.id)).toEqual(['o1']);
@@ -143,7 +144,7 @@ test('nested Echo follows real discard membership and can consume pending Deploy
  expect(g.turn.choice).toBeNull();
  expect(g.decks.b.discard).toHaveLength(0);
  expect(g.decks.a.play.map(card=>card.id)).toEqual(['h0','o0','o1']);
- expect(g.resources.worship).toBe(2);
+ expect(g.resources.worship).toBe(4);
  expect(g.turn.deploy).toBeUndefined();
  expect(g.movements.filter(move=>move.kind==='resolution'&&move.card?.id==='o0')).toHaveLength(2);
 });
@@ -216,11 +217,12 @@ test('every Nike scenario leaves a legal Deploy target in hand after its trigger
   expect(target).toBeDefined();
   expect(g.turn.choice).toBeNull();
   const repeats=['march-of-victory','deploy-draw','deploy-forge'].includes(subject)?3:subject==='phalanx-advance'?2:1;
-  expect(g.turn.deploy).toBe(repeats);
+  expect(g.turn.deploy?.[0]).toBe(repeats);
+  const remaining=g.turn.deploy!.slice(1);
   expect(canPlayAction(g,uid,target!.id)).toBe(true);
   applyPlayCommand(g,uid,{type:'action/played',instanceId:target!.id},fixture.events.length+2);
   expect(g.decks[uid].play.filter(card=>card.id===target!.id)).toHaveLength(1);
-  expect(g.turn.deploy).toBeUndefined();
+  expect(g.turn.deploy??[]).toEqual(remaining);
  }
 });
 
@@ -245,4 +247,136 @@ test('Seek duplicate stacks preserve physical identities and keep exactly one co
  expect(g.decks.a.hand.map(card=>card.id)).toEqual([selected.id]);
  expect(g.decks.a.discard).toHaveLength(5);
  expect(g.decks.a.discard.filter(card=>card.cardId==='obol')).toHaveLength(2);
+});
+
+
+test('Achilles grants two successive free plays instead of combining their resolutions',()=>{
+ const g=position('achilles',['phalanx-advance','bronze-recruit','bronze-recruit','bronze-recruit']);
+ play(g,'phalanx-advance');expect(g.turn.deploy).toEqual([2,1]);expect(g.resources.actions).toBe(0);
+ g.turn.phase='buys';
+ play(g,'bronze-recruit');expect(g.resources.coins).toBe(4);expect(g.turn.deploy).toEqual([1]);
+ play(g,'bronze-recruit');expect(g.resources.coins).toBe(6);expect(g.turn.deploy).toBeUndefined();
+ expect(g.resources.actions).toBe(0);expect(g.decks.a.play).toHaveLength(3);
+ expect(canPlayAction(g,'a','h3')).toBe(false);
+});
+
+test('repeated Deploy sources append independent grants behind existing ones',()=>{
+ const g=position('theseus',['myrmidon-vanguard','bronze-recruit','bronze-recruit']);g.turn.deploy=[2,3];g.resources.actions=0;g.turn.phase='buys';
+ play(g,'myrmidon-vanguard');expect(g.resources.coins).toBe(4);expect(g.turn.deploy).toEqual([3,1,1]);
+ play(g,'bronze-recruit');expect(g.resources.coins).toBe(10);expect(g.turn.deploy).toEqual([1,1]);
+ play(g,'bronze-recruit');expect(g.resources.coins).toBe(12);expect(g.turn.deploy).toEqual([1]);
+ run(g,{type:'turn/ended'});expect(g.turn.deploy).toBeUndefined();
+});
+
+test('undo restores independent Deploy grants and their order',()=>{
+ const g=position('achilles',['myrmidon-vanguard','bronze-recruit']),history=new UndoHistory();
+ history.apply(g,'a',{type:'action/played',instanceId:'h0'},100);expect(g.turn.deploy).toEqual([1,1]);
+ history.apply(g,'a',{type:'action/played',instanceId:'h1'},101);expect(g.turn.deploy).toEqual([1]);
+ history.apply(g,'a',{type:'action/undone',targetSequence:101},102);expect(g.turn.deploy).toEqual([1,1]);expect(g.resources.coins).toBe(2);
+});
+
+test('Deploy 3 plays one Talent for nine coins without advancing phase or spending Actions',()=>{
+ for(const phase of ['actions','treasures','buys'] as const){
+  const g=position('achilles',['talent','bronze-recruit']);g.turn.phase=phase;g.turn.deploy=[3];
+  const entry=run(g,{type:'treasure/played',instanceId:'h0'});
+  expect(g.resources.coins).toBe(9);expect(g.resources.actions).toBe(1);expect(g.turn.phase).toBe(phase);
+  expect(g.turn.deploy).toBeUndefined();expect(g.decks.a.play).toHaveLength(1);expect(g.turn.leaderUsed).toBe(false);
+  expect(entry.steps.filter(step=>step.kind==='play')).toHaveLength(1);
+  expect(g.movements.filter(move=>move.kind==='resolution'&&move.card?.id==='h0').map(move=>move.amount)).toEqual([1,2,3]);
+  if(phase==='actions')expect(canPlayAction(g,'a','h1')).toBe(true);
+ }
+});
+
+test('Actions and Treasures consume the same independent FIFO Deploy grants',()=>{
+ const g=position('achilles',['myrmidon-vanguard','talent','bronze-recruit']);
+ play(g,'myrmidon-vanguard');expect(g.turn.deploy).toEqual([1,1]);
+ run(g,{type:'treasure/played',instanceId:'h1'});expect(g.turn.deploy).toEqual([1]);expect(g.turn.phase).toBe('actions');
+ play(g,'bronze-recruit');expect(g.turn.deploy).toBeUndefined();expect(g.resources.coins).toBe(7);expect(g.resources.actions).toBe(0);
+});
+
+test('Play All applies grants in existing hand order and only normal Treasure plays advance phase',()=>{
+ for(const grants of [[3,2],[3,2,1]]){
+  const g=position('achilles',['talent','drachma','obol']);g.turn.deploy=[...grants];
+  run(g,{type:'treasures/played'});
+  expect(g.resources.coins).toBe(14);expect(g.decks.a.play.map(card=>card.cardId)).toEqual(['talent','drachma','obol']);
+  expect(g.turn.deploy).toBeUndefined();expect(g.turn.phase).toBe(grants.length===3?'actions':'treasures');
+ }
+});
+
+test('automatic phase transition waits for a deployable Treasure, and undo restores its grant',()=>{
+ const g=position('achilles',['talent']);g.resources.actions=0;g.turn.deploy=[3,1];const history=new UndoHistory();
+ expect(()=>run(g,{type:'phase/advanced',automatic:true})).toThrow('Deploy targets');
+ history.apply(g,'a',{type:'treasure/played',instanceId:'h0'},100);expect(g.resources.coins).toBe(9);expect(g.turn.deploy).toEqual([1]);
+ history.apply(g,'a',{type:'action/undone',targetSequence:100},101);expect(g.resources.coins).toBe(0);expect(g.turn.deploy).toEqual([3,1]);expect(g.turn.phase).toBe('actions');
+});
+
+test('a Treasure borrowed through Echo consumes one Deploy grant and still returns to its owner',()=>{
+ const g=position('theseus',['borrowed-voice']);g.decks.b.deck=instances(['drachma'],'o');play(g,'borrowed-voice');g.turn.deploy=[3,1];
+ choose(g,['deck:b']);expect(g.resources.coins).toBe(6);expect(g.turn.deploy).toEqual([1]);expect(g.turn.phase).toBe('actions');
+ expect(g.decks.a.play.find(c=>c.id==='o0')?.ownerUid).toBe('b');
+ run(g,{type:'phase/advanced'});run(g,{type:'turn/ended'});expect(g.decks.b.discard.map(c=>c.id)).toEqual(['o0']);
+});
+
+test('Territory Deploy draws once per activation, preserves phase, Actions and scoring inventory',()=>{
+ for(const phase of ['actions','treasures','buys'] as const){
+  const g=position('achilles',['hamlet'],['obol','drachma','talent']);g.turn.phase=phase;g.turn.deploy=[3,1];g.resources.actions=0;
+  const entry=run(g,{type:'territory/deployed',instanceId:'h0'});
+  expect(g.turn.deploy).toEqual([1]);expect(g.turn.phase).toBe(phase);expect(g.resources.actions).toBe(0);
+  expect(g.decks.a.hand.map(c=>c.cardId)).toEqual(['obol','drachma','talent']);expect(g.decks.a.play.map(c=>c.cardId)).toEqual(['hamlet']);
+  expect(g.movements.filter(m=>m.source==='hamlet'&&m.kind==='resolution').map(m=>m.amount)).toEqual([1,2,3]);
+  expect(g.turn.leaderUsed).toBe(false);expect(entry.command).toBe('territory/deployed');
+ }
+});
+test('Territories require Deploy and stop automatic phase advance when deployable',()=>{
+ const g=position('achilles',['hamlet']);g.resources.actions=0;
+ expect(()=>run(g,{type:'territory/deployed',instanceId:'h0'})).toThrow('pending Deploy');
+ g.turn.deploy=[1];expect(()=>run(g,{type:'phase/advanced',automatic:true})).toThrow('Deploy targets');
+ run(g,{type:'territory/deployed',instanceId:'h0'});expect(g.turn.deploy).toBeUndefined();
+ expect(()=>run(g,{type:'territory/deployed',instanceId:'d0'})).toThrow('pending Deploy');
+});
+test('Territory draw reshuffles normally, and revealing a card blocks undo',()=>{
+ const g=position('achilles',['hamlet'],[]);g.turn.deploy=[2,1];g.decks.a.discard=instances(['talent'],'discard');
+ const history=new UndoHistory();history.apply(g,'a',{type:'territory/deployed',instanceId:'h0'},100);
+ expect(g.decks.a.hand.map(c=>c.cardId)).toEqual(['talent']);expect(g.turn.deploy).toEqual([1]);expect(g.undo).toBeNull();
+ expect(g.movements.some(m=>m.kind==='shuffle')).toBe(true);
+ expect(()=>history.apply(g,'a',{type:'action/undone',targetSequence:100},101)).toThrow();
+});
+
+ test('bot action masks expose Territory play only while a Deploy grant is available',()=>{
+  const g=position('achilles',['hamlet','obol']);
+  expect(botCommands(g).some(c=>c?.type==='territory/deployed')).toBe(false);
+  g.turn.deploy=[2];expect(botCommands(g).filter(c=>c?.type==='territory/deployed')).toEqual([{type:'territory/deployed',instanceId:'h0'}]);
+  run(g,{type:'territory/deployed',instanceId:'h0'});expect(botCommands(g).some(c=>c?.type==='territory/deployed')).toBe(false);
+ });
+
+test('Stillness costs two and pays actual bound VP, with no upfront Coins',()=>{
+ for(const [cardId,vp] of [['hamlet',1],['polis',3],['acropolis',6]] as const){
+  const g=position('perseus',[]);g.resources.coins=2;g.decks.b.discard=instances([cardId],'bound');
+  if(!g.sharedEvents.includes('stillness-of-the-underworld'))g.sharedEvents.push('stillness-of-the-underworld');
+  run(g,{type:'god/worshipped',cardId:'stillness-of-the-underworld'});
+  expect(g.resources.coins).toBe(0);expect(g.resources.worship).toBe(0);
+  const entry=choose(g,['bound0']);expect(g.resources.coins).toBe(vp);expect(entry.change?.coins).toBe(vp);expect(g.turn.choice).toBeNull();
+ }
+});
+test('favoured Stillness pays each binding, and undo restores both Coins and the public card',()=>{
+ const g=position('perseus',[]);g.resources.coins=2;g.sharedEvents=['stillness-of-the-underworld'];
+ g.decks.a.play=instances(['temple-of-hades','polished-shield'],'devotion');g.decks.b.discard=instances(['polis','acropolis'],'bound');
+ const history=new UndoHistory();history.apply(g,'a',{type:'god/worshipped',cardId:'stillness-of-the-underworld'},100);
+ history.apply(g,'a',{type:'choice/resolved',choiceId:g.turn.choice!.id,targets:['bound0']},101);expect(g.resources.coins).toBe(3);
+ history.apply(g,'a',{type:'choice/resolved',choiceId:g.turn.choice!.id,targets:['bound1']},102);expect(g.resources.coins).toBe(9);expect(g.turn.choice).toBeNull();
+ history.apply(g,'a',{type:'action/undone',targetSequence:102},103);expect(g.resources.coins).toBe(3);expect(g.decks.b.discard.map(c=>c.cardId)).toEqual(['acropolis']);expect(g.turn.choice?.kind).toBe('bind');
+});
+test('Stillness pays nothing for empty or declined Binds, and requires payment first',()=>{
+ for(const discard of [[],['hamlet']]){
+  const g=position('perseus',[]);g.sharedEvents=['stillness-of-the-underworld'];g.resources.coins=1;g.decks.b.discard=instances(discard,'bound');
+  expect(()=>run(g,{type:'god/worshipped',cardId:'stillness-of-the-underworld'})).toThrow();g.resources.coins=2;
+  run(g,{type:'god/worshipped',cardId:'stillness-of-the-underworld'});if(g.turn.choice)choose(g,[]);
+  expect(g.resources.coins).toBe(0);expect(g.resources.worship).toBe(0);expect(g.turn.choice).toBeNull();
+ }
+});
+test('Perseus triggers Bind 2 once after his first Hades Action without worship Coins',()=>{
+ const g=position('perseus',['temple-of-hades','gorgons-gaze']);g.decks.b.discard=instances(['hamlet','polis','acropolis'],'bound');
+ play(g,'temple-of-hades');expect(g.turn.choice?.source).toBe('perseus');choose(g,['bound0']);expect(g.turn.choice?.source).toBe('perseus');choose(g,['bound1']);
+ expect(g.turn.choice).toBeNull();expect(g.resources.coins).toBe(0);expect(g.turn.leaderUsed).toBe(true);
+ play(g,'gorgons-gaze');choose(g,['bound2']);expect(g.resources.coins).toBe(2);expect(g.turn.choice).toBeNull();
 });

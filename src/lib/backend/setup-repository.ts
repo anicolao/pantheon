@@ -124,7 +124,7 @@ export async function inviteBot(db: Firestore, id: string, ownerUid: string, kin
   await runTransaction(db, async transaction => {
     const room=doc(db,'games',id), previous=(await transaction.get(room)).data();
     if (!previous || previous.owner!==ownerUid) throw new SetupError('owner','Only the host can invite bots.');
-    if (previous.expansion) throw new SetupError('choice', 'Expansion tables require human players.');
+    if (!!previous.expansion !== (kind==='expansion-rl')) throw new SetupError('choice', 'Choose a bot compatible with this table.');
     if (previous.members.includes(botUid)) {
       if (previous.bots?.[botUid]!==kind) throw new SetupError('choice','That bot invitation has changed.');
       return;
@@ -132,7 +132,7 @@ export async function inviteBot(db: Firestore, id: string, ownerUid: string, kin
     if (previous.phase && previous.phase!=='gathering') throw new SetupError('started','The game has already begun.');
     if (previous.members.length>=previous.playerCount) throw new SetupError('full','This table is full.');
     const sequence=previous.revision+1;
-    const label=kind==='bot'?'Bot':kind==='mm'?'MM':kind==='classic-engine'?'Classic Engine':kind==='engine'?'Engine':kind==='money'?'Money':botLabels[kind];
+    const label=kind==='expansion-rl'?'Trained':kind==='bot'?'Bot':kind==='mm'?'MM':kind==='classic-engine'?'Classic Engine':kind==='engine'?'Engine':kind==='money'?'Money':botLabels[kind];
     const event:SetupEvent={schemaVersion:1,sequence,actorUid:botUid,name:`${label}${kind==='bot'?'':' bot'} ${previous.members.length+1}`,playerCount:previous.playerCount,type:'player/joined',botKind:kind};
     transaction.update(room,{members:[...previous.members,botUid],bots:{...previous.bots,[botUid]:kind},revision:sequence});
     transaction.set(doc(room,'events',String(sequence)),{...event,createdAt:serverTimestamp()});
@@ -145,7 +145,7 @@ export async function automateHost(db:Firestore,id:string,uid:string,kind:BotKin
     const room=doc(db,'games',id),previous=(await transaction.get(room)).data();
     if (!previous || previous.owner!==uid) throw new SetupError('owner','Only the host can change their own seat.');
     if (previous.phase && previous.phase!=='gathering') throw new SetupError('started','The game has already begun.');
-    if (previous.expansion && kind) throw new SetupError('choice', 'Expansion tables require human players.');
+    if (kind && !!previous.expansion !== (kind==='expansion-rl')) throw new SetupError('choice', 'Choose a bot compatible with this table.');
     if ((previous.bots?.[uid]??null)===kind) return;
     const first=(await transaction.get(doc(room,'events','1'))).data()!;
     const bots={...previous.bots}; if(kind)bots[uid]=kind;else delete bots[uid];

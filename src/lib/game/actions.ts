@@ -12,6 +12,7 @@ export type ActionCommand =
   | { type: 'phase/advanced'; automatic?: boolean }
   | { type: 'action/undone'; targetSequence: number }
   | { type: 'treasure/played'; instanceId: string }
+  | { type: 'territory/deployed'; instanceId: string }
   | { type: 'treasures/played' }
   | { type: 'card/bought'; cardId: string }
   | { type: 'god/worshipped'; cardId: string }
@@ -29,7 +30,7 @@ export type Effect =
 export type Choice = { id: string; kind: 'trash' | 'discard' | 'gain' | 'echo' | 'seek' | 'bind'; filter?: 'Action' | 'Treasure' | 'Territory'; shield?: boolean; source: string; min: number; max: number; limit?: number; forge?: boolean; offering?: 'sum' | 1 | 3; actionOnly?: boolean; topdeck?: boolean; browsedCardId?: string; selectedCount?: number };
 export type MoveAnchor = {zone:'hand'|'deck'|'play'|'discard'|'reveal';uid:string};
 export type Movement = { notice?: string; batch?: string; from?: MoveAnchor; to?: MoveAnchor; sequence: number; index: number; uid: string; kind: 'play' | 'draw' | 'trash' | 'discard' | 'gain' | 'reveal' | 'topdeck' | 'shuffle' | 'leader' | 'worship' | 'resolution' | 'notice'; card?: CardInstance; source: string; amount?: number };
-export type TurnState = { deploy?: number; revealed?: CardInstance[]; marketFocus?: {cardId:string;sequence:number}; worshipFocus?: string; equalTurns?: boolean; finalRound?: boolean; endTriggeredBy?: string; number: number; index: number; phase: 'actions' | 'treasures' | 'buys' | 'finished'; leaderUsed: boolean; queue: Effect[]; choice: Choice | null; shuffles: Record<string, number>; turns: Record<string, number> };
+export type TurnState = { deploy?: number[]; revealed?: CardInstance[]; marketFocus?: {cardId:string;sequence:number}; worshipFocus?: string; equalTurns?: boolean; finalRound?: boolean; endTriggeredBy?: string; number: number; index: number; phase: 'actions' | 'treasures' | 'buys' | 'finished'; leaderUsed: boolean; queue: Effect[]; choice: Choice | null; shuffles: Record<string, number>; turns: Record<string, number> };
 export function initialTurn(): TurnState { return { equalTurns: true, number: 1, index: 0, phase: 'actions', leaderUsed: false, queue: [], choice: null, shuffles: {}, turns: {} }; }
 export const definition = (id: string) => { const card = cards.find(card => card.id === id); if (!card) throw new Error('Unknown card.'); return card; };
 export const activePlayer = (game: SetupState) => game.turnOrder[game.turn.index];
@@ -54,7 +55,7 @@ export function worshipEffects(id: string, favored: boolean): Effect[] {
     case 'reverberation': return [{kind:'echo',amount:favored?2:1,source:id}];
     case 'open-the-hidden-way': return [{kind:'seek',amount:favored?6:4,source:id},...(favored?[resource(id,'actions',1)]:[])];
     case 'march-of-victory': return [{kind:'deploy',amount:favored?3:1,source:id}];
-    case 'stillness-of-the-underworld': return [resource(id,'coins',favored?2:1),{kind:'bind',amount:favored?2:1,source:id}];
+    case 'stillness-of-the-underworld': return [{kind:'bind',amount:favored?2:1,source:id}];
     case 'counsel-of-olympus': return [{ kind: 'gain', source: id, limit: favored ? 5 : 3, actionOnly: true, topdeck: true }];
     case 'tribute-of-the-tides': return [{ kind: 'gain', source: id, limit: 3, cardId: 'drachma', topdeck: favored }, ...(favored ? [buy] : [])];
     case 'blessing-of-the-fields': return [{ kind: 'trash', source: id, amount: 2, ...(favored ? { offering: 'sum' as const } : {}) }, ...(favored ? [buy] : [])];
@@ -63,13 +64,19 @@ export function worshipEffects(id: string, favored: boolean): Effect[] {
   }
 }
 export function canPlayAction(game: SetupState, uid: string, instanceId: string) {
-  return game.phase === 'playing' && activePlayer(game) === uid && ((game.turn.phase === 'actions' && game.resources.actions > 0) || (game.turn.deploy ?? 0) > 0) && !game.turn.choice && game.decks[uid]?.hand.some(card => card.id === instanceId && definition(card.cardId).type === 'Action');
+  return game.phase === 'playing' && activePlayer(game) === uid && ((game.turn.phase === 'actions' && game.resources.actions > 0) || (game.turn.deploy?.length ?? 0) > 0) && !game.turn.choice && game.decks[uid]?.hand.some(card => card.id === instanceId && definition(card.cardId).type === 'Action');
 }
 // Keep historical base-game replays and frozen policy behavior unchanged.
 export function expansionRules(game: SetupState) { return !!game.expansion || Object.values(game.leaders).some(id=>['echo','theseus','achilles','perseus'].includes(id)); }
 function treasurePhase(game:SetupState) { return ['actions','treasures'].includes(game.turn.phase) || (game.turn.phase==='buys' && expansionRules(game)); }
 export function canPlayTreasure(game: SetupState, uid: string, instanceId: string) {
   return game.phase === 'playing' && activePlayer(game) === uid && treasurePhase(game) && !game.turn.choice && game.decks[uid]?.hand.some(card => card.id === instanceId && definition(card.cardId).type === 'Treasure');
+}
+export function canDeployCard(game: SetupState, uid: string, instanceId: string) {
+  return !!game.turn.deploy?.length && (canPlayAction(game, uid, instanceId) || canPlayTreasure(game, uid, instanceId) || canDeployTerritory(game, uid, instanceId));
+}
+export function canDeployTerritory(game: SetupState, uid: string, instanceId: string) {
+  return game.phase === 'playing' && activePlayer(game) === uid && ['actions','treasures','buys'].includes(game.turn.phase) && !!game.turn.deploy?.length && !game.turn.choice && !game.turn.queue.length && game.decks[uid]?.hand.some(card => card.id === instanceId && definition(card.cardId).type === 'Territory');
 }
 export function purchaseReason(game: SetupState, uid: string, id: string): string {
   if (game.turn.phase === 'finished') return 'The game is over.';
@@ -86,7 +93,7 @@ export function purchaseReason(game: SetupState, uid: string, id: string): strin
 export function departureReminder(game: SetupState, uid: string) {
   if (game.phase !== 'playing' || activePlayer(game) !== uid || game.turn.choice || game.turn.phase === 'finished') return null;
   const highest = (options: ReturnType<typeof definition>[]) => options.sort((a, b) => (b.cost ?? 0) - (a.cost ?? 0) || (a.id < b.id ? -1 : a.id > b.id ? 1 : 0))[0];
-  const playable = game.decks[uid].hand.filter(card => canPlayAction(game, uid, card.id) || (game.turn.phase !== 'actions' && canPlayTreasure(game, uid, card.id))).map(card => definition(card.cardId));
+  const playable = game.decks[uid].hand.filter(card => canPlayAction(game, uid, card.id) || canDeployTerritory(game, uid, card.id) || (game.turn.phase !== 'actions' && canPlayTreasure(game, uid, card.id))).map(card => definition(card.cardId));
   const card = highest(playable);
   if (card) return { verb: 'play' as const, card };
   if (game.turn.phase === 'actions') return null;
@@ -145,7 +152,7 @@ export function leaderEffects(id: string, variant: PlayVariant = 'standard'): Ef
   if (id === 'echo') return [{kind:'echo',amount:1,source:id}];
   if (id === 'theseus') return [{kind:'seek',amount:2,filter:'Action',source:id}];
   if (id === 'achilles') return [{kind:'deploy',amount:1,source:id}];
-  if (id === 'perseus') return [{kind:'bind',amount:1,source:id}];
+  if (id === 'perseus') return [{kind:'bind',amount:2,source:id}];
   if (id === 'thaleia') return [resource(id, 'actions', variant === 'thaleia-actions' ? 2 : 1),
     ...(variant === 'thaleia-buy' ? [resource(id, 'buys', 1)] : []),
     ...(variant === 'thaleia-draw' || variant === 'leader-buffs' ? [{ kind: 'draw' as const, source: id, amount: 1 }] : [])];
@@ -177,7 +184,8 @@ export function applyPlayCommand(game: SetupState, uid: string, command: ActionC
     return `${game.players.find(player=>player.uid===uid)!.name} browsed ${definition(command.cardId).name}.`;
   }
   if (command.type === 'worship/focused') {
-    if (game.turn.choice || (command.cardId && !game.sharedEvents.includes(command.cardId))) throw new Error('Choose a shared worship card outside a pending choice.');
+    if (game.turn.choice) throw new Error('Finish the current card choice before opening or returning a worship card.');
+    if (command.cardId && !game.sharedEvents.includes(command.cardId)) throw new Error('That worship card is not available at this table.');
     if(command.cardId)game.turn.worshipFocus=command.cardId;else delete game.turn.worshipFocus;
     return `${game.players.find(player=>player.uid===uid)!.name} ${command.cardId?'focused on '+definition(command.cardId).god:'returned the worship card'}.`;
   }
@@ -203,8 +211,7 @@ export function applyPlayCommand(game: SetupState, uid: string, command: ActionC
     move(kind, source, card); Object.assign(game.movements.at(-1)!, {from,to});
   }
   function playAction(card: CardInstance, source: string, from: MoveAnchor, free = false) {
-    const repeat = game.turn.deploy ?? 0;
-    delete game.turn.deploy;
+    const repeat = consumeDeploy();
     if (!free && !repeat) game.resources.actions--;
     zones.play.push(card);
     transfer('play', source, card, from, {zone:'play',uid});
@@ -216,14 +223,29 @@ export function applyPlayCommand(game: SetupState, uid: string, command: ActionC
     game.turn.queue.unshift(...effects);
     messages.push('played '+definition(card.cardId).name+(repeat>1?' ×'+repeat:''));
   }
+  function consumeDeploy() {
+    const repeat = game.turn.deploy?.shift() ?? 0;
+    if (!game.turn.deploy?.length) delete game.turn.deploy;
+    return repeat;
+  }
+  function resolveTreasure(card: CardInstance, source: string, from?: MoveAnchor) {
+    const repeat = consumeDeploy(), value = ({obol:1,drachma:2,talent:3}[card.cardId] ?? 0);
+    zones.play.push(card);
+    if (from) transfer('play',source,card,from,{zone:'play',uid});
+    else move('play',source,card);
+    for(let i=0;i<Math.max(1,repeat);i++) {
+      if(repeat>1)move('resolution',source,card,i+1);
+      game.resources.coins+=value;
+    }
+    return {repeat,coins:value*Math.max(1,repeat)};
+  }
   function borrow(card: CardInstance, owner: string, source: string) {
     card.ownerUid = owner;
     messages.push(`borrowed ${definition(card.cardId).name} from ${game.players.find(player=>player.uid===owner)!.name}`);
     if (definition(card.cardId).type === 'Action') playAction(card,source,{zone:'discard',uid:owner},true);
     else {
-      zones.play.push(card); const value=({obol:1,drachma:2,talent:3}[card.cardId] ?? 0); game.resources.coins += value;
-      messages.push(`played ${definition(card.cardId).name}, +${value} ${value===1?'Coin':'Coins'}; returns to its owner at cleanup`);
-      transfer('play',source,card,{zone:'discard',uid:owner},{zone:'play',uid});
+      const {repeat,coins}=resolveTreasure(card,source,{zone:'discard',uid:owner});
+      messages.push(`played ${definition(card.cardId).name}${repeat>1?' ×'+repeat:''}, +${coins} ${coins===1?'Coin':'Coins'}; returns to its owner at cleanup`);
     }
   }
   function takeTop(source: string) {
@@ -255,7 +277,8 @@ export function applyPlayCommand(game: SetupState, uid: string, command: ActionC
       if (effect.kind === 'resource') { game.resources[effect.resource] += effect.amount; messages.push(`+${effect.amount} ${effect.resource === 'worship' ? 'Worship' : effect.resource}`); }
       else if (effect.kind === 'resolution') {move('resolution',effect.source,effect.card,effect.number);}
       else if (effect.kind === 'deploy') {
-        game.turn.deploy = game.turn.deploy ? game.turn.deploy + effect.amount - 1 : effect.amount;
+        // Each grant applies to a separate future card, in the order earned.
+        (game.turn.deploy ??= []).push(effect.amount);
         messages.push('Deploy '+effect.amount);
       }
       else if (effect.kind === 'echo' || effect.kind === 'bind') {
@@ -350,6 +373,10 @@ export function applyPlayCommand(game: SetupState, uid: string, command: ActionC
             const card=opponent.discard.splice(opponent.discard.findIndex(card=>card.id===selected.id),1)[0];
             opponent.deck.unshift(card);
             transfer('topdeck',choice.source,card,{zone:'discard',uid:selected.uid},{zone:'deck',uid:selected.uid});
+            if(choice.source==='stillness-of-the-underworld'){
+              const coins=definition(card.cardId).vp??0;game.resources.coins+=coins;
+              messages.push(`+${coins} ${coins===1?'Coin':'Coins'} from binding ${definition(card.cardId).name}`);
+            }
           }else{
             let card=selected.card;
             if(!card){
@@ -383,25 +410,39 @@ export function applyPlayCommand(game: SetupState, uid: string, command: ActionC
       game.turn.choice = null; resolve(); break;
     }
     // Phase changes, payment and cleanup are ordinary replayable commands.
+    case 'territory/deployed': {
+      if (!canDeployTerritory(game, uid, command.instanceId)) throw new Error('Deploy a Territory from your hand with a pending Deploy grant.');
+      const card = zones.hand.splice(zones.hand.findIndex(card => card.id === command.instanceId), 1)[0];
+      const repeat = consumeDeploy();
+      zones.play.push(card);
+      transfer('play', card.cardId, card, {zone:'hand',uid}, {zone:'play',uid});
+      for (let i=0;i<repeat;i++) game.turn.queue.push(...(repeat>1?[{kind:'resolution' as const,source:card.cardId,card:{...card},number:i+1}]:[]), {kind:'draw',amount:1,source:card.cardId});
+      messages.push(`deployed ${definition(card.cardId).name}${repeat>1?' ×'+repeat:''}`);
+      resolve(); break;
+    }
     case 'phase/advanced': {
       if (command.automatic !== undefined && typeof command.automatic !== 'boolean') throw new Error('Invalid automatic transition.');
-      if (command.automatic && (game.turn.phase !== 'actions' || zones.hand.some(card => canPlayAction(game, uid, card.id)))) throw new Error('Automatic Treasure mode requires no playable Actions.');
+      if (command.automatic && (game.turn.phase !== 'actions' || zones.hand.some(card => canPlayAction(game, uid, card.id) || canDeployCard(game, uid, card.id)))) throw new Error('Automatic Treasure mode requires no playable Actions or Deploy targets.');
       if (game.turn.phase === 'buys') throw new Error('You are already in the Buy phase.');
       game.turn.phase = game.turn.phase === 'actions' ? 'treasures' : 'buys'; messages.push(`entered the ${game.turn.phase === 'treasures' ? 'Treasure' : 'Buy'} phase`); break;
     }
     case 'treasures/played': {
       const treasures = zones.hand.filter(card => definition(card.cardId).type === 'Treasure');
       if (!treasurePhase(game) || !treasures.length) throw new Error('There are no Treasures to play.');
-      if(game.turn.phase!=='buys')game.turn.phase = 'treasures';
-      for (const card of treasures) { zones.hand.splice(zones.hand.findIndex(item => item.id === card.id), 1); zones.play.push(card); const value = { obol: 1, drachma: 2, talent: 3 }[card.cardId]!; game.resources.coins += value; move('play', card.cardId, card); messages.push(`played ${definition(card.cardId).name}, +${value} coins`); }
+      for (const card of treasures) {
+        zones.hand.splice(zones.hand.findIndex(item => item.id === card.id), 1);
+        const {repeat,coins}=resolveTreasure(card,card.cardId);
+        if(!repeat && game.turn.phase!=='buys')game.turn.phase='treasures';
+        messages.push(`played ${definition(card.cardId).name}${repeat>1?' ×'+repeat:''}, +${coins} coins`);
+      }
       break;
     }
     case 'treasure/played': {
       const index = zones.hand.findIndex(card => card.id === command.instanceId);
       if (!treasurePhase(game) || index < 0 || definition(zones.hand[index].cardId).type !== 'Treasure') throw new Error('Play a Treasure from your hand in the Treasure phase.');
-      if(game.turn.phase!=='buys')game.turn.phase = 'treasures';
-      const card = zones.hand.splice(index, 1)[0]; zones.play.push(card); const value = { obol: 1, drachma: 2, talent: 3 }[card.cardId]!;
-      game.resources.coins += value; move('play', card.cardId, card); messages.push(`played ${definition(card.cardId).name}, +${value} coins`); break;
+      const card = zones.hand.splice(index, 1)[0], {repeat,coins}=resolveTreasure(card,card.cardId);
+      if(!repeat && game.turn.phase!=='buys')game.turn.phase = 'treasures';
+      messages.push(`played ${definition(card.cardId).name}${repeat>1?' ×'+repeat:''}, +${coins} coins`); break;
     }
     case 'card/bought': {
       const card = definition(command.cardId);

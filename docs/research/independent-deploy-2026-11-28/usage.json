@@ -1,0 +1,51 @@
+{
+  "echo": {
+    "changedHistories": 0,
+    "achillesNikePlaysBefore": 0,
+    "opponentNikePlaysBefore": 174,
+    "achillesNikeWorshipsBefore": 0,
+    "opponentNikeWorshipsBefore": 0
+  },
+  "thaleia": {
+    "changedHistories": 0,
+    "achillesNikePlaysBefore": 0,
+    "opponentNikePlaysBefore": 158,
+    "achillesNikeWorshipsBefore": 0,
+    "opponentNikeWorshipsBefore": 1805
+  },
+  "nereon": {
+    "changedHistories": 0,
+    "achillesNikePlaysBefore": 0,
+    "opponentNikePlaysBefore": 549,
+    "achillesNikeWorshipsBefore": 0,
+    "opponentNikeWorshipsBefore": 230
+  },
+  "melia": {
+    "changedHistories": 0,
+    "achillesNikePlaysBefore": 0,
+    "opponentNikePlaysBefore": 15,
+    "achillesNikeWorshipsBefore": 0,
+    "opponentNikeWorshipsBefore": 100
+  },
+  "doreios": {
+    "changedHistories": 0,
+    "achillesNikePlaysBefore": 0,
+    "opponentNikePlaysBefore": 33,
+    "achillesNikeWorshipsBefore": 0,
+    "opponentNikeWorshipsBefore": 557
+  },
+  "theseus": {
+    "changedHistories": 0,
+    "achillesNikePlaysBefore": 0,
+    "opponentNikePlaysBefore": 1,
+    "achillesNikeWorshipsBefore": 0,
+    "opponentNikeWorshipsBefore": 1248
+  },
+  "perseus": {
+    "changedHistories": 190,
+    "achillesNikePlaysBefore": 0,
+    "opponentNikePlaysBefore": 4208,
+    "achillesNikeWorshipsBefore": 0,
+    "opponentNikeWorshipsBefore": 403
+  }
+}

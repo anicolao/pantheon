@@ -36,12 +36,12 @@
   import type { PublicActivity } from '$lib/game/public-table';
   import PublicMotion from './PublicMotion.svelte';
   import SupplyCoverflow from './SupplyCoverflow.svelte';
-  import { activePlayer, canPlayAction, canPlayTreasure, departureReminder, definition, standings, eligibleGains } from '$lib/game/actions';
+  import { activePlayer, canPlayAction, canPlayTreasure, canDeployCard, canDeployTerritory, departureReminder, definition, standings, eligibleGains } from '$lib/game/actions';
 
-  let { game, uid, roomId, status, busy, error, command, retry, again, onSettled, onReady, motionRate = 1 }: {
+  let { game, uid, roomId, status, busy, error, dismissError, command, retry, again, onSettled, onReady, motionRate = 1 }: {
     game: SetupState; uid: string; roomId: string; status: string; busy: boolean; error: string;
     command: (command: GameCommand, expectedRevision?: number) => Promise<void>; retry: () => void; again: () => void;
-    onSettled?: (revision:number)=>void; onReady?: (revision:number)=>void; motionRate?: number;
+    dismissError?:()=>void; onSettled?: (revision:number)=>void; onReady?: (revision:number)=>void; motionRate?: number;
   } = $props();
   const initialRevision = untrack(() => game.activity.length);
   let settledRevision = $state(initialRevision);
@@ -121,9 +121,9 @@
   async function worship(id: string) {
     if(turnUid===uid && !game.turn.choice){
       if(!ready)return;
-      await command({type:'worship/focused',cardId:id});
+      await command({type:'worship/focused',cardId:id},game.activity.length);
       await tick();
-      if(game.turn.worshipFocus!==id)return;
+      if(game.turn.worshipFocus!==id||game.turn.choice||turnUid!==uid)return;
     }
     worshipSource=document.querySelector<HTMLElement>(`[data-god-event="${id}"]`)?.getBoundingClientRect();
     worshipEvent=id;drawer='';await open('worship');
@@ -135,7 +135,9 @@
     if(!reduced && panel)await Promise.all(panel.getAnimations().map(animation=>animation.finished.catch(()=>undefined)));
   }
   async function finishWorshipReturn(){
-    if(turnUid===uid && game.turn.worshipFocus)await command({type:'worship/focused',cardId:''});
+    if(game.turn.choice||game.turn.queue.length)return;
+    if(turnUid===uid && game.turn.worshipFocus)await command({type:'worship/focused',cardId:''},game.activity.length);
+    if(game.turn.choice||game.turn.queue.length)return;
     if(!portraitLayout){close();return;}
     modal='';
     await tick();
@@ -249,7 +251,7 @@
   $effect(()=>{if(game.turn.phase==='finished')untrack(()=>{resultsOpen=!modal;});});
   async function leaveResults(chronicle=false){resultsOpen=false;await tick();document.querySelector<HTMLButtonElement>('.final-control button')?.focus();if(chronicle)await open('chronicle');}
   const ready = $derived(status === 'synced' && !busy && !automated && handoffSettled>=handoffRevision && settledRevision >= Math.max(drawRevision, choiceRevision));
-  const automaticTreasures = $derived(game.phase === 'playing' && turnUid === uid && game.turn.phase === 'actions' && !choice && !game.turn.queue.length && !own.hand.some(card => canPlayAction(game, uid, card.id)));
+  const automaticTreasures = $derived(game.phase === 'playing' && turnUid === uid && game.turn.phase === 'actions' && !choice && !game.turn.queue.length && !own.hand.some(card => canPlayAction(game, uid, card.id) || canDeployCard(game, uid, card.id)));
   let automaticPhaseRevision = -1;
   $effect(() => {
     if (!ready || !automaticTreasures) return;
@@ -300,10 +302,10 @@
   function inspectZone(player: string, kind: 'play' | 'discard' | 'trash', title: string) { zone = { uid: player, kind, title }; void open('zone'); }
   function playHand(id: string, copy: number, instanceId: string) {
     if(inlineChoice){if(ready && inlineChoice.kind!=='gain')void interaction?.select(instanceId);return;}
-    if (ready && (canPlayAction(game, uid, instanceId) || canPlayTreasure(game, uid, instanceId))) void command({type: definition(id).type === 'Action' ? 'action/played' : 'treasure/played', instanceId});
+    if (ready && (canPlayAction(game, uid, instanceId) || canPlayTreasure(game, uid, instanceId) || canDeployTerritory(game, uid, instanceId))) void command({type: definition(id).type === 'Action' ? 'action/played' : definition(id).type === 'Territory' ? 'territory/deployed' : 'treasure/played', instanceId});
     else if (ready) inspect(id, copy, instanceId);
   }
-  function playInspected() { const id = inspected?.instanceId; if (id && ready && (canPlayAction(game, uid, id) || canPlayTreasure(game, uid, id))) { const type = inspected!.card.type === 'Action' ? 'action/played' : 'treasure/played'; close(); void command({ type, instanceId: id }); } }
+  function playInspected() { const id = inspected?.instanceId; if (id && ready && (canPlayAction(game, uid, id) || canPlayTreasure(game, uid, id) || canDeployTerritory(game, uid, id))) { const type = inspected!.card.type === 'Action' ? 'action/played' : inspected!.card.type === 'Territory' ? 'territory/deployed' : 'treasure/played'; close(); void command({ type, instanceId: id }); } }
   function advance() { if (!ready || turnUid !== uid || choice || game.turn.phase === 'finished') return; if (game.turn.phase !== 'actions' && remaining) void open('advance'); else commitAdvance(); }
   function commitAdvance() { close(); handPage = 0; void command({ type: game.turn.phase === 'actions' ? 'phase/advanced' : 'turn/ended' }); }
   function choose() { if (isChoice && ready && !ownerOf(selected)) void command({ type: 'leader/chosen', leaderId: selected }); }
@@ -373,8 +375,8 @@
       {/if}
       <EffectOutcome {game} settled={settledRevision>=game.activity.length}/>
       {#if choice && isExpansionChoice(choice)}<EffectChoice {game} {choice} ready={ready && settledRevision>=choiceRevision} readOnly={observing} {command}/>{/if}
-      {#if game.turn.deploy}<div class="deploy-status"><EffectIcon effect="Deploy" value={game.turn.deploy}/><span>Next Action ×{game.turn.deploy}</span></div>{/if}
-      {#if worshipVisible}<WorshipOverlay bind:this={worshipOverlay} covered={isExpansionChoice(choice)} effectsSettled={settledRevision>=game.activity.length} {game} {uid} selected={worshipChoice?.source ?? worshipEvent} {ready} {error} {command} close={()=>void finishWorshipReturn()} sourceRect={worshipSource} prepareReturn={prepareWorshipReturn} choice={isExpansionChoice(choice)?choice:worshipChoice} targets={worshipTargets} resolve={resolveWorship}/>{/if}
+      {#if game.turn.deploy}<div class="deploy-status"><EffectIcon effect="Deploy" value={game.turn.deploy[0]}/><span title={game.turn.deploy.map(n=>`Deploy ${n}`).join(" → ")}>Next card ×{game.turn.deploy[0]}{#if game.turn.deploy.length>1} · {game.turn.deploy.length} free plays queued{/if}</span></div>{/if}
+      {#if worshipVisible}<WorshipOverlay bind:this={worshipOverlay} covered={isExpansionChoice(choice)} effectsSettled={settledRevision>=game.activity.length} {game} {uid} selected={worshipChoice?.source ?? worshipEvent} {ready} {error} {dismissError} {command} close={()=>void finishWorshipReturn()} sourceRect={worshipSource} prepareReturn={prepareWorshipReturn} choice={isExpansionChoice(choice)?choice:worshipChoice} targets={worshipTargets} resolve={resolveWorship}/>{/if}
       {#if inlineChoice}{#key inlineChoice.id}<InlineChoice shareSelection bind:this={interaction} {game} {uid} choice={inlineChoice} {ready} {error} {reduced} {command} bind:targets={interactionTargets} bind:busy={interactionBusy} handled={id=>localChoices=[...localChoices.slice(-15),id]}/>{/key}{/if}
       <div class="table-card-measure" bind:clientWidth={tableCardWidth} aria-hidden="true"></div>
       <div class="table-supply" inert={!!drawer || (worshipVisible && !worshipChoice) || (!!inlineChoice && inlineChoice.kind!=='gain')}><SupplyCoverflow bind:this={supply} sharedBrowsing followAffordable={settledRevision >= game.activity.length} {motionRate} sharedCardWidth={tableCardWidth} {game} {uid} ready={ready && !interactionBusy} {command} selection={marketChoice ? {options:worshipOptions,selected:turnUid===uid?worshipTargets:[],choose:selectWorshipTarget,kind:marketChoice.kind,choiceId:marketChoice.id,browsedCardId:marketChoice.browsedCardId,readOnly:turnUid!==uid} : undefined} visible={(!modal || worshipVisible) && !supplyWarning && (!ownChoice || !!worshipChoice || !!inlineChoice) && !showResults && !drawer} inspect={id=>inspect(id)} onDialog={open=>supplyWarning=open}/></div>
@@ -416,10 +418,10 @@
       {#if !isExpansionChoice(choice) && (revealed || lastPublic) && game.publicActivity.find(entry=>entry.sequence===latestActivity?.sequence)?.command!=='card/bought'}{#key latestActivity?.sequence}<button inert={!!inlineChoice || worshipVisible || !!drawer} class="outcome" style:visibility={tableStop && settledRevision >= tableStop.sequence ? 'hidden' : undefined} data-motion-key={tableStop ? `reveal:${tableStop.card!.id}` : undefined} data-motion-card={tableStop?.card?.id} data-public-zone={tableStop ? 'reveal' : undefined} data-public-uid={turnUid} aria-label={`Inspect ${revealed ? 'revealed' : lastPublic!.kind === 'trash' ? 'trashed' : 'gained'} ${definition((revealed ?? lastPublic)!.card!.cardId).name}`} onclick={() => inspect((revealed ?? lastPublic)!.card!.cardId, (revealed ?? lastPublic)!.card!.copy)}><div class="outcome-card"><CardFace card={definition((revealed ?? lastPublic)!.card!.cardId)} players={game.playerCount} copy={(revealed ?? lastPublic)!.card!.copy} /></div><span class="outcome-icons"><ResourceIcon resource={lastPublic?.kind === 'topdeck' ? 'topdeck' : lastPublic?.kind === 'trash' ? 'trash' : 'discard'} />{#if revealed && lastPublic?.kind === 'discard'}<ResourceIcon resource="coins" value="+2" />{/if}</span></button>{/key}{/if}
 
       <section inert={worshipVisible || inlineChoice?.kind==='gain' || !!drawer} bind:this={handElement} data-public-zone="hand" data-public-uid={uid} class="hand" aria-label="Your hand" data-hand-total={orderedHand.length} style:--hand-min-peek={`${handMinPeek}px`}>
-        <HandFan deployEligible={card=>!!game.turn.deploy&&canPlayAction(game,uid,card.id)} cards={visibleHand} {uid} players={game.playerCount} staged={interactionTargets} revision={handRevision} {deal} helpId="hand-help"
+        <HandFan deployEligible={card=>canDeployCard(game,uid,card.id)} cards={visibleHand} {uid} players={game.playerCount} staged={interactionTargets} revision={handRevision} {deal} helpId="hand-help"
           disabled={card=>!ready || (!!inlineChoice && (interactionBusy || interactionTargets.includes(card.id) || (!!inlineChoice.filter && definition(card.cardId).type!==inlineChoice.filter)))}
           pressed={inlineChoice && inlineChoice.kind!=='gain' ? card=>interactionTargets.includes(card.id) : undefined}
-          label={(card,index)=>`${inlineChoice && inlineChoice.kind!=='gain' ? inlineChoice.kind==='trash'?'Trash':'Discard' : canPlayAction(game,uid,card.id)||canPlayTreasure(game,uid,card.id)?'Play':'Inspect'} hand card ${handPage * handCapacity + index + 1}: ${definition(card.cardId).name}`}
+          label={(card,index)=>`${inlineChoice && inlineChoice.kind!=='gain' ? inlineChoice.kind==='trash'?'Trash':'Discard' : canPlayAction(game,uid,card.id)||canPlayTreasure(game,uid,card.id)||canDeployTerritory(game,uid,card.id)?'Play':'Inspect'} hand card ${handPage * handCapacity + index + 1}: ${definition(card.cardId).name}`}
           activate={card=>playHand(card.cardId,card.copy,card.id)} inspect={card=>inspect(card.cardId,card.copy,card.id)}/>
         <span id="hand-help" class="sr-only">{inlineChoice && inlineChoice.kind!=='gain' ? `Click or tap a card to ${inlineChoice.kind}.` : 'Click or tap to play.'} Right-click, hold, or press Shift+F10 to inspect.</span>
       </section>
@@ -428,7 +430,7 @@
 
 
     {/if}
-    {#if error}<p class="error" role="alert">{error}</p>{/if}
+    {#if error}<div class="error" role="alert">{error}{#if dismissError}<button aria-label="Dismiss error" onclick={dismissError}>Dismiss</button>{/if}</div>{/if}
   </div>
   {#if status !== 'synced'}<div class="connection" role="status" data-e2e-layout><p>Connection lost. Your place is kept.</p><GameButton onclick={retry}>Try again</GameButton></div>{/if}
 </main>
@@ -436,7 +438,7 @@
   <DialogFrame />
   <button class="close" aria-label="Close" onclick={close}>×</button>
   {#if modal === 'card' && inspected}<h2 id="session-dialog-title">{inspected.card.name}</h2><div class="inspected" class:landscape={inspected.card.type === 'Leader' || inspected.card.type === 'Event'}><CardFace card={inspected.card} players={game.playerCount} copy={inspected.copy} points={inspectedLeaderOwner ? liveScores[inspectedLeaderOwner] : undefined} /></div>
-    {#if inspected.instanceId && (inspected.card.type === 'Action' || inspected.card.type === 'Treasure')}<div class="play-command"><GameButton primary onclick={playInspected} disabled={!ready || !(canPlayAction(game, uid, inspected.instanceId) || canPlayTreasure(game, uid, inspected.instanceId))}>Play {inspected.card.name}</GameButton>{#if !(canPlayAction(game, uid, inspected.instanceId) || canPlayTreasure(game, uid, inspected.instanceId))}<p>{turnUid !== uid ? 'Wait for your turn.' : choice ? 'Finish your current choice.' : inspected.card.type === 'Treasure' ? 'Treasures cannot be played after buying.' : game.resources.actions < 1 ? 'No Actions remaining.' : 'The Action phase is over.'}</p>{/if}</div>{/if}
+    {#if inspected.instanceId && (inspected.card.type === 'Action' || inspected.card.type === 'Treasure' || inspected.card.type === 'Territory')}<div class="play-command"><GameButton primary onclick={playInspected} disabled={!ready || !(canPlayAction(game, uid, inspected.instanceId) || canPlayTreasure(game, uid, inspected.instanceId) || canDeployTerritory(game, uid, inspected.instanceId))}>Play {inspected.card.name}</GameButton>{#if !(canPlayAction(game, uid, inspected.instanceId) || canPlayTreasure(game, uid, inspected.instanceId) || canDeployTerritory(game, uid, inspected.instanceId))}<p>{turnUid !== uid ? 'Wait for your turn.' : choice ? 'Finish your current choice.' : inspected.card.type === 'Territory' ? 'A Territory needs a pending Deploy grant.' : inspected.card.type === 'Treasure' ? 'Treasures cannot be played after buying.' : game.resources.actions < 1 ? 'No Actions remaining.' : 'The Action phase is over.'}</p>{/if}</div>{/if}
   {:else if modal === 'advance'}<h2 id="session-dialog-title">{game.turn.phase === 'actions' ? 'Leave Actions?' : 'End your turn?'}</h2><div class="confirm-resources"><ResourceIcon resource="coins" value={game.resources.coins}/><ResourceIcon resource="buys" value={game.resources.buys}/><ResourceIcon resource="worship" value={game.resources.worship}/></div><p>You can still {remaining?.verb} {remaining?.verb==='worship'?remaining.card.god:remaining?.card.name}.</p><div class="confirm-controls"><GameButton primary onclick={close}>Keep playing</GameButton><GameButton onclick={commitAdvance} disabled={!ready}>{advanceLabel}</GameButton></div>
   {/if}
 </dialog>
@@ -484,6 +486,7 @@
   .turn-rail{position:absolute;left:23%;top:63%;width:54%;height:10%;isolation:isolate;padding:0 3%;display:flex;align-items:center;justify-content:center;} .turn-marker{width:35%;display:grid;text-align:center;font:600 clamp(18px,2.6svh,52px)/1.1 'Cormorant Garamond',serif;color:#f6dfac;}.turn-marker span{font-size:.65em;margin-top:4px;}.resources{display:flex;justify-content:space-evenly;width:65%;--icon-size:clamp(20px,3svh,64px);--icon-number-scale:.8;}
   .hand{position:absolute;left:29%;bottom:3%;width:calc(var(--hand-room) * 1%);--hand-room:54;height:clamp(130px,23svh,460px);--hand-card-width:clamp(94px,15svh,300px);}
   .own-leader{position:absolute!important;left:1%;bottom:3%;width:17%;}.leader-portrait{display:none;}.deck-pile{position:absolute;left:19%;bottom:3%;width:7%;}.discard-pile{position:absolute;right:3%;bottom:4%;width:10%;text-align:center;font-size:clamp(12px,1.8svh,34px);}
+  .error button{margin-left:12px;min-height:44px;background:#071321;color:inherit;border:1px solid #cb9872;border-radius:6px;padding:6px 12px;}
   .error{position:absolute;left:24%;width:52%;top:29%;text-align:center;padding:12px;background:#481f18ee;border:1px solid #cb9872;border-radius:12px;color:#fff0cd;z-index:9;}.connection{position:absolute;left:30%;top:42%;width:40%;background:#071321ef;border:1px solid #b2914f;border-radius:16px;padding:20px;text-align:center;z-index:10;}.connection p{margin:0 0 16px;}
   dialog{width:min(900px,94vw);max-height:95svh;padding:28px;border:2px solid #b58b48;border-radius:20px;background:linear-gradient(#132431f5,#07111cfb);color:#f2dfb9;text-align:center;box-shadow:0 20px 80px #000b;}dialog::backdrop{background:#020811bb;backdrop-filter:blur(6px);}dialog h2{font:600 30px/1 'Cormorant Garamond',serif;margin:14px 32px 24px;}.close{position:absolute;right:7px;top:7px;width:44px;height:44px;border:0;background:none;font-size:28px;}.inspected{width:min(360px,49svh,78vw);margin:auto;}.inspected.landscape{width:min(680px,102svh,80vw);}
   @media(max-aspect-ratio:3/4){

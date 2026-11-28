@@ -68,9 +68,10 @@ export function replaySetup(events: SetupEvent[]): SetupState {
       ![2, 3, 4].includes(event.playerCount) || !event.actorUid ||
       typeof event.name !== 'string' || !event.name.trim() || event.name.length > 24) throw new Error('Invalid setup event stream.');
     if (event.expansion !== undefined && (event.type !== 'game/created' || typeof event.expansion !== 'boolean')) throw new Error('Invalid expansion mode.');
-    if (state.expansion && event.botKind) throw new Error('Expansion tables require human players.');
+    if (state.expansion && event.botKind && event.botKind!=='expansion-rl') throw new Error('Expansion tables require trained expansion bots.');
+    if (event.botKind==='expansion-rl' && !state.expansion) throw new Error('This bot requires an expansion table.');
     if (event.equalTurns !== undefined && (event.type !== 'game/created' || typeof event.equalTurns !== 'boolean')) throw new Error('Invalid end-of-game rule.');
-    if (event.type === 'draft/started' || event.type === 'leader/chosen' || ['action/played', 'choice/resolved', 'choice/browsed', 'market/browsed', 'worship/focused', 'choice/staged', 'phase/advanced', 'treasure/played', 'treasures/played', 'card/bought', 'god/worshipped', 'turn/ended', 'action/undone'].includes(event.type)) {
+    if (event.type === 'draft/started' || event.type === 'leader/chosen' || ['action/played', 'choice/resolved', 'choice/browsed', 'market/browsed', 'worship/focused', 'choice/staged', 'phase/advanced', 'territory/deployed', 'treasure/played', 'treasures/played', 'card/bought', 'god/worshipped', 'turn/ended', 'action/undone'].includes(event.type)) {
       if (event.reducerVersion !== 1 || !event.commandId || event.commandId.length > 64 ||
         commandIds.has(event.commandId) ||
         event.playerCount !== state.playerCount || !state.players.some(player => player.uid === event.actorUid && player.name === event.name)) throw new Error('Invalid play event.');
@@ -94,7 +95,7 @@ export function replaySetup(events: SetupEvent[]): SetupState {
         const chosen = Object.values(state.leaders);
         if (state.phase !== 'draft' || state.draftOrder[chosen.length] !== event.actorUid ||
           !allLeaderIds.includes(event.leaderId as typeof allLeaderIds[number]) || chosen.includes(event.leaderId!)) throw new Error('Choose an available leader on your draft turn.');
-        if (!leaderIds.includes(event.leaderId as typeof leaderIds[number]) && state.players.some(player => player.botKind)) throw new Error('Expansion houses require human players.');
+        if (!leaderIds.includes(event.leaderId as typeof leaderIds[number]) && state.players.some(player => player.botKind&&player.botKind!=='expansion-rl')) throw new Error('Expansion houses require trained expansion bots.');
         state.leaders[event.actorUid] = event.leaderId!;
         state.sharedEvents.push(leaderLinks(event.leaderId!).event.id);
         state.activity.push({ sequence: event.sequence, message: `${event.name} chose ${leaderLinks(event.leaderId!).leader.name.split(',')[0]}.` });

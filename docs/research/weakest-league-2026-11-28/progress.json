@@ -1,0 +1,667 @@
+{
+  "snapshotTime": 1795856539.893701,
+  "complete": false,
+  "completedAttempt": 41,
+  "promoted": [
+    "perseus",
+    "echo",
+    "achilles"
+  ],
+  "escaped": [
+    "perseus",
+    "echo"
+  ],
+  "accepted": [
+    {
+      "attempt": 1,
+      "leader": "perseus",
+      "accepted": true,
+      "selected": "ppo-4",
+      "vsIncumbent": {
+        "delta": 0.03655133928571429,
+        "CI95": [
+          0.017724458850364996,
+          0.055378219721063576
+        ],
+        "pairedSeeds": 896
+      },
+      "vsOriginal": {
+        "delta": 0.03655133928571429,
+        "CI95": [
+          0.017724458850364996,
+          0.055378219721063576
+        ],
+        "pairedSeeds": 896
+      },
+      "before": {
+        "games": 1792,
+        "share": 0.24609375,
+        "blockWilson95CI": [
+          0.21901310578436273,
+          0.2753423452194584
+        ],
+        "meanTurns": 15.295200892857142
+      },
+      "after": {
+        "games": 1792,
+        "share": 0.2826450892857143,
+        "blockWilson95CI": [
+          0.2541371622098837,
+          0.31300887771536545
+        ],
+        "meanTurns": 14.6953125
+      }
+    },
+    {
+      "attempt": 2,
+      "leader": "echo",
+      "accepted": true,
+      "selected": "ppo-2",
+      "vsIncumbent": {
+        "delta": 0.036830357142857144,
+        "CI95": [
+          0.013063862668451477,
+          0.06059685161726281
+        ],
+        "pairedSeeds": 896
+      },
+      "vsOriginal": {
+        "delta": 0.036830357142857144,
+        "CI95": [
+          0.013063862668451477,
+          0.06059685161726281
+        ],
+        "pairedSeeds": 896
+      },
+      "before": {
+        "games": 1792,
+        "share": 0.22628348214285715,
+        "blockWilson95CI": [
+          0.20008758040780428,
+          0.254816482707304
+        ],
+        "meanTurns": 16.334821428571427
+      },
+      "after": {
+        "games": 1792,
+        "share": 0.2631138392857143,
+        "blockWilson95CI": [
+          0.23533703778343798,
+          0.29291326760364356
+        ],
+        "meanTurns": 16.148995535714285
+      }
+    },
+    {
+      "attempt": 3,
+      "leader": "perseus",
+      "accepted": true,
+      "selected": "ppo-3",
+      "vsIncumbent": {
+        "delta": 0.07003348214285714,
+        "CI95": [
+          0.05403665138329347,
+          0.0860303129024208
+        ],
+        "pairedSeeds": 896
+      },
+      "vsOriginal": {
+        "delta": 0.10714285714285714,
+        "CI95": [
+          0.08737283688193381,
+          0.12691287740378046
+        ],
+        "pairedSeeds": 896
+      },
+      "before": {
+        "games": 1792,
+        "share": 0.27176339285714285,
+        "blockWilson95CI": [
+          0.24365414754794654,
+          0.30182141170603777
+        ],
+        "meanTurns": 14.922991071428571
+      },
+      "after": {
+        "games": 1792,
+        "share": 0.341796875,
+        "blockWilson95CI": [
+          0.31147381207184455,
+          0.3734707381689979
+        ],
+        "meanTurns": 15.665178571428571
+      }
+    },
+    {
+      "attempt": 8,
+      "leader": "echo",
+      "accepted": true,
+      "selected": "ppo-4",
+      "vsIncumbent": {
+        "delta": 0.20703125,
+        "CI95": [
+          0.17878099015745275,
+          0.23528150984254725
+        ],
+        "pairedSeeds": 896
+      },
+      "vsOriginal": {
+        "delta": 0.2421875,
+        "CI95": [
+          0.2161223776489084,
+          0.2682526223510916
+        ],
+        "pairedSeeds": 896
+      },
+      "before": {
+        "games": 1792,
+        "share": 0.26004464285714285,
+        "blockWilson95CI": [
+          0.2323892025789276,
+          0.2897489159521561
+        ],
+        "meanTurns": 16.31640625
+      },
+      "after": {
+        "games": 1792,
+        "share": 0.46707589285714285,
+        "blockWilson95CI": [
+          0.4346175118757591,
+          0.4998153927599012
+        ],
+        "meanTurns": 14.924665178571429
+      }
+    },
+    {
+      "attempt": 23,
+      "leader": "achilles",
+      "accepted": true,
+      "selected": "ppo-3",
+      "vsIncumbent": {
+        "delta": 0.021205357142857144,
+        "CI95": [
+          0.005655864306142169,
+          0.03675484997957212
+        ],
+        "pairedSeeds": 896
+      },
+      "vsOriginal": {
+        "delta": 0.021205357142857144,
+        "CI95": [
+          0.005655864306142169,
+          0.03675484997957212
+        ],
+        "pairedSeeds": 896
+      },
+      "before": {
+        "games": 1792,
+        "share": 0.2642299107142857,
+        "blockWilson95CI": [
+          0.23640942306174148,
+          0.2940634957275209
+        ],
+        "meanTurns": 15.696428571428571
+      },
+      "after": {
+        "games": 1792,
+        "share": 0.28543526785714285,
+        "blockWilson95CI": [
+          0.25682853776938164,
+          0.3158740356613199
+        ],
+        "meanTurns": 15.626674107142858
+      }
+    },
+    {
+      "attempt": 26,
+      "leader": "achilles",
+      "accepted": true,
+      "selected": "ppo-4",
+      "vsIncumbent": {
+        "delta": 0.020368303571428572,
+        "CI95": [
+          0.003654180812366084,
+          0.03708242633049106
+        ],
+        "pairedSeeds": 896
+      },
+      "vsOriginal": {
+        "delta": 0.04547991071428571,
+        "CI95": [
+          0.027636902202128163,
+          0.06332291922644326
+        ],
+        "pairedSeeds": 896
+      },
+      "before": {
+        "games": 1792,
+        "share": 0.283203125,
+        "blockWilson95CI": [
+          0.25467532692518524,
+          0.3135820197011543
+        ],
+        "meanTurns": 15.569754464285714
+      },
+      "after": {
+        "games": 1792,
+        "share": 0.30357142857142855,
+        "blockWilson95CI": [
+          0.27435542434456955,
+          0.3344646168715733
+        ],
+        "meanTurns": 15.314732142857142
+      }
+    }
+  ],
+  "expandedRankingMatrix": {
+    "melia": {
+      "perseus": 0.936,
+      "theseus": 0.7895,
+      "thaleia": 0.593,
+      "echo": 0.8475,
+      "nereon": 0.5285,
+      "achilles": 0.924,
+      "doreios": 0.787
+    },
+    "perseus": {
+      "melia": 0.06399999999999995,
+      "thaleia": 0.32699999999999996,
+      "doreios": 0.357,
+      "theseus": 0.39149999999999996,
+      "echo": 0.476,
+      "nereon": 0.18899999999999995,
+      "achilles": 0.44899999999999995
+    },
+    "echo": {
+      "achilles": 0.6265,
+      "nereon": 0.3325,
+      "melia": 0.1525,
+      "theseus": 0.608,
+      "perseus": 0.524,
+      "doreios": 0.478,
+      "thaleia": 0.574
+    },
+    "achilles": {
+      "echo": 0.37350000000000005,
+      "theseus": 0.36,
+      "doreios": 0.21099999999999997,
+      "thaleia": 0.35550000000000004,
+      "melia": 0.07599999999999996,
+      "nereon": 0.125,
+      "perseus": 0.551
+    },
+    "theseus": {
+      "melia": 0.21050000000000002,
+      "doreios": 0.5855,
+      "thaleia": 0.5565,
+      "echo": 0.392,
+      "perseus": 0.6085,
+      "achilles": 0.64,
+      "nereon": 0.4285
+    },
+    "thaleia": {
+      "melia": 0.407,
+      "perseus": 0.673,
+      "theseus": 0.4435,
+      "nereon": 0.2975,
+      "doreios": 0.371,
+      "achilles": 0.6445,
+      "echo": 0.42600000000000005
+    },
+    "nereon": {
+      "echo": 0.6675,
+      "doreios": 0.654,
+      "melia": 0.4715,
+      "thaleia": 0.7025,
+      "perseus": 0.811,
+      "theseus": 0.5715,
+      "achilles": 0.875
+    },
+    "doreios": {
+      "nereon": 0.346,
+      "theseus": 0.4145,
+      "perseus": 0.643,
+      "echo": 0.522,
+      "thaleia": 0.629,
+      "achilles": 0.789,
+      "melia": 0.21299999999999997
+    }
+  },
+  "runnerHashes": {
+    "score_margin_runner.py": "352635ccd0b7c35591ce8e007b3c776cc3dea43dd14b2196738fcb8f35d5564f",
+    "prepare_rollout.py": "73ff23e476b1b66d5ae5eb98cd3d33e816e412e614c445dde342c36bb2c10b19",
+    "distill_specialists.py": "d2a3324f518d9ed8f44a54aa8ca5db5e71ff6dcda8e814b1c5fc000d090d6735",
+    "curriculum_runner.py": "8a06ca4520b88b3a3649a257ff5dd28384076ed5ff62e967dd25feee7277f954",
+    "evaluate_bias.py": "0bc33a836dacbdfb0a1ecae23df5c88e7be8be2d84473777b625a9a662fe7e48",
+    "tempo_attempt.py": "784fa2dd81a3c3ddf6efdc56117c83fb7e554869e90491125e0b2a63f6a450ab",
+    "promote_side.py": "60d689203ec1f51d7fc919a147ec7fca9d760164e03144d8999ee1dbf7fb85b2",
+    "rollout_probe.ts": "c01e8712eb4932b1229c71867c9a7ed9303fbaa58b35b2e6fa9ed5b79dcca764",
+    "gae_attempt.py": "988c254b83ae43f79acc3db69c3ce6f70d1d78cc41b2a0d493ea4988ef813780",
+    "bias_search.ts": "a094a12dc737045103cac1cbf2e8e95fb95217645cd8935a4e2893d368379958",
+    "factorial_engine_probe.ts": "4643f9cf26cf2565b47c26add9b479e0d3b4a3579f51bbc317d6d340edce1d1a",
+    "long_attempt.py": "9c91d04b58f2f6e8c7820b781cbb87ed846b0c5f0c81dd8501b62f8cd26306f5",
+    "rollout_full_probe.ts": "3acdc7524a8a1c176ff099d310f2e5d9f2c4ca2932c2a2279f753f75f5f263e3",
+    "supervise.py": "74d25bab7f5bc24097c9a6fd828cb5fffbd01d39da57c72a260fa113d30fcddd",
+    "parallel_attempt.py": "55ff17302ae55dbf9cbdbc00ecc52359f37131e68c4fdf1861dc0ccd22820fd9",
+    "limited_engine_probe.ts": "43940372275e9903e5445f548fd91523ee59348120bcf03bad9d0c437ab48fac"
+  },
+  "sideResults": {
+    "specialist-distillation": {
+      "accepted": false,
+      "selected": "bc-12",
+      "vsIncumbent": {
+        "delta": -0.00027901785714285713,
+        "CI95": [
+          -0.016648758717677088,
+          0.016090723003391375
+        ],
+        "pairedSeeds": 896
+      },
+      "vsOriginal": {
+        "delta": 0.03208705357142857,
+        "CI95": [
+          0.01208508298311491,
+          0.05208902415974223
+        ],
+        "pairedSeeds": 896
+      },
+      "actor": {
+        "path": "/Users/anicolao/projects/games/pantheon/balance-diagnostics/weakest-eight-house-20261128/specialist-distillation/selected.json",
+        "sha256": "7908ffac0a5937495992216cd5af6d3bc9612a9e96b5b65798fe7788b0ce6f1a"
+      },
+      "checkpoint": "/Users/anicolao/projects/games/pantheon/balance-diagnostics/weakest-eight-house-20261128/specialist-distillation/bc-12.zip",
+      "baseline": {
+        "games": 1792,
+        "share": 0.318359375,
+        "blockWilson95CI": [
+          0.28868741474696974,
+          0.3495822540480715
+        ],
+        "meanTurns": 15.405133928571429
+      },
+      "candidate": {
+        "games": 1792,
+        "share": 0.31808035714285715,
+        "blockWilson95CI": [
+          0.2884166702434649,
+          0.3492973452010311
+        ],
+        "meanTurns": 15.508928571428571
+      }
+    },
+    "side-win-tempo": {
+      "accepted": false,
+      "selected": "ppo-3",
+      "vsIncumbent": {
+        "delta": -0.008091517857142858,
+        "CI95": [
+          -0.025856448204626917,
+          0.009673412490341203
+        ],
+        "pairedSeeds": 896
+      },
+      "vsOriginal": {
+        "delta": 0.018136160714285716,
+        "CI95": [
+          0.0005897931413931697,
+          0.03568252828717826
+        ],
+        "pairedSeeds": 896
+      },
+      "actor": {
+        "path": "/Users/anicolao/projects/games/pantheon/balance-diagnostics/weakest-eight-house-20261128/side-win-tempo/selected.json",
+        "sha256": "e646a619ed6d120bf20ea295f0c8e7bb728cd833e811f807ca60ae5ce1787b37"
+      },
+      "checkpoint": "/Users/anicolao/projects/games/pantheon/balance-diagnostics/weakest-eight-house-20261128/side-win-tempo/ppo-3.zip",
+      "baseline": {
+        "games": 1792,
+        "share": 0.2963169642857143,
+        "blockWilson95CI": [
+          0.26733791047741345,
+          0.32703514362455294
+        ],
+        "meanTurns": 15.395089285714286
+      },
+      "candidate": {
+        "games": 1792,
+        "share": 0.28822544642857145,
+        "blockWilson95CI": [
+          0.25952128603152963,
+          0.3187378209046245
+        ],
+        "meanTurns": 15.420758928571429
+      }
+    },
+    "side-gae95": {
+      "accepted": false,
+      "selected": "ppo-4",
+      "vsIncumbent": {
+        "delta": -0.006138392857142857,
+        "CI95": [
+          -0.022766375397972712,
+          0.010489589683687
+        ],
+        "pairedSeeds": 896
+      },
+      "vsOriginal": {
+        "delta": 0.027622767857142856,
+        "CI95": [
+          0.010095378708650373,
+          0.045150157005635336
+        ],
+        "pairedSeeds": 896
+      },
+      "actor": {
+        "path": "/Users/anicolao/projects/games/pantheon/balance-diagnostics/weakest-eight-house-20261128/side-gae95/selected.json",
+        "sha256": "93b48361606aaa9f2fb053446acf17ae2876edf48c93e535ccd07e775e29729a"
+      },
+      "checkpoint": "/Users/anicolao/projects/games/pantheon/balance-diagnostics/weakest-eight-house-20261128/side-gae95/ppo-4.zip",
+      "baseline": {
+        "games": 1792,
+        "share": 0.28989955357142855,
+        "blockWilson95CI": [
+          0.26113758893851663,
+          0.3204554381009089
+        ],
+        "meanTurns": 15.2421875
+      },
+      "candidate": {
+        "games": 1792,
+        "share": 0.2837611607142857,
+        "blockWilson95CI": [
+          0.25521354693658843,
+          0.3141551063908416
+        ],
+        "meanTurns": 15.5
+      }
+    },
+    "side-low-rate": {
+      "accepted": false,
+      "selected": "incumbent"
+    },
+    "side-wide": {
+      "accepted": false,
+      "selected": "incumbent"
+    },
+    "bias-search": {
+      "accepted": false,
+      "selected": "incumbent"
+    },
+    "side-echo-rival": {
+      "accepted": false,
+      "selected": "incumbent"
+    }
+  },
+  "activeExperiments": [
+    "main weakest-first loop",
+    "side-long-exploration",
+    "supervisor"
+  ],
+  "deployedWeightsChanged": false,
+  "teacherProbes": {
+    "rollout-probe": [
+      {
+        "variant": 0,
+        "games": 112,
+        "share": 0.2857142857142857,
+        "searched": 0,
+        "changed": 0
+      },
+      {
+        "variant": 1,
+        "games": 112,
+        "share": 0.23660714285714285,
+        "searched": 1773,
+        "changed": 440
+      }
+    ],
+    "rollout-full-probe": [
+      {
+        "variant": 0,
+        "games": 112,
+        "share": 0.2857142857142857,
+        "searched": 0,
+        "changed": 0
+      },
+      {
+        "variant": 1,
+        "games": 112,
+        "share": 0.12053571428571429,
+        "searched": 1984,
+        "changed": 996
+      }
+    ],
+    "limited-engine-probe": [
+      {
+        "name": "baseline",
+        "phalanx": 0,
+        "draw": 0,
+        "until": 0,
+        "games": 448,
+        "share": 0.2779017857142857
+      },
+      {
+        "name": "limited-1-6",
+        "phalanx": 1,
+        "draw": 1,
+        "until": 6,
+        "games": 448,
+        "share": 0.25558035714285715
+      },
+      {
+        "name": "limited-1-8",
+        "phalanx": 1,
+        "draw": 1,
+        "until": 8,
+        "games": 448,
+        "share": 0.25558035714285715
+      },
+      {
+        "name": "limited-2-6",
+        "phalanx": 2,
+        "draw": 1,
+        "until": 6,
+        "games": 448,
+        "share": 0.234375
+      },
+      {
+        "name": "limited-2-8",
+        "phalanx": 2,
+        "draw": 1,
+        "until": 8,
+        "games": 448,
+        "share": 0.23772321428571427
+      },
+      {
+        "name": "limited-3-6",
+        "phalanx": 3,
+        "draw": 2,
+        "until": 6,
+        "games": 448,
+        "share": 0.21316964285714285
+      },
+      {
+        "name": "limited-3-8",
+        "phalanx": 3,
+        "draw": 2,
+        "until": 8,
+        "games": 448,
+        "share": 0.2265625
+      }
+    ],
+    "factorial-engine-probe": [
+      {
+        "name": "baseline",
+        "phalanx": 0,
+        "draw": 0,
+        "until": 0,
+        "play": false,
+        "games": 448,
+        "share": 0.2779017857142857
+      },
+      {
+        "name": "play-only",
+        "phalanx": 0,
+        "draw": 0,
+        "until": 0,
+        "play": true,
+        "games": 448,
+        "share": 0.2734375
+      },
+      {
+        "name": "factorial-1-false",
+        "phalanx": 1,
+        "draw": 1,
+        "until": 6,
+        "play": false,
+        "games": 448,
+        "share": 0.24776785714285715
+      },
+      {
+        "name": "factorial-1-true",
+        "phalanx": 1,
+        "draw": 1,
+        "until": 6,
+        "play": true,
+        "games": 448,
+        "share": 0.25558035714285715
+      },
+      {
+        "name": "factorial-2-false",
+        "phalanx": 2,
+        "draw": 1,
+        "until": 6,
+        "play": false,
+        "games": 448,
+        "share": 0.23772321428571427
+      },
+      {
+        "name": "factorial-2-true",
+        "phalanx": 2,
+        "draw": 1,
+        "until": 6,
+        "play": true,
+        "games": 448,
+        "share": 0.234375
+      },
+      {
+        "name": "factorial-3-false",
+        "phalanx": 3,
+        "draw": 2,
+        "until": 6,
+        "play": false,
+        "games": 448,
+        "share": 0.23883928571428573
+      },
+      {
+        "name": "factorial-3-true",
+        "phalanx": 3,
+        "draw": 2,
+        "until": 6,
+        "play": true,
+        "games": 448,
+        "share": 0.21316964285714285
+      }
+    ]
+  }
+}

@@ -1,0 +1,158 @@
+{
+  "selected": "ppo-7",
+  "scores": {
+    "incumbent": {
+      "games": 896,
+      "share": 0.3794642857142857,
+      "blockWilson95CI": [
+        0.3357336659984626,
+        0.4252445175065533
+      ],
+      "meanTurns": 14.927455357142858,
+      "nikeMarketActions": 1104,
+      "nikeWorships": 0,
+      "gamesUsingNikeMarketActions": 196,
+      "territoryDeploys": 374,
+      "territoryDeployDraws": 745,
+      "treasureDeploys": 203,
+      "treasureDeployResolutions": 406,
+      "treasureDeployBonusCoins": 313
+    },
+    "ppo-1": {
+      "games": 896,
+      "share": 0.38504464285714285,
+      "blockWilson95CI": [
+        0.34114298957618755,
+        0.4309010187665591
+      ],
+      "meanTurns": 14.5390625,
+      "nikeMarketActions": 1175,
+      "nikeWorships": 0,
+      "gamesUsingNikeMarketActions": 210,
+      "territoryDeploys": 406,
+      "territoryDeployDraws": 809,
+      "treasureDeploys": 258,
+      "treasureDeployResolutions": 516,
+      "treasureDeployBonusCoins": 398
+    },
+    "ppo-2": {
+      "games": 896,
+      "share": 0.38169642857142855,
+      "blockWilson95CI": [
+        0.3378966514583226,
+        0.4275078619817856
+      ],
+      "meanTurns": 16.425223214285715,
+      "nikeMarketActions": 2727,
+      "nikeWorships": 0,
+      "gamesUsingNikeMarketActions": 246,
+      "territoryDeploys": 13,
+      "territoryDeployDraws": 26,
+      "treasureDeploys": 948,
+      "treasureDeployResolutions": 1896,
+      "treasureDeployBonusCoins": 1218
+    },
+    "ppo-3": {
+      "games": 896,
+      "share": 0.4486607142857143,
+      "blockWilson95CI": [
+        0.40323540246949974,
+        0.4949590090233774
+      ],
+      "meanTurns": 15.314732142857142,
+      "nikeMarketActions": 1275,
+      "nikeWorships": 0,
+      "gamesUsingNikeMarketActions": 205,
+      "territoryDeploys": 406,
+      "territoryDeployDraws": 810,
+      "treasureDeploys": 198,
+      "treasureDeployResolutions": 396,
+      "treasureDeployBonusCoins": 293
+    },
+    "ppo-4": {
+      "games": 896,
+      "share": 0.46986607142857145,
+      "blockWilson95CI": [
+        0.4241019631167451,
+        0.516142582759509
+      ],
+      "meanTurns": 14.918526785714286,
+      "nikeMarketActions": 2542,
+      "nikeWorships": 0,
+      "gamesUsingNikeMarketActions": 251,
+      "territoryDeploys": 4,
+      "territoryDeployDraws": 8,
+      "treasureDeploys": 1277,
+      "treasureDeployResolutions": 2554,
+      "treasureDeployBonusCoins": 1714
+    },
+    "ppo-5": {
+      "games": 896,
+      "share": 0.44754464285714285,
+      "blockWilson95CI": [
+        0.40213946764033653,
+        0.4938417788849944
+      ],
+      "meanTurns": 15.2109375,
+      "nikeMarketActions": 4475,
+      "nikeWorships": 0,
+      "gamesUsingNikeMarketActions": 242,
+      "territoryDeploys": 1068,
+      "territoryDeployDraws": 1414,
+      "treasureDeploys": 253,
+      "treasureDeployResolutions": 506,
+      "treasureDeployBonusCoins": 312
+    },
+    "ppo-6": {
+      "games": 896,
+      "share": 0.5128348214285714,
+      "blockWilson95CI": [
+        0.4666373597981164,
+        0.5588140373286643
+      ],
+      "meanTurns": 14.589285714285714,
+      "nikeMarketActions": 1098,
+      "nikeWorships": 0,
+      "gamesUsingNikeMarketActions": 198,
+      "territoryDeploys": 636,
+      "territoryDeployDraws": 1256,
+      "treasureDeploys": 106,
+      "treasureDeployResolutions": 212,
+      "treasureDeployBonusCoins": 159
+    },
+    "ppo-7": {
+      "games": 896,
+      "share": 0.5502232142857143,
+      "blockWilson95CI": [
+        0.5039239922123913,
+        0.5956684313271854
+      ],
+      "meanTurns": 15.122767857142858,
+      "nikeMarketActions": 996,
+      "nikeWorships": 0,
+      "gamesUsingNikeMarketActions": 186,
+      "territoryDeploys": 635,
+      "territoryDeployDraws": 1259,
+      "treasureDeploys": 73,
+      "treasureDeployResolutions": 146,
+      "treasureDeployBonusCoins": 107
+    },
+    "ppo-8": {
+      "games": 896,
+      "share": 0.5184151785714286,
+      "blockWilson95CI": [
+        0.47218622306792923,
+        0.5643309988965823
+      ],
+      "meanTurns": 15.165178571428571,
+      "nikeMarketActions": 861,
+      "nikeWorships": 0,
+      "gamesUsingNikeMarketActions": 160,
+      "territoryDeploys": 527,
+      "territoryDeployDraws": 1045,
+      "treasureDeploys": 88,
+      "treasureDeployResolutions": 176,
+      "treasureDeployBonusCoins": 133
+    }
+  }
+}

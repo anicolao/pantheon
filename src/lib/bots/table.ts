@@ -1,7 +1,8 @@
 import {tableDecision} from './difficulty';
+import {expansionCommand} from './expansion';
 import {resolveBotKind,seatBotKind} from '../game/bot-kind';
 import {activePlayer,type ActionCommand} from '../game/actions';
-import {replaySetup,leaderIds,type SetupEvent,type SetupState} from '../game/setup';
+import {replaySetup,leaderIds,allLeaderIds,type SetupEvent,type SetupState} from '../game/setup';
 import {UndoHistory} from '../game/undo';
 import {createPrng} from '../game/random';
 import {publicCommandContext,describePublicCommand} from '../game/public-table';
@@ -28,10 +29,11 @@ export class TableBotDriver {
   if(!kind)return null;
   const revision=events.length,commandId=`bot:${uid}:${revision}`;
   if(current.phase==='draft'){
-   const available=leaderIds.filter(id=>!Object.values(current.leaders).includes(id));
+   const available=(current.expansion?allLeaderIds:leaderIds).filter(id=>!Object.values(current.leaders).includes(id));
    const random=createPrng(`bot-draft-v1:${current.seed}:${uid}`);
    return {actorUid:uid,revision,commandId,command:{type:'leader/chosen',leaderId:kind==='mm'&&available.includes('melia')?'melia':available[Math.floor(random()*available.length)]}};
   }
+  if(kind==='expansion-rl')return {actorUid:uid,revision,commandId,command:expansionCommand(current)};
   this.sync(events,current.dealtAtSequence!);
   if(this.proposed?.revision===revision)return this.proposed;
   const view=this.tracker!.view(this.game!),memory=structuredClone(this.tracker!.memories[uid]);

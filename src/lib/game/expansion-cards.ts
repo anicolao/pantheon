@@ -2,7 +2,7 @@ import type { CardDefinition } from '$lib/game/types';
 export const houses = [
   {god:'Zeus',leader:'Echo',symbol:'◉',color:'#536ca0',theme:'Borrow an opponent’s effects'},
   {god:'Hermes',leader:'Theseus',symbol:'➶',color:'#347e79',theme:'Seek a path through your deck'},
-  {god:'Nike',leader:'Achilles',symbol:'❯',color:'#a76a30',theme:'One Action. Repeated effects.'},
+  {god:'Nike',leader:'Achilles',symbol:'❯',color:'#a76a30',theme:'One card. Repeated effects.'},
   {god:'Hades',leader:'Perseus',symbol:'◆',color:'#76558e',theme:'Turn their Territories into obstacles'}
 ] as const;
 export const proposedCards: CardDefinition[] = [];
@@ -11,7 +11,7 @@ function add(god:CardDefinition['god'],id:string,name:string,type:CardDefinition
 }
 for(const house of houses){
  const {god,leader}=house;
- const trigger=god==='Zeus'?'+1 Echo.':god==='Hermes'?'Seek 2 for an Action.':god==='Nike'?'Deploy 1.':'Bind 1.';
+ const trigger=god==='Zeus'?'+1 Echo.':god==='Hermes'?'Seek 2 for an Action.':god==='Nike'?'Deploy 1.':'Bind 2.';
  add(god,leader.toLowerCase(),leader,'Leader',null,`After you resolve the first ${god} Action you play this turn, ${trigger}`);
  add(god,`temple-of-${god.toLowerCase()}`,`Temple of ${god}`,'Action',0,'+1 Worship; +1 Action.',undefined,true);
  if(god==='Zeus'){
@@ -33,6 +33,6 @@ for(const house of houses){
   add(god,'polished-shield','Polished Shield','Action',2,'+1 Card; +1 Action. You may discard 1 Territory from your hand. If you do, +1 Card.');
   add(god,'gorgons-gaze','Gorgon’s Gaze','Action',4,'+2 Coins. Bind 1.');
   add(god,'harpe-bearer','Harpe Bearer','Action',5,'+2 Cards. Bind 1.');
-  add(god,'stillness-of-the-underworld','Stillness of the Underworld','Event',3,'+1 Coin. Bind 1.','+2 Coins. Bind 2.');
+  add(god,'stillness-of-the-underworld','Stillness of the Underworld','Event',2,'Bind 1. Gain Coins equal to the bound card’s VP.','Bind 2. Gain Coins equal to the total VP of the bound cards.');
  }
 }

@@ -55,6 +55,8 @@
   let alive = true;
   let botKind=$state<BotKind>('standard');
   let botError=$state('');
+  const availableBots:readonly BotKind[]=$derived(expansion?['expansion-rl']:botDifficulties);
+  $effect(()=>{if(!availableBots.includes(botKind))botKind=availableBots[0];});
   let hostSeat=$state('human');
   let botInvitation:{uid:string;kind:BotKind}|undefined;
   let botWorker:Worker|undefined,botRequest=0,botRevision=-1;
@@ -119,6 +121,7 @@
     stop?.();
     stop = watchSetup(services!.db, roomId, (next, synced, events) => {
       if (!alive || !next.players.length) return;
+      if(setup && next.activity.length>setup.activity.length)playError='';
       setup = next;
       expansion = !!next.expansion;
       status = synced && navigator.onLine ? 'synced' : 'disconnected';
@@ -176,7 +179,7 @@
     if (!services || !setup || busy || status !== 'synced') return;
     if(command.type!=='draft/started'&&setup.players.find(p=>p.uid===services!.uid)?.botKind)return;
     busy = true; playError = '';
-    if (!pendingCommand || pendingCommand.expectedRevision !== expectedRevision || JSON.stringify(pendingCommand.command) !== JSON.stringify(command)) pendingCommand = { id: expectedRevision === undefined ? `${crypto.randomUUID()}:${setup.activity.length + 1}` : `auto-treasures:${services.uid}:${expectedRevision}`, command, expectedRevision };
+    if (!pendingCommand || pendingCommand.expectedRevision !== expectedRevision || JSON.stringify(pendingCommand.command) !== JSON.stringify(command)) pendingCommand = { id: `${crypto.randomUUID()}:${setup.activity.length + 1}`, command, expectedRevision };
     const attempt = pendingCommand;
     // A matching server event completes the caller's interaction too. The SDK
     // may still be retrying an HTTP response that was lost after the commit.
@@ -185,7 +188,7 @@
       // A successful HTTP response can precede the subscription update. Keep
       // controls busy until the confirmed projection contains this command (or
       // supersedes an automatic request), while still surfacing write failures.
-      await Promise.race([appendGameCommand(services.db, roomId, services.uid, attempt.id, attempt.command, attempt.expectedRevision).then(()=>acknowledged),acknowledged]);
+      await Promise.race([appendGameCommand(services.db, roomId, services.uid, attempt.id, attempt.command, attempt.expectedRevision).then(()=>{if(attempt.expectedRevision!==undefined && (setup?.activity.length??0)>attempt.expectedRevision)attempt.acknowledge?.();return acknowledged;}),acknowledged]);
       if (pendingCommand === attempt) { pendingCommand = undefined; busy = false; }
     } catch (cause) {
       // A confirmed older request may finish after the player starts another command.
@@ -259,7 +262,7 @@
 
 <svelte:head><title>Gather at the Table — Pantheon: Bloodlines</title><link rel="preload" as="image" href={`${base}/assets/ui/sanctuary-button-secondary.png`} /></svelte:head>
 {#if setup && setup.phase !== 'gathering' && services}
-  <GameSession game={setup} uid={services.uid} {roomId} {status} {busy} error={playError} command={sendCommand} retry={connect} again={playAgain} onSettled={tableSettled} onReady={tableSettled} />
+  <GameSession game={setup} uid={services.uid} {roomId} {status} {busy} error={playError} dismissError={()=>{playError='';if(!busy)pendingCommand=undefined;}} command={sendCommand} retry={connect} again={playAgain} onSettled={tableSettled} onReady={tableSettled} />
   {#if botError}<div class="bot-error" role="alert">{botError}<button onclick={retryBot}>Retry bot</button></div>{/if}
 {:else}
 <main class="gathering" class:unavailable data-status={status}>
@@ -350,10 +353,10 @@
     <GameButton primary onclick={copyInvitation}>{copied ? 'Invitation copied' : 'Copy invitation'}</GameButton>
     <p role="status">{copied ? 'Send it to the players you want at your table.' : manualInvitation ? 'Select and copy your invitation below.' : ''}</p>
     {#if manualInvitation}<label class="manual">Your invitation<input bind:this={invitationInput} readonly value={invitation} onclick={() => invitationInput?.select()} /></label>{/if}
-    {#if !expansion && setup?.players[0]?.uid===services?.uid}
+    {#if setup?.players[0]?.uid===services?.uid}
       <section class="bot-invitation">
         <h3>Invite a bot</h3>
-        <label for="bot-strategy">Bot strategy</label><select id="bot-strategy" bind:value={botKind} disabled={busy}>{#each botDifficulties as kind}<option value={kind}>{botLabels[kind]}</option>{/each}</select>
+        <label for="bot-strategy">Bot strategy</label><select id="bot-strategy" bind:value={botKind} disabled={busy}>{#each availableBots as kind}<option value={kind}>{botLabels[kind]}</option>{/each}</select>
         <GameButton onclick={addBot} disabled={busy||status!=='synced'||!openSeats}>{openSeats?'Invite bot':'Table full'}</GameButton>
         <p>Bots take a seat and choose a random available leader. Keep this table open while they play.</p>
         {#if capacityError}<p role="alert">{capacityError}</p>{/if}
@@ -361,15 +364,15 @@
     {/if}
   {:else if modal === 'details'}
     <h2 id="dialog-title">Supply for {count} players</h2>
-    {#if expansion}<p>Expansion playtest · Eight leaders · Human players only</p>{/if}
+    {#if expansion}<p>Expansion playtest · Eight leaders · Trained bots available</p>{/if}
     <BuildInfo />
     {#if setup && setup.players[0]?.uid === services?.uid}
       <fieldset class="capacity"><legend>Players at your table</legend>
         {#each [2,3,4] as number}<label><input type="radio" name="capacity" aria-label={`${number} players`} value={number} bind:group={capacityChoice} disabled={busy || status !== 'synced' || number < setup.players.length} onchange={() => changeCapacity(number as 2 | 3 | 4)} /><span>{number}</span></label>{/each}
       </fieldset>
       <p class="capacity-hint">Occupied seats stay at the table.</p>
-      {#if !expansion}<div class="bot-invitation"><label for="host-seat">Your seat</label><select id="host-seat" bind:value={hostSeat} disabled={busy||status!=='synced'} onchange={()=>changeHostSeat(hostSeat)}><option value="human">I will play</option>{#each botDifficulties as kind}<option value={kind}>{botLabels[kind]}</option>{/each}</select></div>
-      {#if hostSeat!=='human'}<p>You will watch your bot play. Keep this table open to run the bots.</p>{/if}{/if}
+      <div class="bot-invitation"><label for="host-seat">Your seat</label><select id="host-seat" bind:value={hostSeat} disabled={busy||status!=='synced'} onchange={()=>changeHostSeat(hostSeat)}><option value="human">I will play</option>{#each availableBots as kind}<option value={kind}>{botLabels[kind]}</option>{/each}</select></div>
+      {#if hostSeat!=='human'}<p>You will watch your bot play. Keep this table open to run the bots.</p>{/if}
       {#if capacityError}<p role="alert">{capacityError}</p>{/if}
     {/if}
     <dl class="supply"><div><dt>Each Territory</dt><dd>{count * 3}</dd></div><div><dt>Each regular Action</dt><dd>{count * 4}</dd></div><div><dt>Obol / Drachma / Talent</dt><dd>40 / 30 / 20</dd></div></dl>

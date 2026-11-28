@@ -1,0 +1,66 @@
+{
+  "study": "perseus-bind-vp-2026-11-28",
+  "field": {
+    "stageLeaders": [
+      "echo",
+      "thaleia",
+      "nereon",
+      "melia",
+      "doreios",
+      "theseus",
+      "achilles",
+      "perseus"
+    ],
+    "newest": "perseus",
+    "focusNewest": false,
+    "actors": {
+      "echo": {
+        "path": "/Users/anicolao/projects/games/pantheon/balance-diagnostics/all-leader-territory-adaptation-20261128/train-echo/selected.json",
+        "sha256": "7305bed47a99cabe04b8c0f56656373038d6066b143cb09b021a98ab91c4e3df"
+      },
+      "thaleia": {
+        "path": "/Users/anicolao/projects/games/pantheon/balance-diagnostics/all-leader-territory-adaptation-20261128/train-thaleia/selected.json",
+        "sha256": "7db4c9eb1908c7791d4ab192dfed71e31ff1cd93a695f6d438c81df5d5d4f3b2"
+      },
+      "nereon": {
+        "path": "/Users/anicolao/projects/games/pantheon/balance-diagnostics/all-leader-territory-adaptation-20261128/train-nereon/selected.json",
+        "sha256": "68177bf43681ed5c444b5014b63497366f1f58338c49707599153ecdd7b53568"
+      },
+      "melia": {
+        "path": "/Users/anicolao/projects/games/pantheon/balance-diagnostics/all-leader-territory-adaptation-20261128/train-melia/selected.json",
+        "sha256": "b1cbd941c71881754cdb07e82ed274f8c4a804873318bca80b678855c5da9946"
+      },
+      "doreios": {
+        "path": "/Users/anicolao/projects/games/pantheon/balance-diagnostics/all-leader-territory-adaptation-20261128/train-doreios/selected.json",
+        "sha256": "34430589115d2b87814cb0aaa097fc6dbd0d819908f46d241b1cd0fb3ce54f2a"
+      },
+      "theseus": {
+        "path": "/Users/anicolao/projects/games/pantheon/balance-diagnostics/all-leader-territory-adaptation-20261128/train-theseus/selected.json",
+        "sha256": "77dd3554fc271d129fb10b211952754f3caf9bf0438d9ebb7919937a4e441779"
+      },
+      "achilles": {
+        "path": "/Users/anicolao/projects/games/pantheon/balance-diagnostics/all-leader-territory-adaptation-20261128/train-achilles/selected.json",
+        "sha256": "b737d7877ccbc7cf808d4eacdcc9525e5a53abf2b226a7b3139d256958446f24"
+      },
+      "perseus": {
+        "path": "/Users/anicolao/projects/games/pantheon/balance-diagnostics/perseus-bind-vp-20261128/standard/selected.json",
+        "sha256": "104e4cdc4e4ab44e0835162bff79bc4c93f2f0109568e61b7393b3250dd26247"
+      }
+    },
+    "checkpoints": {
+      "echo": "/Users/anicolao/projects/games/pantheon/balance-diagnostics/all-leader-territory-adaptation-20261128/train-echo/ppo-7.zip",
+      "thaleia": "/Users/anicolao/projects/games/pantheon/balance-diagnostics/all-leader-territory-adaptation-20261128/train-thaleia/ppo-7.zip",
+      "nereon": "/Users/anicolao/projects/games/pantheon/balance-diagnostics/all-leader-territory-adaptation-20261128/train-nereon/ppo-8.zip",
+      "melia": "/Users/anicolao/projects/games/pantheon/balance-diagnostics/all-leader-territory-adaptation-20261128/train-melia/ppo-8.zip",
+      "doreios": "/Users/anicolao/projects/games/pantheon/balance-diagnostics/all-leader-territory-adaptation-20261128/train-doreios/ppo-3.zip",
+      "theseus": "/Users/anicolao/projects/games/pantheon/balance-diagnostics/all-leader-territory-adaptation-20261128/train-theseus/ppo-8.zip",
+      "achilles": "/Users/anicolao/projects/games/pantheon/balance-diagnostics/all-leader-territory-adaptation-20261128/train-achilles/ppo-7.zip",
+      "perseus": "/Users/anicolao/projects/games/pantheon/balance-diagnostics/perseus-bind-vp-20261128/standard/ppo-7.zip"
+    },
+    "baseField": "/Users/anicolao/projects/games/pantheon/balance-diagnostics/all-leader-territory-adaptation-20261128/base-field.json"
+  },
+  "report": "docs/research/perseus-bind-vp-2026-11-28/README.md",
+  "rules": "Independent FIFO Deploy including Territory draws; Perseus Bind 2; Stillness costs 2 and pays bound VP (favoured Bind 2)",
+  "features": 916,
+  "previousFieldReport": "docs/research/all-leader-territory-adaptation-2026-11-28/REPORT.md"
+}

@@ -7,7 +7,7 @@
   import WorshipFace from './WorshipFace.svelte';
   import GameButton from '../GameButton.svelte';
   import { motionDuration, MOTION_EASING } from './motion';
-  let {game,uid,selected,ready,error,command,close,sourceRect,prepareReturn,choice,targets,resolve,effectsSettled=true,covered=false}:{covered?:boolean;effectsSettled?:boolean;game:SetupState;uid:string;selected:string;ready:boolean;error:string;command:(command:GameCommand)=>Promise<void>;close:()=>void;sourceRect?:DOMRect;prepareReturn:()=>Promise<void>;choice?:Choice|null;targets:string[];resolve:()=>Promise<void>}=$props();
+  let {game,uid,selected,ready,error,dismissError,command,close,sourceRect,prepareReturn,choice,targets,resolve,effectsSettled=true,covered=false}:{covered?:boolean;effectsSettled?:boolean;game:SetupState;uid:string;selected:string;ready:boolean;error:string;dismissError?:()=>void;command:(command:GameCommand)=>Promise<void>;close:()=>void;sourceRect?:DOMRect;prepareReturn:()=>Promise<void>;choice?:Choice|null;targets:string[];resolve:()=>Promise<void>}=$props();
   let node=$state<HTMLElement>();
   let finishArrival!:()=>void;
   const arrival=new Promise<void>(resolve=>finishArrival=resolve);
@@ -27,10 +27,12 @@
     return ()=>animation.cancel();
   });
   async function leave(){
-    if(returning||choice)return;returning=true;
+    if(returning||submitting||game.turn.choice||game.turn.queue.length)return;returning=true;
     await prepareReturn();await tick();
+    if(game.turn.choice||game.turn.queue.length){returning=false;return;}
     const destination=document.querySelector<HTMLElement>(`[data-god-event="${selected}"]`);
     if(node&&destination&&!matchMedia('(prefers-reduced-motion: reduce)').matches){const rect=destination.getBoundingClientRect();await node.animate([{transform:'none'},{transform:transform(rect)}],{duration:motionDuration(300),easing:MOTION_EASING,fill:'forwards'}).finished;}
+    if(game.turn.choice||game.turn.queue.length){returning=false;return;}
     close();
   }
   export async function submit(){if(!ready||submitting||reason)return;submitting=true;submittedRevision=game.activity.length;try{await command({type:'god/worshipped',cardId:selected});}finally{submitting=false;}}
@@ -43,7 +45,7 @@
   $effect(()=>{if(submittedRevision>=0&&game.activity.length>submittedRevision&&!game.turn.choice&&!game.turn.queue.length&&!submitting&&effectsSettled)void leave();});
   $effect(()=>{if(choice)submittedRevision=game.activity.length-1;});
 </script>
-<svelte:window onkeydown={event=>{if(event.key==='Escape'&&!choice)void leave();}} />
+<svelte:window onkeydown={event=>{if(event.key==='Escape'&&!game.turn.choice)void leave();}} />
 <section style:visibility={covered?"hidden":undefined} class="worship-overlay" bind:this={node} aria-label={`${event.god} worship`} aria-busy={submitting||returning}>
   <WorshipFace {game} {uid} cardId={selected}/>
   <div class="card-controls">
@@ -56,9 +58,9 @@
       {#if reason}<p role="status">{reason}</p>{/if}
     {/if}
     {#if canUndo(game,uid)}<GameButton disabled={!ready||submitting||returning} onclick={undo}>Undo</GameButton>{/if}
-    {#if error}<p role="alert">{error}</p>{/if}
+    {#if error}<p role="alert">{error}</p>{#if dismissError}<GameButton onclick={dismissError}>Dismiss error</GameButton>{/if}{/if}
   </div>
-  {#if !choice}<button class="close-worship" aria-label="Return worship card" disabled={submitting||returning} onclick={leave}>×</button>{/if}
+  {#if !game.turn.choice}<button class="close-worship" aria-label="Return worship card" disabled={submitting||returning} onclick={leave}>×</button>{/if}
 </section>
 <style>
   .worship-overlay{position:absolute;--overlay-width:min(var(--center-width),76svh);left:calc(var(--center-left) + (var(--center-width) - var(--overlay-width))/2);width:var(--overlay-width);bottom:11%;z-index:40;transform-origin:top left;filter:drop-shadow(0 12px 16px #000b);}

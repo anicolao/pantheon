@@ -1,0 +1,113 @@
+{
+  "stats": {
+    "games": 28000,
+    "uniqueMatchups": 28,
+    "pairedSeedsPerMatchup": 500,
+    "ties": 2979,
+    "maxTurns": 30,
+    "minTurns": 8,
+    "firstPlayerShare": 0.5192678571428572,
+    "stagedComparisons": 50,
+    "trainingTruncations": [
+      {
+        "curriculumStage": "theseus",
+        "stage": "training-truncation",
+        "seed": "eight-house-20261127-v2:theseus:round-1:train-0:51",
+        "replayVerified": true,
+        "trajectory": "/Users/anicolao/projects/games/pantheon/balance-diagnostics/eight-house-league-v2/trajectories/training-truncation-74aa69da4f55b7e231d7401148404b47876acc92752f10f4852fed98f573c12d.json"
+      }
+    ]
+  },
+  "fieldAudit": {
+    "field": "/Users/anicolao/projects/games/pantheon/balance-diagnostics/eight-house-league-v2/consolidation/selected-field.json",
+    "fieldSHA256": "2f127832ceeba9dbaa766dd3063dbad273dd8e6dc081c71c84c79008d7b769f6",
+    "features": 879,
+    "actions": 1174,
+    "actors": [
+      {
+        "leader": "echo",
+        "actorSHA256": "2fdd687c2f752f613e9efeab2c169e69dd5bade5db443f1f97ba0d5e05a18211",
+        "checkpointSHA256": "32abf748d228ca3002f8268c8e1203f60b4aa214cf1a25d77d9174bb90deb9c5",
+        "exactTensorMatch": true
+      },
+      {
+        "leader": "thaleia",
+        "actorSHA256": "2a93f14ad1e6e9bee057bd100f79cd8dd2ba1296c81218fe24c5128c21866967",
+        "checkpointSHA256": "be36480ca315ada43df6f6b4d5182b2425a2c11cd29b54fcc8d76a790bdb4140",
+        "exactTensorMatch": true
+      },
+      {
+        "leader": "nereon",
+        "actorSHA256": "756ddb146ceca3b02f9ec6fdf867985bce8744047371f347d6d7bcbccfe0e3f1",
+        "checkpointSHA256": "77ed17600fa9d7258b789cc84a14075b4dd71fc4ee43e684643a2c4ac0afbf75",
+        "exactTensorMatch": true
+      },
+      {
+        "leader": "melia",
+        "actorSHA256": "53c37c6c7b905d1e0b824449d837fc160b63a9372877e202a819f074d17ae4eb",
+        "checkpointSHA256": "3b65ea9735d59f27c8a9626e81ba6b651aa0588c00fede95b986c5b8bfc0f26a",
+        "exactTensorMatch": true
+      },
+      {
+        "leader": "doreios",
+        "actorSHA256": "01e852895a6f6781c77ff40e0c172dee525282937580aa41b16c38923bc0d412",
+        "checkpointSHA256": "f38a33a022317f5e9a91692eca010822b61f45ad970c46005c0be5f0d9f7e7bc",
+        "exactTensorMatch": true
+      },
+      {
+        "leader": "theseus",
+        "actorSHA256": "2d2142bb4ba4ce5cb0e94871ac541ede0c22a2629870b8787ec49d478ba734b9",
+        "checkpointSHA256": "bb176fcb7e80747b2e5b436e7e833840d0ec3c653052b7ed2fbd80cc0e211ba3",
+        "exactTensorMatch": true
+      },
+      {
+        "leader": "achilles",
+        "actorSHA256": "55540fdc04d955ff82285a5631d004605c8893775a7088731b09c53297c821e7",
+        "checkpointSHA256": "f9a790ffef2689d837bd8ba2d2b4f3ed42e2919156ba1a954549846ef463dfc2",
+        "exactTensorMatch": true
+      },
+      {
+        "leader": "perseus",
+        "actorSHA256": "df16cfcd46a161c8ede7bc981b4ff69c96f32af6a898bef6bbe9596720ba455a",
+        "checkpointSHA256": "628f4a6d0e657be1d20124015c315e45df27d46db09a0ce936ebe1e4824b66f3",
+        "exactTensorMatch": true
+      }
+    ]
+  },
+  "replayAudit": {
+    "games": 28000,
+    "allReconstructed": true,
+    "checks": [
+      "results table equals replay record",
+      "seed identity",
+      "leaders",
+      "starting seat",
+      "finished phase",
+      "equal turns",
+      "score",
+      "turns",
+      "win share",
+      "complete standings"
+    ],
+    "replayHashesSHA256": "a68e3793a87fa721cdd25e70c5f43f71d3062f2a01cd9e57c8217e17b0739b25",
+    "auditSourceSHA256": "b5d48dd094a2a004de248ab70fa44cbe417a4a3eca00f16feef2abe7908e8b71",
+    "protocolSHA256": "ca0e29f151aa353912f8eeec953aadd0ae9bb248948c630224a1842eb98daf4e"
+  },
+  "productionSourceHashes": {
+    "flake.nix": "82b49c2005ac847fb2956af235dc7e72aa104ab3f09d048f9688b60eb93d347c",
+    "flake.lock": "b74ed5dbb4eb2ae1c1c220c16a244c168025ca2c6f49798f2a8fb4509281fb21",
+    "src/lib/game/actions.ts": "8916532eaf8517aee56cd90195d0b4167a97b67467ec7b264dc3e4b620f9e1f2",
+    "src/lib/game/bot-kind.ts": "801b47fc84c452da1d7c603188d76a8d81b23ccd370611e0cde06f89c2e04c0b",
+    "src/lib/game/cards.ts": "e3d8ded026328091551fa57a49aa03d6ce87a1a1fd9474f7fac7bf436c83c536",
+    "src/lib/game/expansion-cards.ts": "b386b0852c8182ebdb105ad8777c943f20605fe23a7730d24de694ef03e7eac4",
+    "src/lib/game/presentation.ts": "a1250e83c0f365def205a55d43bd7e6759df387b75bc65513da9c0ff6080a296",
+    "src/lib/game/public-table.ts": "1450c2a0cbc95e8db51246b140d9e4d468fb89cd27bc14c101c7fb2e8e781bf0",
+    "src/lib/game/random.ts": "4646ebe251940453b1a8a28739644b5f42a2de069b57d7b52ebf01cd836e8af6",
+    "src/lib/game/setup.ts": "c02e6c38ffcd44f9cbeef299ecf74f43f54b1987f7998fd6a2dac857afc40cba",
+    "src/lib/game/types.ts": "16e7035ab3b2caf11437f58c667db3090703bf4031fbd6c16f0ebecc0d2b2ac0",
+    "src/lib/game/undo.ts": "a7763cfe2b495b5f3b438257c606101258f458cdcae4053a5174bfd3cb6431be",
+    "src/lib/bots/rl-runtime.ts": "6e51e9064b6c2d9feeaa97ea5bf5fccbc0a445aad1597fe466a324ffadd31e6e"
+  },
+  "trainingAuditSHA256": "1d198fa3791736ddafbd96e106e692909963fe4b28185b056de041d2a5462886",
+  "analysisSHA256": "1c082457d914a2f58fa3b7e07b5eada21b2358e47d094f41c554d8c010ca86fa"
+}

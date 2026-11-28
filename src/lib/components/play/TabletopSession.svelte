@@ -22,7 +22,7 @@
   import { tablePlayed } from '$lib/components/play/table-play';
   import { tablePurchases } from '$lib/components/play/table-purchases';
   import { replaySetup, allLeaderIds, leaderIds, type SetupState } from '$lib/game/setup';
-  import { activePlayer, canPlayAction, canPlayTreasure, definition, eligibleGains, standings, worshipReason } from '$lib/game/actions';
+  import { activePlayer, canPlayAction, canPlayTreasure, canDeployCard, canDeployTerritory, definition, eligibleGains, standings, worshipReason } from '$lib/game/actions';
   import { canUndo } from '$lib/game/undo';
   import type { GameCommand } from '$lib/backend/setup-repository';
   import type { BotProposal } from '$lib/bots/table';
@@ -171,6 +171,7 @@
     if (!game || !ready || !human) return;
     if (choice && choice.kind !== 'gain') {void interaction?.select(id);return;}
     if (canPlayAction(game, uid, id)) void send({ type: 'action/played', instanceId: id });
+    else if (canDeployTerritory(game, uid, id)) void send({ type: 'territory/deployed', instanceId: id });
     else if (canPlayTreasure(game, uid, id)) void send({ type: 'treasure/played', instanceId: id });
   }
   function inspect(id: string) { if (ready) inspected = id; }
@@ -241,11 +242,11 @@
           aria-label={seat.mode === 'empty' ? `Join ${playerName(id)}` : `Leave ${playerName(id)} seat`}
           onclick={() => seatMode(seat.edge, seat.mode === 'empty' ? 'human' : 'empty')}>
           <Portrait {leader} name={definition(leader).name.split(',')[0]} active={seat.mode !== 'empty'}/>
-          <span>{seat.mode === 'empty' ? 'Tap to join' : seat.mode === 'bot' ? 'Bot · chooses its leader' : `Joined ${occupied.slice().sort((a,b)=>a.joined-b.joined).findIndex(item=>item.edge===seat.edge)+1}`}</span>
+          <span>{seat.mode === 'empty' ? 'Tap to join' : seat.mode === 'bot' ? expansion?'Trained bot':'Bot · chooses its leader' : `Joined ${occupied.slice().sort((a,b)=>a.joined-b.joined).findIndex(item=>item.edge===seat.edge)+1}`}</span>
         </button>
         {#if expansion}<label class="expansion-leader">Leader<select aria-label={seat.edge+' leader'} value={seat.leader} onchange={event=>{table={...table,seats:table.seats.map(item=>item.edge===seat.edge?{...item,leader:event.currentTarget.value as Seat['leader']}:item)};save();}}>
           {#each allLeaderIds as candidate}<option value={candidate} disabled={table.seats.some(item=>item.edge!==seat.edge&&item.leader===candidate)}>{definition(candidate).name.split(',')[0]}</option>{/each}
-        </select></label>{:else}<div class="seat-options"><button class="seat-mode" disabled={!mounted} onclick={() => seatMode(seat.edge, seat.mode === 'bot' ? 'human' : 'bot')}>{seat.mode === 'bot' ? `Play ${playerName(id)} yourself` : `Add bot as ${playerName(id)}`}</button>
+        </select></label><button class="seat-mode" disabled={!mounted} onclick={() => seatMode(seat.edge, seat.mode === 'bot' ? 'human' : 'bot')}>{seat.mode==='bot'?'Play yourself':'Add trained bot'}</button>{:else}<div class="seat-options"><button class="seat-mode" disabled={!mounted} onclick={() => seatMode(seat.edge, seat.mode === 'bot' ? 'human' : 'bot')}>{seat.mode === 'bot' ? `Play ${playerName(id)} yourself` : `Add bot as ${playerName(id)}`}</button>
         {#if seat.mode === 'bot'}<select class="seat-difficulty" aria-label={`Bot difficulty for ${playerName(id)}`} value={seat.botKind??'standard'} onchange={(event)=>{const kind=event.currentTarget.value as BotKind;table={...table,seats:table.seats.map(s=>s.edge===seat.edge?{...s,botKind:kind}:s)};}}>{#each botDifficulties as kind}<option value={kind}>{botLabels[kind]}</option>{/each}</select>{/if}</div>{/if}
       {:else if seat.mode !== 'empty'}
         <div class="edge-line">
@@ -254,14 +255,14 @@
           {#if active && game.phase==='playing' && !finished}
             <div class="turn-status" aria-label={`${playerName(id)} turn status`}>
               <strong>Your turn – {game.turn.phase}</strong>
-              <div class="counters">{#if game.turn.deploy}<EffectIcon effect="Deploy" value={game.turn.deploy}/>{/if}{#each ['actions','coins','buys','worship'] as resource}<ResourceIcon resource={resource as 'actions'|'coins'|'buys'|'worship'} value={game.resources[resource as keyof typeof game.resources]}/>{/each}</div>
+              <div class="counters">{#each game.turn.deploy??[] as repeats}<EffectIcon effect="Deploy" value={repeats}/>{/each}{#each ['actions','coins','buys','worship'] as resource}<ResourceIcon resource={resource as 'actions'|'coins'|'buys'|'worship'} value={game.resources[resource as keyof typeof game.resources]}/>{/each}</div>
             </div>
           {/if}
           </div>
           {#if game.phase === 'playing'}
             <div class="edge-deck" data-public-zone="deck" data-public-uid={id} data-motion-angle={index*90}><ResourceIcon resource="cards" pending={pilePending(id,'deck')} value={game.decks[id].deck.length} label={`${playerName(id)} deck`}/></div>
             <div class="table-hand" data-public-zone="hand" data-public-uid={id} data-motion-angle={index*90} data-hand-total={presentedHand(id).length} data-hand-owner={id} data-face-up={faceUp} style:visibility={active && !faceUp && animating ? 'hidden' : undefined} style:--count={game.decks[id].hand.length}>
-              <HandFan deployEligible={card=>!!game?.turn.deploy&&canPlayAction(game!,id,card.id)} cards={sortHand(presentedHand(id))} uid={id} players={game.playerCount} {faceUp} angle={index*90} measure={active} staged={active?targets:[]}
+              <HandFan deployEligible={card=>!!game&&canDeployCard(game,id,card.id)} cards={sortHand(presentedHand(id))} uid={id} players={game.playerCount} {faceUp} angle={index*90} measure={active} staged={active?targets:[]}
                 disabled={card=>!active||!ready||!human||interactionBusy||targets.includes(card.id)||(!!choice?.filter&&definition(card.cardId).type!==choice.filter)}
                 label={card=>faceUp ? `${choice && choice.kind!=='gain'?'Select':'Play'} ${definition(card.cardId).name}` : `${playerName(id)} face-down card`}
                 activate={card=>handCard(card.id)} inspect={card=>inspect(card.cardId)}/>
@@ -283,7 +284,7 @@
 
   <section class="shared-table" class:finished class:playing={game?.phase==='playing'&&!finished} data-temple-dock={templeDock} style:--table-width={`${tableWidth}px`} bind:this={board} style:--rotation={`${rotation}deg`} aria-label="Shared table" aria-busy={moving || working || animating} data-facing={activeSeat?.edge ?? 'south'}>
     {#if !game}
-      <div class="welcome"><p class="eyebrow">{expansion?"New houses · Human playtest":"One table · Four bloodlines"}</p><h1>Pantheon</h1><p>Choose your edge. Tap your leader.</p><span>{occupied.length} of 4 seats joined</span></div>
+      <div class="welcome"><p class="eyebrow">{expansion?"Eight houses · Trained bots":"One table · Four bloodlines"}</p><h1>Pantheon</h1><p>Choose your edge. Tap your leader.</p><span>{occupied.length} of 4 seats joined</span></div>
       {#each edges as edge, index}
         <div class="start-control" style:--start-angle={`${index * 90}deg`}>
           <button class="start primary" disabled={!mounted || occupied.length < 2} aria-label={`Play facing ${playerName(seatUid(edge))}`} onclick={start}>Play</button>

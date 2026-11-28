@@ -1,0 +1,48 @@
+{
+  "selected": "ppo-8",
+  "accepted": true,
+  "baseline": {
+    "games": 3584,
+    "share": 0.27413504464285715,
+    "blockWilson95CI": [
+      0.25398098140883346,
+      0.2952554323149604
+    ],
+    "meanTurns": 15.241350446428571,
+    "nikeMarketActions": 7,
+    "nikeWorships": 0,
+    "gamesUsingNikeMarketActions": 3,
+    "treasureDeploys": 15691,
+    "treasureDeployResolutions": 15701,
+    "treasureDeployBonusCoins": 17
+  },
+  "candidate": {
+    "games": 3584,
+    "share": 0.34402901785714285,
+    "blockWilson95CI": [
+      0.3223885208480065,
+      0.3663368099384058
+    ],
+    "meanTurns": 14.9765625,
+    "nikeMarketActions": 9615,
+    "nikeWorships": 821,
+    "gamesUsingNikeMarketActions": 1721,
+    "treasureDeploys": 22711,
+    "treasureDeployResolutions": 29117,
+    "treasureDeployBonusCoins": 9461
+  },
+  "paired": {
+    "delta": 0.06989397321428571,
+    "CI95": [
+      0.05445331835281468,
+      0.08533462807575674
+    ],
+    "pairedSeeds": 1792
+  },
+  "actor": {
+    "path": "/Users/anicolao/projects/games/pantheon/balance-diagnostics/treasure-deploy-learning-20261128/exploratory/selected.json",
+    "sha256": "75c4ad8c63d5206777f07a34cc10bf491f91c2a599f05722f5812c8774e478b4"
+  },
+  "checkpoint": "/Users/anicolao/projects/games/pantheon/balance-diagnostics/treasure-deploy-learning-20261128/exploratory/ppo-8.zip",
+  "researchOnly": true
+}
