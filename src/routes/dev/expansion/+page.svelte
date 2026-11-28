@@ -9,7 +9,7 @@
  import CardLayoutReport from '$lib/components/CardLayoutReport.svelte';
  function openDialog(node:HTMLDialogElement){node.showModal();}
  let tab=$state('gallery'),houseFilter=$state('Zeus'),inspected=$state<CardFaceDefinition|null>(null),checks=$state(false),grid=$state<HTMLDivElement>();
- const help:Record<string,string>={Echo:'Borrow an Action from an opponent’s discard. If empty, discard their top deck card and play its effect if any. Return borrowed cards at cleanup.',Seek:'Reveal N from your deck, keep up to one matching card in hand, and discard the rest. Held reveals are excluded from shuffles.',Deploy:'Play the next single Action for free and resolve it N times in total. One physical card, one Devotion. Favored Nike worship grants Deploy 3.',Bind:'Topdeck up to N Territories from opponents’ discards onto their owners’ decks, in your chosen order.'};
+ const help:Record<string,string>={Echo:'Borrow an Action from an opponent’s discard. If empty, discard their top deck card and play its effect if any. Return borrowed cards at cleanup.',Seek:'Reveal N from your deck, keep up to one matching card in hand, and discard the rest. Held reveals are excluded from shuffles.',Deploy:'Play the next Action or Treasure for free and resolve it N times. Each grant applies independently, in order. Treasures keep the current phase and grant no Devotion; Actions grant Devotion once. Favored Nike worship grants Deploy 3.',Bind:'Topdeck up to N Territories from opponents’ discards onto their owners’ decks, in your chosen order.'};
  function view(next:string){tab=next;history.replaceState(null,'',next==='lab'?'#lab':'#gallery');}
  onMount(()=>{if(location.hash==='#lab')location.replace(base+'/dev/animations/?scenario=expansion-ariadnes-thread');});
 </script>
