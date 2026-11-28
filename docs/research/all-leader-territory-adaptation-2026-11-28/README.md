@@ -32,3 +32,11 @@ nix develop /tmp/pantheon-design-nix#rl --command python scripts/rl/expansion/ad
 ## Validation
 
 The transport smoke test completed and replay-verified two games for each of all eight learners, exercising legacy and queue-aware opponents and checkpoint conversion. Svelte/type checking passed. A tiny non-Achilles end-to-end training smoke test separately exercises checkpoint selection, confirmation and actor export; its data is never used for model selection in this study.
+
+## Increased utilization
+
+`accelerate.py` changes only job scheduling. It suspends the original dispatcher process (not its active training children), starts the remaining leader jobs, and fills idle capacity with the already-declared matrix evaluations. All training commands, worker counts, checkpoint selection, source hashes, opponents and seeds remain unchanged. No running training is restarted. Evaluation results are written atomically to the original cache paths; the original dispatcher resumes to build the original reports once the caches are complete.
+
+The live cap is `concurrency.json` in the output directory. It was raised from two to four, five, and finally six simultaneous jobs after observing spare CPU capacity. Each job retains eight simulation workers. `acceleration-status.json` records active jobs, remaining tasks and the original dispatcher PID; `acceleration-failure.json` records errors. Logs are `/tmp/pantheon-all-adapt-accelerator.log` and per-job `parallel-*.log` files. On a handled failure, the accelerator drains its own launched jobs before resuming the original dispatcher, preventing duplicate training or partially written caches.
+
+The initial four-job sample raised total host utilization from approximately 45–50% to 80–83%; five jobs measured 89–92%, and six jobs measured approximately 90–94% with no additional swap-ins or swap-outs during sampling. The first parallel matchup completed 512 unique replay-verified games, balanced 256 per starting seat. Other projects are left untouched.
