@@ -1,0 +1,56 @@
+{
+  "field": "/Users/anicolao/projects/games/pantheon/balance-diagnostics/weakest-eight-house-20261128/selected-field.json",
+  "fieldSHA256": "610c6b16b3a3b20b2cd9e53ab6602570eb90aaf5c4382c3665b360de0b58f518",
+  "features": 879,
+  "actions": 1174,
+  "actors": [
+    {
+      "leader": "echo",
+      "actorSHA256": "f3e11eac692f22ba356705107499be7a7169ee601bb09a565ceb43ee0d71fa8f",
+      "checkpointSHA256": "065b3052c90c29fc40d98abfbbdc1371dc138d45679ad2efe80c59c8b9381956",
+      "exactTensorMatch": true
+    },
+    {
+      "leader": "thaleia",
+      "actorSHA256": "2a93f14ad1e6e9bee057bd100f79cd8dd2ba1296c81218fe24c5128c21866967",
+      "checkpointSHA256": "be36480ca315ada43df6f6b4d5182b2425a2c11cd29b54fcc8d76a790bdb4140",
+      "exactTensorMatch": true
+    },
+    {
+      "leader": "nereon",
+      "actorSHA256": "756ddb146ceca3b02f9ec6fdf867985bce8744047371f347d6d7bcbccfe0e3f1",
+      "checkpointSHA256": "77ed17600fa9d7258b789cc84a14075b4dd71fc4ee43e684643a2c4ac0afbf75",
+      "exactTensorMatch": true
+    },
+    {
+      "leader": "melia",
+      "actorSHA256": "53c37c6c7b905d1e0b824449d837fc160b63a9372877e202a819f074d17ae4eb",
+      "checkpointSHA256": "3b65ea9735d59f27c8a9626e81ba6b651aa0588c00fede95b986c5b8bfc0f26a",
+      "exactTensorMatch": true
+    },
+    {
+      "leader": "doreios",
+      "actorSHA256": "01e852895a6f6781c77ff40e0c172dee525282937580aa41b16c38923bc0d412",
+      "checkpointSHA256": "f38a33a022317f5e9a91692eca010822b61f45ad970c46005c0be5f0d9f7e7bc",
+      "exactTensorMatch": true
+    },
+    {
+      "leader": "theseus",
+      "actorSHA256": "2d2142bb4ba4ce5cb0e94871ac541ede0c22a2629870b8787ec49d478ba734b9",
+      "checkpointSHA256": "bb176fcb7e80747b2e5b436e7e833840d0ec3c653052b7ed2fbd80cc0e211ba3",
+      "exactTensorMatch": true
+    },
+    {
+      "leader": "achilles",
+      "actorSHA256": "62ea8ee439b99a1cc0a702d28c3ae20a0ae455484f4153d702273be7a191da09",
+      "checkpointSHA256": "9c2ebeb98ccded43adf0964e24cd81d80100ef5fbcef6c309755400ebe28235d",
+      "exactTensorMatch": true
+    },
+    {
+      "leader": "perseus",
+      "actorSHA256": "24b19b9b36ffc943f1edf62611ef8a51199d721b3f5e79393c8e9791edae7422",
+      "checkpointSHA256": "6897fa25a8667424474217a3086a4327c332341e22cef270a27ffa2e1c568538",
+      "exactTensorMatch": true
+    }
+  ]
+}
