@@ -30,3 +30,19 @@ Outputs/checkpoints: `balance-diagnostics/perseus-bind-vp-20261128/{standard,exp
 118 targeted tests pass, including full production-driver games with all eight deployed policies. Typechecking has zero errors/warnings. The tests cover exact VP payouts, favoured sequential payouts, skipped and empty choices, payment eligibility, public resource changes, undo, and a once-per-turn Bind 2 leader trigger without coin income.
 
 This is a local experiment. The PR preview remains on the previously deployed rules and models. No trained results or improvement are claimed until evaluation completes.
+
+## Fixed-policy results
+
+All 3,584 matched games replay-verified. Perseus improves from **27.0647% to 37.6814%**, a paired **+10.6166 percentage points** (95% CI **+9.0195 to +12.2138pp**). The positive change appears against all seven frozen opponents. These intervals are descriptive; no multiple-comparison adjustment is applied to individual matchups.
+
+| Opponent | Before | New rules |
+|---|---:|---:|
+| Achilles | 28.32% | 35.84% |
+| Doreios | 40.23% | 53.61% |
+| Echo | 30.76% | 37.79% |
+| Melia | 3.42% | 6.74% |
+| Nereon | 23.24% | 43.75% |
+| Thaleia | 23.73% | 40.62% |
+| Theseus | 39.75% | 45.41% |
+
+The retraining runs are still active. Their initial screening share under the new rules is 37.9464% on 896 fresh games, consistent with the fixed-policy comparison. No trained improvement is claimed yet. The deployed PR preview remains unchanged.
