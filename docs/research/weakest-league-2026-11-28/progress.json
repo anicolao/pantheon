@@ -1,6 +1,16 @@
 {
-  "status": "ongoing",
-  "completedAttempts": 24,
+  "snapshotTime": 1795855002.437601,
+  "complete": false,
+  "completedAttempt": 35,
+  "promoted": [
+    "perseus",
+    "echo",
+    "achilles"
+  ],
+  "escaped": [
+    "perseus",
+    "echo"
+  ],
   "accepted": [
     {
       "attempt": 1,
@@ -201,27 +211,156 @@
         ],
         "meanTurns": 15.626674107142858
       }
+    },
+    {
+      "attempt": 26,
+      "leader": "achilles",
+      "accepted": true,
+      "selected": "ppo-4",
+      "vsIncumbent": {
+        "delta": 0.020368303571428572,
+        "CI95": [
+          0.003654180812366084,
+          0.03708242633049106
+        ],
+        "pairedSeeds": 896
+      },
+      "vsOriginal": {
+        "delta": 0.04547991071428571,
+        "CI95": [
+          0.027636902202128163,
+          0.06332291922644326
+        ],
+        "pairedSeeds": 896
+      },
+      "before": {
+        "games": 1792,
+        "share": 0.283203125,
+        "blockWilson95CI": [
+          0.25467532692518524,
+          0.3135820197011543
+        ],
+        "meanTurns": 15.569754464285714
+      },
+      "after": {
+        "games": 1792,
+        "share": 0.30357142857142855,
+        "blockWilson95CI": [
+          0.27435542434456955,
+          0.3344646168715733
+        ],
+        "meanTurns": 15.314732142857142
+      }
     }
   ],
-  "currentRanking": {
-    "echo": 0.48246173469387754,
-    "thaleia": 0.4830994897959183,
-    "nereon": 0.682716836734694,
-    "melia": 0.7681760204081634,
-    "doreios": 0.4945790816326531,
-    "theseus": 0.49075255102040816,
-    "achilles": 0.2653061224489796,
-    "perseus": 0.3329081632653061
+  "expandedRankingMatrix": {
+    "melia": {
+      "perseus": 0.936,
+      "theseus": 0.7895,
+      "thaleia": 0.593,
+      "echo": 0.8475,
+      "nereon": 0.5285,
+      "achilles": 0.924,
+      "doreios": 0.787
+    },
+    "perseus": {
+      "melia": 0.06399999999999995,
+      "thaleia": 0.32699999999999996,
+      "doreios": 0.357,
+      "theseus": 0.39149999999999996,
+      "echo": 0.476,
+      "nereon": 0.18899999999999995,
+      "achilles": 0.44899999999999995
+    },
+    "echo": {
+      "achilles": 0.6265,
+      "nereon": 0.3325,
+      "melia": 0.1525,
+      "theseus": 0.608,
+      "perseus": 0.524,
+      "doreios": 0.478,
+      "thaleia": 0.574
+    },
+    "achilles": {
+      "echo": 0.37350000000000005,
+      "theseus": 0.36,
+      "doreios": 0.21099999999999997,
+      "thaleia": 0.35550000000000004,
+      "melia": 0.07599999999999996,
+      "nereon": 0.125,
+      "perseus": 0.551
+    },
+    "theseus": {
+      "melia": 0.21050000000000002,
+      "doreios": 0.5855,
+      "thaleia": 0.5565,
+      "echo": 0.392,
+      "perseus": 0.6085,
+      "achilles": 0.64,
+      "nereon": 0.4285
+    },
+    "thaleia": {
+      "melia": 0.407,
+      "perseus": 0.673,
+      "theseus": 0.4435,
+      "nereon": 0.2975,
+      "doreios": 0.371,
+      "achilles": 0.6445,
+      "echo": 0.42600000000000005
+    },
+    "nereon": {
+      "echo": 0.6675,
+      "doreios": 0.654,
+      "melia": 0.4715,
+      "thaleia": 0.7025,
+      "perseus": 0.811,
+      "theseus": 0.5715,
+      "achilles": 0.875
+    },
+    "doreios": {
+      "nereon": 0.346,
+      "theseus": 0.4145,
+      "perseus": 0.643,
+      "echo": 0.522,
+      "thaleia": 0.629,
+      "achilles": 0.789,
+      "melia": 0.21299999999999997
+    }
   },
-  "improved": [
-    "perseus",
-    "echo",
-    "achilles"
+  "runnerHashes": {
+    "curriculum_runner.py": "8a06ca4520b88b3a3649a257ff5dd28384076ed5ff62e967dd25feee7277f954",
+    "score_margin_runner.py": "352635ccd0b7c35591ce8e007b3c776cc3dea43dd14b2196738fcb8f35d5564f",
+    "parallel_attempt.py": "55ff17302ae55dbf9cbdbc00ecc52359f37131e68c4fdf1861dc0ccd22820fd9",
+    "tempo_attempt.py": "784fa2dd81a3c3ddf6efdc56117c83fb7e554869e90491125e0b2a63f6a450ab",
+    "long_attempt.py": "9c91d04b58f2f6e8c7820b781cbb87ed846b0c5f0c81dd8501b62f8cd26306f5",
+    "gae_attempt.py": "988c254b83ae43f79acc3db69c3ce6f70d1d78cc41b2a0d493ea4988ef813780",
+    "bias_search.ts": "a094a12dc737045103cac1cbf2e8e95fb95217645cd8935a4e2893d368379958",
+    "evaluate_bias.py": "0bc33a836dacbdfb0a1ecae23df5c88e7be8be2d84473777b625a9a662fe7e48",
+    "promote_side.py": "60d689203ec1f51d7fc919a147ec7fca9d760164e03144d8999ee1dbf7fb85b2"
+  },
+  "sideResults": {
+    "side-low-rate": {
+      "accepted": false,
+      "selected": "incumbent"
+    },
+    "side-wide": {
+      "accepted": false,
+      "selected": "incumbent"
+    },
+    "bias-search": {
+      "accepted": false,
+      "selected": "incumbent"
+    },
+    "side-echo-rival": {
+      "accepted": false,
+      "selected": "incumbent"
+    }
+  },
+  "activeExperiments": [
+    "main weakest-first loop",
+    "side-win-tempo",
+    "side-long-exploration",
+    "side-gae95"
   ],
-  "escaped": [
-    "perseus",
-    "echo"
-  ],
-  "artifactDirectory": "balance-diagnostics/weakest-eight-house-20261128",
-  "deployment": "unchanged"
+  "deployedWeightsChanged": false
 }
