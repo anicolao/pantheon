@@ -20,11 +20,12 @@ export function expansionFixture(id:string,count:2|3|4,playerIds:string[]):Fixtu
  const worship=definition(cardId).type==='Event';
  const nike=definition(cardId).god==='Nike';
  const deployTarget=subject==='deploy-forge'?'forge-of-heroes':'sacred-academy';
+ const deployPrimer=subject==='deploy-forge'?'bronze-recruit':'council-of-sages';
  const actionBorrow=subject==='borrowed-voice'||subject==='echo-action';
  const opponentAction=subject==='borrowed-voice'?'harbor-pilot':'oracles-acolyte';
  const actor=playerIds[0],other=playerIds[1];
  const leader=leaderFor(cardId),opponent=nike?(subject==='deploy-forge'?'doreios':'thaleia'):echo?'thaleia':'nereon';
- const wanted=worship?[{Zeus:'borrowed-voice',Hermes:'ariadnes-thread',Nike:'rallying-cry',Hades:'polished-shield'}[definition(cardId).god as 'Zeus'|'Hermes'|'Nike'|'Hades'],...(nike?[deployTarget]:[])]:[cardId,...(nike?[deployTarget]:[])];
+ const wanted=worship?[{Zeus:'borrowed-voice',Hermes:'ariadnes-thread',Nike:'rallying-cry',Hades:'polished-shield'}[definition(cardId).god as 'Zeus'|'Hermes'|'Nike'|'Hades'],...(nike?[deployPrimer,deployTarget]:[])]:[cardId,...(nike?[deployTarget]:[])];
  const leaders=[leader,opponent,...allLeaderIds.filter(value=>value!==leader&&value!==opponent)].slice(0,count);
  const names=leaders.map(value=>definition(value).name.split(',')[0]);
  const events:SetupEvent[]=playerIds.map((uid,i)=>({schemaVersion:1,sequence:i+1,actorUid:uid,name:names[i],playerCount:count,type:i?'player/joined':'game/created',...(i?{}:{equalTurns:true})}));
@@ -57,12 +58,23 @@ export function expansionFixture(id:string,count:2|3|4,playerIds:string[]):Fixtu
    const card=hand.find(card=>card.cardId===cardId),temple=hand.find(card=>definition(card.cardId).uniqueStartingCard);
    const echoReady=(!echo&&!actionBorrow) || (actionBorrow?game.decks[other].discard.some(card=>definition(card.cardId).type==='Action'):!game.decks[other].discard.length && definition(game.decks[other].deck[0]?.cardId??'obol').type===(subject==='echo-treasure'?'Treasure':'Territory') && game.decks[other].deck.length>0);
    if(card&&!worship&&echoReady&&(!nike||hand.some(card=>card.cardId===deployTarget)))return {events,actor,trigger:{type:'action/played',instanceId:card.id}};
-   if(worship && temple && wanted.every(id=>hand.some(card=>card.cardId===id))){
+   if(worship && nike){
+    // Build favor and consume the earlier grants through real plays. Draws may
+    // find the other preparation cards, so they need not all start in hand.
+    for(let prep=0;prep<3;prep++){
+     const next=['temple-of-nike','rallying-cry',deployPrimer].map(id=>game.decks[uid].hand.find(card=>card.cardId===id)).find(card=>card&&canPlayAction(game,uid,card.id));
+     if(!next)break;
+     append({type:'action/played',instanceId:next.id});settle();
+    }
+    money();
+    if(game.resources.coins>=3 && !game.turn.deploy?.length && game.decks[uid].play.filter(card=>definition(card.cardId).god==='Nike').length>=2 && game.decks[uid].hand.some(card=>card.cardId===deployTarget))
+     return {events,actor,trigger:{type:'god/worshipped',cardId}};
+   }else if(worship && temple && wanted.every(id=>hand.some(card=>card.cardId===id))){
     append({type:'action/played',instanceId:temple.id});settle();
     const action=game.decks[uid].hand.find(card=>card.cardId===wanted[0])!;
     if(canPlayAction(game,uid,action.id)){append({type:'action/played',instanceId:action.id});settle();}
     money();
-    if(game.resources.coins>=3 && game.decks[uid].play.filter(card=>definition(card.cardId).god===definition(cardId).god).length>=2 && (!nike || game.decks[uid].hand.some(card=>card.cardId===deployTarget)))
+    if(game.resources.coins>=3 && game.decks[uid].play.filter(card=>definition(card.cardId).god===definition(cardId).god).length>=2)
      return {events,actor,trigger:{type:'god/worshipped',cardId}};
    }else if(temple){append({type:'action/played',instanceId:temple.id});settle();}
   }
@@ -72,5 +84,5 @@ export function expansionFixture(id:string,count:2|3|4,playerIds:string[]):Fixtu
   else if(uid===actor && game.resources.coins>=3 && Object.values(game.decks[uid]).flat().filter(card=>card.cardId==='drachma').length<3)append({type:'card/bought',cardId:'drachma'});
   append({type:'turn/ended'});
  }
- throw Error('Could not prepare legal expansion scenario '+id);
+ throw Error('Could not prepare legal expansion scenario '+id+' ('+count+' players)');
 }

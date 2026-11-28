@@ -204,9 +204,9 @@ Seeking gives selection and deck cycling but may discard useful cards along the 
 
 The Deploy instruction itself does not select or play a card. Finish the current effect and leader trigger, then choose the next Action from your hand when you are ready. That card can have been drawn by the Deploy source. You may decline to play another Action; pending Deploy expires at cleanup.
 
-Deploy can permit that next Action during Actions, Treasures, or Buys. It does not restore general Action-phase permissions. If you are in Buys and the repeated card gives Actions, those counters alone cannot play further Actions; a new Deploy can.
+Deploy can permit that next Action during Actions, Treasures, or Buys. It does not restore general Action-phase permissions. If you are in Buys and the repeated card gives Actions, those counters alone cannot play further Actions; another queued Deploy grant can.
 
-The next Action actually played consumes pending Deploy automatically, including an Action borrowed by Echo during a nested effect. A fallback Treasure does not consume it. Choosing to worship or play a Treasure between completed effects does not consume it either.
+The next Action actually played consumes the oldest pending Deploy grant automatically, including an Action borrowed by Echo during a nested effect. A fallback Treasure does not consume it. Choosing to worship or play a Treasure between completed effects does not consume it either.
 
 ### Repeat effects, not physical cards
 
@@ -218,11 +218,11 @@ If the repeated card grants Deploy, those new grants prepare the **next differen
 
 ### Several pending grants
 
-Proposed stacking rule: consume all pending Deploy grants on the next Action, with repetition bonuses added, not multiplied. The card resolves **1 + the sum of (N − 1)** across the pending grants. Any number of Deploy 1 grants still permits only one free resolution of one card; they do not become free plays of multiple cards.
+Each Deploy grant stays independent in a first-in, first-out queue. The next Action consumes only the oldest grant and resolves that many times without spending an Action. The remaining grants apply to later Action plays; their counts are never combined.
 
-For example, pending Deploy 2 and Deploy 3 make the next Action resolve four times. If a Deploy 2 repeats a card that itself grants Deploy 2, its two resolutions leave two Deploy 2 grants; the following Action resolves three times. This retains a compounding engine while keeping every set of pending grants attached to exactly one next card.
+For example, Deploy 2 followed by Deploy 3 permits one Action to resolve twice, then another Action to resolve three times. Two Deploy 1 grants permit two successive free Action plays. If a Deploy 2 repeats a card that grants Deploy 2, its two resolutions append two separate Deploy 2 grants behind any grants already waiting.
 
-This additive stacking is a proposed edge-case rule for agreement. It does not claim to reproduce the exact nesting rules of any other game.
+New grants do not change the repetitions of the card currently resolving. All unused grants expire at cleanup.
 
 ### Achilles, Spearhead of Victory
 
@@ -230,7 +230,7 @@ This additive stacking is a proposed edge-case rule for agreement. It does not c
 
 After you resolve the first Nike Action you play this turn, **Deploy 1.**
 
-This permits the next single Action for free. If another Deploy is already pending, it contributes permission but no extra repetition under the stacking rule.
+This appends an independent Deploy 1 grant. It permits an additional free Action play after any earlier grants have been used.
 
 ### Temple of Nike
 
@@ -272,9 +272,9 @@ During Buys, the permission can be used after the event finishes to play an Acti
 
 ### Example and implications
 
-Achilles plays Phalanx Advance as his first Nike Action. It draws one card and gives Deploy 2. His leader then gives Deploy 1. Together these prepare two resolutions of the next single Action, not three and not two separate cards.
+Achilles plays Phalanx Advance as his first Nike Action. It draws one card and gives Deploy 2. His leader then gives Deploy 1. These remain separate: the next Action resolves twice, and the following Action resolves once, both without spending Actions.
 
-He chooses Harvest Feast. Without spending an Action, he draws two cards, gains one Action, and discards one card; then does the whole sequence again, with a fresh discard choice. Harvest Feast enters play once and contributes one Demeter Devotion. Achilles’s Nike leader does not trigger again.
+He chooses Harvest Feast. Without spending an Action, he draws two cards, gains one Action, and discards one card; then does the whole sequence again, with a fresh discard choice. Harvest Feast enters play once and contributes one Demeter Devotion. Achilles’s Nike leader does not trigger again. His queued Deploy 1 remains available for another Action after Harvest Feast finishes.
 
 Deploy rewards high-value effects and lets a small number of terminal cards do more work. It can produce large resource swings, repeated trash/gain decisions, or repeated attacks. It cannot pay a conditional effect’s cost only once and receive the reward repeatedly.
 

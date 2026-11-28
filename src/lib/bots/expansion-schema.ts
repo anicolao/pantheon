@@ -28,6 +28,8 @@ export const counts=(zone:CardInstance[])=>deckIds.map(id=>zone.filter(c=>c.card
 export function opponents(g:SetupState,uid:string){const i=g.turnOrder.indexOf(uid);return g.turnOrder.slice(i+1).concat(g.turnOrder.slice(0,i));}
 /** Card inventory is publicly reconstructible from starting decks, gains, trash and ownership transfers. No zone/order information from hidden cards enters these counts. */
 export function inventory(g:SetupState,uid:string){return Object.entries(g.decks).flatMap(([holder,zones])=>Object.values(zones).flat().filter(c=>(c.ownerUid??holder)===uid)).concat((g.turn.revealed??[]).filter(c=>(c.ownerUid??activePlayer(g))===uid));}
+// Frozen actors retain the existing next-Action repeat-count feature. Queue depth
+// is deliberately not added during the fixed-weight rules comparison.
 export function observation(g:SetupState,uid=activePlayer(g)){
  const own=g.decks[uid],choice=g.turn.choice,score=standings(g);
  // Compatibility prefix reads only the exact public fields consumed by the frozen feature encoder.
@@ -43,7 +45,7 @@ export function observation(g:SetupState,uid=activePlayer(g)){
  ...['actions','treasures','buys'].map(p=>Number(g.turn.phase===p)),...['trash','discard','gain','echo','seek','bind'].map(k=>Number(choice?.kind===k)),
  ...cards.map(c=>Number(choice?.source===c.id)),g.resources.actions/10,g.resources.coins/20,g.resources.buys/5,g.resources.worship/5,
  Number(g.turn.leaderUsed),Number(!!g.turn.finalRound),(choice?.min??0)/2,(choice?.max??0)/2,(choice?.limit??0)/10,
- choice?.offering==='sum'?1:typeof choice?.offering==='number'?choice.offering/3:0,Number(!!choice?.forge),Number(!!choice?.actionOnly),Number(!!choice?.topdeck),...counts(g.turn.revealed??[]),(g.turn.deploy??0)/4,...['Action','Treasure','Territory'].map(f=>Number(choice?.filter===f)),Number(!!choice?.shield),g.playerCount/4];
+ choice?.offering==='sum'?1:typeof choice?.offering==='number'?choice.offering/3:0,Number(!!choice?.forge),Number(!!choice?.actionOnly),Number(!!choice?.topdeck),...counts(g.turn.revealed??[]),(g.turn.deploy?.[0]??0)/4,...['Action','Treasure','Territory'].map(f=>Number(choice?.filter===f)),Number(!!choice?.shield),g.playerCount/4];
 }
 export function commands(g:SetupState,uid=activePlayer(g)):(ActionCommand|undefined)[]{
  if(g.turn.phase==='finished')return slots.map(()=>undefined);

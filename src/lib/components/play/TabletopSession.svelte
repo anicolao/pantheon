@@ -254,7 +254,7 @@
           {#if active && game.phase==='playing' && !finished}
             <div class="turn-status" aria-label={`${playerName(id)} turn status`}>
               <strong>Your turn – {game.turn.phase}</strong>
-              <div class="counters">{#if game.turn.deploy}<EffectIcon effect="Deploy" value={game.turn.deploy}/>{/if}{#each ['actions','coins','buys','worship'] as resource}<ResourceIcon resource={resource as 'actions'|'coins'|'buys'|'worship'} value={game.resources[resource as keyof typeof game.resources]}/>{/each}</div>
+              <div class="counters">{#each game.turn.deploy??[] as repeats}<EffectIcon effect="Deploy" value={repeats}/>{/each}{#each ['actions','coins','buys','worship'] as resource}<ResourceIcon resource={resource as 'actions'|'coins'|'buys'|'worship'} value={game.resources[resource as keyof typeof game.resources]}/>{/each}</div>
             </div>
           {/if}
           </div>

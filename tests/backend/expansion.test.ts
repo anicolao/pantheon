@@ -45,22 +45,22 @@ test('market preserves old twelve piles and expansion fills four whole houses re
 });
 
 test('Deploy 3 resolves one physical card three times and leader triggers once afterwards',()=>{
- const g=position('theseus',['sacred-academy'],Array(8).fill('obol'));g.turn.deploy=3;g.resources.actions=0;g.turn.phase='buys';
+ const g=position('theseus',['sacred-academy'],Array(8).fill('obol'));g.turn.deploy=[3];g.resources.actions=0;g.turn.phase='buys';
  expect(canPlayAction(g,'a','h0')).toBe(true);play(g,'sacred-academy');
  expect(g.decks.a.hand).toHaveLength(6);expect(g.decks.a.play).toHaveLength(1);expect(g.resources.actions).toBe(3);expect(g.turn.deploy).toBeUndefined();expect(g.turn.phase).toBe('buys');
- const h=position('achilles',['myrmidon-vanguard']);h.turn.deploy=3;play(h,'myrmidon-vanguard');
- expect(h.resources.coins).toBe(6);expect(h.turn.deploy).toBe(1);expect(h.turn.leaderUsed).toBe(true);
+ const h=position('achilles',['myrmidon-vanguard']);h.turn.deploy=[3];play(h,'myrmidon-vanguard');
+ expect(h.resources.coins).toBe(6);expect(h.turn.deploy).toEqual([1,1,1,1]);expect(h.turn.leaderUsed).toBe(true);
  expect(h.movements.filter(m=>m.sequence===h.activity.length&&m.kind==='play')).toHaveLength(1);
 });
 
-test('Deploy stacking adds repetitions; favored worship grants three',()=>{
+test('Deploy grants remain independent; favored worship appends three',()=>{
  expect(worshipEffects('march-of-victory',true)).toEqual([{kind:'deploy',amount:3,source:'march-of-victory'}]);
- const g=position('achilles',[]);g.turn.deploy=2;g.decks.a.play=instances(['temple-of-nike','rallying-cry'],'p');g.sharedEvents=['march-of-victory'];g.resources.coins=3;
- run(g,{type:'god/worshipped',cardId:'march-of-victory'});expect(g.turn.deploy).toBe(4);
+ const g=position('achilles',[]);g.turn.deploy=[2];g.decks.a.play=instances(['temple-of-nike','rallying-cry'],'p');g.sharedEvents=['march-of-victory'];g.resources.coins=3;
+ run(g,{type:'god/worshipped',cardId:'march-of-victory'});expect(g.turn.deploy).toEqual([2,3]);
 });
 
 test('repeated Forge pays separate costs, pauses for each gain, and permits declining',()=>{
- const g=position('achilles',['forge-of-heroes','hamlet','hamlet']);g.turn.deploy=3;play(g,'forge-of-heroes');
+ const g=position('achilles',['forge-of-heroes','hamlet','hamlet']);g.turn.deploy=[3];play(g,'forge-of-heroes');
  for(const id of ['h1','h2']){
   expect(g.turn.choice?.kind).toBe('trash');choose(g,[id]);expect(g.turn.choice?.kind).toBe('gain');choose(g,['drachma']);
  }
@@ -101,7 +101,7 @@ test('Seek holds revealed cards outside reshuffles; keeps only matching card, di
 });
 
 test('Bind chooses across opponents, later placement is above earlier and removes selection',()=>{
- const g=position('theseus',['gorgons-gaze']);g.turn.deploy=2;g.decks.b.discard=instances(['polis','hamlet'],'o');
+ const g=position('theseus',['gorgons-gaze']);g.turn.deploy=[2];g.decks.b.discard=instances(['polis','hamlet'],'o');
  play(g,'gorgons-gaze');const first=choose(g,['o0']);
  expect(effectOptions(g,'a').map(o=>o.id)).toEqual(['o1']);
  expect(first.steps[0].from).toEqual({zone:'discard',uid:'b'});expect(first.steps[0].to).toEqual({zone:'deck',uid:'b'});
@@ -135,7 +135,7 @@ test('nested Echo follows real discard membership and can consume pending Deploy
  g.decks.b.discard=instances(['borrowed-voice','temple-of-zeus'],'o');
  play(g,'borrowed-voice');
  // Grant already pending when Echo finds the next actual Action play.
- g.turn.deploy=2;
+ g.turn.deploy=[2,3];
  choose(g,['o0']);
  expect(g.decks.a.play.filter(card=>card.id==='o0')).toHaveLength(1);
  expect(effectOptions(g,'a').map(option=>option.id)).toEqual(['o1']);
@@ -143,7 +143,7 @@ test('nested Echo follows real discard membership and can consume pending Deploy
  expect(g.turn.choice).toBeNull();
  expect(g.decks.b.discard).toHaveLength(0);
  expect(g.decks.a.play.map(card=>card.id)).toEqual(['h0','o0','o1']);
- expect(g.resources.worship).toBe(2);
+ expect(g.resources.worship).toBe(4);
  expect(g.turn.deploy).toBeUndefined();
  expect(g.movements.filter(move=>move.kind==='resolution'&&move.card?.id==='o0')).toHaveLength(2);
 });
@@ -216,11 +216,12 @@ test('every Nike scenario leaves a legal Deploy target in hand after its trigger
   expect(target).toBeDefined();
   expect(g.turn.choice).toBeNull();
   const repeats=['march-of-victory','deploy-draw','deploy-forge'].includes(subject)?3:subject==='phalanx-advance'?2:1;
-  expect(g.turn.deploy).toBe(repeats);
+  expect(g.turn.deploy?.[0]).toBe(repeats);
+  const remaining=g.turn.deploy!.slice(1);
   expect(canPlayAction(g,uid,target!.id)).toBe(true);
   applyPlayCommand(g,uid,{type:'action/played',instanceId:target!.id},fixture.events.length+2);
   expect(g.decks[uid].play.filter(card=>card.id===target!.id)).toHaveLength(1);
-  expect(g.turn.deploy).toBeUndefined();
+  expect(g.turn.deploy??[]).toEqual(remaining);
  }
 });
 
@@ -245,4 +246,30 @@ test('Seek duplicate stacks preserve physical identities and keep exactly one co
  expect(g.decks.a.hand.map(card=>card.id)).toEqual([selected.id]);
  expect(g.decks.a.discard).toHaveLength(5);
  expect(g.decks.a.discard.filter(card=>card.cardId==='obol')).toHaveLength(2);
+});
+
+
+test('Achilles grants two successive free plays instead of combining their resolutions',()=>{
+ const g=position('achilles',['phalanx-advance','bronze-recruit','bronze-recruit','bronze-recruit']);
+ play(g,'phalanx-advance');expect(g.turn.deploy).toEqual([2,1]);expect(g.resources.actions).toBe(0);
+ g.turn.phase='buys';
+ play(g,'bronze-recruit');expect(g.resources.coins).toBe(4);expect(g.turn.deploy).toEqual([1]);
+ play(g,'bronze-recruit');expect(g.resources.coins).toBe(6);expect(g.turn.deploy).toBeUndefined();
+ expect(g.resources.actions).toBe(0);expect(g.decks.a.play).toHaveLength(3);
+ expect(canPlayAction(g,'a','h3')).toBe(false);
+});
+
+test('repeated Deploy sources append independent grants behind existing ones',()=>{
+ const g=position('theseus',['myrmidon-vanguard','bronze-recruit','bronze-recruit']);g.turn.deploy=[2,3];g.resources.actions=0;g.turn.phase='buys';
+ play(g,'myrmidon-vanguard');expect(g.resources.coins).toBe(4);expect(g.turn.deploy).toEqual([3,1,1]);
+ play(g,'bronze-recruit');expect(g.resources.coins).toBe(10);expect(g.turn.deploy).toEqual([1,1]);
+ play(g,'bronze-recruit');expect(g.resources.coins).toBe(12);expect(g.turn.deploy).toEqual([1]);
+ run(g,{type:'turn/ended'});expect(g.turn.deploy).toBeUndefined();
+});
+
+test('undo restores independent Deploy grants and their order',()=>{
+ const g=position('achilles',['myrmidon-vanguard','bronze-recruit']),history=new UndoHistory();
+ history.apply(g,'a',{type:'action/played',instanceId:'h0'},100);expect(g.turn.deploy).toEqual([1,1]);
+ history.apply(g,'a',{type:'action/played',instanceId:'h1'},101);expect(g.turn.deploy).toEqual([1]);
+ history.apply(g,'a',{type:'action/undone',targetSequence:101},102);expect(g.turn.deploy).toEqual([1,1]);expect(g.resources.coins).toBe(2);
 });

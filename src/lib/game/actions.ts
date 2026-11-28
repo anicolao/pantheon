@@ -29,7 +29,7 @@ export type Effect =
 export type Choice = { id: string; kind: 'trash' | 'discard' | 'gain' | 'echo' | 'seek' | 'bind'; filter?: 'Action' | 'Treasure' | 'Territory'; shield?: boolean; source: string; min: number; max: number; limit?: number; forge?: boolean; offering?: 'sum' | 1 | 3; actionOnly?: boolean; topdeck?: boolean; browsedCardId?: string; selectedCount?: number };
 export type MoveAnchor = {zone:'hand'|'deck'|'play'|'discard'|'reveal';uid:string};
 export type Movement = { notice?: string; batch?: string; from?: MoveAnchor; to?: MoveAnchor; sequence: number; index: number; uid: string; kind: 'play' | 'draw' | 'trash' | 'discard' | 'gain' | 'reveal' | 'topdeck' | 'shuffle' | 'leader' | 'worship' | 'resolution' | 'notice'; card?: CardInstance; source: string; amount?: number };
-export type TurnState = { deploy?: number; revealed?: CardInstance[]; marketFocus?: {cardId:string;sequence:number}; worshipFocus?: string; equalTurns?: boolean; finalRound?: boolean; endTriggeredBy?: string; number: number; index: number; phase: 'actions' | 'treasures' | 'buys' | 'finished'; leaderUsed: boolean; queue: Effect[]; choice: Choice | null; shuffles: Record<string, number>; turns: Record<string, number> };
+export type TurnState = { deploy?: number[]; revealed?: CardInstance[]; marketFocus?: {cardId:string;sequence:number}; worshipFocus?: string; equalTurns?: boolean; finalRound?: boolean; endTriggeredBy?: string; number: number; index: number; phase: 'actions' | 'treasures' | 'buys' | 'finished'; leaderUsed: boolean; queue: Effect[]; choice: Choice | null; shuffles: Record<string, number>; turns: Record<string, number> };
 export function initialTurn(): TurnState { return { equalTurns: true, number: 1, index: 0, phase: 'actions', leaderUsed: false, queue: [], choice: null, shuffles: {}, turns: {} }; }
 export const definition = (id: string) => { const card = cards.find(card => card.id === id); if (!card) throw new Error('Unknown card.'); return card; };
 export const activePlayer = (game: SetupState) => game.turnOrder[game.turn.index];
@@ -63,7 +63,7 @@ export function worshipEffects(id: string, favored: boolean): Effect[] {
   }
 }
 export function canPlayAction(game: SetupState, uid: string, instanceId: string) {
-  return game.phase === 'playing' && activePlayer(game) === uid && ((game.turn.phase === 'actions' && game.resources.actions > 0) || (game.turn.deploy ?? 0) > 0) && !game.turn.choice && game.decks[uid]?.hand.some(card => card.id === instanceId && definition(card.cardId).type === 'Action');
+  return game.phase === 'playing' && activePlayer(game) === uid && ((game.turn.phase === 'actions' && game.resources.actions > 0) || (game.turn.deploy?.length ?? 0) > 0) && !game.turn.choice && game.decks[uid]?.hand.some(card => card.id === instanceId && definition(card.cardId).type === 'Action');
 }
 // Keep historical base-game replays and frozen policy behavior unchanged.
 export function expansionRules(game: SetupState) { return !!game.expansion || Object.values(game.leaders).some(id=>['echo','theseus','achilles','perseus'].includes(id)); }
@@ -204,8 +204,8 @@ export function applyPlayCommand(game: SetupState, uid: string, command: ActionC
     move(kind, source, card); Object.assign(game.movements.at(-1)!, {from,to});
   }
   function playAction(card: CardInstance, source: string, from: MoveAnchor, free = false) {
-    const repeat = game.turn.deploy ?? 0;
-    delete game.turn.deploy;
+    const repeat = game.turn.deploy?.shift() ?? 0;
+    if (!game.turn.deploy?.length) delete game.turn.deploy;
     if (!free && !repeat) game.resources.actions--;
     zones.play.push(card);
     transfer('play', source, card, from, {zone:'play',uid});
@@ -256,7 +256,8 @@ export function applyPlayCommand(game: SetupState, uid: string, command: ActionC
       if (effect.kind === 'resource') { game.resources[effect.resource] += effect.amount; messages.push(`+${effect.amount} ${effect.resource === 'worship' ? 'Worship' : effect.resource}`); }
       else if (effect.kind === 'resolution') {move('resolution',effect.source,effect.card,effect.number);}
       else if (effect.kind === 'deploy') {
-        game.turn.deploy = game.turn.deploy ? game.turn.deploy + effect.amount - 1 : effect.amount;
+        // Each grant applies to a separate future Action, in the order earned.
+        (game.turn.deploy ??= []).push(effect.amount);
         messages.push('Deploy '+effect.amount);
       }
       else if (effect.kind === 'echo' || effect.kind === 'bind') {

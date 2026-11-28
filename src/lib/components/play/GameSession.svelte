@@ -375,7 +375,7 @@
       {/if}
       <EffectOutcome {game} settled={settledRevision>=game.activity.length}/>
       {#if choice && isExpansionChoice(choice)}<EffectChoice {game} {choice} ready={ready && settledRevision>=choiceRevision} readOnly={observing} {command}/>{/if}
-      {#if game.turn.deploy}<div class="deploy-status"><EffectIcon effect="Deploy" value={game.turn.deploy}/><span>Next Action ×{game.turn.deploy}</span></div>{/if}
+      {#if game.turn.deploy}<div class="deploy-status"><EffectIcon effect="Deploy" value={game.turn.deploy[0]}/><span title={game.turn.deploy.map(n=>`Deploy ${n}`).join(" → ")}>Next Action ×{game.turn.deploy[0]}{#if game.turn.deploy.length>1} · {game.turn.deploy.length} free plays queued{/if}</span></div>{/if}
       {#if worshipVisible}<WorshipOverlay bind:this={worshipOverlay} covered={isExpansionChoice(choice)} effectsSettled={settledRevision>=game.activity.length} {game} {uid} selected={worshipChoice?.source ?? worshipEvent} {ready} {error} {dismissError} {command} close={()=>void finishWorshipReturn()} sourceRect={worshipSource} prepareReturn={prepareWorshipReturn} choice={isExpansionChoice(choice)?choice:worshipChoice} targets={worshipTargets} resolve={resolveWorship}/>{/if}
       {#if inlineChoice}{#key inlineChoice.id}<InlineChoice shareSelection bind:this={interaction} {game} {uid} choice={inlineChoice} {ready} {error} {reduced} {command} bind:targets={interactionTargets} bind:busy={interactionBusy} handled={id=>localChoices=[...localChoices.slice(-15),id]}/>{/key}{/if}
       <div class="table-card-measure" bind:clientWidth={tableCardWidth} aria-hidden="true"></div>
