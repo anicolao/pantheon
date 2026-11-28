@@ -90,7 +90,8 @@ def main():
                 screen[label]=summary(assess(model,label,'screen',args.screen))['share']
             best=max(screen,key=screen.get)
             write(folder/'selection.json',dict(selected=best,screen=screen,learningRate=lr,entropy=entropy))
-            state['warm']=dict(leader=leader,checkpoint=str(folder/'ppo-4.zip'))
+            warm_label=best if best!='incumbent' else max((k for k in screen if k!='incumbent'),key=screen.get)
+            state['warm']=dict(leader=leader,checkpoint=str(folder/(warm_label+'.zip')))
             accepted=False;detail={}
             if best!='incumbent':
                 candidate=MaskablePPO.load(folder/best,device='cpu')
