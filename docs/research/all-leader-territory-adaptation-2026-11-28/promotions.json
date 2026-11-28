@@ -1,0 +1,418 @@
+{
+  "echo": {
+    "selected": "ppo-7",
+    "accepted": true,
+    "baseline": {
+      "games": 3584,
+      "share": 0.4155970982142857,
+      "blockWilson95CI": [
+        0.3929832524007532,
+        0.4385720473539689
+      ],
+      "meanTurns": 14.295200892857142,
+      "nikeMarketActions": 296,
+      "nikeWorships": 0,
+      "gamesUsingNikeMarketActions": 116,
+      "territoryDeploys": 917,
+      "territoryDeployDraws": 1454,
+      "treasureDeploys": 187,
+      "treasureDeployResolutions": 318,
+      "treasureDeployBonusCoins": 201
+    },
+    "candidate": {
+      "games": 3584,
+      "share": 0.5732421875,
+      "blockWilson95CI": [
+        0.5502088800343108,
+        0.5959621408396905
+      ],
+      "meanTurns": 13.518415178571429,
+      "nikeMarketActions": 7208,
+      "nikeWorships": 582,
+      "gamesUsingNikeMarketActions": 1070,
+      "territoryDeploys": 5941,
+      "territoryDeployDraws": 9538,
+      "treasureDeploys": 1162,
+      "treasureDeployResolutions": 1982,
+      "treasureDeployBonusCoins": 1122
+    },
+    "paired": {
+      "delta": 0.15764508928571427,
+      "CI95": [
+        0.14017561713313612,
+        0.17511456143829243
+      ],
+      "pairedSeeds": 1792
+    },
+    "actor": {
+      "path": "/Users/anicolao/projects/games/pantheon/balance-diagnostics/all-leader-territory-adaptation-20261128/train-echo/selected.json",
+      "sha256": "7305bed47a99cabe04b8c0f56656373038d6066b143cb09b021a98ab91c4e3df"
+    },
+    "checkpoint": "/Users/anicolao/projects/games/pantheon/balance-diagnostics/all-leader-territory-adaptation-20261128/train-echo/ppo-7.zip",
+    "researchOnly": true
+  },
+  "thaleia": {
+    "selected": "ppo-7",
+    "accepted": true,
+    "baseline": {
+      "games": 3584,
+      "share": 0.4169921875,
+      "blockWilson95CI": [
+        0.3943644244181926,
+        0.4399750852579391
+      ],
+      "meanTurns": 14.573939732142858,
+      "nikeMarketActions": 260,
+      "nikeWorships": 612,
+      "gamesUsingNikeMarketActions": 113,
+      "territoryDeploys": 673,
+      "territoryDeployDraws": 696,
+      "treasureDeploys": 15,
+      "treasureDeployResolutions": 17,
+      "treasureDeployBonusCoins": 3
+    },
+    "candidate": {
+      "games": 3584,
+      "share": 0.5696149553571429,
+      "blockWilson95CI": [
+        0.5465652447369382,
+        0.5923668303413983
+      ],
+      "meanTurns": 13.573939732142858,
+      "nikeMarketActions": 1778,
+      "nikeWorships": 21,
+      "gamesUsingNikeMarketActions": 420,
+      "territoryDeploys": 958,
+      "territoryDeployDraws": 985,
+      "treasureDeploys": 160,
+      "treasureDeployResolutions": 160,
+      "treasureDeployBonusCoins": 0
+    },
+    "paired": {
+      "delta": 0.15262276785714285,
+      "CI95": [
+        0.13415273993867163,
+        0.17109279577561406
+      ],
+      "pairedSeeds": 1792
+    },
+    "actor": {
+      "path": "/Users/anicolao/projects/games/pantheon/balance-diagnostics/all-leader-territory-adaptation-20261128/train-thaleia/selected.json",
+      "sha256": "7db4c9eb1908c7791d4ab192dfed71e31ff1cd93a695f6d438c81df5d5d4f3b2"
+    },
+    "checkpoint": "/Users/anicolao/projects/games/pantheon/balance-diagnostics/all-leader-territory-adaptation-20261128/train-thaleia/ppo-7.zip",
+    "researchOnly": true
+  },
+  "nereon": {
+    "selected": "ppo-8",
+    "accepted": true,
+    "baseline": {
+      "games": 3584,
+      "share": 0.6104910714285714,
+      "blockWilson95CI": [
+        0.5876996381006441,
+        0.6328097876749921
+      ],
+      "meanTurns": 13.776506696428571,
+      "nikeMarketActions": 671,
+      "nikeWorships": 38,
+      "gamesUsingNikeMarketActions": 251,
+      "territoryDeploys": 21,
+      "territoryDeployDraws": 21,
+      "treasureDeploys": 501,
+      "treasureDeployResolutions": 501,
+      "treasureDeployBonusCoins": 0
+    },
+    "candidate": {
+      "games": 3584,
+      "share": 0.6766183035714286,
+      "blockWilson95CI": [
+        0.6546024510195758,
+        0.6978785250308732
+      ],
+      "meanTurns": 13.705915178571429,
+      "nikeMarketActions": 1180,
+      "nikeWorships": 0,
+      "gamesUsingNikeMarketActions": 346,
+      "territoryDeploys": 612,
+      "territoryDeployDraws": 613,
+      "treasureDeploys": 162,
+      "treasureDeployResolutions": 162,
+      "treasureDeployBonusCoins": 0
+    },
+    "paired": {
+      "delta": 0.06612723214285714,
+      "CI95": [
+        0.05167331963054694,
+        0.08058114465516733
+      ],
+      "pairedSeeds": 1792
+    },
+    "actor": {
+      "path": "/Users/anicolao/projects/games/pantheon/balance-diagnostics/all-leader-territory-adaptation-20261128/train-nereon/selected.json",
+      "sha256": "68177bf43681ed5c444b5014b63497366f1f58338c49707599153ecdd7b53568"
+    },
+    "checkpoint": "/Users/anicolao/projects/games/pantheon/balance-diagnostics/all-leader-territory-adaptation-20261128/train-nereon/ppo-8.zip",
+    "researchOnly": true
+  },
+  "melia": {
+    "selected": "ppo-8",
+    "accepted": true,
+    "baseline": {
+      "games": 3584,
+      "share": 0.7234933035714286,
+      "blockWilson95CI": [
+        0.7023229468135269,
+        0.7437074825962829
+      ],
+      "meanTurns": 12.488002232142858,
+      "nikeMarketActions": 11,
+      "nikeWorships": 28,
+      "gamesUsingNikeMarketActions": 9,
+      "territoryDeploys": 8,
+      "territoryDeployDraws": 8,
+      "treasureDeploys": 10,
+      "treasureDeployResolutions": 10,
+      "treasureDeployBonusCoins": 0
+    },
+    "candidate": {
+      "games": 3584,
+      "share": 0.8228236607142857,
+      "blockWilson95CI": [
+        0.8044600946434611,
+        0.8398060811707083
+      ],
+      "meanTurns": 12.552455357142858,
+      "nikeMarketActions": 3,
+      "nikeWorships": 165,
+      "gamesUsingNikeMarketActions": 2,
+      "territoryDeploys": 48,
+      "territoryDeployDraws": 49,
+      "treasureDeploys": 6,
+      "treasureDeployResolutions": 6,
+      "treasureDeployBonusCoins": 0
+    },
+    "paired": {
+      "delta": 0.09933035714285714,
+      "CI95": [
+        0.08503129304273341,
+        0.11362942124298087
+      ],
+      "pairedSeeds": 1792
+    },
+    "actor": {
+      "path": "/Users/anicolao/projects/games/pantheon/balance-diagnostics/all-leader-territory-adaptation-20261128/train-melia/selected.json",
+      "sha256": "b1cbd941c71881754cdb07e82ed274f8c4a804873318bca80b678855c5da9946"
+    },
+    "checkpoint": "/Users/anicolao/projects/games/pantheon/balance-diagnostics/all-leader-territory-adaptation-20261128/train-melia/ppo-8.zip",
+    "researchOnly": true
+  },
+  "doreios": {
+    "selected": "ppo-3",
+    "accepted": true,
+    "baseline": {
+      "games": 3584,
+      "share": 0.45145089285714285,
+      "blockWilson95CI": [
+        0.4285382362566574,
+        0.4745712584782901
+      ],
+      "meanTurns": 13.209821428571429,
+      "nikeMarketActions": 101,
+      "nikeWorships": 189,
+      "gamesUsingNikeMarketActions": 39,
+      "territoryDeploys": 104,
+      "territoryDeployDraws": 104,
+      "treasureDeploys": 36,
+      "treasureDeployResolutions": 36,
+      "treasureDeployBonusCoins": 0
+    },
+    "candidate": {
+      "games": 3584,
+      "share": 0.4976283482142857,
+      "blockWilson95CI": [
+        0.4745081316179666,
+        0.520758711515637
+      ],
+      "meanTurns": 13.554408482142858,
+      "nikeMarketActions": 2555,
+      "nikeWorships": 172,
+      "gamesUsingNikeMarketActions": 547,
+      "territoryDeploys": 758,
+      "territoryDeployDraws": 888,
+      "treasureDeploys": 1535,
+      "treasureDeployResolutions": 1735,
+      "treasureDeployBonusCoins": 209
+    },
+    "paired": {
+      "delta": 0.046177455357142856,
+      "CI95": [
+        0.029716873726233155,
+        0.06263803698805256
+      ],
+      "pairedSeeds": 1792
+    },
+    "actor": {
+      "path": "/Users/anicolao/projects/games/pantheon/balance-diagnostics/all-leader-territory-adaptation-20261128/train-doreios/selected.json",
+      "sha256": "34430589115d2b87814cb0aaa097fc6dbd0d819908f46d241b1cd0fb3ce54f2a"
+    },
+    "checkpoint": "/Users/anicolao/projects/games/pantheon/balance-diagnostics/all-leader-territory-adaptation-20261128/train-doreios/ppo-3.zip",
+    "researchOnly": true
+  },
+  "theseus": {
+    "selected": "ppo-8",
+    "accepted": true,
+    "baseline": {
+      "games": 3584,
+      "share": 0.44140625,
+      "blockWilson95CI": [
+        0.41856503956033636,
+        0.46449814374046244
+      ],
+      "meanTurns": 13.065011160714286,
+      "nikeMarketActions": 44,
+      "nikeWorships": 433,
+      "gamesUsingNikeMarketActions": 32,
+      "territoryDeploys": 425,
+      "territoryDeployDraws": 425,
+      "treasureDeploys": 5,
+      "treasureDeployResolutions": 5,
+      "treasureDeployBonusCoins": 0
+    },
+    "candidate": {
+      "games": 3584,
+      "share": 0.49190848214285715,
+      "blockWilson95CI": [
+        0.46880326358628194,
+        0.5150483188695425
+      ],
+      "meanTurns": 13.136997767857142,
+      "nikeMarketActions": 0,
+      "nikeWorships": 213,
+      "gamesUsingNikeMarketActions": 0,
+      "territoryDeploys": 161,
+      "territoryDeployDraws": 161,
+      "treasureDeploys": 0,
+      "treasureDeployResolutions": 0,
+      "treasureDeployBonusCoins": 0
+    },
+    "paired": {
+      "delta": 0.050502232142857144,
+      "CI95": [
+        0.03525184886045695,
+        0.06575261542525734
+      ],
+      "pairedSeeds": 1792
+    },
+    "actor": {
+      "path": "/Users/anicolao/projects/games/pantheon/balance-diagnostics/all-leader-territory-adaptation-20261128/train-theseus/selected.json",
+      "sha256": "77dd3554fc271d129fb10b211952754f3caf9bf0438d9ebb7919937a4e441779"
+    },
+    "checkpoint": "/Users/anicolao/projects/games/pantheon/balance-diagnostics/all-leader-territory-adaptation-20261128/train-theseus/ppo-8.zip",
+    "researchOnly": true
+  },
+  "achilles": {
+    "selected": "ppo-7",
+    "accepted": true,
+    "baseline": {
+      "games": 3584,
+      "share": 0.6007254464285714,
+      "blockWilson95CI": [
+        0.5778575096213463,
+        0.623162446704423
+      ],
+      "meanTurns": 13.255022321428571,
+      "nikeMarketActions": 51713,
+      "nikeWorships": 660,
+      "gamesUsingNikeMarketActions": 3583,
+      "territoryDeploys": 50543,
+      "territoryDeployDraws": 77360,
+      "treasureDeploys": 11025,
+      "treasureDeployResolutions": 17563,
+      "treasureDeployBonusCoins": 8713
+    },
+    "candidate": {
+      "games": 3584,
+      "share": 0.6265345982142857,
+      "blockWilson95CI": [
+        0.6038895117596879,
+        0.6486383281121579
+      ],
+      "meanTurns": 13.266183035714286,
+      "nikeMarketActions": 51348,
+      "nikeWorships": 3008,
+      "gamesUsingNikeMarketActions": 3583,
+      "territoryDeploys": 51431,
+      "territoryDeployDraws": 78721,
+      "treasureDeploys": 10284,
+      "treasureDeployResolutions": 16324,
+      "treasureDeployBonusCoins": 8031
+    },
+    "paired": {
+      "delta": 0.025809151785714284,
+      "CI95": [
+        0.015216355634952453,
+        0.036401947936476116
+      ],
+      "pairedSeeds": 1792
+    },
+    "actor": {
+      "path": "/Users/anicolao/projects/games/pantheon/balance-diagnostics/all-leader-territory-adaptation-20261128/train-achilles/selected.json",
+      "sha256": "b737d7877ccbc7cf808d4eacdcc9525e5a53abf2b226a7b3139d256958446f24"
+    },
+    "checkpoint": "/Users/anicolao/projects/games/pantheon/balance-diagnostics/all-leader-territory-adaptation-20261128/train-achilles/ppo-7.zip",
+    "researchOnly": true
+  },
+  "perseus": {
+    "selected": "ppo-6",
+    "accepted": true,
+    "baseline": {
+      "games": 3584,
+      "share": 0.28794642857142855,
+      "blockWilson95CI": [
+        0.2674523582624718,
+        0.3093477336832765
+      ],
+      "meanTurns": 14.796037946428571,
+      "nikeMarketActions": 3652,
+      "nikeWorships": 228,
+      "gamesUsingNikeMarketActions": 673,
+      "territoryDeploys": 140,
+      "territoryDeployDraws": 219,
+      "treasureDeploys": 1989,
+      "treasureDeployResolutions": 3978,
+      "treasureDeployBonusCoins": 2966
+    },
+    "candidate": {
+      "games": 3584,
+      "share": 0.3871372767857143,
+      "blockWilson95CI": [
+        0.36484871378066497,
+        0.40990870357730236
+      ],
+      "meanTurns": 15.029854910714286,
+      "nikeMarketActions": 4605,
+      "nikeWorships": 0,
+      "gamesUsingNikeMarketActions": 797,
+      "territoryDeploys": 1450,
+      "territoryDeployDraws": 2892,
+      "treasureDeploys": 761,
+      "treasureDeployResolutions": 1516,
+      "treasureDeployBonusCoins": 1127
+    },
+    "paired": {
+      "delta": 0.09919084821428571,
+      "CI95": [
+        0.08498681088692268,
+        0.11339488554164874
+      ],
+      "pairedSeeds": 1792
+    },
+    "actor": {
+      "path": "/Users/anicolao/projects/games/pantheon/balance-diagnostics/all-leader-territory-adaptation-20261128/train-perseus/selected.json",
+      "sha256": "f79c351c8dba53dd4f1910d64a39342a93b10e92bbe119bc8a515a0e46f7bbe7"
+    },
+    "checkpoint": "/Users/anicolao/projects/games/pantheon/balance-diagnostics/all-leader-territory-adaptation-20261128/train-perseus/ppo-6.zip",
+    "researchOnly": true
+  }
+}

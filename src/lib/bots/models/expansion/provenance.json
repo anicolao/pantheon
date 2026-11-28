@@ -1,5 +1,5 @@
 {
-  "study": "eight-house-league-2026-11-27",
+  "study": "all-leader-territory-adaptation-2026-11-28",
   "field": {
     "stageLeaders": [
       "echo",
@@ -15,48 +15,51 @@
     "focusNewest": false,
     "actors": {
       "echo": {
-        "path": "/Users/anicolao/projects/games/pantheon/balance-diagnostics/eight-house-league-v2/consolidation/round-1/echo/selected.json",
-        "sha256": "2fdd687c2f752f613e9efeab2c169e69dd5bade5db443f1f97ba0d5e05a18211"
+        "path": "/Users/anicolao/projects/games/pantheon/balance-diagnostics/all-leader-territory-adaptation-20261128/train-echo/selected.json",
+        "sha256": "7305bed47a99cabe04b8c0f56656373038d6066b143cb09b021a98ab91c4e3df"
       },
       "thaleia": {
-        "path": "/Users/anicolao/projects/games/pantheon/balance-diagnostics/eight-house-league-v2/consolidation/round-1/thaleia/selected.json",
-        "sha256": "2a93f14ad1e6e9bee057bd100f79cd8dd2ba1296c81218fe24c5128c21866967"
+        "path": "/Users/anicolao/projects/games/pantheon/balance-diagnostics/all-leader-territory-adaptation-20261128/train-thaleia/selected.json",
+        "sha256": "7db4c9eb1908c7791d4ab192dfed71e31ff1cd93a695f6d438c81df5d5d4f3b2"
       },
       "nereon": {
-        "path": "/Users/anicolao/projects/games/pantheon/balance-diagnostics/eight-house-league-v2/consolidation/round-1/nereon/selected.json",
-        "sha256": "756ddb146ceca3b02f9ec6fdf867985bce8744047371f347d6d7bcbccfe0e3f1"
+        "path": "/Users/anicolao/projects/games/pantheon/balance-diagnostics/all-leader-territory-adaptation-20261128/train-nereon/selected.json",
+        "sha256": "68177bf43681ed5c444b5014b63497366f1f58338c49707599153ecdd7b53568"
       },
       "melia": {
-        "path": "/Users/anicolao/projects/games/pantheon/balance-diagnostics/eight-house-league-v2/consolidation/round-1/melia/selected.json",
-        "sha256": "53c37c6c7b905d1e0b824449d837fc160b63a9372877e202a819f074d17ae4eb"
+        "path": "/Users/anicolao/projects/games/pantheon/balance-diagnostics/all-leader-territory-adaptation-20261128/train-melia/selected.json",
+        "sha256": "b1cbd941c71881754cdb07e82ed274f8c4a804873318bca80b678855c5da9946"
       },
       "doreios": {
-        "path": "/Users/anicolao/projects/games/pantheon/balance-diagnostics/eight-house-league-v2/consolidation/round-1/doreios/selected.json",
-        "sha256": "01e852895a6f6781c77ff40e0c172dee525282937580aa41b16c38923bc0d412"
+        "path": "/Users/anicolao/projects/games/pantheon/balance-diagnostics/all-leader-territory-adaptation-20261128/train-doreios/selected.json",
+        "sha256": "34430589115d2b87814cb0aaa097fc6dbd0d819908f46d241b1cd0fb3ce54f2a"
       },
       "theseus": {
-        "path": "/Users/anicolao/projects/games/pantheon/balance-diagnostics/eight-house-league-v2/consolidation/round-1/theseus/selected.json",
-        "sha256": "2d2142bb4ba4ce5cb0e94871ac541ede0c22a2629870b8787ec49d478ba734b9"
+        "path": "/Users/anicolao/projects/games/pantheon/balance-diagnostics/all-leader-territory-adaptation-20261128/train-theseus/selected.json",
+        "sha256": "77dd3554fc271d129fb10b211952754f3caf9bf0438d9ebb7919937a4e441779"
       },
       "achilles": {
-        "path": "/Users/anicolao/projects/games/pantheon/balance-diagnostics/eight-house-league-v2/consolidation/round-1/achilles/selected.json",
-        "sha256": "55540fdc04d955ff82285a5631d004605c8893775a7088731b09c53297c821e7"
+        "path": "/Users/anicolao/projects/games/pantheon/balance-diagnostics/all-leader-territory-adaptation-20261128/train-achilles/selected.json",
+        "sha256": "b737d7877ccbc7cf808d4eacdcc9525e5a53abf2b226a7b3139d256958446f24"
       },
       "perseus": {
-        "path": "/Users/anicolao/projects/games/pantheon/balance-diagnostics/eight-house-league-v2/consolidation/round-1/perseus/selected.json",
-        "sha256": "df16cfcd46a161c8ede7bc981b4ff69c96f32af6a898bef6bbe9596720ba455a"
+        "path": "/Users/anicolao/projects/games/pantheon/balance-diagnostics/all-leader-territory-adaptation-20261128/train-perseus/selected.json",
+        "sha256": "f79c351c8dba53dd4f1910d64a39342a93b10e92bbe119bc8a515a0e46f7bbe7"
       }
     },
     "checkpoints": {
-      "echo": "/Users/anicolao/projects/games/pantheon/balance-diagnostics/eight-house-league-v2/consolidation/round-1/echo/ppo-2.zip",
-      "thaleia": "/Users/anicolao/projects/games/pantheon/balance-diagnostics/eight-house-league-v2/consolidation/round-1/thaleia/ppo-2.zip",
-      "nereon": "/Users/anicolao/projects/games/pantheon/balance-diagnostics/eight-house-league-v2/consolidation/round-1/nereon/ppo-1.zip",
-      "melia": "/Users/anicolao/projects/games/pantheon/balance-diagnostics/eight-house-league-v2/consolidation/round-1/melia/ppo-2.zip",
-      "doreios": "/Users/anicolao/projects/games/pantheon/balance-diagnostics/eight-house-league-v2/consolidation/round-1/doreios/ppo-2.zip",
-      "theseus": "/Users/anicolao/projects/games/pantheon/balance-diagnostics/eight-house-league-v2/consolidation/round-1/theseus/ppo-1.zip",
-      "achilles": "/Users/anicolao/projects/games/pantheon/balance-diagnostics/eight-house-league-v2/consolidation/round-1/achilles/ppo-2.zip",
-      "perseus": "/Users/anicolao/projects/games/pantheon/balance-diagnostics/eight-house-league-v2/consolidation/round-1/perseus/incumbent.zip"
-    }
+      "echo": "/Users/anicolao/projects/games/pantheon/balance-diagnostics/all-leader-territory-adaptation-20261128/train-echo/ppo-7.zip",
+      "thaleia": "/Users/anicolao/projects/games/pantheon/balance-diagnostics/all-leader-territory-adaptation-20261128/train-thaleia/ppo-7.zip",
+      "nereon": "/Users/anicolao/projects/games/pantheon/balance-diagnostics/all-leader-territory-adaptation-20261128/train-nereon/ppo-8.zip",
+      "melia": "/Users/anicolao/projects/games/pantheon/balance-diagnostics/all-leader-territory-adaptation-20261128/train-melia/ppo-8.zip",
+      "doreios": "/Users/anicolao/projects/games/pantheon/balance-diagnostics/all-leader-territory-adaptation-20261128/train-doreios/ppo-3.zip",
+      "theseus": "/Users/anicolao/projects/games/pantheon/balance-diagnostics/all-leader-territory-adaptation-20261128/train-theseus/ppo-8.zip",
+      "achilles": "/Users/anicolao/projects/games/pantheon/balance-diagnostics/all-leader-territory-adaptation-20261128/train-achilles/ppo-7.zip",
+      "perseus": "/Users/anicolao/projects/games/pantheon/balance-diagnostics/all-leader-territory-adaptation-20261128/train-perseus/ppo-6.zip"
+    },
+    "baseField": "/Users/anicolao/projects/games/pantheon/balance-diagnostics/all-leader-territory-adaptation-20261128/base-field.json"
   },
-  "report": "docs/research/eight-house-league-2026-11-27/REPORT.md"
+  "report": "docs/research/all-leader-territory-adaptation-2026-11-28/REPORT.md",
+  "rules": "Independent FIFO Deploy; Action or Treasure repeats; Territory draws once per activation",
+  "features": 916
 }

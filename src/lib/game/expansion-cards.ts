@@ -2,7 +2,7 @@ import type { CardDefinition } from '$lib/game/types';
 export const houses = [
   {god:'Zeus',leader:'Echo',symbol:'◉',color:'#536ca0',theme:'Borrow an opponent’s effects'},
   {god:'Hermes',leader:'Theseus',symbol:'➶',color:'#347e79',theme:'Seek a path through your deck'},
-  {god:'Nike',leader:'Achilles',symbol:'❯',color:'#a76a30',theme:'One Action. Repeated effects.'},
+  {god:'Nike',leader:'Achilles',symbol:'❯',color:'#a76a30',theme:'One card. Repeated effects.'},
   {god:'Hades',leader:'Perseus',symbol:'◆',color:'#76558e',theme:'Turn their Territories into obstacles'}
 ] as const;
 export const proposedCards: CardDefinition[] = [];
