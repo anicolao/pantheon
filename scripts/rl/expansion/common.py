@@ -21,10 +21,10 @@ class Progress(BaseProgress):
             print(json.dumps(dict(stage='training',steps=self.num_timesteps,games=self.games,truncatedTrajectories=self.truncations,recentMeanReward=float(np.mean(self.rewards[-100:])) if self.rewards else None,elapsedSeconds=time.monotonic()-self.started)),flush=True)
         return True
 class Game(gym.Env):
-    def __init__(self,rank,workers,prefix,leader,opponent):
+    def __init__(self,rank,workers,prefix,leader,opponent,deploy_queue=False):
         self.rank,self.workers,self.prefix=rank,workers,prefix
         self.namespace,self.counter='schema',0
-        self.proc=subprocess.Popen(['bun',str(ROOT/'scripts/rl/expansion/bridge.ts'),leader,'teacher',opponent],cwd=ROOT,stdin=subprocess.PIPE,stdout=subprocess.PIPE,text=True,bufsize=1)
+        self.proc=subprocess.Popen(['bun',str(ROOT/'scripts/rl/expansion/bridge.ts'),leader,'teacher',opponent,*(['--deploy-queue'] if deploy_queue else [])],cwd=ROOT,stdin=subprocess.PIPE,stdout=subprocess.PIPE,text=True,bufsize=1)
         s=self.call(dict(op='reset',seed=prefix+':schema:0'))
         self.observation_space=gym.spaces.Box(-np.inf,np.inf,shape=(len(s['observation']),),dtype=np.float32)
         self.action_space=gym.spaces.Discrete(len(s['mask']));self.mask=np.array(s['mask'],dtype=bool)
