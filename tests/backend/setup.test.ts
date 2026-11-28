@@ -424,3 +424,31 @@ test('online expansion rooms retain their mode for guests, reloads and new table
  await assertFails(updateDoc(doc(host,'games',id),{expansion:false}));
  expect(()=>replaySetup([...events,{...events[0],sequence:3,type:'player/automated',botKind:'standard',expansion:undefined}])).toThrow();
 });
+
+test('Territory Deploy authenticates, retries once, and replays its draw',async()=>{
+ const {appendGameCommand}=await import('../../src/lib/backend/setup-repository');
+ const {activePlayer}=await import('../../src/lib/game/actions');
+ const id='territory-deploy',uids=['territory-a','territory-b'],clients=uids.map(database);
+ await enterRoom(clients[0],id,uids[0],'Achilles',2,undefined,true);await enterRoom(clients[1],id,uids[1],'Nereon');
+ const send=(uid:string,key:string,command:Parameters<typeof appendGameCommand>[4])=>appendGameCommand(clients[uids.indexOf(uid)],id,uid,key,command);
+ await send(uids[0],'draft',{type:'draft/started',seed:'territory-deploy-0'});
+ for(const uid of replaySetup(await history(clients[0],id)).draftOrder)await send(uid,'leader-'+uid,{type:'leader/chosen',leaderId:uid===uids[0]?'achilles':'nereon'});
+ for(let turn=0;turn<8;turn++){
+  let state=replaySetup(await history(clients[0],id));const uid=activePlayer(state),temple=state.decks[uid].hand.find(c=>c.cardId==='temple-of-nike');
+  if(temple){
+   await send(uid,'temple-'+turn,{type:'action/played',instanceId:temple.id});state=replaySetup(await history(clients[0],id));
+   const territory=state.decks[uid].hand.find(c=>c.cardId==='hamlet');
+   if(territory){
+    const command={type:'territory/deployed' as const,instanceId:territory.id},before=state.decks[uid].deck.length;
+    await expect(appendGameCommand(clients[1],id,uids[1],'wrong-player',command)).rejects.toThrow();
+    await send(uid,'deploy',command);await send(uid,'deploy',command);
+    const events=await history(clients[0],id),after=replaySetup(events);
+    expect(events.filter(e=>e.type==='territory/deployed')).toHaveLength(1);expect(after.decks[uid].deck.length).toBe(before-1);
+    expect(after.decks[uid].play.some(c=>c.id===territory.id)).toBe(true);expect(after.turn.phase).toBe('actions');expect(after.undo).toBeNull();
+    expect(replaySetup([...events].reverse())).toEqual(after);return;
+   }
+  }
+  await send(uid,'phase-'+turn,{type:'phase/advanced'});await send(uid,'end-'+turn,{type:'turn/ended'});
+ }
+ throw new Error('Expected Nike Temple and Hamlet within the opening deck.');
+});

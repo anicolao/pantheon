@@ -12,6 +12,7 @@ export type ActionCommand =
   | { type: 'phase/advanced'; automatic?: boolean }
   | { type: 'action/undone'; targetSequence: number }
   | { type: 'treasure/played'; instanceId: string }
+  | { type: 'territory/deployed'; instanceId: string }
   | { type: 'treasures/played' }
   | { type: 'card/bought'; cardId: string }
   | { type: 'god/worshipped'; cardId: string }
@@ -72,7 +73,10 @@ export function canPlayTreasure(game: SetupState, uid: string, instanceId: strin
   return game.phase === 'playing' && activePlayer(game) === uid && treasurePhase(game) && !game.turn.choice && game.decks[uid]?.hand.some(card => card.id === instanceId && definition(card.cardId).type === 'Treasure');
 }
 export function canDeployCard(game: SetupState, uid: string, instanceId: string) {
-  return !!game.turn.deploy?.length && (canPlayAction(game, uid, instanceId) || canPlayTreasure(game, uid, instanceId));
+  return !!game.turn.deploy?.length && (canPlayAction(game, uid, instanceId) || canPlayTreasure(game, uid, instanceId) || canDeployTerritory(game, uid, instanceId));
+}
+export function canDeployTerritory(game: SetupState, uid: string, instanceId: string) {
+  return game.phase === 'playing' && activePlayer(game) === uid && ['actions','treasures','buys'].includes(game.turn.phase) && !!game.turn.deploy?.length && !game.turn.choice && !game.turn.queue.length && game.decks[uid]?.hand.some(card => card.id === instanceId && definition(card.cardId).type === 'Territory');
 }
 export function purchaseReason(game: SetupState, uid: string, id: string): string {
   if (game.turn.phase === 'finished') return 'The game is over.';
@@ -89,7 +93,7 @@ export function purchaseReason(game: SetupState, uid: string, id: string): strin
 export function departureReminder(game: SetupState, uid: string) {
   if (game.phase !== 'playing' || activePlayer(game) !== uid || game.turn.choice || game.turn.phase === 'finished') return null;
   const highest = (options: ReturnType<typeof definition>[]) => options.sort((a, b) => (b.cost ?? 0) - (a.cost ?? 0) || (a.id < b.id ? -1 : a.id > b.id ? 1 : 0))[0];
-  const playable = game.decks[uid].hand.filter(card => canPlayAction(game, uid, card.id) || (game.turn.phase !== 'actions' && canPlayTreasure(game, uid, card.id))).map(card => definition(card.cardId));
+  const playable = game.decks[uid].hand.filter(card => canPlayAction(game, uid, card.id) || canDeployTerritory(game, uid, card.id) || (game.turn.phase !== 'actions' && canPlayTreasure(game, uid, card.id))).map(card => definition(card.cardId));
   const card = highest(playable);
   if (card) return { verb: 'play' as const, card };
   if (game.turn.phase === 'actions') return null;
@@ -273,7 +277,7 @@ export function applyPlayCommand(game: SetupState, uid: string, command: ActionC
       if (effect.kind === 'resource') { game.resources[effect.resource] += effect.amount; messages.push(`+${effect.amount} ${effect.resource === 'worship' ? 'Worship' : effect.resource}`); }
       else if (effect.kind === 'resolution') {move('resolution',effect.source,effect.card,effect.number);}
       else if (effect.kind === 'deploy') {
-        // Each grant applies to a separate future Action, in the order earned.
+        // Each grant applies to a separate future card, in the order earned.
         (game.turn.deploy ??= []).push(effect.amount);
         messages.push('Deploy '+effect.amount);
       }
@@ -402,6 +406,16 @@ export function applyPlayCommand(game: SetupState, uid: string, command: ActionC
       game.turn.choice = null; resolve(); break;
     }
     // Phase changes, payment and cleanup are ordinary replayable commands.
+    case 'territory/deployed': {
+      if (!canDeployTerritory(game, uid, command.instanceId)) throw new Error('Deploy a Territory from your hand with a pending Deploy grant.');
+      const card = zones.hand.splice(zones.hand.findIndex(card => card.id === command.instanceId), 1)[0];
+      const repeat = consumeDeploy();
+      zones.play.push(card);
+      transfer('play', card.cardId, card, {zone:'hand',uid}, {zone:'play',uid});
+      for (let i=0;i<repeat;i++) game.turn.queue.push(...(repeat>1?[{kind:'resolution' as const,source:card.cardId,card:{...card},number:i+1}]:[]), {kind:'draw',amount:1,source:card.cardId});
+      messages.push(`deployed ${definition(card.cardId).name}${repeat>1?' ×'+repeat:''}`);
+      resolve(); break;
+    }
     case 'phase/advanced': {
       if (command.automatic !== undefined && typeof command.automatic !== 'boolean') throw new Error('Invalid automatic transition.');
       if (command.automatic && (game.turn.phase !== 'actions' || zones.hand.some(card => canPlayAction(game, uid, card.id) || canDeployCard(game, uid, card.id)))) throw new Error('Automatic Treasure mode requires no playable Actions or Deploy targets.');

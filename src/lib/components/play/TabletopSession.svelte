@@ -22,7 +22,7 @@
   import { tablePlayed } from '$lib/components/play/table-play';
   import { tablePurchases } from '$lib/components/play/table-purchases';
   import { replaySetup, allLeaderIds, leaderIds, type SetupState } from '$lib/game/setup';
-  import { activePlayer, canPlayAction, canPlayTreasure, canDeployCard, definition, eligibleGains, standings, worshipReason } from '$lib/game/actions';
+  import { activePlayer, canPlayAction, canPlayTreasure, canDeployCard, canDeployTerritory, definition, eligibleGains, standings, worshipReason } from '$lib/game/actions';
   import { canUndo } from '$lib/game/undo';
   import type { GameCommand } from '$lib/backend/setup-repository';
   import type { BotProposal } from '$lib/bots/table';
@@ -171,6 +171,7 @@
     if (!game || !ready || !human) return;
     if (choice && choice.kind !== 'gain') {void interaction?.select(id);return;}
     if (canPlayAction(game, uid, id)) void send({ type: 'action/played', instanceId: id });
+    else if (canDeployTerritory(game, uid, id)) void send({ type: 'territory/deployed', instanceId: id });
     else if (canPlayTreasure(game, uid, id)) void send({ type: 'treasure/played', instanceId: id });
   }
   function inspect(id: string) { if (ready) inspected = id; }

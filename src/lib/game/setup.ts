@@ -71,7 +71,7 @@ export function replaySetup(events: SetupEvent[]): SetupState {
     if (state.expansion && event.botKind && event.botKind!=='expansion-rl') throw new Error('Expansion tables require trained expansion bots.');
     if (event.botKind==='expansion-rl' && !state.expansion) throw new Error('This bot requires an expansion table.');
     if (event.equalTurns !== undefined && (event.type !== 'game/created' || typeof event.equalTurns !== 'boolean')) throw new Error('Invalid end-of-game rule.');
-    if (event.type === 'draft/started' || event.type === 'leader/chosen' || ['action/played', 'choice/resolved', 'choice/browsed', 'market/browsed', 'worship/focused', 'choice/staged', 'phase/advanced', 'treasure/played', 'treasures/played', 'card/bought', 'god/worshipped', 'turn/ended', 'action/undone'].includes(event.type)) {
+    if (event.type === 'draft/started' || event.type === 'leader/chosen' || ['action/played', 'choice/resolved', 'choice/browsed', 'market/browsed', 'worship/focused', 'choice/staged', 'phase/advanced', 'territory/deployed', 'treasure/played', 'treasures/played', 'card/bought', 'god/worshipped', 'turn/ended', 'action/undone'].includes(event.type)) {
       if (event.reducerVersion !== 1 || !event.commandId || event.commandId.length > 64 ||
         commandIds.has(event.commandId) ||
         event.playerCount !== state.playerCount || !state.players.some(player => player.uid === event.actorUid && player.name === event.name)) throw new Error('Invalid play event.');

@@ -2,7 +2,7 @@
 import {observation as legacyObservation,slots as legacySlots} from './rl-schema';
 import type {StandardView} from '../../../standard-matrix/policy';
 import {gameCards} from '../game/cards';
-import {activePlayer,canPlayAction,canPlayTreasure,definition,effectOptions,eligibleGains,purchaseReason,worshipReason,standings,type ActionCommand} from '../game/actions';
+import {activePlayer,canPlayAction,canPlayTreasure,canDeployTerritory,definition,effectOptions,eligibleGains,purchaseReason,worshipReason,standings,type ActionCommand} from '../game/actions';
 import type {SetupState,CardInstance} from '../game/setup';
 export const leaders=['echo','thaleia','nereon','melia','doreios','theseus','achilles','perseus'];
 export const cards=gameCards;
@@ -71,6 +71,7 @@ export function commands(g:SetupState,uid=activePlayer(g)):(ActionCommand|undefi
   if(s.kind==='play'){
    const card=hand.find(c=>c.cardId===id);if(!card)return;
    if(canPlayAction(g,uid,card.id))return {type:'action/played',instanceId:card.id};
+   if(canDeployTerritory(g,uid,card.id))return {type:'territory/deployed',instanceId:card.id};
    if(canPlayTreasure(g,uid,card.id))return {type:'treasure/played',instanceId:card.id};
   }
   if(s.kind==='buy'&&!purchaseReason(g,uid,id))return {type:'card/bought',cardId:id};

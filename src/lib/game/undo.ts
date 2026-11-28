@@ -40,7 +40,7 @@ export class UndoHistory {
 }
 function undoLabel(before: Position, uid: string, command: Exclude<ActionCommand, { type: 'action/undone' }>) {
   switch (command.type) {
-    case 'action/played': case 'treasure/played': return `playing ${definition(before.decks[uid].hand.find(card => card.id === command.instanceId)!.cardId).name}`;
+    case 'territory/deployed': case 'action/played': case 'treasure/played': return `playing ${definition(before.decks[uid].hand.find(card => card.id === command.instanceId)!.cardId).name}`;
     case 'treasures/played': return 'playing all Treasures';
     case 'card/bought': return `buying ${definition(command.cardId).name}`;
     case 'god/worshipped': return `worshipping ${definition(command.cardId).god}`;

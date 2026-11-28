@@ -1,3 +1,4 @@
+import {commands as botCommands} from '../../src/lib/bots/expansion-schema';
 import {test,expect} from 'bun:test';
 import {replaySetup,setupSupply,type CardInstance,type SetupState} from '../../src/lib/game/setup';
 import {applyPlayCommand,activePlayer,canPlayAction,canPlayTreasure,definition,effectOptions,worshipEffects,type ActionCommand} from '../../src/lib/game/actions';
@@ -315,3 +316,35 @@ test('a Treasure borrowed through Echo consumes one Deploy grant and still retur
  expect(g.decks.a.play.find(c=>c.id==='o0')?.ownerUid).toBe('b');
  run(g,{type:'phase/advanced'});run(g,{type:'turn/ended'});expect(g.decks.b.discard.map(c=>c.id)).toEqual(['o0']);
 });
+
+test('Territory Deploy draws once per activation, preserves phase, Actions and scoring inventory',()=>{
+ for(const phase of ['actions','treasures','buys'] as const){
+  const g=position('achilles',['hamlet'],['obol','drachma','talent']);g.turn.phase=phase;g.turn.deploy=[3,1];g.resources.actions=0;
+  const entry=run(g,{type:'territory/deployed',instanceId:'h0'});
+  expect(g.turn.deploy).toEqual([1]);expect(g.turn.phase).toBe(phase);expect(g.resources.actions).toBe(0);
+  expect(g.decks.a.hand.map(c=>c.cardId)).toEqual(['obol','drachma','talent']);expect(g.decks.a.play.map(c=>c.cardId)).toEqual(['hamlet']);
+  expect(g.movements.filter(m=>m.source==='hamlet'&&m.kind==='resolution').map(m=>m.amount)).toEqual([1,2,3]);
+  expect(g.turn.leaderUsed).toBe(false);expect(entry.command).toBe('territory/deployed');
+ }
+});
+test('Territories require Deploy and stop automatic phase advance when deployable',()=>{
+ const g=position('achilles',['hamlet']);g.resources.actions=0;
+ expect(()=>run(g,{type:'territory/deployed',instanceId:'h0'})).toThrow('pending Deploy');
+ g.turn.deploy=[1];expect(()=>run(g,{type:'phase/advanced',automatic:true})).toThrow('Deploy targets');
+ run(g,{type:'territory/deployed',instanceId:'h0'});expect(g.turn.deploy).toBeUndefined();
+ expect(()=>run(g,{type:'territory/deployed',instanceId:'d0'})).toThrow('pending Deploy');
+});
+test('Territory draw reshuffles normally, and revealing a card blocks undo',()=>{
+ const g=position('achilles',['hamlet'],[]);g.turn.deploy=[2,1];g.decks.a.discard=instances(['talent'],'discard');
+ const history=new UndoHistory();history.apply(g,'a',{type:'territory/deployed',instanceId:'h0'},100);
+ expect(g.decks.a.hand.map(c=>c.cardId)).toEqual(['talent']);expect(g.turn.deploy).toEqual([1]);expect(g.undo).toBeNull();
+ expect(g.movements.some(m=>m.kind==='shuffle')).toBe(true);
+ expect(()=>history.apply(g,'a',{type:'action/undone',targetSequence:100},101)).toThrow();
+});
+
+ test('bot action masks expose Territory play only while a Deploy grant is available',()=>{
+  const g=position('achilles',['hamlet','obol']);
+  expect(botCommands(g).some(c=>c?.type==='territory/deployed')).toBe(false);
+  g.turn.deploy=[2];expect(botCommands(g).filter(c=>c?.type==='territory/deployed')).toEqual([{type:'territory/deployed',instanceId:'h0'}]);
+  run(g,{type:'territory/deployed',instanceId:'h0'});expect(botCommands(g).some(c=>c?.type==='territory/deployed')).toBe(false);
+ });

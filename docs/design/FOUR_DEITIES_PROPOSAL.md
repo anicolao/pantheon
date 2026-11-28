@@ -198,15 +198,15 @@ Seeking gives selection and deck cycling but may discard useful cards along the 
 
 ## 4. Achilles / Nike — repeat the next Action
 
-### Deploy N: one Action or Treasure, N complete resolutions
+### Deploy N: one Action, Treasure or Territory, N complete resolutions
 
-**Deploy N prepares the next single Action or Treasure you play this turn: play it without spending an Action and resolve its printed effect N times in total.** Deploy 1 means one free play; Deploy 2 means twice; Deploy 3 means three times. N is the total, not the number of extra repetitions.
+**Deploy N prepares the next single Action, Treasure or Territory you play this turn: play it without spending an Action and resolve its effect N times in total.** A deployed Territory draws one card per activation: Deploy 3 draws three cards. It remains one physical Territory in play, keeps its scoring value, grants no Devotion, and does not trigger an Action-only leader ability. Like a deployed Treasure, it preserves the current phase. It cannot be played without a Deploy grant. Draws and shuffles follow the ordinary rules and block undo when they reveal information. Deploy 1 means one free play; Deploy 2 means twice; Deploy 3 means three times. N is the total, not the number of extra repetitions.
 
-The Deploy instruction itself does not select or play a card. Finish the current effect and leader trigger, then choose the next Action or Treasure from your hand when you are ready. That card can have been drawn by the Deploy source. You may decline to play another card; pending Deploy expires at cleanup.
+The Deploy instruction itself does not select or play a card. Finish the current effect and leader trigger, then choose the next Action, Treasure or Territory from your hand when you are ready. That card can have been drawn by the Deploy source. You may decline to play another card; pending Deploy expires at cleanup.
 
-Deploy can permit that next Action or Treasure during Actions, Treasures, or Buys. It does not restore general Action-phase permissions. If you are in Buys and the repeated card gives Actions, those counters alone cannot play further Actions; another queued Deploy grant can.
+Deploy can permit that next Action, Treasure or Territory during Actions, Treasures, or Buys. It does not restore general Action-phase permissions. If you are in Buys and the repeated card gives Actions, those counters alone cannot play further Actions; another queued Deploy grant can.
 
-The next Action or Treasure actually played consumes the oldest pending Deploy grant automatically, including an Action borrowed by Echo during a nested effect. A Treasure borrowed through Echo also consumes the oldest grant. Worship does not consume a grant.
+The next Action, Treasure or Territory actually played consumes the oldest pending Deploy grant automatically, including an Action borrowed by Echo during a nested effect. A Treasure borrowed through Echo also consumes the oldest grant. Worship does not consume a grant.
 
 ### Repeat effects, not physical cards
 
@@ -214,13 +214,13 @@ Put the selected card into play once. Resolve its complete text in order, then r
 
 No voluntary action, Treasure play, purchase, or worship can interrupt those repetitions. Required choices and nested Echo effects finish in their normal order. Resolve the source card’s claimed leader ability once after the entire repeated effect finishes.
 
-If the repeated card grants Deploy, those new grants prepare the **next different Action or Treasure play**. They do not increase the repetitions already assigned to the card currently resolving. A nested Echo that plays another Action can consume a newly granted Deploy before the outer card finishes; its remaining repetitions then continue normally.
+If the repeated card grants Deploy, those new grants prepare the **next different Action, Treasure or Territory play**. They do not increase the repetitions already assigned to the card currently resolving. A nested Echo that plays another Action can consume a newly granted Deploy before the outer card finishes; its remaining repetitions then continue normally.
 
 ### Several pending grants
 
-Each Deploy grant stays independent in a first-in, first-out queue. The next Action or Treasure consumes only the oldest grant and resolves that many times without spending an Action. The remaining grants apply to later Action or Treasure plays; their counts are never combined.
+Each Deploy grant stays independent in a first-in, first-out queue. The next Action, Treasure or Territory consumes only the oldest grant and resolves that many times without spending an Action. The remaining grants apply to later Action, Treasure or Territory plays; their counts are never combined.
 
-For example, Deploy 2 followed by Deploy 3 permits one Action to resolve twice, then another Action to resolve three times. Two Deploy 1 grants permit two successive free Action or Treasure plays. If a Deploy 2 repeats a card that grants Deploy 2, its two resolutions append two separate Deploy 2 grants behind any grants already waiting.
+For example, Deploy 2 followed by Deploy 3 permits one Action to resolve twice, then another Action to resolve three times. Two Deploy 1 grants permit two successive free Action, Treasure or Territory plays. If a Deploy 2 repeats a card that grants Deploy 2, its two resolutions append two separate Deploy 2 grants behind any grants already waiting.
 
 New grants do not change the repetitions of the card currently resolving. All unused grants expire at cleanup.
 
@@ -234,7 +234,7 @@ Play All Treasures processes cards in its existing order. Each Treasure consumes
 
 After you resolve the first Nike Action you play this turn, **Deploy 1.**
 
-This appends an independent Deploy 1 grant. It permits an additional free Action or Treasure play after any earlier grants have been used.
+This appends an independent Deploy 1 grant. It permits an additional free Action, Treasure or Territory play after any earlier grants have been used.
 
 ### Temple of Nike
 
@@ -262,7 +262,7 @@ The former cost limit is removed so every Deploy grant has the same Action-or-Tr
 
 **+1 Card. Deploy 2.**
 
-This doubles one next Action or Treasure instead of allowing two different cards to be played. Favored March of Victory grants Deploy 3, resolving the next Action or Treasure three times.
+This doubles one next Action, Treasure or Territory instead of allowing two different cards to be played. Favored March of Victory grants Deploy 3, resolving the next Action, Treasure or Territory three times.
 
 ### March of Victory
 
@@ -278,7 +278,7 @@ During Buys, the permission can be used after the event finishes to play an Acti
 
 Achilles plays Phalanx Advance as his first Nike Action. It draws one card and gives Deploy 2. His leader then gives Deploy 1. These remain separate: the next Action resolves twice, and the following Action resolves once, both without spending Actions.
 
-He chooses Harvest Feast. Without spending an Action, he draws two cards, gains one Action, and discards one card; then does the whole sequence again, with a fresh discard choice. Harvest Feast enters play once and contributes one Demeter Devotion. Achilles’s Nike leader does not trigger again. His queued Deploy 1 remains available for another Action or Treasure after Harvest Feast finishes.
+He chooses Harvest Feast. Without spending an Action, he draws two cards, gains one Action, and discards one card; then does the whole sequence again, with a fresh discard choice. Harvest Feast enters play once and contributes one Demeter Devotion. Achilles’s Nike leader does not trigger again. His queued Deploy 1 remains available for another Action, Treasure or Territory after Harvest Feast finishes.
 
 Deploy rewards high-value effects and lets a small number of terminal cards do more work. It can produce large resource swings, repeated trash/gain decisions, or repeated attacks. It cannot pay a conditional effect’s cost only once and receive the reward repeatedly.
 
@@ -356,9 +356,9 @@ Bind can be strong against drawing engines, but it can also help someone cycle a
 
 A borrowed Action is a real play for the borrower and can consume pending Deploy. It stays one physical card and returns to its owner once, after all repetitions and at cleanup. Repeat costs are paid with the borrower’s cards and resources each time.
 
-If a repeated Zeus Action gives +1 Echo, each repetition resolves a new Echo opportunity. Cards already borrowed are unavailable in their owners’ discards. If an echoed card grants Deploy, it prepares the borrower’s next actual Action or Treasure, which may be found by a subsequent Echo opportunity.
+If a repeated Zeus Action gives +1 Echo, each repetition resolves a new Echo opportunity. Cards already borrowed are unavailable in their owners’ discards. If an echoed card grants Deploy, it prepares the borrower’s next actual Action, Treasure or Territory, which may be found by a subsequent Echo opportunity.
 
-An Echo source with pending Deploy generated inside its own resolution is not its own next Action. Nested borrowed cards can consume those grants; otherwise they remain for a later Action or Treasure from hand. This prevents self-repetition loops while allowing deliberate combinations.
+An Echo source with pending Deploy generated inside its own resolution is not its own next Action. Nested borrowed cards can consume those grants; otherwise they remain for a later Action, Treasure or Territory from hand. This prevents self-repetition loops while allowing deliberate combinations.
 
 ### Echo and Perseus
 
@@ -414,7 +414,7 @@ Reveal cards in the center, select one into hand, and discard the rest. Update d
 
 ### Deploy
 
-Display how many total resolutions the next Action or Treasure will receive. Once that card is chosen, show one physical card with a visible “1 of N” resolution indicator. Animate its effects for each resolution without creating duplicate cards or Devotion. Show remaining grants separately for subsequent Action or Treasure plays.
+Display how many total resolutions the next Action, Treasure or Territory will receive. Once that card is chosen, show one physical card with a visible “1 of N” resolution indicator. Animate its effects for each resolution without creating duplicate cards or Devotion. Show remaining grants separately for subsequent Action, Treasure or Territory plays.
 
 ### Bind
 
@@ -432,7 +432,7 @@ This draft allows any Action in an opponent’s discard, with no cost cap or for
 
 ### Deploy stacking
 
-Deploy N means N total resolutions of one Action or Treasure, including the free play. Multiple grants remain independent and are consumed in FIFO order; they never combine. The supply cards use Deploy 1 and Deploy 2; Favored March of Victory uses Deploy 3.
+Deploy N means N total resolutions of one Action, Treasure or Territory, including the free play. Multiple grants remain independent and are consumed in FIFO order; they never combine. The supply cards use Deploy 1 and Deploy 2; Favored March of Victory uses Deploy 3.
 
 ### Treasure timing
 
