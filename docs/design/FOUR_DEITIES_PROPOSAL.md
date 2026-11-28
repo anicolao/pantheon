@@ -304,7 +304,7 @@ If a later effect puts a previously moved Territory back in its owner’s discar
 
 **Leader · Hades.**
 
-After you resolve the first Hades Action you play this turn, **Bind 1.**
+After you resolve the first Hades Action you play this turn, **Bind 2.**
 
 ### Temple of Hades
 
@@ -334,17 +334,17 @@ This replaces the obsolete locked-card rescue. It gives a player who drew a topd
 
 ### Stillness of the Underworld
 
-**Worship event · Hades · cost 3 Coins plus 1 Worship.**
+**Worship event · Hades · cost 2 Coins plus 1 Worship.**
 
-**Standard: +1 Coin. Bind 1.**
+**Standard: Bind 1. Gain Coins equal to the bound card’s VP.**
 
-**Favored: +2 Coins. Bind 2.**
+**Favored: Bind 2. Gain Coins equal to the total VP of the bound cards.**
 
-Receive the Coin bonus after paying the full cost. The net Coin cost is two for Standard and one for Favored, with one Worship spent either way. No eligible Territory is required to receive the Coin bonus. The effect does not refund Worship.
+Pay 2 Coins and 1 Worship first. Each Territory actually bound pays its VP: Hamlet 1, Polis 3, Acropolis 6. Skipping a selection or having no eligible Territory pays nothing. Favored worship pays separately for each bound card. Bind from the leader or other cards does not award these Coins. The effect does not refund Worship.
 
 ### Example and implications
 
-Perseus plays Gorgon’s Gaze as his first Hades Action. He gains two Coins and topdecks a Hamlet from Melia’s discard. After the card finishes, his leader Binds again; he topdecks a Polis from her discard above the Hamlet. Melia’s next two draws will be Polis then Hamlet unless another effect changes her deck first.
+Perseus plays Gorgon’s Gaze as his first Hades Action. He gains two Coins and topdecks a Hamlet from Melia’s discard. After the card finishes, his leader grants Bind 2; he can topdeck two more Territories. Each later selection goes above earlier cards on its owner’s deck. No extra Coins are earned by the leader trigger.
 
 A player normally already holds the hand drawn at the end of their previous turn. Bind therefore often disrupts their next extra draws or the hand drawn at their next cleanup, **not the hand they already hold**. It never forcibly skips a phase or a turn.
 

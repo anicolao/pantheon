@@ -348,3 +348,35 @@ test('Territory draw reshuffles normally, and revealing a card blocks undo',()=>
   g.turn.deploy=[2];expect(botCommands(g).filter(c=>c?.type==='territory/deployed')).toEqual([{type:'territory/deployed',instanceId:'h0'}]);
   run(g,{type:'territory/deployed',instanceId:'h0'});expect(botCommands(g).some(c=>c?.type==='territory/deployed')).toBe(false);
  });
+
+test('Stillness costs two and pays actual bound VP, with no upfront Coins',()=>{
+ for(const [cardId,vp] of [['hamlet',1],['polis',3],['acropolis',6]] as const){
+  const g=position('perseus',[]);g.resources.coins=2;g.decks.b.discard=instances([cardId],'bound');
+  if(!g.sharedEvents.includes('stillness-of-the-underworld'))g.sharedEvents.push('stillness-of-the-underworld');
+  run(g,{type:'god/worshipped',cardId:'stillness-of-the-underworld'});
+  expect(g.resources.coins).toBe(0);expect(g.resources.worship).toBe(0);
+  const entry=choose(g,['bound0']);expect(g.resources.coins).toBe(vp);expect(entry.change?.coins).toBe(vp);expect(g.turn.choice).toBeNull();
+ }
+});
+test('favoured Stillness pays each binding, and undo restores both Coins and the public card',()=>{
+ const g=position('perseus',[]);g.resources.coins=2;g.sharedEvents=['stillness-of-the-underworld'];
+ g.decks.a.play=instances(['temple-of-hades','polished-shield'],'devotion');g.decks.b.discard=instances(['polis','acropolis'],'bound');
+ const history=new UndoHistory();history.apply(g,'a',{type:'god/worshipped',cardId:'stillness-of-the-underworld'},100);
+ history.apply(g,'a',{type:'choice/resolved',choiceId:g.turn.choice!.id,targets:['bound0']},101);expect(g.resources.coins).toBe(3);
+ history.apply(g,'a',{type:'choice/resolved',choiceId:g.turn.choice!.id,targets:['bound1']},102);expect(g.resources.coins).toBe(9);expect(g.turn.choice).toBeNull();
+ history.apply(g,'a',{type:'action/undone',targetSequence:102},103);expect(g.resources.coins).toBe(3);expect(g.decks.b.discard.map(c=>c.cardId)).toEqual(['acropolis']);expect(g.turn.choice?.kind).toBe('bind');
+});
+test('Stillness pays nothing for empty or declined Binds, and requires payment first',()=>{
+ for(const discard of [[],['hamlet']]){
+  const g=position('perseus',[]);g.sharedEvents=['stillness-of-the-underworld'];g.resources.coins=1;g.decks.b.discard=instances(discard,'bound');
+  expect(()=>run(g,{type:'god/worshipped',cardId:'stillness-of-the-underworld'})).toThrow();g.resources.coins=2;
+  run(g,{type:'god/worshipped',cardId:'stillness-of-the-underworld'});if(g.turn.choice)choose(g,[]);
+  expect(g.resources.coins).toBe(0);expect(g.resources.worship).toBe(0);expect(g.turn.choice).toBeNull();
+ }
+});
+test('Perseus triggers Bind 2 once after his first Hades Action without worship Coins',()=>{
+ const g=position('perseus',['temple-of-hades','gorgons-gaze']);g.decks.b.discard=instances(['hamlet','polis','acropolis'],'bound');
+ play(g,'temple-of-hades');expect(g.turn.choice?.source).toBe('perseus');choose(g,['bound0']);expect(g.turn.choice?.source).toBe('perseus');choose(g,['bound1']);
+ expect(g.turn.choice).toBeNull();expect(g.resources.coins).toBe(0);expect(g.turn.leaderUsed).toBe(true);
+ play(g,'gorgons-gaze');choose(g,['bound2']);expect(g.resources.coins).toBe(2);expect(g.turn.choice).toBeNull();
+});

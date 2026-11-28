@@ -11,7 +11,7 @@ function add(god:CardDefinition['god'],id:string,name:string,type:CardDefinition
 }
 for(const house of houses){
  const {god,leader}=house;
- const trigger=god==='Zeus'?'+1 Echo.':god==='Hermes'?'Seek 2 for an Action.':god==='Nike'?'Deploy 1.':'Bind 1.';
+ const trigger=god==='Zeus'?'+1 Echo.':god==='Hermes'?'Seek 2 for an Action.':god==='Nike'?'Deploy 1.':'Bind 2.';
  add(god,leader.toLowerCase(),leader,'Leader',null,`After you resolve the first ${god} Action you play this turn, ${trigger}`);
  add(god,`temple-of-${god.toLowerCase()}`,`Temple of ${god}`,'Action',0,'+1 Worship; +1 Action.',undefined,true);
  if(god==='Zeus'){
@@ -33,6 +33,6 @@ for(const house of houses){
   add(god,'polished-shield','Polished Shield','Action',2,'+1 Card; +1 Action. You may discard 1 Territory from your hand. If you do, +1 Card.');
   add(god,'gorgons-gaze','Gorgon’s Gaze','Action',4,'+2 Coins. Bind 1.');
   add(god,'harpe-bearer','Harpe Bearer','Action',5,'+2 Cards. Bind 1.');
-  add(god,'stillness-of-the-underworld','Stillness of the Underworld','Event',3,'+1 Coin. Bind 1.','+2 Coins. Bind 2.');
+  add(god,'stillness-of-the-underworld','Stillness of the Underworld','Event',2,'Bind 1. Gain Coins equal to the bound card’s VP.','Bind 2. Gain Coins equal to the total VP of the bound cards.');
  }
 }

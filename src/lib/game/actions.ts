@@ -55,7 +55,7 @@ export function worshipEffects(id: string, favored: boolean): Effect[] {
     case 'reverberation': return [{kind:'echo',amount:favored?2:1,source:id}];
     case 'open-the-hidden-way': return [{kind:'seek',amount:favored?6:4,source:id},...(favored?[resource(id,'actions',1)]:[])];
     case 'march-of-victory': return [{kind:'deploy',amount:favored?3:1,source:id}];
-    case 'stillness-of-the-underworld': return [resource(id,'coins',favored?2:1),{kind:'bind',amount:favored?2:1,source:id}];
+    case 'stillness-of-the-underworld': return [{kind:'bind',amount:favored?2:1,source:id}];
     case 'counsel-of-olympus': return [{ kind: 'gain', source: id, limit: favored ? 5 : 3, actionOnly: true, topdeck: true }];
     case 'tribute-of-the-tides': return [{ kind: 'gain', source: id, limit: 3, cardId: 'drachma', topdeck: favored }, ...(favored ? [buy] : [])];
     case 'blessing-of-the-fields': return [{ kind: 'trash', source: id, amount: 2, ...(favored ? { offering: 'sum' as const } : {}) }, ...(favored ? [buy] : [])];
@@ -152,7 +152,7 @@ export function leaderEffects(id: string, variant: PlayVariant = 'standard'): Ef
   if (id === 'echo') return [{kind:'echo',amount:1,source:id}];
   if (id === 'theseus') return [{kind:'seek',amount:2,filter:'Action',source:id}];
   if (id === 'achilles') return [{kind:'deploy',amount:1,source:id}];
-  if (id === 'perseus') return [{kind:'bind',amount:1,source:id}];
+  if (id === 'perseus') return [{kind:'bind',amount:2,source:id}];
   if (id === 'thaleia') return [resource(id, 'actions', variant === 'thaleia-actions' ? 2 : 1),
     ...(variant === 'thaleia-buy' ? [resource(id, 'buys', 1)] : []),
     ...(variant === 'thaleia-draw' || variant === 'leader-buffs' ? [{ kind: 'draw' as const, source: id, amount: 1 }] : [])];
@@ -373,6 +373,10 @@ export function applyPlayCommand(game: SetupState, uid: string, command: ActionC
             const card=opponent.discard.splice(opponent.discard.findIndex(card=>card.id===selected.id),1)[0];
             opponent.deck.unshift(card);
             transfer('topdeck',choice.source,card,{zone:'discard',uid:selected.uid},{zone:'deck',uid:selected.uid});
+            if(choice.source==='stillness-of-the-underworld'){
+              const coins=definition(card.cardId).vp??0;game.resources.coins+=coins;
+              messages.push(`+${coins} ${coins===1?'Coin':'Coins'} from binding ${definition(card.cardId).name}`);
+            }
           }else{
             let card=selected.card;
             if(!card){
