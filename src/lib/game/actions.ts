@@ -71,6 +71,9 @@ function treasurePhase(game:SetupState) { return ['actions','treasures'].include
 export function canPlayTreasure(game: SetupState, uid: string, instanceId: string) {
   return game.phase === 'playing' && activePlayer(game) === uid && treasurePhase(game) && !game.turn.choice && game.decks[uid]?.hand.some(card => card.id === instanceId && definition(card.cardId).type === 'Treasure');
 }
+export function canDeployCard(game: SetupState, uid: string, instanceId: string) {
+  return !!game.turn.deploy?.length && (canPlayAction(game, uid, instanceId) || canPlayTreasure(game, uid, instanceId));
+}
 export function purchaseReason(game: SetupState, uid: string, id: string): string {
   if (game.turn.phase === 'finished') return 'The game is over.';
   if (activePlayer(game) !== uid) return 'Wait for your turn.';
@@ -204,8 +207,7 @@ export function applyPlayCommand(game: SetupState, uid: string, command: ActionC
     move(kind, source, card); Object.assign(game.movements.at(-1)!, {from,to});
   }
   function playAction(card: CardInstance, source: string, from: MoveAnchor, free = false) {
-    const repeat = game.turn.deploy?.shift() ?? 0;
-    if (!game.turn.deploy?.length) delete game.turn.deploy;
+    const repeat = consumeDeploy();
     if (!free && !repeat) game.resources.actions--;
     zones.play.push(card);
     transfer('play', source, card, from, {zone:'play',uid});
@@ -217,14 +219,29 @@ export function applyPlayCommand(game: SetupState, uid: string, command: ActionC
     game.turn.queue.unshift(...effects);
     messages.push('played '+definition(card.cardId).name+(repeat>1?' ×'+repeat:''));
   }
+  function consumeDeploy() {
+    const repeat = game.turn.deploy?.shift() ?? 0;
+    if (!game.turn.deploy?.length) delete game.turn.deploy;
+    return repeat;
+  }
+  function resolveTreasure(card: CardInstance, source: string, from?: MoveAnchor) {
+    const repeat = consumeDeploy(), value = ({obol:1,drachma:2,talent:3}[card.cardId] ?? 0);
+    zones.play.push(card);
+    if (from) transfer('play',source,card,from,{zone:'play',uid});
+    else move('play',source,card);
+    for(let i=0;i<Math.max(1,repeat);i++) {
+      if(repeat>1)move('resolution',source,card,i+1);
+      game.resources.coins+=value;
+    }
+    return {repeat,coins:value*Math.max(1,repeat)};
+  }
   function borrow(card: CardInstance, owner: string, source: string) {
     card.ownerUid = owner;
     messages.push(`borrowed ${definition(card.cardId).name} from ${game.players.find(player=>player.uid===owner)!.name}`);
     if (definition(card.cardId).type === 'Action') playAction(card,source,{zone:'discard',uid:owner},true);
     else {
-      zones.play.push(card); const value=({obol:1,drachma:2,talent:3}[card.cardId] ?? 0); game.resources.coins += value;
-      messages.push(`played ${definition(card.cardId).name}, +${value} ${value===1?'Coin':'Coins'}; returns to its owner at cleanup`);
-      transfer('play',source,card,{zone:'discard',uid:owner},{zone:'play',uid});
+      const {repeat,coins}=resolveTreasure(card,source,{zone:'discard',uid:owner});
+      messages.push(`played ${definition(card.cardId).name}${repeat>1?' ×'+repeat:''}, +${coins} ${coins===1?'Coin':'Coins'}; returns to its owner at cleanup`);
     }
   }
   function takeTop(source: string) {
@@ -387,23 +404,27 @@ export function applyPlayCommand(game: SetupState, uid: string, command: ActionC
     // Phase changes, payment and cleanup are ordinary replayable commands.
     case 'phase/advanced': {
       if (command.automatic !== undefined && typeof command.automatic !== 'boolean') throw new Error('Invalid automatic transition.');
-      if (command.automatic && (game.turn.phase !== 'actions' || zones.hand.some(card => canPlayAction(game, uid, card.id)))) throw new Error('Automatic Treasure mode requires no playable Actions.');
+      if (command.automatic && (game.turn.phase !== 'actions' || zones.hand.some(card => canPlayAction(game, uid, card.id) || canDeployCard(game, uid, card.id)))) throw new Error('Automatic Treasure mode requires no playable Actions or Deploy targets.');
       if (game.turn.phase === 'buys') throw new Error('You are already in the Buy phase.');
       game.turn.phase = game.turn.phase === 'actions' ? 'treasures' : 'buys'; messages.push(`entered the ${game.turn.phase === 'treasures' ? 'Treasure' : 'Buy'} phase`); break;
     }
     case 'treasures/played': {
       const treasures = zones.hand.filter(card => definition(card.cardId).type === 'Treasure');
       if (!treasurePhase(game) || !treasures.length) throw new Error('There are no Treasures to play.');
-      if(game.turn.phase!=='buys')game.turn.phase = 'treasures';
-      for (const card of treasures) { zones.hand.splice(zones.hand.findIndex(item => item.id === card.id), 1); zones.play.push(card); const value = { obol: 1, drachma: 2, talent: 3 }[card.cardId]!; game.resources.coins += value; move('play', card.cardId, card); messages.push(`played ${definition(card.cardId).name}, +${value} coins`); }
+      for (const card of treasures) {
+        zones.hand.splice(zones.hand.findIndex(item => item.id === card.id), 1);
+        const {repeat,coins}=resolveTreasure(card,card.cardId);
+        if(!repeat && game.turn.phase!=='buys')game.turn.phase='treasures';
+        messages.push(`played ${definition(card.cardId).name}${repeat>1?' ×'+repeat:''}, +${coins} coins`);
+      }
       break;
     }
     case 'treasure/played': {
       const index = zones.hand.findIndex(card => card.id === command.instanceId);
       if (!treasurePhase(game) || index < 0 || definition(zones.hand[index].cardId).type !== 'Treasure') throw new Error('Play a Treasure from your hand in the Treasure phase.');
-      if(game.turn.phase!=='buys')game.turn.phase = 'treasures';
-      const card = zones.hand.splice(index, 1)[0]; zones.play.push(card); const value = { obol: 1, drachma: 2, talent: 3 }[card.cardId]!;
-      game.resources.coins += value; move('play', card.cardId, card); messages.push(`played ${definition(card.cardId).name}, +${value} coins`); break;
+      const card = zones.hand.splice(index, 1)[0], {repeat,coins}=resolveTreasure(card,card.cardId);
+      if(!repeat && game.turn.phase!=='buys')game.turn.phase = 'treasures';
+      messages.push(`played ${definition(card.cardId).name}${repeat>1?' ×'+repeat:''}, +${coins} coins`); break;
     }
     case 'card/bought': {
       const card = definition(command.cardId);

@@ -36,7 +36,7 @@
   import type { PublicActivity } from '$lib/game/public-table';
   import PublicMotion from './PublicMotion.svelte';
   import SupplyCoverflow from './SupplyCoverflow.svelte';
-  import { activePlayer, canPlayAction, canPlayTreasure, departureReminder, definition, standings, eligibleGains } from '$lib/game/actions';
+  import { activePlayer, canPlayAction, canPlayTreasure, canDeployCard, departureReminder, definition, standings, eligibleGains } from '$lib/game/actions';
 
   let { game, uid, roomId, status, busy, error, dismissError, command, retry, again, onSettled, onReady, motionRate = 1 }: {
     game: SetupState; uid: string; roomId: string; status: string; busy: boolean; error: string;
@@ -251,7 +251,7 @@
   $effect(()=>{if(game.turn.phase==='finished')untrack(()=>{resultsOpen=!modal;});});
   async function leaveResults(chronicle=false){resultsOpen=false;await tick();document.querySelector<HTMLButtonElement>('.final-control button')?.focus();if(chronicle)await open('chronicle');}
   const ready = $derived(status === 'synced' && !busy && !automated && handoffSettled>=handoffRevision && settledRevision >= Math.max(drawRevision, choiceRevision));
-  const automaticTreasures = $derived(game.phase === 'playing' && turnUid === uid && game.turn.phase === 'actions' && !choice && !game.turn.queue.length && !own.hand.some(card => canPlayAction(game, uid, card.id)));
+  const automaticTreasures = $derived(game.phase === 'playing' && turnUid === uid && game.turn.phase === 'actions' && !choice && !game.turn.queue.length && !own.hand.some(card => canPlayAction(game, uid, card.id) || canDeployCard(game, uid, card.id)));
   let automaticPhaseRevision = -1;
   $effect(() => {
     if (!ready || !automaticTreasures) return;
@@ -375,7 +375,7 @@
       {/if}
       <EffectOutcome {game} settled={settledRevision>=game.activity.length}/>
       {#if choice && isExpansionChoice(choice)}<EffectChoice {game} {choice} ready={ready && settledRevision>=choiceRevision} readOnly={observing} {command}/>{/if}
-      {#if game.turn.deploy}<div class="deploy-status"><EffectIcon effect="Deploy" value={game.turn.deploy[0]}/><span title={game.turn.deploy.map(n=>`Deploy ${n}`).join(" → ")}>Next Action ×{game.turn.deploy[0]}{#if game.turn.deploy.length>1} · {game.turn.deploy.length} free plays queued{/if}</span></div>{/if}
+      {#if game.turn.deploy}<div class="deploy-status"><EffectIcon effect="Deploy" value={game.turn.deploy[0]}/><span title={game.turn.deploy.map(n=>`Deploy ${n}`).join(" → ")}>Next Action/Treasure ×{game.turn.deploy[0]}{#if game.turn.deploy.length>1} · {game.turn.deploy.length} free plays queued{/if}</span></div>{/if}
       {#if worshipVisible}<WorshipOverlay bind:this={worshipOverlay} covered={isExpansionChoice(choice)} effectsSettled={settledRevision>=game.activity.length} {game} {uid} selected={worshipChoice?.source ?? worshipEvent} {ready} {error} {dismissError} {command} close={()=>void finishWorshipReturn()} sourceRect={worshipSource} prepareReturn={prepareWorshipReturn} choice={isExpansionChoice(choice)?choice:worshipChoice} targets={worshipTargets} resolve={resolveWorship}/>{/if}
       {#if inlineChoice}{#key inlineChoice.id}<InlineChoice shareSelection bind:this={interaction} {game} {uid} choice={inlineChoice} {ready} {error} {reduced} {command} bind:targets={interactionTargets} bind:busy={interactionBusy} handled={id=>localChoices=[...localChoices.slice(-15),id]}/>{/key}{/if}
       <div class="table-card-measure" bind:clientWidth={tableCardWidth} aria-hidden="true"></div>
@@ -418,7 +418,7 @@
       {#if !isExpansionChoice(choice) && (revealed || lastPublic) && game.publicActivity.find(entry=>entry.sequence===latestActivity?.sequence)?.command!=='card/bought'}{#key latestActivity?.sequence}<button inert={!!inlineChoice || worshipVisible || !!drawer} class="outcome" style:visibility={tableStop && settledRevision >= tableStop.sequence ? 'hidden' : undefined} data-motion-key={tableStop ? `reveal:${tableStop.card!.id}` : undefined} data-motion-card={tableStop?.card?.id} data-public-zone={tableStop ? 'reveal' : undefined} data-public-uid={turnUid} aria-label={`Inspect ${revealed ? 'revealed' : lastPublic!.kind === 'trash' ? 'trashed' : 'gained'} ${definition((revealed ?? lastPublic)!.card!.cardId).name}`} onclick={() => inspect((revealed ?? lastPublic)!.card!.cardId, (revealed ?? lastPublic)!.card!.copy)}><div class="outcome-card"><CardFace card={definition((revealed ?? lastPublic)!.card!.cardId)} players={game.playerCount} copy={(revealed ?? lastPublic)!.card!.copy} /></div><span class="outcome-icons"><ResourceIcon resource={lastPublic?.kind === 'topdeck' ? 'topdeck' : lastPublic?.kind === 'trash' ? 'trash' : 'discard'} />{#if revealed && lastPublic?.kind === 'discard'}<ResourceIcon resource="coins" value="+2" />{/if}</span></button>{/key}{/if}
 
       <section inert={worshipVisible || inlineChoice?.kind==='gain' || !!drawer} bind:this={handElement} data-public-zone="hand" data-public-uid={uid} class="hand" aria-label="Your hand" data-hand-total={orderedHand.length} style:--hand-min-peek={`${handMinPeek}px`}>
-        <HandFan deployEligible={card=>!!game.turn.deploy&&canPlayAction(game,uid,card.id)} cards={visibleHand} {uid} players={game.playerCount} staged={interactionTargets} revision={handRevision} {deal} helpId="hand-help"
+        <HandFan deployEligible={card=>canDeployCard(game,uid,card.id)} cards={visibleHand} {uid} players={game.playerCount} staged={interactionTargets} revision={handRevision} {deal} helpId="hand-help"
           disabled={card=>!ready || (!!inlineChoice && (interactionBusy || interactionTargets.includes(card.id) || (!!inlineChoice.filter && definition(card.cardId).type!==inlineChoice.filter)))}
           pressed={inlineChoice && inlineChoice.kind!=='gain' ? card=>interactionTargets.includes(card.id) : undefined}
           label={(card,index)=>`${inlineChoice && inlineChoice.kind!=='gain' ? inlineChoice.kind==='trash'?'Trash':'Discard' : canPlayAction(game,uid,card.id)||canPlayTreasure(game,uid,card.id)?'Play':'Inspect'} hand card ${handPage * handCapacity + index + 1}: ${definition(card.cardId).name}`}

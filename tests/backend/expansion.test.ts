@@ -273,3 +273,45 @@ test('undo restores independent Deploy grants and their order',()=>{
  history.apply(g,'a',{type:'action/played',instanceId:'h1'},101);expect(g.turn.deploy).toEqual([1]);
  history.apply(g,'a',{type:'action/undone',targetSequence:101},102);expect(g.turn.deploy).toEqual([1,1]);expect(g.resources.coins).toBe(2);
 });
+
+test('Deploy 3 plays one Talent for nine coins without advancing phase or spending Actions',()=>{
+ for(const phase of ['actions','treasures','buys'] as const){
+  const g=position('achilles',['talent','bronze-recruit']);g.turn.phase=phase;g.turn.deploy=[3];
+  const entry=run(g,{type:'treasure/played',instanceId:'h0'});
+  expect(g.resources.coins).toBe(9);expect(g.resources.actions).toBe(1);expect(g.turn.phase).toBe(phase);
+  expect(g.turn.deploy).toBeUndefined();expect(g.decks.a.play).toHaveLength(1);expect(g.turn.leaderUsed).toBe(false);
+  expect(entry.steps.filter(step=>step.kind==='play')).toHaveLength(1);
+  expect(g.movements.filter(move=>move.kind==='resolution'&&move.card?.id==='h0').map(move=>move.amount)).toEqual([1,2,3]);
+  if(phase==='actions')expect(canPlayAction(g,'a','h1')).toBe(true);
+ }
+});
+
+test('Actions and Treasures consume the same independent FIFO Deploy grants',()=>{
+ const g=position('achilles',['myrmidon-vanguard','talent','bronze-recruit']);
+ play(g,'myrmidon-vanguard');expect(g.turn.deploy).toEqual([1,1]);
+ run(g,{type:'treasure/played',instanceId:'h1'});expect(g.turn.deploy).toEqual([1]);expect(g.turn.phase).toBe('actions');
+ play(g,'bronze-recruit');expect(g.turn.deploy).toBeUndefined();expect(g.resources.coins).toBe(7);expect(g.resources.actions).toBe(0);
+});
+
+test('Play All applies grants in existing hand order and only normal Treasure plays advance phase',()=>{
+ for(const grants of [[3,2],[3,2,1]]){
+  const g=position('achilles',['talent','drachma','obol']);g.turn.deploy=[...grants];
+  run(g,{type:'treasures/played'});
+  expect(g.resources.coins).toBe(14);expect(g.decks.a.play.map(card=>card.cardId)).toEqual(['talent','drachma','obol']);
+  expect(g.turn.deploy).toBeUndefined();expect(g.turn.phase).toBe(grants.length===3?'actions':'treasures');
+ }
+});
+
+test('automatic phase transition waits for a deployable Treasure, and undo restores its grant',()=>{
+ const g=position('achilles',['talent']);g.resources.actions=0;g.turn.deploy=[3,1];const history=new UndoHistory();
+ expect(()=>run(g,{type:'phase/advanced',automatic:true})).toThrow('Deploy targets');
+ history.apply(g,'a',{type:'treasure/played',instanceId:'h0'},100);expect(g.resources.coins).toBe(9);expect(g.turn.deploy).toEqual([1]);
+ history.apply(g,'a',{type:'action/undone',targetSequence:100},101);expect(g.resources.coins).toBe(0);expect(g.turn.deploy).toEqual([3,1]);expect(g.turn.phase).toBe('actions');
+});
+
+test('a Treasure borrowed through Echo consumes one Deploy grant and still returns to its owner',()=>{
+ const g=position('theseus',['borrowed-voice']);g.decks.b.deck=instances(['drachma'],'o');play(g,'borrowed-voice');g.turn.deploy=[3,1];
+ choose(g,['deck:b']);expect(g.resources.coins).toBe(6);expect(g.turn.deploy).toEqual([1]);expect(g.turn.phase).toBe('actions');
+ expect(g.decks.a.play.find(c=>c.id==='o0')?.ownerUid).toBe('b');
+ run(g,{type:'phase/advanced'});run(g,{type:'turn/ended'});expect(g.decks.b.discard.map(c=>c.id)).toEqual(['o0']);
+});

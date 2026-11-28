@@ -22,7 +22,7 @@
   import { tablePlayed } from '$lib/components/play/table-play';
   import { tablePurchases } from '$lib/components/play/table-purchases';
   import { replaySetup, allLeaderIds, leaderIds, type SetupState } from '$lib/game/setup';
-  import { activePlayer, canPlayAction, canPlayTreasure, definition, eligibleGains, standings, worshipReason } from '$lib/game/actions';
+  import { activePlayer, canPlayAction, canPlayTreasure, canDeployCard, definition, eligibleGains, standings, worshipReason } from '$lib/game/actions';
   import { canUndo } from '$lib/game/undo';
   import type { GameCommand } from '$lib/backend/setup-repository';
   import type { BotProposal } from '$lib/bots/table';
@@ -261,7 +261,7 @@
           {#if game.phase === 'playing'}
             <div class="edge-deck" data-public-zone="deck" data-public-uid={id} data-motion-angle={index*90}><ResourceIcon resource="cards" pending={pilePending(id,'deck')} value={game.decks[id].deck.length} label={`${playerName(id)} deck`}/></div>
             <div class="table-hand" data-public-zone="hand" data-public-uid={id} data-motion-angle={index*90} data-hand-total={presentedHand(id).length} data-hand-owner={id} data-face-up={faceUp} style:visibility={active && !faceUp && animating ? 'hidden' : undefined} style:--count={game.decks[id].hand.length}>
-              <HandFan deployEligible={card=>!!game?.turn.deploy&&canPlayAction(game!,id,card.id)} cards={sortHand(presentedHand(id))} uid={id} players={game.playerCount} {faceUp} angle={index*90} measure={active} staged={active?targets:[]}
+              <HandFan deployEligible={card=>!!game&&canDeployCard(game,id,card.id)} cards={sortHand(presentedHand(id))} uid={id} players={game.playerCount} {faceUp} angle={index*90} measure={active} staged={active?targets:[]}
                 disabled={card=>!active||!ready||!human||interactionBusy||targets.includes(card.id)||(!!choice?.filter&&definition(card.cardId).type!==choice.filter)}
                 label={card=>faceUp ? `${choice && choice.kind!=='gain'?'Select':'Play'} ${definition(card.cardId).name}` : `${playerName(id)} face-down card`}
                 activate={card=>handCard(card.id)} inspect={card=>inspect(card.cardId)}/>

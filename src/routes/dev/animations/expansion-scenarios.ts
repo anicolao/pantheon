@@ -49,7 +49,8 @@ export function expansionFixture(id:string,count:2|3|4,playerIds:string[]):Fixtu
  }
  function money(){
   if(game.decks[activePlayer(game)].hand.some(card=>definition(card.cardId).type==='Treasure'))append({type:'treasures/played'});
-  else if(game.turn.phase==='actions')append({type:'phase/advanced'});
+  // Deployed Treasures can leave Actions open even after playing all money.
+  if(game.turn.phase==='actions')append({type:'phase/advanced'});
  }
  const owns=(uid:string,cardId:string)=>Object.values(game.decks[uid]).flat().some(card=>card.cardId===cardId);
  for(let turn=0;turn<700;turn++){
